@@ -149,7 +149,6 @@
                             <h5 class="card-header border-0 p-0">Sector Details</h5>
                             <button type="button" class="btn btn-outline-secondary btn-sm">Delete Image</button>
                         </div>
-
                        
 
                         <div class="card-body pt-3">
