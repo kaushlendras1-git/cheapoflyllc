@@ -696,7 +696,6 @@
                   passengerFormsContainer.appendChild(newForm);
                 });
 
-                // Delete passenger form
                 passengerFormsContainer.querySelectorAll('.delete-passenger').forEach(btn => {
                   btn.addEventListener('click', function () {
                     const form = btn.closest('.passenger-form');
