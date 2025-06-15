@@ -1,0 +1,204 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\CallLog;
+use App\Models\Campaign;
+use App\Models\CallType;
+use App\Models\Team;
+use App\Models\User;
+use App\Models\Log;
+use Illuminate\Http\Request;
+use Hashids;
+
+
+class CallLogController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        // Build the query with join
+        $query = CallLog::query()
+            ->join('users', 'call_logs.user', '=', 'users.id') // Join users table
+            ->select('call_logs.*', 'users.name as user_name') // Select required fields
+            ->orderBy('call_logs.created_at', 'desc');
+
+        // Filter by selected criteria and keyword
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+
+            $query->where(function ($subQuery) use ($keyword) {
+                $subQuery->where('call_logs.pnr', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('call_logs.phone', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('call_logs.name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('call_logs.campaign', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('call_logs.call_type', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('users.name', 'LIKE', '%' . $keyword . '%'); // Filter by user name
+            });
+        }
+
+        // Filter by date range
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('call_logs.created_at', [
+                $request->input('start_date'),
+                $request->input('end_date'),
+            ]);
+        }
+
+        // Paginate the results
+        $callLogs = $query->paginate(30)->appends($request->except('page'));
+
+        return view('web.call-logs.index', compact('callLogs'));
+    }
+
+    
+
+    public function create()
+    {   
+        $campaigns = Campaign::all();
+        $call_types = CallType::all();
+        $teams = Team::all();
+        $users = User::all();
+        //log_operation('info','Add' ,'CallLog', 'CallLog Created', auth()->id());
+        //log_operation('error', 'Payment failed', 'Unable to process payment for order #123', 5);
+        //log_operation('warning', 'Low disk space', 'Server disk space is below 10%');
+        return view('web.call-logs.create', compact('campaigns', 'call_types', 'teams','users'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'chkflight' => 'nullable|boolean',
+            'chkhotel' => 'nullable|boolean',
+            'chkcruise' => 'nullable|boolean',
+            'chkcar' => 'nullable|boolean',
+            'phone' => 'required|string|max:25',
+            'name' => 'required|string|max:255',
+            'selcompany' => 'required|string|max:255',
+            'campaign' => 'required|string|max:255',
+            'reservation_source' => 'required|string|max:255',
+            'call_type' => 'required|string|max:255',
+            'call_converted' => 'nullable|boolean',
+            'followup_date' => 'nullable|date',
+            'assign' => 'nullable',
+            'notes' => 'nullable|string',
+        ]);
+    
+        $validated['user'] = auth()->id();
+        $validated['pnr'] = '';
+        $validated['phone'] = preg_replace('/\D/', '', $request->phone); 
+        $call_log = CallLog::create($validated);
+        
+        if($request->call_converted){
+            $campaignPrefix = strtoupper(substr($request->campaign, 0, 3));
+            $pnr = $campaignPrefix . (1000000000 + $call_log->id);
+            $call_log->update(['pnr' => $pnr]);
+        }
+        
+       
+        log_operation('CallLog',$call_log->id , 'created' ,'Call Log created successfully', auth()->id());
+
+        // Redirect to call-logs.index route with a success message
+        return redirect()->route('call-logs.index')->with('success', 'Call Log created successfully!');
+    }
+    
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(CallLog $callLog)
+    {
+        return response()->json($callLog);
+    }
+
+    public function edit($hashedId)
+    {
+        $id = Hashids::decode($hashedId)[0] ?? null;
+
+        if (!$id) {
+            abort(404); // Handle invalid ID
+        }
+        $callLog = CallLog::findOrFail($id);
+        
+        $logs = Log::where('calllog_id', $id)->with('user')->orderby('id','DESC')->get();
+
+        $campaigns = Campaign::all();
+        $call_types = CallType::all();
+        $teams = Team::all();
+        $users = User::all();
+        log_operation('CallLog',$id , 'Viewed' ,'You have seen the call log', auth()->id());
+        return view('web.call-logs.edit', compact('callLog','logs','campaigns','call_types','teams','users'));
+    }
+
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, CallLog $callLog)
+{
+    $validated = $request->validate([
+        'chkflight' => 'nullable|boolean',
+        'chkhotel' => 'nullable|boolean',
+        'chkcruise' => 'nullable|boolean',
+        'chkcar' => 'nullable|boolean',
+        'phone' => 'required|string|max:15',
+        'name' => 'required|string|max:255',
+        'team' => 'required|string|max:255',
+        'campaign' => 'required|string|max:255',
+        'reservation_source' => 'required|string|max:255',
+        'call_type' => 'required|string|max:255',
+        'call_converted' => 'nullable|boolean',
+        'followup_date' => 'nullable|date',
+        'notes' => 'nullable|string',
+    ]);
+
+    // Store old values
+    $oldValues = $callLog->only(array_keys($validated));
+
+    // Update the CallLog
+    $callLog->update($validated);
+
+    if ($request->call_converted) {
+        $campaignPrefix = strtoupper(substr($request->campaign, 0, 3));
+        $pnr = $campaignPrefix . (1000000000 + $callLog->id);
+
+        // Save the generated PNR to the CallLog
+        $callLog->pnr = $pnr;
+        $callLog->save();
+    }
+
+
+    // Log the changes
+    foreach ($validated as $field => $newValue) {
+        $oldValue = $oldValues[$field] ?? null;
+        if ($oldValue != $newValue) {
+            log_operation(
+                'CallLog',
+                $callLog->id,
+                'Updated',
+                "Field '{$field}' updated from '{$oldValue}' to '{$newValue}'",
+                auth()->id()
+            );
+        }
+    }
+
+    return redirect()->back()->with('success', 'Call log updated successfully!');
+}
+
+    
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(CallLog $callLog)
+    {
+        $callLog->delete();
+        return response()->noContent();
+    }
+}
