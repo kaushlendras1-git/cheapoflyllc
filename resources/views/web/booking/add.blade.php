@@ -156,8 +156,8 @@
                                 <div class="col-md-3">
                                     Its Come From API
                                     <img src="{{ url('flight.png') }}" alt="Flight Screen">
-                                    <img src="{{ url('hotel.png') }}" alt="Flight Screen">
-                                    <img src="{{ url('car.png') }}" alt="Flight Screen">
+                                    {{-- <img src="{{ url('hotel.png') }}" alt="Flight Screen">
+                                    <img src="{{ url('car.png') }}" alt="Flight Screen"> --}}
                                     <label class="form-label visually-hidden">Sector Type</label>
                                     <input type="text" class="form-control" name="sector_type" value="{{ old('sector_type', 'Flight') }}" placeholder="Enter sector type">
                                 </div>

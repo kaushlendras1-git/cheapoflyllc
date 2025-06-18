@@ -31,15 +31,26 @@ use App\Http\Controllers\Travel\TravelQualityFeedbackController;
 use App\Http\Controllers\Travel\TravelScreenshotController;
 
 use App\Http\Controllers\Travel\BookingFormController;
+use App\Http\Controllers\Auth\AuthEmailController;
 
 /**Booking **/
 Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])->name('travel.bookings.submit');
 Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
 
-Route::put('booking/update/{id}', [BookingFormController::class, 'update'])->name('bookings.update');
+Route::prefix('booking')->name('booking.')->group(function () {   
+    Route::get('/', [BookingFormController::class, 'index'])->name('index');
+    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
+    Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
+    
+    Route::prefix('auth-email')->group(function () {
+        Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('auth-email.index');
+    });
 
-Route::get('booking/{id}', [BookingFormController::class, 'show'])->name('booking.show');
-Route::get('/booking', [BookingFormController::class, 'index'])->name('booking');
+});
+
+// <a href="{{ route('booking.auth-email.index', $booking->id) }}">Send Auth Email</a>
+
+
 
 Route::get('/add-booking', function () {return view('web.booking.add');})->name('booking.create');
 Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
@@ -55,6 +66,8 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
+// <a href="{{ route('auth-email.index', ['id' => $id]) }}">Link Text</a>
 
 Route::prefix('travel')->group(function () {
     Route::post('/bookings', [TravelBookingController::class, 'add']);
