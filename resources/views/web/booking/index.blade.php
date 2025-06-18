@@ -60,7 +60,7 @@
             </button>
           
             <!-- Add Button -->
-            <a href="{{route('booking-information')}}" type="button" class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
+            <a href="{{route('booking.create')}}" type="button" class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
               <i class="ri ri-add-circle-line fs-5"></i> Add
             </a>
 
@@ -92,17 +92,18 @@
             </thead>
             <tbody>
               <!-- Example Row -->
+            @foreach ($bookings as $booking)
               <tr>
-                <td><a href="{{route('booking-information')}}">8131</a></td>
-                <td>AIRO7043712227</td>
-                <td>04/07/25 12:40 PM</td>
+                <td><a href="{{ route('booking.show', ['id' => $booking->id]) }}">{{ $booking->id }}</a></td>
+                <td>{{$booking->pnr}}</td>
+                <td>{{$booking->created_at}}</td>
                 <td>Testagent</td>
-                <td><span class="badge bg-label-warning">Under Process</span></td>
-                <td><span class="badge bg-label-danger">Pending</span></td>
+                <td><span class="badge bg-label-warning">{{$booking->pnr}}</span></td>
+                <td><span class="badge bg-label-danger">{{$booking->pnr}}</span></td>
                 <td>12</td>
                 <td>12</td>
-                <td>Eric Banks</td>
-                <td>huforanoc@mailinator.com</td>
+                <td>{{$booking->name}}</td>
+                <td>{{$booking->email}}</td>
                 <td>
                   <div class="dropdown">
                     <button class="btn p-0 dropdown-toggle hide-arrow shadow-none" data-bs-toggle="dropdown">
@@ -115,9 +116,14 @@
                   </div>
                 </td>
               </tr>
+            @endforeach  
               <!-- Add more rows as needed -->
+              <!-- Render pagination links -->
+            {{ $bookings->links() }}
             </tbody>
           </table>
+
+
         </div>
       </div>
     </div>

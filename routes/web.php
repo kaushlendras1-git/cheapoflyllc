@@ -32,7 +32,19 @@ use App\Http\Controllers\Travel\TravelScreenshotController;
 
 use App\Http\Controllers\Travel\BookingFormController;
 
+/**Booking **/
 Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])->name('travel.bookings.submit');
+Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
+
+Route::put('booking/update/{id}', [BookingFormController::class, 'update'])->name('bookings.update');
+
+Route::get('booking/{id}', [BookingFormController::class, 'show'])->name('booking.show');
+Route::get('/booking', [BookingFormController::class, 'index'])->name('booking');
+
+Route::get('/add-booking', function () {return view('web.booking.add');})->name('booking.create');
+Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
+#Route::get('/booking', function () {return view('web.booking.index');})->name('booking');
+
 
 
 Route::get('/', function () {return view('web.login');});
@@ -105,11 +117,6 @@ Route::resource('follow-up', FollowUpController::class);
 
 Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
 Route::get('/dashboard', function () {return view('web.dashboard');})->name('dashboard');
-
-/**Booking **/
-Route::get('/booking-information', function () {return view('web.booking-information');})->name('booking-information');
-Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
-Route::get('/booking', function () {return view('web.booking-listing');})->name('booking');
 
 
 /** Call Logs**/
