@@ -32,6 +32,8 @@ use App\Http\Controllers\Travel\TravelScreenshotController;
 
 use App\Http\Controllers\Travel\BookingFormController;
 use App\Http\Controllers\Auth\AuthEmailController;
+use App\Http\Controllers\Auth\MailHistoryController;
+
 
 /**Booking **/
 Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])->name('travel.bookings.submit');
@@ -45,6 +47,11 @@ Route::prefix('booking')->name('booking.')->group(function () {
     Route::prefix('auth-email')->group(function () {
         Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('auth-email.index');
     });
+
+    Route::prefix('mail')->name('mail.')->group(function () {
+        Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
+    });
+
 
 });
 

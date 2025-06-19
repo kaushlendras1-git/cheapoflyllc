@@ -2,7 +2,7 @@
 @extends('web.layouts.main')
 
 @section('content')
-<form id="bookingForm" action="{{ route('bookings.update', $booking->id ?? '') }}" method="POST">
+<form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
     @csrf
     @method('PUT') 
 
@@ -20,9 +20,9 @@
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Copy Authorization Link
                     </button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                   <a href="{{ route('booking.mail.history.index', ['id' => $hashids->encode($booking->id)]) }}"> <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Mail History
-                    </button>
+                    </button></a>
                 </div>
             </div>
             
@@ -53,9 +53,13 @@
                         <button type="submit" class="btn btn-sm btn-primary text-center">
                             <i class="icon-base ri ri-save-2-fill"></i> Save
                         </button>
-                        <button type="button" class="btn btn-sm btn-dark text-center">
-                            <i class="icon-base ri ri-mail-send-fill"></i> Send
-                        </button>
+                        
+                       <a href="{{ route('booking.auth-email.index', ['id' => $booking->id]) }}"> 
+                            <button type="button" class="btn btn-sm btn-dark text-center">
+                                <i class="icon-base ri ri-mail-send-fill"></i> Send
+                            </button>
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -623,6 +627,77 @@
         </div>
     </div>
 </form>
+
+
+<!---------------- Start History ---- ------------- --------- ----->
+
+<!-- Content -->
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row gy-6">
+        
+        <div class="col-md-12 p-0 h-100">
+                <div class="card card-action mb-6">
+                    <div class="card-header align-items-center">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <h5 class="card-action-title mb-0 d-flex align-items-center">
+                                <i class="icon-base ri ri-bar-chart-2-line icon-24px text-body me-3"></i><!--Call Log History-->Conversations
+                            </h5>
+                            <button type="button" class="btn rounded-pill btn-icon btn-primary waves-effect waves-light">
+                                <span class="icon-base ri ri-information-2-fill icon-22px"></span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body pt-3">
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs" id="timelineTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tab-2025-05-17" data-bs-toggle="tab" data-bs-target="#content-2025-05-17" type="button" role="tab" aria-controls="content-2025-05-17" aria-selected="true">
+                    May 17, 2025
+                </button>
+            </li>
+                        </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="timelineTabContent">
+                            <div class="tab-pane fade show active" id="content-2025-05-17" role="tabpanel" aria-labelledby="tab-2025-05-17">
+                <ul class="timeline card-timeline mb-0">
+                                            <li class="timeline-item timeline-item-transparent">
+                                                            <span class="timeline-point timeline-point-primary"></span>
+                            
+                            <div class="timeline-event">
+                                <div class="timeline-header mb-3">
+                                    <h6 class="mb-0">created</h6>
+                                    <small class="text-body-secondary">2025-05-17 20:02:02</small>
+                                </div>
+                                <p class="mb-2">Call Log created successfully @ 1 month ago</p>
+                                <div class="d-flex justify-content-between flex-wrap gap-2">
+                                    <div class="d-flex flex-wrap align-items-center">
+                                        <div class="avatar avatar-sm me-2">
+                                            <img src="../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle">
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 small fw-medium">Admin</p>
+                                            <!-- <small>CEO of ThemeSelection</small> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                                    </ul>
+            </div>
+                        </div>
+</div>
+             
+     
+            </div>
+       
+
+    </div>              
+</div>
+
+<!---------------- End History --------------- ----------------- -->
+
 
 <!-- JavaScript for Add/Delete Passenger and Billing -->
 <script>

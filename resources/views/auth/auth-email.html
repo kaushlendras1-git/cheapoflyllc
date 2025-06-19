@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faretickets LLC Booking Confirmation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: #2a2a2a;
+        }
+        .container {
+            max-width: 880px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .header {
+            background: linear-gradient(135deg, #273c75, #3b5998);
+            padding: 25px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 110px;
+            margin-bottom: 10px;
+        }
+        .contact-bar {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #273c75;
+            border-bottom: 1px solid #e8ecef;
+        }
+        .contact-bar strong {
+            color: #e63946;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .content {
+            padding: 25px;
+        }
+        .section {
+            margin-bottom: 20px;
+            border: 1px solid #e8ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .section-title {
+            background: linear-gradient(90deg, #273c75, #2e4a8e);
+            color: #ffffff;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #1a2b5a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .section-title img {
+            margin-right: 10px;
+            width: 22px;
+            height: 22px;
+            vertical-align: middle;
+        }
+        .section-content {
+            padding: 20px;
+            font-size: 13px;
+            line-height: 22px;
+        }
+        .highlight {
+            color: #07910c;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #119516;
+            color: #ffffff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0e7a12;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .table th, .table td {
+            border: 1px solid #e8ecef;
+            padding: 12px;
+            font-size: 13px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f1f3f5;
+            font-weight: 500;
+            color: #273c75;
+        }
+        .table td.bold {
+            font-weight: 700;
+            color: #119516;
+            text-align: right;
+        }
+        .note {
+            color: #e63946;
+            font-weight: 500;
+            font-size: 12px;
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border: 1px solid #e8ecef;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        .terms-section {
+            margin-top: 15px;
+        }
+        .terms-section h3 {
+            color: #273c75;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px;
+            background-color: #f1f3f5;
+            border-radius: 4px;
+            margin: 10px 0 5px;
+        }
+        .signature {
+            background: linear-gradient(90deg, #795548, #8b6b4f);
+            color: #ffffff;
+            padding: 15px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #5c4033;
+        }
+        .signature img {
+            margin-right: 10px;
+            width: 22px;
+            height: 22px;
+        }
+        .footer {
+            background-color: #273c75;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+            }
+            .header img {
+                max-width: 90px;
+            }
+            .contact-bar {
+                font-size: 12px;
+            }
+            .contact-bar strong {
+                font-size: 14px;
+            }
+            .content {
+                padding: 15px;
+            }
+            .section-content {
+                padding: 15px;
+            }
+            .section-title {
+                font-size: 14px;
+                padding: 12px 15px;
+            }
+            .section-title img {
+                width: 20px;
+                height: 20px;
+            }
+            .button {
+                font-size: 13px;
+                padding: 10px 20px;
+            }
+            .table th, .table td {
+                padding: 8px;
+                font-size: 12px;
+            }
+            .signature {
+                font-size: 13px;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://www.fareticketsllc.com/assets/img/logo-dark.webp" alt="Faretickets LLC Logo">
+        </div>
+        <div class="contact-bar">
+            Book Online or Call Us 24/7 <br>
+            <img src="https://www.cheapoflyllc.com/images/24hour.png" alt="24/7 Support" style="margin: 5px 0;">
+            <strong>+1-844-382-2225</strong>
+        </div>
+        <div class="content">
+            
+            <div class="section">
+                <div class="section-title">Booking Confirmation</div>
+                <div class="section-content">
+                    <p>Dear TONY E ARTERBURN,</p>
+                    <p>Thank you for choosing Faretickets LLC for your travel needs. Please review the names, dates, itinerary, pricing, and other details of your booking. This email confirms your booking but is not your E-ticket.</p>
+                    <p>Sincerely,<br><a href="https://www.fareticketsllc.com/" style="color: #0867c9; text-decoration: none;">Faretickets LLC Team</a></p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title"><img src="https://www.cheapoflyllc.com/images/img-3.png" alt="Booking Status">Booking Status</div>
+                <div class="section-content">
+                    <p class="highlight">Your Booking is Under Process!</p>
+                    <p>Thank you for your reservation. Next steps:</p>
+                    <ul>
+                        <li>Acknowledge this confirmation email.</li>
+                        <li>Our team will verify your payment method.</li>
+                        <li>You’ll receive your E-ticket within 24 hours via email.</li>
+                    </ul>
+                    <div class="info-box">
+                        <strong>Booking Reference:</strong> AGE18061029614
+                    </div>
+                    <div class="info-box">
+                        <strong>Booking Date:</strong> Wednesday, June 18, 2025
+                    </div>
+                    <p>Please retain this email for reference. An E-ticket will follow for your confirmed reservation.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title"><img src="https://www.cheapoflyllc.com/images/img-4.png" alt="E-ticket Status">E-ticket Status</div>
+                <div class="section-content">
+                    <p class="highlight">Booking in Progress</p>
+                    <p>Your E-ticket will be emailed within 24 hours after credit/debit card verification.</p>
+                    <p class="note">Note: This email is not a valid travel document.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Customer Information</div>
+                <div class="section-content">
+                    <table class="table">
+                        <tr>
+                            <th>Card Holder Name</th>
+                            <td>TONY E ARTERBURN</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td><a href="mailto:kaushlendras1@gmail.com" style="color: #0867c9;">kaushlendras1@gmail.com</a></td>
+                        </tr>
+                        <tr>
+                            <th>Booking Date</th>
+                            <td>Wednesday, June 18, 2025</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Passenger Details</div>
+                <div class="section-content">
+                    <table class="table">
+                        <tr>
+                            <th>Passenger Name</th>
+                            <th>Type</th>
+                        </tr>
+                        <tr>
+                            <td>Tony Arterburn</td>
+                            <td>Adult</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Itinerary Summary</div>
+                <div class="section-content">
+                    <img src="http://www.cheapoflyllc.com/images/F/18062025121223.png" style="max-width: 100%; border-radius: 4px;" alt="Itinerary">
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Price Details (USD)</div>
+                <div class="section-content">
+                    <table class="table">
+                        <tr>
+                            <td>Total Price per Person (incl. taxes & fees)</td>
+                            <td class="bold">$425.74</td>
+                        </tr>
+                        <tr>
+                            <td>Total Itinerary Price (incl. taxes & fees)</td>
+                            <td class="bold">$425.74</td>
+                        </tr>
+                    </table>
+                    <div class="info-box">
+                        <p><strong>Note:</strong></p>
+                        <p>
+                            Fares are in USD.<br>
+                            Your card may be charged in multiple transactions totaling $425.74.<br>
+                            Additional baggage fees may apply.<br>
+                            Fares are not guaranteed until ticketed.
+                        </p>
+                    </div>
+                </div>
+            </div>
+			<div class="section">
+                <div class="section-title">Change Your Booking</div>
+                <div class="section-content">
+                    <p style="font-weight: 500; font-size: 15px; text-align: center; margin-bottom: 15px;">
+                        I, TONY E ARTERBURN, authorize Faretickets LLC to charge my AMEX Credit/Debit Card (ending 1001) for USD 425.74 to modify the flight ticket(s) below.
+                    </p>
+                    <p style="text-align: center; margin-bottom: 20px;" class="note">
+                        By clicking "Acknowledge," you agree to the terms outlined below.
+                    </p>
+                    <p style="text-align: center;">
+                        <a href="https://www.cheapoflyllc.com/successful.aspx?Bkey=qurB0/Ri0k5vo+pcVOlDBMk15euBqgIiaaDvu4kx4/PmaXagT2C+lFLEmGVRMYzMZnEYAlY06ZjCycc3k46gMyzD9u8JkoML7JpM7CAhBC8=" class="button">Acknowledge</a>
+                    </p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-title">Flight Terms and Conditions</div>
+                <div class="section-content">
+                    <p>These terms apply upon accessing our website or booking via +1-844-382-2225.</p>
+                    <div class="terms-section">
+                        <h3>General Conditions</h3>
+                        <p class="note">Tickets are Non-Refundable, Non-Transferable, and name changes are not permitted.</p>
+                        <p><strong>Note:</strong> Changes to dates or routes may incur airline penalties and fare differences.</p>
+                        <p>For modifications, contact our Travel Consultant at <strong>+1-844-382-2225</strong>.</p>
+                        <p>Verify travel documents (visas, etc.) for all countries involved. Faretickets LLC is not liable for entry or transit denials due to missing documents. Consult relevant embassies.</p>
+                        <p>This agreement governs your use of Faretickets LLC services, products, and content.</p>
+                        <p>
+                            <strong>Visas:</strong> Check embassy requirements; we do not handle visa documents.<br>
+                            <strong>Passports:</strong> Ensure validity for at least 6 months post-return.<br>
+                            <strong>Travel Insurance:</strong> Recommended for medical expense coverage.
+                        </p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>Traveler Names</h3>
+                        <p>Names must match government-issued ID (passport, driver’s license, etc.). No changes are allowed post-booking, except for minor typo corrections per airline policy, which may incur fees.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>Fare Policy</h3>
+                        <p>E-tickets are issued promptly, or you’ll be notified if delayed. Reconfirm flights 72 hours before departure. Arrive 3 hours early for international flights, 2 hours for domestic. We’re not liable for airline schedule changes. No-shows may result in ticket forfeiture per airline rules. Contact airlines for frequent flyer mileage.</p>
+                        <p>Passengers are responsible for all travel documents. Missing documents may lead to fees or ticket loss. Fares may change post-confirmation; we’ll notify you of options to proceed or cancel without charge before ticketing.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>Payment Policy</h3>
+                        <p>We accept debit and credit cards. Charges may split into taxes and base fare, totaling the quoted amount. Baggage fees are excluded. Tickets are guaranteed only post-ticketing. Payment failures will be communicated within 24 hours.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>International/Third-Party Card Payments</h3>
+                        <p>For international or third-party card payments, provide a Credit Card Authorization Form and a copy of government-issued ID (with photo/signature) and card. Ticket prices are not guaranteed until ticketed.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>Credit Card Declines</h3>
+                        <p>If your card is declined, we’ll notify you within 24–48 hours. No transaction or fare is guaranteed in such cases.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>Cancellations and Exchanges</h3>
+                        <p><strong>Changes:</strong> Subject to airline policies and fare differences.<br><strong>Cancellations/Refunds:</strong> Typically not allowed, per airline rules.</p>
+                        <p>Request changes or cancellations 24 hours before departure. Tickets are non-refundable, but refunds/exchanges may be possible per airline fare rules, minus penalties and fare differences. Faretickets LLC may charge additional fees. For multi-airline itineraries, the strictest fare rules apply.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>24/7 Customer Support</h3>
+                        <p>Our team is available 24/7 at <strong>+1-844-382-2225</strong> to address your travel needs promptly.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>Secure Booking</h3>
+                        <p>Our platform uses advanced security to protect your data. We value your trust and look forward to serving you again.</p>
+                    </div>
+                    <div class="terms-section">
+                        <h3>Contact Us</h3>
+                        <p>Reach out anytime at <strong>+1-844-382-2225</strong>.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="signature">
+                    <img src="https://www.cheapoflyllc.com/images/img-9.png" alt="Signature">Charge Authorization
+                </div>
+                <div class="section-content">
+                    <p>I, TONY E ARTERBURN, confirm I’ve read and agree to the non-refundable fare terms. I authorize a charge of USD 425.74 (card ending 1001) as my legal signature.</p>
+                    <p>Thank you for choosing Faretickets LLC.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            © 2025 Faretickets LLC. All rights reserved. | <a href="https://www.fareticketsllc.com/">Visit our website</a>
+        </div>
+    </div>
+</body>
+</html>

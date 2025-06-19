@@ -31,7 +31,9 @@ class BookingFormController extends Controller
     {
         // Fetch paginated bookings, 15 records per page
         $bookings = TravelBooking::paginate(15);
-        return view('web.booking.index', compact('bookings'));
+        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+
+        return view('web.booking.index', compact('bookings','hashids'));
     }
     
     public function store(Request $request)
@@ -397,7 +399,7 @@ class BookingFormController extends Controller
             abort(404); // Handle invalid or missing hash
         }
 
-
+        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
         $booking = TravelBooking::with([
             'bookingTypes', 'sectorDetails', 'passengers', 'billingDetails',
             'pricingDetails', 'remarks', 'qualityFeedback', 'screenshots'
@@ -410,7 +412,7 @@ class BookingFormController extends Controller
         // ])->findOrFail($id);
 
 
-        return view('web.booking.show', compact('booking'));
+        return view('web.booking.show', compact('booking','hashids'));
     }
     
 

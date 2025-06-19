@@ -228,10 +228,12 @@
         <!-- User Role Field -->
       <div class="form-floating form-floating-outline mb-5">
         <select id="user-role" name="departments" class="form-select" required="">
-            <option value="Agent">Quality</option>
-            <option value="TLeader">Changes</option>
-            <option value="Manager">Billing</option>
-            <option value="Admin">CCV</option>
+            <option value="Quality">Quality</option>
+            <option value="Changes">Changes</option>
+            <option value="Billing">Billing</option>
+            <option value="CCV">CCV</option>
+            <option value="Charge Back">Charge Back</option>
+            <option value="Sales">Sales</option>
         </select>
         <label for="user-role">Departments</label>
       </div>

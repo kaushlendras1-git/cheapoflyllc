@@ -43,14 +43,18 @@
                             <input name="booking-type[]" class="form-check-input" type="checkbox" id="booking-car" value="Car" {{ in_array('Car', old('booking-type', [])) ? 'checked' : '' }}>
                             <label class="form-check-label" for="booking-car">Car</label>
                         </div>
+                        <div class="form-check form-check-inline">
+                            <input name="booking-type[]" class="form-check-input" type="checkbox" id="booking-car" value="Car" {{ in_array('Car', old('booking-type', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="booking-car">Train</label>
+                        </div>
                     </div>
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-sm btn-primary text-center">
                             <i class="icon-base ri ri-save-2-fill"></i> Save
                         </button>
-                        <button type="button" class="btn btn-sm btn-dark text-center">
+                        <!-- <button type="button" class="btn btn-sm btn-dark text-center">
                             <i class="icon-base ri ri-mail-send-fill"></i> Send
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -126,20 +130,23 @@
                     <a class="nav-link" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab" aria-controls="passenger" aria-selected="false">Passenger Details</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">Billing Details</a>
-                </li>
-                <li class="nav-item" role="presentation">
                     <a class="nav-link" id="pricing-tab" data-bs-toggle="tab" href="#pricing" role="tab" aria-controls="pricing" aria-selected="false">Pricing Details</a>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">Billing Details</a>
+                </li>
+               
+                <li class="nav-item" role="presentation">
                     <a class="nav-link" id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab" aria-controls="remarks" aria-selected="false">Booking Remarks</a>
                 </li>
-                <li class="nav-item" role="presentation">
+                
+                <!-- <li class="nav-item" role="presentation">
                     <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Quality Feedback</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="screenshots-tab" data-bs-toggle="tab" href="#screenshots" role="tab" aria-controls="screenshots" aria-selected="false">Screenshots</a>
-                </li>
+                </li> -->
+
             </ul>
 
             <!-- Tab Content -->
@@ -153,18 +160,269 @@
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
-                                <div class="col-md-3">
-                                    Its Come From API
-                                    <img src="{{ url('flight.png') }}" alt="Flight Screen">
-                                    {{-- <img src="{{ url('hotel.png') }}" alt="Flight Screen">
-                                    <img src="{{ url('car.png') }}" alt="Flight Screen"> --}}
-                                    <label class="form-label visually-hidden">Sector Type</label>
-                                    <input type="text" class="form-control" name="sector_type" value="{{ old('sector_type', 'Flight') }}" placeholder="Enter sector type">
-                                </div>
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-warning">
-                                        <i class="ri ri-download-2-line"></i>
-                                    </button>
+                                <div class="col-md-12">
+                                    
+                                <button type="button" class="btn btn-outline-secondary btn-sm waves-effect">Import Itinerary</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm waves-effect">Upload Image</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm waves-effect">Add Details</button>
+                                    
+                                
+<!------------------------ Sector ------------------------------>
+
+<div class="col-lg-9 col-md-9 col-sm-12 col-12 imgpanel">dsd
+                                                            <img width="100%" id="itin_image" src="">
+                                                        </div>
+
+
+
+<div class="input-container">
+        <div class="input-area">
+            <textarea class="itinerary-input" placeholder="Copy and paste Galileo, Smartpoint, Amadeus or Sabre itinerary here..."></textarea>
+        </div>
+        <button class="convert-action" style="height: 79px;">
+            Convert
+           
+        </button>
+    </div>
+    
+    <style>
+          .input-container {
+            display: flex;
+            align-items: center;
+            background-color: #eaf5f5;
+            border: 1px solid #b6d4d4;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-area {
+            flex: 1;
+            position: relative;
+        }
+
+        .itinerary-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            padding: 15px;
+            outline: none;
+            font-size: 16px;
+            color: #555;
+            background-color: #ffffff;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .itinerary-input::placeholder {
+            color: #999;
+        }
+
+        .icon-group {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .icon-group img {
+            height: 24px;
+            margin-right: 5px;
+        }
+
+        .convert-action {
+            background-color: #4fb0af;
+            color: #ffffff;
+            border: none;
+            padding: 0 30px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .convert-action:hover {
+            background-color: #449b9a;
+        }
+
+        .convert-action svg {
+            margin-left: 10px;
+        }
+    </style>
+
+
+
+<!-------------------------------------Sector ---------------------------------------------------------------->
+
+ <!-- Cruise Booking Details -->
+    <h2>Cruise Booking Details</h2>
+    <table id="cruiseTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Date</th>
+                <th>Cruise Line</th>
+                <th>Name of the Ship</th>
+                <th>Category</th>
+                <th>Stateroom</th>
+                <th>Departure Port</th>
+                <th>Departure Date</th>
+                <th>Hrs</th>
+                <th>mm</th>
+                <th>Arrival Port</th>
+                <th>Arrival Date</th>
+                <th>Hrs</th>
+                <th>mm</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <a class="add-row" onclick="addCruiseRow()">Add Row</a>
+
+    <!-- Car Booking Details -->
+    <h2>Car Booking Details</h2>
+    <table id="carTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Car Rental Provider</th>
+                <th>Car Type</th>
+                <th>Pick-up Location</th>
+                <th>Drop-off Location</th>
+                <th>Pick-up Date</th>
+                <th>Pick-up Time</th>
+                <th>Drop-off Date</th>
+                <th>Drop-off Time</th>
+                <th>Confirmation Number</th>
+                <th>Remarks</th>
+                <th>Rental Provider's Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <a class="add-row" onclick="addCarRow()">Add Row</a>
+
+    <!-- Hotel Booking Details -->
+    <h2>Hotel Booking Details</h2>
+    <table id="hotelTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Hotel Name</th>
+                <th>Room Category</th>
+                <th>Check-in Date</th>
+                <th>Check-out Date</th>
+                <th>No. Of Rooms</th>
+                <th>Confirmation Number</th>
+                <th>Hotel Address</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <a class="add-row" onclick="addHotelRow()">Add Row</a>
+
+    <!-- Flight Booking Details -->
+    <h2>Flight Booking Details</h2>
+    <table id="flightTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Direction</th>
+                <th>Date</th>
+                <th>Airlines (Code)</th>
+                <th>Flight No</th>
+                <th>Cabin</th>
+                <th>Class of Service</th>
+                <th>Departure Airport</th>
+                <th>Hrs</th>
+                <th>mm</th>
+                <th>Arrival Airport</th>
+                <th>Hrs</th>
+                <th>mm</th>
+                <th>Duration</th>
+                <th>Transit</th>
+                <th>Arrival Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <a class="add-row" onclick="addFlightRow()">Add Row</a>
+
+    <style>
+         table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        a.add-row {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        a.add-row:hover {
+            background-color: #45a049;
+        }
+        a.delete-row {
+            background-color: #ff4444;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        a.delete-row:hover {
+            background-color: #cc0000;
+        }
+        input {
+            width: 90%;
+            padding: 5px;
+        }
+    </style>
+<!-------------------------------------Sector ---------------------------------------------------------------->
+
+
+
+
+
+
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -180,9 +438,9 @@
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0">Passenger Details</h4>
-                            <button type="btn btn-sm btn-primary waves-effect waves-light" id="addPassengerBtn">
+                            <a type="btn btn-sm btn-primary waves-effect waves-light" id="addPassengerBtn">
                                 <i class="icon-base ri ri-add-circle-fill"></i>
-                            </button>
+    </a>
                         </div>
 
                         <div id="passengerForms">
@@ -251,7 +509,7 @@
                             <h5 class="card-header border-0 p-0">Billing Details</h5>
                             <div>
                                 <button type="button" class="btn btn-outline-secondary btn-sm">Submit Paylink</button>
-                                <button type="btn btn-sm btn-primary waves-effect waves-light" id="addBillingBtn"><i class="icon-base ri ri-add-circle-fill"></i></button>
+                                <a type="btn btn-sm btn-primary waves-effect waves-light" id="addBillingBtn"><i class="icon-base ri ri-add-circle-fill"></i></a>
                             </div>
                         </div>
                         
@@ -259,29 +517,41 @@
                             <div class="row g-3 billing-card pt-2" data-index="0">
                                 <h6 class="mb-0 billing-card-title">Card Details 1</h6>
                                 <div class="col-md-2">
+                                    <label class="form-label">Card Type</label>
                                     <input type="text" class="form-control" placeholder="Card Type" name="billing[0][card_type]" value="{{ old('billing.0.card_type', 'VISA') }}">
                                 </div>
                                 <div class="col-md-2">
+                                    <label class="form-label">CC Number</label>
                                     <input type="text" class="form-control" placeholder="CC Number" name="billing[0][cc_number]" value="{{ old('billing.0.cc_number', '123 789 346') }}">
                                 </div>
                                 <div class="col-md-2">
+                                     <label class="form-label">CC Holder Name</label>
                                     <input type="text" class="form-control" placeholder="CC Holder Name" name="billing[0][cc_holder_name]" value="{{ old('billing.0.cc_holder_name', 'test') }}">
                                 </div>
                                 <div class="col-md-1">
+                                     <label class="form-label">MM</label>
                                     <input type="text" class="form-control" placeholder="MM" name="billing[0][exp_month]" value="{{ old('billing.0.exp_month', '01') }}">
                                 </div>
                                 <div class="col-md-1">
+                                     <label class="form-label">YYYY</label>
                                     <input type="text" class="form-control" placeholder="YYYY" name="billing[0][exp_year]" value="{{ old('billing.0.exp_year', '2024') }}">
                                 </div>
                                 <div class="col-md-1">
+                                     <label class="form-label">CVV</label>
                                     <input type="text" class="form-control" placeholder="CVV" name="billing[0][cvv]" value="{{ old('billing.0.cvv', '134') }}">
                                 </div>
-                                <div class="col-md-3 d-flex align-items-center">
+                                <div class="col-md-2">
+                                     <label class="form-label">Address</label>
                                     <input type="text" class="form-control" placeholder="Address" name="billing[0][address]" value="{{ old('billing.0.address', 'laxmi Nagrr') }}">
+                                </div>
+
+                                <div class="col-md-1 d-flex align-items-center">
                                     <button type="button" class="btn btn-outline-danger ms-2 delete-billing-btn">
                                         <i class="ri ri-delete-bin-line"></i>
                                     </button>
                                 </div>
+
+
                                 <div class="col-md-3">
                                     <input type="email" class="form-control" placeholder="Email" name="billing[0][email]" value="{{ old('billing.0.email', 'test@gmail.com') }}">
                                 </div>
@@ -415,7 +685,7 @@
                 </div>
 
                 <!-- Quality Feedback -->
-                <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+                <!-- <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h5 class="card-header border-0 p-0">Quality Feedback</h5>
@@ -468,10 +738,10 @@
                             <button type="button" class="btn btn-primary px-4" data-bs-target="#screenshots" data-bs-toggle="tab">Next</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Screenshots -->
-                <div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+                <!--div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="card-header border-0">Screenshots</h5>
@@ -495,137 +765,18 @@
                             <button type="button" class="btn btn-primary px-4" data-bs-target="#sector" data-bs-toggle="tab">Next</button>
                         </div>
                     </div>
-                </div>
+                </div-->
             </div>
         </div>
     </div>
 </form>
 
 <!-- JavaScript for Add/Delete Passenger and Billing -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const passengerFormsContainer = document.getElementById('passengerForms');
-    const addPassengerBtn = document.getElementById('addPassengerBtn');
-    const billingCardContainer = document.querySelector('#billing .card-body');
-    const addBillingBtn = document.getElementById('addBillingBtn');
 
-    // Update Passenger Indices
-    function updatePassengerIndices() {
-        const forms = passengerFormsContainer.querySelectorAll('.passenger-form');
-        forms.forEach((form, index) => {
-            form.dataset.index = index;
-            const header = form.querySelector('h6');
-            header.textContent = `Passenger ${index + 1}`;
-            const inputs = form.querySelectorAll('input');
-            inputs.forEach(input => {
-                const name = input.name.replace(/passenger\[\d+\]/, `passenger[${index}]`);
-                input.name = name;
-            });
-        });
-    }
-
-    // Add Passenger
-    addPassengerBtn.addEventListener('click', function () {
-        const forms = passengerFormsContainer.querySelectorAll('.passenger-form');
-        const lastIndex = forms.length > 0 ? parseInt(forms[forms.length - 1].dataset.index) + 1 : 0;
-        const newForm = forms[0].cloneNode(true);
-        
-        newForm.querySelectorAll('input').forEach(input => {
-            input.value = input.placeholder || '';
-        });
-        
-        newForm.dataset.index = lastIndex;
-        newForm.querySelector('h6').textContent = `Passenger ${lastIndex + 1}`;
-        
-        newForm.querySelectorAll('input').forEach(input => {
-            const name = input.name.replace(/passenger\[\d+\]/, `passenger[${lastIndex}]`);
-            input.name = name;
-        });
-        
-        newForm.querySelectorAll('.delete-passenger').forEach(btn => {
-            btn.addEventListener('click', function () {
-                if (passengerFormsContainer.querySelectorAll('.passenger-form').length > 1) {
-                    newForm.remove();
-                    updatePassengerIndices();
-                } else {
-                    alert('At least one passenger form is required.');
-                }
-            });
-        });
-        
-        passengerFormsContainer.appendChild(newForm);
-    });
-
-    // Delete Passenger
-    passengerFormsContainer.querySelectorAll('.delete-passenger').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const form = btn.closest('.passenger-form');
-            if (passengerFormsContainer.querySelectorAll('.passenger-form').length > 1) {
-                form.remove();
-                updatePassengerIndices();
-            } else {
-                alert('At least one passenger form is required.');
-            }
-        });
-    });
-
-    // Update Billing Indices and Headers
-    function updateBillingIndices() {
-        const forms = billingCardContainer.querySelectorAll('.billing-card');
-        forms.forEach((form, index) => {
-            form.dataset.index = index;
-            const header = form.querySelector('h6');
-            header.textContent = `Card Details ${index + 1}`;
-            const inputs = form.querySelectorAll('input');
-            inputs.forEach(input => {
-                const name = input.name.replace(/\[\d+\]/, `[${index}]`);
-                input.name = name;
-            });
-            const radio = form.querySelector('input[type="radio"]');
-            radio.value = index;
-        });
-    }
-
-    // Add Billing
-    addBillingBtn.addEventListener('click', function () {
-        const forms = billingCardContainer.querySelectorAll('.billing-card');
-        const lastIndex = forms.length;
-        const newForm = forms[0].cloneNode(true);
-        
-        newForm.querySelectorAll('input').forEach(input => {
-            input.value = input.placeholder || '';
-            input.name = input.name.replace(/\[\d+\]/, `[${lastIndex}]`);
-        });
-        
-        newForm.querySelector('input[type="radio"]').value = lastIndex;
-        newForm.querySelector('h6').textContent = `Card Details ${lastIndex + 1}`;
-        
-        billingCardContainer.appendChild(newForm);
-        updateBillingIndices();
-    });
-
-    // Delete Billing (Event Delegation)
-    billingCardContainer.addEventListener('click', function (event) {
-        const deleteButton = event.target.closest('.delete-billing-btn');
-        if (deleteButton) {
-            const billingCard = deleteButton.closest('.billing-card');
-            if (billingCard) {
-                if (billingCardContainer.querySelectorAll('.billing-card').length > 1) {
-                    billingCard.remove();
-                    updateBillingIndices();
-                    console.log('Billing card removed successfully');
-                } else {
-                    alert('At least one billing detail is required.');
-                }
-            } else {
-                console.error('Billing card not found');
-            }
-        } else {
-            console.log('Click was not on a delete button');
-        }
-    });
-});
-</script>
 
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/booking.js"></script>
+<script src="/assets/js/addMore.js"></script>
+
 @endsection

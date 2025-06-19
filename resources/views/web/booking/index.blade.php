@@ -94,7 +94,7 @@
               <!-- Example Row -->
             @foreach ($bookings as $booking)
               <tr>
-                <td><a href="{{ route('booking.show', ['id' => $booking->id]) }}">{{ $booking->id }}</a></td>
+                <td><a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">{{ $booking->id }}</a></td>
                 <td>{{$booking->pnr}}</td>
                 <td>{{$booking->created_at}}</td>
                 <td>Testagent</td>

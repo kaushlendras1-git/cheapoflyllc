@@ -6,10 +6,10 @@
   14 => 'view',
   'app' => 
   array (
-    'name' => 'ApplyNow',
+    'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
-    'url' => 'http://127.0.0.1:8000/',
+    'url' => 'http://localhost',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
     'timezone' => 'UTC',
@@ -17,7 +17,7 @@
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:zRPEXghapc5dG9IqCk+8KfxVvwzrm48EIvLKw84qp8M=',
+    'key' => 'base64:22pgUuiaZOJc5O4r5CQpu/8qN/y1HOsTp7Np/xBLpsQ=',
     'previous_keys' => 
     array (
     ),
@@ -157,8 +157,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -222,10 +222,10 @@
         'driver' => 'mysql',
         'url' => NULL,
         'host' => '127.0.0.1',
-        'port' => '3306',
+        'port' => '3309',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -242,10 +242,10 @@
         'driver' => 'mariadb',
         'url' => NULL,
         'host' => '127.0.0.1',
-        'port' => '3306',
+        'port' => '3309',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_uca1400_ai_ci',
@@ -262,10 +262,10 @@
         'driver' => 'pgsql',
         'url' => NULL,
         'host' => '127.0.0.1',
-        'port' => '3306',
+        'port' => '3309',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -277,10 +277,10 @@
         'driver' => 'sqlsrv',
         'url' => NULL,
         'host' => '127.0.0.1',
-        'port' => '3306',
+        'port' => '3309',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -297,7 +297,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'applynow_database_',
+        'prefix' => 'laravel_database_',
       ),
       'default' => 
       array (
@@ -327,14 +327,14 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\app',
+        'root' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\app/public',
-        'url' => 'http://127.0.0.1:8000//storage',
+        'root' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\app/public',
+        'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
       ),
@@ -353,7 +353,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\admin\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\app/public',
+      'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\app/public',
     ),
   ),
   'hashids' => 
@@ -372,7 +372,7 @@
         'length' => 'your-length-integer',
       ),
     ),
-    'salt' => 'default-salt-string',
+    'salt' => 'SAU',
     'length' => 8,
     'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
   ),
@@ -398,14 +398,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -470,24 +470,24 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
       ),
     ),
   ),
   'mail' => 
   array (
-    'default' => 'smtp',
+    'default' => 'log',
     'mailers' => 
     array (
       'smtp' => 
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => 'smtp.gmail.com',
-        'port' => '587',
-        'encryption' => 'tls',
-        'username' => 'noreply@sau.int',
-        'password' => 'Sau$12345@',
+        'host' => '127.0.0.1',
+        'port' => '2525',
+        'encryption' => NULL,
+        'username' => NULL,
+        'password' => NULL,
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -538,15 +538,15 @@
     ),
     'from' => 
     array (
-      'address' => 'noreply@sau.int',
-      'name' => 'SAU Recruitment Portal',
+      'address' => 'hello@example.com',
+      'name' => 'Laravel',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -641,7 +641,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -650,7 +650,7 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'applynow_session',
+    'cookie' => 'laravel_session',
     'path' => '/',
     'domain' => NULL,
     'secure' => NULL,
@@ -767,9 +767,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\resources\\views',
+      0 => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc\\storage\\framework\\views',
   ),
   'flare' => 
   array (
@@ -855,7 +855,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\Users\\admin\\Desktop\\cheapoflyllc',
+    'remote_sites_path' => 'C:\\Users\\kaush\\OneDrive\\Desktop\\cheapoflyllc',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
