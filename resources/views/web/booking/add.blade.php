@@ -393,9 +393,7 @@
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0">Passenger Details</h4>
-                            <a type="btn btn-sm btn-primary waves-effect waves-light" id="addPassengerBtn">
-                                <i class="icon-base ri ri-add-circle-fill"></i>
-    </a>
+                            
                         </div>
 
            <!------------------------------------------------------------------------------------------>
@@ -570,13 +568,7 @@
 
 <!--------------------------------------Billing Details ---------------------------->
  <style>
-        .excel-like-container {
-            background-color: #fff;
-            border: 1px solid #d1d3e2;
-            border-radius: 6px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+      
         .billing-table {
             width: 100%;
             border-collapse: collapse;
@@ -782,53 +774,69 @@
                     </div>
                 </div>
 
-                <!-- Pricing Details -->
+                <!------------------------- Pricing Details -->
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
-                    <div class="card p-4">
-                        <h5 class="card-header px-0">Pricing Details</h5>
-                        <div class="card-body p-0">
-                            <div class="row g-3">
-                                <div class="col-md-3">
-                                    <label class="form-label">Hotel Cost ($)<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" name="hotel_cost" value="{{ old('hotel_cost', '0.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Cruise Cost ($)<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" name="cruise_cost" value="{{ old('cruise_cost', '0.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Total Amount ($)<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" name="total_amount" value="{{ old('total_amount', '0.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Advisor MCO ($)</label>
-                                    <input type="number" class="form-control" name="advisor_mco" value="{{ old('advisor_mco', '12.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Conversion Charge ($)</label>
-                                    <input type="number" class="form-control" name="conversion_charge" value="{{ old('conversion_charge', '12.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Airline Commission ($)</label>
-                                    <input type="number" class="form-control" name="airline_commission" value="{{ old('airline_commission', '0.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Final Amount ($)</label>
-                                    <input type="number" class="form-control" name="final_amount" value="{{ old('final_amount', '12.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Merchant</label>
-                                    <input type="text" class="form-control" name="merchant" value="{{ old('merchant', 'Cheapofly') }}" placeholder="Merchant Name">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Net MCO ($)</label>
-                                    <input type="number" class="form-control" name="net_mco" value="{{ old('net_mco', '0.00') }}" placeholder="0.00" step="0.01">
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
+                    <div class="excel-like-container">
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Hotel Cost ($)</th>
+                            <th>Cruise Cost ($)</th>
+                            <th>Total Amount ($)</th>
+                            <th>Advisor MCO ($)</th>
+                            <th>Conversion Charge ($)</th>
+                            <th>Airline Commission ($)</th>
+                            <th>Final Amount ($)</th>
+                            <th>Merchant</th>
+                            <th>Net MCO ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label class="form-label">Hotel Cost ($)<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="hotel_cost" value="0.00" placeholder="0.00" step="0.01">
+                            </td>
+                            <td>
+                                <label class="form-label">Cruise Cost ($)<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="cruise_cost" value="0.00" placeholder="0.00" step="0.01">
+                            </td>
+                            <td>
+                                <label class="form-label">Total Amount ($)<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="total_amount" value="0.00" placeholder="0.00" step="0.01">
+                            </td>
+                            <td>
+                                <label class="form-label">Advisor MCO ($)</label>
+                                <input type="number" class="form-control" name="advisor_mco" value="12.00" placeholder="0.00" step="0.01">
+                            </td>
+                            <td>
+                                <label class="form-label">Conversion Charge ($)</label>
+                                <input type="number" class="form-control" name="conversion_charge" value="12.00" placeholder="0.00" step="0.01">
+                            </td>
+                            <td>
+                                <label class="form-label">Airline Commission ($)</label>
+                                <input type="number" class="form-control" name="airline_commission" value="0.00" placeholder="0.00" step="0.01">
+                            </td>
+                            <td>
+                                <label class="form-label">Final Amount ($)</label>
+                                <input type="number" class="form-control" name="final_amount" value="12.00" placeholder="0.00" step="0.01">
+                            </td>
+                            <td>
+                                <label class="form-label">Merchant</label>
+                                <input type="text" class="form-control" name="merchant" value="Cheapofly" placeholder="Merchant Name">
+                            </td>
+                            <td>
+                                <label class="form-label">Net MCO ($)</label>
+                                <input type="number" class="form-control" name="net_mco" value="0.00" placeholder="0.00" step="0.01">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
                 </div>
+
+             <!-----------------------------------Pricing ------------------------------------------>   
 
                 <!-- Booking Remarks -->
                 <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
