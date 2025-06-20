@@ -398,143 +398,386 @@
     </a>
                         </div>
 
-                        <div id="passengerForms">
-                            <!-- Passenger 1 -->
-                            <div class="row mb-5 mt-2 passenger-form" data-index="0">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h6 class="mb-0 billing-card-title">Passenger 1</h6>
-                                    <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
-                                        <i class="icon-base ri ri-delete-bin-2-line"></i> Delete
-                                    </button>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Type</label>
-                                    <input type="text" class="form-control" name="passenger[0][passenger_type]" value="{{ old('passenger.0.passenger_type', 'Adult') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Gender</label>
-                                    <input type="text" class="form-control" name="passenger[0][gender]" value="{{ old('passenger.0.gender', 'Male') }}">
-                                </div>
+           <!------------------------------------------------------------------------------------------>
 
-                                <div class="col-md-2">
-                                    <label class="form-label">DOB</label>
-                                    <input type="date" class="form-control" name="passenger[0][dob]" value="{{ old('passenger.0.dob', '2025-04-10') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Seat</label>
-                                    <input type="text" class="form-control" name="passenger[0][seat_number]" value="{{ old('passenger.0.seat_number', '') }}" placeholder="Seat">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Title</label>
-                                    <input type="text" class="form-control" name="passenger[0][title]" value="{{ old('passenger.0.title', 'Ms') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">Credit Note Amount</label>
-                                    <input type="number" class="form-control" name="passenger[0][credit_note]" value="{{ old('passenger.0.credit_note', '0') }}" step="0.01">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">First Name</label>
-                                    <input type="text" class="form-control" name="passenger[0][first_name]" value="{{ old('passenger.0.first_name', 'mnnfksdfs fsdjfds') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Middle Name</label>
-                                    <input type="text" class="form-control" name="passenger[0][middle_name]" value="{{ old('passenger.0.middle_name', '') }}" placeholder="Middle Name">
-                                </div>
-                                <div class="col-md-3 position-relative">
-                                    <label class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" name="passenger[0][last_name]" value="{{ old('passenger.0.last_name', 'cshcjxhds') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">E-Ticket</label>
-                                    <input type="text" class="form-control" name="passenger[0][e_ticket_number]" value="{{ old('passenger.0.e_ticket_number', '') }}" placeholder="E Ticket">
-                                </div>
-                            </div>
-                        </div>
+           <style>
+        .excel-like-container {
+            background-color: #fff;
+            border: 1px solid #d1d3e2;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .passenger-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f8f9fc;
+        }
+        .passenger-table th, .passenger-table td {
+            border: 1px solid #d1d3e2;
+            padding: 8px;
+            font-size: 14px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        .passenger-table th {
+            background-color: #e9ecef;
+            font-weight: 600;
+            color: #1f2a44;
+        }
+        .passenger-table td {
+            background-color: #fff;
+        }
+        .passenger-table .form-control {
+            border: 1px solid #d1d3e2;
+            background-color: #fff;
+            font-size: 14px;
+            padding: 6px;
+            width: 100%;
+        }
+        .delete-passenger {
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+        .add-passenger-btn {
+            background-color: #1f2a44;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .add-passenger-btn:hover {
+            background-color: #2a3b5e;
+        }
+        .billing-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2a44;
+        }
+    </style>
+</head>
+<body>
+    <div class="container excel-like-container">
+        <table class="passenger-table">
+            <thead>
+                <tr>
+                    <th>Passenger</th>
+                    <th>Type</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Seat</th>
+                    <th>Title</th>
+                    <th>Credit Note</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>E-Ticket</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="passengerForms">
+                <tr class="passenger-form" data-index="0">
+                    <td><span class="billing-card-title"> 1</span></td>
+                    <td><input type="text" class="form-control" name="passenger[0][passenger_type]" value="Adult"></td>
+                    <td><input type="text" class="form-control" name="passenger[0][gender]" value="Male"></td>
+                    <td><input type="date" class="form-control" name="passenger[0][dob]" value="2025-04-10"></td>
+                    <td><input type="text" class="form-control" name="passenger[0][seat_number]" placeholder="Seat"></td>
+                    <td><input type="text" class="form-control" name="passenger[0][title]" value="Ms"></td>
+                    <td><input type="number" class="form-control" name="passenger[0][credit_note]" value="0" step="0.01"></td>
+                    <td><input type="text" class="form-control" name="passenger[0][first_name]" value="mnnfksdfs fsdjfds"></td>
+                    <td><input type="text" class="form-control" name="passenger[0][middle_name]" placeholder="Middle Name"></td>
+                    <td><input type="text" class="form-control" name="passenger[0][last_name]" value="cshcjxhds"></td>
+                    <td><input type="text" class="form-control" name="passenger[0][e_ticket_number]" placeholder="E Ticket"></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
+                            <i class="icon-base ri ri-delete-bin-2-line"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn add-passenger-btn" id="addPassenger">Add More</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passengerFormsContainer = document.getElementById('passengerForms');
+            let passengerIndex = 1;
 
+            // Add new passenger row
+            document.getElementById('addPassenger').addEventListener('click', () => {
+                const newRow = document.createElement('tr');
+                newRow.className = 'passenger-form';
+                newRow.dataset.index = passengerIndex;
+                newRow.innerHTML = `
+                    <td><span class="billing-card-title"> ${passengerIndex + 1}</span></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][passenger_type]" value="Adult"></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][gender]" value="Male"></td>
+                    <td><input type="date" class="form-control" name="passenger[${passengerIndex}][dob]" value="2025-04-10"></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][title]" value="Ms"></td>
+                    <td><input type="number" class="form-control" name="passenger[${passengerIndex}][credit_note]" value="0" step="0.01"></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][first_name]" value=""></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][last_name]" value=""></td>
+                    <td><input type="text" class="form-control" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
+                            <i class="icon-base ri ri-delete-bin-2-line"></i> Delete
+                        </button>
+                    </td>
+                `;
+                passengerFormsContainer.appendChild(newRow);
+                passengerIndex++;
+            });
+
+            // Delete passenger row
+            passengerFormsContainer.addEventListener('click', (e) => {
+                if (e.target.closest('.delete-passenger')) {
+                    const row = e.target.closest('.passenger-form');
+                    if (passengerFormsContainer.children.length > 1) {
+                        row.remove();
+                        updatePassengerTitles();
+                    }
+                }
+            });
+
+            // Update passenger titles and indices after deletion
+            function updatePassengerTitles() {
+                const rows = passengerFormsContainer.querySelectorAll('.passenger-form');
+                rows.forEach((row, index) => {
+                    const title = row.querySelector('.billing-card-title');
+                    title.textContent = `Passenger ${index + 1}`;
+                    row.dataset.index = index;
+                    const inputs = row.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        const name = input.name.replace(/passenger\[\d+\]/, `passenger[${index}]`);
+                        input.name = name;
+                    });
+                });
+                passengerIndex = rows.length;
+            }
+        });
+    </script>
+</body>
+</html>
+           <!------------------------------------------------------------------------------------------>
+                        
                         
                     </div>
                 </div>
 
-                <!-- Billing Details -->
-                <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-header border-0 p-0">Billing Details</h5>
-                            <div>
-                                <button type="button" class="btn btn-outline-secondary btn-sm">Submit Paylink</button>
-                                <a type="btn btn-sm btn-primary waves-effect waves-light" id="addBillingBtn"><i class="icon-base ri ri-add-circle-fill"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="card-body p-0">
-                            <div class="row g-3 billing-card pt-2" data-index="0">
-                                <h6 class="mb-0 billing-card-title">Card Details 1</h6>
-                                <div class="col-md-2">
-                                    <label class="form-label">Card Type</label>
-                                    <input type="text" class="form-control" placeholder="Card Type" name="billing[0][card_type]" value="{{ old('billing.0.card_type', 'VISA') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="form-label">CC Number</label>
-                                    <input type="text" class="form-control" placeholder="CC Number" name="billing[0][cc_number]" value="{{ old('billing.0.cc_number', '123 789 346') }}">
-                                </div>
-                                <div class="col-md-2">
-                                     <label class="form-label">CC Holder Name</label>
-                                    <input type="text" class="form-control" placeholder="CC Holder Name" name="billing[0][cc_holder_name]" value="{{ old('billing.0.cc_holder_name', 'test') }}">
-                                </div>
-                                <div class="col-md-1">
-                                     <label class="form-label">MM</label>
-                                    <input type="text" class="form-control" placeholder="MM" name="billing[0][exp_month]" value="{{ old('billing.0.exp_month', '01') }}">
-                                </div>
-                                <div class="col-md-1">
-                                     <label class="form-label">YYYY</label>
-                                    <input type="text" class="form-control" placeholder="YYYY" name="billing[0][exp_year]" value="{{ old('billing.0.exp_year', '2024') }}">
-                                </div>
-                                <div class="col-md-1">
-                                     <label class="form-label">CVV</label>
-                                    <input type="text" class="form-control" placeholder="CVV" name="billing[0][cvv]" value="{{ old('billing.0.cvv', '134') }}">
-                                </div>
-                                <div class="col-md-2">
-                                     <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" placeholder="Address" name="billing[0][address]" value="{{ old('billing.0.address', 'laxmi Nagrr') }}">
-                                </div>
-
-                                <div class="col-md-1 d-flex align-items-center">
-                                    <button type="button" class="btn btn-outline-danger ms-2 delete-billing-btn">
+<!--------------------------------------Billing Details ---------------------------->
+ <style>
+        .excel-like-container {
+            background-color: #fff;
+            border: 1px solid #d1d3e2;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .billing-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f8f9fc;
+        }
+        .billing-table th, .billing-table td {
+            border: 1px solid #d1d3e2;
+            padding: 8px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .billing-table th {
+            background-color: #e9ecef;
+            font-weight: 600;
+            color: #1f2a44;
+        }
+        .billing-table td {
+            background-color: #fff;
+        }
+        .billing-table .form-control {
+            border: 1px solid #d1d3e2;
+            font-size: 14px;
+            padding: 6px;
+            width: 100%;
+        }
+        .billing-table .form-check-input {
+            margin: 0;
+        }
+        .billing-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2a44;
+            margin-bottom: 10px;
+        }
+        .delete-billing-btn {
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+        .add-billing-btn {
+            background-color: #1f2a44;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .add-billing-btn:hover {
+            background-color: #2a3b5e;
+        }
+        .submit-paylink-btn {
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-header border-0 p-0">Billing Details</h5>
+                <div>
+                    <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
+                   
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="excel-like-container">
+                    <table class="billing-table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Card Type</th>
+                                <th>CC Number</th>
+                                <th>CC Holder Name</th>
+                                <th>MM</th>
+                                <th>YYYY</th>
+                                <th>CVV</th>
+                                <th>Address</th>
+                                <th>Email</th>
+                                <th>Contact No</th>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>ZIP Code</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>Active</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billingForms">
+                            <tr class="billing-card" data-index="0">
+                                <td><h6 class="billing-card-title mb-0"> 1</h6></td>
+                                <td><input type="text" class="form-control" placeholder="Card Type" name="billing[0][card_type]" value="VISA"></td>
+                                <td><input type="text" class="form-control" placeholder="CC Number" name="billing[0][cc_number]" value="123 789 346"></td>
+                                <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[0][cc_holder_name]" value="test"></td>
+                                <td><input type="text" class="form-control" placeholder="MM" name="billing[0][exp_month]" value="01"></td>
+                                <td><input type="text" class="form-control" placeholder="YYYY" name="billing[0][exp_year]" value="2024"></td>
+                                <td><input type="text" class="form-control" placeholder="CVV" name="billing[0][cvv]" value="134"></td>
+                                <td><input type="text" class="form-control" placeholder="Address" name="billing[0][address]" value="laxmi Nagrr"></td>
+                                <td><input type="email" class="form-control" placeholder="Email" name="billing[0][email]" value="test@gmail.com"></td>
+                                <td><input type="text" class="form-control" placeholder="Contact No" name="billing[0][contact_no]" value="8510810544"></td>
+                                <td><input type="text" class="form-control" placeholder="City" name="billing[0][city]" value="delhi"></td>
+                                <td><input type="text" class="form-control" placeholder="Country" name="billing[0][country]" value="Afghanistan"></td>
+                                <td><input type="text" class="form-control" placeholder="State" name="billing[0][state]" value="Badakhshan"></td>
+                                <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[0][zip_code]" value="110092"></td>
+                                <td><input type="text" class="form-control" placeholder="Currency" name="billing[0][currency]" value="USD"></td>
+                                <td><input type="number" class="form-control" placeholder="0.00" name="billing[0][amount]" value="0" step="0.01"></td>
+                                <td><input class="form-check-input" type="radio" name="activeCard" value="0" checked></td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-danger delete-billing-btn">
                                         <i class="ri ri-delete-bin-line"></i>
                                     </button>
-                                </div>
+                                </td>
+                            </tr>
 
+                        </tbody>
+                    </table>
+                     <a class="btn add-billing-btn" id="addBillingBtn"><i class="icon-base ri ri-add-circle-fill"></i> Add More</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                <div class="col-md-3">
-                                    <input type="email" class="form-control" placeholder="Email" name="billing[0][email]" value="{{ old('billing.0.email', 'test@gmail.com') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" placeholder="Contact No" name="billing[0][contact_no]" value="{{ old('billing.0.contact_no', '8510810544') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" placeholder="City" name="billing[0][city]" value="{{ old('billing.0.city', 'delhi') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" placeholder="Country" name="billing[0][country]" value="{{ old('billing.0.country', 'Afghanistan') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" placeholder="State" name="billing[0][state]" value="{{ old('billing.0.state', 'Badakhshan') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" placeholder="ZIP Code" name="billing[0][zip_code]" value="{{ old('billing.0.zip_code', '110092') }}">
-                                </div>
-                                <div class="col-md-1">
-                                    <input type="text" class="form-control" placeholder="Currency" name="billing[0][currency]" value="{{ old('billing.0.currency', 'USD') }}">
-                                </div>
-                                <div class="col-md-1">
-                                    <input type="number" class="form-control" placeholder="0.00" name="billing[0][amount]" value="{{ old('billing.0.amount', '0') }}" step="0.01">
-                                </div>
-                                <div class="col-md-2 d-flex align-items-center">
-                                    <label class="me-2">Active</label>
-                                    <input class="form-check-input" type="radio" name="activeCard" value="1" checked {{ old('activeCard') == '0' ? 'checked' : '' }}>
-                                </div>
-                            </div>
-                        </div>
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const billingFormsContainer = document.getElementById('billingForms');
+            let billingIndex = 1;
+
+            // Add new billing row
+            document.getElementById('addBillingBtn').addEventListener('click', () => {
+                const newRow = document.createElement('tr');
+                newRow.className = 'billing-card';
+                newRow.dataset.index = billingIndex;
+                newRow.innerHTML = `
+                    <td><h6 class="billing-card-title mb-0"> ${billingIndex + 1}</h6></td>
+                    <td><input type="text" class="form-control" placeholder="Card Type" name="billing[${billingIndex}][card_type]" value="VISA"></td>
+                    <td><input type="text" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="MM" name="billing[${billingIndex}][exp_month]" value="01"></td>
+                    <td><input type="text" class="form-control" placeholder="YYYY" name="billing[${billingIndex}][exp_year]" value="2024"></td>
+                    <td><input type="text" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="Address" name="billing[${billingIndex}][address]" value=""></td>
+                    <td><input type="email" class="form-control" placeholder="Email" name="billing[${billingIndex}][email]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="Contact No" name="billing[${billingIndex}][contact_no]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="City" name="billing[${billingIndex}][city]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="Country" name="billing[${billingIndex}][country]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="State" name="billing[${billingIndex}][state]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[${billingIndex}][zip_code]" value=""></td>
+                    <td><input type="text" class="form-control" placeholder="Currency" name="billing[${billingIndex}][currency]" value="USD"></td>
+                    <td><input type="number" class="form-control" placeholder="0.00" name="billing[${billingIndex}][amount]" value="0" step="0.01"></td>
+                    <td><input class="form-check-input" type="radio" name="activeCard" value="${billingIndex}"></td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger delete-billing-btn">
+                            <i class="ri ri-delete-bin-line"></i>
+                        </button>
+                    </td>
+                `;
+                billingFormsContainer.appendChild(newRow);
+                billingIndex++;
+            });
+
+            // Delete billing row
+            billingFormsContainer.addEventListener('click', (e) => {
+                if (e.target.closest('.delete-billing-btn')) {
+                    const row = e.target.closest('tr');
+                    if (billingFormsContainer.children.length > 1) {
+                        row.remove();
+                        updateBillingTitles();
+                    }
+                }
+            });
+
+            // Update billing titles and indices
+            function updateBillingTitles() {
+                const rows = billingFormsContainer.querySelectorAll('.billing-card');
+                rows.forEach((row, index) => {
+                    const title = row.querySelector('.billing-card-title');
+                    title.textContent = `Card Details ${index + 1}`;
+                    row.dataset.index = index;
+                    const inputs = row.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        if (input.type === 'radio') {
+                            input.value = index;
+                        } else {
+                            const name = input.name.replace(/billing\[\d+\]/, `billing[${index}]`);
+                            input.name = name;
+                        }
+                    });
+                });
+                billingIndex = rows.length;
+            }
+        });
+    </script>
+</body>
+</html>
+                
+
+<!--------------------------------------Billing Details ---------------------------->
                        
                     </div>
                 </div>

@@ -55,7 +55,8 @@ class BookingFormController extends Controller
             'reservation_source' => 'nullable|string|max:255',
             'descriptor' => 'nullable|string|max:255',
             'amadeus_sabre_pnr' => 'nullable|string|max:255',
-            'sector_details' => 'required|file|max:2048',
+           'sector_details.*' => 'required|file|image|max:2048',
+
           
             // 'booking-type' => 'required|array',
             // 'booking-type.*' => 'string|max:255',
@@ -108,8 +109,20 @@ class BookingFormController extends Controller
             return redirect()->back()->withErrors($validator)->withInput()->withFragment('booking-failed');
         }
 
-        dd($request->file('sector_details'));
-        
+      dd($request->file('sector_details'));
+
+        if ($request->hasFile('sector_details')) {
+    foreach ($request->file('sector_details') as $file) {
+        $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('uploads/sector_details'), $fileName);
+
+        TravelSectorDetail::create([
+            'booking_id' => $booking->id,
+            'sector_type' => $fileName,
+        ]);
+    }
+}
+
 
         // try {
             DB::beginTransaction();
@@ -141,17 +154,7 @@ class BookingFormController extends Controller
             }
 
 
-            if ($request->hasFile('sector_details')) {
-                foreach ($request->file('sector_details') as $file) {
-                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('uploads/sector_details'), $filename);
-
-                    TravelSectorDetail::create([
-                        'booking_id' => $booking->id,
-                        'sector_type' => $filename,
-                    ]);
-                }
-            }
+      
 
             // Create Passengers
             foreach ($request->input('passenger', []) as $passengerData) {

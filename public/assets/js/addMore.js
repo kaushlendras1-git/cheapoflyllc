@@ -252,9 +252,9 @@ FilePond.registerPlugin(
 const inputElement = document.querySelector('#filepondFile');
 
 FilePond.create(inputElement, {
-  name: 'sector_details[]', // ✅ Must match the input name
+  name: 'sector_details[]', // MUST match the input name exactly
+  allowMultiple: true,
   maxFiles: 5,
   acceptedFileTypes: ['image/*'],
-  labelFileTypeNotAllowed: 'Only image files are allowed',
-  maxFileSize: '2MB',
+  maxFileSize: '2MB'
 });
