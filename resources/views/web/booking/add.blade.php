@@ -1,7 +1,9 @@
 @extends('web.layouts.main')
 
 @section('content')
-<form id="bookingForm" action="{{ route('travel.bookings.submit') }}" method="POST">
+
+<form id="bookingForm" action="{{ route('travel.bookings.submit') }}" method="POST" enctype="multipart/form-data">
+
     @csrf
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -156,114 +158,69 @@
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-header border-0 p-0">Sector Details</h5>
-                            <button type="button" class="btn btn-outline-secondary btn-sm">Delete Image</button>
+                          
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
                                 <div class="col-md-12">
                                     
-                                <button type="button" class="btn btn-outline-secondary btn-sm waves-effect">Import Itinerary</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm waves-effect">Upload Image</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm waves-effect">Add Details</button>
-                                    
-                                
+                             
 <!------------------------ Sector ------------------------------>
 
-<div class="col-lg-9 col-md-9 col-sm-12 col-12 imgpanel">dsd
-                                                            <img width="100%" id="itin_image" src="">
-                                                        </div>
-
-
-
-<div class="input-container">
-        <div class="input-area">
-            <textarea class="itinerary-input" placeholder="Copy and paste Galileo, Smartpoint, Amadeus or Sabre itinerary here..."></textarea>
-        </div>
-        <button class="convert-action" style="height: 79px;">
-            Convert
-           
-        </button>
-    </div>
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="addDetailsModal" tabindex="-1" aria-labelledby="addDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
     
-    <style>
-          .input-container {
-            display: flex;
-            align-items: center;
-            background-color: #eaf5f5;
-            border: 1px solid #b6d4d4;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 800px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+      <div class="modal-header">
+        <h5 class="modal-title" id="addDetailsModalLabel">Add Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
-        .input-area {
-            flex: 1;
-            position: relative;
-        }
+      <div class="modal-body">
+        <!-- You can place your form or content here -->
+        <form>
+          <div class="mb-3">
+            <label for="detailInput" class="form-label">Detail</label>
+            <input type="text" class="form-control" id="detailInput" placeholder="Enter detail">
+          </div>
+        </form>
+      </div>
 
-        .itinerary-input {
-            width: 100%;
-            height: 100%;
-            border: none;
-            resize: none;
-            padding: 15px;
-            outline: none;
-            font-size: 16px;
-            color: #555;
-            background-color: #ffffff;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            font-family: 'Arial', sans-serif;
-        }
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
 
-        .itinerary-input::placeholder {
-            color: #999;
-        }
-
-        .icon-group {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-        }
-
-        .icon-group img {
-            height: 24px;
-            margin-right: 5px;
-        }
-
-        .convert-action {
-            background-color: #4fb0af;
-            color: #ffffff;
-            border: none;
-            padding: 0 30px;
-            font-size: 16px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        .convert-action:hover {
-            background-color: #449b9a;
-        }
-
-        .convert-action svg {
-            margin-left: 10px;
-        }
-    </style>
+    </div>
+  </div>
+</div>
+    
+    
 
 
 
 <!-------------------------------------Sector ---------------------------------------------------------------->
+
+     <!-- File input -->
+      
+<input type="file" name="sector_details[]" id="filepondFile" multiple />
+
+
+<!-- FilePond styles -->
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" rel="stylesheet" />
+
+<!-- FilePond scripts -->
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+
+
+
+@if(1==2)
 
  <!-- Cruise Booking Details -->
     <h2>Cruise Booking Details</h2>
@@ -413,6 +370,7 @@
             padding: 5px;
         }
     </style>
+    @endif
 <!-------------------------------------Sector ---------------------------------------------------------------->
 
 
@@ -426,10 +384,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-light px-4" data-bs-target="#screenshots" data-bs-toggle="tab">Prev</button>
-                            <button type="button" class="btn btn-primary px-4" data-bs-target="#passenger" data-bs-toggle="tab">Next</button>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -460,7 +415,8 @@
                                     <label class="form-label">Gender</label>
                                     <input type="text" class="form-control" name="passenger[0][gender]" value="{{ old('passenger.0.gender', 'Male') }}">
                                 </div>
-                                <div>
+
+                                <div class="col-md-2">
                                     <label class="form-label">DOB</label>
                                     <input type="date" class="form-control" name="passenger[0][dob]" value="{{ old('passenger.0.dob', '2025-04-10') }}">
                                 </div>
@@ -495,10 +451,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-light px-4" data-bs-target="#sector" data-bs-toggle="tab">Prev</button>
-                            <button type="button" class="btn btn-primary px-4" data-bs-target="#billing" data-bs-toggle="tab">Next</button>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -582,10 +535,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer mt-4 d-flex justify-content-between">
-                            <button type="button" class="btn btn-light px-4" data-bs-target="#passenger" data-bs-toggle="tab">Prev</button>
-                            <button type="button" class="btn btn-primary px-4" data-bs-target="#pricing" data-bs-toggle="tab">Next</button>
-                        </div>
+                       
                     </div>
                 </div>
 
@@ -633,10 +583,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-light px-4" data-bs-target="#billing" data-bs-toggle="tab">Prev</button>
-                            <button type="button" class="btn btn-primary px-4" data-bs-target="#remarks" data-bs-toggle="tab">Next</button>
-                        </div>
+                       
                     </div>
                 </div>
 
@@ -645,42 +592,11 @@
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h5 class="card-header border-0 p-0">Booking Remarks</h5>
-                            <div>
-                                <button type="button" class="btn btn-warning me-2">
-                                    <i class="ri ri-file-text-line"></i>
-                                </button>
-                                <button type="button" class="btn btn-warning">
-                                    <i class="ri ri-save-line"></i>
-                                </button>
-                            </div>
                         </div>
                         <div class="card-body p-0">
                             <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{ old('particulars', '') }}</textarea>
-                            <div class="table-responsive">
-                                <table class="table table-bordered text-center align-middle">
-                                    <thead class="text-white bg-primary small">
-                                        <tr>
-                                            <th scope="col" class="py-2">Id</th>
-                                            <th scope="col" class="py-2">Agent</th>
-                                            <th scope="col" class="py-2">Date & Time</th>
-                                            <th scope="col" class="py-2">Particulars</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Alex Morgan</td>
-                                            <td>2025-04-10 14:30</td>
-                                            <td>Called to confirm ticket details</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
-                        <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn btn-light px-4" data-bs-target="#pricing" data-bs-toggle="tab">Prev</button>
-                            <button type="button" class="btn btn-primary px-4" data-bs-target="#feedback" data-bs-toggle="tab">Next</button>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -778,5 +694,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/booking.js"></script>
 <script src="/assets/js/addMore.js"></script>
+
 
 @endsection

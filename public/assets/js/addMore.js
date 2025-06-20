@@ -237,3 +237,24 @@
                 }
             });
         }
+
+
+
+/////////////////////// Initialization script (cleaned) //////////////////////////////////
+
+          // Register plugins
+FilePond.registerPlugin(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview,
+  FilePondPluginFilePoster
+);
+
+const inputElement = document.querySelector('#filepondFile');
+
+FilePond.create(inputElement, {
+  name: 'sector_details[]', // ✅ Must match the input name
+  maxFiles: 5,
+  acceptedFileTypes: ['image/*'],
+  labelFileTypeNotAllowed: 'Only image files are allowed',
+  maxFileSize: '2MB',
+});

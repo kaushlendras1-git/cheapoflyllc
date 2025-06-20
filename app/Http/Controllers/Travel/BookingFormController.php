@@ -36,6 +36,8 @@ class BookingFormController extends Controller
         return view('web.booking.index', compact('bookings','hashids'));
     }
     
+
+
     public function store(Request $request)
     {
         // Validate the request data
@@ -53,56 +55,61 @@ class BookingFormController extends Controller
             'reservation_source' => 'nullable|string|max:255',
             'descriptor' => 'nullable|string|max:255',
             'amadeus_sabre_pnr' => 'nullable|string|max:255',
-            'booking-type' => 'required|array',
-            'booking-type.*' => 'string|max:255',
-            'sector_type' => 'required|string|max:255',
-            'passenger' => 'required|array',
-            'passenger.*.passenger_type' => 'required|string|max:255',
-            'passenger.*.gender' => 'nullable|string|max:255',
-            'passenger.*.dob' => 'nullable|date',
-            'passenger.*.seat_number' => 'nullable|string|max:50',
-            'passenger.*.title' => 'nullable|string|max:50',
-            'passenger.*.credit_note' => 'nullable|numeric|min:0',
-            'passenger.*.first_name' => 'required|string|max:255',
-            'passenger.*.middle_name' => 'nullable|string|max:255',
-            'passenger.*.last_name' => 'required|string|max:255',
-            'passenger.*.e_ticket_number' => 'nullable|string|max:50',
-            'billing' => 'required|array',
-            'billing.*.card_type' => 'required|string|max:255',
-            'billing.*.cc_number' => 'nullable|string|max:20',
-            'billing.*.cc_holder_name' => 'nullable|string|max:255',
-            'billing.*.exp_month' => 'required|string|max:2',
-            'billing.*.exp_year' => 'required|string|max:4',
-            'billing.*.cvv' => 'nullable|string|max:4',
-            'billing.*.address' => 'nullable|string|max:255',
-            'billing.*.email' => 'nullable|email|max:255',
-            'billing.*.contact_no' => 'nullable|string|max:20',
-            'billing.*.city' => 'nullable|string|max:255',
-            'billing.*.country' => 'nullable|string|max:255',
-            'billing.*.state' => 'nullable|string|max:255',
-            'billing.*.zip_code' => 'nullable|string|max:10',
-            'billing.*.currency' => 'required|string|max:3',
-            'billing.*.amount' => 'required|numeric|min:0',
-            'activeCard' => 'required|integer',
-            'hotel_cost' => 'required|numeric|min:0',
-            'cruise_cost' => 'required|numeric|min:0',
-            'total_amount' => 'required|numeric|min:0',
-            'advisor_mco' => 'required|numeric|min:0',
-            'conversion_charge' => 'required|numeric|min:0',
-            'airline_commission' => 'required|numeric|min:0',
-            'final_amount' => 'required|numeric|min:0',
-            'merchant' => 'required|string|max:255',
-            'net_mco' => 'required|numeric|min:0',
-            'particulars' => 'nullable|string',
-            'feedback' => 'nullable|string',
-            'status' => 'nullable|string|max:255',
-            'type' => 'required|string|max:255',
-            'notes' => 'nullable|string',
+            'sector_details' => 'required|file|max:2048',
+          
+            // 'booking-type' => 'required|array',
+            // 'booking-type.*' => 'string|max:255',
+          
+            // 'passenger' => 'required|array',
+            // 'passenger.*.passenger_type' => 'required|string|max:255',
+            // 'passenger.*.gender' => 'nullable|string|max:255',
+            // 'passenger.*.dob' => 'nullable|date',
+            // 'passenger.*.seat_number' => 'nullable|string|max:50',
+            // 'passenger.*.title' => 'nullable|string|max:50',
+            // 'passenger.*.credit_note' => 'nullable|numeric|min:0',
+            // 'passenger.*.first_name' => 'required|string|max:255',
+            // 'passenger.*.middle_name' => 'nullable|string|max:255',
+            // 'passenger.*.last_name' => 'required|string|max:255',
+            // 'passenger.*.e_ticket_number' => 'nullable|string|max:50',
+            // 'billing' => 'required|array',
+            // 'billing.*.card_type' => 'required|string|max:255',
+            // 'billing.*.cc_number' => 'nullable|string|max:20',
+            // 'billing.*.cc_holder_name' => 'nullable|string|max:255',
+            // 'billing.*.exp_month' => 'required|string|max:2',
+            // 'billing.*.exp_year' => 'required|string|max:4',
+            // 'billing.*.cvv' => 'nullable|string|max:4',
+            // 'billing.*.address' => 'nullable|string|max:255',
+            // 'billing.*.email' => 'nullable|email|max:255',
+            // 'billing.*.contact_no' => 'nullable|string|max:20',
+            // 'billing.*.city' => 'nullable|string|max:255',
+            // 'billing.*.country' => 'nullable|string|max:255',
+            // 'billing.*.state' => 'nullable|string|max:255',
+            // 'billing.*.zip_code' => 'nullable|string|max:10',
+            // 'billing.*.currency' => 'required|string|max:3',
+            // 'billing.*.amount' => 'required|numeric|min:0',
+            // 'activeCard' => 'required|integer',
+            // 'hotel_cost' => 'required|numeric|min:0',
+            // 'cruise_cost' => 'required|numeric|min:0',
+            // 'total_amount' => 'required|numeric|min:0',
+            // 'advisor_mco' => 'required|numeric|min:0',
+            // 'conversion_charge' => 'required|numeric|min:0',
+            // 'airline_commission' => 'required|numeric|min:0',
+            // 'final_amount' => 'required|numeric|min:0',
+            // 'merchant' => 'required|string|max:255',
+            // 'net_mco' => 'required|numeric|min:0',
+            // 'particulars' => 'nullable|string',
+            // 'feedback' => 'nullable|string',
+            // 'status' => 'nullable|string|max:255',
+            // 'type' => 'required|string|max:255',
+            // 'notes' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->withFragment('booking-failed');
         }
+
+        dd($request->file('sector_details'));
+        
 
         // try {
             DB::beginTransaction();
@@ -133,11 +140,18 @@ class BookingFormController extends Controller
                 ]);
             }
 
-            // Create Sector Detail
-            TravelSectorDetail::create([
-                'booking_id' => $booking->id,
-                'sector_type' => $request->input('sector_type'),
-            ]);
+
+            if ($request->hasFile('sector_details')) {
+                foreach ($request->file('sector_details') as $file) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('uploads/sector_details'), $filename);
+
+                    TravelSectorDetail::create([
+                        'booking_id' => $booking->id,
+                        'sector_type' => $filename,
+                    ]);
+                }
+            }
 
             // Create Passengers
             foreach ($request->input('passenger', []) as $passengerData) {
