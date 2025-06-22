@@ -410,6 +410,9 @@ class BookingFormController extends Controller
                     'final_amount',
                     'merchant',
                     'net_mco',
+                    'airlinepnr',
+                    'pnrtype',
+                    'amadeus_sabre_pnr'
                 ])
             );
 
@@ -472,16 +475,9 @@ class BookingFormController extends Controller
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
         $booking = TravelBooking::with([
             'bookingTypes', 'sectorDetails', 'passengers', 'billingDetails',
-            'pricingDetails', 'remarks', 'qualityFeedback', 'screenshots'
+            'pricingDetails', 'remarks', 'qualityFeedback', 'screenshots',
+            'travelFlight', 'travelCar', 'travelCruise', 'travelHotel'
         ])->findOrFail($id);
-
-
-        
-        // $booking = TravelBooking::with([
-        //     'bookingTypes', 'passengers', 'billingDetails'
-        // ])->findOrFail($id);
-
-
         return view('web.booking.show', compact('booking','hashids'));
     }
 

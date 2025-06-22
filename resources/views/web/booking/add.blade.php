@@ -75,22 +75,24 @@
                     
                     
                     <fieldset id="flight-inputs" class="toggle-section">
-                        <div class="col-md-3">
-                            <label class="form-label">Airline PNR</label>
-                            <input type="text" class="form-control" name="airlinepnr" value="{{ old('airlinepnr', '') }}" placeholder="Airline PNR">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Amadeus/Sabre PNR</label>
-                            <input type="text" class="form-control" name="amadeus_sabre_pnr" value="{{ old('amadeus_sabre_pnr', '') }}">
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <label class="form-label"> PNR Type</label>
-                            <select class="form-control" name="pnrtype">
-                                <option value="">Select</option>
-                                <option value="HK">HK</option>
-                                <option value="GK">GK</option>
-                            </select> 
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">Airline PNR</label>
+                                <input type="text" class="form-control" name="airlinepnr" value="{{ old('airlinepnr', '') }}" placeholder="Airline PNR">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Amadeus/Sabre PNR</label>
+                                <input type="text" class="form-control" name="amadeus_sabre_pnr" value="{{ old('amadeus_sabre_pnr', '') }}">
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label"> PNR Type</label>
+                                <select class="form-control" name="pnrtype">
+                                    <option value="">Select</option>
+                                    <option value="HK">HK</option>
+                                    <option value="GK">GK</option>
+                                </select> 
+                            </div>
                         </div>
                     </fieldset>
 

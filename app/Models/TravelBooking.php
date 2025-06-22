@@ -74,4 +74,26 @@ class TravelBooking extends Model
     {
         return $this->hasMany(TravelScreenshot::class, 'booking_id');
     }
+    
+    public function travelFlight()
+    {
+        return $this->hasMany(TravelFlightDetail::class, 'booking_id');
+    }
+    
+    public function travelCar()
+    {
+        return $this->hasMany(TravelCarDetail::class, 'booking_id');
+    }
+    
+    public function travelCruise()
+    {
+        return $this->hasMany(TravelCruiseDetail::class, 'booking_id');
+    }
+    
+    public function travelHotel()
+    {
+        return $this->hasMany(TravelHotelDetail::class, 'booking_id');
+    }
+
+
 }

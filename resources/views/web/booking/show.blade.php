@@ -28,6 +28,10 @@
             
             @include('web.layouts.flash')
 
+               @php
+                    $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
+                @endphp
+                
             <!-- Top Bar -->
             <div class="card p-3 mt-2">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -77,164 +81,164 @@
                     
                     
                     <fieldset id="flight-inputs" class="toggle-section">
-                        <div class="col-md-3">
-                            <label class="form-label">Airline PNR</label>
-                            <input type="text" class="form-control" name="airlinepnr" value="{{ old('airlinepnr', '') }}" placeholder="Airline PNR">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Amadeus/Sabre PNR</label>
-                            <input type="text" class="form-control" name="amadeus_sabre_pnr" value="{{ old('amadeus_sabre_pnr', '') }}">
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <label class="form-label"> PNR Type</label>
-                            <select class="form-control" name="pnrtype">
-                                <option value="">Select</option>
-                                <option value="HK">HK</option>
-                                <option value="GK">GK</option>
-                            </select> 
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">Airline PNR</label>
+                                <input type="text" class="form-control" name="airlinepnr" value="{{ $booking->airlinepnr }}" placeholder="Airline PNR">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Amadeus/Sabre PNR</label>
+                                <input type="text" class="form-control" name="amadeus_sabre_pnr" value="{{ $booking->amadeus_sabre_pnr }}">
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label"> PNR Type</label>
+                                <select class="form-control" name="pnrtype">
+                                    <option value="" {{ old('pnrtype', $booking->pnrtype ?? '') === '' ? 'selected' : '' }}>Select</option>
+                                    <option value="HK" {{ old('pnrtype', $booking->pnrtype ?? '') === 'HK' ? 'selected' : '' }}>HK</option>
+                                    <option value="GK" {{ old('pnrtype', $booking->pnrtype ?? '') === 'GK' ? 'selected' : '' }}>GK</option>
+                                </select> 
+                            </div>
                         </div>
                     </fieldset >
 
 
                     <div class="col-md-3"  id="hotel-inputs">
                         <label class="form-label">Hotel Ref</label>
-                        <input type="text" class="form-control" name="hotel_ref" value="{{ old('hotel_ref', '') }}" placeholder="Hotel Ref">
+                        <input type="text" class="form-control" name="hotel_ref" value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}" placeholder="Hotel Ref">
                     </div>
 
 
                     <div class="col-md-3"  id="cruise-inputs">
                         <label class="form-label">Cruise Ref</label>
-                        <input type="text" class="form-control" name="cruise_ref" value="{{ old('cruise_ref', '') }}" placeholder="Cruise Ref">
+                         <input type="text" class="form-control" name="cruise_ref" value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}" placeholder="Cruise Ref">
                     </div>
 
                     <div class="col-md-3"  id="car-inputs" >
                         <label class="form-label">Car Ref</label>
-                        <input type="text" class="form-control" name="car_ref" value="{{ old('car_ref', '') }}" placeholder="Car Ref">
+                        <input type="text" class="form-control" name="car_ref" value="{{ old('car_ref', $booking->car_ref ?? '') }}" placeholder="Car Ref">
                     </div>
 
                
                     <div class="col-md-3" id="train-inputs">
                         <label class="form-label">Train Ref</label>
-                        <input type="text" class="form-control" name="train_ref" value="{{ old('train_ref', '') }}" placeholder="Train Ref">
+                        <input type="text" class="form-control" name="train_ref" value="{{ old('train_ref', $booking->train_ref ?? '') }}" placeholder="Train Ref">
                     </div>
                
 
 
                     <div class="col-md-3">
                         <label class="form-label">Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="name" value="{{ old('name', '') }}">
+                         <input type="text" class="form-control" name="name" value="{{ old('name', $booking->name ?? '') }}">
                     </div>
                 
                     
                     <div class="col-md-3">
                         <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="phone" value="{{ old('phone', '') }}">
+                        <input type="text" class="form-control" name="phone" value="{{ old('phone', $booking->phone ?? '') }}">
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="email" value="{{ old('email', '') }}">
+                        <input type="email" class="form-control" name="email" value="{{ old('email', $booking->email ?? '') }}">
                     </div>
-                    
-                   
 
                     <div class="col-md-3">
                         <label class="form-label">Reservation Source</label>
-                        <input type="text" class="form-control" name="reservation_source" value="{{ old('reservation_source', '') }}">
+                         <input type="text" class="form-control" name="reservation_source" value="{{ old('reservation_source', $booking->reservation_source ?? '') }}">
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Descriptor</label>
-                        <input type="text" class="form-control" name="descriptor" value="{{ old('descriptor', '') }}">
-                    </div>
+                        <input type="text" class="form-control" name="descriptor" value="{{ old('descriptor', $booking->descriptor ?? '') }}">
+                   </div>
                     
 
                       
                     <div class="col-md-3">
                         <label class="form-label">Booking Status</label>
                         <select class="form-control" name="booking_status">
-                            <option value="under process">under process</option>
-                        </select>    
+                            <option value="under process" {{ old('booking_status', $booking->booking_status ?? '') === 'under process' ? 'selected' : '' }}>under process</option>
+                        </select>      
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label">Payment Status</label>
                         <select class="form-control" name="payment_status">
-                            <option value="pending">pending</option>
+                            <option value="pending" {{ old('payment_status', $booking->payment_status ?? '') === 'pending' ? 'selected' : '' }}>pending</option>
                         </select> 
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label">Query Type</label>
                         <select id="query_type" class="form-control" name="query_type">
-                            <option value="N">New Booking</option>
-                            <option value="NC">New Booking(Credit)</option>
-                            <option value="M">New Booking(Miles)</option>
-                            <option value="UMNR">Unaccompanied Minor Reservation</option>
-                            <option value="CC">Cancel(Credit)</option>
-                            <option value="CR">Cancel(Refund)</option>
-                            <option value="CH">Change</option>
-                            <option value="U">Upgrade</option>
-                            <option value="NMC">Name Correction</option>
-                            <option value="S">Seat Assignment</option>
-                            <option value="B">Baggage Addition</option>
-                            <option value="CBP">Change Bed Preference</option>
-                            <option value="AI">Infant Addition</option>
-                            <option value="AE">Adding Excursion</option>
+                            <option value="N" {{ old('query_type', $booking->query_type ?? '') === 'N' ? 'selected' : '' }}>New Booking</option>
+                            <option value="NC" {{ old('query_type', $booking->query_type ?? '') === 'NC' ? 'selected' : '' }}>New Booking(Credit)</option>
+                            <option value="M" {{ old('query_type', $booking->query_type ?? '') === 'M' ? 'selected' : '' }}>New Booking(Miles)</option>
+                            <option value="UMNR" {{ old('query_type', $booking->query_type ?? '') === 'UMNR' ? 'selected' : '' }}>Unaccompanied Minor Reservation</option>
+                            <option value="CC" {{ old('query_type', $booking->query_type ?? '') === 'CC' ? 'selected' : '' }}>Cancel(Credit)</option>
+                            <option value="CR" {{ old('query_type', $booking->query_type ?? '') === 'CR' ? 'selected' : '' }}>Cancel(Refund)</option>
+                            <option value="CH" {{ old('query_type', $booking->query_type ?? '') === 'CH' ? 'selected' : '' }}>Change</option>
+                            <option value="U" {{ old('query_type', $booking->query_type ?? '') === 'U' ? 'selected' : '' }}>Upgrade</option>
+                            <option value="NMC" {{ old('query_type', $booking->query_type ?? '') === 'NMC' ? 'selected' : '' }}>Name Correction</option>
+                            <option value="S" {{ old('query_type', $booking->query_type ?? '') === 'S' ? 'selected' : '' }}>Seat Assignment</option>
+                            <option value="B" {{ old('query_type', $booking->query_type ?? '') === 'B' ? 'selected' : '' }}>Baggage Addition</option>
+                            <option value="CBP" {{ old('query_type', $booking->query_type ?? '') === 'CBP' ? 'selected' : '' }}>Change Bed Preference</option>
+                            <option value="AI" {{ old('query_type', $booking->query_type ?? '') === 'AI' ? 'selected' : '' }}>Infant Addition</option>
+                            <option value="AE" {{ old('query_type', $booking->query_type ?? '') === 'AE' ? 'selected' : '' }}>Adding Excursion</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Company Organisation</label>
-                         <select id="selected_company" name="selected_company" class="form-control">
-                            <option value="1">flydreamz</option>
-                            <option value="3">fareticketsllc</option>
-                            <option value="5">fareticketsus</option>
-                            <option value="6">cruiselineservice</option>
+                          <select id="selected_company" name="selected_company" class="form-control">
+                            <option value="1" {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>flydreamz</option>
+                            <option value="3" {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>fareticketsllc</option>
+                            <option value="5" {{ old('selected_company', $booking->selected_company ?? '') === '5' ? 'selected' : '' }}>fareticketsus</option>
+                            <option value="6" {{ old('selected_company', $booking->selected_company ?? '') === '6' ? 'selected' : '' }}>cruiselineservice</option>
                         </select>
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label"> Campaign</label>
                         <select class="form-control" name="pnrtype">
-                            <option value="">Select</option>
-                            <option value="Agency">Agency</option>
-                            <option value="Airline Mix">Airline Mix</option>
-                            <option value="Buffer Mix">Buffer Mix</option>
-                            <option value="Cruise">Cruise</option>
-                            <option value="International">International</option>
-                            <option value="LCC ">LCC </option>
-                            <option value="Major Mix">Major Mix</option>
-                            <option value="Premium Amtrak Bing Calls">Premium Amtrak Bing Calls</option>
-                            <option value="Pure AA">Pure AA</option>
-                            <option value="Spanish">Spanish</option>
-                        </select> 
+                            <option value="" {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select</option>
+                            <option value="Agency" {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>Agency</option>
+                            <option value="Airline Mix" {{ old('campaign', $booking->campaign ?? '') === 'Airline Mix' ? 'selected' : '' }}>Airline Mix</option>
+                            <option value="Buffer Mix" {{ old('campaign', $booking->campaign ?? '') === 'Buffer Mix' ? 'selected' : '' }}>Buffer Mix</option>
+                            <option value="Cruise" {{ old('campaign', $booking->campaign ?? '') === 'Cruise' ? 'selected' : '' }}>Cruise</option>
+                            <option value="International" {{ old('campaign', $booking->campaign ?? '') === 'International' ? 'selected' : '' }}>International</option>
+                            <option value="LCC" {{ old('campaign', $booking->campaign ?? '') === 'LCC' ? 'selected' : '' }}>LCC</option>
+                            <option value="Premium Amtrak Bing Calls" {{ old('campaign', $booking->campaign ?? '') === 'Premium Amtrak Bing Calls' ? 'selected' : '' }}>Premium Amtrak Bing Calls</option>
+                            <option value="Pure AA" {{ old('campaign', $booking->campaign ?? '') === 'Pure AA' ? 'selected' : '' }}>Pure AA</option>
+                            <option value="Spanish" {{ old('campaign', $booking->campaign ?? '') === 'Spanish' ? 'selected' : '' }}>Spanish</option>
+                        </select>
                     </div>
                     
-                    
-
-
 
                 </div>
             </div>
 
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs my-5" id="bookingTabs" role="tablist">
-   
 
-    <li class="nav-item" role="presentation" data-tab="Flight">
+
+ 
+
+    <li class="nav-item" role="presentation" data-tab="Flight" style="{{ in_array('Flight', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
         <a class="nav-link" id="flightbooking-tab" data-bs-toggle="tab" href="#flightbooking" role="tab" aria-controls="flightbooking" aria-selected="true">Flight Booking</a>
     </li>
-    <li class="nav-item" role="presentation" data-tab="Hotel">
+    <li class="nav-item" role="presentation" data-tab="Hotel" style="{{ in_array('Hotel', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
         <a class="nav-link" id="hotelbooking-tab" data-bs-toggle="tab" href="#hotelbooking" role="tab" aria-controls="hotelbooking" aria-selected="true">Hotel Booking</a>
     </li>
-    <li class="nav-item" role="presentation" data-tab="Cruise">
+    <li class="nav-item" role="presentation" data-tab="Cruise" style="{{ in_array('Cruise', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
         <a class="nav-link" id="cruisebooking-tab" data-bs-toggle="tab" href="#cruisebooking" role="tab" aria-controls="cruisebooking" aria-selected="true">Cruise Booking</a>
     </li>
-    <li class="nav-item" role="presentation" data-tab="Car">
+    <li class="nav-item" role="presentation" data-tab="Car" style="{{ in_array('Car', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
         <a class="nav-link" id="carbooking-tab" data-bs-toggle="tab" href="#carbooking" role="tab" aria-controls="carbooking" aria-selected="true">Car Booking</a>
     </li>
-    <li class="nav-item" role="presentation" data-tab="Train">
+    <li class="nav-item" role="presentation" data-tab="Train" style="{{ in_array('Train', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
         <a class="nav-link" id="trainbooking-tab" data-bs-toggle="tab" href="#trainbooking" role="tab" aria-controls="trainbooking" aria-selected="true">Train Booking</a>
     </li>
+
+
     <li class="nav-item" role="presentation">
         <a class="nav-link" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab" aria-controls="passenger" aria-selected="false">Passengers</a>
     </li>
@@ -275,6 +279,9 @@
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
+
+                                   
+
                                         <table id="flightTable">
                                             <thead>
                                                 <tr>
@@ -297,7 +304,41 @@
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="flightForms"></tbody>
+                                            <tbody id="flightForms">
+                                                @if($booking->travelFlight->isNotEmpty())
+                                                    @foreach($booking->travelFlight as $index => $flight)
+                                                        <tr class="flight-row" data-index="{{ $index }}">
+                                                            <td><span class="flight-title">{{ $index + 1 }}</span></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][direction]" value="{{ old("flight.$index.direction", $flight->direction) }}" placeholder="Direction"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][date]" value="{{ old("flight.$index.date", $flight->departure_date) }}"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][airlines_code]" value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}" placeholder="Airlines (Code)"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][flight_no]" value="{{ old("flight.$index.flight_no", $flight->flight_number) }}" placeholder="Flight No"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][cabin]" value="{{ old("flight.$index.cabin", $flight->cabin) }}" placeholder="Cabin"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][class_of_service]" value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}" placeholder="Class of Service"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][departure_airport]" value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}" placeholder="Departure Airport"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][departure_hrs]" value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}" placeholder="Hrs" min="0" max="23"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][departure_mm]" value="{{ old("flight.$index.departure_mm", $flight->departure_minutes) }}" placeholder="mm" min="0" max="59"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][arrival_airport]" value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}" placeholder="Arrival Airport"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_hrs]" value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}" placeholder="Hrs" min="0" max="23"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_mm]" value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}" placeholder="mm" min="0" max="59"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][duration]" value="{{ old("flight.$index.duration", $flight->duration) }}" placeholder="Duration"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][transit]" value="{{ old("flight.$index.transit", $flight->transit) }}" placeholder="Transit"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ old("flight.$index.arrival_date", $flight->arrival_date) }}"></td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-outline-danger delete-flight-btn">
+                                                                    <i class="ri ri-delete-bin-line"></i>
+                                                                </button>
+                                                                <!-- Hidden input to store flight ID for existing records -->
+                                                                <input type="hidden" name="flight[{{ $index }}][id]" value="{{ $flight->id }}">
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @else
+                                                    <tr id="noFlights">
+                                                        <td colspan="17" class="text-center">No flight details available. Click "Add Flight" to start.</td>
+                                                    </tr>
+                                                @endif
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
