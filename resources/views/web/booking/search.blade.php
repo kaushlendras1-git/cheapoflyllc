@@ -4,12 +4,77 @@
 <div class="container-xxl flex-grow-1 container-p-y">
   <div class="row gy-4">
 
- 
+    <!-- Filter Card -->
+    <div class="col-12">
+      <div class="card p-4 dark-header">
+        <h5 class="fw-bold mb-3 text-white">Bookings</h5>
+        <div class="d-flex flex-wrap gap-3 align-items-end">
+          <div>
+            <label class="form-label mb-1">Search By</label>
+            <select class="form-select">
+              <option selected>Select Criteria</option>
+              <option value="pnr">PNR</option>
+              <option value="agent">Agent</option>
+              <option value="email">Email</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label mb-1">Keyword</label>
+            <input type="text" class="form-control" placeholder="e.g. PNR / name / email">
+          </div>
+
+          <div>
+            <label class="form-label mb-1">Start Date</label>
+            <input type="date" class="form-control">
+          </div>
+
+          <div>
+            <label class="form-label mb-1">End Date</label>
+            <input type="date" class="form-control">
+          </div>
+
+          <div>
+            <label class="form-label mb-1">Booking Status</label>
+            <select class="form-select">
+              <option selected>Booking Status</option>
+              <option>Under Process</option>
+              <option>Completed</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label mb-1">Payment Status</label>
+            <select class="form-select">
+              <option selected>Payment Status</option>
+              <option>Paid</option>
+              <option>Pending</option>
+            </select>
+          </div>
+
+          <div class="ms-auto d-flex gap-2">
+            <!-- Search Button -->
+            <button type="button" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Search">
+              <i class="ri ri-search-line fs-5"></i> Search
+            </button>
+          
+            <!-- Add Button -->
+            <a href="{{route('booking.create')}}" type="button" class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
+              <i class="ri ri-add-circle-line fs-5"></i> Add
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Booking Table Card -->
     <div class="col-12">
       <div class="card p-4">
         <!-- Table -->
         <div class="booking-table-wrapper py-2">
+         @if($bookings)   
           <table class="table table-hover table-sm booking-table w-100 mb-0">
             <thead class="bg-dark text-white sticky-top">
               <tr>
@@ -59,7 +124,7 @@
           </table>
 
             {{ $bookings->links('vendor.pagination.bootstrap-5') }}
-
+        @endif
 
         </div>
       </div>

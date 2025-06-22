@@ -1266,14 +1266,44 @@
                     </ul>
                   </li>
 
-
+                  <!-- Layouts -->
                   <li class="menu-item">
-
-                    <a href="{{route('booking.index')}}" class="menu-link">
-                      <i class="menu-icon icon-base ri ri-table-line"></i>
-                      <div>Booking </div>
+                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+                      <i class="menu-icon icon-base ri ri-layout-2-line"></i>
+                      <div data-i18n="Booking">Booking</div>
                     </a>
+
+                    <ul class="menu-sub">
+                      <li class="menu-item">
+                        <a href="{{route('booking.index')}}" class="menu-link">
+                          <i class="menu-icon icon-base ri ri-layout-4-line"></i>
+                          <div data-i18n="Booking">Booking</div>
+                        </a>
+                      </li>
+                      
+                      <li class="menu-item">
+                        <a href="{{route('booking.search')}}" class="menu-link">
+                          <i class="menu-icon icon-base ri ri-layout-left-line"></i>
+                          <div data-i18n="Find Booking">Find Booking</div>
+                        </a>
+                      </li>
+
+                      <li class="menu-item">
+                        <a href="{{route('booking.add')}}" class="menu-link">
+                          <i class="menu-icon icon-base ri ri-layout-top-line"></i>
+                          <div data-i18n="Create Booking">Create Booking</div>
+                        </a>
+                      </li>
+
+                      <li class="menu-item">
+                        <a href="layouts-container.html" class="menu-link">
+                          <i class="menu-icon icon-base ri ri-layout-top-2-line"></i>
+                          <div data-i18n="Online Booking">Online Booking</div>
+                        </a>
+                      </li>
+                    </ul>
                   </li>
+
 
                   <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'call-logs') ? 'active' : '' }}">
                     <a href="{{route('call-logs.index')}}" class="menu-link">

@@ -40,6 +40,10 @@ Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])-
 Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
 
 Route::prefix('booking')->name('booking.')->group(function () {   
+    
+    Route::get('/add', [BookingFormController::class, 'add'])->name('add');
+    
+    Route::get('/search', [BookingFormController::class, 'search'])->name('search');
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
     Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
@@ -59,7 +63,7 @@ Route::prefix('booking')->name('booking.')->group(function () {
 
 
 
-Route::get('/add-booking', function () {return view('web.booking.add');})->name('booking.create');
+
 Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
 #Route::get('/booking', function () {return view('web.booking.index');})->name('booking');
 

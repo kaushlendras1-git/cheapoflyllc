@@ -13,9 +13,14 @@ use App\Models\TravelPricingDetail;
 use App\Models\TravelBookingRemark;
 use App\Models\TravelQualityFeedback;
 use App\Models\TravelScreenshot;
+use App\Models\TravelFlightDetail;
+use App\Models\TravelCarDetail;
+use App\Models\TravelCruiseDetail;
+use App\Models\TravelHotelDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
+use Carbon\Carbon;
 
 class BookingFormController extends Controller
 {   
@@ -30,16 +35,23 @@ class BookingFormController extends Controller
     public function index()
     {
         // Fetch paginated bookings, 15 records per page
-        $bookings = TravelBooking::paginate(15);
+        $bookings = TravelBooking::paginate(10);
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-
         return view('web.booking.index', compact('bookings','hashids'));
     }
     
+    public function search(){
+        $bookings = TravelBooking::paginate(10);
+        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+        return view('web.booking.search', compact('bookings','hashids'));
+    }
 
 
     public function store(Request $request)
-    {
+    {   
+
+        //dd($request->all());
+
         // Validate the request data
         $validator = Validator::make($request->all(), [
             'pnr' => 'required|string|max:255',
@@ -55,7 +67,7 @@ class BookingFormController extends Controller
             'reservation_source' => 'nullable|string|max:255',
             'descriptor' => 'nullable|string|max:255',
             'amadeus_sabre_pnr' => 'nullable|string|max:255',
-           'sector_details.*' => 'required|file|image|max:2048',
+            'sector_details.*' => 'required|file|image|max:2048',
 
           
             // 'booking-type' => 'required|array',
@@ -109,19 +121,19 @@ class BookingFormController extends Controller
             return redirect()->back()->withErrors($validator)->withInput()->withFragment('booking-failed');
         }
 
-      dd($request->file('sector_details'));
+      //dd($request->file('sector_details'));
 
         if ($request->hasFile('sector_details')) {
-    foreach ($request->file('sector_details') as $file) {
-        $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('uploads/sector_details'), $fileName);
+            foreach ($request->file('sector_details') as $file) {
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/sector_details'), $fileName);
 
-        TravelSectorDetail::create([
-            'booking_id' => $booking->id,
-            'sector_type' => $fileName,
-        ]);
-    }
-}
+                TravelSectorDetail::create([
+                    'booking_id' => $booking->id,
+                    'sector_type' => $fileName,
+                ]);
+            }
+        }
 
 
         // try {
@@ -130,6 +142,7 @@ class BookingFormController extends Controller
             // Create Travel Booking
             $bookingData = $request->only([
                 'pnr',
+                'campaign',
                 'hotel_ref',
                 'cruise_ref',
                 'name',
@@ -143,6 +156,9 @@ class BookingFormController extends Controller
                 'descriptor',
                 'amadeus_sabre_pnr',
             ]);
+
+            $campaign = substr(strtoupper($request->input('campaign')), 0, 3);
+            $bookingData['pnr'] = $campaign . $request->input('pnr');
             $booking = TravelBooking::create($bookingData);
 
             // Create Booking Types
@@ -154,7 +170,45 @@ class BookingFormController extends Controller
             }
 
 
-      
+           foreach ($data['flight'] ?? [] as $flight) {
+                // Check if all fields in $flight are empty
+                if ($this->allFieldsEmpty($flight)) {
+                    continue; // Skip this iteration if all fields are empty
+                }
+
+                $flight['booking_id'] = $booking->id;
+                TravelFlightDetail::create($flight);
+            }
+
+            // Save flight details
+                foreach ($request->input('flight', []) as $flightData) {
+                    $flightData['booking_id'] = $booking->id;
+                    TravelFlightDetail::create($flightData);
+                }
+
+                // Save car details
+                foreach ($request->input('car', []) as $carData) {
+                    $carData['booking_id'] = $booking->id;
+                    TravelCarDetail::create($carData);
+                }
+
+                // Save cruise details
+                foreach ($request->input('cruise', []) as $cruiseData) {
+                    $cruiseData['booking_id'] = $booking->id;
+                    TravelCruiseDetail::create($cruiseData);
+                }
+
+                // Save hotel details
+                foreach ($request->input('hotel', []) as $hotelData) {
+                    $hotelData['booking_id'] = $booking->id;
+                    TravelHotelDetail::create($hotelData);
+                }
+
+                // Save billing details
+                foreach ($request->input('billing', []) as $billingData) {
+                    $billingData['booking_id'] = $booking->id;
+                    TravelBillingDetail::create($billingData);
+                }
 
             // Create Passengers
             foreach ($request->input('passenger', []) as $passengerData) {
@@ -406,7 +460,6 @@ class BookingFormController extends Controller
     }
 
     public function show($hash)
-
     {
         // Decrypt the hash to get the original ID
         $id = $this->hashids->decode($hash);
@@ -430,6 +483,37 @@ class BookingFormController extends Controller
 
 
         return view('web.booking.show', compact('booking','hashids'));
+    }
+
+    public function add(){
+        $day = date('d'); // Day of the month (e.g., 21)
+        $month = date('m'); // Month (e.g., 06)
+        $startOfDay = strtotime('today'); // Timestamp for the start of the day
+        $currentTime = time(); // Current timestamp
+        $secondsSinceStartOfDay = $currentTime - $startOfDay; // Seconds since start of the day
+
+        // Limit seconds to 4 digits
+        $formattedSeconds = str_pad($secondsSinceStartOfDay % 10000, 4, '0', STR_PAD_LEFT);
+
+        // Count today's bookings
+        $todayBookingCount = DB::table('travel_bookings')
+            ->whereDate('created_at', now()->toDateString())
+            ->count();
+
+        // Generate the serial number
+        $pnr = $day . $month . $formattedSeconds . str_pad($todayBookingCount + 1, 4, '0', STR_PAD_LEFT);
+
+        return view('web.booking.add', compact('pnr'));
+    }
+
+    protected function allFieldsEmpty(array $fields): bool
+    {
+        foreach ($fields as $key => $value) {
+            if (!is_null($value) && trim((string) $value) !== '') {
+                return false; // At least one field is not empty
+            }
+        }
+        return true; // All fields are empty
     }
     
 
