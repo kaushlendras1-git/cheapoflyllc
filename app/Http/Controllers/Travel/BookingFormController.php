@@ -21,13 +21,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
 use Carbon\Carbon;
+use App\Traits\Loggable;
+use Illuminate\Support\Facades\Log;
 
 class BookingFormController extends Controller
 {   
     protected $hashids;
     protected $logController;
 
-    public function __construct(LogController $logController)
+    public function __construct()
     {
         // Initialize Hashids with salt and length from config
         $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
@@ -409,7 +411,8 @@ class BookingFormController extends Controller
         try {
             DB::beginTransaction();
 
-            // Update TravelBooking
+          
+           // Update TravelBooking
             $bookingData = $request->only([
                 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
@@ -419,13 +422,44 @@ class BookingFormController extends Controller
             $campaign = substr(strtoupper($request->input('campaign', '')), 0, 3);
             $bookingData['pnr'] = $campaign . $request->input('pnr');
 
+            // Log changes
             foreach ($bookingData as $field => $newValue) {
                 $oldValue = $booking->$field;
+                Log::debug('Checking field change', [
+                    'field' => $field,
+                    'old_value' => $oldValue,
+                    'new_value' => $newValue,
+                    'changed' => $oldValue != $newValue,
+                ]);
                 if ($oldValue != $newValue) {
-                    $booking->logChange($booking->id, 'TravelBooking', null, $field, $oldValue, $newValue);
+                    Log::info('Logging change for field', [
+                        'field' => $field,
+                        'booking_id' => $booking->id,
+                        'old_value' => $oldValue,
+                        'new_value' => $newValue,
+                    ]);
+                    if (in_array('App\Traits\Loggable', class_uses($booking))) {
+                        $result = $booking->logChange($booking->id, 'TravelBooking', null, $field, $oldValue, $newValue);
+                        Log::debug('logChange result', ['result' => $result]);
+                    } else {
+                        Log::warning('Loggable trait not loaded for TravelBooking', [
+                            'booking_id' => $booking->id,
+                            'traits' => class_uses($booking),
+                        ]);
+                    }
                 }
             }
+
+            // Perform the update
             $booking->update($bookingData);
+
+            // Get and print the query log
+            $queries = DB::getQueryLog();
+            \Log::info('SQL Query for TravelBooking update:', $queries);
+            // Disable query logging
+            DB::disableQueryLog();
+
+
 
             // Update or Create Booking Types
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();

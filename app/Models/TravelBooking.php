@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TravelBooking extends Model
 {
     use HasFactory, SoftDeletes;
-
     protected $table = 'travel_bookings';
 
     protected $fillable = [
@@ -27,6 +26,7 @@ class TravelBooking extends Model
         'descriptor',
         'amadeus_sabre_pnr',
         'created_by',
+        'airlinepnry',
     ];
 
     protected $casts = [
