@@ -17,22 +17,27 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\CallBackController;
+#use App\Http\Controllers\CallBackController;
 use App\Http\Controllers\FollowUpController;
+use App\Http\Controllers\NotificationController;
 
-use App\Http\Controllers\Travel\TravelBookingController;
-use App\Http\Controllers\Travel\TravelBookingTypeController;
-use App\Http\Controllers\Travel\TravelSectorDetailController;
-use App\Http\Controllers\Travel\TravelPassengerController;
-use App\Http\Controllers\Travel\TravelBillingDetailController;
-use App\Http\Controllers\Travel\TravelPricingDetailController;
-use App\Http\Controllers\Travel\TravelBookingRemarkController;
-use App\Http\Controllers\Travel\TravelQualityFeedbackController;
-use App\Http\Controllers\Travel\TravelScreenshotController;
+// use App\Http\Controllers\Travel\TravelBookingController;
+// use App\Http\Controllers\Travel\TravelBookingTypeController;
+// use App\Http\Controllers\Travel\TravelSectorDetailController;
+// use App\Http\Controllers\Travel\TravelPassengerController;
+// use App\Http\Controllers\Travel\TravelBillingDetailController;
+// use App\Http\Controllers\Travel\TravelPricingDetailController;
+// use App\Http\Controllers\Travel\TravelBookingRemarkController;
+// use App\Http\Controllers\Travel\TravelQualityFeedbackController;
+// use App\Http\Controllers\Travel\TravelScreenshotController;
 
 use App\Http\Controllers\Travel\BookingFormController;
 use App\Http\Controllers\Auth\AuthEmailController;
 use App\Http\Controllers\Auth\MailHistoryController;
+
+
+Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
+Route::post('/update-device-token', [NotificationController::class, 'updateDeviceToken']);
 
 
 /**Booking **/
@@ -80,26 +85,26 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // <a href="{{ route('auth-email.index', ['id' => $id]) }}">Link Text</a>
 
-Route::prefix('travel')->group(function () {
-    Route::post('/bookings', [TravelBookingController::class, 'add']);
-    Route::put('/bookings/{id}', [TravelBookingController::class, 'update']);
-    Route::post('/booking-types', [TravelBookingTypeController::class, 'add']);
-    Route::put('/booking-types/{id}', [TravelBookingTypeController::class, 'update']);
-    Route::post('/sector-details', [TravelSectorDetailController::class, 'add']);
-    Route::put('/sector-details/{id}', [TravelSectorDetailController::class, 'update']);
-    Route::post('/passengers', [TravelPassengerController::class, 'add']);
-    Route::put('/passengers/{id}', [TravelPassengerController::class, 'update']);
-    Route::post('/billing-details', [TravelBillingDetailController::class, 'add']);
-    Route::put('/billing-details/{id}', [TravelBillingDetailController::class, 'update']);
-    Route::post('/pricing-details', [TravelPricingDetailController::class, 'add']);
-    Route::put('/pricing-details/{id}', [TravelPricingDetailController::class, 'update']);
-    Route::post('/booking-remarks', [TravelBookingRemarkController::class, 'add']);
-    Route::put('/booking-remarks/{id}', [TravelBookingRemarkController::class, 'update']);
-    Route::post('/quality-feedback', [TravelQualityFeedbackController::class, 'add']);
-    Route::put('/quality-feedback/{id}', [TravelQualityFeedbackController::class, 'update']);
-    Route::post('/screenshots', [TravelScreenshotController::class, 'add']);
-    Route::put('/screenshots/{id}', [TravelScreenshotController::class, 'update']);
-});
+// Route::prefix('travel')->group(function () {
+//     Route::post('/bookings', [TravelBookingController::class, 'add']);
+//     Route::put('/bookings/{id}', [TravelBookingController::class, 'update']);
+//     Route::post('/booking-types', [TravelBookingTypeController::class, 'add']);
+//     Route::put('/booking-types/{id}', [TravelBookingTypeController::class, 'update']);
+//     Route::post('/sector-details', [TravelSectorDetailController::class, 'add']);
+//     Route::put('/sector-details/{id}', [TravelSectorDetailController::class, 'update']);
+//     Route::post('/passengers', [TravelPassengerController::class, 'add']);
+//     Route::put('/passengers/{id}', [TravelPassengerController::class, 'update']);
+//     Route::post('/billing-details', [TravelBillingDetailController::class, 'add']);
+//     Route::put('/billing-details/{id}', [TravelBillingDetailController::class, 'update']);
+//     Route::post('/pricing-details', [TravelPricingDetailController::class, 'add']);
+//     Route::put('/pricing-details/{id}', [TravelPricingDetailController::class, 'update']);
+//     Route::post('/booking-remarks', [TravelBookingRemarkController::class, 'add']);
+//     Route::put('/booking-remarks/{id}', [TravelBookingRemarkController::class, 'update']);
+//     Route::post('/quality-feedback', [TravelQualityFeedbackController::class, 'add']);
+//     Route::put('/quality-feedback/{id}', [TravelQualityFeedbackController::class, 'update']);
+//     Route::post('/screenshots', [TravelScreenshotController::class, 'add']);
+//     Route::put('/screenshots/{id}', [TravelScreenshotController::class, 'update']);
+// });
 
 
 Route::middleware('auth')->group(function () {
@@ -127,7 +132,7 @@ Route::prefix('masters')->group(function () {
     Route::resource('companies', CompaniesController::class);
 });
 Route::resource('emails', EmailTemplateController::class);
-Route::resource('call-back', CallBackController::class);
+#Route::resource('call-back', CallBackController::class);
 Route::resource('follow-up', FollowUpController::class);
 
 

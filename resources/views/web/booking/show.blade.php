@@ -26,35 +26,36 @@
                 </div>
             </div>
             
-            @include('web.layouts.flash')
+              @include('web.layouts.flash')
 
                @php
                     $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
-                
+
+                      
             <!-- Top Bar -->
             <div class="card p-3 mt-2">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                     
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <div class="form-check form-check-inline">
-                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-flight" value="Flight" {{ in_array('Flight', old('booking-type', ['Flight'])) ? 'checked' : '' }}>
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-flight" value="Flight" {{ in_array('Flight', $bookingTypes) ? 'checked' : '' }}>
                             <label class="form-check-label" for="booking-flight">Flight</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-hotel" value="Hotel" {{ in_array('Hotel', old('booking-type', [])) ? 'checked' : '' }}>
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-hotel" value="Hotel" {{ in_array('Hotel', $bookingTypes) ? 'checked' : '' }}>
                             <label class="form-check-label" for="booking-hotel">Hotel</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-cruise" value="Cruise" {{ in_array('Cruise', old('booking-type', [])) ? 'checked' : '' }}>
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-cruise" value="Cruise" {{ in_array('Cruise', $bookingTypes) ? 'checked' : '' }}>
                             <label class="form-check-label" for="booking-cruise">Cruise</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-car" value="Car" {{ in_array('Car', old('booking-type', [])) ? 'checked' : '' }}>
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-car" value="Car" {{ in_array('Car', $bookingTypes) ? 'checked' : '' }}>
                             <label class="form-check-label" for="booking-car">Car</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-train" value="Train" {{ in_array('Train', old('booking-type', [])) ? 'checked' : '' }}>
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-train" value="Train" {{ in_array('Train', $bookingTypes) ? 'checked' : '' }}>
                             <label class="form-check-label" for="booking-train">Train</label>
                         </div>
                     </div>
@@ -359,27 +360,56 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
 
-
-<table id="carTable">
-    <thead>
-        <tr>
-            <th>S.No</th>
-            <th>Car Rental Provider</th>
-            <th>Car Type</th>
-            <th>Pick-up Location</th>
-            <th>Drop-off Location</th>
-            <th>Pick-up Date</th>
-            <th>Pick-up Time</th>
-            <th>Drop-off Date</th>
-            <th>Drop-off Time</th>
-            <th>Confirmation Number</th>
-            <th>Remarks</th>
-            <th>Rental Provider's Address</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="carForms"></tbody>
-</table>
+                                        <!-- Car Table -->
+                                        <table id="carTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Car Rental Provider</th>
+                                                    <th>Car Type</th>
+                                                    <th>Pick-up Location</th>
+                                                    <th>Drop-off Location</th>
+                                                    <th>Pick-up Date</th>
+                                                    <th>Pick-up Time</th>
+                                                    <th>Drop-off Date</th>
+                                                    <th>Drop-off Time</th>
+                                                    <th>Confirmation Number</th>
+                                                    <th>Remarks</th>
+                                                    <th>Rental Provider's Address</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="carForms">
+                                                @if($booking->travelCar->isNotEmpty())
+                                                    @foreach($booking->travelCar as $index => $car)
+                                                        <tr class="car-row" data-index="{{ $index }}">
+                                                            <td><span class="car-title">{{ $index + 1 }}</span></td>
+                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][car_rental_provider]" value="{{ old("car.$index.car_rental_provider", $car->car_rental_provider) }}" placeholder="Car Rental Provider"></td>
+                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][car_type]" value="{{ old("car.$index.car_type", $car->car_type) }}" placeholder="Car Type"></td>
+                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][pickup_location]" value="{{ old("car.$index.pickup_location", $car->pickup_location) }}" placeholder="Pick-up Location"></td>
+                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][dropoff_location]" value="{{ old("car.$index.dropoff_location", $car->dropoff_location) }}" placeholder="Drop-off Location"></td>
+                                                            <td><input type="date" class="form-control" name="car[{{ $index }}][pickup_date]" value="{{ old("car.$index.pickup_date", $car->pickup_date) }}"></td>
+                                                            <td><input type="time" class="form-control" name="car[{{ $index }}][pickup_time]" value="{{ old("car.$index.pickup_time", $car->pickup_time) }}"></td>
+                                                            <td><input type="date" class="form-control" name="car[{{ $index }}][dropoff_date]" value="{{ old("car.$index.dropoff_date", $car->dropoff_date) }}"></td>
+                                                            <td><input type="time" class="form-control" name="car[{{ $index }}][dropoff_time]" value="{{ old("car.$index.dropoff_time", $car->dropoff_time) }}"></td>
+                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][confirmation_number]" value="{{ old("car.$index.confirmation_number", $car->confirmation_number) }}" placeholder="Confirmation Number"></td>
+                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][remarks]" value="{{ old("car.$index.remarks", $car->remarks) }}" placeholder="Remarks"></td>
+                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][rental_provider_address]" value="{{ old("car.$index.rental_provider_address", $car->rental_provider_address) }}" placeholder="Rental Provider's Address"></td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-outline-danger delete-car-btn">
+                                                                    <i class="ri ri-delete-bin-line"></i>
+                                                                </button>
+                                                                <input type="hidden" name="car[{{ $index }}][id]" value="{{ $car->id }}">
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @else
+                                                    <tr id="noCars">
+                                                        <td colspan="13" class="text-center">No car rental details available. Click "Add Car" to start.</td>
+                                                    </tr>
+                                                @endif
+                                            </tbody>
+                                        </table>
 
 
 
@@ -390,16 +420,9 @@
                             </div>
                     </div>
                 </div>
-
-
-
         <!------------------------ End Car Booking Details ------------------------------>
 
-
-
-
-                <!------------------------ Cruise Booking Details ------------------------------>
-
+         <!------------------------ Cruise Booking Details ------------------------------>
                 <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
                     <div class="card p-4">
                             <div class="d-flex justify-content-between align-items-center">
@@ -409,35 +432,62 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
 
-
-
-                                    <table id="cruiseTable">
-    <thead>
-        <tr>
-            <th>S.No</th>
-            <th>Date</th>
-            <th>Cruise Line</th>
-            <th>Name of the Ship</th>
-            <th>Category</th>
-            <th>Stateroom</th>
-            <th>Departure Port</th>
-            <th>Departure Date</th>
-            <th>Hrs</th>
-            <th>mm</th>
-            <th>Arrival Port</th>
-            <th>Arrival Date</th>
-            <th>Hrs</th>
-            <th>mm</th>
-            <th>Remarks</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="cruiseForms"></tbody>
-</table>
-
-
-
-
+                                        <!-- Cruise Table -->
+                                        <table id="cruiseTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Date</th>
+                                                    <th>Cruise Line</th>
+                                                    <th>Name of the Ship</th>
+                                                    <th>Category</th>
+                                                    <th>Stateroom</th>
+                                                    <th>Departure Port</th>
+                                                    <th>Departure Date</th>
+                                                    <th>Hrs</th>
+                                                    <th>mm</th>
+                                                    <th>Arrival Port</th>
+                                                    <th>Arrival Date</th>
+                                                    <th>Hrs</th>
+                                                    <th>mm</th>
+                                                    <th>Remarks</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="cruiseForms">
+                                                @if($booking->travelCruise->isNotEmpty())
+                                                    @foreach($booking->travelCruise as $index => $cruise)
+                                                        <tr class="cruise-row" data-index="{{ $index }}">
+                                                            <td><span class="cruise-title">{{ $index + 1 }}</span></td>
+                                                            <td><input type="date" class="form-control" name="cruise[{{ $index }}][date]" value="{{ old("cruise.$index.date", $cruise->date) }}"></td>
+                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][cruise_line]" value="{{ old("cruise.$index.cruise_line", $cruise->cruise_line) }}" placeholder="Cruise Line"></td>
+                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][ship_name]" value="{{ old("cruise.$index.ship_name", $cruise->ship_name) }}" placeholder="Name of the Ship"></td>
+                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][category]" value="{{ old("cruise.$index.category", $cruise->category) }}" placeholder="Category"></td>
+                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][stateroom]" value="{{ old("cruise.$index.stateroom", $cruise->stateroom) }}" placeholder="Stateroom"></td>
+                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][departure_port]" value="{{ old("cruise.$index.departure_port", $cruise->departure_port) }}" placeholder="Departure Port"></td>
+                                                            <td><input type="date" class="form-control" name="cruise[{{ $index }}][departure_date]" value="{{ old("cruise.$index.departure_date", $cruise->departure_date) }}"></td>
+                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][departure_hrs]" value="{{ old("cruise.$index.departure_hrs", $cruise->departure_hrs) }}" placeholder="Hrs" min="0" max="23"></td>
+                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][departure_mm]" value="{{ old("cruise.$index.departure_mm", $cruise->departure_mm) }}" placeholder="mm" min="0" max="59"></td>
+                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][arrival_port]" value="{{ old("cruise.$index.arrival_port", $cruise->arrival_port) }}" placeholder="Arrival Port"></td>
+                                                            <td><input type="date" class="form-control" name="cruise[{{ $index }}][arrival_date]" value="{{ old("cruise.$index.arrival_date", $cruise->arrival_date) }}"></td>
+                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][arrival_hrs]" value="{{ old("cruise.$index.arrival_hrs", $cruise->arrival_hrs) }}" placeholder="Hrs" min="0" max="23"></td>
+                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][arrival_mm]" value="{{ old("cruise.$index.arrival_mm", $cruise->arrival_mm) }}" placeholder="mm" min="0" max="59"></td>
+                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][remarks]" value="{{ old("cruise.$index.remarks", $cruise->remarks) }}" placeholder="Remarks"></td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-outline-danger delete-cruise-btn">
+                                                                    <i class="ri ri-delete-bin-line"></i>
+                                                                </button>
+                                                                <input type="hidden" name="cruise[{{ $index }}][id]" value="{{ $cruise->id }}">
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @else
+                                                    <tr id="noCruises">
+                                                        <td colspan="16" class="text-center">No cruise details available. Click "Add Cruise" to start.</td>
+                                                    </tr>
+                                                @endif
+                                            </tbody>
+                                        </table>
 
                                     </div>
                                 </div>
@@ -461,27 +511,50 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
 
-<table id="hotelTable">
-    <thead>
-        <tr>
-            <th>S.No</th>
-            <th>Hotel Name</th>
-            <th>Room Category</th>
-            <th>Check-in Date</th>
-            <th>Check-out Date</th>
-            <th>No. Of Rooms</th>
-            <th>Confirmation Number</th>
-            <th>Hotel Address</th>
-            <th>Remarks</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="hotelForms"></tbody>
-</table>
-
-
-
-
+                                    <!-- Hotel Table -->
+                                <table id="hotelTable">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Hotel Name</th>
+                                            <th>Room Category</th>
+                                            <th>Check-in Date</th>
+                                            <th>Check-out Date</th>
+                                            <th>No. Of Rooms</th>
+                                            <th>Confirmation Number</th>
+                                            <th>Hotel Address</th>
+                                            <th>Remarks</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="hotelForms">
+                                        @if($booking->travelHotel->isNotEmpty())
+                                            @foreach($booking->travelHotel as $index => $hotel)
+                                                <tr class="hotel-row" data-index="{{ $index }}">
+                                                    <td><span class="hotel-title">{{ $index + 1 }}</span></td>
+                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][hotel_name]" value="{{ old("hotel.$index.hotel_name", $hotel->hotel_name) }}" placeholder="Hotel Name"></td>
+                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][room_category]" value="{{ old("hotel.$index.room_category", $hotel->room_category) }}" placeholder="Room Category"></td>
+                                                    <td><input type="date" class="form-control" name="hotel[{{ $index }}][checkin_date]" value="{{ old("hotel.$index.checkin_date", $hotel->checkin_date) }}"></td>
+                                                    <td><input type="date" class="form-control" name="hotel[{{ $index }}][checkout_date]" value="{{ old("hotel.$index.checkout_date", $hotel->checkout_date) }}"></td>
+                                                    <td><input type="number" class="form-control" name="hotel[{{ $index }}][no_of_rooms]" value="{{ old("hotel.$index.no_of_rooms", $hotel->no_of_rooms) }}" placeholder="No. Of Rooms" min="1"></td>
+                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][confirmation_number]" value="{{ old("hotel.$index.confirmation_number", $hotel->confirmation_number) }}" placeholder="Confirmation Number"></td>
+                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][hotel_address]" value="{{ old("hotel.$index.hotel_address", $hotel->hotel_address) }}" placeholder="Hotel Address"></td>
+                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][remarks]" value="{{ old("hotel.$index.remarks", $hotel->remarks) }}" placeholder="Remarks"></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-outline-danger delete-hotel-btn">
+                                                            <i class="ri ri-delete-bin-line"></i>
+                                                        </button>
+                                                        <input type="hidden" name="hotel[{{ $index }}][id]" value="{{ $hotel->id }}">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr id="noHotels">
+                                                <td colspan="10" class="text-center">No hotel details available. Click "Add Hotel" to start.</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
 
                                     </div>
                                 </div>
@@ -510,68 +583,77 @@
         
  
       <!----------------------------------------Passeenger-------------------------------------------------->
-<table class="passenger-table">
-    <thead>
-        <tr>
-           <th>S.No</th>
-            <th>Type</th>
-            <th>Gender</th>
-            <th>Title</th>
-            <th>First Name</th>
-            <th>Middle Name</th>
-            <th>Last Name</th>
-            <th>DOB</th>
-            <th>Seat</th>
-            <th>Credit Note</th>
-            <th>E-Ticket</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="passengerForms">
-        <tr class="passenger-form" data-index="0">
-            <td><span class="billing-card-title"> 1</span></td>
-            <td><select class="form-control" name="passenger[0][passenger_type]">
-                    <option value="">Select</option>
-                    <option value="Adult" {{ old('passenger.0.passenger_type') === 'Adult' ? 'selected' : '' }}>Adult</option>
-                    <option value="Child" {{ old('passenger.0.passenger_type') === 'Child' ? 'selected' : '' }}>Child</option>
-                    <option value="Infant" {{ old('passenger.0.passenger_type') === 'Infant' ? 'selected' : '' }}>Infant</option>
-                    <option value="Seat Infant" {{ old('passenger.0.passenger_type') === 'Seat Infant' ? 'selected' : '' }}>Seat Infant</option>
-                    <option value="Lap Infant" {{ old('passenger.0.passenger_type') === 'Lap Infant' ? 'selected' : '' }}>Lap Infant</option>
-                </select>
-            </td>
-            <td>
-               <select class="form-control" name="passenger[0][gender]">
-                    <option value="">Select</option>
-                    <option value="Male" {{ old('passenger.0.gender', 'Male') === 'Male' ? 'selected' : '' }}>Male</option>
-                    <option value="Female" {{ old('passenger.0.gender') === 'Female' ? 'selected' : '' }}>Female</option>
-                </select>
-            </td>
-            <td>
-                <select class="form-control" name="passenger[0][title]">
-                    <option value="">Select</option>
-                    <option value="Mr" {{ old('passenger.0.title', 'Ms') === 'Mr' ? 'selected' : '' }}>Mr</option>
-                    <option value="Mrs" {{ old('passenger.0.title', 'Ms') === 'Mrs' ? 'selected' : '' }}>Mrs</option>
-                    <option value="Ms" {{ old('passenger.0.title', 'Ms') === 'Ms' ? 'selected' : '' }}>Ms</option>
-                    <option value="Master" {{ old('passenger.0.title', 'Ms') === 'Master' ? 'selected' : '' }}>Master</option>
-                    <option value="Miss" {{ old('passenger.0.title', 'Ms') === 'Miss' ? 'selected' : '' }}>Miss</option>
-                </select>
-            </td>
-           
-            <td><input type="text" class="form-control" name="passenger[0][first_name]" placeholder="First Name"></td>
-            <td><input type="text" class="form-control" name="passenger[0][middle_name]" placeholder="Middle Name"></td>
-            <td><input type="text" class="form-control" name="passenger[0][last_name]" placeholder="Last Name"></td>
-            <td><input type="date" class="form-control" name="passenger[0][dob]" ></td>
-            <td><input type="text" class="form-control" name="passenger[0][seat_number]" placeholder="Seat"></td>
-            <td><input type="number" class="form-control" name="passenger[0][credit_note]" placeholder="0" step="0.01"></td>
-            <td><input type="text" class="form-control" name="passenger[0][e_ticket_number]" placeholder="E Ticket"></td>
-            <td>
-                <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
-                    <i class="icon-base ri ri-delete-bin-2-line"></i> 
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                <table class="passenger-table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Type</th>
+                            <th>Gender</th>
+                            <th>Title</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>DOB</th>
+                            <th>Seat</th>
+                            <th>Credit Note</th>
+                            <th>E-Ticket</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="passengerForms">
+                        @if($booking->passengers->isNotEmpty())
+                            @foreach($booking->passengers as $index => $passenger)
+                                <tr class="passenger-form" data-index="{{ $index }}">
+                                    <td><span class="billing-card-title">{{ $index + 1 }}</span></td>
+                                    <td>
+                                        <select class="form-control" name="passenger[{{ $index }}][passenger_type]">
+                                            <option value="">Select</option>
+                                            <option value="Adult" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Adult' ? 'selected' : '' }}>Adult</option>
+                                            <option value="Child" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Child' ? 'selected' : '' }}>Child</option>
+                                            <option value="Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Infant' ? 'selected' : '' }}>Infant</option>
+                                            <option value="Seat Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Seat Infant' ? 'selected' : '' }}>Seat Infant</option>
+                                            <option value="Lap Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Lap Infant' ? 'selected' : '' }}>Lap Infant</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="passenger[{{ $index }}][gender]">
+                                            <option value="">Select</option>
+                                            <option value="Male" {{ old("passenger.$index.gender", $passenger->gender) === 'Male' ? 'selected' : '' }}>Male</option>
+                                            <option value="Female" {{ old("passenger.$index.gender", $passenger->gender) === 'Female' ? 'selected' : '' }}>Female</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="passenger[{{ $index }}][title]">
+                                            <option value="">Select</option>
+                                            <option value="Mr" {{ old("passenger.$index.title", $passenger->title) === 'Mr' ? 'selected' : '' }}>Mr</option>
+                                            <option value="Mrs" {{ old("passenger.$index.title", $passenger->title) === 'Mrs' ? 'selected' : '' }}>Mrs</option>
+                                            <option value="Ms" {{ old("passenger.$index.title", $passenger->title) === 'Ms' ? 'selected' : '' }}>Ms</option>
+                                            <option value="Master" {{ old("passenger.$index.title", $passenger->title) === 'Master' ? 'selected' : '' }}>Master</option>
+                                            <option value="Miss" {{ old("passenger.$index.title", $passenger->title) === 'Miss' ? 'selected' : '' }}>Miss</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][first_name]" value="{{ old("passenger.$index.first_name", $passenger->first_name) }}" placeholder="First Name" required></td>
+                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][middle_name]" value="{{ old("passenger.$index.middle_name", $passenger->middle_name) }}" placeholder="Middle Name"></td>
+                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][last_name]" value="{{ old("passenger.$index.last_name", $passenger->last_name) }}" placeholder="Last Name" required></td>
+                                    <td><input type="date" class="form-control" name="passenger[{{ $index }}][dob]" value="{{ old("passenger.$index.dob", $passenger->dob) }}" required></td>
+                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][seat_number]" value="{{ old("passenger.$index.seat_number", $passenger->seat_number) }}" placeholder="Seat"></td>
+                                    <td><input type="number" class="form-control" name="passenger[{{ $index }}][credit_note]" value="{{ old("passenger.$index.credit_note", $passenger->credit_note) }}" placeholder="0" step="0.01" min="0"></td>
+                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][e_ticket_number]" value="{{ old("passenger.$index.e_ticket_number", $passenger->e_ticket_number) }}" placeholder="E Ticket"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-passenger" aria-label="Delete passenger">
+                                            <i class="ri ri-delete-bin-line"></i>
+                                        </button>
+                                        <input type="hidden" name="passenger[{{ $index }}][id]" value="{{ $passenger->id }}">
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr id="noPassengers">
+                                <td colspan="12" class="text-center">No passenger details available. Click "Add Passenger" to start.</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
 
 
         <!------------------------------------------------------------------------------------------>
@@ -597,122 +679,109 @@
                 <div class="excel-like-container">
                     
                     <!--------------------------------------Billing Details ---------------------------->
-                    <table class="billing-table">
-    <thead>
-        <tr>
-            <th>S.No</th>
-            <th>Card Type</th>
-            <th>CC Number</th>
-            <th>CC Holder Name</th>
-            <th>MM</th>
-            <th>YYYY</th>
-            <th>CVV</th>
-            <th>Address</th>
-            <th>Email</th>
-            <th>Contact No</th>
-            <th>City</th>
-            <th>Country</th>
-            <th>State</th>
-            <th>ZIP Code</th>
-            <th>Currency</th>
-            <th>Amount</th>
-            <th>Active</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="billingForms">
-        <tr class="billing-card" data-index="0">
-            <td><h6 class="billing-card-title mb-0"> 1</h6></td>
-            <td>
-               <select class="form-control" name="billing[0][card_type]">
-                    <option value="">Select</option>
-                    <option value="VISA" {{ old('billing.0.card_type', 'VISA') === 'VISA' ? 'selected' : '' }}>VISA</option>
-                    <option value="Mastercard" {{ old('billing.0.card_type') === 'Mastercard' ? 'selected' : '' }}>Mastercard</option>
-                    <option value="AMEX" {{ old('billing.0.card_type') === 'AMEX' ? 'selected' : '' }}>AMEX</option>
-                    <option value="DISCOVER" {{ old('billing.0.card_type') === 'DISCOVER' ? 'selected' : '' }}>DISCOVER</option>
-                </select>
-            </td>
-
-            <td><input type="text" class="form-control" placeholder="CC Number" name="billing[0][cc_number]" ></td>
-            <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[0][cc_holder_name]" ></td>
-            
-            <td>
-                <select class="form-control" name="billing[0][exp_month]">
-                    <option value="">MM</option>
-                    <option value="01" {{ old('billing.0.exp_month', '01') === '01' ? 'selected' : '' }}>01</option>
-                    <option value="02" {{ old('billing.0.exp_month') === '02' ? 'selected' : '' }}>02</option>
-                    <option value="03" {{ old('billing.0.exp_month') === '03' ? 'selected' : '' }}>03</option>
-                    <option value="04" {{ old('billing.0.exp_month') === '04' ? 'selected' : '' }}>04</option>
-                    <option value="05" {{ old('billing.0.exp_month') === '05' ? 'selected' : '' }}>05</option>
-                    <option value="06" {{ old('billing.0.exp_month') === '06' ? 'selected' : '' }}>06</option>
-                    <option value="07" {{ old('billing.0.exp_month') === '07' ? 'selected' : '' }}>07</option>
-                    <option value="08" {{ old('billing.0.exp_month') === '08' ? 'selected' : '' }}>08</option>
-                    <option value="09" {{ old('billing.0.exp_month') === '09' ? 'selected' : '' }}>09</option>
-                    <option value="10" {{ old('billing.0.exp_month') === '10' ? 'selected' : '' }}>10</option>
-                    <option value="11" {{ old('billing.0.exp_month') === '11' ? 'selected' : '' }}>11</option>
-                    <option value="12" {{ old('billing.0.exp_month') === '12' ? 'selected' : '' }}>12</option>
-                </select>
-            </td>
-            
-           <td>
-                <select class="form-control" name="billing[0][exp_year]">
-                    <option value="">YYYY</option>
-                    <option value="2024" {{ old('billing.0.exp_year', '2024') === '2024' ? 'selected' : '' }}>2024</option>
-                    <option value="2025" {{ old('billing.0.exp_year') === '2025' ? 'selected' : '' }}>2025</option>
-                    <option value="2026" {{ old('billing.0.exp_year') === '2026' ? 'selected' : '' }}>2026</option>
-                    <option value="2027" {{ old('billing.0.exp_year') === '2027' ? 'selected' : '' }}>2027</option>
-                    <option value="2028" {{ old('billing.0.exp_year') === '2028' ? 'selected' : '' }}>2028</option>
-                    <option value="2029" {{ old('billing.0.exp_year') === '2029' ? 'selected' : '' }}>2029</option>
-                    <option value="2030" {{ old('billing.0.exp_year') === '2030' ? 'selected' : '' }}>2030</option>
-                    <option value="2031" {{ old('billing.0.exp_year') === '2031' ? 'selected' : '' }}>2031</option>
-                    <option value="2032" {{ old('billing.0.exp_year') === '2032' ? 'selected' : '' }}>2032</option>
-                    <option value="2033" {{ old('billing.0.exp_year') === '2033' ? 'selected' : '' }}>2033</option>
-                    <option value="2034" {{ old('billing.0.exp_year') === '2034' ? 'selected' : '' }}>2034</option>
-                </select>
-            </td>
-            
-            <td><input type="text" class="form-control" placeholder="CVV" name="billing[0][cvv]"></td>
-            <td><input type="text" class="form-control" placeholder="Address" name="billing[0][address]"></td>
-            <td><input type="email" class="form-control" placeholder="Email" name="billing[0][email]" ></td>
-            <td><input type="text" class="form-control" placeholder="Contact No" name="billing[0][contact_no]"></td>
-            <td><input type="text" class="form-control" placeholder="City" name="billing[0][city]"></td>
-            
-            <td>
-                <select id="country-0" class="form-control country-select" name="billing[0][country]">
-                    <option value="">Select Country</option>
-                </select>
-            </td>
-            <td>
-                <select id="state-0" class="form-control state-select" name="billing[0][state]">
-                    <option value="">Select State</option>
-                </select>
-            </td>
-            
-            <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[0][zip_code]" ></td>
-           
-            <td>
-                <select class="form-control" name="billing[0][currency]">
-                    <option value="">Select Currency</option>
-                    <option value="USD" {{ old('billing.0.currency', 'USD') === 'USD' ? 'selected' : '' }}>USD</option>
-                    <option value="CAD" {{ old('billing.0.currency') === 'CAD' ? 'selected' : '' }}>CAD</option>
-                    <option value="EUR" {{ old('billing.0.currency') === 'EUR' ? 'selected' : '' }}>EUR</option>
-                    <option value="GBP" {{ old('billing.0.currency') === 'GBP' ? 'selected' : '' }}>GBP</option>
-                    <option value="AUD" {{ old('billing.0.currency') === 'AUD' ? 'selected' : '' }}>AUD</option>
-                    <option value="INR" {{ old('billing.0.currency') === 'INR' ? 'selected' : '' }}>INR</option>
-                    <option value="MXN" {{ old('billing.0.currency') === 'MXN' ? 'selected' : '' }}>MXN</option>
-                </select>
-            </td>
-
-            <td><input type="number" class="form-control" placeholder="0.00" name="billing[0][amount]" value="0" step="0.01"></td>
-            <td><input class="form-check-input" type="radio" name="activeCard" value="0" checked></td>
-            <td>
-                <button type="button" class="btn btn-outline-danger delete-billing-btn">
-                    <i class="ri ri-delete-bin-line"></i>
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                    <table class="billing-table" id="billingTable">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Card Type</th>
+                                <th>CC Number</th>
+                                <th>CC Holder Name</th>
+                                <th>MM</th>
+                                <th>YYYY</th>
+                                <th>CVV</th>
+                                <th>Address</th>
+                                <th>Email</th>
+                                <th>Contact No</th>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>ZIP Code</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>Active</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billingForms">
+                            @if($booking->billingDetails->isNotEmpty())
+                                @foreach($booking->billingDetails as $index => $billing)
+                                    <tr class="billing-card" data-index="{{ $index }}">
+                                        <td><span class="billing-card-title">{{ $index + 1 }}</span></td>
+                                        <td>
+                                            <select class="form-control" name="billing[{{ $index }}][card_type]">
+                                                <option value="">Select</option>
+                                                <option value="VISA" {{ old("billing.$index.card_type", $billing->card_type) === 'VISA' ? 'selected' : '' }}>VISA</option>
+                                                <option value="Mastercard" {{ old("billing.$index.card_type", $billing->card_type) === 'Mastercard' ? 'selected' : '' }}>Mastercard</option>
+                                                <option value="AMEX" {{ old("billing.$index.card_type", $billing->card_type) === 'AMEX' ? 'selected' : '' }}>AMEX</option>
+                                                <option value="DISCOVER" {{ old("billing.$index.card_type", $billing->card_type) === 'DISCOVER' ? 'selected' : '' }}>DISCOVER</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][cc_number]" value="{{ old("billing.$index.cc_number", $billing->cc_number) }}" placeholder="CC Number"></td>
+                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][cc_holder_name]" value="{{ old("billing.$index.cc_holder_name", $billing->cc_holder_name) }}" placeholder="CC Holder Name"></td>
+                                        <td>
+                                            <select class="form-control" name="billing[{{ $index }}][exp_month]">
+                                                <option value="">MM</option>
+                                                @for($i = 1; $i <= 12; $i++)
+                                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" {{ old("billing.$index.exp_month", $billing->exp_month) === str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
+                                                @endfor
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" name="billing[{{ $index }}][exp_year]">
+                                                <option value="">YYYY</option>
+                                                @for($i = date('Y'); $i <= date('Y') + 10; $i++)
+                                                    <option value="{{ $i }}" {{ old("billing.$index.exp_year", $billing->exp_year) === $i ? 'selected' : '' }}>{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][cvv]" value="{{ old("billing.$index.cvv", $billing->cvv) }}" placeholder="CVV"></td>
+                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][address]" value="{{ old("billing.$index.address", $billing->address) }}" placeholder="Address"></td>
+                                        <td><input type="email" class="form-control" name="billing[{{ $index }}][email]" value="{{ old("billing.$index.email", $billing->email) }}" placeholder="Email"></td>
+                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][contact_no]" value="{{ old("billing.$index.contact_no", $billing->contact_no) }}" placeholder="Contact No"></td>
+                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][city]" value="{{ old("billing.$index.city", $billing->city) }}" placeholder="City"></td>
+                                        <td>
+                                            <select id="country-{{ $index }}" class="form-control country-select" name="billing[{{ $index }}][country]">
+                                                <option value="">Select Country</option>
+                                               
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="state-{{ $index }}" class="form-control state-select" name="billing[{{ $index }}][state]">
+                                                <option value="">Select State</option>
+                                                <!-- Populate dynamically via JavaScript based on selected country -->
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][zip_code]" value="{{ old("billing.$index.zip_code", $billing->zip_code) }}" placeholder="ZIP Code"></td>
+                                        <td>
+                                            <select class="form-control" name="billing[{{ $index }}][currency]">
+                                                <option value="">Select Currency</option>
+                                                <option value="USD" {{ old("billing.$index.currency", $billing->currency) === 'USD' ? 'selected' : '' }}>USD</option>
+                                                <option value="CAD" {{ old("billing.$index.currency", $billing->currency) === 'CAD' ? 'selected' : '' }}>CAD</option>
+                                                <option value="EUR" {{ old("billing.$index.currency", $billing->currency) === 'EUR' ? 'selected' : '' }}>EUR</option>
+                                                <option value="GBP" {{ old("billing.$index.currency", $billing->currency) === 'GBP' ? 'selected' : '' }}>GBP</option>
+                                                <option value="AUD" {{ old("billing.$index.currency", $billing->currency) === 'AUD' ? 'selected' : '' }}>AUD</option>
+                                                <option value="INR" {{ old("billing.$index.currency", $billing->currency) === 'INR' ? 'selected' : '' }}>INR</option>
+                                                <option value="MXN" {{ old("billing.$index.currency", $billing->currency) === 'MXN' ? 'selected' : '' }}>MXN</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="form-control" name="billing[{{ $index }}][amount]" value="{{ old("billing.$index.amount", $billing->amount) }}" placeholder="0.00" step="0.01"></td>
+                                        <td><input class="form-check-input" type="radio" name="activeCard" value="{{ $index }}" {{ old('activeCard', $billing->is_active) ? 'checked' : '' }}></td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-danger delete-billing-btn">
+                                                <i class="ri ri-delete-bin-line"></i>
+                                            </button>
+                                            <!-- Hidden input to store billing ID for existing records -->
+                                            <input type="hidden" name="billing[{{ $index }}][id]" value="{{ $billing->id }}">
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr id="noBilling">
+                                    <td colspan="18" class="text-center">No billing details available. Click "Add Billing" to start.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
 
                     <!--------------------------------------Billing Details ---------------------------->
                     
@@ -731,6 +800,7 @@
                 <!------------------------- Pricing Details -->
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
                     <div class="excel-like-container">
+                                            
                 <table class="pricing-table">
                     <thead>
                         <tr>
@@ -751,45 +821,51 @@
                     <tbody>
                         <tr>
                             <td data-column="flight">
-                                <input type="number" class="form-control" name="flight_cost" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="flight_cost" value="{{$booking->pricingDetails->flight_cost}}" placeholder="0.00" step="0.01">
                             </td>
-                            <td data-column="hotel">
-                                <input type="number" class="form-control" name="hotel_cost" value="0.00" placeholder="0.00" step="0.01">
-                            </td>
+                           
+                                <td data-column="hotel">
+                                    <input type="number" class="form-control" name="hotel_cost" value="{{$booking->pricingDetails->hotel_cost}}" placeholder="0.00" step="0.01">
+                                </td>
+                             
+
                             <td data-column="cruise">
-                                <input type="number" class="form-control" name="cruise_cost" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="cruise_cost" value="{{$booking->pricingDetails->cruise_cost}}" placeholder="0.00" step="0.01">
                             </td>
                             <td data-column="car">
-                                <input type="number" class="form-control" name="car_cost" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="car_cost" value="{{$booking->pricingDetails->car_cost}}" placeholder="0.00" step="0.01">
                             </td>
                             <td data-column="train">
-                                <input type="number" class="form-control" name="train_cost" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="train_cost" value="{{$booking->pricingDetails->train_cost}}" placeholder="0.00" step="0.01">
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="total_amount" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="total_amount" value="{{$booking->pricingDetails->total_amount}}" placeholder="0.00" step="0.01">
                             </td>
                             <td data-column="flight">
-                                <input type="number" class="form-control" name="issuance_fee" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="issuance_fee" value="{{$booking->pricingDetails->issuance_fee}}" placeholder="0.00" step="0.01">
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="advisor_mco" value="12.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="advisor_mco" value="{{$booking->pricingDetails->advisor_mco}}" placeholder="0.00" step="0.01">
                             </td>
                             <td data-column="flight">
-                                <input type="number" class="form-control" name="airline_commission" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="airline_commission" value="{{$booking->pricingDetails->airline_commission}}" placeholder="0.00" step="0.01">
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="final_amount" value="12.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="final_amount" value="{{$booking->pricingDetails->final_amount}}" placeholder="0.00" step="0.01">
                             </td>
                             <td>
-                                <select class="form-control" name="merchant">
+                       
+                                <select class="form-control" name="pricing[{{ $index }}][merchant]">
                                     <option value="">Select Merchant</option>
-                                    <option value="15">Flydreamz</option>
-                                    <option value="15">CruiseLineService</option>
-                                    <option value="15">FareTickets</option>
+                                    <option value="11" {{ $booking->pricingDetails->merchant == '11' ? 'selected' : '' }}>Flydreamz</option>
+                                    <option value="12" {{ $booking->pricingDetails->merchant == '12' ? 'selected' : '' }}>CruiseLineService</option>
+                                    <option value="13" {{ $booking->pricingDetails->merchant == '13' ? 'selected' : '' }}>FareTickets</option>
                                 </select>
+
+
                             </td>
                             <td>
-                                <input type="number" class="form-control" name="net_mco" value="0.00" placeholder="0.00" step="0.01">
+                                <input type="number" class="form-control" name="net_mco" value="{{$booking->pricingDetails->net_mco}}" placeholder="0.00" step="0.01">
                             </td>
                         </tr>
                     </tbody>

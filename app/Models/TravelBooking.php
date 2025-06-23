@@ -57,7 +57,7 @@ class TravelBooking extends Model
 
     public function pricingDetails()
     {
-        return $this->hasMany(TravelPricingDetail::class, 'booking_id');
+        return $this->hasOne(TravelPricingDetail::class, 'booking_id');
     }
 
     public function remarks()
@@ -95,5 +95,6 @@ class TravelBooking extends Model
         return $this->hasMany(TravelHotelDetail::class, 'booking_id');
     }
 
+    
 
 }
