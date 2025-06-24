@@ -17,12 +17,14 @@ use App\Models\TravelFlightDetail;
 use App\Models\TravelCarDetail;
 use App\Models\TravelCruiseDetail;
 use App\Models\TravelHotelDetail;
+use App\Models\ChangeLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
 use Carbon\Carbon;
 use App\Traits\Loggable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class BookingFormController extends Controller
 {   
@@ -285,6 +287,7 @@ class BookingFormController extends Controller
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
+        
 
         $booking = TravelBooking::findOrFail($id);
 
@@ -409,8 +412,7 @@ class BookingFormController extends Controller
         }
 
         try {
-            DB::beginTransaction();
-
+           // DB::beginTransaction();
           
            // Update TravelBooking
             $bookingData = $request->only([
@@ -419,48 +421,17 @@ class BookingFormController extends Controller
                 'selected_company', 'booking_status', 'payment_status', 'reservation_source',
                 'descriptor',
             ]);
-            $campaign = substr(strtoupper($request->input('campaign', '')), 0, 3);
-            $bookingData['pnr'] = $campaign . $request->input('pnr');
 
-            // Log changes
+          
+
             foreach ($bookingData as $field => $newValue) {
                 $oldValue = $booking->$field;
-                Log::debug('Checking field change', [
-                    'field' => $field,
-                    'old_value' => $oldValue,
-                    'new_value' => $newValue,
-                    'changed' => $oldValue != $newValue,
-                ]);
-                if ($oldValue != $newValue) {
-                    Log::info('Logging change for field', [
-                        'field' => $field,
-                        'booking_id' => $booking->id,
-                        'old_value' => $oldValue,
-                        'new_value' => $newValue,
-                    ]);
-                    if (in_array('App\Traits\Loggable', class_uses($booking))) {
-                        $result = $booking->logChange($booking->id, 'TravelBooking', null, $field, $oldValue, $newValue);
-                        Log::debug('logChange result', ['result' => $result]);
-                    } else {
-                        Log::warning('Loggable trait not loaded for TravelBooking', [
-                            'booking_id' => $booking->id,
-                            'traits' => class_uses($booking),
-                        ]);
-                    }
+                if ($oldValue !== $newValue) {
+                    $booking->logChange($booking->id, 'TravelBooking', Auth::user()->id, $field, $oldValue, $newValue);
                 }
             }
-
-            // Perform the update
             $booking->update($bookingData);
-
-            // Get and print the query log
-            $queries = DB::getQueryLog();
-            \Log::info('SQL Query for TravelBooking update:', $queries);
-            // Disable query logging
-            DB::disableQueryLog();
-
-
-
+         
             // Update or Create Booking Types
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();
             $newBookingTypes = $request->input('booking-type', []);
@@ -484,8 +455,15 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedBookingTypeIds)
                 ->delete();
 
-            // Update or Create Flight Details
-            $existingFlightIds = $booking->flightDetails->pluck('id')->toArray();
+
+
+
+
+
+
+
+           // Update or Create Flight Details
+            $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
 
@@ -510,6 +488,7 @@ class BookingFormController extends Controller
                 }
                 $processedFlightIds[] = $flight->id;
             }
+
             $deletedFlights = array_diff($existingFlightIds, $processedFlightIds);
             foreach ($deletedFlights as $deletedId) {
                 $booking->logChange($booking->id, 'TravelFlightDetail', $deletedId, 'deleted', 'exists', null);
@@ -517,6 +496,19 @@ class BookingFormController extends Controller
             TravelFlightDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedFlightIds)
                 ->delete();
+
+                      dd('FLIGHTS');
+
+
+
+
+
+
+
+
+
+
+
 
             // Update or Create Car Details
             $existingCarIds = $booking->carDetails->pluck('id')->toArray();
@@ -799,7 +791,7 @@ class BookingFormController extends Controller
                 }
             }
 
-            DB::commit();
+           // DB::commit();
             return redirect()->route('booking.show', ['id' => $id])->with('success', 'Booking updated successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -849,14 +841,11 @@ class BookingFormController extends Controller
         return view('web.booking.add', compact('pnr'));
     }
 
-    protected function allFieldsEmpty($data)
+    protected function allFieldsEmpty(array $data): bool
     {
-        foreach ($data as $value) {
-            if (!empty($value)) {
-                return false;
-            }
-        }
-        return true;
+        // Ignore 'id' field when checking for emptiness
+        $filteredData = array_filter($data, fn($key) => $key !== 'id', ARRAY_FILTER_USE_KEY);
+        return empty(array_filter($filteredData, fn($value) => !is_null($value) && $value !== '' && $value !== []));
     }
     
 

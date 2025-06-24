@@ -263,17 +263,17 @@
             newRow.innerHTML = `
                 <td><span class="flight-title">${flightIndex + 1}</span></td>
                 <td><input type="text" class="form-control" name="flight[${flightIndex}][direction]" placeholder="Direction"></td>
-                <td><input type="date" class="form-control" name="flight[${flightIndex}][date]"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][airlines_code]" placeholder="Airlines (Code)"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][flight_no]" placeholder="Flight No"></td>
+                <td><input type="date" class="form-control" name="flight[${flightIndex}][departure_date]"></td>
+                <td><input type="text" class="form-control" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
+                <td><input type="text" class="form-control" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
                 <td><input type="text" class="form-control" name="flight[${flightIndex}][cabin]" placeholder="Cabin"></td>
                 <td><input type="text" class="form-control" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
                 <td><input type="text" class="form-control" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][departure_mm]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="number" class="form-control" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" name="flight[${flightIndex}][departure_minutes]" placeholder="mm" min="0" max="59"></td>
                 <td><input type="text" class="form-control" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][arrival_mm]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="number" class="form-control" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" name="flight[${flightIndex}][arrival_minutes]" placeholder="mm" min="0" max="59"></td>
                 <td><input type="text" class="form-control" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
                 <td><input type="text" class="form-control" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
                 <td><input type="date" class="form-control" name="flight[${flightIndex}][arrival_date]"></td>

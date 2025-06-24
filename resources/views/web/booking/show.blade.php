@@ -199,7 +199,7 @@
 
                     <div class="col-md-3">
                         <label class="form-label"> Campaign</label>
-                        <select class="form-control" name="pnrtype">
+                        <select class="form-control" name="campaign">
                             <option value="" {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select</option>
                             <option value="Agency" {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>Agency</option>
                             <option value="Airline Mix" {{ old('campaign', $booking->campaign ?? '') === 'Airline Mix' ? 'selected' : '' }}>Airline Mix</option>
@@ -216,6 +216,9 @@
 
                 </div>
             </div>
+
+
+           
 
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs my-5" id="bookingTabs" role="tablist">
@@ -281,8 +284,6 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
 
-                                   
-
                                         <table id="flightTable">
                                             <thead>
                                                 <tr>
@@ -311,17 +312,17 @@
                                                         <tr class="flight-row" data-index="{{ $index }}">
                                                             <td><span class="flight-title">{{ $index + 1 }}</span></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][direction]" value="{{ old("flight.$index.direction", $flight->direction) }}" placeholder="Direction"></td>
-                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][date]" value="{{ old("flight.$index.date", $flight->departure_date) }}"></td>
-                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][airlines_code]" value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}" placeholder="Airlines (Code)"></td>
-                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][flight_no]" value="{{ old("flight.$index.flight_no", $flight->flight_number) }}" placeholder="Flight No"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][departure_date]" value="{{ old("flight.$index.date", $flight->departure_date) }}"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][airline_code]" value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}" placeholder="Airlines (Code)"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][flight_number]" value="{{ old("flight.$index.flight_no", $flight->flight_number) }}" placeholder="Flight No"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][cabin]" value="{{ old("flight.$index.cabin", $flight->cabin) }}" placeholder="Cabin"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][class_of_service]" value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}" placeholder="Class of Service"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][departure_airport]" value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}" placeholder="Departure Airport"></td>
-                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][departure_hrs]" value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}" placeholder="Hrs" min="0" max="23"></td>
-                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][departure_mm]" value="{{ old("flight.$index.departure_mm", $flight->departure_minutes) }}" placeholder="mm" min="0" max="59"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][departure_hours]" value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}" placeholder="Hrs" min="0" max="23"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][departure_minutes]" value="{{ old("flight.$index.departure_mm", $flight->departure_minutes) }}" placeholder="mm" min="0" max="59"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][arrival_airport]" value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}" placeholder="Arrival Airport"></td>
-                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_hrs]" value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}" placeholder="Hrs" min="0" max="23"></td>
-                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_mm]" value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}" placeholder="mm" min="0" max="59"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_hours]" value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}" placeholder="Hrs" min="0" max="23"></td>
+                                                            <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_minutes]" value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}" placeholder="mm" min="0" max="59"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][duration]" value="{{ old("flight.$index.duration", $flight->duration) }}" placeholder="Duration"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][transit]" value="{{ old("flight.$index.transit", $flight->transit) }}" placeholder="Transit"></td>
                                                             <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ old("flight.$index.arrival_date", $flight->arrival_date) }}"></td>
@@ -334,10 +335,6 @@
                                                             </td>
                                                         </tr>
                                                     @endforeach
-                                                @else
-                                                    <tr id="noFlights">
-                                                        <td colspan="17" class="text-center">No flight details available. Click "Add Flight" to start.</td>
-                                                    </tr>
                                                 @endif
                                             </tbody>
                                         </table>
@@ -348,6 +345,9 @@
                 </div>
 
         <!------------------------ End Flight Booking Details ------------------------------>
+
+
+        @if(1==2)
 
           <!------------------------ Car Booking Details ------------------------------>
 
@@ -889,10 +889,15 @@
                    
                 </div>
 
+                    @endif
 
             </div>
         </div>
     </div>
+
+
+
+
 </form>
 
                 <!-- FilePond styles -->

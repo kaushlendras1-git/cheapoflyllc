@@ -5,28 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Loggable;
 
 class TravelBooking extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use Loggable;
+
     protected $table = 'travel_bookings';
 
     protected $fillable = [
-        'pnr',
-        'hotel_ref',
-        'cruise_ref',
-        'name',
-        'phone',
-        'email',
-        'query_type',
-        'company_organisation',
-        'booking_status',
-        'payment_status',
-        'reservation_source',
+        'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
+        'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
+        'selected_company', 'booking_status', 'payment_status', 'reservation_source',
         'descriptor',
-        'amadeus_sabre_pnr',
-        'created_by',
-        'airlinepnry',
     ];
 
     protected $casts = [
@@ -95,6 +87,11 @@ class TravelBooking extends Model
         return $this->hasMany(TravelHotelDetail::class, 'booking_id');
     }
 
-    
+    public function changeLogs()
+    {
+        return $this->hasMany(ChangeLogs::class, 'booking_id');
+    }
+
+
 
 }
