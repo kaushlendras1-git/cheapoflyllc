@@ -283,7 +283,11 @@
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
-
+                                    <pre>
+                                    {{
+                                        dump($booking->travelFlight)
+                                    }}
+                                </pre>
                                         <table id="flightTable">
                                             <thead>
                                                 <tr>

@@ -457,20 +457,37 @@ class BookingFormController extends Controller
 
 
 
-
-
-
-
-
            // Update or Create Flight Details
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
 
+              
             foreach ($newFlights as $flightData) {
-                if ($this->allFieldsEmpty($flightData)) {
+              
+                $fieldsToCheck = [
+                    'direction', 
+                    'departure_date', 
+                    'airline_code', 
+                    'flight_number', 
+                    'cabin', 
+                    // 'class_of_service', 
+                    // 'departure_airport', 
+                    // 'departure_hours', 
+                    // 'departure_minutes', 
+                    // 'arrival_airport', 
+                    // 'arrival_hours', 
+                    // 'arrival_minutes', 
+                    // 'duration', 
+                    // 'transit', 
+                    // 'arrival_date'
+                ];
+
+                // Check if all relevant fields are empty
+                if ($this->areSpecifiedFieldsEmpty($flightData, $fieldsToCheck)) {
                     continue;
                 }
+
                 $flightData['booking_id'] = $booking->id;
                 $oldFlight = TravelFlightDetail::find($flightData['id'] ?? null);
                 $flight = TravelFlightDetail::updateOrCreate(
@@ -489,6 +506,9 @@ class BookingFormController extends Controller
                 $processedFlightIds[] = $flight->id;
             }
 
+            dd('check');
+
+
             $deletedFlights = array_diff($existingFlightIds, $processedFlightIds);
             foreach ($deletedFlights as $deletedId) {
                 $booking->logChange($booking->id, 'TravelFlightDetail', $deletedId, 'deleted', 'exists', null);
@@ -497,17 +517,8 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedFlightIds)
                 ->delete();
 
+
                       dd('FLIGHTS');
-
-
-
-
-
-
-
-
-
-
 
 
             // Update or Create Car Details
@@ -805,18 +816,28 @@ class BookingFormController extends Controller
         // Decrypt the hash to get the original ID
         $id = $this->hashids->decode($hash);
         $id = $id[0] ?? null;
-        
+
         if (!$id) {
             abort(404); // Handle invalid or missing hash
         }
 
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
         $booking = TravelBooking::with([
-            'bookingTypes', 'sectorDetails', 'passengers', 'billingDetails',
-            'pricingDetails', 'remarks', 'qualityFeedback', 'screenshots',
-            'travelFlight', 'travelCar', 'travelCruise', 'travelHotel'
+            'bookingTypes',
+            'sectorDetails',
+            'passengers',
+            'billingDetails',
+            'pricingDetails',
+            'remarks',
+            'qualityFeedback',
+            'screenshots',
+            'travelFlight' => fn($query) => $query->withTrashed(), // Include soft-deleted flights
+            'travelCar',
+            'travelCruise',
+            'travelHotel',
         ])->findOrFail($id);
-        return view('web.booking.show', compact('booking','hashids'));
+
+        return view('web.booking.show', compact('booking', 'hashids'));
     }
 
 
@@ -841,11 +862,24 @@ class BookingFormController extends Controller
         return view('web.booking.add', compact('pnr'));
     }
 
-    protected function allFieldsEmpty(array $data): bool
+    protected function allFieldsEmpty($data)
     {
-        // Ignore 'id' field when checking for emptiness
-        $filteredData = array_filter($data, fn($key) => $key !== 'id', ARRAY_FILTER_USE_KEY);
-        return empty(array_filter($filteredData, fn($value) => !is_null($value) && $value !== '' && $value !== []));
+        foreach ($data as $value) {
+            if (!empty($value) || $value === null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function areSpecifiedFieldsEmpty(array $data, array $fields): bool
+    {
+        foreach ($fields as $field) {
+            if (!empty($data[$field])) {
+                return false; // Return false as soon as one field is not empty
+            }
+        }
+        return true; // All specified fields are empty
     }
     
 
