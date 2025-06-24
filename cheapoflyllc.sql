@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 22, 2025 at 03:51 AM
+-- Generation Time: Jun 24, 2025 at 02:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -111,6 +111,74 @@ CREATE TABLE `campaigns` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `change_logs`
+--
+
+CREATE TABLE `change_logs` (
+  `id` int(11) NOT NULL,
+  `booking_id` int(11) DEFAULT NULL,
+  `model_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `model_type` varchar(100) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `field` varchar(100) DEFAULT NULL,
+  `old_value` tinytext DEFAULT NULL,
+  `new_value` tinytext DEFAULT NULL,
+  `changed_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `change_logs`
+--
+
+INSERT INTO `change_logs` (`id`, `booking_id`, `model_id`, `model_type`, `user_id`, `field`, `old_value`, `new_value`, `changed_at`) VALUES
+(1, 31, 31, 'TravelBooking', 1, 'campaign', 'Pure AA', 'Premium Amtrak Bing Calls', '2025-06-24 00:09:07'),
+(2, 31, 31, 'TravelBooking', 1, 'cruise_ref', 'Id aliqua Rerum vol', 'Quasi facere magnam', '2025-06-24 00:09:07'),
+(3, 31, 31, 'TravelBooking', 1, 'car_ref', 'Beatae exercitatione', 'Incididunt animi su', '2025-06-24 00:09:07'),
+(4, 31, 31, 'TravelBooking', 1, 'train_ref', 'Consequatur A paria', 'Vitae et sit fuga', '2025-06-24 00:09:07'),
+(5, 31, 31, 'TravelBooking', 1, 'name', 'Yael Howell', 'Brielle Wilkinson', '2025-06-24 00:09:07'),
+(6, 31, 31, 'TravelBooking', 1, 'phone', '+1 (518) 335-2961', '+1 (854) 901-5072', '2025-06-24 00:09:07'),
+(7, 31, 31, 'TravelBooking', 1, 'email', 'canafe@mailinator.com', 'xefyluvyl@mailinator.com', '2025-06-24 00:09:07'),
+(8, 31, 31, 'TravelBooking', 1, 'query_type', 'UMNR', 'M', '2025-06-24 00:09:07'),
+(9, 31, 31, 'TravelBooking', 1, 'reservation_source', 'Officia dolor ab rep', 'Asperiores neque eiu', '2025-06-24 00:09:07'),
+(10, 31, 31, 'TravelBooking', 1, 'descriptor', 'Est duis sit veniam', 'Voluptatem mollit si', '2025-06-24 00:09:07'),
+(11, 31, 31, 'TravelBookingType', 133, 'type', 'null', 'Car', '2025-06-24 00:09:07'),
+(12, 31, 31, 'TravelBookingType', 129, 'deleted', 'exists', 'null', '2025-06-24 00:09:07'),
+(13, 31, 31, 'TravelBookingType', 132, 'deleted', 'exists', 'null', '2025-06-24 00:09:07'),
+(14, 31, 31, 'TravelBookingType', 134, 'type', 'null', 'Flight', '2025-06-24 00:09:41'),
+(15, 31, 31, 'TravelBooking', 1, 'campaign', 'Premium Amtrak Bing Calls', 'LCC', '2025-06-24 00:13:26'),
+(16, 31, 31, 'TravelBooking', 1, 'hotel_ref', 'Nihil dignissimos qu', 'Voluptatem in occae', '2025-06-24 00:13:26'),
+(17, 31, 31, 'TravelBooking', 1, 'cruise_ref', 'Quasi facere magnam', 'Nostrum molestias of', '2025-06-24 00:13:26'),
+(18, 31, 31, 'TravelBooking', 1, 'train_ref', 'Vitae et sit fuga', 'Qui a mollitia dolor', '2025-06-24 00:13:26'),
+(19, 31, 31, 'TravelBooking', 1, 'name', 'Brielle Wilkinson', 'Raphael Kane', '2025-06-24 00:13:26'),
+(20, 31, 31, 'TravelBooking', 1, 'phone', '+1 (854) 901-5072', '+1 (849) 204-4738', '2025-06-24 00:13:26'),
+(21, 31, 31, 'TravelBooking', 1, 'email', 'xefyluvyl@mailinator.com', 'kika@mailinator.com', '2025-06-24 00:13:26'),
+(22, 31, 31, 'TravelBooking', 1, 'query_type', 'M', 'B', '2025-06-24 00:13:26'),
+(23, 31, 31, 'TravelBooking', 1, 'selected_company', '3', '1', '2025-06-24 00:13:26'),
+(24, 31, 31, 'TravelBooking', 1, 'reservation_source', 'Asperiores neque eiu', 'Est voluptatum iusto', '2025-06-24 00:13:26'),
+(25, 31, 31, 'TravelBooking', 1, 'descriptor', 'Voluptatem mollit si', 'Laudantium asperior', '2025-06-24 00:13:26'),
+(26, 31, 31, 'TravelBookingType', 130, 'deleted', 'exists', 'null', '2025-06-24 00:13:26'),
+(27, 31, 31, 'TravelBookingType', 131, 'deleted', 'exists', 'null', '2025-06-24 00:13:26'),
+(28, 31, 31, 'TravelBookingType', 133, 'deleted', 'exists', 'null', '2025-06-24 00:13:26'),
+(29, 31, 31, 'TravelFlightDetail', 20, 'deleted', 'exists', 'null', '2025-06-24 00:14:18'),
+(30, 31, 31, 'TravelBooking', 1, 'campaign', 'LCC', 'Buffer Mix', '2025-06-24 00:19:58'),
+(31, 31, 31, 'TravelBooking', 1, 'hotel_ref', 'Voluptatem in occae', 'Modi ipsam dolore vo', '2025-06-24 00:19:58'),
+(32, 31, 31, 'TravelBooking', 1, 'car_ref', 'Incididunt animi su', 'Ratione ipsa error', '2025-06-24 00:19:58'),
+(33, 31, 31, 'TravelBooking', 1, 'train_ref', 'Qui a mollitia dolor', 'Ut commodo labore ad', '2025-06-24 00:19:58'),
+(34, 31, 31, 'TravelBooking', 1, 'airlinepnr', 'Enim facere sed even', 'Aut vero asperiores', '2025-06-24 00:19:58'),
+(35, 31, 31, 'TravelBooking', 1, 'amadeus_sabre_pnr', 'Excepteur dolorem il', 'Est omnis et et cum', '2025-06-24 00:19:58'),
+(36, 31, 31, 'TravelBooking', 1, 'pnrtype', 'GK', 'HK', '2025-06-24 00:19:58'),
+(37, 31, 31, 'TravelBooking', 1, 'name', 'Raphael Kane', 'Camden Cummings', '2025-06-24 00:19:58'),
+(38, 31, 31, 'TravelBooking', 1, 'phone', '+1 (849) 204-4738', '+1 (137) 987-2558', '2025-06-24 00:19:58'),
+(39, 31, 31, 'TravelBooking', 1, 'email', 'kika@mailinator.com', 'tykucyv@mailinator.com', '2025-06-24 00:19:58'),
+(40, 31, 31, 'TravelBooking', 1, 'query_type', 'B', 'N', '2025-06-24 00:19:58'),
+(41, 31, 31, 'TravelBooking', 1, 'selected_company', '1', '3', '2025-06-24 00:19:58'),
+(42, 31, 31, 'TravelBooking', 1, 'reservation_source', 'Est voluptatum iusto', 'Totam fuga Nulla od', '2025-06-24 00:19:58'),
+(43, 31, 31, 'TravelBooking', 1, 'descriptor', 'Laudantium asperior', 'Dolore non maxime eu', '2025-06-24 00:19:58'),
+(44, 31, 31, 'TravelFlightDetail', 21, 'deleted', 'exists', 'null', '2025-06-24 00:21:04');
 
 -- --------------------------------------------------------
 
@@ -615,7 +683,11 @@ INSERT INTO `travel_billing_details` (`id`, `booking_id`, `card_type`, `cc_numbe
 (84, 31, NULL, 'eyJpdiI6InpSd3VWcXRPZ2VMcUxtZnJKNU5HL0E9PSIsInZhbHVlIjoiK0g2dUJJTzFkRmVuaGVEL3NoRUxkdz09IiwibWFjIjoiYzM0NDY5YTA4ZmFkZTIzN2FlOTQ1NDA1YjY5ZjlkYzg3ODgxNTZhMDQ5ZDZmODE0NWVkZjhlNmViNTE4ZGExZSIsInRhZyI6IiJ9', 'Donovan Estrada', NULL, NULL, 'eyJpdiI6InJjNnNUd29lT2prY1ZWNG9qSG53UEE9PSIsInZhbHVlIjoiYlI1OXphWnMwWFpVdTNBYmZwUmtuT1ZYMzh2a0h1S3JkQTdJRkh5c0t1cz0iLCJtYWMiOiI3ZDllMGU0MzBjY2ZkMzI3ZGI1MmFiZTUzMGVkYTNlMmE4NTg5YjZhNGFmMzhjMTViZGJkNzE2NTNkNjRiNWMxIiwidGFnIjoiIn0=', 'Possimus possimus', 'fypuzuno@mailinator.com', 'Ut expedita nulla ni', 'Beatae aliquam et ma', 'At est labore magna', 'Blanditiis aut ut am', '18251', NULL, 48.00, 0, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (85, 31, NULL, 'eyJpdiI6IjM0NlFCb3FFWDdCSi8xTnpNcmYwSFE9PSIsInZhbHVlIjoiUnJsZzhMQkhlbHpmTVZFRFdNdTNJQT09IiwibWFjIjoiNjNlM2U0YTIyZTEwYjZmNzg5N2ViMWM1YzRlMjRhOWUwZmE3NWY0ZTAzZWFiN2NmYWFkZDkyZjFhNmVhMmFhMSIsInRhZyI6IiJ9', 'Victoria Malone', NULL, NULL, 'eyJpdiI6IjE2OWwwQ2dIbXVHMUhkTjNReEt3UXc9PSIsInZhbHVlIjoiNkdIWHF5UVpWMkFvUTFoQzdoc2pWTmNxbEZYeWZXQjk4QUVqWm51ZEpVUT0iLCJtYWMiOiI4YTA0YjAwMTkyNDdkZWNkMTMwNzc2MDdiNTdmYmMyMzE4ZDhlYThmNmMxYmNkMGRhY2FjNGFmMTY4ZDJjMGI0IiwidGFnIjoiIn0=', 'Enim autem dolore ne', 'dacum@mailinator.com', 'Sint ipsum qui magn', 'Consequat Inventore', 'Laborum Quisquam do', 'In quis excepteur ni', '22681', NULL, 38.00, 0, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (86, 31, NULL, 'eyJpdiI6Ii9GemEwVGtlMU9aVXg4NVJDbUs3QlE9PSIsInZhbHVlIjoiVWVheW80aHlGaUVaNHRqUXVFTDhXQT09IiwibWFjIjoiMzUyMGUwZjllODM2YzRjODFiMjM3ZGM0NDY1NTAwMGI5N2Y0NWFjNDU2MjRjMTE1YjliYjFjMTcxZGUxN2EzMCIsInRhZyI6IiJ9', 'Tallulah Atkinson', NULL, NULL, 'eyJpdiI6Ik10YUFWSWp5ZDhRVUFFaHp2QW1mOVE9PSIsInZhbHVlIjoiT1kwRlpWOTg1bkNSR2l1TDJRcm9EUkVwTFczbzF1Tk5kdVlXcDQ5c0w1cz0iLCJtYWMiOiJmODlkN2M0NDIwNmNjNDMyNjI2MTk3N2I1MDk0NmRlMGZjZWNmMzgyYWNkZGJiYWM2MzEzYWMwMDE1ZTViNjFiIiwidGFnIjoiIn0=', 'Officiis error incid', 'xisaciji@mailinator.com', 'Ex aspernatur et vol', 'Iusto provident und', 'Tempor sunt deserunt', 'Accusantium eveniet', '93625', NULL, 80.00, 0, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
-(87, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL);
+(87, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
+(88, 32, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
+(89, 32, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
+(90, 33, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL),
+(91, 33, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -626,9 +698,11 @@ INSERT INTO `travel_billing_details` (`id`, `booking_id`, `card_type`, `cc_numbe
 CREATE TABLE `travel_bookings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `pnr` varchar(50) NOT NULL,
-  `campaign` varchar(20) DEFAULT NULL,
+  `campaign` varchar(30) DEFAULT NULL,
   `hotel_ref` varchar(50) DEFAULT NULL,
   `cruise_ref` varchar(50) DEFAULT NULL,
+  `car_ref` varchar(50) DEFAULT NULL,
+  `train_ref` varchar(50) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -639,8 +713,9 @@ CREATE TABLE `travel_bookings` (
   `reservation_source` varchar(255) DEFAULT NULL,
   `descriptor` varchar(255) DEFAULT NULL,
   `amadeus_sabre_pnr` varchar(50) DEFAULT NULL,
-  `airlinepnr` varchar(20) DEFAULT NULL,
+  `airlinepnr` varchar(50) DEFAULT NULL,
   `pnrtype` varchar(5) DEFAULT NULL,
+  `selected_company` varchar(50) DEFAULT NULL,
   `created_by` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL,
@@ -651,12 +726,14 @@ CREATE TABLE `travel_bookings` (
 -- Dumping data for table `travel_bookings`
 --
 
-INSERT INTO `travel_bookings` (`id`, `pnr`, `campaign`, `hotel_ref`, `cruise_ref`, `name`, `phone`, `email`, `query_type`, `company_organisation`, `booking_status`, `payment_status`, `reservation_source`, `descriptor`, `amadeus_sabre_pnr`, `airlinepnr`, `pnrtype`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(27, 'AIR210636820001', NULL, 'Eveniet mollit faci', 'Hic quisquam aliquid', 'Elvis Vincent', '+1 (988) 214-7933', 'sijululaga@mailinator.com', 'UMNR', NULL, 'under process', 'pending', 'Sit ut sit eos es', 'Qui quia illo offici', NULL, NULL, NULL, NULL, '2025-06-22 02:06:50', '2025-06-21 22:06:50', NULL),
-(28, 'AIR210636820002', NULL, NULL, NULL, 'Wendy Burke', '+1 (907) 512-3675', 'xavokiw@mailinator.com', 'CC', NULL, 'under process', 'pending', 'Harum quis soluta au', 'Est eos omnis proi', 'Culpa reprehenderit', NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
-(29, 'AIR210636820003', NULL, 'Totam totam Nam ad p', 'Quisquam accusantium', 'Yoko Tucker', '+1 (972) 396-2464', 'coxividyny@mailinator.com', 'B', NULL, 'under process', 'pending', 'Accusamus atque nece', 'Sed distinctio Accu', 'Asperiores sit quisq', NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
-(30, 'BUF220617460001', NULL, 'In id rem unde nobis', NULL, 'Deanna Gibson', '+1 (568) 234-5156', 'zefaqyrogu@mailinator.com', 'S', NULL, 'under process', 'pending', 'Ut ex in quis accusa', 'Odit blanditiis nesc', 'amadeus_sabre_pnr', 'airlinepnr', 'GK', NULL, '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
-(31, 'LCC220653850002', NULL, 'Laudantium numquam', 'Ut vero dolorem ipsu', 'Simone Bradshaw', '+1 (602) 527-6368', 'dafycasume@mailinator.com', 'U', NULL, 'under process', 'pending', 'Qui debitis enim dol', 'Non pariatur Odio e', 'Voluptates vel est s', NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL);
+INSERT INTO `travel_bookings` (`id`, `pnr`, `campaign`, `hotel_ref`, `cruise_ref`, `car_ref`, `train_ref`, `name`, `phone`, `email`, `query_type`, `company_organisation`, `booking_status`, `payment_status`, `reservation_source`, `descriptor`, `amadeus_sabre_pnr`, `airlinepnr`, `pnrtype`, `selected_company`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(27, 'AIR210636820001', NULL, 'Eveniet mollit faci', 'Hic quisquam aliquid', NULL, NULL, 'Elvis Vincent', '+1 (988) 214-7933', 'sijululaga@mailinator.com', 'UMNR', NULL, 'under process', 'pending', 'Sit ut sit eos es', 'Qui quia illo offici', 'amadeus_sabre_pnr', 'airlinepnr', NULL, NULL, NULL, '2025-06-22 02:06:50', '2025-06-21 22:06:50', NULL),
+(28, 'AIR210636820002', NULL, NULL, NULL, NULL, NULL, 'Wendy Burke', '+1 (907) 512-3675', 'xavokiw@mailinator.com', 'CC', NULL, 'under process', 'pending', 'Harum quis soluta au', 'Est eos omnis proi', 'Culpa reprehenderit', NULL, NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
+(29, 'AIR210636820003', NULL, 'Totam totam Nam ad p', 'Quisquam accusantium', NULL, NULL, 'Yoko Tucker', '+1 (972) 396-2464', 'coxividyny@mailinator.com', 'B', NULL, 'under process', 'pending', 'Accusamus atque nece', 'Sed distinctio Accu', 'Asperiores sit quisq', NULL, NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
+(30, 'BUF220617460001', NULL, 'In id rem unde nobis', NULL, NULL, NULL, 'Deanna Gibson', '+1 (568) 234-5156', 'zefaqyrogu@mailinator.com', 'S', NULL, 'under process', 'pending', 'Ut ex in quis accusa', 'Odit blanditiis nesc', 'amadeus_sabre_pnr', 'airlinepnr', 'GK', NULL, NULL, '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
+(31, 'LCC220653850002', 'Buffer Mix', 'Modi ipsam dolore vo', 'Nostrum molestias of', 'Ratione ipsa error', 'Ut commodo labore ad', 'Camden Cummings', '+1 (137) 987-2558', 'tykucyv@mailinator.com', 'N', NULL, 'under process', 'pending', 'Totam fuga Nulla od', 'Dolore non maxime eu', 'Est omnis et et cum', 'Aut vero asperiores', 'HK', '3', NULL, '2025-06-22 05:31:23', '2025-06-24 00:19:58', NULL),
+(32, 'AIR220627460003', NULL, 'Cumque beatae in eli', 'Consequat Corporis', NULL, NULL, 'Abel Frederick', '+1 (674) 947-1403', 'gygeko@mailinator.com', 'NMC', NULL, 'under process', 'pending', 'Ipsum ut doloremque', 'In in molestiae quia', 'Saepe ex distinctio', NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
+(33, 'PRE230696140002', 'Premium Amtrak Bing Calls', 'Qui ut optio incidi', 'Exercitationem in do', NULL, NULL, 'Jordan Woods', '+1 (341) 976-4964', 'pyzuqogypi@mailinator.com', 'N', NULL, 'under process', 'pending', 'Dolore provident mo', 'Culpa magni fugiat', NULL, NULL, NULL, '3', NULL, '2025-06-23 16:37:06', '2025-06-23 22:07:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -684,7 +761,9 @@ INSERT INTO `travel_booking_remarks` (`id`, `booking_id`, `agent`, `date_time`, 
 (9, 28, 'Testagent', '2025-06-21 23:13:42', 'Eligendi animi proi', '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
 (10, 29, 'Testagent', '2025-06-21 23:15:10', 'Proident dolor quae', '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
 (11, 30, 'Testagent', '2025-06-22 00:30:11', 'Aut adipisci tempor', '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
-(12, 31, 'Testagent', '2025-06-22 01:31:23', 'Consequat Qui quisq  TYESTSTTS', '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL);
+(12, 31, 'Testagent', '2025-06-22 01:31:23', 'Consequat Qui quisq  TYESTSTTS', '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
+(13, 32, 'Testagent', '2025-06-22 20:12:41', 'Quas sed et incididu', '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
+(14, 33, 'Testagent', '2025-06-23 22:07:07', 'Excepturi debitis as', '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -706,10 +785,10 @@ CREATE TABLE `travel_booking_types` (
 
 INSERT INTO `travel_booking_types` (`id`, `booking_id`, `type`, `created_at`, `updated_at`) VALUES
 (104, 27, 'Flight', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
-(105, 27, 'Hotel', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
-(106, 27, 'Cruise', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
-(107, 27, 'Car', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
-(108, 27, 'Train', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
+(105, 28, 'Hotel', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
+(106, 28, 'Cruise', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
+(107, 28, 'Car', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
+(108, 28, 'Train', '2025-06-22 02:06:50', '2025-06-21 22:06:50'),
 (109, 28, 'Flight', '2025-06-22 03:13:42', '2025-06-21 23:13:42'),
 (110, 28, 'Car', '2025-06-22 03:13:42', '2025-06-21 23:13:42'),
 (111, 29, 'Flight', '2025-06-22 03:15:10', '2025-06-21 23:15:10'),
@@ -718,11 +797,13 @@ INSERT INTO `travel_booking_types` (`id`, `booking_id`, `type`, `created_at`, `u
 (114, 30, 'Train', '2025-06-22 03:15:10', '2025-06-21 23:15:10'),
 (115, 30, 'Hotel', '2025-06-22 04:30:11', '2025-06-22 00:30:11'),
 (116, 30, 'Train', '2025-06-22 04:30:11', '2025-06-22 00:30:11'),
-(117, 31, 'Flight', '2025-06-22 05:31:23', '2025-06-22 01:31:23'),
-(118, 31, 'Hotel', '2025-06-22 05:31:23', '2025-06-22 01:31:23'),
-(119, 31, 'Cruise', '2025-06-22 05:31:23', '2025-06-22 01:31:23'),
-(120, 31, 'Car', '2025-06-22 05:31:23', '2025-06-22 01:31:23'),
-(121, 31, 'Train', '2025-06-22 05:31:23', '2025-06-22 01:31:23');
+(122, 32, 'Flight', '2025-06-23 00:12:41', '2025-06-22 20:12:41'),
+(123, 32, 'Hotel', '2025-06-23 00:12:41', '2025-06-22 20:12:41'),
+(125, 33, 'Flight', '2025-06-23 16:37:06', '2025-06-23 22:07:06'),
+(126, 33, 'Hotel', '2025-06-23 16:37:06', '2025-06-23 22:07:06'),
+(127, 33, 'Cruise', '2025-06-23 16:37:06', '2025-06-23 22:07:06'),
+(128, 33, 'Car', '2025-06-23 16:37:06', '2025-06-23 22:07:06'),
+(134, 31, 'Flight', '2025-06-23 18:39:41', '2025-06-24 00:09:41');
 
 -- --------------------------------------------------------
 
@@ -755,19 +836,20 @@ CREATE TABLE `travel_car_details` (
 INSERT INTO `travel_car_details` (`id`, `booking_id`, `car_rental_provider`, `car_type`, `pickup_location`, `dropoff_location`, `pickup_date`, `pickup_time`, `dropoff_date`, `dropoff_time`, `confirmation_number`, `remarks`, `rental_provider_address`, `created_at`, `updated_at`) VALUES
 (18, 27, '1', '1', '1', '1', '2025-06-21', '18:09:00', '2025-06-21', '18:09:00', '1', '1', '1', '2025-06-22 02:06:50', '2025-06-22 02:06:50'),
 (19, 27, '2', '2', '2', '2', '2025-06-21', '18:08:00', '2025-06-21', '18:08:00', '2', '2', '2', '2025-06-22 02:06:50', '2025-06-22 02:06:50'),
-(20, 27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 02:06:50', '2025-06-22 02:06:50'),
 (21, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-22 03:13:42'),
 (22, 29, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-22 03:15:10'),
 (23, 30, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 04:30:11', '2025-06-22 04:30:11'),
-(24, 31, 'Voluptas labore sit', 'Commodo veniam dolo', 'Sed dolor quae tempo', 'Alias aliquip evenie', '1994-10-05', '14:50:00', '1986-05-06', '09:51:00', 'Alias aliquip evenie', 'Porro dolorem animi', 'Qui facere quod sit', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
-(25, 31, 'Eaque eu aliquip est', 'Quidem harum rerum l', 'Quasi in eum id eli', 'Et reprehenderit und', '1972-03-31', '20:20:00', '1993-12-02', '03:39:00', 'Et reprehenderit und', 'Corporis sed fuga I', 'Maiores eos elit nu', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
+(24, 27, 'Voluptas labore sit', 'Commodo veniam dolo', 'Sed dolor quae tempo', 'Alias aliquip evenie', '1994-10-05', '14:50:00', '1986-05-06', '09:51:00', 'Alias aliquip evenie', 'Porro dolorem animi', 'Qui facere quod sit', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
+(25, 27, 'Eaque eu aliquip est', 'Quidem harum rerum l', 'Quasi in eum id eli', 'Et reprehenderit und', '1972-03-31', '20:20:00', '1993-12-02', '03:39:00', 'Et reprehenderit und', 'Corporis sed fuga I', 'Maiores eos elit nu', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (26, 31, 'Assumenda ut omnis u', 'Tempora rem quis dol', 'Est voluptatem magni', 'Vero labore sunt sae', '2001-07-07', '03:26:00', '2021-04-05', '05:47:00', 'Vero labore sunt sae', 'Iure esse unde et ea', 'Minima aute sed aliq', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (27, 31, 'Tenetur accusamus ma', 'Et deleniti nisi non', 'Et et exercitation c', 'Est dolor ea vel vol', '2009-08-02', '17:32:00', '2015-12-30', '16:13:00', 'Est dolor ea vel vol', 'Libero vitae quia te', 'Ut aperiam hic ea qu', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (28, 31, 'Beatae esse nisi tem', 'Dicta nihil tempor q', 'Omnis et quisquam id', 'Quia et libero sed d', '2004-07-27', '15:41:00', '2017-07-20', '15:58:00', 'Quia et libero sed d', 'Qui qui officiis lau', 'Amet porro non ut s', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (29, 31, 'Dolores obcaecati id', 'Modi officia ea labo', 'Voluptatem laudantiu', 'Debitis sequi mollit', '2017-05-27', '02:05:00', '1987-12-27', '08:52:00', 'Debitis sequi mollit', 'Consectetur tempore', 'Repudiandae expedita', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (30, 31, 'Aute assumenda eum a', 'Deserunt aut alias n', 'Architecto iusto ver', 'Fugit sed esse fug', '2021-08-26', '13:03:00', '2020-04-09', '23:15:00', 'Fugit sed esse fug', 'Non ex tempore et d', 'Magnam impedit inci', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (31, 31, 'Magnam sequi do id e', 'Hic consectetur exer', 'Omnis fuga Beatae v', 'Beatae non et repudi', '1994-11-01', '21:32:00', '2009-01-24', '11:56:00', 'Beatae non et repudi', 'Elit dolorum ipsum', 'Reprehenderit laboru', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
-(32, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23');
+(32, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
+(33, 32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
+(34, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:06', '2025-06-23 16:37:06');
 
 -- --------------------------------------------------------
 
@@ -812,7 +894,10 @@ INSERT INTO `travel_cruise_details` (`id`, `booking_id`, `cruise_line`, `ship_na
 (22, 31, 'Mollit nisi animi d', 'Maile Berry', 'Qui quas debitis id', 'Fugiat qui repudiand', 'Deserunt odit quia l', '2005-08-15', 21, 31, 'Sequi laborum Nulla', '2025-04-10', 19, 24, 'Do veniam enim et s', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (23, 31, 'Nesciunt ut consequ', 'Buffy Underwood', 'Esse modi incidunt', 'Dolor voluptatem Et', 'Quasi sed provident', '1981-01-26', 10, 33, 'Illum qui neque nob', '2003-06-27', 7, 25, 'Animi voluptate dol', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (24, 31, 'Est libero voluptate', 'Candace Hanson', 'Quis dolore sit sit', 'Vel qui assumenda ve', 'Nihil labore commodi', '1972-07-23', 8, 1, 'Aliquip officia eius', '2012-05-25', 19, 15, 'Quis ullam sequi ass', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
-(25, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23');
+(25, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
+(26, 32, 'Vitae architecto mag', 'Walker Poole', 'Magnam magna fuga N', 'Qui possimus ut ut', 'Minus dolorem nulla', '2013-01-27', 6, 6, 'Voluptatem proident', '2013-10-12', 22, 9, 'Aperiam consequatur', '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
+(27, 32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
+(28, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 16:37:07');
 
 -- --------------------------------------------------------
 
@@ -824,41 +909,32 @@ CREATE TABLE `travel_flight_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `booking_id` bigint(20) UNSIGNED DEFAULT NULL,
   `direction` varchar(255) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `airlines_code` varchar(255) DEFAULT NULL,
-  `flight_no` varchar(255) DEFAULT NULL,
+  `departure_date` date DEFAULT NULL,
+  `airline_code` varchar(255) DEFAULT NULL,
+  `flight_number` varchar(255) DEFAULT NULL,
   `cabin` varchar(255) DEFAULT NULL,
   `class_of_service` varchar(255) DEFAULT NULL,
   `departure_airport` varchar(255) DEFAULT NULL,
-  `departure_hrs` tinyint(3) UNSIGNED DEFAULT NULL,
-  `departure_mm` tinyint(3) UNSIGNED DEFAULT NULL,
+  `departure_hours` tinyint(3) UNSIGNED DEFAULT NULL,
+  `departure_minutes` tinyint(3) UNSIGNED DEFAULT NULL,
   `arrival_airport` varchar(255) DEFAULT NULL,
-  `arrival_hrs` tinyint(3) UNSIGNED DEFAULT NULL,
-  `arrival_mm` tinyint(3) UNSIGNED DEFAULT NULL,
+  `arrival_hours` tinyint(3) UNSIGNED DEFAULT NULL,
+  `arrival_minutes` tinyint(3) UNSIGNED DEFAULT NULL,
   `duration` varchar(255) DEFAULT NULL,
   `transit` varchar(255) DEFAULT NULL,
   `arrival_date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `travel_flight_details`
 --
 
-INSERT INTO `travel_flight_details` (`id`, `booking_id`, `direction`, `date`, `airlines_code`, `flight_no`, `cabin`, `class_of_service`, `departure_airport`, `departure_hrs`, `departure_mm`, `arrival_airport`, `arrival_hrs`, `arrival_mm`, `duration`, `transit`, `arrival_date`, `created_at`, `updated_at`) VALUES
-(5, 27, '1', '2025-06-21', '1', '1', '1', '1', '1', 1, 1, '1', 1, 11, '1', '1', '2025-06-21', '2025-06-22 02:06:50', '2025-06-22 02:06:50'),
-(6, 27, '2', '2025-06-21', '2', '2', '2', '2', '2', 2, 2, '2', 2, 2, '2', '2', '2025-06-21', '2025-06-22 02:06:50', '2025-06-22 02:06:50'),
-(7, 27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 02:06:50', '2025-06-22 02:06:50'),
-(8, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-22 03:13:42'),
-(9, 29, 'Anim ab in Nam aut d', '2015-11-13', 'Iure illum tenetur', 'Irure labore nesciun', 'Nam reprehenderit in', 'Iure illo saepe quia', 'Sed labore dolor pra', 12, 45, 'Odio ratione a repel', 16, 37, 'Dolorem proident re', 'Illum eveniet aliq', '2015-06-25', '2025-06-22 03:15:10', '2025-06-22 03:15:10'),
-(10, 29, 'Soluta expedita poss', '2009-04-03', 'Consequatur Consequ', 'Recusandae Corrupti', 'Suscipit Nam quia co', 'Placeat facilis exp', 'Esse excepteur accu', 12, 48, 'Doloremque praesenti', 2, 8, 'Et corrupti odio po', 'Sed ut quia Nam sed', '1994-03-22', '2025-06-22 03:15:10', '2025-06-22 03:15:10'),
-(11, 29, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-22 03:15:10'),
-(12, 30, 'direction', '0000-00-00', 'IAC', 'cabin', 'cabin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 04:30:11', '2025-06-22 04:30:11'),
-(13, 31, 'Enim et dolorum eius', '1978-01-31', 'Et qui blanditiis ni', 'Odio sequi quia quia', 'Rem consequatur sint', 'Omnis perferendis ad', 'Sequi minus amet si', 9, 15, 'Sit non a quod sunt', 16, 59, 'Voluptatem Quia nis', 'Incidunt voluptate', '2014-08-06', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
-(14, 31, 'Consectetur sequi e', '2022-08-08', 'Dignissimos iusto no', 'Autem sapiente et cu', 'Laboriosam id illum', 'Sequi odio eos elit', 'Ex quos commodi aut', 13, 5, 'Est repellendus Ne', 3, 32, 'Dolor dignissimos fu', 'Quam nostrum fuga A', '1979-04-30', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
-(15, 31, 'Exercitationem autem', '2018-02-19', 'Eligendi assumenda l', 'Corrupti in porro r', 'Ut earum et earum an', 'Aut eum dolor volupt', 'Et molestiae eligend', 15, 17, 'Qui adipisicing null', 17, 45, 'Soluta dolorem nihil', 'Magni rem consequatu', '1974-09-07', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
-(16, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23');
+INSERT INTO `travel_flight_details` (`id`, `booking_id`, `direction`, `departure_date`, `airline_code`, `flight_number`, `cabin`, `class_of_service`, `departure_airport`, `departure_hours`, `departure_minutes`, `arrival_airport`, `arrival_hours`, `arrival_minutes`, `duration`, `transit`, `arrival_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(20, 31, '1Aut qui voluptate qu', '1987-08-30', 'Non in veniam offic', '39', 'Quidem est quia minu', 'Sed quidem quasi bla', 'Molestiae cum cum di', 23, 50, 'Provident numquam r', 2, 58, 'Aliqua Neque tempor', 'Voluptatem animi qu', '2011-10-26', '2025-06-23 18:43:26', '2025-06-23 18:44:18', '2025-06-24 00:14:18'),
+(21, 31, 'Ab doloremque aut ea', '2025-06-24', 'Voluptate optio neq', '970', 'Voluptatem Et moles', 'Laudantium laborios', 'Omnis ad rerum tenet', 23, 53, 'Aliquip anim consequ', 14, 59, 'Ex nemo minus eos f', 'Fuga Laborum aut a', '1999-02-26', '2025-06-23 18:49:58', '2025-06-23 18:51:04', '2025-06-24 00:21:04');
 
 -- --------------------------------------------------------
 
@@ -888,7 +964,6 @@ CREATE TABLE `travel_hotel_details` (
 INSERT INTO `travel_hotel_details` (`id`, `booking_id`, `hotel_name`, `room_category`, `checkin_date`, `checkout_date`, `no_of_rooms`, `confirmation_number`, `hotel_address`, `remarks`, `created_at`, `updated_at`) VALUES
 (10, 27, '1', '1', '2025-06-21', '2025-06-21', 1, '1', '11', '1', '2025-06-22 02:06:51', '2025-06-22 02:06:51'),
 (11, 27, '2', '2', '2025-06-21', '2025-06-21', 2, '2', '2', '2', '2025-06-22 02:06:51', '2025-06-22 02:06:51'),
-(12, 27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 02:06:51', '2025-06-22 02:06:51'),
 (13, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-22 03:13:42'),
 (14, 29, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-22 03:15:10'),
 (15, 30, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 04:30:11', '2025-06-22 04:30:11'),
@@ -898,7 +973,9 @@ INSERT INTO `travel_hotel_details` (`id`, `booking_id`, `hotel_name`, `room_cate
 (19, 31, 'Belle Roth', 'Ex in amet quia Nam', '1988-05-17', '2014-06-18', 15, 'Ex in amet quia Nam', 'Illum et quas commo', 'Dolorum nesciunt la', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (20, 31, 'Dai Joyner', 'Tenetur recusandae', '2005-07-03', '1996-12-30', 55, 'Tenetur recusandae', 'Sapiente sit ullamco', 'Consequatur veniam', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (21, 31, 'Blake Romero', 'Reiciendis maiores s', '1996-05-08', '2009-10-05', 13, 'Reiciendis maiores s', 'Cumque voluptate mag', 'Tempora fugiat et re', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
-(22, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23');
+(22, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
+(23, 32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
+(24, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 16:37:07');
 
 -- --------------------------------------------------------
 
@@ -930,9 +1007,9 @@ CREATE TABLE `travel_passengers` (
 
 INSERT INTO `travel_passengers` (`id`, `booking_id`, `passenger_type`, `gender`, `dob`, `seat_number`, `title`, `credit_note_amount`, `first_name`, `middle_name`, `last_name`, `e_ticket_number`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (60, 27, 'Adult', 'Male', '2025-06-21', '2', 'Ms', 0.00, '121', '212', '121', '1', '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
-(61, 27, 'Adult', 'Male', '2025-06-21', '3', '2', 0.00, '2', '2', '2', 'ee', '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
-(62, 27, 'Seat Infant', 'Male', '2025-06-21', '3', '3', 0.00, '3', '3', '3', '3', '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
-(63, 27, 'Adult', 'Male', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
+(61, 27, 'Adult', 'Male', '2025-06-21', '3', 'Miss', 0.00, '2', '2', '2', 'ee', '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
+(62, 27, 'Seat Infant', 'Male', '2025-06-21', '3', 'Miss', 0.00, '3', '3', '3', '3', '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
+(63, 27, 'Adult', 'Male', '2025-06-21', '8', 'Mr', 0.00, NULL, NULL, NULL, NULL, '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
 (64, 28, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
 (65, 29, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
 (66, 30, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
@@ -946,7 +1023,9 @@ INSERT INTO `travel_passengers` (`id`, `booking_id`, `passenger_type`, `gender`,
 (74, 31, 'Infant', 'Female', '2017-10-04', '87', 'Et sint autem dolor', 0.00, 'Vanna', 'Noelle Downs', 'Gould', '783', '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (75, 31, 'Infant', 'Female', '1998-09-20', '812', 'Eligendi quo explica', 0.00, 'Blossom', 'Ima Vaughan', 'Ferguson', '387', '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (76, 31, 'Lap Infant', 'Male', '1988-10-05', '370', 'Veniam harum blandi', 0.00, 'Byron', 'Vera Pugh', 'Mitchell', '558', '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
-(77, 31, 'Lap Infant', 'Male', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL);
+(77, 31, 'Lap Infant', 'Male', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
+(78, 32, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
+(79, 33, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -980,7 +1059,9 @@ INSERT INTO `travel_pricing_details` (`id`, `booking_id`, `hotel_cost`, `cruise_
 (19, 28, 0.00, 0.00, 24.00, 89.00, 0.00, 4.00, 47.00, '15', 9.00, '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
 (20, 29, 32.00, 60.00, 42.00, 64.00, 0.00, 3.00, 90.00, '15', 67.00, '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
 (21, 30, 32.00, 0.00, 71.00, 53.00, 0.00, 0.00, 42.00, NULL, 58.00, '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
-(22, 31, 42.00, 38.00, 75.00, 96.00, 0.00, 28.00, 8.00, '15', 39.00, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL);
+(22, 31, 42.00, 38.00, 75.00, 96.00, 0.00, 28.00, 8.00, '15', 39.00, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
+(23, 32, 75.00, 92.00, 19.00, 90.00, 0.00, 46.00, 25.00, '15', 6.00, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
+(24, 33, 88.00, 45.00, 12.00, 43.00, 0.00, 0.00, 83.00, '15', 60.00, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -1055,12 +1136,24 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `device_token` varchar(100) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
+  `role` varchar(30) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `phone` varchar(20) NOT NULL,
+  `departments` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `device_token`, `email_verified_at`, `password`, `remember_token`, `status`, `role`, `created_at`, `updated_at`, `phone`, `departments`) VALUES
+(1, 'Admin', 'admin@example.com', 'dasdsad', NULL, '$2y$12$XoVEIFSeOdrD.E7SW.JtveKCRx9oXU1rCdqVkrX.NoXG1GLvldk62', 'LjmK85ZkLvZUKTR0rbkNcVfPrmlRhV4yWGNRQSo002V7aTHZ07C3vABXZWSS', 1, 'admin', '2025-04-24 17:05:20', '2025-04-24 17:05:20', '0', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1101,6 +1194,13 @@ ALTER TABLE `call_types`
 --
 ALTER TABLE `campaigns`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `change_logs`
+--
+ALTER TABLE `change_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `booking_id` (`id`);
 
 --
 -- Indexes for table `companies`
@@ -1318,8 +1418,7 @@ ALTER TABLE `travel_train_details`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1348,6 +1447,12 @@ ALTER TABLE `call_types`
 --
 ALTER TABLE `campaigns`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `change_logs`
+--
+ALTER TABLE `change_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -1443,61 +1548,61 @@ ALTER TABLE `teams`
 -- AUTO_INCREMENT for table `travel_billing_details`
 --
 ALTER TABLE `travel_billing_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `travel_bookings`
 --
 ALTER TABLE `travel_bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `travel_booking_remarks`
 --
 ALTER TABLE `travel_booking_remarks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `travel_booking_types`
 --
 ALTER TABLE `travel_booking_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT for table `travel_car_details`
 --
 ALTER TABLE `travel_car_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `travel_cruise_details`
 --
 ALTER TABLE `travel_cruise_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `travel_flight_details`
 --
 ALTER TABLE `travel_flight_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `travel_hotel_details`
 --
 ALTER TABLE `travel_hotel_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `travel_passengers`
 --
 ALTER TABLE `travel_passengers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `travel_pricing_details`
 --
 ALTER TABLE `travel_pricing_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `travel_quality_feedback`
@@ -1527,7 +1632,7 @@ ALTER TABLE `travel_train_details`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
