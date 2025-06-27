@@ -20,6 +20,9 @@ class AuthController extends Controller
     // Handle login
     public function login(Request $request)
     {
+        #dd(bcrypt($request->passwprpassword));
+        #   dd(Hash::make($request->passwprpassword));
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
