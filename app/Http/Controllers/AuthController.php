@@ -20,22 +20,21 @@ class AuthController extends Controller
     // Handle login
     public function login(Request $request)
     {
-        #dd(bcrypt($request->passwprpassword));
-        #   dd(Hash::make($request->passwprpassword));
-
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->status == 1) {
+            if (Auth::user() && Auth::user()->status == 1) {
                 $request->session()->regenerate();
+
                 return redirect()->intended('dashboard');
             } else {
                 Auth::logout();
+
                 return back()->withErrors([
-                    'error' => 'Access denied. Remember token is not valid.',
+                    'error' => 'Access denied. Your account is inactive.',
                 ]);
             }
         }

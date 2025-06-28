@@ -45,11 +45,11 @@
       0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
-  'tightenco/ziggy' => 
+  'spatie/laravel-permission' => 
   array (
     'providers' => 
     array (
-      0 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+      0 => 'Spatie\\Permission\\PermissionServiceProvider',
     ),
   ),
   'vinkla/hashids' => 

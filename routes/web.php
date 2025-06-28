@@ -34,6 +34,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Travel\BookingFormController;
 use App\Http\Controllers\Auth\AuthEmailController;
 use App\Http\Controllers\Auth\MailHistoryController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\AdminDashboardController;
 
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
@@ -117,53 +119,42 @@ Route::middleware('auth')->group(function () {
     });
 
     
-Route::prefix('masters')->group(function () {
-    Route::resource('call-types', CallTypeController::class);
-    Route::resource('teams', TeamController::class);
-    Route::resource('campaign', CampaignController::class);    
-    Route::resource('status', StatusController::class);
-    Route::resource('supplier', SupplierController::class);
-    Route::resource('quality', QualityController::class);
-    Route::resource('quality-feedback', QualityFeedbackController::class);
-    Route::resource('query-type', QueryTypeController::class);
-    Route::resource('booking-status', BookingStatusController::class);
-    Route::resource('payment-status', PaymentStatusController::class);
-    Route::resource('members', MemberController::class);
-    Route::resource('companies', CompaniesController::class);
-});
-Route::resource('emails', EmailTemplateController::class);
-#Route::resource('call-back', CallBackController::class);
-Route::resource('follow-up', FollowUpController::class);
+    Route::prefix('masters')->group(function () {
+        Route::resource('call-types', CallTypeController::class);
+        Route::resource('teams', TeamController::class);
+        Route::resource('campaign', CampaignController::class);    
+        Route::resource('status', StatusController::class);
+        Route::resource('supplier', SupplierController::class);
+        Route::resource('quality', QualityController::class);
+        Route::resource('quality-feedback', QualityFeedbackController::class);
+        Route::resource('query-type', QueryTypeController::class);
+        Route::resource('booking-status', BookingStatusController::class);
+        Route::resource('payment-status', PaymentStatusController::class);
+        Route::resource('members', MemberController::class);
+        Route::resource('companies', CompaniesController::class);
+    });
+
+    Route::resource('emails', EmailTemplateController::class);
+    #Route::resource('call-back', CallBackController::class);
+    Route::resource('follow-up', FollowUpController::class);
+
+    Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
+
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 
-// GET /call-logs - Fetch all call logs.
-// POST /call-logs - Create a new call log.
-// GET /call-logs/{id} - Retrieve a specific call log.
-// PUT /call-logs/{id} - Update an existing call log.
-// DELETE /call-logs/{id} - Delete a call log.
+    /** Call Logs**/
+    Route::resource('call-logs', CallLogController::class);
 
+    Route::get('/supplier', function () {return view('web.supplier');})->name('supplier');
+    Route::get('/quality', function () {return view('web.quality');})->name('quality');
+    Route::get('/history', function () {return view('web.history');})->name('history');
 
+    /** Users**/
+    Route::get('/users', [MemberController::class, 'index'])->name('users');
+    Route::patch('/members/{member}/status', [MemberController::class, 'updateStatus'])->name('members.updateStatus');
 
-Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
-Route::get('/dashboard', function () {return view('web.dashboard');})->name('dashboard');
-
-
-/** Call Logs**/
-Route::resource('call-logs', CallLogController::class);
-
-
-
-
-Route::get('/supplier', function () {return view('web.supplier');})->name('supplier');
-Route::get('/quality', function () {return view('web.quality');})->name('quality');
-Route::get('/history', function () {return view('web.history');})->name('history');
-
-/** Users**/
-Route::get('/users', [MemberController::class, 'index'])->name('users');
-Route::patch('/members/{member}/status', [MemberController::class, 'updateStatus'])->name('members.updateStatus');
-
-Route::get('/pricing-details', function () {return view('web.pricing-details');});
-
-/** Reports **/
+    Route::get('/pricing-details', function () {return view('web.pricing-details');});
 
 });

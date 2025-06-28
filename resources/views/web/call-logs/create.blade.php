@@ -136,7 +136,7 @@
             <select name="call_type" id="call_type" class="form-control">
             <option value="" {{ old('call_type') == '' ? 'selected' : '' }}>Select</option>
             @foreach($call_types as $call_type)
-            <option value="{{ $call_type->value }}" {{ old('call_type') == $call_type->value ? 'selected' : '' }}>
+            <option value="{{ $call_type->id }}" {{ old('call_type') == $call_type->value ? 'selected' : '' }}>
             {{ $call_type->name }}
             </option>
             @endforeach
