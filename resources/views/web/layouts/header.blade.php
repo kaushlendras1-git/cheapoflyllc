@@ -47,7 +47,8 @@
 <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
 <script src="{{ asset('assets/js/config.js') }}"></script>
-
+@routes
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 @yield('head')
 
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -1107,7 +1108,7 @@
 
                     </li>
 
-                   
+
 
                     <li>
 
@@ -1115,7 +1116,7 @@
 
                     </li>
 
-                 
+
 
                     <li>
 
@@ -1135,7 +1136,7 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                           @csrf
                       </form>
-                      <a class="btn btn-danger d-flex" href="#" 
+                      <a class="btn btn-danger d-flex" href="#"
                          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                           <small class="align-middle">Logout</small>
                           <i class="icon-base ri ri-logout-box-r-line ms-2 icon-16px"></i>
@@ -1195,7 +1196,7 @@
                     <a href="#" class="menu-link fw-bold">
 
                       <div>
-                        @if (Auth::check()) 
+                        @if (Auth::check())
                           Hi, {{ Auth::user()->name }}
                         @endif
                       </div>
@@ -1210,15 +1211,15 @@
                       <i class="menu-icon icon-base ri ri-article-line"></i>
                       <div data-i18n="Masters">Masters</div>
                     </a>
-                    <ul class="menu-sub"> 
-                      
+                    <ul class="menu-sub">
+
                       <li class="menu-item">
                         <a href="{{route('emails.index')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                           <div data-i18n="Emails">Emails</div>
                         </a>
                       </li>
-                     
+
                       <li class="menu-item">
                         <a href="{{route('teams.index')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
@@ -1249,15 +1250,15 @@
                       <i class="menu-icon icon-base ri ri-article-line"></i>
                       <div data-i18n="Reports">Reports</div>
                     </a>
-                    <ul class="menu-sub"> 
-                      
+                    <ul class="menu-sub">
+
                       <li class="menu-item">
                         <a href="route('reports.marketing')" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                           <div data-i18n="Marketing">Marketing</div>
                         </a>
                       </li>
-                    
+
                       <li class="menu-item">
                         <a href="{{route('reports.call_queue')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
@@ -1294,7 +1295,7 @@
                           <div data-i18n="Booking">Booking</div>
                         </a>
                       </li>
-                      
+
                       <li class="menu-item">
                         <a href="{{route('booking.search')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-layout-left-line"></i>
@@ -1325,7 +1326,7 @@
                       <div>Call Logs</div>
                     </a>
                   </li>
-                  
+
                   <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'follow-up') ? 'active' : '' }}">
                     <a href="{{route('follow-up.index')}}" class="menu-link">
                       <i class="menu-icon icon-base ri ri-table-line"></i>

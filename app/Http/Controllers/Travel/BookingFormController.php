@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Travel;
 
 use App\Http\Controllers\Controller;
+use App\Utils\JsonResponse;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Models\TravelBooking;
 use App\Models\TravelBookingType;
@@ -25,9 +27,10 @@ use Carbon\Carbon;
 use App\Traits\Loggable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class BookingFormController extends Controller
-{   
+{
     protected $hashids;
     protected $logController;
 
@@ -44,7 +47,7 @@ class BookingFormController extends Controller
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
         return view('web.booking.index', compact('bookings','hashids'));
     }
-    
+
     public function search(){
         $bookings = TravelBooking::paginate(10);
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
@@ -53,95 +56,82 @@ class BookingFormController extends Controller
 
 
     public function store(Request $request)
-    {   
+    {
+        try{
+            $request->validate( [
+                'pnr' => 'required|string|max:255',
+                'hotel_ref' => 'nullable|string|max:255',
+                'cruise_ref' => 'nullable|string|max:255',
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string|max:20',
+                'email' => 'required|email|max:255',
+                'query_type' => 'nullable|string|max:255',
+                'selected_company' => 'required|string|max:255',
+                'booking_status' => 'required|string|max:255',
+                'payment_status' => 'required|string|max:255',
+                'reservation_source' => 'nullable|string|max:255',
+                'descriptor' => 'nullable|string|max:255',
+                'amadeus_sabre_pnr' => 'nullable|string|max:255',
+                'sector_details.*' => 'required|file|image|max:2048',
 
-        //dd($request->all());
 
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'pnr' => 'required|string|max:255',
-            'hotel_ref' => 'nullable|string|max:255',
-            'cruise_ref' => 'nullable|string|max:255',
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'query_type' => 'nullable|string|max:255',
-            'selected_company' => 'required|string|max:255',
-            'booking_status' => 'required|string|max:255',
-            'payment_status' => 'required|string|max:255',
-            'reservation_source' => 'nullable|string|max:255',
-            'descriptor' => 'nullable|string|max:255',
-            'amadeus_sabre_pnr' => 'nullable|string|max:255',
-            'sector_details.*' => 'required|file|image|max:2048',
+                // 'booking-type' => 'required|array',
+                // 'booking-type.*' => 'string|max:255',
 
-          
-            // 'booking-type' => 'required|array',
-            // 'booking-type.*' => 'string|max:255',
-          
-            // 'passenger' => 'required|array',
-            // 'passenger.*.passenger_type' => 'required|string|max:255',
-            // 'passenger.*.gender' => 'nullable|string|max:255',
-            // 'passenger.*.dob' => 'nullable|date',
-            // 'passenger.*.seat_number' => 'nullable|string|max:50',
-            // 'passenger.*.title' => 'nullable|string|max:50',
-            // 'passenger.*.credit_note' => 'nullable|numeric|min:0',
-            // 'passenger.*.first_name' => 'required|string|max:255',
-            // 'passenger.*.middle_name' => 'nullable|string|max:255',
-            // 'passenger.*.last_name' => 'required|string|max:255',
-            // 'passenger.*.e_ticket_number' => 'nullable|string|max:50',
-            // 'billing' => 'required|array',
-            // 'billing.*.card_type' => 'required|string|max:255',
-            // 'billing.*.cc_number' => 'nullable|string|max:20',
-            // 'billing.*.cc_holder_name' => 'nullable|string|max:255',
-            // 'billing.*.exp_month' => 'required|string|max:2',
-            // 'billing.*.exp_year' => 'required|string|max:4',
-            // 'billing.*.cvv' => 'nullable|string|max:4',
-            // 'billing.*.address' => 'nullable|string|max:255',
-            // 'billing.*.email' => 'nullable|email|max:255',
-            // 'billing.*.contact_no' => 'nullable|string|max:20',
-            // 'billing.*.city' => 'nullable|string|max:255',
-            // 'billing.*.country' => 'nullable|string|max:255',
-            // 'billing.*.state' => 'nullable|string|max:255',
-            // 'billing.*.zip_code' => 'nullable|string|max:10',
-            // 'billing.*.currency' => 'required|string|max:3',
-            // 'billing.*.amount' => 'required|numeric|min:0',
-            // 'activeCard' => 'required|integer',
-            // 'hotel_cost' => 'required|numeric|min:0',
-            // 'cruise_cost' => 'required|numeric|min:0',
-            // 'total_amount' => 'required|numeric|min:0',
-            // 'advisor_mco' => 'required|numeric|min:0',
-            // 'conversion_charge' => 'required|numeric|min:0',
-            // 'airline_commission' => 'required|numeric|min:0',
-            // 'final_amount' => 'required|numeric|min:0',
-            // 'merchant' => 'required|string|max:255',
-            // 'net_mco' => 'required|numeric|min:0',
-            // 'particulars' => 'nullable|string',
-            // 'feedback' => 'nullable|string',
-            // 'status' => 'nullable|string|max:255',
-            // 'type' => 'required|string|max:255',
-            // 'notes' => 'nullable|string',
-        ]);
+                // 'passenger' => 'required|array',
+                // 'passenger.*.passenger_type' => 'required|string|max:255',
+                // 'passenger.*.gender' => 'nullable|string|max:255',
+                // 'passenger.*.dob' => 'nullable|date',
+                // 'passenger.*.seat_number' => 'nullable|string|max:50',
+                // 'passenger.*.title' => 'nullable|string|max:50',
+                // 'passenger.*.credit_note' => 'nullable|numeric|min:0',
+                // 'passenger.*.first_name' => 'required|string|max:255',
+                // 'passenger.*.middle_name' => 'nullable|string|max:255',
+                // 'passenger.*.last_name' => 'required|string|max:255',
+                // 'passenger.*.e_ticket_number' => 'nullable|string|max:50',
+                // 'billing' => 'required|array',
+                // 'billing.*.card_type' => 'required|string|max:255',
+                // 'billing.*.cc_number' => 'nullable|string|max:20',
+                // 'billing.*.cc_holder_name' => 'nullable|string|max:255',
+                // 'billing.*.exp_month' => 'required|string|max:2',
+                // 'billing.*.exp_year' => 'required|string|max:4',
+                // 'billing.*.cvv' => 'nullable|string|max:4',
+                // 'billing.*.address' => 'nullable|string|max:255',
+                // 'billing.*.email' => 'nullable|email|max:255',
+                // 'billing.*.contact_no' => 'nullable|string|max:20',
+                // 'billing.*.city' => 'nullable|string|max:255',
+                // 'billing.*.country' => 'nullable|string|max:255',
+                // 'billing.*.state' => 'nullable|string|max:255',
+                // 'billing.*.zip_code' => 'nullable|string|max:10',
+                // 'billing.*.currency' => 'required|string|max:3',
+                // 'billing.*.amount' => 'required|numeric|min:0',
+                // 'activeCard' => 'required|integer',
+                // 'hotel_cost' => 'required|numeric|min:0',
+                // 'cruise_cost' => 'required|numeric|min:0',
+                // 'total_amount' => 'required|numeric|min:0',
+                // 'advisor_mco' => 'required|numeric|min:0',
+                // 'conversion_charge' => 'required|numeric|min:0',
+                // 'airline_commission' => 'required|numeric|min:0',
+                // 'final_amount' => 'required|numeric|min:0',
+                // 'merchant' => 'required|string|max:255',
+                // 'net_mco' => 'required|numeric|min:0',
+                // 'particulars' => 'nullable|string',
+                // 'feedback' => 'nullable|string',
+                // 'status' => 'nullable|string|max:255',
+                // 'type' => 'required|string|max:255',
+                // 'notes' => 'nullable|string',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->withFragment('booking-failed');
-        }
 
-      //dd($request->file('sector_details'));
-
-        if ($request->hasFile('sector_details')) {
-            foreach ($request->file('sector_details') as $file) {
-                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('uploads/sector_details'), $fileName);
-
-                TravelSectorDetail::create([
-                    'booking_id' => $booking->id,
-                    'sector_type' => $fileName,
-                ]);
+            if ($request->hasFile('sector_details')) {
+                foreach ($request->file('sector_details') as $file) {
+                    $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('uploads/sector_details'), $fileName);
+                }
             }
-        }
 
 
-        // try {
+            // try {
             DB::beginTransaction();
 
             // Create Travel Booking
@@ -165,6 +155,12 @@ class BookingFormController extends Controller
             $campaign = substr(strtoupper($request->input('campaign')), 0, 3);
             $bookingData['pnr'] = $campaign . $request->input('pnr');
             $booking = TravelBooking::create($bookingData);
+            if(isset($fileName)){
+                TravelSectorDetail::create([
+                    'booking_id' => $booking->id,
+                    'sector_type' => $fileName,
+                ]);
+            }
 
             // Create Booking Types
             foreach ($request->input('booking-type', []) as $type) {
@@ -175,7 +171,7 @@ class BookingFormController extends Controller
             }
 
 
-           foreach ($data['flight'] ?? [] as $flight) {
+            foreach ($data['flight'] ?? [] as $flight) {
                 // Check if all fields in $flight are empty
                 if ($this->allFieldsEmpty($flight)) {
                     continue; // Skip this iteration if all fields are empty
@@ -186,34 +182,34 @@ class BookingFormController extends Controller
             }
 
             // Save flight details
-                foreach ($request->input('flight', []) as $flightData) {
-                    $flightData['booking_id'] = $booking->id;
-                    TravelFlightDetail::create($flightData);
-                }
+            foreach ($request->input('flight', []) as $flightData) {
+                $flightData['booking_id'] = $booking->id;
+                TravelFlightDetail::create($flightData);
+            }
 
-                // Save car details
-                foreach ($request->input('car', []) as $carData) {
-                    $carData['booking_id'] = $booking->id;
-                    TravelCarDetail::create($carData);
-                }
+            // Save car details
+            foreach ($request->input('car', []) as $carData) {
+                $carData['booking_id'] = $booking->id;
+                TravelCarDetail::create($carData);
+            }
 
-                // Save cruise details
-                foreach ($request->input('cruise', []) as $cruiseData) {
-                    $cruiseData['booking_id'] = $booking->id;
-                    TravelCruiseDetail::create($cruiseData);
-                }
+            // Save cruise details
+            foreach ($request->input('cruise', []) as $cruiseData) {
+                $cruiseData['booking_id'] = $booking->id;
+                TravelCruiseDetail::create($cruiseData);
+            }
 
-                // Save hotel details
-                foreach ($request->input('hotel', []) as $hotelData) {
-                    $hotelData['booking_id'] = $booking->id;
-                    TravelHotelDetail::create($hotelData);
-                }
+            // Save hotel details
+            foreach ($request->input('hotel', []) as $hotelData) {
+                $hotelData['booking_id'] = $booking->id;
+                TravelHotelDetail::create($hotelData);
+            }
 
-                // Save billing details
-                foreach ($request->input('billing', []) as $billingData) {
-                    $billingData['booking_id'] = $booking->id;
-                    TravelBillingDetail::create($billingData);
-                }
+            // Save billing details
+            foreach ($request->input('billing', []) as $billingData) {
+                $billingData['booking_id'] = $booking->id;
+                TravelBillingDetail::create($billingData);
+            }
 
             // Create Passengers
             foreach ($request->input('passenger', []) as $passengerData) {
@@ -272,22 +268,37 @@ class BookingFormController extends Controller
                 ]);
             }
 
-                DB::commit();
-                $hash = $this->hashids->encode($booking->id);
-                return redirect()->route('booking.show', ['id' => $hash])->with('success', 'Booking form submitted successfully.');
+            DB::commit();
+            $hash = $this->hashids->encode($booking->id);
+            $redirectTo = [
+                'route' => 'booking.show',
+                'id'=>$hash
+            ];
+            return JsonResponse::successWithData('Booking form submitted successfully.', 201,$redirectTo,'201');
+        }
+        catch(ValidationException $e){
+            return JsonResponse::error($e->validator->errors()->first(),422,'422');
+        }
+        catch(QueryException $e){
+            return JsonResponse::error('Failed to Query',500,'500');
+        }
+        catch(\Exception $e){
+            return JsonResponse::error('Internal Server Error',500,'500');
+        }
+
         // } catch (\Exception $e) {
         //     DB::rollBack();
         //     return redirect()->route('travel.bookings.form')->with('error', 'Failed to submit booking: ' . $e->getMessage())->withFragment('booking-failed-' . ($booking->id ?? 'no-id'));
         // }
     }
 
-    
+
     public function update(Request $request, $id)
     {
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
-        
+
 
         $booking = TravelBooking::findOrFail($id);
 
@@ -413,7 +424,7 @@ class BookingFormController extends Controller
 
         try {
            // DB::beginTransaction();
-          
+
            // Update TravelBooking
             $bookingData = $request->only([
                 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
@@ -422,7 +433,7 @@ class BookingFormController extends Controller
                 'descriptor',
             ]);
 
-          
+
 
             foreach ($bookingData as $field => $newValue) {
                 $oldValue = $booking->$field;
@@ -431,7 +442,7 @@ class BookingFormController extends Controller
                 }
             }
             $booking->update($bookingData);
-         
+
             // Update or Create Booking Types
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();
             $newBookingTypes = $request->input('booking-type', []);
@@ -462,24 +473,24 @@ class BookingFormController extends Controller
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
 
-              
+
             foreach ($newFlights as $flightData) {
-              
+
                 $fieldsToCheck = [
-                    'direction', 
-                    'departure_date', 
-                    'airline_code', 
-                    'flight_number', 
-                    'cabin', 
-                    // 'class_of_service', 
-                    // 'departure_airport', 
-                    // 'departure_hours', 
-                    // 'departure_minutes', 
-                    // 'arrival_airport', 
-                    // 'arrival_hours', 
-                    // 'arrival_minutes', 
-                    // 'duration', 
-                    // 'transit', 
+                    'direction',
+                    'departure_date',
+                    'airline_code',
+                    'flight_number',
+                    'cabin',
+                    // 'class_of_service',
+                    // 'departure_airport',
+                    // 'departure_hours',
+                    // 'departure_minutes',
+                    // 'arrival_airport',
+                    // 'arrival_hours',
+                    // 'arrival_minutes',
+                    // 'duration',
+                    // 'transit',
                     // 'arrival_date'
                 ];
 
@@ -810,7 +821,7 @@ class BookingFormController extends Controller
             return redirect()->back()->with('error', 'Failed to update booking: ' . $e->getMessage())->withInput()->withFragment('booking-failed');
         }
     }
-    
+
     public function show($hash)
     {
         // Decrypt the hash to get the original ID
@@ -881,7 +892,7 @@ class BookingFormController extends Controller
         }
         return true; // All specified fields are empty
     }
-    
+
 
 
 }

@@ -6,6 +6,7 @@
 /public/storage
 /public/hot
 /storage/*.key
+package-lock.json
 /storage/framework/*
 !/storage/framework/.gitignore
 /storage/logs/*

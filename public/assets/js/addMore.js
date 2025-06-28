@@ -13,14 +13,14 @@
             newRow.dataset.index = hotelIndex;
             newRow.innerHTML = `
                 <td><span class="hotel-title">${hotelIndex + 1}</span></td>
-                <td><input type="text" class="form-control" name="hotel[${hotelIndex}][hotel_name]" placeholder="Hotel Name"></td>
-                <td><input type="text" class="form-control" name="hotel[${hotelIndex}][room_category]" placeholder="Room Category"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[${hotelIndex}][hotel_name]" placeholder="Hotel Name"></td>
+                <td><input type="text" class="form-control" style="width:9rem" name="hotel[${hotelIndex}][room_category]" placeholder="Room Category"></td>
                 <td><input type="date" class="form-control" name="hotel[${hotelIndex}][checkin_date]"></td>
                 <td><input type="date" class="form-control" name="hotel[${hotelIndex}][checkout_date]"></td>
-                <td><input type="number" class="form-control" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
-                <td><input type="text" class="form-control" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
-                <td><input type="text" class="form-control" name="hotel[${hotelIndex}][hotel_address]" placeholder="Hotel Address"></td>
-                <td><input type="text" class="form-control" name="hotel[${hotelIndex}][remarks]" placeholder="Remarks"></td>
+                <td><input type="number" class="form-control" style="width:10rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
+                <td><input type="text" class="form-control" style="width:12rem" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
+                <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][hotel_address]" placeholder="Hotel Address"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[${hotelIndex}][remarks]" placeholder="Remarks"></td>
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-hotel-btn">
                         <i class="ri ri-delete-bin-line"></i>
@@ -94,19 +94,19 @@
             newRow.innerHTML = `
                 <td><span class="cruise-title">${cruiseIndex + 1}</span></td>
                 <td><input type="date" class="form-control" name="cruise[${cruiseIndex}][date]"></td>
-                <td><input type="text" class="form-control" name="cruise[${cruiseIndex}][cruise_line]" placeholder="Cruise Line"></td>
-                <td><input type="text" class="form-control" name="cruise[${cruiseIndex}][ship_name]" placeholder="Name of the Ship"></td>
-                <td><input type="text" class="form-control" name="cruise[${cruiseIndex}][category]" placeholder="Category"></td>
-                <td><input type="text" class="form-control" name="cruise[${cruiseIndex}][stateroom]" placeholder="Stateroom"></td>
-                <td><input type="text" class="form-control" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][cruise_line]" placeholder="Cruise Line"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][ship_name]" placeholder="Name of the Ship"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][category]" placeholder="Category"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][stateroom]" placeholder="Stateroom"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
                 <td><input type="date" class="form-control" name="cruise[${cruiseIndex}][departure_date]"></td>
-                <td><input type="number" class="form-control" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" name="cruise[${cruiseIndex}][departure_mm]" placeholder="mm" min="0" max="59"></td>
-                <td><input type="text" class="form-control" name="cruise[${cruiseIndex}][arrival_port]" placeholder="Arrival Port"></td>
+                <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][departure_mm]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][arrival_port]" placeholder="Arrival Port"></td>
                 <td><input type="date" class="form-control" name="cruise[${cruiseIndex}][arrival_date]"></td>
-                <td><input type="number" class="form-control" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" name="cruise[${cruiseIndex}][arrival_mm]" placeholder="mm" min="0" max="59"></td>
-                <td><input type="text" class="form-control" name="cruise[${cruiseIndex}][remarks]" placeholder="Remarks"></td>
+                <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][arrival_mm]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][remarks]" placeholder="Remarks"></td>
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-cruise-btn">
                         <i class="ri ri-delete-bin-line"></i>
@@ -179,17 +179,17 @@
             newRow.dataset.index = carIndex;
             newRow.innerHTML = `
                 <td><span class="car-title">${carIndex + 1}</span></td>
-                <td><input type="text" class="form-control" name="car[${carIndex}][car_rental_provider]" placeholder="Car Rental Provider"></td>
-                <td><input type="text" class="form-control" name="car[${carIndex}][car_type]" placeholder="Car Type"></td>
-                <td><input type="text" class="form-control" name="car[${carIndex}][pickup_location]" placeholder="Pick-up Location"></td>
-                <td><input type="text" class="form-control" name="car[${carIndex}][dropoff_location]" placeholder="Drop-off Location"></td>
+                <td><input type="text" class="form-control" style="width:10rem" name="car[${carIndex}][car_rental_provider]" placeholder="Car Rental Provider"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="car[${carIndex}][car_type]" placeholder="Car Type"></td>
+                <td><input type="text" class="form-control" style="width:9rem" name="car[${carIndex}][pickup_location]" placeholder="Pick-up Location"></td>
+                <td><input type="text" class="form-control" style="width:10rem" name="car[${carIndex}][dropoff_location]" placeholder="Drop-off Location"></td>
                 <td><input type="date" class="form-control" name="car[${carIndex}][pickup_date]"></td>
-                <td><input type="time" class="form-control" name="car[${carIndex}][pickup_time]"></td>
+                <td><input type="time" class="form-control" style="width:7.5rem" name="car[${carIndex}][pickup_time]"></td>
                 <td><input type="date" class="form-control" name="car[${carIndex}][dropoff_date]"></td>
-                <td><input type="time" class="form-control" name="car[${carIndex}][dropoff_time]"></td>
-                <td><input type="text" class="form-control" name="car[${carIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
-                <td><input type="text" class="form-control" name="car[${carIndex}][remarks]" placeholder="Remarks"></td>
-                <td><input type="text" class="form-control" name="car[${carIndex}][rental_provider_address]" placeholder="Rental Provider's Address"></td>
+                <td><input type="time" class="form-control" style="width:7.5rem" name="car[${carIndex}][dropoff_time]"></td>
+                <td><input type="text" class="form-control" style="width:12rem" name="car[${carIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
+                <td><input type="text" class="form-control" style="width:7.5rem" name="car[${carIndex}][remarks]" placeholder="Remarks"></td>
+                <td><input type="text" class="form-control" style="width:13rem" name="car[${carIndex}][rental_provider_address]" placeholder="Rental Provider's Address"></td>
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-car-btn">
                         <i class="ri ri-delete-bin-line"></i>
@@ -262,20 +262,20 @@
             newRow.dataset.index = flightIndex;
             newRow.innerHTML = `
                 <td><span class="flight-title">${flightIndex + 1}</span></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][direction]" placeholder="Direction"></td>
+                <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][direction]" placeholder="Direction"></td>
                 <td><input type="date" class="form-control" name="flight[${flightIndex}][departure_date]"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][cabin]" placeholder="Cabin"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][departure_minutes]" placeholder="mm" min="0" max="59"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" name="flight[${flightIndex}][arrival_minutes]" placeholder="mm" min="0" max="59"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
-                <td><input type="text" class="form-control" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
+                <td><input type="text" class="form-control" style="width: 8rem;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
+                <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
+                <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][cabin]" placeholder="Cabin"></td>
+                <td><input type="text" class="form-control" style="width: 9rem;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
+                <td><input type="text" class="form-control" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
+                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][departure_minutes]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
+                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][arrival_minutes]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
+                <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
                 <td><input type="date" class="form-control" name="flight[${flightIndex}][arrival_date]"></td>
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-flight-btn">
@@ -335,7 +335,7 @@
     });
 
 
-  
+
         document.addEventListener('DOMContentLoaded', () => {
         const passengerFormsContainer = document.getElementById('passengerForms');
         let passengerIndex = 1;
@@ -348,7 +348,7 @@
             newRow.innerHTML = `
                                 <td><span class="billing-card-title"> ${passengerIndex + 1}</span></td>
                                 <td>
-                                    <select class="form-control" name="passenger[${passengerIndex}][passenger_type]">
+                                    <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][passenger_type]">
                                         <option value="">Select</option>
                                         <option value="Adult" selected>Adult</option>
                                         <option value="Child">Child</option>
@@ -358,23 +358,23 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select class="form-control" name="passenger[${passengerIndex}][gender]">
+                                    <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][gender]">
                                         <option value="">Select</option>
                                         <option value="Male" selected>Male</option>
                                         <option value="Female">Female</option>
                                     </select>
                                 </td>
-                                <td><input type="text" class="form-control" name="passenger[${passengerIndex}][title]" placeholder="Title"></td>
-                                <td><input type="text" class="form-control" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
-                                <td><input type="text" class="form-control" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
-                                <td><input type="text" class="form-control" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
+                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][title]" placeholder="Title"></td>
+                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
+                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
+                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
                                 <td><input type="date" class="form-control" name="passenger[${passengerIndex}][dob]" ></td>
-                                <td><input type="text" class="form-control" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
-                                <td><input type="number" class="form-control" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
-                                <td><input type="text" class="form-control" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
+                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+                                <td><input type="number" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
+                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
-                                        <i class="icon-base ri ri-delete-bin-2-line"></i> 
+                                        <i class="icon-base ri ri-delete-bin-2-line"></i>
                                     </button>
                                 </td>
                             `;
@@ -454,7 +454,7 @@
                 </td>
                 <td><input type="text" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
                 <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
-                
+
                 <td>
                     <select class="form-control" name="billing[${billingIndex}][exp_month]">
                         <option value="">MM</option>
@@ -488,7 +488,7 @@
                         <option value="2033">2033</option>
                         <option value="2034">2034</option>
                     </select>
-                </td>               
+                </td>
                 <td><input type="text" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
                 <td><input type="text" class="form-control" placeholder="Address" name="billing[${billingIndex}][address]" value=""></td>
                 <td><input type="email" class="form-control" placeholder="Email" name="billing[${billingIndex}][email]" value=""></td>
@@ -497,7 +497,7 @@
                 <td><input type="text" class="form-control" placeholder="Country" name="billing[${billingIndex}][country]" value=""></td>
                 <td><input type="text" class="form-control" placeholder="State" name="billing[${billingIndex}][state]" value=""></td>
                 <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[${billingIndex}][zip_code]" value=""></td>
-                
+
                 <td>
                     <select class="form-control" name="billing[${billingIndex}][currency]">
                         <option value="">Select Currency</option>
@@ -511,7 +511,7 @@
                     </select>
                 </td>
 
-                
+
                 <td><input type="number" class="form-control" placeholder="0.00" name="billing[${billingIndex}][amount]" value="0" step="0.01"></td>
                 <td><input class="form-check-input" type="radio" name="activeCard" value="${billingIndex}"></td>
                 <td>

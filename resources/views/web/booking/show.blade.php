@@ -4,10 +4,10 @@
 @section('content')
 <form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
     @csrf
-    @method('PUT') 
+    @method('PUT')
 
         <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
-    
+
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row gy-6">
@@ -25,18 +25,18 @@
                     </button>
                 </div>
             </div>
-            
+
               @include('web.layouts.flash')
 
                @php
                     $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
 
-                      
+
             <!-- Top Bar -->
             <div class="card p-3 mt-2">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    
+
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <div class="form-check form-check-inline">
                             <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox" id="booking-flight" value="Flight" {{ in_array('Flight', $bookingTypes) ? 'checked' : '' }}>
@@ -79,8 +79,8 @@
                         <label class="form-label">PNR <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="pnr" value="{{ $booking->pnr }}" readonly>
                     </div>
-                    
-                    
+
+
                     <fieldset id="flight-inputs" class="toggle-section">
                         <div class="row">
                             <div class="col-md-3">
@@ -91,14 +91,14 @@
                                 <label class="form-label">Amadeus/Sabre PNR</label>
                                 <input type="text" class="form-control" name="amadeus_sabre_pnr" value="{{ $booking->amadeus_sabre_pnr }}">
                             </div>
-                            
+
                             <div class="col-md-3">
                                 <label class="form-label"> PNR Type</label>
                                 <select class="form-control" name="pnrtype">
                                     <option value="" {{ old('pnrtype', $booking->pnrtype ?? '') === '' ? 'selected' : '' }}>Select</option>
                                     <option value="HK" {{ old('pnrtype', $booking->pnrtype ?? '') === 'HK' ? 'selected' : '' }}>HK</option>
                                     <option value="GK" {{ old('pnrtype', $booking->pnrtype ?? '') === 'GK' ? 'selected' : '' }}>GK</option>
-                                </select> 
+                                </select>
                             </div>
                         </div>
                     </fieldset >
@@ -120,20 +120,20 @@
                         <input type="text" class="form-control" name="car_ref" value="{{ old('car_ref', $booking->car_ref ?? '') }}" placeholder="Car Ref">
                     </div>
 
-               
+
                     <div class="col-md-3" id="train-inputs">
                         <label class="form-label">Train Ref</label>
                         <input type="text" class="form-control" name="train_ref" value="{{ old('train_ref', $booking->train_ref ?? '') }}" placeholder="Train Ref">
                     </div>
-               
+
 
 
                     <div class="col-md-3">
                         <label class="form-label">Name <span class="text-danger">*</span></label>
                          <input type="text" class="form-control" name="name" value="{{ old('name', $booking->name ?? '') }}">
                     </div>
-                
-                    
+
+
                     <div class="col-md-3">
                         <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="phone" value="{{ old('phone', $booking->phone ?? '') }}">
@@ -151,21 +151,21 @@
                         <label class="form-label">Descriptor</label>
                         <input type="text" class="form-control" name="descriptor" value="{{ old('descriptor', $booking->descriptor ?? '') }}">
                    </div>
-                    
 
-                      
+
+
                     <div class="col-md-3">
                         <label class="form-label">Booking Status</label>
                         <select class="form-control" name="booking_status">
                             <option value="under process" {{ old('booking_status', $booking->booking_status ?? '') === 'under process' ? 'selected' : '' }}>under process</option>
-                        </select>      
+                        </select>
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label">Payment Status</label>
                         <select class="form-control" name="payment_status">
                             <option value="pending" {{ old('payment_status', $booking->payment_status ?? '') === 'pending' ? 'selected' : '' }}>pending</option>
-                        </select> 
+                        </select>
                     </div>
 
                     <div class="col-md-3">
@@ -212,19 +212,19 @@
                             <option value="Spanish" {{ old('campaign', $booking->campaign ?? '') === 'Spanish' ? 'selected' : '' }}>Spanish</option>
                         </select>
                     </div>
-                    
+
 
                 </div>
             </div>
 
 
-           
+
 
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs my-5" id="bookingTabs" role="tablist">
 
 
- 
+
 
     <li class="nav-item" role="presentation" data-tab="Flight" style="{{ in_array('Flight', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
         <a class="nav-link" id="flightbooking-tab" data-bs-toggle="tab" href="#flightbooking" role="tab" aria-controls="flightbooking" aria-selected="true">Flight Booking</a>
@@ -253,7 +253,7 @@
     <li class="nav-item" role="presentation">
         <a class="nav-link" id="pricing-tab" data-bs-toggle="tab" href="#pricing" role="tab" aria-controls="pricing" aria-selected="false">Pricing</a>
     </li>
-    
+
     <li class="nav-item" role="presentation">
         <a class="nav-link" id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab" aria-controls="remarks" aria-selected="false">Booking Remarks</a>
     </li>
@@ -262,16 +262,16 @@
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="screenshots-tab" data-bs-toggle="tab" href="#screenshots" role="tab" aria-controls="screenshots" aria-selected="false">Screenshots</a>
-        </li> 
+        </li>
 </ul>
 
-                
-               
+
+
 
             <!-- Tab Content -->
             <div class="tab-content" id="bookingTabsContent">
-             
-            
+
+
 
         <!------------------------ Flight Booking Details ------------------------------>
 
@@ -576,16 +576,16 @@
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0">Passenger Details</h4>
-                            
+
                         </div>
 
            <!------------------------------------------------------------------------------------------>
 
 
     <div class="container excel-like-container">
-      
-        
- 
+
+
+
       <!----------------------------------------Passeenger-------------------------------------------------->
                 <table class="passenger-table">
                     <thead>
@@ -661,14 +661,14 @@
 
 
         <!------------------------------------------------------------------------------------------>
-        
+
     </div>
-                        
+
                     </div>
                 </div>
 
 <!--------------------------------------Billing Details ---------------------------->
- 
+
 
     <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
         <div class="card p-4">
@@ -676,12 +676,12 @@
                 <h5 class="card-header border-0 p-0">Billing Details</h5>
                 <div>
                     <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
-                   
+
                 </div>
             </div>
             <div class="card-body p-0">
                 <div class="excel-like-container">
-                    
+
                     <!--------------------------------------Billing Details ---------------------------->
                     <table class="billing-table" id="billingTable">
                         <thead>
@@ -746,7 +746,7 @@
                                         <td>
                                             <select id="country-{{ $index }}" class="form-control country-select" name="billing[{{ $index }}][country]">
                                                 <option value="">Select Country</option>
-                                               
+
                                             </select>
                                         </td>
                                         <td>
@@ -788,23 +788,23 @@
                     </table>
 
                     <!--------------------------------------Billing Details ---------------------------->
-                    
+
                 </div>
             </div>
         </div>
     </div>
 
-   
-   
 
-                       
+
+
+
                     </div>
                 </div>
 
                 <!------------------------- Pricing Details -->
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
                     <div class="excel-like-container">
-                                            
+
                 <table class="pricing-table">
                     <thead>
                         <tr>
@@ -827,11 +827,11 @@
                             <td data-column="flight">
                                 <input type="number" class="form-control" name="flight_cost" value="{{$booking->pricingDetails->flight_cost}}" placeholder="0.00" step="0.01">
                             </td>
-                           
+
                                 <td data-column="hotel">
                                     <input type="number" class="form-control" name="hotel_cost" value="{{$booking->pricingDetails->hotel_cost}}" placeholder="0.00" step="0.01">
                                 </td>
-                             
+
 
                             <td data-column="cruise">
                                 <input type="number" class="form-control" name="cruise_cost" value="{{$booking->pricingDetails->cruise_cost}}" placeholder="0.00" step="0.01">
@@ -858,7 +858,7 @@
                                 <input type="number" class="form-control" name="final_amount" value="{{$booking->pricingDetails->final_amount}}" placeholder="0.00" step="0.01">
                             </td>
                             <td>
-                       
+
                                 <select class="form-control" name="pricing[{{ $index }}][merchant]">
                                     <option value="">Select Merchant</option>
                                     <option value="11" {{ $booking->pricingDetails->merchant == '11' ? 'selected' : '' }}>Flydreamz</option>
@@ -875,22 +875,22 @@
                     </tbody>
                 </table>
             </div>
-    
+
                 </div>
 
-             <!-----------------------------------Pricing ------------------------------------------>   
+             <!-----------------------------------Pricing ------------------------------------------>
 
                 <!-- Booking Remarks -->
                 <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
-                   
+
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h5 class="card-header border-0 p-0">Booking Remarks</h5>
                         </div>
                         <div class="card-body p-0">
                             <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{ old('particulars', '') }}</textarea>
                         </div>
-                        
-                   
+
+
                 </div>
 
                     @endif
@@ -904,16 +904,16 @@
 
 </form>
 
-                <!-- FilePond styles -->
-                <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-                <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
-                <link href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" rel="stylesheet" />
+<!-- FilePond styles -->
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css" rel="stylesheet" />
 
-                <!-- FilePond scripts -->
-                <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-                <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-                <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-                <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+<!-- FilePond scripts -->
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
 
-
+@vite('resources/js/booking/edit.js')
 @endsection

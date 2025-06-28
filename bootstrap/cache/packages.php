@@ -45,6 +45,13 @@
       0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
+  'tightenco/ziggy' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+    ),
+  ),
   'vinkla/hashids' => 
   array (
     'aliases' => 
