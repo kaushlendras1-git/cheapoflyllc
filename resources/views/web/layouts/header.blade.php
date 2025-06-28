@@ -13,7 +13,7 @@
      name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>Cheapoflyllc</title>
+    <title>Booking Managment System</title>
     <meta name="description" content="" />
 
     <!-- Favicon -->
@@ -84,7 +84,7 @@
         <nav class="layout-navbar navbar navbar-expand-xl align-items-center" id="layout-navbar">
           <div class="container-xxl">
             <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
-              <a href="{{route('dashboard')}}" class="app-brand-link gap-2">
+              <a href="{{route('user.dashboard')}}" class="app-brand-link gap-2">
                 <span class="app-brand-logo demo">
                   <span class="text-primary">
                     <svg width="30" height="24" viewBox="0 0 250 196" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,7 +181,7 @@
 
                 </span>
 
-                <span class="app-brand-text demo menu-text fw-semibold ms-1">Cheapoflyllc</span>
+                <span class="app-brand-text demo menu-text fw-semibold ms-1">Booking Managment System</span>
 
               </a>
 
@@ -214,6 +214,15 @@
               <ul class="navbar-nav flex-row align-items-center ms-md-auto">
 
                 <!-- Search -->
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                          @csrf
+                      </form>
+                      <a class="btn btn-danger d-flex" href="#" 
+                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                          <small class="align-middle">Logout</small>
+                          <i class="icon-base ri ri-logout-box-r-line ms-2 icon-16px"></i>
+                      </a>
+
 
                 <li class="nav-item navbar-search-wrapper me-sm-2 me-xl-1 mb-50">
 
@@ -449,7 +458,7 @@
 
                           </span>
 
-                          <a href="{{route('dashboard')}}" class="stretched-link">Dashboard</a>
+                          <a href="{{route('user.dashboard')}}" class="stretched-link">Dashboard</a>
 
                           <small>User Dashboard</small>
 
@@ -1157,9 +1166,6 @@
 
         <!-- / Navbar -->
 
-
-
-
         <!-- Layout container -->
 
         <div class="layout-page">
@@ -1169,187 +1175,14 @@
           <div class="content-wrapper">
 
             <!-- Menu -->
+              @if(Auth::user()->role == 'admin')
+                  @include('web.layouts.admin-menu')
+            @elseif(Auth::user()->role == 'agent')
+               @include('web.layouts.agent-menu')
+            @endif
+            <!-- Menu -->
 
-            <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0">
-
-              <div class="container-xxl d-flex h-100">
-
-                <ul class="menu-inner">
-
-                  <!-- Dashboards -->
-
-                  <li class="menu-item active">
-
-                    <a href="{{route('dashboard')}}" class="menu-link">
-
-                      <i class="menu-icon icon-base ri ri-home-smile-line"></i>
-
-                      <div>Dashboards</div>
-
-                    </a>
-
-                  </li>
-
-                  <li class="menu-item me-auto">
-
-                    <a href="#" class="menu-link fw-bold">
-
-                      <div>
-                        @if (Auth::check()) 
-                          Hi, {{ Auth::user()->name }}
-                        @endif
-                      </div>
-
-                    </a>
-
-                  </li>
-
-
-                  <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'teams') ? 'active' : '' }}">
-                    <a href="" class="menu-link menu-toggle">
-                      <i class="menu-icon icon-base ri ri-article-line"></i>
-                      <div data-i18n="Masters">Masters</div>
-                    </a>
-                    <ul class="menu-sub"> 
-                      
-                      <li class="menu-item">
-                        <a href="{{route('emails.index')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="Emails">Emails</div>
-                        </a>
-                      </li>
-                     
-                      <li class="menu-item">
-                        <a href="{{route('teams.index')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="Teams">Teams</div>
-                        </a>
-                      </li>
-
-                      <li class="menu-item">
-                        <a href="{{route('campaign.index')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="Campaign">Campaign</div>
-                        </a>
-                      </li>
-
-                      <li class="menu-item">
-                        <a href="{{route('call-types.index')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="CallType">CallType</div>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-
-               <!-- Reports -->
-                  <li class="menu-item">
-                    <a href="javascript:void(0)" class="menu-link menu-toggle">
-                      <i class="menu-icon icon-base ri ri-article-line"></i>
-                      <div data-i18n="Reports">Reports</div>
-                    </a>
-                    <ul class="menu-sub"> 
-                      
-                      <li class="menu-item">
-                        <a href="route('reports.marketing')" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="Marketing">Marketing</div>
-                        </a>
-                      </li>
-                    
-                      <li class="menu-item">
-                        <a href="{{route('reports.call_queue')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="Call Queue">Call Queue</div>
-                        </a>
-                      </li>
-                      <li class="menu-item">
-                        <a href="{{route('reports.agents')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="Agent">Agents</div>
-                        </a>
-                      </li>
-                      <li class="menu-item">
-                        <a href="{{route('reports.score')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-tv-2-line"></i>
-                          <div data-i18n="Score">Score</div>
-                        </a>
-                      </li>
-
-                    </ul>
-                  </li>
-
-                  <!-- Layouts -->
-                  <li class="menu-item">
-                    <a href="javascript:void(0)" class="menu-link menu-toggle">
-                      <i class="menu-icon icon-base ri ri-layout-2-line"></i>
-                      <div data-i18n="Booking">Booking</div>
-                    </a>
-
-                    <ul class="menu-sub">
-                      <li class="menu-item">
-                        <a href="{{route('booking.index')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-layout-4-line"></i>
-                          <div data-i18n="Booking">Booking</div>
-                        </a>
-                      </li>
-                      
-                      <li class="menu-item">
-                        <a href="{{route('booking.search')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-layout-left-line"></i>
-                          <div data-i18n="Find Booking">Find Booking</div>
-                        </a>
-                      </li>
-
-                      <li class="menu-item">
-                        <a href="{{route('booking.add')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-layout-top-line"></i>
-                          <div data-i18n="Create Booking">Create Booking</div>
-                        </a>
-                      </li>
-
-                      <li class="menu-item">
-                        <a href="layouts-container.html" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-layout-top-2-line"></i>
-                          <div data-i18n="Online Booking">Online Booking</div>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-
-                  <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'call-logs') ? 'active' : '' }}">
-                    <a href="{{route('call-logs.index')}}" class="menu-link">
-                      <i class="menu-icon icon-base ri ri-table-line"></i>
-                      <div>Call Logs</div>
-                    </a>
-                  </li>
-                  
-                  <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'follow-up') ? 'active' : '' }}">
-                    <a href="{{route('follow-up.index')}}" class="menu-link">
-                      <i class="menu-icon icon-base ri ri-table-line"></i>
-                      <div>Follow Up</div>
-                    </a>
-                  </li>
-
-
-                  <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'users') ? 'active' : '' }}">
-
-                    <a href="{{route('users')}}" class="menu-link">
-
-                      <i class="menu-icon icon-base ri ri-user-line"></i>
-
-                      <div>Users</div>
-
-                    </a>
-
-                  </li>
-
-                </ul>
+          
 
               </div>
-
-            </aside>
-
-            <!-- / Menu -->
+            </div>
