@@ -8,20 +8,24 @@ use App\Models\CallType;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Log;
+use App\Models\TravelBooking;
+use App\Models\TravelBookingType;
 use Illuminate\Http\Request;
-use Hashids;
-
+use Hashids\Hashids;
+use DB;
 
 class CallLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $hashids;
+    public function __construct()
+    {
+        $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+    }
+
     public function index(Request $request)
     {
-        // Build the query with join
         $query = CallLog::query()
-            ->join('users', 'call_logs.user', '=', 'users.id') // Join users table
+            ->join('users', 'call_logs.user_id', '=', 'users.id') // Join users table
             ->select('call_logs.*', 'users.name as user_name') // Select required fields
             ->orderBy('call_logs.created_at', 'desc');
 
@@ -77,6 +81,7 @@ class CallLogController extends Controller
             'chkhotel' => 'nullable|boolean',
             'chkcruise' => 'nullable|boolean',
             'chkcar' => 'nullable|boolean',
+            'chktrain' => 'nullable|boolean',
             'phone' => 'required|string|max:25',
             'name' => 'required|string|max:255',
             'selcompany' => 'required|string|max:255',
@@ -89,16 +94,54 @@ class CallLogController extends Controller
             'notes' => 'nullable|string',
         ]);
     
-        $validated['user'] = auth()->id();
+     
+
+        $validated['user_id'] = auth()->id();
         $validated['pnr'] = '';
         $validated['phone'] = preg_replace('/\D/', '', $request->phone); 
         $call_log = CallLog::create($validated);
         
         if($request->call_converted){
-            $campaignPrefix = strtoupper(substr($request->campaign, 0, 3));
-            $pnr = $campaignPrefix . (1000000000 + $call_log->id);
+             $pnr = date('dm') . str_pad(time() % 86400 % 10000, 4, '0', STR_PAD_LEFT) . str_pad(
+                DB::table('travel_bookings')->whereDate('created_at', now()->toDateString())->count() + 1,
+                4,
+                '0',
+                STR_PAD_LEFT);
+            $campaign = substr(strtoupper($request->input('campaign')), 0, 3);
+            $pnr = $campaign .$pnr;
             $call_log->update(['pnr' => $pnr]);
+
+
+            $bookingData['name'] = $request->name;
+            $bookingData['phone'] = $request->phone;
+            $bookingData['reservation_source'] = $request->reservation_source;
+            $bookingData['campaign'] = $request->campaign;
+           
+            $bookingData['pnr'] = $pnr;
+            $bookingData['user_id'] = auth()->id();
+            $booking = TravelBooking::create($bookingData);
+
+            $checkboxes = [
+                'chkflight' => 'Flight',
+                'chkhotel' => 'Hotel',
+                'chkcruise' => 'Cruise',
+                'chkcar' => 'Car',
+                'chktrain' => 'Train',
+            ];
+
+            foreach ($checkboxes as $field => $type) {
+                if ($request->has($field)) {
+                    TravelBookingType::create([
+                        'booking_id' => $booking->id,
+                        'type' => $type,
+                    ]);
+                }
+            }
+
+            $hash = $this->hashids->encode($booking->id);
+            return redirect()->route('booking.show', ['id' => $hash]);            
         }
+
         
        
         log_operation('CallLog',$call_log->id , 'created' ,'Call Log created successfully', auth()->id());

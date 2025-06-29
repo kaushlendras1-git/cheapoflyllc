@@ -39,6 +39,9 @@
    <div class="card p-3 mt-2 mb-4">
       <div class="d-flex justify-content-between align-items-center flex-wrap">
          <div class="d-flex align-items-center gap-3 flex-wrap">
+
+            
+
             <div class="form-check form-check-inline">
                <input name="chkflight" class="form-check-input" type="checkbox" id="booking-flight" value="1"  {{ old('chkhotel') ? 'checked' : '' }} >
                <label class="form-check-label" for="booking-flight">Flight</label>
@@ -55,11 +58,19 @@
                <input name="chkcar" class="form-check-input" type="checkbox" id="booking-car" value="1"  {{ old('chkcar') ? 'checked' : '' }}>
                <label class="form-check-label" for="booking-car">Car</label>
             </div>
+
+            <div class="form-check form-check-inline">
+               <input name="chkcar" class="form-check-input" type="checkbox" id="booking-train" value="1"  {{ old('chktrain') ? 'checked' : '' }}>
+               <label class="form-check-label" for="booking-train">Train</label>
+            </div>
+
+
             @if ($errors->has('checkbox_group'))
             <div class="alert alert-danger">
                {{ $errors->first('checkbox_group') }}
             </div>
             @endif
+
          </div>
          <div class="d-flex gap-2">
             <!-- <button class="btn btn-sm btn-primary text-center">

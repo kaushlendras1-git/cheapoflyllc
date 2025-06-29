@@ -154,7 +154,9 @@ class BookingFormController extends Controller
 
             $campaign = substr(strtoupper($request->input('campaign')), 0, 3);
             $bookingData['pnr'] = $campaign . $request->input('pnr');
+            $bookingData['user_id'] = auth()->id();
             $booking = TravelBooking::create($bookingData);
+            
             if(isset($fileName)){
                 TravelSectorDetail::create([
                     'booking_id' => $booking->id,
@@ -853,23 +855,11 @@ class BookingFormController extends Controller
 
 
     public function add(){
-        $day = date('d'); // Day of the month (e.g., 21)
-        $month = date('m'); // Month (e.g., 06)
-        $startOfDay = strtotime('today'); // Timestamp for the start of the day
-        $currentTime = time(); // Current timestamp
-        $secondsSinceStartOfDay = $currentTime - $startOfDay; // Seconds since start of the day
-
-        // Limit seconds to 4 digits
-        $formattedSeconds = str_pad($secondsSinceStartOfDay % 10000, 4, '0', STR_PAD_LEFT);
-
-        // Count today's bookings
-        $todayBookingCount = DB::table('travel_bookings')
-            ->whereDate('created_at', now()->toDateString())
-            ->count();
-
-        // Generate the serial number
-        $pnr = $day . $month . $formattedSeconds . str_pad($todayBookingCount + 1, 4, '0', STR_PAD_LEFT);
-
+       $pnr = date('dm') . str_pad(time() % 86400 % 10000, 4, '0', STR_PAD_LEFT) . str_pad(
+                DB::table('travel_bookings')->whereDate('created_at', now()->toDateString())->count() + 1,
+                4,
+                '0',
+                STR_PAD_LEFT);
         return view('web.booking.add', compact('pnr'));
     }
 

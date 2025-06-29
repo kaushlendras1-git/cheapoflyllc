@@ -335,6 +335,95 @@
     });
 
 
+    /**************************** ************** Start Train*********************** */
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const trainFormsContainer = document.getElementById('trainForms');
+    let trainIndex = 0;
+
+    // Add initial row on page load
+    addTrainRow();
+
+    // Function to add a new train row
+    function addTrainRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'train-row';
+        newRow.dataset.index = trainIndex;
+        newRow.innerHTML = `
+            <td><span class="train-title">${trainIndex + 1}</span></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][direction]" placeholder="Direction"></td>
+            <td><input type="date" class="form-control" name="train[${trainIndex}][departure_date]"></td>
+            <td><input type="text" class="form-control" style="width: 8rem;" name="train[${trainIndex}][train_number]" placeholder="Train No"></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][cabin]" placeholder="Cabin"></td>
+            <td><input type="text" class="form-control" style="width: 10rem;" name="train[${trainIndex}][departure_station]" placeholder="Departure Station"></td>
+            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][departure_minutes]" placeholder="mm" min="0" max="59"></td>
+            <td><input type="text" class="form-control" style="width: 10rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station"></td>
+            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
+            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][arrival_minutes]" placeholder="mm" min="0" max="59"></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][duration]" placeholder="Duration"></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][transit]" placeholder="Transit"></td>
+            <td><input type="date" class="form-control" name="train[${trainIndex}][arrival_date]"></td>
+            <td>
+                <button type="button" class="btn btn-outline-danger delete-train-btn">
+                    <i class="ri ri-delete-bin-line"></i>
+                </button>
+            </td>
+        `;
+        trainFormsContainer.appendChild(newRow);
+        trainIndex++;
+    }
+
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input');
+        return Array.from(inputs).every(input => input.value.trim() !== '');
+    }
+
+    // Update train titles and indices after deletion
+    function updateTrainTitles() {
+        const rows = trainFormsContainer.querySelectorAll('.train-row');
+        rows.forEach((row, index) => {
+            const title = row.querySelector('.train-title');
+            title.textContent = `${index + 1}`;
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input');
+            inputs.forEach(input => {
+                const name = input.name.replace(/train\[\d+\]/, `train[${index}]`);
+                input.name = name;
+            });
+        });
+        trainIndex = rows.length;
+    }
+
+    // Event listener for input changes to auto-add rows
+    trainFormsContainer.addEventListener('input', (e) => {
+        const row = e.target.closest('.train-row');
+        if (!row) return;
+
+        const rows = trainFormsContainer.querySelectorAll('.train-row');
+        const lastRow = rows[rows.length - 1];
+
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addTrainRow();
+        }
+    });
+
+    // Delete train row
+    trainFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-train-btn')) {
+            const row = e.target.closest('.train-row');
+            if (trainFormsContainer.children.length > 1) {
+                row.remove();
+                updateTrainTitles();
+            }
+        }
+    });
+});
+
+    /**************************** ************** End Train*********************** */
+
+
 
         document.addEventListener('DOMContentLoaded', () => {
         const passengerFormsContainer = document.getElementById('passengerForms');
@@ -574,6 +663,152 @@
             }
         });
     });
+
+
+    /************************Pricing********************* */
+
+document.addEventListener('DOMContentLoaded', () => {
+    const pricingFormsContainer = document.getElementById('pricingForms');
+    let pricingIndex = 1; // Start at 1 since one row exists in HTML
+
+    // Function to add a new pricing row
+    function addPricingRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'pricing-row';
+        newRow.dataset.index = pricingIndex;
+        newRow.innerHTML = `
+            <td>
+                <select name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                    <option value="adult">Adult</option>
+                    <option value="child">Child</option>
+                    <option value="infant_on_lap">Infant on Lap</option>
+                    <option value="infant_on_seat">Infant on Seat</option>
+                </select>
+            </td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" placeholder="No. of Passengers" min="0"></td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
+            <td><span class="gross-total">0.00</span></td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+            <td><span class="net-total">0.00</span></td>
+            <td>
+                <select name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                    <option value="ticket_cost">Ticket Cost</option>
+                    <option value="merchant_fee">Merchant Fee</option>
+                    <option value="company_card_used">Company Card Used</option>
+                </select>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                    <i class="ri ri-delete-bin-line"></i>
+                </button>
+            </td>
+        `;
+        pricingFormsContainer.appendChild(newRow); // Append the new row to the container
+        pricingIndex++;
+    }
+
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input');
+        const selects = row.querySelectorAll('select');
+        return Array.from(inputs).every(input => input.value.trim() !== '') &&
+               Array.from(selects).every(select => select.value.trim() !== '');
+    }
+
+    // Function to calculate totals for a row
+    function calculateRowTotals(row) {
+        const numPassengers = parseFloat(row.querySelector('input[name$="[num_passengers]"]').value) || 0;
+        const grossPrice = parseFloat(row.querySelector('input[name$="[gross_price]"]').value) || 0;
+        const netPrice = parseFloat(row.querySelector('input[name$="[net_price]"]').value) || 0;
+
+        const grossTotal = (numPassengers * grossPrice).toFixed(2);
+        const netTotal = (numPassengers * netPrice).toFixed(2);
+
+        row.querySelector('.gross-total').textContent = grossTotal;
+        row.querySelector('.net-total').textContent = netTotal;
+
+        updateFooterTotals();
+    }
+
+    // Function to update footer totals (Gross Profit and Net Profit)
+    function updateFooterTotals() {
+        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
+        let totalGrossProfit = 0;
+        let totalNetProfit = 0;
+
+        rows.forEach(row => {
+            const grossTotal = parseFloat(row.querySelector('.gross-total').textContent) || 0;
+            const netTotal = parseFloat(row.querySelector('.net-total').textContent) || 0;
+            totalGrossProfit += grossTotal;
+            totalNetProfit += netTotal;
+        });
+
+        document.getElementById('total_gross_profit').textContent = totalGrossProfit.toFixed(2);
+        document.getElementById('total_net_profit').textContent = totalNetProfit.toFixed(2);
+    }
+
+    // Function to update row indices after deletion
+    function updateRowIndices() {
+        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
+        rows.forEach((row, index) => {
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                const name = input.name.replace(/pricing\[\d+\]/, `pricing[${index}]`);
+                input.name = name;
+                if (input.id) {
+                    const id = input.id.replace(/_\d+$/, `_${index}`);
+                    input.id = id;
+                }
+            });
+        });
+        pricingIndex = rows.length;
+    }
+
+    // Event listener for input changes (number inputs)
+    pricingFormsContainer.addEventListener('input', (e) => {
+        const row = e.target.closest('.pricing-row');
+        if (!row) return;
+
+        // Recalculate totals for the current row
+        calculateRowTotals(row);
+
+        // Check if the last row is filled and add a new row
+        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
+        const lastRow = rows[rows.length - 1];
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addPricingRow();
+        }
+    });
+
+    // Event listener for select changes (passenger_type and details)
+    pricingFormsContainer.addEventListener('change', (e) => {
+        const row = e.target.closest('.pricing-row');
+        if (!row || e.target.tagName !== 'SELECT') return;
+
+        // Check if the last row is filled and add a new row
+        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
+        const lastRow = rows[rows.length - 1];
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addPricingRow();
+        }
+    });
+
+    // Event listener for deleting rows
+    pricingFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-pricing-btn')) {
+            const row = e.target.closest('.pricing-row');
+            if (pricingFormsContainer.children.length > 1) {
+                row.remove();
+                updateRowIndices();
+                updateFooterTotals();
+            }
+        }
+    });
+
+    // Initialize totals for the first row
+    updateFooterTotals();
+});
 
 
 ///////////////////////////Show And Hode Tabs////////////////////

@@ -220,6 +220,10 @@
             <ul class="nav nav-tabs my-5" id="bookingTabs" role="tablist">
 
 
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab" aria-controls="passenger" aria-selected="false">Passengers</a>
+    </li>
+
     <li class="nav-item" role="presentation" data-tab="Flight">
         <a class="nav-link" id="flightbooking-tab" data-bs-toggle="tab" href="#flightbooking" role="tab" aria-controls="flightbooking" aria-selected="true">Flight Booking</a>
     </li>
@@ -235,20 +239,21 @@
     <li class="nav-item" role="presentation" data-tab="Train">
         <a class="nav-link" id="trainbooking-tab" data-bs-toggle="tab" href="#trainbooking" role="tab" aria-controls="trainbooking" aria-selected="true">Train Booking</a>
     </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab" aria-controls="passenger" aria-selected="false">Passengers</a>
-    </li>
+
     <li class="nav-item" role="presentation">
         <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">Billing</a>
     </li>
 
-    <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation">
         <a class="nav-link" id="pricing-tab" data-bs-toggle="tab" href="#pricing" role="tab" aria-controls="pricing" aria-selected="false">Pricing</a>
     </li>
+ 
 
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab" aria-controls="remarks" aria-selected="false">Booking Remarks</a>
+
+        <li class="nav-item " role="presentation">
+        <a class="nav-link " id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab" aria-controls="remarks" aria-selected="false">Booking Remarks</a>
     </li>
+
      <!-- <li class="nav-item" role="presentation">
                     <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Quality Feedback</a>
                 </li>
@@ -262,144 +267,8 @@
 
             <!-- Tab Content -->
             <div class="tab-content" id="bookingTabsContent">
-
-                <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">
-                    <div class="card p-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-header border-0 p-0">Flight Booking Details</h5>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-md-12 table-responsive">
-                                        <table id="flightTable" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>S.No</th>
-                                                    <th>Direction</th>
-                                                    <th>Date</th>
-                                                    <th>Airlines (Code)</th>
-                                                    <th>Flight No</th>
-                                                    <th>Cabin</th>
-                                                    <th>Class of Service</th>
-                                                    <th>Departure Airport</th>
-                                                    <th>Hrs</th>
-                                                    <th>mm</th>
-                                                    <th>Arrival Airport</th>
-                                                    <th>Hrs</th>
-                                                    <th>mm</th>
-                                                    <th>Duration</th>
-                                                    <th>Transit</th>
-                                                    <th>Arrival Date</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="flightForms"></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
-                    <div class="card p-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-header border-0 p-0">Car Booking Details</h5>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-md-12 table-responsive">
-                                        <table id="carTable" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>S.No</th>
-                                                    <th>Car Rental Provider</th>
-                                                    <th>Car Type</th>
-                                                    <th>Pick-up Location</th>
-                                                    <th>Drop-off Location</th>
-                                                    <th>Pick-up Date</th>
-                                                    <th>Pick-up Time</th>
-                                                    <th>Drop-off Date</th>
-                                                    <th>Drop-off Time</th>
-                                                    <th>Confirmation Number</th>
-                                                    <th>Remarks</th>
-                                                    <th>Rental Provider's Address</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="carForms"></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
-                    <div class="card p-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-header border-0 p-0">Cruise Booking Details</h5>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-md-12 table-responsive">
-                                    <table id="cruiseTable" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Date</th>
-                                                <th>Cruise Line</th>
-                                                <th>Name of the Ship</th>
-                                                <th>Category</th>
-                                                <th>Stateroom</th>
-                                                <th>Departure Port</th>
-                                                <th>Departure Date</th>
-                                                <th>Hrs</th>
-                                                <th>mm</th>
-                                                <th>Arrival Port</th>
-                                                <th>Arrival Date</th>
-                                                <th>Hrs</th>
-                                                <th>mm</th>
-                                                <th>Remarks</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="cruiseForms"></tbody>
-                                    </table>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
-                    <div class="card p-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-header border-0 p-0">Hotel Booking Details</h5>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-md-12 table-responsive">
-                                        <table id="hotelTable" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>S.No</th>
-                                                    <th>Hotel Name</th>
-                                                    <th>Room Category</th>
-                                                    <th>Check-in Date</th>
-                                                    <th>Check-out Date</th>
-                                                    <th>No. Of Rooms</th>
-                                                    <th>Confirmation Number</th>
-                                                    <th>Hotel Address</th>
-                                                    <th>Remarks</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="hotelForms"></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade " id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
+                
+                <div class="tab-pane fade show active" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0">Passenger Details</h4>
@@ -487,6 +356,207 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Booking Remarks -->
+                <div class="tab-pane fade " id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-header border-0 p-0">Booking Remarks</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{ old('particulars', '') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Flight Booking Details</h5>
+                            </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12 table-responsive">
+                                        <table id="flightTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Direction</th>
+                                                    <th>Date</th>
+                                                    <th>Airlines (Code)</th>
+                                                    <th>Flight No</th>
+                                                    <th>Cabin</th>
+                                                    <th>Class of Service</th>
+                                                    <th>Departure Airport</th>
+                                                    <th>Hrs</th>
+                                                    <th>mm</th>
+                                                    <th>Arrival Airport</th>
+                                                    <th>Hrs</th>
+                                                    <th>mm</th>
+                                                    <th>Duration</th>
+                                                    <th>Transit</th>
+                                                    <th>Arrival Date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="flightForms"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                
+                <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Cruise Booking Details</h5>
+                            </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12 table-responsive">
+                                    <table id="cruiseTable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Date</th>
+                                                <th>Cruise Line</th>
+                                                <th>Name of the Ship</th>
+                                                <th>Category</th>
+                                                <th>Stateroom</th>
+                                                <th>Departure Port</th>
+                                                <th>Departure Date</th>
+                                                <th>Hrs</th>
+                                                <th>mm</th>
+                                                <th>Arrival Port</th>
+                                                <th>Arrival Date</th>
+                                                <th>Hrs</th>
+                                                <th>mm</th>
+                                                <th>Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cruiseForms"></tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Hotel Booking Details</h5>
+                            </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12 table-responsive">
+                                        <table id="hotelTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Hotel Name</th>
+                                                    <th>Room Category</th>
+                                                    <th>Check-in Date</th>
+                                                    <th>Check-out Date</th>
+                                                    <th>No. Of Rooms</th>
+                                                    <th>Confirmation Number</th>
+                                                    <th>Hotel Address</th>
+                                                    <th>Remarks</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="hotelForms"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Car Booking Details</h5>
+                            </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12 table-responsive">
+                                        <table id="carTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Car Rental Provider</th>
+                                                    <th>Car Type</th>
+                                                    <th>Pick-up Location</th>
+                                                    <th>Drop-off Location</th>
+                                                    <th>Pick-up Date</th>
+                                                    <th>Pick-up Time</th>
+                                                    <th>Drop-off Date</th>
+                                                    <th>Drop-off Time</th>
+                                                    <th>Confirmation Number</th>
+                                                    <th>Remarks</th>
+                                                    <th>Rental Provider's Address</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="carForms"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="trainbooking" role="tabpanel" aria-labelledby="trainbooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Train Booking Details</h5>
+                            </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12 table-responsive">
+                                        <table id="carTable" class="table">
+                                            <thead>
+                                                 <tr>
+                                                    <th colspan="6">Trip to Sherevport</th>
+                                                    <th colspan="2">Departure	</th>
+                                                    <th></th>
+                                                    <th>Arrival	</th>
+                                                    <th></th>
+                                                     <th></th>
+                                                     <th></th>
+                                                     <th></th>
+                                                     <th></th>
+                                                </tr>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Direction</th>
+                                                    <th>Date</th>
+                                                    <th>Train No</th>
+                                                    <th>Cabin</th>
+                                                    <th>Departure station</th>
+                                                    <th>Hrs</th>
+                                                    <th>MM</th>
+                                                    <th>Arrival station</th>
+                                                    <th>Hrs</th>
+                                                    <th>MM</th>
+                                                    <th>Duration</th>
+                                                    <th>Transit</th>
+                                                    <th>Arrival date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="trainForms"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                
                 <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -626,66 +696,59 @@
                             <div class="excel-like-container table-responsive">
                                 <table class="pricing-table table">
                                     <thead>
-                                    <tr>
-                                        <th data-column="flight">Flight Cost($)</th>
-                                        <th data-column="hotel">Hotel Cost ($)</th>
-                                        <th data-column="cruise">Cruise Cost ($)</th>
-                                        <th data-column="car">Car Cost ($)</th>
-                                        <th data-column="train">Train Cost ($)</th>
-                                        <th>Total Amount ($)</th>
-                                        <th data-column="flight">Issuance Fee ($)</th>
-                                        <th>Advisor MCO ($)</th>
-                                        <th data-column="flight">Airline Commission ($)</th>
-                                        <th>Final Amount ($)</th>
-                                        <th>Merchant</th>
-                                        <th>Net MCO ($)</th>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="3" rowspan="1"><strong>Gross Amount Collected</strong></td>
+                                            <td colspan="2" rowspan="1"><strong>Net Amount (Paid)</strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Passengers*</th>
+                                            <th>No. of Passengers</th>
+                                            <th>Price*</th>
+                                            <th>Total*</th>
+                                            <th>Price*</th>
+                                            <th>Total</th>
+                                            <th>Details</th>
+                                        </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td data-column="flight">
-                                            <input type="number" style="width:7.5rem" class="form-control" name="flight_cost" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td data-column="hotel">
-                                            <input type="number" style="width:7.5rem" class="form-control" name="hotel_cost" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td data-column="cruise">
-                                            <input type="number" style="width:7.5rem" class="form-control" name="cruise_cost" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td data-column="car">
-                                            <input type="number" style="width:7.5rem" class="form-control" name="car_cost" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td data-column="train">
-                                            <input type="number" style="width:7.5rem" class="form-control" name="train_cost" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td>
-                                            <input type="number" style="width:7.5rem" class="form-control" name="total_amount" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td data-column="flight">
-                                            <input type="number" style="width:7.5rem" class="form-control" name="issuance_fee" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td>
-                                            <input type="number" style="width:7.5rem" class="form-control" name="advisor_mco" value="12.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td data-column="flight">
-                                            <input type="number" style="width:10rem" class="form-control" name="airline_commission" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td>
-                                            <input type="number" style="width:7.5rem" class="form-control" name="final_amount" value="12.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width:9rem" name="merchant">
-                                                <option value="">Select Merchant</option>
-                                                <option value="15">Flydreamz</option>
-                                                <option value="15">CruiseLineService</option>
-                                                <option value="15">FareTickets</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="number" style="width:7.5rem" class="form-control" name="net_mco" value="0.00" placeholder="0.00" step="0.01">
-                                        </td>
-                                    </tr>
+                                    <tbody id="pricingForms" class="pricing-rows">
+                                        <tr class="pricing-row" data-index="0">
+                                            <td>
+                                                <select name="pricing[0][passenger_type]" id="passenger_type_0">
+                                                    <option value="adult">Adult</option>
+                                                    <option value="child">Child</option>
+                                                    <option value="infant_on_lap">Infant on Lap</option>
+                                                    <option value="infant_on_seat">Infant on Seat</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="number" class="form-control" name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0"></td>
+                                            <td><input type="number" class="form-control" name="pricing[0][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
+                                            <td><span class="gross-total">0.00</span></td>
+                                            <td><input type="number" class="form-control" name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+                                            <td><span class="net-total">0.00</span></td>
+                                            <td>
+                                                <select name="pricing[0][details]" id="details_0">
+                                                    <option value="ticket_cost">Ticket Cost</option>
+                                                    <option value="merchant_fee">Merchant Fee</option>
+                                                    <option value="company_card_used">Company Card Used</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"><strong>Gross Profit</strong></td>
+                                            <td><span id="total_gross_profit">0.00</span></td>
+                                            <td colspan="2"><strong>Net Profit</strong></td>
+                                            <td><span id="total_net_profit">0.00</span></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -694,19 +757,7 @@
 
              <!-----------------------------------Pricing ------------------------------------------>
 
-                <!-- Booking Remarks -->
-                <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab"   >
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <h5 class="card-header border-0 p-0">Booking Remarks</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{ old('particulars', '') }}</textarea>
-                        </div>
-                    </div>
-
-
-                </div>
+                
 
 
             </div>
@@ -725,5 +776,21 @@
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
 @vite('resources/js/booking/create.js')
+
+<style>
+    table {
+      width: 100%;
+      border-collapse: collapse; /* Ensures borders don't have gaps */
+    }
+    th, td {
+      border: 1px solid black; /* Adds borders to cells */
+      padding: 8px;
+      text-align: center;
+    }
+    thead th {
+      background-color: #f2f2f2; /* Highlight the header */
+      border: 2px solid black; /* Thicker border for the header */
+    }
+  </style>
 
 @endsection

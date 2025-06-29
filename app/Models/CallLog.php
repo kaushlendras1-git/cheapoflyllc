@@ -29,7 +29,7 @@ class CallLog extends Model
         'followup_date',
         'assign',
         'notes',
-        'user',
+        'user_id',
         'pnr',
     ];
 }
