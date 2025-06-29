@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2025 at 02:33 AM
+-- Generation Time: Jun 29, 2025 at 04:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,22 +67,51 @@ CREATE TABLE `cache_locks` (
 
 CREATE TABLE `call_logs` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   `chkflight` tinyint(1) NOT NULL DEFAULT 0,
   `chkhotel` tinyint(1) NOT NULL DEFAULT 0,
   `chkcruise` tinyint(1) NOT NULL DEFAULT 0,
   `chkcar` tinyint(1) NOT NULL DEFAULT 0,
+  `chktrain` tinyint(1) NOT NULL DEFAULT 0,
   `phone` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `team` varchar(255) NOT NULL,
+  `team` int(11) NOT NULL DEFAULT 0,
   `campaign` varchar(255) NOT NULL,
   `reservation_source` varchar(255) NOT NULL,
   `call_type` varchar(255) NOT NULL,
   `call_converted` tinyint(1) NOT NULL DEFAULT 0,
   `followup_date` timestamp NULL DEFAULT NULL,
   `notes` text DEFAULT NULL,
+  `assign` int(11) DEFAULT NULL,
+  `pnr` varchar(30) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `call_logs`
+--
+
+INSERT INTO `call_logs` (`id`, `user_id`, `chkflight`, `chkhotel`, `chkcruise`, `chkcar`, `chktrain`, `phone`, `name`, `team`, `campaign`, `reservation_source`, `call_type`, `call_converted`, `followup_date`, `notes`, `assign`, `pnr`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, 1, 1, 0, 0, '1497658981', 'Adrienne Bowers', 0, 'International', 'Minus consectetur do', '1', 1, NULL, 'Perspiciatis numqua', NULL, 'INT1000000001', '2025-06-27 17:49:39', '2025-06-27 17:49:39'),
+(2, 3, 0, 0, 1, 1, 0, '1914543638', 'Marny Miller', 0, 'Pure AA', 'Eaque quo et rerum i', '1', 1, NULL, 'Sunt deserunt enim', 1, 'PUR1000000002', '2025-06-27 17:50:23', '2025-06-27 17:50:23'),
+(3, 3, 1, 0, 1, 0, 0, '1607768549', 'Yolanda Fleming', 0, 'LCC', 'Fugit qui deserunt', '1', 0, NULL, 'Voluptatem adipisic', 2, '', '2025-06-27 17:50:37', '2025-06-27 17:50:37'),
+(4, 3, 1, 1, 1, 1, 0, '1119584913', 'Chandler Owens', 0, 'Buffer Mix', 'Velit mollit qui at', '1', 0, NULL, 'Eos perferendis comm', 2, '', '2025-06-27 18:13:51', '2025-06-27 18:13:51'),
+(5, 2, 0, 0, 0, 1, 0, '1632474692', 'Herman Bernard', 1, 'Buffer Mix', 'Earum officia nisi s', '1', 0, NULL, 'Inventore voluptatum', NULL, '', '2025-06-27 18:20:45', '2025-06-27 18:20:45'),
+(6, 3, 1, 0, 0, 0, 0, '121', '1212', 0, 'Agency', 'sdfl;sd', '2', 0, NULL, 'saddadsasdas', NULL, '', '2025-06-27 19:07:18', '2025-06-27 19:07:18'),
+(7, NULL, 1, 0, 0, 0, 0, '12', '1222', 0, 'Agency', 'sdsdsds', '1', 1, NULL, 'dss ddasdssa', NULL, 'AGE1000000007', '2025-06-28 16:32:47', '2025-06-28 16:32:47'),
+(8, 2, 0, 0, 1, 0, 0, '1498792921', 'Steven Roman', 0, 'Premium Amtrak Bing Calls', 'Adipisci sint est a', '2', 1, NULL, 'Dolor non enim culpa', NULL, 'PRE1000000008', '2025-06-28 17:02:24', '2025-06-28 17:02:24'),
+(9, 2, 0, 0, 1, 0, 0, '1498792921', 'Steven Roman', 0, 'Premium Amtrak Bing Calls', 'Adipisci sint est a', '2', 1, NULL, 'Dolor non enim culpa', NULL, 'PRE1000000009', '2025-06-28 17:02:40', '2025-06-28 17:02:40'),
+(10, 2, 0, 0, 1, 0, 0, '1498792921', 'Steven Roman', 0, 'Premium Amtrak Bing Calls', 'Adipisci sint est a', '2', 1, NULL, 'Dolor non enim culpa', NULL, 'PRE1000000010', '2025-06-28 17:03:19', '2025-06-28 17:03:19'),
+(11, 2, 1, 1, 0, 0, 0, '1211411900', 'Kim Ramsey', 0, 'Cruise', 'Aut laboriosam adip', '2', 1, NULL, 'Voluptatum dolorum r', NULL, 'CRU1000000011', '2025-06-28 17:04:06', '2025-06-28 17:04:06'),
+(12, 2, 1, 1, 0, 0, 0, '1211411900', 'Kim Ramsey', 0, 'Cruise', 'Aut laboriosam adip', '2', 1, NULL, 'Voluptatum dolorum r', NULL, 'CRU1000000012', '2025-06-28 17:04:21', '2025-06-28 17:04:21'),
+(13, 2, 1, 0, 0, 0, 0, '1862847204', 'Tanisha Jensen', 0, 'Buffer Mix', 'Ex aliqua Aut conse', '1', 1, NULL, 'Nisi fuga Sed atque', NULL, 'BUF1000000013', '2025-06-28 17:05:54', '2025-06-28 17:05:54'),
+(14, 2, 1, 0, 0, 0, 0, '1862847204', 'Tanisha Jensen', 0, 'Buffer Mix', 'Ex aliqua Aut conse', '1', 1, NULL, 'Nisi fuga Sed atque', NULL, 'BUF1000000014', '2025-06-28 17:06:51', '2025-06-28 17:06:51'),
+(15, 2, 1, 0, 0, 0, 0, '1869997627', 'Britanni Pickett', 0, 'LCC', 'Qui molestiae eum ad', '2', 1, NULL, 'Consequuntur dolor s', NULL, 'LCC1000000015', '2025-06-28 17:07:10', '2025-06-28 17:07:10'),
+(16, 2, 1, 0, 0, 0, 0, '1869997627', 'Britanni Pickett', 0, 'LCC', 'Qui molestiae eum ad', '2', 1, NULL, 'Consequuntur dolor s', NULL, 'LCC1000000016', '2025-06-28 17:08:32', '2025-06-28 17:08:32'),
+(17, 2, 1, 1, 1, 1, 0, '1469303122', 'Octavius Larson', 0, 'International', 'Dolore vel nihil ex', '2', 1, NULL, 'Qui unde fugiat aute', NULL, 'INT1000000017', '2025-06-28 17:08:45', '2025-06-28 17:08:45'),
+(18, 2, 1, 0, 0, 0, 0, '1295869238', 'Dana Hyde', 0, 'Major Mix', 'Facere repudiandae m', '1', 1, NULL, 'Non inventore eligen', NULL, '', '2025-06-28 17:29:25', '2025-06-28 17:29:25'),
+(19, 2, 1, 0, 0, 0, 0, '1295869238', 'Dana Hyde', 0, 'Major Mix', 'Facere repudiandae m', '1', 1, NULL, 'Non inventore eligen', NULL, 'MAJ280627820016', '2025-06-28 17:29:42', '2025-06-28 17:29:42');
 
 -- --------------------------------------------------------
 
@@ -98,6 +127,14 @@ CREATE TABLE `call_types` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `call_types`
+--
+
+INSERT INTO `call_types` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Call Type', 1, NULL, NULL),
+(2, 'Jesse Bright', 1, '2025-06-27 18:37:46', '2025-06-27 18:37:46');
+
 -- --------------------------------------------------------
 
 --
@@ -111,6 +148,22 @@ CREATE TABLE `campaigns` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `campaigns`
+--
+
+INSERT INTO `campaigns` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Agency', 1, NULL, NULL),
+(2, 'Airline Mix', 1, NULL, NULL),
+(3, 'Buffer Mix', 1, NULL, NULL),
+(4, 'Cruise', 1, NULL, NULL),
+(5, 'International', 1, NULL, NULL),
+(6, 'LCC', 1, NULL, NULL),
+(7, 'Major Mix', 1, NULL, NULL),
+(8, 'Premium Amtrak Bing Calls', 1, NULL, NULL),
+(9, 'Pure AA', 1, NULL, NULL),
+(10, 'Spanish', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -178,7 +231,10 @@ INSERT INTO `change_logs` (`id`, `booking_id`, `model_id`, `model_type`, `user_i
 (41, 31, 31, 'TravelBooking', 1, 'selected_company', '1', '3', '2025-06-24 00:19:58'),
 (42, 31, 31, 'TravelBooking', 1, 'reservation_source', 'Est voluptatum iusto', 'Totam fuga Nulla od', '2025-06-24 00:19:58'),
 (43, 31, 31, 'TravelBooking', 1, 'descriptor', 'Laudantium asperior', 'Dolore non maxime eu', '2025-06-24 00:19:58'),
-(44, 31, 31, 'TravelFlightDetail', 21, 'deleted', 'exists', 'null', '2025-06-24 00:21:04');
+(44, 31, 31, 'TravelFlightDetail', 21, 'deleted', 'exists', 'null', '2025-06-24 00:21:04'),
+(45, 27, 27, 'TravelBooking', 2, 'campaign', 'null', 'Premium Amtrak Bing Calls', '2025-06-27 23:55:39'),
+(46, 27, 27, 'TravelBooking', 2, 'pnrtype', 'null', 'HK', '2025-06-27 23:55:39'),
+(47, 27, 27, 'TravelBooking', 2, 'selected_company', 'null', '1', '2025-06-27 23:55:39');
 
 -- --------------------------------------------------------
 
@@ -437,7 +493,20 @@ INSERT INTO `logs` (`id`, `log_type`, `operation`, `calllog_id`, `comment`, `use
 (20, 'CallLog', 'created', '18', 'Call Log created successfully', 1, '2025-05-17 14:32:02', '2025-05-17 14:32:02'),
 (21, 'CallLog', 'Viewed', '17', 'You have seen the call log', 1, '2025-05-17 14:32:24', '2025-05-17 14:32:24'),
 (22, 'CallLog', 'Viewed', '17', 'You have seen the call log', 1, '2025-06-16 17:52:35', '2025-06-16 17:52:35'),
-(23, 'CallLog', 'Viewed', '18', 'You have seen the call log', 1, '2025-06-18 15:56:36', '2025-06-18 15:56:36');
+(23, 'CallLog', 'Viewed', '18', 'You have seen the call log', 1, '2025-06-18 15:56:36', '2025-06-18 15:56:36'),
+(24, 'CallLog', 'created', '1', 'Call Log created successfully', 3, '2025-06-27 17:49:39', '2025-06-27 17:49:39'),
+(25, 'CallLog', 'created', '2', 'Call Log created successfully', 3, '2025-06-27 17:50:23', '2025-06-27 17:50:23'),
+(26, 'CallLog', 'created', '3', 'Call Log created successfully', 3, '2025-06-27 17:50:37', '2025-06-27 17:50:37'),
+(27, 'CallLog', 'created', '4', 'Call Log created successfully', 3, '2025-06-27 18:13:51', '2025-06-27 18:13:51'),
+(28, 'CallLog', 'created', '5', 'Call Log created successfully', 2, '2025-06-27 18:20:45', '2025-06-27 18:20:45'),
+(29, 'CallLog', 'Viewed', '5', 'You have seen the call log', 2, '2025-06-27 18:26:17', '2025-06-27 18:26:17'),
+(30, 'CallLog', 'Viewed', '5', 'You have seen the call log', 2, '2025-06-27 18:26:28', '2025-06-27 18:26:28'),
+(31, 'CallLog', 'Viewed', '5', 'You have seen the call log', 2, '2025-06-27 18:27:01', '2025-06-27 18:27:01'),
+(32, 'CallLog', 'Viewed', '5', 'You have seen the call log', 2, '2025-06-27 18:27:21', '2025-06-27 18:27:21'),
+(33, 'CallLog', 'Viewed', '5', 'You have seen the call log', 2, '2025-06-27 18:28:03', '2025-06-27 18:28:03'),
+(34, 'CallLog', 'created', '6', 'Call Log created successfully', 3, '2025-06-27 19:07:18', '2025-06-27 19:07:18'),
+(35, 'CallLog', 'Viewed', '6', 'You have seen the call log', 3, '2025-06-27 19:51:25', '2025-06-27 19:51:25'),
+(36, 'CallLog', 'created', '7', 'Call Log created successfully', 1, '2025-06-28 16:32:47', '2025-06-28 16:32:47');
 
 -- --------------------------------------------------------
 
@@ -615,6 +684,13 @@ CREATE TABLE `teams` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `teams`
+--
+
+INSERT INTO `teams` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'teams', 1, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -687,7 +763,47 @@ INSERT INTO `travel_billing_details` (`id`, `booking_id`, `card_type`, `cc_numbe
 (88, 32, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
 (89, 32, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
 (90, 33, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL),
-(91, 33, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
+(91, 33, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL),
+(92, 34, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-27 18:22:15', '2025-06-27 23:52:15', NULL),
+(93, 34, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-27 18:22:15', '2025-06-27 23:52:15', NULL),
+(94, 35, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 13:53:36', '2025-06-28 19:23:36', NULL),
+(95, 35, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 13:53:36', '2025-06-28 19:23:36', NULL),
+(96, 36, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 13:56:53', '2025-06-28 19:26:53', NULL),
+(97, 36, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 13:56:53', '2025-06-28 19:26:53', NULL),
+(98, 37, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 14:44:35', '2025-06-28 20:14:35', NULL),
+(99, 37, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 14:44:35', '2025-06-28 20:14:35', NULL),
+(100, 38, 'Mastercard', 'eyJpdiI6IjQxVWJRMFVOWkNOMGtzeUZGanZLbmc9PSIsInZhbHVlIjoiczhjMmRVWmxRWjZMMThqRThsbUVUdz09IiwibWFjIjoiMzkyNTNkNGQ4ZWM0MGY1ZjczNjAxMzI4ZjdiYWFmZDgwYTIyNzM2NTQ2NTEzZjcxMjRkOTMxYTZiOGNiOTVmOCIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6IkxNbjBPZ3poWXp2c3VFZmNkY3cxYXc9PSIsInZhbHVlIjoicklVM0xzMVp6TTJOSEtaT1hvbnRRZGh3T1htclc5cUNsa2Y1d01RUlNSMD0iLCJtYWMiOiI0ZDhmNGU1YjA4ZDlkMjViZWRjMmE4MzlkNDQ5NGI0MjFlYmFkOTc2NjUzN2Q5ZGUwYzJlNjczOWVhODQ4NGZjIiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:44:44', '2025-06-28 20:14:44', NULL),
+(101, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:44:44', '2025-06-28 20:14:44', NULL),
+(102, 38, 'Mastercard', 'eyJpdiI6IncwcGlnMERPQmlUU2ZBOEdBK29tU2c9PSIsInZhbHVlIjoiUzdvYUl0RnlERzNVaGdrN0RDQ2RKUT09IiwibWFjIjoiNWMzNDk3NTg0MzEzNzE1YjFjMWYwZDBlZmQ1MDdkZTUxMmQ2NjJiMzAxNzBiNzA5NDFhZTM3NDQ2NjQyNTc1MCIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6IlRRMldVaGVaSEd4MXY5V2l5bDArWHc9PSIsInZhbHVlIjoiWmQ1aC9hTkExZU1aUEVoOUJXaGhrQmQ1aHpsdVUwa2dxcUU5dEc5TmZKRT0iLCJtYWMiOiI3YzdjYTBlZThiZDJmZTc3Y2E4NDBhYWI3MzM5ODVlZmNmNDc2ZmYyN2MxMTBmNDFjNjhiZWVkOWUxZWQ2OWI0IiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:44:44', '2025-06-28 20:14:44', NULL),
+(103, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:44:44', '2025-06-28 20:14:44', NULL),
+(104, 40, 'Mastercard', 'eyJpdiI6Ik0rdmRGckgwSGJPU0hTK1djZFdlSHc9PSIsInZhbHVlIjoiUDVNazB0RXdNbHpTNGR5dzA3YXJvUT09IiwibWFjIjoiYWMxNDdiNmM2MzIxOTQ3NDBjMGQ5YmNmZmE5YmE3YTJkMDc4ZjZiNGM0YjBkNjQ2NjRhZmM5YTMyNjBhM2I0MCIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6InI5em9ZNE81dkFPOEZVaFhKRU5SakE9PSIsInZhbHVlIjoid0ZKd3Rlc1hSSktTMVNwNmhrZHdERkYwV1FJVjlRRXhUblZjUVR3RC9uRT0iLCJtYWMiOiIzYzRiMDE0NWI5NGFhYThmODhiN2NmMzUyYTBhN2Y1ZjJjNjZjMDc1MmMwMzZlN2Q0MDRhYTU2MzJkNWFjNjlhIiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(105, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(106, 40, 'Mastercard', 'eyJpdiI6IlRLUWY4UGhvcUV6OW0wOE5XTUFIUXc9PSIsInZhbHVlIjoiWHdKQUlmNTl2R0kwWmE0ZnlMNXhLUT09IiwibWFjIjoiZjkwY2U3MmIyY2Q3YWVmMGVkNGJlMzg3ZGY5M2Y2OGI0ZmNkNDRhYWVmNzliZThkNGI3MzgwYzM3NjUzZDU2MyIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6Ikp0T3pCc051SlRqU2NJcDVpY01zdXc9PSIsInZhbHVlIjoic3FVVS9oY2Q1TUN4RlJEQWZiR1RKTWV3Z3A5b3k3Rm45S0N3UzBUNWZ2OD0iLCJtYWMiOiIxODRjNzc3MzJhMzdiNGQ5NGIxZjBkZGRlNWUxODVkMjUwMTUzNzU0ODBkMDRkNzViOTdiZTE1MDI3YjY3NDgyIiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(107, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(108, 45, 'Mastercard', 'eyJpdiI6InM5amdBUWt4WGVGVFBRR3VvUUxFalE9PSIsInZhbHVlIjoiZGdrQ0N2aElCQ1VRODVOek9FUzZUUT09IiwibWFjIjoiMzRhMjY5MzJjYzM2ZWYyYzQ2NTkyMDIyYzIyNGUxZWEwYThjYzM1OGU2NGFkZjk3NWE1ZDVjNjA4YWM0NGQ4YyIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6IkhyU1dKajNQbU5qaElRRjJhV01uRHc9PSIsInZhbHVlIjoianR2TXhkZFBkRXp6Z2d5Ny9DQ1hMRXljL0Z3V2d3cDE2UDRXaDMvMUhxOD0iLCJtYWMiOiJiZTcxMzNlNjI1OTkyNWJiMDhlM2FjZjIwNDZmMzgwZWE3YThlNGQ0MzIwODQ2ZTg0ODg3M2U5MWI4Mzc5YWIyIiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(109, 45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(110, 45, 'Mastercard', 'eyJpdiI6IjE3Q2xva25BOStKL2xodEdKSzJxcEE9PSIsInZhbHVlIjoiMVNWMk9PaG0wVzZhMDB1MEhvbG0rdz09IiwibWFjIjoiODFkNDkwN2Y3OTM4ZmJhZmZhMjZiNWE4NWU5NGVkMTc5ZDk1ZThmNGFmYTgwZWNmNjQ1Y2YzNTAzNmUxOTJkZSIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6IjlzamNhNndBaTJoeXhJSktTdlJ1RkE9PSIsInZhbHVlIjoiMHJTWjRaZ2ttWEh6RUFLRzJ0dWhYY2lrTXcrR2JvTDlMeHE0VTh5Mm9RST0iLCJtYWMiOiIyODJkYWUwMWEzNzFmODU3YmIzMjBlYzJhMzczMmRjYTM2MjVmOWE3N2Y0NDRkMWVjMWU5Zjk0NTMxYmUyMzUwIiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(111, 45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(116, 48, 'Mastercard', 'eyJpdiI6Im5LRzVRN2Fzd3p3a2ZmWFZaVUc2VkE9PSIsInZhbHVlIjoiTUZNYnNNYllyVzlnenhxMnpYUmVodz09IiwibWFjIjoiZDhiMzgwMzBkNDg3YjY4NzMzMDBjYTBkMzQ4N2ViOTI0Y2E2MWRlZTQ1NWNkM2FiY2E2YTAyMGUxMzg5Y2FmYyIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6IlRuREF4TGFoQTFoNitZbU42UHp4MGc9PSIsInZhbHVlIjoiYWpmdElSSmhFVS9pRnhqZGhyK0xiNDI4UlpmcVM4RmJ4MEUxdVk2SjVHMD0iLCJtYWMiOiIyOWYxZjQxMGM4YzQ2ZDBmZDY1MTRjMjYyNGM5MjAwMDlkNjY2ZGUwYTQ3MTM2MDA5ZmZlM2I3NTNjYWFmZjVkIiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(117, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(118, 48, 'Mastercard', 'eyJpdiI6ImFTMklqOUxBaXFmQ1lsNWs0c3VNdVE9PSIsInZhbHVlIjoiZW9QUVVEUW1sbTJYeTBlK21Mb3h2dz09IiwibWFjIjoiYTgxMTI5ZTQyMWQ0YWNlYTI0OGVjYTljNWUxYzI1YzJkNTRjODc1ZDI5OGUyYzEzYTllYWNlNjk2N2ZjM2Q4OSIsInRhZyI6IiJ9', 'Ignatius Brown', '04', '2027', 'eyJpdiI6InZacGNKRGxFM1FMR0hySXZ4M0pTdkE9PSIsInZhbHVlIjoiNmVvWURldkZzYlpGaDFBSlpIdUNMa3h1SmdTYS85TitIU0ZTV1F6dGJUZz0iLCJtYWMiOiJmZDJiODg0YjVjY2U5N2RiZDZmZDVlZTczMTc3NDU1Njc3MDBmMDRiOWZjNzk1YWFlZGExODIyMTllNTNlZjU3IiwidGFnIjoiIn0=', 'Quia culpa porro ali', 'nisihuh@mailinator.com', 'Autem quo in nulla a', 'Non possimus nesciu', 'Andorra', NULL, '77962', 'USD', 19.00, 0, '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(119, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(120, 51, 'AMEX', 'eyJpdiI6IjBmWTdtaHg4UlVScGhGaTY4VktWcnc9PSIsInZhbHVlIjoiL1RBTWF4aFpKdmRWSm9QKzJXeGRudz09IiwibWFjIjoiYzZhNDI0N2YyNmU5NjQ5NjAwZDExNTFjZTNkMzkzMTdlZGUwOTFlZDlhMTEwYzYzOWI4Yzg4OTYxNzI2MjU1ZiIsInRhZyI6IiJ9', 'Macon Norris', '09', '2034', 'eyJpdiI6Ik5VYWFkWFlSNUFKRHZ6amYrdkd4TEE9PSIsInZhbHVlIjoiU01GUks2TS8wNXB3eUlKT0hrZGM0M1pteVZMUEYvSUhxOVdKVFJVeC8wST0iLCJtYWMiOiI5OGRiYzE5OWEzYTUxNTNlMGNmODAzMzdhY2QyZmQ2YWIzY2UzYjQxYjRlZjVjMjFjZWM1ODVlMDY3ZThkM2M4IiwidGFnIjoiIn0=', 'Aliquid consequatur', 'jifytyte@mailinator.com', 'Cupidatat sunt magna', 'Esse accusantium cu', 'Bolivia, Plurinational State of', NULL, '56849', 'USD', 59.00, 0, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(121, 51, NULL, 'eyJpdiI6Ikt4dG5MYWwzLzJab2hOQ09rUUozS0E9PSIsInZhbHVlIjoiaU9PU09qeHJQT1RlWE1haHhqM0g3UT09IiwibWFjIjoiMzY0YTk3MjhlODRkZjcxOTM2OTNjNDk0MmRjNTQ2YThlZjRlNzgxYzY3NWRlZmI3ZGRkOWM5MTU3ZGIyMTMxZCIsInRhZyI6IiJ9', 'Jocelyn Pennington', NULL, NULL, 'eyJpdiI6Ik5uRnJVZUkrOGNsNnpwZCt3ZmZYcnc9PSIsInZhbHVlIjoia0VDSnh4b3pBOUx1dlAzdXRrVTAvV0Q4T1Q2U1UvYnpDZ0Y3Z2U0a3BIQT0iLCJtYWMiOiJlMDJlYzVlYmZmOWE1MTVjMjFiMWY2MmY2YTcwNTk2MmQwNjhjM2EwMmFhYjYzZTI2ZDM1MzM5MTMzZjBiOThmIiwidGFnIjoiIn0=', 'Vitae quos tenetur e', 'xyferufyza@mailinator.com', 'Et non quaerat possi', 'Ut reprehenderit qu', 'Consequatur Dolore', 'Natus ad suscipit do', '41662', NULL, 68.00, 0, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(122, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(123, 51, 'AMEX', 'eyJpdiI6Im9FQ29vK01DTk5zSllCMXozd2dUTEE9PSIsInZhbHVlIjoiNXpyZXRaOWN0TmJacXJ1RG9wQUU3UT09IiwibWFjIjoiN2VlODdlMDAxZDNkMzQ5MmViOTI1NTJjMmJlNjYyZDU1MjYzMmM0ZjBhYmQzMzgwNjc3NWEzMDExNGM1Zjg0YiIsInRhZyI6IiJ9', 'Macon Norris', '09', '2034', 'eyJpdiI6InBvSFR5M0Zuc1hybTVXOU5TQVlzOUE9PSIsInZhbHVlIjoiN25vckkzQ1ppTHFLYkhGdlFVankvL1cxdllMWXU2STBTMklvSjJINC94MD0iLCJtYWMiOiIwN2I3ZjYxMjcxZWM3MDU1MzQzNmY4ZDcwMjlkMTcwMGM1YTdkNGEzYTUzNjhmNDhkYzEyYmJmMjhlOGU1NWZlIiwidGFnIjoiIn0=', 'Aliquid consequatur', 'jifytyte@mailinator.com', 'Cupidatat sunt magna', 'Esse accusantium cu', 'Bolivia, Plurinational State of', NULL, '56849', 'USD', 59.00, 0, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(124, 51, NULL, 'eyJpdiI6Im5UVFhaYlZZNlNUck5SMFRxNVBQTWc9PSIsInZhbHVlIjoiVytFYkVlYmtKVlJJRmViQjlWYzNQdz09IiwibWFjIjoiMTdhZGRhOGIyNTY0ZTllOTFjNWZiZmIyZjMyOTNjODkyOTlkNzU3OGM5YWEzNGVkODI5YmIwNTFmMGExNDY5NCIsInRhZyI6IiJ9', 'Jocelyn Pennington', NULL, NULL, 'eyJpdiI6Ii8yakkveU5DWEVKRmZWSVpLeUs4Nnc9PSIsInZhbHVlIjoicW1pY1RqamJxbW8vdndOTm5xNC8wZDZ0OVVTSnhsVy9BeU42Z3pKQnorVT0iLCJtYWMiOiIxODhhZTk2YjE0ZjU2YmM3OGEwYjE4NmE5NjU4YjU1ODEzY2VlYTNkNTlhZTA2ZmVlZDg4Y2EyYjk4Mjg2NjkxIiwidGFnIjoiIn0=', 'Vitae quos tenetur e', 'xyferufyza@mailinator.com', 'Et non quaerat possi', 'Ut reprehenderit qu', 'Consequatur Dolore', 'Natus ad suscipit do', '41662', NULL, 68.00, 0, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(125, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(126, 53, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 15:00:33', '2025-06-28 20:30:33', NULL),
+(127, 53, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-28 15:00:33', '2025-06-28 20:30:33', NULL),
+(128, 54, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, 'Azerbaijan', NULL, NULL, 'USD', 0.00, 0, '2025-06-28 15:19:27', '2025-06-28 20:49:27', NULL),
+(129, 54, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, 'Azerbaijan', NULL, NULL, 'USD', 0.00, 0, '2025-06-28 15:19:27', '2025-06-28 20:49:27', NULL),
+(130, 61, 'AMEX', 'eyJpdiI6Ii9IbFdvZTYvMHNnZTlON0RxV1dBRXc9PSIsInZhbHVlIjoicldwNEp2eWQ4NnhEVThXeFdCYWR2Zz09IiwibWFjIjoiMDRhYjc0MDRlMTFkN2JkYmI5Y2EzOTEyMDQwZGRhZDQ0YTRkZGI4YjlkYTg2MmYzZmE3NzUyODFlNzQ2NTFhNyIsInRhZyI6IiJ9', 'Barrett Spence', '01', '2026', 'eyJpdiI6IlhBK0VSMGpRZUJ4eE0weGJ2UEVSYVE9PSIsInZhbHVlIjoiTjJkT0FxYnROZDNIRGtQNUU2SlFLU2xicWwxdVJqRi9rb0ZDNEdnQkc4ST0iLCJtYWMiOiJkYjRmNzgzYzk3NGI3YjgxOTUyMDJhYTY5ZGE2YjUzODY4ODVhOWZhMzE4ODIxZGM2NmM1MWJkYzRlMjFiYzg5IiwidGFnIjoiIn0=', 'At minim enim quasi', 'qysoru@mailinator.com', 'Qui molestiae cumque', 'Dolor enim quia in p', 'Fiji', NULL, '64951', 'USD', 55.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(131, 61, 'Mastercard', 'eyJpdiI6Ikc5SVA4aDROK1R3NWtod1lYRVYvVUE9PSIsInZhbHVlIjoiSFJoL0N6c0Y4TDlVeHQzSDFQL3laUT09IiwibWFjIjoiMGQ3ZTZhZDAxNjkyZDc1MGQzOTFmNWQ3ZTAwODJhZmNmM2M5YThjNDAwNTUyMmM2ZmMzZDcwNzM5YmY5MmYxZiIsInRhZyI6IiJ9', 'Clio Cortez', NULL, NULL, 'eyJpdiI6ImVZOHoyVkFRdmx3dll1YUhZSTVkd2c9PSIsInZhbHVlIjoibm1IclRmOHpuVkFVa3RlVUIvZlFhQTV3ZnNEayt0ZEJleGFoK2JPeXBuaz0iLCJtYWMiOiJkYmJlMDNiOWQ5YWQ5Zjc4NjE5YmEzNjhjOGFlODNkOTBkMDliOWEyZWIzMzQ5MGRjYjQyNDU3YmNhZTVhODQ2IiwidGFnIjoiIn0=', 'Veritatis libero odi', 'tysazori@mailinator.com', 'Ex placeat accusamu', 'Accusantium sit dese', 'Eveniet anim vel vo', 'Aut sit earum magna', '74252', NULL, 77.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(132, 61, 'DISCOVER', 'eyJpdiI6IitOQ1N3MWdTRTFVK2RLbmVub09uTlE9PSIsInZhbHVlIjoiUzEzZy92TUlCanVQWXI1RHpaUTRYUT09IiwibWFjIjoiNDg1OGQwMDQxMDgyNTEyMjllMjkzNmRhNDQxM2EzMjNhZDA2MzNhYjNmYzBiNGMxOTI0NDQ4OTVlYjdmZTllYSIsInRhZyI6IiJ9', 'Clio Cortez', '09', '2031', 'eyJpdiI6InZ2bFFRdkJUMzZOWDZwZGQ2NEg5L1E9PSIsInZhbHVlIjoiaDNSYTNiRkJBTGJsaHZnU2NucUFwZz09IiwibWFjIjoiOWIyN2YyMTlhZDdiZTBiZTAwYTZkODUwNzk1NzE4MzI0YTM5ZGFlNTk3N2IzMTk0MzA4YmU0MDRlNGRiNjlhNSIsInRhZyI6IiJ9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MXN', 56.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(133, 61, 'AMEX', 'eyJpdiI6IjkwZC8wQ0xXSkxtUG4wMXFrR2ZXTFE9PSIsInZhbHVlIjoiVkREWEdBOG1raTJmbDNFdEpsU0todz09IiwibWFjIjoiYWNiNDc3Nzg1NGZlYzFjZmIzZTc1OGQyMDhlZjlhM2Q4ZDVhYjQzODg0NzhkOTcwZWVlNjZiYjM2ODU0NmZmNiIsInRhZyI6IiJ9', 'Barrett Spence', '01', '2026', 'eyJpdiI6IlNwSUx6NDlMYUVqMWRmMjhTSTA2K0E9PSIsInZhbHVlIjoiYTZ5d3BoOC9HYXlqcDEwNnUreWJYWWpSNS80OFVWaWcwOVl0czNzK3ZqTT0iLCJtYWMiOiI3ZGE2ZmJhNWM2MmY0N2U4NzFlOTJlZWQyM2NmNjU4OTlmMzdhNmMxMTM5Y2I4MGE4M2M0NWQxMzI4ZGJjNDRjIiwidGFnIjoiIn0=', 'At minim enim quasi', 'qysoru@mailinator.com', 'Qui molestiae cumque', 'Dolor enim quia in p', 'Fiji', NULL, '64951', 'USD', 55.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(134, 61, 'Mastercard', 'eyJpdiI6ImRtRjd1Ulh3NmFQUHQ3OGFUYXl5NUE9PSIsInZhbHVlIjoiQTZGOEtydE5qTHFrWWw5SW16d1lSQT09IiwibWFjIjoiZjA1ZjhkYzE4NTIyYmI3MjhkMTcwNGYzNWZjOWRhYmRhMTZiOWMyNjBmM2Y5ODM4Y2Y3NmYxZTQ0Njg4MGY3ZiIsInRhZyI6IiJ9', 'Clio Cortez', NULL, NULL, 'eyJpdiI6IngvcFJ0T01sZXRqKzhsN1ZZZTZ4SVE9PSIsInZhbHVlIjoiRlpMbGVKcElydjU3eEY0ZHMxS1BzNUcxcjNuOUREVlpFcTVpcWo5NUU1MD0iLCJtYWMiOiJhOWE2ZWQ5ZDEyZjkzNTA0Yzg3MDhmYWNmYTY4NTBjN2RhMDc0NWRjZjVhZjAxMzY1ZjZiNjkzMGJlMjhmMGJmIiwidGFnIjoiIn0=', 'Veritatis libero odi', 'tysazori@mailinator.com', 'Ex placeat accusamu', 'Accusantium sit dese', 'Eveniet anim vel vo', 'Aut sit earum magna', '74252', NULL, 77.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(135, 61, 'DISCOVER', 'eyJpdiI6IjUwVkdjMzMwc09pMTBMQ0txT0V2YVE9PSIsInZhbHVlIjoiZEliclJmaTFkS2FGVjg0Mm5FbDVrdz09IiwibWFjIjoiMWZiOGM0ODA4NDc2ZDY3MjE0MjFiYTVjODJiOWM3MzQ4NzViZWYxNDg2MGMzMjYzZDljZjM5ZjQ1OWM1ZTM0ZiIsInRhZyI6IiJ9', 'Clio Cortez', '09', '2031', 'eyJpdiI6IktGNTNVaW9McUxwWE14dFQwR01VNVE9PSIsInZhbHVlIjoiaGl4NUZwREEzeFJBYjJ2V0s5V1VHUT09IiwibWFjIjoiNzQ5MGY1MDc4NzU4MmNjMTI4MTNmNjQzMzExNTIxYjA2NGZkMzAyMDA4NDExZDcwNjBmMGRmOGI4NGUxZDZjOCIsInRhZyI6IiJ9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MXN', 56.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -697,6 +813,7 @@ INSERT INTO `travel_billing_details` (`id`, `booking_id`, `card_type`, `cc_numbe
 
 CREATE TABLE `travel_bookings` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `pnr` varchar(50) NOT NULL,
   `campaign` varchar(30) DEFAULT NULL,
   `hotel_ref` varchar(50) DEFAULT NULL,
@@ -705,7 +822,7 @@ CREATE TABLE `travel_bookings` (
   `train_ref` varchar(50) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `phone` varchar(20) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `query_type` varchar(100) DEFAULT NULL,
   `company_organisation` varchar(255) DEFAULT NULL,
   `booking_status` varchar(50) DEFAULT 'under process',
@@ -726,14 +843,31 @@ CREATE TABLE `travel_bookings` (
 -- Dumping data for table `travel_bookings`
 --
 
-INSERT INTO `travel_bookings` (`id`, `pnr`, `campaign`, `hotel_ref`, `cruise_ref`, `car_ref`, `train_ref`, `name`, `phone`, `email`, `query_type`, `company_organisation`, `booking_status`, `payment_status`, `reservation_source`, `descriptor`, `amadeus_sabre_pnr`, `airlinepnr`, `pnrtype`, `selected_company`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(27, 'AIR210636820001', NULL, 'Eveniet mollit faci', 'Hic quisquam aliquid', NULL, NULL, 'Elvis Vincent', '+1 (988) 214-7933', 'sijululaga@mailinator.com', 'UMNR', NULL, 'under process', 'pending', 'Sit ut sit eos es', 'Qui quia illo offici', 'amadeus_sabre_pnr', 'airlinepnr', NULL, NULL, NULL, '2025-06-22 02:06:50', '2025-06-21 22:06:50', NULL),
-(28, 'AIR210636820002', NULL, NULL, NULL, NULL, NULL, 'Wendy Burke', '+1 (907) 512-3675', 'xavokiw@mailinator.com', 'CC', NULL, 'under process', 'pending', 'Harum quis soluta au', 'Est eos omnis proi', 'Culpa reprehenderit', NULL, NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
-(29, 'AIR210636820003', NULL, 'Totam totam Nam ad p', 'Quisquam accusantium', NULL, NULL, 'Yoko Tucker', '+1 (972) 396-2464', 'coxividyny@mailinator.com', 'B', NULL, 'under process', 'pending', 'Accusamus atque nece', 'Sed distinctio Accu', 'Asperiores sit quisq', NULL, NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
-(30, 'BUF220617460001', NULL, 'In id rem unde nobis', NULL, NULL, NULL, 'Deanna Gibson', '+1 (568) 234-5156', 'zefaqyrogu@mailinator.com', 'S', NULL, 'under process', 'pending', 'Ut ex in quis accusa', 'Odit blanditiis nesc', 'amadeus_sabre_pnr', 'airlinepnr', 'GK', NULL, NULL, '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
-(31, 'LCC220653850002', 'Buffer Mix', 'Modi ipsam dolore vo', 'Nostrum molestias of', 'Ratione ipsa error', 'Ut commodo labore ad', 'Camden Cummings', '+1 (137) 987-2558', 'tykucyv@mailinator.com', 'N', NULL, 'under process', 'pending', 'Totam fuga Nulla od', 'Dolore non maxime eu', 'Est omnis et et cum', 'Aut vero asperiores', 'HK', '3', NULL, '2025-06-22 05:31:23', '2025-06-24 00:19:58', NULL),
-(32, 'AIR220627460003', NULL, 'Cumque beatae in eli', 'Consequat Corporis', NULL, NULL, 'Abel Frederick', '+1 (674) 947-1403', 'gygeko@mailinator.com', 'NMC', NULL, 'under process', 'pending', 'Ipsum ut doloremque', 'In in molestiae quia', 'Saepe ex distinctio', NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
-(33, 'PRE230696140002', 'Premium Amtrak Bing Calls', 'Qui ut optio incidi', 'Exercitationem in do', NULL, NULL, 'Jordan Woods', '+1 (341) 976-4964', 'pyzuqogypi@mailinator.com', 'N', NULL, 'under process', 'pending', 'Dolore provident mo', 'Culpa magni fugiat', NULL, NULL, NULL, '3', NULL, '2025-06-23 16:37:06', '2025-06-23 22:07:06', NULL);
+INSERT INTO `travel_bookings` (`id`, `user_id`, `pnr`, `campaign`, `hotel_ref`, `cruise_ref`, `car_ref`, `train_ref`, `name`, `phone`, `email`, `query_type`, `company_organisation`, `booking_status`, `payment_status`, `reservation_source`, `descriptor`, `amadeus_sabre_pnr`, `airlinepnr`, `pnrtype`, `selected_company`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(27, 0, 'AIR210636820001', 'Premium Amtrak Bing Calls', 'Eveniet mollit faci', 'Hic quisquam aliquid', NULL, NULL, 'Elvis Vincent', '+1 (988) 214-7933', 'sijululaga@mailinator.com', 'UMNR', NULL, 'under process', 'pending', 'Sit ut sit eos es', 'Qui quia illo offici', 'amadeus_sabre_pnr', 'airlinepnr', 'HK', '1', NULL, '2025-06-22 02:06:50', '2025-06-27 23:55:39', NULL),
+(28, 0, 'AIR210636820002', NULL, NULL, NULL, NULL, NULL, 'Wendy Burke', '+1 (907) 512-3675', 'xavokiw@mailinator.com', 'CC', NULL, 'under process', 'pending', 'Harum quis soluta au', 'Est eos omnis proi', 'Culpa reprehenderit', NULL, NULL, NULL, NULL, '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
+(29, 0, 'AIR210636820003', NULL, 'Totam totam Nam ad p', 'Quisquam accusantium', NULL, NULL, 'Yoko Tucker', '+1 (972) 396-2464', 'coxividyny@mailinator.com', 'B', NULL, 'under process', 'pending', 'Accusamus atque nece', 'Sed distinctio Accu', 'Asperiores sit quisq', NULL, NULL, NULL, NULL, '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
+(30, 0, 'BUF220617460001', NULL, 'In id rem unde nobis', NULL, NULL, NULL, 'Deanna Gibson', '+1 (568) 234-5156', 'zefaqyrogu@mailinator.com', 'S', NULL, 'under process', 'pending', 'Ut ex in quis accusa', 'Odit blanditiis nesc', 'amadeus_sabre_pnr', 'airlinepnr', 'GK', NULL, NULL, '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
+(31, 0, 'LCC220653850002', 'Buffer Mix', 'Modi ipsam dolore vo', 'Nostrum molestias of', 'Ratione ipsa error', 'Ut commodo labore ad', 'Camden Cummings', '+1 (137) 987-2558', 'tykucyv@mailinator.com', 'N', NULL, 'under process', 'pending', 'Totam fuga Nulla od', 'Dolore non maxime eu', 'Est omnis et et cum', 'Aut vero asperiores', 'HK', '3', NULL, '2025-06-22 05:31:23', '2025-06-24 00:19:58', NULL),
+(32, 0, 'AIR220627460003', NULL, 'Cumque beatae in eli', 'Consequat Corporis', NULL, NULL, 'Abel Frederick', '+1 (674) 947-1403', 'gygeko@mailinator.com', 'NMC', NULL, 'under process', 'pending', 'Ipsum ut doloremque', 'In in molestiae quia', 'Saepe ex distinctio', NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
+(33, 0, 'PRE230696140002', 'Premium Amtrak Bing Calls', 'Qui ut optio incidi', 'Exercitationem in do', NULL, NULL, 'Jordan Woods', '+1 (341) 976-4964', 'pyzuqogypi@mailinator.com', 'N', NULL, 'under process', 'pending', 'Dolore provident mo', 'Culpa magni fugiat', NULL, NULL, NULL, '3', NULL, '2025-06-23 16:37:06', '2025-06-23 22:07:06', NULL),
+(34, 0, 'BUF270659200001', 'Buffer Mix', NULL, 'Eiusmod id iusto des', NULL, NULL, 'Maris Mcbride', '+1 (408) 663-1991', 'keqaby@mailinator.com', 'CC', NULL, 'under process', 'pending', 'Placeat et et nihil', 'Nesciunt voluptate', 'Et consequat Eos al', NULL, NULL, '3', NULL, '2025-06-27 18:22:15', '2025-06-27 23:52:15', NULL),
+(35, 0, 'SPA280695210001', 'Spanish', 'Et dolorum ut enim p', NULL, NULL, NULL, 'Todd Howell', '+1 (137) 825-1303', 'lofysaf@mailinator.com', 'M', NULL, 'under process', 'pending', 'At veniam omnis qui', 'Dolor rem dignissimo', NULL, NULL, NULL, '6', NULL, '2025-06-28 13:53:36', '2025-06-28 19:23:36', NULL),
+(36, 0, 'INT280699780002', 'International', 'Proident officia do', 'Ipsam ipsam voluptat', NULL, NULL, 'Allegra Lynch', '+1 (373) 121-2315', 'cizupy@mailinator.com', 'NMC', NULL, 'under process', 'pending', 'Assumenda quo corrup', 'Minima voluptatem no', 'Proident aut qui an', NULL, NULL, '5', NULL, '2025-06-28 13:56:53', '2025-06-28 19:26:53', NULL),
+(37, 0, 'PUR280628320003', 'Pure AA', 'Cumque ut irure quae', NULL, NULL, NULL, 'Nicholas Acosta', '+1 (716) 784-8993', 'robozihuj@mailinator.com', 'AE', NULL, 'under process', 'pending', 'Sit veniam earum ex', 'Quo laborum incididu', 'Et atque nulla ipsam', NULL, NULL, '1', NULL, '2025-06-28 14:44:34', '2025-06-28 20:14:34', NULL),
+(38, 0, 'AIR280628320003', 'Airline Mix', 'Consectetur consequ', 'Harum corporis disti', NULL, NULL, 'Leandra Herrera', '+1 (965) 247-7766', 'mifari@mailinator.com', 'CBP', NULL, 'under process', 'pending', 'Totam ut enim earum', 'Quia laboris minima', 'Eligendi provident', NULL, NULL, '6', NULL, '2025-06-28 14:44:44', '2025-06-28 20:14:44', NULL),
+(40, 0, 'MAJ280628320003M', 'Major Mix', 'Officia anim reicien', 'Officiis modi soluta', NULL, NULL, 'Breanna Lester', '+1 (718) 379-1686', 'xasawo@mailinator.com', 'S', NULL, 'under process', 'pending', 'Autem asperiores nat', 'Sint sequi ad et vol', 'Vel tempora voluptat', NULL, NULL, '1', NULL, '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(45, 0, 'MAAJ280628320003', 'Major Mix', 'Officia anim reicien', 'Officiis modi soluta', NULL, NULL, 'Breanna Lester', '+1 (718) 379-1686', 'xasawo@mailinator.com', 'S', NULL, 'under process', 'pending', 'Autem asperiores nat', 'Sint sequi ad et vol', 'Vel tempora voluptat', NULL, NULL, '1', NULL, '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(48, 0, 'MAJ280628320003', 'Major Mix', 'Officia anim reicien', 'Officiis modi soluta', NULL, NULL, 'Breanna Lester', '+1 (718) 379-1686', 'xasawo@mailinator.com', 'S', NULL, 'under process', 'pending', 'Autem asperiores nat', 'Sint sequi ad et vol', 'Vel tempora voluptat', NULL, NULL, '1', NULL, '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(51, 0, 'CRU280634550008', 'Cruise', 'Nulla inventore mini', 'Non esse unde in pr', NULL, NULL, 'Kylan Bradford', '+1 (644) 613-5292', 'hicydib@mailinator.com', 'NC', NULL, 'under process', 'pending', 'Officia est ex vel', 'Dignissimos obcaecat', 'Cumque ipsa ab magn', NULL, NULL, '1', NULL, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(53, 0, 'AIR280637930009', 'Airline Mix', 'Quos veniam ab labo', NULL, NULL, NULL, 'Marsden Farrell', '+1 (999) 213-1603', 'tapo@mailinator.com', 'M', NULL, 'under process', 'pending', 'Totam quia beatae co', 'Tempora consequuntur', 'Sit anim corporis re', NULL, NULL, '3', NULL, '2025-06-28 15:00:33', '2025-06-28 20:30:33', NULL),
+(54, 0, '280647660010', NULL, NULL, NULL, NULL, NULL, 'hfghfg', '8510810544', 'testt@gmail.com', 'N', NULL, 'under process', 'pending', 'dadadas', NULL, NULL, NULL, NULL, '1', NULL, '2025-06-28 15:19:27', '2025-06-28 20:49:27', NULL),
+(61, 0, 'PRE280659780011', 'Premium Amtrak Bing Calls', 'Aliquip eveniet off', 'Eu facilis exercitat', NULL, NULL, 'Alice Church', '+1 (132) 226-6274', 'wirylozis@mailinator.com', 'NC', NULL, 'under process', 'pending', 'Illum laboris corpo', 'Id in officia non se', 'Dolorem rem sunt ips', NULL, NULL, '5', NULL, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(62, NULL, 'CRU', 'Cruise', NULL, NULL, NULL, NULL, 'Kim Ramsey', '121 141 1900', NULL, NULL, NULL, 'under process', 'pending', 'Aut laboriosam adip', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:04:06', '2025-06-28 22:34:06', NULL),
+(64, NULL, 'BUF', 'Buffer Mix', NULL, NULL, NULL, NULL, 'Tanisha Jensen', '186 284 7204', NULL, NULL, NULL, 'under process', 'pending', 'Ex aliqua Aut conse', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:05:54', '2025-06-28 22:35:54', NULL),
+(66, NULL, 'LCC', 'LCC', NULL, NULL, NULL, NULL, 'Britanni Pickett', '186 999 7627', NULL, NULL, NULL, 'under process', 'pending', 'Qui molestiae eum ad', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:07:10', '2025-06-28 22:37:10', NULL),
+(68, NULL, 'INT', 'International', NULL, NULL, NULL, NULL, 'Octavius Larson', '146 930 3122', NULL, NULL, NULL, 'under process', 'pending', 'Dolore vel nihil ex', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:08:45', '2025-06-28 22:38:45', NULL),
+(69, NULL, 'MAJ280627820016', 'Major Mix', NULL, NULL, NULL, NULL, 'Dana Hyde', '129 586 9238', NULL, NULL, NULL, 'under process', 'pending', 'Facere repudiandae m', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:29:42', '2025-06-28 22:59:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -763,7 +897,14 @@ INSERT INTO `travel_booking_remarks` (`id`, `booking_id`, `agent`, `date_time`, 
 (11, 30, 'Testagent', '2025-06-22 00:30:11', 'Aut adipisci tempor', '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
 (12, 31, 'Testagent', '2025-06-22 01:31:23', 'Consequat Qui quisq  TYESTSTTS', '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (13, 32, 'Testagent', '2025-06-22 20:12:41', 'Quas sed et incididu', '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
-(14, 33, 'Testagent', '2025-06-23 22:07:07', 'Excepturi debitis as', '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
+(14, 33, 'Testagent', '2025-06-23 22:07:07', 'Excepturi debitis as', '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL),
+(15, 34, 'Testagent', '2025-06-27 23:52:15', 'Sed facere deserunt', '2025-06-27 18:22:15', '2025-06-27 23:52:15', NULL),
+(16, 35, 'Testagent', '2025-06-28 19:23:36', 'Et inventore minim v', '2025-06-28 13:53:36', '2025-06-28 19:23:36', NULL),
+(17, 36, 'Testagent', '2025-06-28 19:26:53', 'Sed saepe minim ipsa', '2025-06-28 13:56:53', '2025-06-28 19:26:53', NULL),
+(18, 40, 'Testagent', '2025-06-28 20:16:09', 'Cum non nostrud ipsu', '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(19, 45, 'Testagent', '2025-06-28 20:20:15', 'Cum non nostrud ipsu', '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(21, 48, 'Testagent', '2025-06-28 20:21:38', 'Cum non nostrud ipsu', '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(22, 51, 'Testagent', '2025-06-28 20:25:43', 'hjhgjgh', '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -803,7 +944,54 @@ INSERT INTO `travel_booking_types` (`id`, `booking_id`, `type`, `created_at`, `u
 (126, 33, 'Hotel', '2025-06-23 16:37:06', '2025-06-23 22:07:06'),
 (127, 33, 'Cruise', '2025-06-23 16:37:06', '2025-06-23 22:07:06'),
 (128, 33, 'Car', '2025-06-23 16:37:06', '2025-06-23 22:07:06'),
-(134, 31, 'Flight', '2025-06-23 18:39:41', '2025-06-24 00:09:41');
+(134, 31, 'Flight', '2025-06-23 18:39:41', '2025-06-24 00:09:41'),
+(135, 34, 'Flight', '2025-06-27 18:22:15', '2025-06-27 23:52:15'),
+(136, 34, 'Cruise', '2025-06-27 18:22:15', '2025-06-27 23:52:15'),
+(137, 34, 'Car', '2025-06-27 18:22:15', '2025-06-27 23:52:15'),
+(138, 35, 'Hotel', '2025-06-28 13:53:36', '2025-06-28 19:23:36'),
+(139, 35, 'Car', '2025-06-28 13:53:36', '2025-06-28 19:23:36'),
+(140, 35, 'Train', '2025-06-28 13:53:36', '2025-06-28 19:23:36'),
+(141, 36, 'Flight', '2025-06-28 13:56:53', '2025-06-28 19:26:53'),
+(142, 37, 'Flight', '2025-06-28 14:44:34', '2025-06-28 20:14:34'),
+(143, 37, 'Hotel', '2025-06-28 14:44:35', '2025-06-28 20:14:35'),
+(144, 38, 'Flight', '2025-06-28 14:44:44', '2025-06-28 20:14:44'),
+(145, 38, 'Hotel', '2025-06-28 14:44:44', '2025-06-28 20:14:44'),
+(146, 38, 'Cruise', '2025-06-28 14:44:44', '2025-06-28 20:14:44'),
+(147, 38, 'Train', '2025-06-28 14:44:44', '2025-06-28 20:14:44'),
+(148, 40, 'Flight', '2025-06-28 14:46:09', '2025-06-28 20:16:09'),
+(149, 40, 'Hotel', '2025-06-28 14:46:09', '2025-06-28 20:16:09'),
+(150, 40, 'Cruise', '2025-06-28 14:46:09', '2025-06-28 20:16:09'),
+(151, 40, 'Car', '2025-06-28 14:46:09', '2025-06-28 20:16:09'),
+(152, 40, 'Train', '2025-06-28 14:46:09', '2025-06-28 20:16:09'),
+(153, 45, 'Flight', '2025-06-28 14:50:15', '2025-06-28 20:20:15'),
+(154, 45, 'Hotel', '2025-06-28 14:50:15', '2025-06-28 20:20:15'),
+(155, 45, 'Cruise', '2025-06-28 14:50:15', '2025-06-28 20:20:15'),
+(156, 45, 'Car', '2025-06-28 14:50:15', '2025-06-28 20:20:15'),
+(157, 45, 'Train', '2025-06-28 14:50:15', '2025-06-28 20:20:15'),
+(163, 48, 'Flight', '2025-06-28 14:51:38', '2025-06-28 20:21:38'),
+(164, 48, 'Hotel', '2025-06-28 14:51:38', '2025-06-28 20:21:38'),
+(165, 48, 'Cruise', '2025-06-28 14:51:38', '2025-06-28 20:21:38'),
+(166, 48, 'Car', '2025-06-28 14:51:38', '2025-06-28 20:21:38'),
+(167, 48, 'Train', '2025-06-28 14:51:38', '2025-06-28 20:21:38'),
+(168, 51, 'Flight', '2025-06-28 14:55:43', '2025-06-28 20:25:43'),
+(169, 51, 'Hotel', '2025-06-28 14:55:43', '2025-06-28 20:25:43'),
+(170, 51, 'Cruise', '2025-06-28 14:55:43', '2025-06-28 20:25:43'),
+(171, 51, 'Car', '2025-06-28 14:55:43', '2025-06-28 20:25:43'),
+(172, 51, 'Train', '2025-06-28 14:55:43', '2025-06-28 20:25:43'),
+(173, 53, 'Flight', '2025-06-28 15:00:33', '2025-06-28 20:30:33'),
+(174, 53, 'Hotel', '2025-06-28 15:00:33', '2025-06-28 20:30:33'),
+(175, 53, 'Train', '2025-06-28 15:00:33', '2025-06-28 20:30:33'),
+(176, 54, 'Flight', '2025-06-28 15:19:27', '2025-06-28 20:49:27'),
+(177, 61, 'Flight', '2025-06-28 15:41:54', '2025-06-28 21:11:54'),
+(178, 61, 'Hotel', '2025-06-28 15:41:54', '2025-06-28 21:11:54'),
+(179, 61, 'Car', '2025-06-28 15:41:54', '2025-06-28 21:11:54'),
+(180, 64, 'Flight', '2025-06-28 17:05:54', '2025-06-28 22:35:54'),
+(181, 66, 'Flight', '2025-06-28 17:07:10', '2025-06-28 22:37:10'),
+(182, 68, 'Flight', '2025-06-28 17:08:45', '2025-06-28 22:38:45'),
+(183, 68, 'Hotel', '2025-06-28 17:08:45', '2025-06-28 22:38:45'),
+(184, 68, 'Cruise', '2025-06-28 17:08:45', '2025-06-28 22:38:45'),
+(185, 68, 'Car', '2025-06-28 17:08:45', '2025-06-28 22:38:45'),
+(186, 69, 'Flight', '2025-06-28 17:29:42', '2025-06-28 22:59:42');
 
 -- --------------------------------------------------------
 
@@ -849,7 +1037,25 @@ INSERT INTO `travel_car_details` (`id`, `booking_id`, `car_rental_provider`, `ca
 (31, 31, 'Magnam sequi do id e', 'Hic consectetur exer', 'Omnis fuga Beatae v', 'Beatae non et repudi', '1994-11-01', '21:32:00', '2009-01-24', '11:56:00', 'Beatae non et repudi', 'Elit dolorum ipsum', 'Reprehenderit laboru', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (32, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (33, 32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
-(34, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:06', '2025-06-23 16:37:06');
+(34, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:06', '2025-06-23 16:37:06'),
+(35, 34, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-27 18:22:15', '2025-06-27 18:22:15'),
+(36, 35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:53:36', '2025-06-28 13:53:36'),
+(37, 36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:56:53', '2025-06-28 13:56:53'),
+(38, 37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:35', '2025-06-28 14:44:35'),
+(39, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:44', '2025-06-28 14:44:44'),
+(40, 40, 'Qui natus odit optio', 'Quos quam est et si', 'Quod dolorem id libe', 'Est non consequat V', '2010-09-26', '23:58:00', '1981-02-25', '17:55:00', 'Est non consequat V', 'Est maxime aut nisi', 'Ullam animi est eo', '2025-06-28 14:46:09', '2025-06-28 14:46:09'),
+(41, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:46:09', '2025-06-28 14:46:09'),
+(42, 45, 'Qui natus odit optio', 'Quos quam est et si', 'Quod dolorem id libe', 'Est non consequat V', '2010-09-26', '23:58:00', '1981-02-25', '17:55:00', 'Est non consequat V', 'Est maxime aut nisi', 'Ullam animi est eo', '2025-06-28 14:50:15', '2025-06-28 14:50:15'),
+(43, 45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:50:15', '2025-06-28 14:50:15'),
+(46, 48, 'Qui natus odit optio', 'Quos quam est et si', 'Quod dolorem id libe', 'Est non consequat V', '2010-09-26', '23:58:00', '1981-02-25', '17:55:00', 'Est non consequat V', 'Est maxime aut nisi', 'Ullam animi est eo', '2025-06-28 14:51:38', '2025-06-28 14:51:38'),
+(47, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:51:38', '2025-06-28 14:51:38'),
+(48, 51, 'Odio sunt adipisci', 'Sed ad blanditiis de', 'Dolor animi quia qu', 'Veniam quia saepe q', '2021-09-09', '08:35:00', '2018-02-13', '16:11:00', 'Veniam quia saepe q', 'Sed consequatur anim', 'Nesciunt similique', '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(49, 51, 'Et ex culpa cillum', 'Ut et incididunt tem', 'Illum nulla rem qui', 'Omnis repudiandae es', '1975-01-06', '22:21:00', '1996-01-05', '16:42:00', 'Omnis repudiandae es', 'Molestiae veniam se', 'Nesciunt ipsum aut', '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(50, 51, 'Consequuntur eaque v', 'Nulla doloribus aut', 'Occaecat sed debitis', 'Voluptate aperiam vo', '1987-04-20', '13:36:00', '1993-12-21', '03:02:00', 'Voluptate aperiam vo', 'Minim voluptate dist', 'Sit dolor iure nostr', '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(51, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(52, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 15:00:33'),
+(53, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 15:19:27'),
+(54, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54');
 
 -- --------------------------------------------------------
 
@@ -897,7 +1103,27 @@ INSERT INTO `travel_cruise_details` (`id`, `booking_id`, `cruise_line`, `ship_na
 (25, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (26, 32, 'Vitae architecto mag', 'Walker Poole', 'Magnam magna fuga N', 'Qui possimus ut ut', 'Minus dolorem nulla', '2013-01-27', 6, 6, 'Voluptatem proident', '2013-10-12', 22, 9, 'Aperiam consequatur', '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
 (27, 32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
-(28, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 16:37:07');
+(28, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 16:37:07'),
+(29, 34, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-27 18:22:15', '2025-06-27 18:22:15'),
+(30, 35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:53:36', '2025-06-28 13:53:36'),
+(31, 36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:56:53', '2025-06-28 13:56:53'),
+(32, 37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:35', '2025-06-28 14:44:35'),
+(33, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:44', '2025-06-28 14:44:44'),
+(34, 40, 'Fugit elit officia', 'Zephania Edwards', 'Id culpa quam mole', 'Dignissimos ut non m', 'Unde aut aute ut est', '2011-07-10', 9, 15, 'Consectetur et volu', '1993-08-14', 15, 13, 'Cupiditate consequat', '2025-06-28 14:46:09', '2025-06-28 14:46:09'),
+(35, 40, 'Culpa voluptas et d', 'Meghan Wong', 'Occaecat autem nulla', 'Sint facere sunt vit', 'Officia eiusmod labo', '2017-08-16', 12, 39, 'Nam aute in autem si', '2003-09-20', 15, 1, 'Distinctio Fuga Te', '2025-06-28 14:46:09', '2025-06-28 14:46:09'),
+(36, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:46:09', '2025-06-28 14:46:09'),
+(37, 45, 'Fugit elit officia', 'Zephania Edwards', 'Id culpa quam mole', 'Dignissimos ut non m', 'Unde aut aute ut est', '2011-07-10', 9, 15, 'Consectetur et volu', '1993-08-14', 15, 13, 'Cupiditate consequat', '2025-06-28 14:50:15', '2025-06-28 14:50:15'),
+(38, 45, 'Culpa voluptas et d', 'Meghan Wong', 'Occaecat autem nulla', 'Sint facere sunt vit', 'Officia eiusmod labo', '2017-08-16', 12, 39, 'Nam aute in autem si', '2003-09-20', 15, 1, 'Distinctio Fuga Te', '2025-06-28 14:50:15', '2025-06-28 14:50:15'),
+(39, 45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:50:15', '2025-06-28 14:50:15'),
+(43, 48, 'Fugit elit officia', 'Zephania Edwards', 'Id culpa quam mole', 'Dignissimos ut non m', 'Unde aut aute ut est', '2011-07-10', 9, 15, 'Consectetur et volu', '1993-08-14', 15, 13, 'Cupiditate consequat', '2025-06-28 14:51:38', '2025-06-28 14:51:38'),
+(44, 48, 'Culpa voluptas et d', 'Meghan Wong', 'Occaecat autem nulla', 'Sint facere sunt vit', 'Officia eiusmod labo', '2017-08-16', 12, 39, 'Nam aute in autem si', '2003-09-20', 15, 1, 'Distinctio Fuga Te', '2025-06-28 14:51:38', '2025-06-28 14:51:38'),
+(45, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:51:38', '2025-06-28 14:51:38'),
+(46, 51, 'Assumenda alias veri', 'Oren Jennings', 'Voluptatem tenetur', 'Eu provident culpa', 'Eius duis nemo earum', '1986-08-23', 14, 47, 'Dolorem aut explicab', '1982-10-08', 20, 54, 'Molestias voluptas s', '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(47, 51, 'Qui veniam libero q', 'Armando Sandoval', 'Reiciendis fuga Adi', 'Deleniti enim consec', 'Tempora labore enim', '2022-06-11', 0, 26, 'Pariatur Quia cupid', '1987-10-11', 9, 5, 'Commodo officia mini', '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(48, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(49, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 15:00:33'),
+(50, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 15:19:27'),
+(51, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54');
 
 -- --------------------------------------------------------
 
@@ -934,7 +1160,50 @@ CREATE TABLE `travel_flight_details` (
 
 INSERT INTO `travel_flight_details` (`id`, `booking_id`, `direction`, `departure_date`, `airline_code`, `flight_number`, `cabin`, `class_of_service`, `departure_airport`, `departure_hours`, `departure_minutes`, `arrival_airport`, `arrival_hours`, `arrival_minutes`, `duration`, `transit`, `arrival_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (20, 31, '1Aut qui voluptate qu', '1987-08-30', 'Non in veniam offic', '39', 'Quidem est quia minu', 'Sed quidem quasi bla', 'Molestiae cum cum di', 23, 50, 'Provident numquam r', 2, 58, 'Aliqua Neque tempor', 'Voluptatem animi qu', '2011-10-26', '2025-06-23 18:43:26', '2025-06-23 18:44:18', '2025-06-24 00:14:18'),
-(21, 31, 'Ab doloremque aut ea', '2025-06-24', 'Voluptate optio neq', '970', 'Voluptatem Et moles', 'Laudantium laborios', 'Omnis ad rerum tenet', 23, 53, 'Aliquip anim consequ', 14, 59, 'Ex nemo minus eos f', 'Fuga Laborum aut a', '1999-02-26', '2025-06-23 18:49:58', '2025-06-23 18:51:04', '2025-06-24 00:21:04');
+(21, 31, 'Ab doloremque aut ea', '2025-06-24', 'Voluptate optio neq', '970', 'Voluptatem Et moles', 'Laudantium laborios', 'Omnis ad rerum tenet', 23, 53, 'Aliquip anim consequ', 14, 59, 'Ex nemo minus eos f', 'Fuga Laborum aut a', '1999-02-26', '2025-06-23 18:49:58', '2025-06-23 18:51:04', '2025-06-24 00:21:04'),
+(22, 34, 'Minus odit voluptas', '2001-01-17', 'Deserunt consequatur', '242', 'Nisi fugiat volupta', 'Sit dolores reprehe', 'Quibusdam dolore sed', 4, 42, 'Sit cupiditate vel', 3, 23, 'Inventore id ut pari', 'Beatae reiciendis es', '1982-07-14', '2025-06-27 18:22:15', '2025-06-27 18:22:15', NULL),
+(23, 34, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-27 18:22:15', '2025-06-27 18:22:15', NULL),
+(24, 35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:53:36', '2025-06-28 13:53:36', NULL),
+(25, 36, 'Optio possimus qui', '2003-07-14', 'Id sit fuga Do exce', '862', 'Eiusmod sunt dolor i', 'Non sint quam duis v', 'Ut hic quo culpa do', 13, 13, 'Sit architecto odit', 13, 16, 'Molestias cupidatat', 'Officiis eveniet et', '1970-12-25', '2025-06-28 13:56:53', '2025-06-28 13:56:53', NULL),
+(26, 36, 'Eum sint dolor natu', '2013-06-06', 'Magni omnis cupidita', '586', 'Proident iusto a ve', 'Consequatur amet es', 'Sint distinctio Acc', 23, 44, 'Vitae exercitation i', 17, 1, 'Sit nesciunt quia', 'Odio in dicta nesciu', '1974-07-26', '2025-06-28 13:56:53', '2025-06-28 13:56:53', NULL),
+(27, 36, 'Mollitia iste hic qu', '1990-12-06', 'Voluptatem accusanti', '910', 'Duis minima fugiat a', 'Quaerat sed dolores', 'Molestias voluptatem', 13, 48, 'Et a doloribus volup', 17, 25, 'Elit debitis tempor', 'Fugit omnis qui cor', '1972-09-13', '2025-06-28 13:56:53', '2025-06-28 13:56:53', NULL),
+(28, 36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:56:53', '2025-06-28 13:56:53', NULL),
+(29, 37, 'Cupidatat asperiores', '1989-12-18', 'Eos ut illum labore', '296', 'Cumque qui et in id', 'Aspernatur voluptate', 'Ut occaecat voluptat', 12, 25, 'Minim voluptas do ve', 2, 46, 'Animi nesciunt rer', 'Doloremque iste irur', '2020-01-12', '2025-06-28 14:44:35', '2025-06-28 14:44:35', NULL),
+(30, 37, 'Similique provident', '2011-04-28', 'Sunt aut expedita om', '650', 'Sunt omnis sit ut es', 'Eum molestiae explic', 'Adipisci tenetur ess', 18, 28, 'Nulla ea necessitati', 20, 15, 'Accusamus voluptatem', 'Voluptatem Explicab', '1976-10-05', '2025-06-28 14:44:35', '2025-06-28 14:44:35', NULL),
+(31, 37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:35', '2025-06-28 14:44:35', NULL),
+(32, 38, 'Cupidatat asperiores', '1989-12-18', 'Eos ut illum labore', '296', 'Cumque qui et in id', 'Aspernatur voluptate', 'Ut occaecat voluptat', 12, 25, 'Minim voluptas do ve', 2, 46, 'Animi nesciunt rer', 'Doloremque iste irur', '2020-01-12', '2025-06-28 14:44:44', '2025-06-28 14:44:44', NULL),
+(33, 38, 'Similique provident', '2011-04-28', 'Sunt aut expedita om', '650', 'Sunt omnis sit ut es', 'Eum molestiae explic', 'Adipisci tenetur ess', 18, 28, 'Nulla ea necessitati', 20, 15, 'Accusamus voluptatem', 'Voluptatem Explicab', '1976-10-05', '2025-06-28 14:44:44', '2025-06-28 14:44:44', NULL),
+(34, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:44', '2025-06-28 14:44:44', NULL),
+(35, 40, 'Vel aut sed non volu', '1973-06-19', 'Porro consectetur e', '817', 'Dignissimos fugit n', 'Qui cum perspiciatis', 'Non dolor velit vol', 1, 49, 'Et dicta enim aliqua', 20, 9, 'Saepe dolor perferen', 'Voluptatibus aut a f', '2023-06-06', '2025-06-28 14:46:09', '2025-06-28 14:46:09', NULL),
+(36, 40, 'Facere dolor in dolo', '1992-12-06', 'Facilis sit volupta', '357', 'Sint dolore praesent', 'Vero impedit veniam', 'Eveniet molestiae l', 22, 59, 'Nam velit dolor ut', 8, 41, 'Quia non quia maiore', 'Labore et impedit u', '2003-05-08', '2025-06-28 14:46:09', '2025-06-28 14:46:09', NULL),
+(37, 40, 'Odio harum mollitia', '1999-08-11', 'Voluptatem magni qui', '985', 'Incididunt magnam vo', 'Non magna esse ut a', 'Repudiandae voluptat', 19, 20, 'Do voluptates quis m', 3, 13, 'Doloribus voluptatib', 'Id aperiam distincti', '2014-10-13', '2025-06-28 14:46:09', '2025-06-28 14:46:09', NULL),
+(38, 40, 'Sed anim est iure v', '2012-03-09', 'Laborum Veritatis e', '685', 'Sed ullam atque id', 'Commodo ut omnis ver', 'Asperiores non minim', 0, 13, 'Dolor autem aliquid', 1, 55, 'Illum omnis elit d', 'Occaecat magna solut', '2013-01-03', '2025-06-28 14:46:09', '2025-06-28 14:46:09', NULL),
+(39, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:46:09', '2025-06-28 14:46:09', NULL),
+(40, 45, 'Vel aut sed non volu', '1973-06-19', 'Porro consectetur e', '817', 'Dignissimos fugit n', 'Qui cum perspiciatis', 'Non dolor velit vol', 1, 49, 'Et dicta enim aliqua', 20, 9, 'Saepe dolor perferen', 'Voluptatibus aut a f', '2023-06-06', '2025-06-28 14:50:15', '2025-06-28 14:50:15', NULL),
+(41, 45, 'Facere dolor in dolo', '1992-12-06', 'Facilis sit volupta', '357', 'Sint dolore praesent', 'Vero impedit veniam', 'Eveniet molestiae l', 22, 59, 'Nam velit dolor ut', 8, 41, 'Quia non quia maiore', 'Labore et impedit u', '2003-05-08', '2025-06-28 14:50:15', '2025-06-28 14:50:15', NULL),
+(42, 45, 'Odio harum mollitia', '1999-08-11', 'Voluptatem magni qui', '985', 'Incididunt magnam vo', 'Non magna esse ut a', 'Repudiandae voluptat', 19, 20, 'Do voluptates quis m', 3, 13, 'Doloribus voluptatib', 'Id aperiam distincti', '2014-10-13', '2025-06-28 14:50:15', '2025-06-28 14:50:15', NULL),
+(43, 45, 'Sed anim est iure v', '2012-03-09', 'Laborum Veritatis e', '685', 'Sed ullam atque id', 'Commodo ut omnis ver', 'Asperiores non minim', 0, 13, 'Dolor autem aliquid', 1, 55, 'Illum omnis elit d', 'Occaecat magna solut', '2013-01-03', '2025-06-28 14:50:15', '2025-06-28 14:50:15', NULL),
+(44, 45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:50:15', '2025-06-28 14:50:15', NULL),
+(50, 48, 'Vel aut sed non volu', '1973-06-19', 'Porro consectetur e', '817', 'Dignissimos fugit n', 'Qui cum perspiciatis', 'Non dolor velit vol', 1, 49, 'Et dicta enim aliqua', 20, 9, 'Saepe dolor perferen', 'Voluptatibus aut a f', '2023-06-06', '2025-06-28 14:51:38', '2025-06-28 14:51:38', NULL),
+(51, 48, 'Facere dolor in dolo', '1992-12-06', 'Facilis sit volupta', '357', 'Sint dolore praesent', 'Vero impedit veniam', 'Eveniet molestiae l', 22, 59, 'Nam velit dolor ut', 8, 41, 'Quia non quia maiore', 'Labore et impedit u', '2003-05-08', '2025-06-28 14:51:38', '2025-06-28 14:51:38', NULL),
+(52, 48, 'Odio harum mollitia', '1999-08-11', 'Voluptatem magni qui', '985', 'Incididunt magnam vo', 'Non magna esse ut a', 'Repudiandae voluptat', 19, 20, 'Do voluptates quis m', 3, 13, 'Doloribus voluptatib', 'Id aperiam distincti', '2014-10-13', '2025-06-28 14:51:38', '2025-06-28 14:51:38', NULL),
+(53, 48, 'Sed anim est iure v', '2012-03-09', 'Laborum Veritatis e', '685', 'Sed ullam atque id', 'Commodo ut omnis ver', 'Asperiores non minim', 0, 13, 'Dolor autem aliquid', 1, 55, 'Illum omnis elit d', 'Occaecat magna solut', '2013-01-03', '2025-06-28 14:51:38', '2025-06-28 14:51:38', NULL),
+(54, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:51:38', '2025-06-28 14:51:38', NULL),
+(55, 51, 'Minus dolor minima p', '2018-08-04', 'Sunt praesentium si', '749', 'Ipsum ad quod quia l', 'Sit qui doloribus ex', 'Eaque sint pariatur', 6, 22, 'Molestias sit labori', 1, 1, 'Eos proident neque', 'Consequat Vero ad q', '1986-07-06', '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(56, 51, 'Commodi enim eveniet', '1971-08-06', 'Totam quibusdam dolo', '388', 'Deleniti rerum molli', 'Blanditiis nostrum a', 'Voluptates deserunt', 8, 41, 'Doloremque quos mole', 0, 3, 'Quia nostrud esse in', 'Consequuntur dolorem', '2024-10-25', '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(57, 51, 'Enim voluptas duis a', '1971-03-07', 'Aliquam debitis qui', '87', 'Aperiam dolor amet', 'Eaque nihil aliqua', 'Libero voluptas et a', 0, 39, 'Autem consequatur bl', 16, 41, 'Fugiat mollitia qui', 'Voluptate facere seq', '2013-10-21', '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(58, 51, 'Neque est molestias', '1997-12-23', 'Amet amet nesciunt', '337', 'Excepteur nihil expl', 'Corporis laboris lab', 'Consequat Ipsam con', 1, 48, 'Quis sed nihil tempo', 0, 1, 'Corporis sit perfere', 'Eum harum nisi elit', '2008-12-07', '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(59, 51, 'Aut doloribus placea', '2007-07-26', 'Ratione nostrum faci', '401', 'Dolor consequat Rer', 'Harum debitis accusa', 'Fugiat dolor volupt', 4, 0, 'Aliquip provident v', 7, 44, 'Repudiandae voluptas', 'Necessitatibus moles', '2021-03-01', '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(60, 51, 'Et laudantium quas', '1980-05-12', 'Atque et sit et dol', '487', 'Sint qui qui porro m', 'Ullam modi ipsum quo', 'Ad molestiae veritat', 20, 16, 'Unde eveniet consec', 23, 34, 'Beatae minim officia', 'Voluptate dolorem iu', '1976-05-16', '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(61, 51, 'Corporis corrupti f', '1979-04-21', 'Dolorum quidem quide', '532', 'Ex labore rerum esse', 'Nulla harum est cum', 'Similique ut eum vit', 4, 12, 'Et eum mollitia anim', 5, 44, 'Sint consectetur s', 'Voluptate doloremque', '2009-05-29', '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(62, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 14:55:43', NULL),
+(63, 53, 'Ipsum ab vel et qui', '2009-04-17', 'Repudiandae perferen', '825', 'Nesciunt labore ut', 'In rerum inventore l', 'Veritatis veritatis', 13, 40, 'Itaque placeat arch', 21, 38, 'Optio dolores at vo', 'Minima Nam maxime ad', '2024-08-28', '2025-06-28 15:00:33', '2025-06-28 15:00:33', NULL),
+(64, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 15:00:33', NULL),
+(65, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 15:19:27', NULL),
+(66, 61, 'Laudantium nisi ull', '2020-07-06', 'Facere laboriosam s', '192', 'Quo ea nostrud tempo', 'Id ut do molestiae b', 'Sunt ipsum omnis rei', 1, 16, 'Exercitationem cum i', 13, 54, 'Necessitatibus in am', 'Sint dicta et velit', '1974-04-20', '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL),
+(67, 61, 'Occaecat ullamco in', '1999-01-19', 'Natus ut quo in volu', '795', 'Ipsum ut deserunt p', 'Cumque officiis dolo', 'Mollitia quae dolore', 18, 32, 'Nisi velit ex ea vol', 2, 32, 'Et et quas labore ea', 'Occaecat doloribus v', '1981-02-10', '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL),
+(68, 61, 'Non molestiae elit', '1974-02-14', 'Recusandae Facilis', '226', 'Nulla ullamco quas u', 'Voluptas soluta iust', 'Dolor consectetur ir', 8, 37, 'Commodi officiis vol', 12, 42, 'Officia ut culpa re', 'Nemo cumque officia', '1987-03-22', '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL),
+(69, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -975,7 +1244,19 @@ INSERT INTO `travel_hotel_details` (`id`, `booking_id`, `hotel_name`, `room_cate
 (21, 31, 'Blake Romero', 'Reiciendis maiores s', '1996-05-08', '2009-10-05', 13, 'Reiciendis maiores s', 'Cumque voluptate mag', 'Tempora fugiat et re', '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (22, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 05:31:23'),
 (23, 32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-23 00:12:41'),
-(24, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 16:37:07');
+(24, 33, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 16:37:07'),
+(25, 34, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-27 18:22:15', '2025-06-27 18:22:15'),
+(26, 35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:53:36', '2025-06-28 13:53:36'),
+(27, 36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 13:56:53', '2025-06-28 13:56:53'),
+(28, 37, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:35', '2025-06-28 14:44:35'),
+(29, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:44:44', '2025-06-28 14:44:44'),
+(30, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:46:09', '2025-06-28 14:46:09'),
+(31, 45, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:50:15', '2025-06-28 14:50:15'),
+(33, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:51:38', '2025-06-28 14:51:38'),
+(34, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
+(35, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 15:00:33'),
+(36, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 15:19:27'),
+(37, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54');
 
 -- --------------------------------------------------------
 
@@ -1025,7 +1306,25 @@ INSERT INTO `travel_passengers` (`id`, `booking_id`, `passenger_type`, `gender`,
 (76, 31, 'Lap Infant', 'Male', '1988-10-05', '370', 'Veniam harum blandi', 0.00, 'Byron', 'Vera Pugh', 'Mitchell', '558', '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (77, 31, 'Lap Infant', 'Male', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (78, 32, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
-(79, 33, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
+(79, 33, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL),
+(80, 34, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-27 18:22:15', '2025-06-27 23:52:15', NULL),
+(81, 35, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 13:53:36', '2025-06-28 19:23:36', NULL),
+(82, 36, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 13:56:53', '2025-06-28 19:26:53', NULL),
+(83, 37, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 14:44:35', '2025-06-28 20:14:35', NULL),
+(84, 38, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 14:44:44', '2025-06-28 20:14:44', NULL),
+(85, 40, 'Seat Infant', 'Female', '2013-06-16', '884', 'Master', 0.00, 'Zephr', 'Armando Ramos', 'Hughes', '971', '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(86, 40, 'Lap Infant', 'Female', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(87, 45, 'Seat Infant', 'Female', '2013-06-16', '884', 'Master', 0.00, 'Zephr', 'Armando Ramos', 'Hughes', '971', '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(88, 45, 'Lap Infant', 'Female', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(91, 48, 'Seat Infant', 'Female', '2013-06-16', '884', 'Master', 0.00, 'Zephr', 'Armando Ramos', 'Hughes', '971', '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(92, 48, 'Lap Infant', 'Female', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(93, 51, 'Child', 'Female', '2007-10-14', '349', 'Mr', 0.00, 'Melissa', 'Deanna Marshall', 'Love', '635', '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(94, 51, 'Infant', 'Female', '1970-09-10', '175', 'Est illum laboris', 0.00, 'Yoshio', 'Xandra Jenkins', 'Cote', '824', '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(95, 51, 'Adult', 'Female', '2015-04-15', '247', 'Consequatur do excep', 0.00, 'Elijah', 'Ocean Leblanc', 'Daniels', '58', '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(96, 51, 'Lap Infant', 'Male', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(97, 53, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 20:30:33', NULL),
+(98, 54, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 20:49:27', NULL),
+(99, 61, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -1055,13 +1354,25 @@ CREATE TABLE `travel_pricing_details` (
 --
 
 INSERT INTO `travel_pricing_details` (`id`, `booking_id`, `hotel_cost`, `cruise_cost`, `total_amount`, `advisor_mco`, `conversion_charge`, `airline_commission`, `final_amount`, `merchant`, `net_mco`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(18, 27, 21212.00, 12121.00, 212.00, 212.00, 0.00, 1212.00, 12121212.00, '15', 21212.00, '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
+(18, 27, 21212.00, 12121.00, 212.00, 212.00, 0.00, 1212.00, 212.00, '15', 212.00, '2025-06-22 02:06:51', '2025-06-21 22:06:51', NULL),
 (19, 28, 0.00, 0.00, 24.00, 89.00, 0.00, 4.00, 47.00, '15', 9.00, '2025-06-22 03:13:42', '2025-06-21 23:13:42', NULL),
 (20, 29, 32.00, 60.00, 42.00, 64.00, 0.00, 3.00, 90.00, '15', 67.00, '2025-06-22 03:15:10', '2025-06-21 23:15:10', NULL),
 (21, 30, 32.00, 0.00, 71.00, 53.00, 0.00, 0.00, 42.00, NULL, 58.00, '2025-06-22 04:30:11', '2025-06-22 00:30:11', NULL),
 (22, 31, 42.00, 38.00, 75.00, 96.00, 0.00, 28.00, 8.00, '15', 39.00, '2025-06-22 05:31:23', '2025-06-22 01:31:23', NULL),
 (23, 32, 75.00, 92.00, 19.00, 90.00, 0.00, 46.00, 25.00, '15', 6.00, '2025-06-23 00:12:41', '2025-06-22 20:12:41', NULL),
-(24, 33, 88.00, 45.00, 12.00, 43.00, 0.00, 0.00, 83.00, '15', 60.00, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL);
+(24, 33, 88.00, 45.00, 12.00, 43.00, 0.00, 0.00, 83.00, '15', 60.00, '2025-06-23 16:37:07', '2025-06-23 22:07:07', NULL),
+(25, 34, 0.00, 58.00, 100.00, 89.00, 0.00, 9.00, 41.00, '15', 29.00, '2025-06-27 18:22:15', '2025-06-27 23:52:15', NULL),
+(26, 35, 49.00, 0.00, 52.00, 92.00, 0.00, 0.00, 73.00, '15', 5.00, '2025-06-28 13:53:36', '2025-06-28 19:23:36', NULL),
+(27, 36, 20.00, 26.00, 49.00, 21.00, 0.00, 62.00, 95.00, '15', 3.00, '2025-06-28 13:56:53', '2025-06-28 19:26:53', NULL),
+(28, 37, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, NULL, 0.00, '2025-06-28 14:44:35', '2025-06-28 20:14:35', NULL),
+(29, 38, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, NULL, 0.00, '2025-06-28 14:44:44', '2025-06-28 20:14:44', NULL),
+(30, 40, 77.00, 28.00, 17.00, 76.00, 0.00, 0.00, 79.00, '15', 34.00, '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
+(31, 45, 77.00, 28.00, 17.00, 76.00, 0.00, 0.00, 79.00, '15', 34.00, '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
+(33, 48, 77.00, 28.00, 17.00, 76.00, 0.00, 0.00, 79.00, '15', 34.00, '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
+(34, 51, 7.00, 7.00, 70.00, 92.00, 0.00, 0.00, 16.00, '15', 24.00, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(35, 53, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, NULL, 0.00, '2025-06-28 15:00:33', '2025-06-28 20:30:33', NULL),
+(36, 54, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, NULL, 0.00, '2025-06-28 15:19:27', '2025-06-28 20:49:27', NULL),
+(37, 61, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, '15', 0.00, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -1122,6 +1433,20 @@ CREATE TABLE `travel_sector_details` (
 
 CREATE TABLE `travel_train_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `booking_id` bigint(20) UNSIGNED NOT NULL,
+  `direction` varchar(50) DEFAULT NULL,
+  `departure_date` varchar(50) DEFAULT NULL,
+  `train_number` varchar(50) DEFAULT NULL,
+  `cabin` varchar(50) DEFAULT NULL,
+  `departure_station` varchar(50) DEFAULT NULL,
+  `departure_hours` varchar(10) DEFAULT NULL,
+  `departure_minutes` varchar(10) DEFAULT NULL,
+  `arrival_station` varchar(50) DEFAULT NULL,
+  `arrival_hours` varchar(10) DEFAULT NULL,
+  `arrival_minutes` varchar(10) DEFAULT NULL,
+  `duration` varchar(50) DEFAULT NULL,
+  `transit` varchar(50) DEFAULT NULL,
+  `arrival_date` varchar(50) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1134,6 +1459,7 @@ CREATE TABLE `travel_train_details` (
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `role` varchar(30) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `device_token` varchar(100) DEFAULT NULL,
@@ -1141,7 +1467,6 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
-  `role` varchar(30) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `phone` varchar(20) NOT NULL,
@@ -1152,8 +1477,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `device_token`, `email_verified_at`, `password`, `remember_token`, `status`, `role`, `created_at`, `updated_at`, `phone`, `departments`) VALUES
-(1, 'Admin', 'admin@example.com', 'dasdsad', NULL, '$2y$12$XoVEIFSeOdrD.E7SW.JtveKCRx9oXU1rCdqVkrX.NoXG1GLvldk62', 'LjmK85ZkLvZUKTR0rbkNcVfPrmlRhV4yWGNRQSo002V7aTHZ07C3vABXZWSS', 1, 'admin', '2025-04-24 17:05:20', '2025-04-24 17:05:20', '0', NULL);
+INSERT INTO `users` (`id`, `role`, `name`, `email`, `device_token`, `email_verified_at`, `password`, `remember_token`, `status`, `created_at`, `updated_at`, `phone`, `departments`) VALUES
+(1, 'admin', 'Admin', 'admin@example.com', 'dasdsad', NULL, '$2y$12$XoVEIFSeOdrD.E7SW.JtveKCRx9oXU1rCdqVkrX.NoXG1GLvldk62', 'uCv7AuRgo6evXU2q0oOlLk8JK8ulvb1Iv8Ieq5rUsPTGLF8vZagc3NfhLYqI', 1, '2025-04-24 17:05:20', '2025-04-24 17:05:20', '0', NULL),
+(2, 'agent', 'user1', 'user1@gmail.com', NULL, NULL, '$2y$12$QjGoMnbGoiFSxJvnro3g.OnOL/k7AnvpreW12HdLsaWPaDhgoFx4.', NULL, 1, '2025-06-27 14:35:16', '2025-06-27 14:35:16', '8956235896', 'Changes'),
+(3, 'agent', 'user2@gmail.com', 'user2@gmail.com', NULL, NULL, '$2y$12$cRM6WB3FTguiPg.kcAW24ukInljxEMJxCkc5syuoUHj/Tal.Th3iK', NULL, 1, '2025-06-27 14:35:36', '2025-06-27 14:35:36', '7894561230', 'Quality');
 
 --
 -- Indexes for dumped tables
@@ -1434,25 +1761,25 @@ ALTER TABLE `booking_statuses`
 -- AUTO_INCREMENT for table `call_logs`
 --
 ALTER TABLE `call_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `call_types`
 --
 ALTER TABLE `call_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `campaigns`
 --
 ALTER TABLE `campaigns`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `change_logs`
 --
 ALTER TABLE `change_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -1488,7 +1815,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `members`
@@ -1542,67 +1869,67 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `travel_billing_details`
 --
 ALTER TABLE `travel_billing_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `travel_bookings`
 --
 ALTER TABLE `travel_bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `travel_booking_remarks`
 --
 ALTER TABLE `travel_booking_remarks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `travel_booking_types`
 --
 ALTER TABLE `travel_booking_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT for table `travel_car_details`
 --
 ALTER TABLE `travel_car_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `travel_cruise_details`
 --
 ALTER TABLE `travel_cruise_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `travel_flight_details`
 --
 ALTER TABLE `travel_flight_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `travel_hotel_details`
 --
 ALTER TABLE `travel_hotel_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `travel_passengers`
 --
 ALTER TABLE `travel_passengers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `travel_pricing_details`
 --
 ALTER TABLE `travel_pricing_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `travel_quality_feedback`
@@ -1632,7 +1959,7 @@ ALTER TABLE `travel_train_details`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
