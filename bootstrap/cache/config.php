@@ -483,7 +483,7 @@
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => 'mailpit',
+        'host' => '127.0.0.1',
         'port' => '1025',
         'encryption' => NULL,
         'username' => NULL,
@@ -538,7 +538,7 @@
     ),
     'from' => 
     array (
-      'address' => 'hello@example.com',
+      'address' => 'auth@example.com',
       'name' => 'Laravel',
     ),
     'markdown' => 

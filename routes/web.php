@@ -37,6 +37,22 @@ use App\Http\Controllers\Auth\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\SignatureController;
+
+
+
+Route::get('/signature', [SignatureController::class, 'showForm'])->name('signature.form');
+Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
+Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
+
+
+Route::get('/send-test-email', function () {
+    Mail::to('recipient@example.com')->send(new TestEmail());
+    return 'Test email sent!';
+});
+
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
 Route::post('/update-device-token', [NotificationController::class, 'updateDeviceToken']);
