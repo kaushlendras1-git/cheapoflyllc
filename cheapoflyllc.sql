@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2025 at 04:14 AM
+-- Generation Time: Jun 30, 2025 at 04:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -647,6 +647,30 @@ CREATE TABLE `sessions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `signatures`
+--
+
+CREATE TABLE `signatures` (
+  `id` bigint(20) NOT NULL,
+  `signature_type` enum('draw','type') NOT NULL,
+  `signature_data` text NOT NULL,
+  `ip_address` varchar(20) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `signatures`
+--
+
+INSERT INTO `signatures` (`id`, `signature_type`, `signature_data`, `ip_address`, `updated_at`, `created_at`) VALUES
+(12, 'type', '<span style=\"font-family: Dancing Script; font-size: 24px;\">kaushlendra Singh</span>', '122.185.26.58', '2025-06-29 20:50:46', '2025-06-29 20:50:46'),
+(13, 'draw', 'data:image/png;base64,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', '122.185.26.58', '2025-06-29 20:51:06', '2025-06-29 20:51:06'),
+(14, 'type', '<span style=\"font-family: Sacramento; font-size: 24px;\">http://127.0.0.1:8000/signature</span>', '122.185.26.58', '2025-06-29 20:52:04', '2025-06-29 20:52:04');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `statuses`
 --
 
@@ -803,7 +827,13 @@ INSERT INTO `travel_billing_details` (`id`, `booking_id`, `card_type`, `cc_numbe
 (132, 61, 'DISCOVER', 'eyJpdiI6IitOQ1N3MWdTRTFVK2RLbmVub09uTlE9PSIsInZhbHVlIjoiUzEzZy92TUlCanVQWXI1RHpaUTRYUT09IiwibWFjIjoiNDg1OGQwMDQxMDgyNTEyMjllMjkzNmRhNDQxM2EzMjNhZDA2MzNhYjNmYzBiNGMxOTI0NDQ4OTVlYjdmZTllYSIsInRhZyI6IiJ9', 'Clio Cortez', '09', '2031', 'eyJpdiI6InZ2bFFRdkJUMzZOWDZwZGQ2NEg5L1E9PSIsInZhbHVlIjoiaDNSYTNiRkJBTGJsaHZnU2NucUFwZz09IiwibWFjIjoiOWIyN2YyMTlhZDdiZTBiZTAwYTZkODUwNzk1NzE4MzI0YTM5ZGFlNTk3N2IzMTk0MzA4YmU0MDRlNGRiNjlhNSIsInRhZyI6IiJ9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MXN', 56.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
 (133, 61, 'AMEX', 'eyJpdiI6IjkwZC8wQ0xXSkxtUG4wMXFrR2ZXTFE9PSIsInZhbHVlIjoiVkREWEdBOG1raTJmbDNFdEpsU0todz09IiwibWFjIjoiYWNiNDc3Nzg1NGZlYzFjZmIzZTc1OGQyMDhlZjlhM2Q4ZDVhYjQzODg0NzhkOTcwZWVlNjZiYjM2ODU0NmZmNiIsInRhZyI6IiJ9', 'Barrett Spence', '01', '2026', 'eyJpdiI6IlNwSUx6NDlMYUVqMWRmMjhTSTA2K0E9PSIsInZhbHVlIjoiYTZ5d3BoOC9HYXlqcDEwNnUreWJYWWpSNS80OFVWaWcwOVl0czNzK3ZqTT0iLCJtYWMiOiI3ZGE2ZmJhNWM2MmY0N2U4NzFlOTJlZWQyM2NmNjU4OTlmMzdhNmMxMTM5Y2I4MGE4M2M0NWQxMzI4ZGJjNDRjIiwidGFnIjoiIn0=', 'At minim enim quasi', 'qysoru@mailinator.com', 'Qui molestiae cumque', 'Dolor enim quia in p', 'Fiji', NULL, '64951', 'USD', 55.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
 (134, 61, 'Mastercard', 'eyJpdiI6ImRtRjd1Ulh3NmFQUHQ3OGFUYXl5NUE9PSIsInZhbHVlIjoiQTZGOEtydE5qTHFrWWw5SW16d1lSQT09IiwibWFjIjoiZjA1ZjhkYzE4NTIyYmI3MjhkMTcwNGYzNWZjOWRhYmRhMTZiOWMyNjBmM2Y5ODM4Y2Y3NmYxZTQ0Njg4MGY3ZiIsInRhZyI6IiJ9', 'Clio Cortez', NULL, NULL, 'eyJpdiI6IngvcFJ0T01sZXRqKzhsN1ZZZTZ4SVE9PSIsInZhbHVlIjoiRlpMbGVKcElydjU3eEY0ZHMxS1BzNUcxcjNuOUREVlpFcTVpcWo5NUU1MD0iLCJtYWMiOiJhOWE2ZWQ5ZDEyZjkzNTA0Yzg3MDhmYWNmYTY4NTBjN2RhMDc0NWRjZjVhZjAxMzY1ZjZiNjkzMGJlMjhmMGJmIiwidGFnIjoiIn0=', 'Veritatis libero odi', 'tysazori@mailinator.com', 'Ex placeat accusamu', 'Accusantium sit dese', 'Eveniet anim vel vo', 'Aut sit earum magna', '74252', NULL, 77.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
-(135, 61, 'DISCOVER', 'eyJpdiI6IjUwVkdjMzMwc09pMTBMQ0txT0V2YVE9PSIsInZhbHVlIjoiZEliclJmaTFkS2FGVjg0Mm5FbDVrdz09IiwibWFjIjoiMWZiOGM0ODA4NDc2ZDY3MjE0MjFiYTVjODJiOWM3MzQ4NzViZWYxNDg2MGMzMjYzZDljZjM5ZjQ1OWM1ZTM0ZiIsInRhZyI6IiJ9', 'Clio Cortez', '09', '2031', 'eyJpdiI6IktGNTNVaW9McUxwWE14dFQwR01VNVE9PSIsInZhbHVlIjoiaGl4NUZwREEzeFJBYjJ2V0s5V1VHUT09IiwibWFjIjoiNzQ5MGY1MDc4NzU4MmNjMTI4MTNmNjQzMzExNTIxYjA2NGZkMzAyMDA4NDExZDcwNjBmMGRmOGI4NGUxZDZjOCIsInRhZyI6IiJ9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MXN', 56.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL);
+(135, 61, 'DISCOVER', 'eyJpdiI6IjUwVkdjMzMwc09pMTBMQ0txT0V2YVE9PSIsInZhbHVlIjoiZEliclJmaTFkS2FGVjg0Mm5FbDVrdz09IiwibWFjIjoiMWZiOGM0ODA4NDc2ZDY3MjE0MjFiYTVjODJiOWM3MzQ4NzViZWYxNDg2MGMzMjYzZDljZjM5ZjQ1OWM1ZTM0ZiIsInRhZyI6IiJ9', 'Clio Cortez', '09', '2031', 'eyJpdiI6IktGNTNVaW9McUxwWE14dFQwR01VNVE9PSIsInZhbHVlIjoiaGl4NUZwREEzeFJBYjJ2V0s5V1VHUT09IiwibWFjIjoiNzQ5MGY1MDc4NzU4MmNjMTI4MTNmNjQzMzExNTIxYjA2NGZkMzAyMDA4NDExZDcwNjBmMGRmOGI4NGUxZDZjOCIsInRhZyI6IiJ9', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MXN', 56.00, 0, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(136, 70, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-29 13:48:24', '2025-06-29 19:18:24', NULL),
+(137, 70, 'VISA', NULL, NULL, '01', '2024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'USD', 0.00, 0, '2025-06-29 13:48:24', '2025-06-29 19:18:24', NULL),
+(138, 72, 'AMEX', 'eyJpdiI6ImJvaExtalZVbXdVc2k0Z0hkMGdZZ0E9PSIsInZhbHVlIjoiL0Fod3l4aGUrVGtac0dTNSszc0JDdz09IiwibWFjIjoiMDBiYWExYTVhZjQ0MWVmYzY2MWM2MmZkMTllMjdhMzJkZmE3NzdjOWJhMWY4ZDU1MDAzZTA2NGU3NTE1MGUxNCIsInRhZyI6IiJ9', 'Maggie Vang', '05', '2034', 'eyJpdiI6InZwY0RJc3lmZndibG9VYnVJWFgzbkE9PSIsInZhbHVlIjoiOWxkQmRXcmU1K0R0aU91Uk1VSXo5TjFacHRhdUFrMXJoTi90L0trWklBaz0iLCJtYWMiOiIwNTRjOTk2NGNlZDJhNGI3OGE3YTBhMjY2NTVmMGU0Mjg1OGFiMWE0M2E1YWEzOTk4ZDVlMjljYzliZTg4NmI2IiwidGFnIjoiIn0=', 'Quia voluptatem ull', 'ryrib@mailinator.com', 'Mollit accusamus rep', 'Est vel nostrum in c', 'Brunei Darussalam', NULL, '50841', 'USD', 39.00, 0, '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL),
+(139, 72, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL),
+(140, 72, 'AMEX', 'eyJpdiI6IlBDMG1oeHgzTjBUM3lHSHVabzBLTHc9PSIsInZhbHVlIjoiSzFXUmdHUlNBc25UVTdKZjdjUEJ4UT09IiwibWFjIjoiZDI3YzZkZWI1OWZiY2M0ODY3NjY0OGU0YjBjZmQ3NDIzYjFhMzJkNDA0NDBmZWI4MGRkNzM0Y2FkNmUxOGU4MiIsInRhZyI6IiJ9', 'Maggie Vang', '05', '2034', 'eyJpdiI6InlBb3pFc3liRDZldFB2bUp6VlIvU2c9PSIsInZhbHVlIjoiQ28vWkF0bDhQS1ZMUHRNZVRjWmhwODVMQWV5YzhzVlNqcTJyQi9nMEJqST0iLCJtYWMiOiI2ZDkwYjBkYTMxYzVjYjZkMmY5NzEzZDRiMDFiZWE2NjNmMGU5MjkzZDMyODEzYWM4NjE5N2I3MWEwNjVjMjVkIiwidGFnIjoiIn0=', 'Quia voluptatem ull', 'ryrib@mailinator.com', 'Mollit accusamus rep', 'Est vel nostrum in c', 'Brunei Darussalam', NULL, '50841', 'USD', 39.00, 0, '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL),
+(141, 72, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, 0, '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -867,7 +897,9 @@ INSERT INTO `travel_bookings` (`id`, `user_id`, `pnr`, `campaign`, `hotel_ref`, 
 (64, NULL, 'BUF', 'Buffer Mix', NULL, NULL, NULL, NULL, 'Tanisha Jensen', '186 284 7204', NULL, NULL, NULL, 'under process', 'pending', 'Ex aliqua Aut conse', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:05:54', '2025-06-28 22:35:54', NULL),
 (66, NULL, 'LCC', 'LCC', NULL, NULL, NULL, NULL, 'Britanni Pickett', '186 999 7627', NULL, NULL, NULL, 'under process', 'pending', 'Qui molestiae eum ad', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:07:10', '2025-06-28 22:37:10', NULL),
 (68, NULL, 'INT', 'International', NULL, NULL, NULL, NULL, 'Octavius Larson', '146 930 3122', NULL, NULL, NULL, 'under process', 'pending', 'Dolore vel nihil ex', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:08:45', '2025-06-28 22:38:45', NULL),
-(69, NULL, 'MAJ280627820016', 'Major Mix', NULL, NULL, NULL, NULL, 'Dana Hyde', '129 586 9238', NULL, NULL, NULL, 'under process', 'pending', 'Facere repudiandae m', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:29:42', '2025-06-28 22:59:42', NULL);
+(69, NULL, 'MAJ280627820016', 'Major Mix', NULL, NULL, NULL, NULL, 'Dana Hyde', '129 586 9238', NULL, NULL, NULL, 'under process', 'pending', 'Facere repudiandae m', NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 17:29:42', '2025-06-28 22:59:42', NULL),
+(70, NULL, 'MAJ290694900001', 'Major Mix', 'Rerum veritatis nobi', 'Sed laudantium sequ', NULL, NULL, 'Cara Kaufman', '+1 (369) 235-6919', 'nipiri@mailinator.com', 'AI', NULL, 'under process', 'pending', 'Omnis sit eum dolor', 'Ad laboriosam ut si', NULL, NULL, NULL, '5', NULL, '2025-06-29 13:48:24', '2025-06-29 19:18:24', NULL),
+(72, NULL, 'PUR290694900001', 'Pure AA', 'Sunt non velit aute', 'Quia voluptatibus ex', NULL, NULL, 'Yasir Wise', '+1 (659) 672-5204', 'guveg@mailinator.com', 'CH', NULL, 'under process', 'pending', 'Ea qui quia proident', 'Assumenda ea omnis c', 'Suscipit consequatur', NULL, NULL, '1', NULL, '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -904,7 +936,8 @@ INSERT INTO `travel_booking_remarks` (`id`, `booking_id`, `agent`, `date_time`, 
 (18, 40, 'Testagent', '2025-06-28 20:16:09', 'Cum non nostrud ipsu', '2025-06-28 14:46:09', '2025-06-28 20:16:09', NULL),
 (19, 45, 'Testagent', '2025-06-28 20:20:15', 'Cum non nostrud ipsu', '2025-06-28 14:50:15', '2025-06-28 20:20:15', NULL),
 (21, 48, 'Testagent', '2025-06-28 20:21:38', 'Cum non nostrud ipsu', '2025-06-28 14:51:38', '2025-06-28 20:21:38', NULL),
-(22, 51, 'Testagent', '2025-06-28 20:25:43', 'hjhgjgh', '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL);
+(22, 51, 'Testagent', '2025-06-28 20:25:43', 'hjhgjgh', '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
+(23, 72, 'Testagent', '2025-06-29 19:19:32', 'Similique modi quo a', '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -991,7 +1024,12 @@ INSERT INTO `travel_booking_types` (`id`, `booking_id`, `type`, `created_at`, `u
 (183, 68, 'Hotel', '2025-06-28 17:08:45', '2025-06-28 22:38:45'),
 (184, 68, 'Cruise', '2025-06-28 17:08:45', '2025-06-28 22:38:45'),
 (185, 68, 'Car', '2025-06-28 17:08:45', '2025-06-28 22:38:45'),
-(186, 69, 'Flight', '2025-06-28 17:29:42', '2025-06-28 22:59:42');
+(186, 69, 'Flight', '2025-06-28 17:29:42', '2025-06-28 22:59:42'),
+(187, 70, 'Hotel', '2025-06-29 13:48:24', '2025-06-29 19:18:24'),
+(188, 70, 'Cruise', '2025-06-29 13:48:24', '2025-06-29 19:18:24'),
+(189, 70, 'Car', '2025-06-29 13:48:24', '2025-06-29 19:18:24'),
+(190, 72, 'Cruise', '2025-06-29 13:49:32', '2025-06-29 19:19:32'),
+(191, 72, 'Car', '2025-06-29 13:49:32', '2025-06-29 19:19:32');
 
 -- --------------------------------------------------------
 
@@ -1055,7 +1093,10 @@ INSERT INTO `travel_car_details` (`id`, `booking_id`, `car_rental_provider`, `ca
 (51, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
 (52, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 15:00:33'),
 (53, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 15:19:27'),
-(54, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54');
+(54, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54'),
+(55, 70, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:48:24', '2025-06-29 13:48:24'),
+(56, 72, 'Ut voluptate tempori', 'Commodo libero volup', 'Possimus quia ratio', 'Soluta rerum exercit', '1990-02-22', '20:14:00', '2002-11-30', '23:37:00', 'Soluta rerum exercit', 'Nemo quam quis provi', 'Ducimus tenetur ex', '2025-06-29 13:49:32', '2025-06-29 13:49:32'),
+(57, 72, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:49:32', '2025-06-29 13:49:32');
 
 -- --------------------------------------------------------
 
@@ -1123,7 +1164,10 @@ INSERT INTO `travel_cruise_details` (`id`, `booking_id`, `cruise_line`, `ship_na
 (48, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
 (49, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 15:00:33'),
 (50, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 15:19:27'),
-(51, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54');
+(51, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54'),
+(52, 70, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:48:24', '2025-06-29 13:48:24'),
+(53, 72, 'Est sint ipsum al', 'Aladdin Roberts', 'Amet cillum et volu', 'Et rerum consequatur', 'Proident qui enim o', '2006-11-17', 0, 9, 'Et autem incidunt m', '1976-08-27', 12, 15, 'Placeat architecto', '2025-06-29 13:49:32', '2025-06-29 13:49:32'),
+(54, 72, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:49:32', '2025-06-29 13:49:32');
 
 -- --------------------------------------------------------
 
@@ -1203,7 +1247,10 @@ INSERT INTO `travel_flight_details` (`id`, `booking_id`, `direction`, `departure
 (66, 61, 'Laudantium nisi ull', '2020-07-06', 'Facere laboriosam s', '192', 'Quo ea nostrud tempo', 'Id ut do molestiae b', 'Sunt ipsum omnis rei', 1, 16, 'Exercitationem cum i', 13, 54, 'Necessitatibus in am', 'Sint dicta et velit', '1974-04-20', '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL),
 (67, 61, 'Occaecat ullamco in', '1999-01-19', 'Natus ut quo in volu', '795', 'Ipsum ut deserunt p', 'Cumque officiis dolo', 'Mollitia quae dolore', 18, 32, 'Nisi velit ex ea vol', 2, 32, 'Et et quas labore ea', 'Occaecat doloribus v', '1981-02-10', '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL),
 (68, 61, 'Non molestiae elit', '1974-02-14', 'Recusandae Facilis', '226', 'Nulla ullamco quas u', 'Voluptas soluta iust', 'Dolor consectetur ir', 8, 37, 'Commodi officiis vol', 12, 42, 'Officia ut culpa re', 'Nemo cumque officia', '1987-03-22', '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL),
-(69, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL);
+(69, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54', NULL),
+(70, 70, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:48:24', '2025-06-29 13:48:24', NULL),
+(71, 72, 'Impedit impedit qu', '2021-10-08', 'Quos porro cillum co', '634', 'Et dolor error facil', 'Quis dicta blanditii', 'Totam sed ipsa moll', 3, 45, 'Et rem animi accusa', 12, 48, 'Modi illum sint ten', 'Tempore necessitati', '1971-06-02', '2025-06-29 13:49:32', '2025-06-29 13:49:32', NULL),
+(72, 72, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:49:32', '2025-06-29 13:49:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -1256,7 +1303,10 @@ INSERT INTO `travel_hotel_details` (`id`, `booking_id`, `hotel_name`, `room_cate
 (34, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 14:55:43'),
 (35, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 15:00:33'),
 (36, 54, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 15:19:27'),
-(37, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54');
+(37, 61, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 15:41:54'),
+(38, 70, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:48:24', '2025-06-29 13:48:24'),
+(39, 72, 'Olympia Cruz', 'Voluptas aut fugiat', '2019-03-17', '2001-05-07', 46, 'Voluptas aut fugiat', 'Dolor aut rerum labo', 'Dolores dignissimos', '2025-06-29 13:49:32', '2025-06-29 13:49:32'),
+(40, 72, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-06-29 13:49:32', '2025-06-29 13:49:32');
 
 -- --------------------------------------------------------
 
@@ -1324,7 +1374,11 @@ INSERT INTO `travel_passengers` (`id`, `booking_id`, `passenger_type`, `gender`,
 (96, 51, 'Lap Infant', 'Male', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
 (97, 53, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 15:00:33', '2025-06-28 20:30:33', NULL),
 (98, 54, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 15:19:27', '2025-06-28 20:49:27', NULL),
-(99, 61, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL);
+(99, 61, NULL, 'Male', NULL, NULL, 'Ms', 0.00, NULL, NULL, NULL, NULL, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(100, 70, 'Seat Infant', 'Male', '1992-07-15', '293', 'Master', 0.00, 'Fay', 'Tamekah Gallagher', 'Gill', '86', '2025-06-29 13:48:24', '2025-06-29 19:18:24', NULL),
+(101, 70, 'Infant', 'Female', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-29 13:48:24', '2025-06-29 19:18:24', NULL),
+(102, 72, 'Seat Infant', 'Male', '1992-07-15', '293', 'Master', 0.00, 'Fay', 'Tamekah Gallagher', 'Gill', '86', '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL),
+(103, 72, 'Infant', 'Female', NULL, NULL, NULL, 0.00, NULL, NULL, NULL, NULL, '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -1372,7 +1426,9 @@ INSERT INTO `travel_pricing_details` (`id`, `booking_id`, `hotel_cost`, `cruise_
 (34, 51, 7.00, 7.00, 70.00, 92.00, 0.00, 0.00, 16.00, '15', 24.00, '2025-06-28 14:55:43', '2025-06-28 20:25:43', NULL),
 (35, 53, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, NULL, 0.00, '2025-06-28 15:00:33', '2025-06-28 20:30:33', NULL),
 (36, 54, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, NULL, 0.00, '2025-06-28 15:19:27', '2025-06-28 20:49:27', NULL),
-(37, 61, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, '15', 0.00, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL);
+(37, 61, 0.00, 0.00, 0.00, 12.00, 0.00, 0.00, 12.00, '15', 0.00, '2025-06-28 15:41:54', '2025-06-28 21:11:54', NULL),
+(38, 70, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 0.00, '2025-06-29 13:48:24', '2025-06-29 19:18:24', NULL),
+(39, 72, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 0.00, '2025-06-29 13:49:32', '2025-06-29 19:19:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -1625,6 +1681,12 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `signatures`
+--
+ALTER TABLE `signatures`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `statuses`
 --
 ALTER TABLE `statuses`
@@ -1854,6 +1916,12 @@ ALTER TABLE `query_types`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `signatures`
+--
+ALTER TABLE `signatures`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT for table `statuses`
 --
 ALTER TABLE `statuses`
@@ -1875,61 +1943,61 @@ ALTER TABLE `teams`
 -- AUTO_INCREMENT for table `travel_billing_details`
 --
 ALTER TABLE `travel_billing_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `travel_bookings`
 --
 ALTER TABLE `travel_bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `travel_booking_remarks`
 --
 ALTER TABLE `travel_booking_remarks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `travel_booking_types`
 --
 ALTER TABLE `travel_booking_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
 
 --
 -- AUTO_INCREMENT for table `travel_car_details`
 --
 ALTER TABLE `travel_car_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `travel_cruise_details`
 --
 ALTER TABLE `travel_cruise_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `travel_flight_details`
 --
 ALTER TABLE `travel_flight_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `travel_hotel_details`
 --
 ALTER TABLE `travel_hotel_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `travel_passengers`
 --
 ALTER TABLE `travel_passengers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `travel_pricing_details`
 --
 ALTER TABLE `travel_pricing_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `travel_quality_feedback`
