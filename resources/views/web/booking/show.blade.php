@@ -23,6 +23,10 @@
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Mail History
                     </button>
+                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        Survey
+                    </button>
+                    
                 </div>
             </div>
 
