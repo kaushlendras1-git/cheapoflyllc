@@ -524,7 +524,21 @@
     document.addEventListener('DOMContentLoaded', () => {
         const billingFormsContainer = document.getElementById('billingForms');
         let billingIndex = 1;
-
+        let cntrystr2 = '';
+        $.ajax({
+            url:'/countrylist',
+            method:'GET',
+            success:function (res){
+                let cntrylst = res.data;
+                cntrystr2 = '<option value="">Select Country</option>';
+                $.each(cntrylst, function () {
+                    cntrystr2 += `<option value="${this.id}">${this.name}</option>`;
+                });
+            },
+            error:function (res){
+                console.log(res)
+            }
+        });
         // Function to add a new billing row
         function addBillingRow() {
             const newRow = document.createElement('tr');
@@ -583,8 +597,17 @@
                 <td><input type="email" class="form-control" placeholder="Email" name="billing[${billingIndex}][email]" value=""></td>
                 <td><input type="text" class="form-control" placeholder="Contact No" name="billing[${billingIndex}][contact_no]" value=""></td>
                 <td><input type="text" class="form-control" placeholder="City" name="billing[${billingIndex}][city]" value=""></td>
-                <td><input type="text" class="form-control" placeholder="Country" name="billing[${billingIndex}][country]" value=""></td>
-                <td><input type="text" class="form-control" placeholder="State" name="billing[${billingIndex}][state]" value=""></td>
+                <td>
+                    <select id="country-${billingIndex}" style="width:9rem" class="form-control country-select" name="billing[${billingIndex}][country]">
+                        ${cntrystr2}
+                    </select>
+
+                </td>
+                <td>
+                    <select id="state-${billingIndex}" style="width:7.5rem" class="form-control state-select" name="billing[${billingIndex}][state]">
+                        <option value="">Select State</option>
+                    </select>       
+                </td>
                 <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[${billingIndex}][zip_code]" value=""></td>
 
                 <td>
@@ -888,25 +911,34 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleTableColumns();
 });
 
+$.ajax({
+    url:'/countrylist',
+    method:'GET',
+    success:function (res){
+        let cntrylst = res.data;
+        var _cntrystr = '<option value="">Select Country</option>';
+        $.each(cntrylst, function () {
+            _cntrystr += `<option value="${this.id}">${this.name}</option>`;
+        });
 
+        $(".country-select").each(function () {
+            $(this).html(_cntrystr);
+        });
+    },
+    error:function (res){
+        console.log(res)
+    }
+});
 /////////////////////////////////////////////////////////////////////////////////////////
   // Generate country options
-var _cntrystr = '<option value="">Select Country</option>';
-$.each(cntrylst, function () {
-    _cntrystr += `<option value="${this.name}">${this.name}</option>`;
-});
 
-// Populate country dropdowns
-$(".country-select").each(function () {
-    $(this).html(_cntrystr);
-});
 
 // Handle country change event
-$(".country-select").on("change", function () {
-    var selID = $(this).attr("id").replace('country', 'state');
-    var selectedCountry = $(this).val();
-    setState(selID, selectedCountry);
-});
+// $(".country-select").on("change", function () {
+//     var selID = $(this).attr("id").replace('country', 'state');
+//     var selectedCountry = $(this).val();
+//     setState(selID, selectedCountry);
+// });
 
 // Function to populate state dropdown
 function setState(stateID, countryName) {

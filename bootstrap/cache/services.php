@@ -31,8 +31,9 @@
     27 => 'Termwind\\Laravel\\TermwindServiceProvider',
     28 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     29 => 'Spatie\\Permission\\PermissionServiceProvider',
-    30 => 'Vinkla\\Hashids\\HashidsServiceProvider',
-    31 => 'App\\Providers\\AppServiceProvider',
+    30 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+    31 => 'Vinkla\\Hashids\\HashidsServiceProvider',
+    32 => 'App\\Providers\\AppServiceProvider',
   ),
   'eager' => 
   array (
@@ -51,8 +52,9 @@
     12 => 'Termwind\\Laravel\\TermwindServiceProvider',
     13 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     14 => 'Spatie\\Permission\\PermissionServiceProvider',
-    15 => 'Vinkla\\Hashids\\HashidsServiceProvider',
-    16 => 'App\\Providers\\AppServiceProvider',
+    15 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+    16 => 'Vinkla\\Hashids\\HashidsServiceProvider',
+    17 => 'App\\Providers\\AppServiceProvider',
   ),
   'deferred' => 
   array (

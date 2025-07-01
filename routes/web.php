@@ -17,6 +17,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CountryStateController;
 #use App\Http\Controllers\CallBackController;
 use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\NotificationController;
@@ -37,24 +38,24 @@ use App\Http\Controllers\Auth\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 
+Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('statelist');
+Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
 Route::post('/update-device-token', [NotificationController::class, 'updateDeviceToken']);
-
 
 /**Booking **/
 Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])->name('travel.bookings.submit');
 Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
 
-Route::prefix('booking')->name('booking.')->group(function () {   
-    
+Route::prefix('booking')->name('booking.')->group(function () {
+
     Route::get('/add', [BookingFormController::class, 'add'])->name('add');
-    
     Route::get('/search', [BookingFormController::class, 'search'])->name('search');
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
     Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
-    
+
     Route::prefix('auth-email')->group(function () {
         Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('auth-email.index');
     });
@@ -118,11 +119,11 @@ Route::middleware('auth')->group(function () {
         Route::get('score', [ReportController::class,'score'])->name('reports.score');
     });
 
-    
+
     Route::prefix('masters')->group(function () {
         Route::resource('call-types', CallTypeController::class);
         Route::resource('teams', TeamController::class);
-        Route::resource('campaign', CampaignController::class);    
+        Route::resource('campaign', CampaignController::class);
         Route::resource('status', StatusController::class);
         Route::resource('supplier', SupplierController::class);
         Route::resource('quality', QualityController::class);
