@@ -131,10 +131,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
 
     Route::prefix('reports')->group(function () {
-        Route::get('marketing', [ReportController::class,'marketing'])->name('reports.marketing');
-        Route::get('call_queue', [ReportController::class,'call_queue'])->name('reports.call_queue');
-        Route::get('agents', [ReportController::class,'agents'])->name('reports.agents');
-        Route::get('score', [ReportController::class,'score'])->name('reports.score');
+        Route::get('marketing', [ReportController::class,'marketing'])->name('marketing');
+        Route::get('call_queue', [ReportController::class,'call_queue'])->name('call_queue');
+        Route::get('agents', [ReportController::class,'agents'])->name('agents');
+        Route::get('score', [ReportController::class,'score'])->name('score');
     });
 
 

@@ -81,7 +81,7 @@
                     <ul class="menu-sub"> 
                       
                       <li class="menu-item">
-                        <a href="route('reports.marketing')" class="menu-link">
+                        <a href="{{route('reports.marketing')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                           <div data-i18n="Marketing">Marketing</div>
                         </a>

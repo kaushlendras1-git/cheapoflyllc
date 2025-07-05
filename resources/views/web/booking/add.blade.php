@@ -15,12 +15,7 @@
                     <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Copy Authorization Link
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Mail History
-                    </button>
+                    
                 </div>
             </div>
 
