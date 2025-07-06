@@ -21,6 +21,8 @@ use App\Http\Controllers\CountryStateController;
 #use App\Http\Controllers\CallBackController;
 use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MailHistoryController;
+use App\Http\Controllers\SurveyController;
 
 // use App\Http\Controllers\Travel\TravelBookingController;
 // use App\Http\Controllers\Travel\TravelBookingTypeController;
@@ -34,7 +36,7 @@ use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\Travel\BookingFormController;
 use App\Http\Controllers\Auth\AuthEmailController;
-use App\Http\Controllers\Auth\MailHistoryController;
+#use App\Http\Controllers\Auth\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Mail\TestEmail;
@@ -175,5 +177,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/members/{member}/status', [MemberController::class, 'updateStatus'])->name('members.updateStatus');
 
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
+    
+    Route::get('/mail-history/{id}', [MailHistoryController::class, 'mailHistory'])->name('mail-history');
+    Route::get('/sms/{id}', [MailHistoryController::class, 'sendSms'])->name('sms');
+    Route::get('/whatsup/{id}', [MailHistoryController::class, 'sendWhatsApp'])->name('whatsup');
+    Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
 
 });

@@ -18,19 +18,32 @@
                 </div>
                 <div class="d-flex gap-2">
                     
-                    <a href="{{route('signature.form')}}">
-                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                            Copy Authorization Link
-                        </button>
+                    
+                    
+
+                  <a href="{{ route('whatsup', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    WhatsApp
+                </a>
+
+                    <a href="{{ route('sms', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        SMS
                     </a>
 
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    <a href="{{ route('signature.form') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        Copy Authorization Link
+                    </a>
+
+                    <a href="{{ route('mail-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Mail History
-                    </button>
-                    
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    </a>
+
+                    <a href="{{ route('survey', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Survey
-                    </button>
+                    </a>
+
+
+                   
+
                     
                 </div>
             </div>
