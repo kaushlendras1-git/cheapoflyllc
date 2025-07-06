@@ -17,19 +17,19 @@ class FollowUpController extends Controller
 
     public function __construct()
     {
-        $this->authId = Auth::id(); // Retrieve the authenticated user's ID
+        $this->authId = Auth::id();
     }
 
     public function index(Request $request)
 {
     // Build the query with join
     $query = CallLog::query()
-        ->join('users', 'call_logs.user', '=', 'users.id') // Join with users table
-        ->select('call_logs.*', 'users.name as user_name') // Select call logs and user name
+        ->join('users', 'call_logs.user_id', '=', 'users.id')
+        ->select('call_logs.*', 'users.name as user_name')
         ->where(function ($query) {
             $query->where('call_logs.assign', $this->authId)
                   ->orWhere(function ($subQuery) {
-                      $subQuery->where('call_logs.user', $this->authId)
+                      $subQuery->where('call_logs.user_id', $this->authId)
                                ->where('call_logs.followup_date', '!=', '');
                   });
         });
@@ -61,8 +61,5 @@ class FollowUpController extends Controller
     // Return the view with data
     return view('web.follow-up.index', compact('callLogs'));
 }
-
-
-
    
 }

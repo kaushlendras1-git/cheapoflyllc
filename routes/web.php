@@ -21,6 +21,8 @@ use App\Http\Controllers\CountryStateController;
 #use App\Http\Controllers\CallBackController;
 use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MailHistoryController;
+use App\Http\Controllers\SurveyController;
 
 // use App\Http\Controllers\Travel\TravelBookingController;
 // use App\Http\Controllers\Travel\TravelBookingTypeController;
@@ -34,7 +36,7 @@ use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\Travel\BookingFormController;
 use App\Http\Controllers\Auth\AuthEmailController;
-use App\Http\Controllers\Auth\MailHistoryController;
+#use App\Http\Controllers\Auth\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Mail\TestEmail;
@@ -74,10 +76,11 @@ Route::prefix('booking')->name('booking.')->group(function () {
     Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
 
-    Route::prefix('auth-email')->group(function () {
-        Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('auth-email.index');
-    });
 
+    Route::prefix('auth-email')->name('auth-email.')->group(function () {
+        Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail');
+    });
+    
     Route::prefix('mail')->name('mail.')->group(function () {
         Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
     });
@@ -131,10 +134,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
 
     Route::prefix('reports')->group(function () {
-        Route::get('marketing', [ReportController::class,'marketing'])->name('reports.marketing');
-        Route::get('call_queue', [ReportController::class,'call_queue'])->name('reports.call_queue');
-        Route::get('agents', [ReportController::class,'agents'])->name('reports.agents');
-        Route::get('score', [ReportController::class,'score'])->name('reports.score');
+        Route::get('marketing', [ReportController::class,'marketing'])->name('marketing');
+        Route::get('call_queue', [ReportController::class,'call_queue'])->name('call_queue');
+        Route::get('agents', [ReportController::class,'agents'])->name('agents');
+        Route::get('score', [ReportController::class,'score'])->name('score');
     });
 
 
@@ -175,5 +178,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/members/{member}/status', [MemberController::class, 'updateStatus'])->name('members.updateStatus');
 
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
+    
+    Route::get('/mail-history/{id}', [MailHistoryController::class, 'mailHistory'])->name('mail-history');
+    Route::get('/sms/{id}', [MailHistoryController::class, 'sendSms'])->name('sms');
+    Route::get('/whatsup/{id}', [MailHistoryController::class, 'sendWhatsApp'])->name('whatsup');
+    Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
 
 });

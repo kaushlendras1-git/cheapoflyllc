@@ -17,15 +17,32 @@
                     <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    
+            
+<a href="{{ route('booking.auth-email.sendmail', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+    Send Auth Email
+</a>
+
+                <a href="{{ route('whatsup', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    WhatsApp
+                </a>
+
+                <a href="{{ route('sms', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                       SMS
+                </a>
+
+                <a href="{{ route('signature.form') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Copy Authorization Link
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                </a>
+
+                <a href="{{ route('mail-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Mail History
-                    </button>
-                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                </a>
+
+                <a href="{{ route('survey', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Survey
-                    </button>
+                </a>
+
                     
                 </div>
             </div>
@@ -287,11 +304,10 @@
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
-                                    <pre>
-                                    {{
-                                        dump($booking->travelFlight)
-                                    }}
-                                </pre>
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+                                    <div class="col-md-12">
                                         <table id="flightTable">
                                             <thead>
                                                 <tr>
@@ -347,18 +363,16 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+
+
                                 </div>
                             </div>
                     </div>
                 </div>
+            <!------------------------ End Flight Booking Details ------------------------------>
 
-        <!------------------------ End Flight Booking Details ------------------------------>
-
-
-        @if(1==2)
-
-          <!------------------------ Car Booking Details ------------------------------>
-
+              <!------------------------ Car Booking Details ------------------------------>
                 <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
                     <div class="card p-4">
                             <div class="d-flex justify-content-between align-items-center">
@@ -366,8 +380,12 @@
                             </div>
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
+                                    
                                     <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
 
+                                    <div class="col-md-12">
                                         <!-- Car Table -->
                                         <table id="carTable">
                                             <thead>
@@ -418,11 +436,6 @@
                                                 @endif
                                             </tbody>
                                         </table>
-
-
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -438,8 +451,13 @@
                             </div>
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-md-12">
+                                    
+                                <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
 
+
+                                    <div class="col-md-12">
                                         <!-- Cruise Table -->
                                         <table id="cruiseTable">
                                             <thead>
@@ -496,15 +514,11 @@
                                                 @endif
                                             </tbody>
                                         </table>
-
                                     </div>
                                 </div>
                             </div>
                     </div>
                 </div>
-
-
-
         <!------------------------ End Cruise Booking Details ------------------------------>
 
 
@@ -517,8 +531,12 @@
                             </div>
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-md-12">
 
+                                <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+                                <div class="col-md-12">
                                     <!-- Hotel Table -->
                                 <table id="hotelTable">
                                     <thead>
@@ -569,124 +587,105 @@
                             </div>
                     </div>
                 </div>
-
-
-
         <!------------------------ End Hotel Booking Details ------------------------------>
 
 
-                <!-- Passenger Details -->
-                <div class="tab-pane fade " id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
+      <!----------------------------------------Passeenger-------------------------------------------------->
+        <div class="tab-pane fade " id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0">Passenger Details</h4>
-
                         </div>
-
-           <!------------------------------------------------------------------------------------------>
-
-
-    <div class="container excel-like-container">
-
-
-
-      <!----------------------------------------Passeenger-------------------------------------------------->
-                <table class="passenger-table">
-                    <thead>
-                        <tr>
-                            <th>S.No</th>
-                            <th>Type</th>
-                            <th>Gender</th>
-                            <th>Title</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Last Name</th>
-                            <th>DOB</th>
-                            <th>Seat</th>
-                            <th>Credit Note</th>
-                            <th>E-Ticket</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="passengerForms">
-                        @if($booking->passengers->isNotEmpty())
-                            @foreach($booking->passengers as $index => $passenger)
-                                <tr class="passenger-form" data-index="{{ $index }}">
-                                    <td><span class="billing-card-title">{{ $index + 1 }}</span></td>
-                                    <td>
-                                        <select class="form-control" name="passenger[{{ $index }}][passenger_type]">
-                                            <option value="">Select</option>
-                                            <option value="Adult" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Adult' ? 'selected' : '' }}>Adult</option>
-                                            <option value="Child" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Child' ? 'selected' : '' }}>Child</option>
-                                            <option value="Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Infant' ? 'selected' : '' }}>Infant</option>
-                                            <option value="Seat Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Seat Infant' ? 'selected' : '' }}>Seat Infant</option>
-                                            <option value="Lap Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Lap Infant' ? 'selected' : '' }}>Lap Infant</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control" name="passenger[{{ $index }}][gender]">
-                                            <option value="">Select</option>
-                                            <option value="Male" {{ old("passenger.$index.gender", $passenger->gender) === 'Male' ? 'selected' : '' }}>Male</option>
-                                            <option value="Female" {{ old("passenger.$index.gender", $passenger->gender) === 'Female' ? 'selected' : '' }}>Female</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control" name="passenger[{{ $index }}][title]">
-                                            <option value="">Select</option>
-                                            <option value="Mr" {{ old("passenger.$index.title", $passenger->title) === 'Mr' ? 'selected' : '' }}>Mr</option>
-                                            <option value="Mrs" {{ old("passenger.$index.title", $passenger->title) === 'Mrs' ? 'selected' : '' }}>Mrs</option>
-                                            <option value="Ms" {{ old("passenger.$index.title", $passenger->title) === 'Ms' ? 'selected' : '' }}>Ms</option>
-                                            <option value="Master" {{ old("passenger.$index.title", $passenger->title) === 'Master' ? 'selected' : '' }}>Master</option>
-                                            <option value="Miss" {{ old("passenger.$index.title", $passenger->title) === 'Miss' ? 'selected' : '' }}>Miss</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][first_name]" value="{{ old("passenger.$index.first_name", $passenger->first_name) }}" placeholder="First Name" required></td>
-                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][middle_name]" value="{{ old("passenger.$index.middle_name", $passenger->middle_name) }}" placeholder="Middle Name"></td>
-                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][last_name]" value="{{ old("passenger.$index.last_name", $passenger->last_name) }}" placeholder="Last Name" required></td>
-                                    <td><input type="date" class="form-control" name="passenger[{{ $index }}][dob]" value="{{ old("passenger.$index.dob", $passenger->dob) }}" required></td>
-                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][seat_number]" value="{{ old("passenger.$index.seat_number", $passenger->seat_number) }}" placeholder="Seat"></td>
-                                    <td><input type="number" class="form-control" name="passenger[{{ $index }}][credit_note]" value="{{ old("passenger.$index.credit_note", $passenger->credit_note) }}" placeholder="0" step="0.01" min="0"></td>
-                                    <td><input type="text" class="form-control" name="passenger[{{ $index }}][e_ticket_number]" value="{{ old("passenger.$index.e_ticket_number", $passenger->e_ticket_number) }}" placeholder="E Ticket"></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-danger delete-passenger" aria-label="Delete passenger">
-                                            <i class="ri ri-delete-bin-line"></i>
-                                        </button>
-                                        <input type="hidden" name="passenger[{{ $index }}][id]" value="{{ $passenger->id }}">
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr id="noPassengers">
-                                <td colspan="12" class="text-center">No passenger details available. Click "Add Passenger" to start.</td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
-
-
-        <!------------------------------------------------------------------------------------------>
-
-    </div>
-
+                        <div class="col-md-12">                        
+                            <table class="passenger-table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Type</th>
+                                        <th>Gender</th>
+                                        <th>Title</th>
+                                        <th>First Name</th>
+                                        <th>Middle Name</th>
+                                        <th>Last Name</th>
+                                        <th>DOB</th>
+                                        <th>Seat</th>
+                                        <th>Credit Note</th>
+                                        <th>E-Ticket</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="passengerForms">
+                                    @if($booking->passengers->isNotEmpty())
+                                        @foreach($booking->passengers as $index => $passenger)
+                                            <tr class="passenger-form" data-index="{{ $index }}">
+                                                <td><span class="billing-card-title">{{ $index + 1 }}</span></td>
+                                                <td>
+                                                    <select class="form-control" name="passenger[{{ $index }}][passenger_type]">
+                                                        <option value="">Select</option>
+                                                        <option value="Adult" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Adult' ? 'selected' : '' }}>Adult</option>
+                                                        <option value="Child" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Child' ? 'selected' : '' }}>Child</option>
+                                                        <option value="Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Infant' ? 'selected' : '' }}>Infant</option>
+                                                        <option value="Seat Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Seat Infant' ? 'selected' : '' }}>Seat Infant</option>
+                                                        <option value="Lap Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Lap Infant' ? 'selected' : '' }}>Lap Infant</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control" name="passenger[{{ $index }}][gender]">
+                                                        <option value="">Select</option>
+                                                        <option value="Male" {{ old("passenger.$index.gender", $passenger->gender) === 'Male' ? 'selected' : '' }}>Male</option>
+                                                        <option value="Female" {{ old("passenger.$index.gender", $passenger->gender) === 'Female' ? 'selected' : '' }}>Female</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control" name="passenger[{{ $index }}][title]">
+                                                        <option value="">Select</option>
+                                                        <option value="Mr" {{ old("passenger.$index.title", $passenger->title) === 'Mr' ? 'selected' : '' }}>Mr</option>
+                                                        <option value="Mrs" {{ old("passenger.$index.title", $passenger->title) === 'Mrs' ? 'selected' : '' }}>Mrs</option>
+                                                        <option value="Ms" {{ old("passenger.$index.title", $passenger->title) === 'Ms' ? 'selected' : '' }}>Ms</option>
+                                                        <option value="Master" {{ old("passenger.$index.title", $passenger->title) === 'Master' ? 'selected' : '' }}>Master</option>
+                                                        <option value="Miss" {{ old("passenger.$index.title", $passenger->title) === 'Miss' ? 'selected' : '' }}>Miss</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][first_name]" value="{{ old("passenger.$index.first_name", $passenger->first_name) }}" placeholder="First Name" required></td>
+                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][middle_name]" value="{{ old("passenger.$index.middle_name", $passenger->middle_name) }}" placeholder="Middle Name"></td>
+                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][last_name]" value="{{ old("passenger.$index.last_name", $passenger->last_name) }}" placeholder="Last Name" required></td>
+                                                <td><input type="date" class="form-control" name="passenger[{{ $index }}][dob]" value="{{ old("passenger.$index.dob", $passenger->dob) }}" required></td>
+                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][seat_number]" value="{{ old("passenger.$index.seat_number", $passenger->seat_number) }}" placeholder="Seat"></td>
+                                                <td><input type="number" class="form-control" name="passenger[{{ $index }}][credit_note]" value="{{ old("passenger.$index.credit_note", $passenger->credit_note) }}" placeholder="0" step="0.01" min="0"></td>
+                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][e_ticket_number]" value="{{ old("passenger.$index.e_ticket_number", $passenger->e_ticket_number) }}" placeholder="E Ticket"></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger delete-passenger" aria-label="Delete passenger">
+                                                        <i class="ri ri-delete-bin-line"></i>
+                                                    </button>
+                                                    <input type="hidden" name="passenger[{{ $index }}][id]" value="{{ $passenger->id }}">
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr id="noPassengers">
+                                            <td colspan="12" class="text-center">No passenger details available. Click "Add Passenger" to start.</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+    <!------------------------------------End Passeenger------------------------------------------------------>
 
-<!--------------------------------------Billing Details ---------------------------->
 
-
+    <!--------------------------------------Billing Details ---------------------------->
     <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
         <div class="card p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="card-header border-0 p-0">Billing Details</h5>
                 <div>
                     <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
-
                 </div>
             </div>
-            <div class="card-body p-0">
-                <div class="excel-like-container">
-
                     <!--------------------------------------Billing Details ---------------------------->
+                                   <div class="col-md-12">     
+
                     <table class="billing-table" id="billingTable">
                         <thead>
                             <tr>
@@ -790,26 +789,18 @@
                             @endif
                         </tbody>
                     </table>
-
-                    <!--------------------------------------Billing Details ---------------------------->
-
                 </div>
             </div>
         </div>
-    </div>
+         <!--------------------------------------Billing Details ---------------------------->
+    
 
 
-
-
-
-                    </div>
-                </div>
-
-                <!------------------------- Pricing Details -->
+        <!------------------------- Pricing Details ----------------------------------->
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
-                    <div class="excel-like-container">
+                     <div class="col-md-12">     
 
-                <table class="pricing-table">
+                     <table class="pricing-table">
                     <thead>
                         <tr>
                             <th data-column="flight">Flight Cost($)</th>
@@ -879,12 +870,11 @@
                     </tbody>
                 </table>
             </div>
+            </div>
 
-                </div>
+             <!-----------------------------------End Pricing ------------------------------------------>
 
-             <!-----------------------------------Pricing ------------------------------------------>
-
-                <!-- Booking Remarks -->
+           <!--------------------------- Booking Remarks --------------------------->
                 <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
 
                         <div class="d-flex justify-content-between align-items-start mb-3">
@@ -893,20 +883,154 @@
                         <div class="card-body p-0">
                             <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{ old('particulars', '') }}</textarea>
                         </div>
-
-
                 </div>
 
-                    @endif
+                <!--------------------------- End Booking Remarks --------------------------->
 
+
+        <!--------------------------- feedback --------------------------->
+         <!-- Quality Feedback -->
+                <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-header border-0 p-0">Quality Feedback</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="row">
+                                 <div class="col-lg-12 col-md-12 col-12 mt-4">
+                                    <textarea class="inputs1"  id="qltynotes" name="qltynotes" spellcheck="false"></textarea> 
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Probing & Understanding">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Probing & Understanding" id="Probing & Understanding" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Probing & Understanding</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Dead air/Hold procedure">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Dead air/Hold procedure" id="Dead air/Hold procedure" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Dead air/Hold procedure</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Soft Skills">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Soft Skills" id="Soft Skills" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Soft Skills</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Active Listening/Interruption">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Active Listening/Interruption" id="Active Listening/Interruption" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Active Listening/Interruption</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Call Handling">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Handling" id="Call Handling" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Call Handling</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Selling Skills">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Selling Skills" id="Selling Skills" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Selling Skills</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Cross Selling">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Cross Selling" id="Cross Selling" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Cross Selling</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Documentation">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Documentation" id="Documentation" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Documentation</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Disposition">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Disposition" id="Disposition" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Disposition</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Call Closing">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Closing" id="Call Closing" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Call Closing</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Misrepresentation">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Misrepresentation" id="Fatal - Misrepresentation" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Fatal - Misrepresentation</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Rude/Sarcastic behaviour">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Rude/Sarcastic behaviour" id="Fatal - Rude/Sarcastic behaviour" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Fatal - Rude/Sarcastic behaviour</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Unethical sale">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Unethical sale" id="Fatal - Unethical sale" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Fatal - Unethical sale</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Paraphrasing">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Paraphrasing" id="Paraphrasing" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Paraphrasing</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <select id="selqlstatus" name="selqlstatus" class="form-select rm-check">
+                                        <option value="">Status</option>
+                                        <option value="Pending" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="Rejected" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                        <option value="Approved" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Approved' ? 'selected' : '' }}>Approved</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>         
+        <!--------------------------- End feedback --------------------------->
+
+                 
+           <!--------------------------- Screenshots --------------------------->
+                <div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-header border-0 p-0">Screenshots</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- FilePond input for screenshots -->
+                            <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                            <!-- Hidden input to store existing screenshot IDs (if needed for updates) -->
+                            @if($booking->screenshots->isNotEmpty())
+                                @foreach($booking->screenshots as $index => $screenshot)
+                                    <input type="hidden" name="screenshots[{{ $index }}][id]" value="{{ $screenshot->id }}">
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                 
+           <!---------------------------End  Screenshots --------------------------->
+
+
+
+
+            
             </div>
         </div>
     </div>
 
-
-
-
 </form>
+
 
 <!-- FilePond styles -->
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />

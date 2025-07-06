@@ -556,10 +556,7 @@ class BookingFormController extends Controller
                 }
                 $processedFlightIds[] = $flight->id;
             }
-
-            dd('check');
-
-
+         
             $deletedFlights = array_diff($existingFlightIds, $processedFlightIds);
             foreach ($deletedFlights as $deletedId) {
                 $booking->logChange($booking->id, 'TravelFlightDetail', $deletedId, 'deleted', 'exists', null);
