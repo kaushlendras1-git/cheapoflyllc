@@ -18,31 +18,30 @@
                 </div>
                 <div class="d-flex gap-2">
                     
-                    
-                    
+            
+<a href="{{ route('booking.auth-email.sendmail', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+    Send Auth Email
+</a>
 
-                  <a href="{{ route('whatsup', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <a href="{{ route('whatsup', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                     WhatsApp
                 </a>
 
-                    <a href="{{ route('sms', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        SMS
-                    </a>
+                <a href="{{ route('sms', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                       SMS
+                </a>
 
-                    <a href="{{ route('signature.form') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <a href="{{ route('signature.form') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Copy Authorization Link
-                    </a>
+                </a>
 
-                    <a href="{{ route('mail-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <a href="{{ route('mail-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Mail History
-                    </a>
+                </a>
 
-                    <a href="{{ route('survey', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <a href="{{ route('survey', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Survey
-                    </a>
-
-
-                   
+                </a>
 
                     
                 </div>

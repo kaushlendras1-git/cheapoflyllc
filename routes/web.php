@@ -76,10 +76,11 @@ Route::prefix('booking')->name('booking.')->group(function () {
     Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
 
-    Route::prefix('auth-email')->group(function () {
-        Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('auth-email.index');
-    });
 
+    Route::prefix('auth-email')->name('auth-email.')->group(function () {
+        Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail');
+    });
+    
     Route::prefix('mail')->name('mail.')->group(function () {
         Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
     });
