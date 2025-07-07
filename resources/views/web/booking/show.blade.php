@@ -1,10 +1,6 @@
 
 @extends('web.layouts.main')
-
 @section('content')
-<form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
-    @csrf
-
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row gy-6">
@@ -14,29 +10,14 @@
                     <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
                 </div>
                 <div class="d-flex gap-2">
-                    
-          
-
-            @include('web.booking.authModel')
-
-
-
-
-           
-
-                <a href="{{ route('mail-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Mail History
-                </a>
-
-           
-
-                    
                     @include('web.booking.authModel')
+                    <a href="{{ route('auth-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        Auth History
+                    </a>                    
                 </div>
             </div>
 
               @include('web.layouts.flash')
-
                @php
                     $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
@@ -44,11 +25,7 @@
 <form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
     @csrf
     @method('PUT')
-
         <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
-
-
-
             <!-- Top Bar -->
             <div class="card p-3 mt-2">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">

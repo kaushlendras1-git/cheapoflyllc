@@ -396,101 +396,42 @@
                           <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
                         </div>
                         <div class="deposit-content pt-2">
-                         
+    
 
-                        
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .present { background-color: #90ee90; }
-        .absent { background-color: #ff4500; }
-        .half-day { background-color: #ffff99; }
-        .paid-leave { background-color: #add8e6; }
-        .no-pay { background-color: #808080; }
-    </style>
-</head>
-<body>
+    @if (!empty($calendar))
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            @for ($day = 1; $day <= 30; $day++)
+                                <th>{{ $day }}</th>
+                            @endfor
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>July</th>
+                            @for ($day = 1; $day <= 30; $day++)
+                                @php
+                                    $status = $calendar[$day] ?? '';
+                                    $bg = match($status) {
+                                        'Y' => '#90EE90',  // Green
+                                        'N' => '#FF6347',  // Red
+                                        'P' => '#87CEEB',  // Blue
+                                        'H' => '#FFFF99',  // Yellow
+                                        default => '#ffffff'
+                                    };
+                                @endphp
+                                <td style="background-color: {{ $bg }}">{{ $status }}</td>
+                            @endfor
+                        </tr>
+                    </tbody>
+                </table>
 
-    <table>
-        <tr>
-            <th>Date</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-            <th>8</th>
-            <th>9</th>
-            <th>10</th>
-            <th>11</th>
-            <th>12</th>
-            <th>13</th>
-            <th>14</th>
-            <th>15</th>
-            <th>16</th>
-            <th>17</th>
-            <th>18</th>
-            <th>19</th>
-            <th>20</th>
-            <th>21</th>
-            <th>22</th>
-            <th>23</th>
-            <th>24</th>
-            <th>25</th>
-            <th>26</th>
-            <th>27</th>
-            <th>28</th>
-            <th>29</th>
-            <th>30</th>
-            <th>31</th>
-        </tr>
-        <tr>
-            <td>June</td>
-            <td class="half-day">H</td>
-            <td class="half-day">H</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="absent">N</td>
-            <td class="no-pay">N</td>
-            <td class="paid-leave">P</td>
-            <td class="paid-leave">P</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="half-day">H</td>
-            <td class="half-day">H</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-             <td class="paid-leave">P</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="half-day">H</td>
-            <td class="half-day">H</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-            <td class="present">Y</td>
-        </tr>
-    </table>
+@else
+    <p>No attendance records found for June 2025.</p>
+@endif
+
 
 
 

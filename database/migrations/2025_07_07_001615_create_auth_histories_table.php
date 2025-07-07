@@ -14,7 +14,9 @@ return new class extends Migration
        Schema::create('auth_histories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('action'); // e.g. login, logout, send auth, etc.
+            $table->string('action');
+            $table->string('type');
+            $table->string('sent_to');
             $table->text('details')->nullable(); // optional details
             $table->timestamps();
         });
