@@ -46,10 +46,14 @@ class TravelBooking extends Model
     {
         return $this->hasMany(TravelBillingDetail::class, 'booking_id');
     }
+    public function trainBookingDetails()
+    {
+        return $this->hasMany(TravelTrainDetail::class, 'booking_id');
+    }
 
     public function pricingDetails()
     {
-        return $this->hasOne(TravelPricingDetail::class, 'booking_id');
+        return $this->hasMany(TravelPricingDetail::class, 'booking_id');
     }
 
     public function remarks()
@@ -66,22 +70,22 @@ class TravelBooking extends Model
     {
         return $this->hasMany(TravelScreenshot::class, 'booking_id');
     }
-    
+
     public function travelFlight()
     {
         return $this->hasMany(TravelFlightDetail::class, 'booking_id');
     }
-    
+
     public function travelCar()
     {
         return $this->hasMany(TravelCarDetail::class, 'booking_id');
     }
-    
+
     public function travelCruise()
     {
         return $this->hasMany(TravelCruiseDetail::class, 'booking_id');
     }
-    
+
     public function travelHotel()
     {
         return $this->hasMany(TravelHotelDetail::class, 'booking_id');

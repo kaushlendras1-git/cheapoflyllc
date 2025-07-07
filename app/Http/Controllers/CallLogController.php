@@ -142,12 +142,9 @@ class CallLogController extends Controller
             return redirect()->route('booking.show', ['id' => $hash]);            
         }
 
-        
-       
         log_operation('CallLog',$call_log->id , 'created' ,'Call Log created successfully', auth()->id());
-
-        // Redirect to call-logs.index route with a success message
         return redirect()->route('call-logs.index')->with('success', 'Call Log created successfully!');
+        
     }
     
 

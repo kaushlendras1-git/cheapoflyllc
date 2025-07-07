@@ -33,14 +33,12 @@
    </ul>
 </div>
 @endif
-<form method="POST" action="{{ route('call-logs.store') }}">
+<form id="callLogsForm" method="POST" action="{{ route('call-logs.store') }}">
    @csrf
    <!-- Top Bar -->
    <div class="card p-3 mt-2 mb-4">
       <div class="d-flex justify-content-between align-items-center flex-wrap">
          <div class="d-flex align-items-center gap-3 flex-wrap">
-
-            
 
             <div class="form-check form-check-inline">
                <input name="chkflight" class="form-check-input" type="checkbox" id="booking-flight" value="1"  {{ old('chkhotel') ? 'checked' : '' }} >
@@ -246,5 +244,7 @@
             phoneInput.value = inputValue;
         });
     </script>
+
+<!-- @vite('resources/js/callLogs/create.js') -->
 
 @endsection
