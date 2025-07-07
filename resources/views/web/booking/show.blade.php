@@ -319,7 +319,7 @@
                                                         <tr class="flight-row" data-index="{{ $index }}">
                                                             <td><span class="flight-title">{{ $index + 1 }}</span></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][direction]" value="{{ $flight->direction }}" placeholder="Direction"></td>
-                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][departure_date]" value="{{$flight->departure_date->format('Y-m-d')}}"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][departure_date]" value="{{ $flight->departure_date ? $flight->departure_date->format('Y-m-d') : '' }}"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][airline_code]" value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}" placeholder="Airlines (Code)"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][flight_number]" value="{{ old("flight.$index.flight_no", $flight->flight_number) }}" placeholder="Flight No"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][cabin]" value="{{ old("flight.$index.cabin", $flight->cabin) }}" placeholder="Cabin"></td>
@@ -332,7 +332,7 @@
                                                             <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_minutes]" value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}" placeholder="mm" min="0" max="59"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][duration]" value="{{ old("flight.$index.duration", $flight->duration) }}" placeholder="Duration"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][transit]" value="{{ old("flight.$index.transit", $flight->transit) }}" placeholder="Transit"></td>
-                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ $flight->arrival_date->format('Y-m-d') }}"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ $flight->arrival_date ? $flight->arrival_date->format('Y-m-d') : '' }}"></td>
                                                             <td>
                                                                 <button type="button" class="btn btn-outline-danger delete-flight-btn">
                                                                     <i class="ri ri-delete-bin-line"></i>
@@ -381,8 +381,10 @@
                                                     <td><span class="hotel-title">{{$key+1}}</span></td>
                                                     <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[{{$key}}][hotel_name]" value="{{$travelHotel->hotel_name}}" placeholder="Hotel Name"></td>
                                                     <td><input type="text" class="form-control" style="width:9rem" name="hotel[{{$key}}][room_category]" value="{{$travelHotel->room_category}}" placeholder="Room Category"></td>
-                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkin_date]" value="{{$travelHotel->checkin_date->format('Y-m-d')}}"></td>
-                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkout_date]" value="{{$travelHotel->checkout_date->format('Y-m-d')}}"></td>
+                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkin_date]" value="{{ $travelHotel->checkin_date ? $travelHotel->checkin_date->format('Y-m-d') : '' }}"></td>
+                                                    
+                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkout_date]" value="{{ $travelHotel->checkin_date ? $travelHotel->checkout_date->format('Y-m-d') : '' }}"></td>
+
                                                     <td><input type="number" class="form-control" style="width:10rem" name="hotel[{{$key}}][no_of_rooms]" value="{{$travelHotel->no_of_rooms}}" placeholder="No. Of Rooms" min="1"></td>
                                                     <td><input type="text" class="form-control" style="width:12rem" name="hotel[{{$key}}][confirmation_number]" value="{{$travelHotel->confirmation_number}}" placeholder="Confirmation Number"></td>
                                                     <td><input type="text" class="form-control" style="width:8rem" name="hotel[{{$key}}][hotel_address]" value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address"></td>
@@ -433,19 +435,19 @@
                                         </thead>
                                         <tbody id="cruiseForms">
                                             @foreach($booking->travelCruise as $key=>$travelCruise)
-                                                <tr class="cruise-row" data-index="{{$key}}">
+                                        <tr class="cruise-row" data-index="{{$key}}">
                                             <td><span class="cruise-title">{{$key+1}}</span></td>
-                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][date]" value="{{$travelCruise->date->format('Y-m-d')}}"></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][date]"  value="{{ $travelCruise->date?->format('Y-m-d')}}"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][cruise_line]" value="{{$travelCruise->cruise_line}}" placeholder="Cruise Line"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][ship_name]" value="{{$travelCruise->ship_name}}" placeholder="Name of the Ship"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][category]" value="{{$travelCruise->category}}" placeholder="Category"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][stateroom]" value="{{$travelCruise->stateroom}}" placeholder="Stateroom"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_port]" value="{{$travelCruise->departure_port}}" placeholder="Departure Port"></td>
-                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][departure_date]" value="{{$travelCruise->departure_date->format('Y-m-d')}}"></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][departure_date]" value="{{$travelCruise->departure_date?->format('Y-m-d')}}"></td>
                                             <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_hrs]" value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0" max="23"></td>
                                             <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_mm]" value="{{$travelCruise->departure_mm}}" placeholder="mm" min="0" max="59"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_port]" value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port"></td>
-                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][arrival_date]" value="{{$travelCruise->arrival_date->format('Y-m-d')}}"></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][arrival_date]" value="{{$travelCruise->arrival_date?->format('Y-m-d')}}"></td>
                                             <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_hrs]" value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0" max="23"></td>
                                             <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_mm]" value="{{$travelCruise->arrival_mm}}" placeholder="mm" min="0" max="59"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][remarks]" value="{{$travelCruise->remarks}}" placeholder="Remarks"></td>
@@ -498,9 +500,9 @@
                                                 <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][car_type]" value="{{$travelCar->car_type}}" placeholder="Car Type"></td>
                                                 <td><input type="text" class="form-control" style="width:9rem" name="car[{{$key}}][pickup_location]" value="{{$travelCar->pickup_location}}" placeholder="Pick-up Location"></td>
                                                 <td><input type="text" class="form-control" style="width:10rem" name="car[{{$key}}][dropoff_location]" value="{{$travelCar->dropoff_location}}" placeholder="Drop-off Location"></td>
-                                                <td><input type="date" class="form-control" name="car[{{$key}}][pickup_date]" value="{{$travelCar->pickup_date->format('Y-m-d')}}"></td>
+                                                <td><input type="date" class="form-control" name="car[{{$key}}][pickup_date]" value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
                                                 <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)->format('H:i') : '' }}"></td>
-                                                <td><input type="date" class="form-control" name="car[{{$key}}][dropoff_date]" value="{{$travelCar->dropoff_date->format('Y-m-d')}}"></td>
+                                                <td><input type="date" class="form-control" name="car[{{$key}}][dropoff_date]" value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
                                                 <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][dropoff_time]" value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)->format('H:i') : '' }}"></td>
                                                 <td><input type="text" class="form-control" style="width:12rem" name="car[{{$key}}][confirmation_number]" placeholder="Confirmation Number" value="{{$travelCar->confirmation_number}}"></td>
                                                 <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][remarks]" placeholder="Remarks" value="{{$travelCar->remarks}}"></td>
@@ -564,7 +566,7 @@
                                                 <tr class="train-row" data-index="{{$key}}">
                                             <td><span class="train-title">{{$key+1}}</span></td>
                                             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][direction]" value="{{$trainBookingDetails->direction}}" placeholder="Direction"></td>
-                                            <td><input type="date" class="form-control" name="train[{{$key}}][departure_date]" value="{{$trainBookingDetails->departure_date->format('Y-m-d')}}"></td>
+                                            <td><input type="date" class="form-control" name="train[{{$key}}][departure_date]" value="{{$trainBookingDetails->departure_date?->format('Y-m-d')}}"></td>
                                             <td><input type="text" class="form-control" style="width: 8rem;" name="train[{{$key}}][train_number]" value="{{$trainBookingDetails->train_number}}" placeholder="Train No"></td>
                                             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][cabin]" value="{{$trainBookingDetails->cabin}}" placeholder="Cabin"></td>
                                             <td><input type="text" class="form-control" style="width: 10rem;" name="train[{{$key}}][departure_station]" value="{{$trainBookingDetails->departure_station}}" placeholder="Departure Station"></td>
@@ -575,7 +577,7 @@
                                             <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][arrival_minutes]" value="{{$trainBookingDetails->arrival_minutes}}" placeholder="mm" min="0" max="59"></td>
                                             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][duration]" value="{{$trainBookingDetails->duration}}" placeholder="Duration"></td>
                                             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][transit]" value="{{$trainBookingDetails->transit}}" placeholder="Transit"></td>
-                                            <td><input type="date" class="form-control" name="train[{{$key}}][arrival_date]" value="{{$trainBookingDetails->arrival_date->format('Y-m-d')}}" ></td>
+                                            <td><input type="date" class="form-control" name="train[{{$key}}][arrival_date]" value="{{$trainBookingDetails->arrival_date?->format('Y-m-d')}}" ></td>
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-train-btn">
                                                     <i class="ri ri-delete-bin-line"></i>
@@ -890,7 +892,7 @@
                             <h5 class="card-header border-0 p-0">Booking Remarks</h5>
                         </div>
                         <div class="card-body p-0">
-                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{$booking->remarks[0]->particulars}}</textarea>
+                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here..."></textarea>
                         </div>
                     </div>
                 </div>
