@@ -560,6 +560,63 @@
                     </div>
                 </div>
         <!------------------------ End Hotel Booking Details ------------------------------>
+        
+        <!------------------------ Train Booking Details ------------------------------>
+                   <div class="tab-pane fade" id="trainbooking" role="tabpanel" aria-labelledby="trainbooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Train Booking Details</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+                                    
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12 table-responsive">
+                                        <table id="carTable" class="table">
+                                            <thead>
+                                                 <tr>
+                                                    <th colspan="6">Trip to Sherevport</th>
+                                                    <th colspan="2">Departure	</th>
+                                                    <th></th>
+                                                    <th>Arrival	</th>
+                                                    <th></th>
+                                                     <th></th>
+                                                     <th></th>
+                                                     <th></th>
+                                                     <th></th>
+                                                </tr>
+                                                <tr>
+                                                    <th>S.No</th>
+                                                    <th>Direction</th>
+                                                    <th>Date</th>
+                                                    <th>Train No</th>
+                                                    <th>Cabin</th>
+                                                    <th>Departure station</th>
+                                                    <th>Hrs</th>
+                                                    <th>MM</th>
+                                                    <th>Arrival station</th>
+                                                    <th>Hrs</th>
+                                                    <th>MM</th>
+                                                    <th>Duration</th>
+                                                    <th>Transit</th>
+                                                    <th>Arrival date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="trainForms"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+        <!------------------------ End Train Booking Details ------------------------------>
+
 
 
       <!----------------------------------------Passeenger-------------------------------------------------->
