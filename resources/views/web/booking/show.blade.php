@@ -31,6 +31,7 @@
            
 
                     
+                    @include('web.booking.authModel')
                 </div>
             </div>
 
