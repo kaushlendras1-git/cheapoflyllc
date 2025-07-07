@@ -11,7 +11,7 @@ class TravelPricingDetail extends Model
 {
     use HasFactory, SoftDeletes;
     use Loggable;
-    
+
     protected $table = 'travel_pricing_details';
 
     protected $fillable = [
@@ -25,6 +25,11 @@ class TravelPricingDetail extends Model
         'final_amount',
         'merchant',
         'net_mco',
+        'passenger_type',
+        'num_passengers',
+        'gross_price',
+        'net_price',
+        'details'
     ];
 
     protected $casts = [

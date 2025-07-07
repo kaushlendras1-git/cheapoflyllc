@@ -26,10 +26,12 @@ class TravelCruiseDetail extends Model
         'arrival_hrs',
         'arrival_mm',
         'remarks',
+        'date'
     ];
 
     protected $casts = [
         'departure_date' => 'date',
+        'date'=>'date',
         'arrival_date' => 'date',
         'departure_hrs' => 'integer',
         'departure_mm' => 'integer',

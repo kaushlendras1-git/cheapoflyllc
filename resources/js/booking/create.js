@@ -7,7 +7,15 @@ $('.country-select').on('change',async function(e){
 
     try{
         const response = await axios.get(route('statelist',e.target.value));
-        console.log(response);
+
+        let options = '<option value="">Select State</option>';
+        console.log(response.data.data);
+        response.data.data.forEach(function(item){
+            options += `
+                <option value="${item.id}">${item.name}</option>
+            `;
+        });
+        e.target.parentElement.nextElementSibling.querySelector('select').innerHTML = options;
     }
     catch (e) {
         console.log(e)
