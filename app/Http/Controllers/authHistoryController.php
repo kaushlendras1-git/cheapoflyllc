@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TravelBooking;
 use App\Utils\JsonResponse;
 
-class MailHistoryController extends Controller
+class AuthHistoryController extends Controller
 {
     public function mailHistory($id) {
          return view('web.mail-history.index');
