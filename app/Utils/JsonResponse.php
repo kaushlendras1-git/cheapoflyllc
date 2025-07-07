@@ -2,7 +2,8 @@
 
 namespace App\Utils;
 
-class JsonResponse{
+class JsonResponse 
+{
     public static function successWithData($message = 'Success',$httpcode,$data,$code,$extra=[]){
         return response()->json([
             'data' => $data,

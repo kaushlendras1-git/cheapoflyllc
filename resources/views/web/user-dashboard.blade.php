@@ -305,11 +305,59 @@
                     <div class="col-sm-6">
                       <div class="card h-100">
                         <div class="card-header pb-0">
-                          <h4 class="mb-0">2,856</h4>
+                          <h4 class="mb-0">2</h4>
                         </div>
                         <div class="card-body">
                           <div id="sessionsColumnChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Sessions</h6>
+
+                         
+  <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#breakRequestModal">
+    Request for Break
+  </button>
+
+
+    <h5 class="modal-title" id="breakRequestModalLabel">Pending</h5>
+
+    <!-- Break Request Modal -->
+  <div class="modal fade" id="breakRequestModal" tabindex="-1" aria-labelledby="breakRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="breakRequestModalLabel">Request for Break</h5>
+
+        
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="#">
+                @csrf
+
+                <!-- Hidden user ID or other info -->
+                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+
+                <button type="submit" name="break_type" value="short" class="btn btn-warning">
+                    Short Break
+                </button>
+
+                <button type="submit" name="break_type" value="dinner" class="btn btn-info">
+                    Dinner Break
+                </button>
+
+                <button type="submit" name="break_type" value="end" class="btn btn-success">
+                    Submit
+                </button>
+            </form>
+
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+                          <h6 class="text-center mb-0">Break</h6>
                         </div>
                       </div>
                     </div>
@@ -318,6 +366,24 @@
                 </div>
                 <!--/ four cards -->
 
+
+                   <div class="col-xl-12">
+                  <div class="card-group">
+                    <div class="card mb-0">
+                      <div class="card-body card-separator">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                          <h5 class="m-0 me-2">Quality Report</h5>
+                          <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
+                        </div>
+                        <div class="deposit-content pt-2">
+                            booking approved  100/
+                            decline 
+                            Qc pendind
+                      </div>
+                      </div>
+                      </div>
+                      </div>
+                      </div>
 
 
                 <!-- Deposit / Withdraw -->

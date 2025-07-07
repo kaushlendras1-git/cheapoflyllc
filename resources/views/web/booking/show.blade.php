@@ -4,9 +4,6 @@
 @section('content')
 <form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
     @csrf
-    @method('PUT')
-
-        <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
 
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -18,30 +15,20 @@
                 </div>
                 <div class="d-flex gap-2">
                     
-            
-<a href="{{ route('booking.auth-email.sendmail', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
-    Send Auth Email
-</a>
+          
 
-                <a href="{{ route('whatsup', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
-                    WhatsApp
-                </a>
+            @include('web.booking.authModel')
 
-                <a href="{{ route('sms', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
-                       SMS
-                </a>
 
-                <a href="{{ route('signature.form') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Copy Authorization Link
-                </a>
+
+
+           
 
                 <a href="{{ route('mail-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Mail History
                 </a>
 
-                <a href="{{ route('survey', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Survey
-                </a>
+           
 
                     
                 </div>
@@ -52,6 +39,13 @@
                @php
                     $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
+
+<form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
+    @csrf
+    @method('PUT')
+
+        <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
+
 
 
             <!-- Top Bar -->
@@ -800,75 +794,62 @@
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
                      <div class="col-md-12">     
 
-                     <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th data-column="flight">Flight Cost($)</th>
-                            <th data-column="hotel">Hotel Cost ($)</th>
-                            <th data-column="cruise">Cruise Cost ($)</th>
-                            <th data-column="car">Car Cost ($)</th>
-                            <th data-column="train">Train Cost ($)</th>
-                            <th>Total Amount ($)</th>
-                            <th data-column="flight">Issuance Fee ($)</th>
-                            <th>Advisor MCO ($)</th>
-                            <th data-column="flight">Airline Commission ($)</th>
-                            <th>Final Amount ($)</th>
-                            <th>Merchant</th>
-                            <th>Net MCO ($)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-column="flight">
-                                <input type="number" class="form-control" name="flight_cost" value="{{$booking->pricingDetails->flight_cost}}" placeholder="0.00" step="0.01">
-                            </td>
-
-                                <td data-column="hotel">
-                                    <input type="number" class="form-control" name="hotel_cost" value="{{$booking->pricingDetails->hotel_cost}}" placeholder="0.00" step="0.01">
-                                </td>
-
-
-                            <td data-column="cruise">
-                                <input type="number" class="form-control" name="cruise_cost" value="{{$booking->pricingDetails->cruise_cost}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td data-column="car">
-                                <input type="number" class="form-control" name="car_cost" value="{{$booking->pricingDetails->car_cost}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td data-column="train">
-                                <input type="number" class="form-control" name="train_cost" value="{{$booking->pricingDetails->train_cost}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" name="total_amount" value="{{$booking->pricingDetails->total_amount}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td data-column="flight">
-                                <input type="number" class="form-control" name="issuance_fee" value="{{$booking->pricingDetails->issuance_fee}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" name="advisor_mco" value="{{$booking->pricingDetails->advisor_mco}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td data-column="flight">
-                                <input type="number" class="form-control" name="airline_commission" value="{{$booking->pricingDetails->airline_commission}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" name="final_amount" value="{{$booking->pricingDetails->final_amount}}" placeholder="0.00" step="0.01">
-                            </td>
-                            <td>
-
-                                <select class="form-control" name="pricing[{{ $index }}][merchant]">
-                                    <option value="">Select Merchant</option>
-                                    <option value="11" {{ $booking->pricingDetails->merchant == '11' ? 'selected' : '' }}>Flydreamz</option>
-                                    <option value="12" {{ $booking->pricingDetails->merchant == '12' ? 'selected' : '' }}>CruiseLineService</option>
-                                    <option value="13" {{ $booking->pricingDetails->merchant == '13' ? 'selected' : '' }}>FareTickets</option>
-                                </select>
-
-
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" name="net_mco" value="{{$booking->pricingDetails->net_mco}}" placeholder="0.00" step="0.01">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                     <table class="pricing-table table">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="3" rowspan="1"><strong>Gross Amount Collected</strong></td>
+                                            <td colspan="2" rowspan="1"><strong>Net Amount (Paid)</strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Passengers*</th>
+                                            <th>No. of Passengers</th>
+                                            <th>Price*</th>
+                                            <th>Total*</th>
+                                            <th>Price*</th>
+                                            <th>Total</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pricingForms" class="pricing-rows">
+                                        <tr class="pricing-row" data-index="0">
+                                            <td>
+                                                <select name="pricing[0][passenger_type]" id="passenger_type_0">
+                                                    <option value="adult">Adult</option>
+                                                    <option value="child">Child</option>
+                                                    <option value="infant_on_lap">Infant on Lap</option>
+                                                    <option value="infant_on_seat">Infant on Seat</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="number" class="form-control" name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0"></td>
+                                            <td><input type="number" class="form-control" name="pricing[0][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
+                                            <td><span class="gross-total">0.00</span></td>
+                                            <td><input type="number" class="form-control" name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+                                            <td><span class="net-total">0.00</span></td>
+                                            <td>
+                                                <select name="pricing[0][details]" id="details_0">
+                                                    <option value="ticket_cost">Ticket Cost</option>
+                                                    <option value="merchant_fee">Merchant Fee</option>
+                                                    <option value="company_card_used">Company Card Used</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"><strong>Gross Profit</strong></td>
+                                            <td><span id="total_gross_profit">0.00</span></td>
+                                            <td colspan="2"><strong>Net Profit</strong></td>
+                                            <td><span id="total_net_profit">0.00</span></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
             </div>
             </div>
 
@@ -1042,6 +1023,8 @@
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
-
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 @vite('resources/js/booking/edit.js')
+@vite('resources/js/booking/create.js')
+@vite('resources/js/auth/sendAuth.js')
 @endsection

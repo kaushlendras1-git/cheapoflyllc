@@ -180,7 +180,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
     
     Route::get('/mail-history/{id}', [MailHistoryController::class, 'mailHistory'])->name('mail-history');
-    Route::get('/sms/{id}', [MailHistoryController::class, 'sendSms'])->name('sms');
+    Route::post('/sms/{id}', [MailHistoryController::class, 'sendSms'])->name('sms');
     Route::get('/whatsup/{id}', [MailHistoryController::class, 'sendWhatsApp'])->name('whatsup');
     Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
 

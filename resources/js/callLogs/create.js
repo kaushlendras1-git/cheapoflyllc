@@ -3,18 +3,7 @@ import axios from "axios";
 import showToast from '../toast.js';
 import '../../css/toast.css';
 
-$('.country-select').on('change',async function(e){
-
-    try{
-        const response = await axios.get(route('statelist',e.target.value));
-        console.log(response);
-    }
-    catch (e) {
-        console.log(e)
-    }
-});
-
-$('#bookingForm').submit(async function(e){
+$('#callLogsForm').submit(async function(e){
     e.preventDefault();
     const formdata =  new FormData(e.target);
     try{
