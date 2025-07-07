@@ -15,19 +15,6 @@
     <meta name="robots" content="noindex" />
     <title>Booking Managment System</title>
     <meta name="description" content="" />
-
-    <!-- Favicon -->
-
-    <link rel="icon" type="image/x-icon" href="./assets/img/favicon/favicon.ico" />
-
-
-
-    <!-- Fonts -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <link
 
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
@@ -35,15 +22,8 @@
       rel="stylesheet" />
 
 
-      <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
-
-
 <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script>
 <script src="{{ asset('assets/js/config.js') }}"></script>
@@ -51,20 +31,6 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @yield('head')
 
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "195dc9d3-aa77-41fb-ae15-f2b52fc1d940",
-      safari_web_id: "web.onesignal.auto.4eb8ce3a-dc5a-4285-aae8-d5934d20e23e",
-      notifyButton: {
-        enable: true,
-      },
-      allowLocalhostAsSecureOrigin: true,
-    });
-  });
-</script>
 </head>
 
 

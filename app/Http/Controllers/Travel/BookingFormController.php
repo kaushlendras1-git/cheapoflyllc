@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Travel;
 
 use App\Http\Controllers\Controller;
+use App\Models\TravelTrainDetail;
 use App\Utils\JsonResponse;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -58,7 +59,8 @@ class BookingFormController extends Controller
     public function store(Request $request)
     {
         try{
-            $request->validate( [
+
+            $request->validate([
                 'pnr' => 'required|string|max:255',
                 'hotel_ref' => 'nullable|string|max:255',
                 'cruise_ref' => 'nullable|string|max:255',
@@ -74,7 +76,7 @@ class BookingFormController extends Controller
                 'amadeus_sabre_pnr' => 'nullable|string|max:255',
                 'sector_details.*' => 'required|file|image|max:2048',
                 'passenger' => 'required|array|min:1',
-                'passenger.*.passenger_type' => 'required|string|in:Adult,Child,Infant',
+                'passenger.*.passenger_type' => 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant',
                 'passenger.*.gender' => 'required|string|in:Male,Female,Other',
                 'passenger.*.title' => 'nullable|string|in:Mr,Ms,Mrs,Dr',
                 'passenger.*.first_name' => 'required|string',
@@ -101,15 +103,16 @@ class BookingFormController extends Controller
                 'billing.*.currency' => 'required|string|size:3',
                 'billing.*.amount' => 'required|numeric|min:1',
                 'pricing' => 'required|array|min:1',
-                'pricing.*.passenger_type' => 'required|string|in:adult,child,infant',
+                'pricing.*.passenger_type' => 'required|string|in:adult,child,infant_on_lap,infant_on_seat',
                 'pricing.*.num_passengers' => 'required|integer|min:1',
                 'pricing.*.gross_price' => 'required|numeric|min:0',
                 'pricing.*.net_price' => 'required|numeric|min:0',
                 'pricing.*.details' => 'required|string',
-            ],[
+            ],
+                [
                 'passenger.required' => 'Please provide at least one passenger.',
                 'passenger.*.passenger_type.required' => 'Passenger type is required.',
-                'passenger.*.passenger_type.in' => 'Passenger type must be Adult, Child, or Infant.',
+                'passenger.*.passenger_type.in' => 'Passenger type must be Adult, Child, Infant, Lap Infant, Seat Infant.',
                 'passenger.*.gender.required' => 'Passenger Gender is required.',
                 'passenger.*.gender.in' => 'Passenger Gender must be Male, Female, or Other.',
                 'passenger.*.title.required' => 'Passenger Title is required (e.g., Mr, Ms, Mrs, Dr).',
@@ -147,7 +150,7 @@ class BookingFormController extends Controller
                 'billing.*.amount.min' => 'Billing Amount must be at least 1.',
                 'pricing.required' => 'Please provide at least one pricing entry.',
                 'pricing.*.passenger_type.required' => 'Pricing Passenger type is required.',
-                'pricing.*.passenger_type.in' => 'Pricing Passenger type must be one of: adult, child, or infant.',
+                'pricing.*.passenger_type.in' => 'Pricing Passenger type must be one of: adult, child, infant on lap, or infant on seat.',
                 'pricing.*.num_passengers.required' => 'Pricing Number of passengers is required.',
                 'pricing.*.num_passengers.integer' => 'Pricing Number of passengers must be a whole number.',
                 'pricing.*.num_passengers.min' => 'Pricing Number of passengers must be at least 1.',
@@ -178,6 +181,9 @@ class BookingFormController extends Controller
                 'campaign',
                 'hotel_ref',
                 'cruise_ref',
+                'car_ref',
+                'train_ref',
+                'airlinepnr',
                 'name',
                 'phone',
                 'email',
@@ -256,6 +262,10 @@ class BookingFormController extends Controller
                 $passengerData['booking_id'] = $booking->id;
                 TravelPassenger::create($passengerData);
             }
+            foreach ($request->input('train', []) as $trainData) {
+                $trainData['booking_id'] = $booking->id;
+                TravelTrainDetail::create($trainData);
+            }
 
             // Create Billing Details
             foreach ($request->input('billing', []) as $billingData) {
@@ -264,19 +274,27 @@ class BookingFormController extends Controller
             }
 
             // Create Pricing Detail
-            $pricingData = $request->only([
-                'hotel_cost',
-                'cruise_cost',
-                'total_amount',
-                'advisor_mco',
-                'conversion_charge',
-                'airline_commission',
-                'final_amount',
-                'merchant',
-                'net_mco',
-            ]);
-            $pricingData['booking_id'] = $booking->id;
-            TravelPricingDetail::create($pricingData);
+//            $pricingData = $request->only([
+//                'hotel_cost',
+//                'cruise_cost',
+//                'total_amount',
+//                'advisor_mco',
+//                'conversion_charge',
+//                'airline_commission',
+//                'final_amount',
+//                'merchant',
+//                'net_mco',
+//                'passenger_type',
+//                'num_passengers',
+//                'gross_price',
+//                'net_price',
+//                'details'
+//            ]);
+            foreach ($request->pricing as $pricingData) {
+                $pricingData['booking_id'] = $booking->id;
+                TravelPricingDetail::create($pricingData);
+            }
+
 
             // Create Booking Remark (if provided)
             if ($request->filled('particulars')) {
@@ -320,7 +338,7 @@ class BookingFormController extends Controller
             return JsonResponse::error($e->validator->errors()->first(),422,'422');
         }
         catch(QueryException $e){
-            return JsonResponse::error('Failed to Query',500,'500');
+            return JsonResponse::error('Failed to Query'.$e,500,'500');
         }
         catch(\Exception $e){
             return JsonResponse::error('Internal Server Error',500,'500');
@@ -861,7 +879,6 @@ class BookingFormController extends Controller
 
     public function show($hash)
     {
-        // Decrypt the hash to get the original ID
         $id = $this->hashids->decode($hash);
         $id = $id[0] ?? null;
 
@@ -878,6 +895,7 @@ class BookingFormController extends Controller
             'pricingDetails',
             'remarks',
             'qualityFeedback',
+            'trainBookingDetails',
             'screenshots',
             'travelFlight' => fn($query) => $query->withTrashed(), // Include soft-deleted flights
             'travelCar',

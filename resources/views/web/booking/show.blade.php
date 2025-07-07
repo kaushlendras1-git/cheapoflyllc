@@ -4,6 +4,9 @@
 @section('content')
 <form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
     @csrf
+    @method('PUT')
+
+        <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
 
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -14,23 +17,16 @@
                     <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
                 </div>
                 <div class="d-flex gap-2">
-                    
-          
-
-            @include('web.booking.authModel')
-
-
-
-
-           
-
-                <a href="{{ route('mail-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        Copy Authorization Link
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
                         Mail History
-                </a>
+                    </button>
+                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        Survey
+                    </button>
 
-           
-
-                    
                 </div>
             </div>
 
@@ -43,11 +39,7 @@
 <form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
     @csrf
     @method('PUT')
-
         <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
-
-
-
             <!-- Top Bar -->
             <div class="card p-3 mt-2">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -298,11 +290,8 @@
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
-                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <table id="flightTable">
+                                        <div class="table-responsive">
+                                            <table id="flightTable" class="table">
                                             <thead>
                                                 <tr>
                                                     <th>S.No</th>
@@ -329,8 +318,8 @@
                                                     @foreach($booking->travelFlight as $index => $flight)
                                                         <tr class="flight-row" data-index="{{ $index }}">
                                                             <td><span class="flight-title">{{ $index + 1 }}</span></td>
-                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][direction]" value="{{ old("flight.$index.direction", $flight->direction) }}" placeholder="Direction"></td>
-                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][departure_date]" value="{{ old("flight.$index.date", $flight->departure_date) }}"></td>
+                                                            <td><input type="text" class="form-control" name="flight[{{ $index }}][direction]" value="{{ $flight->direction }}" placeholder="Direction"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][departure_date]" value="{{$flight->departure_date->format('Y-m-d')}}"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][airline_code]" value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}" placeholder="Airlines (Code)"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][flight_number]" value="{{ old("flight.$index.flight_no", $flight->flight_number) }}" placeholder="Flight No"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][cabin]" value="{{ old("flight.$index.cabin", $flight->cabin) }}" placeholder="Cabin"></td>
@@ -343,7 +332,7 @@
                                                             <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_minutes]" value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}" placeholder="mm" min="0" max="59"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][duration]" value="{{ old("flight.$index.duration", $flight->duration) }}" placeholder="Duration"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][transit]" value="{{ old("flight.$index.transit", $flight->transit) }}" placeholder="Transit"></td>
-                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ old("flight.$index.arrival_date", $flight->arrival_date) }}"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ $flight->arrival_date->format('Y-m-d') }}"></td>
                                                             <td>
                                                                 <button type="button" class="btn btn-outline-danger delete-flight-btn">
                                                                     <i class="ri ri-delete-bin-line"></i>
@@ -356,184 +345,23 @@
                                                 @endif
                                             </tbody>
                                         </table>
-                                    </div>
-
-
-
-                                </div>
-                            </div>
-                    </div>
-                </div>
-            <!------------------------ End Flight Booking Details ------------------------------>
-
-              <!------------------------ Car Booking Details ------------------------------>
-                <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
-                    <div class="card p-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-header border-0 p-0">Car Booking Details</h5>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="row g-3 align-items-center">
-                                    
-                                    <div class="col-md-12">
-                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <!-- Car Table -->
-                                        <table id="carTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>S.No</th>
-                                                    <th>Car Rental Provider</th>
-                                                    <th>Car Type</th>
-                                                    <th>Pick-up Location</th>
-                                                    <th>Drop-off Location</th>
-                                                    <th>Pick-up Date</th>
-                                                    <th>Pick-up Time</th>
-                                                    <th>Drop-off Date</th>
-                                                    <th>Drop-off Time</th>
-                                                    <th>Confirmation Number</th>
-                                                    <th>Remarks</th>
-                                                    <th>Rental Provider's Address</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="carForms">
-                                                @if($booking->travelCar->isNotEmpty())
-                                                    @foreach($booking->travelCar as $index => $car)
-                                                        <tr class="car-row" data-index="{{ $index }}">
-                                                            <td><span class="car-title">{{ $index + 1 }}</span></td>
-                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][car_rental_provider]" value="{{ old("car.$index.car_rental_provider", $car->car_rental_provider) }}" placeholder="Car Rental Provider"></td>
-                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][car_type]" value="{{ old("car.$index.car_type", $car->car_type) }}" placeholder="Car Type"></td>
-                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][pickup_location]" value="{{ old("car.$index.pickup_location", $car->pickup_location) }}" placeholder="Pick-up Location"></td>
-                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][dropoff_location]" value="{{ old("car.$index.dropoff_location", $car->dropoff_location) }}" placeholder="Drop-off Location"></td>
-                                                            <td><input type="date" class="form-control" name="car[{{ $index }}][pickup_date]" value="{{ old("car.$index.pickup_date", $car->pickup_date) }}"></td>
-                                                            <td><input type="time" class="form-control" name="car[{{ $index }}][pickup_time]" value="{{ old("car.$index.pickup_time", $car->pickup_time) }}"></td>
-                                                            <td><input type="date" class="form-control" name="car[{{ $index }}][dropoff_date]" value="{{ old("car.$index.dropoff_date", $car->dropoff_date) }}"></td>
-                                                            <td><input type="time" class="form-control" name="car[{{ $index }}][dropoff_time]" value="{{ old("car.$index.dropoff_time", $car->dropoff_time) }}"></td>
-                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][confirmation_number]" value="{{ old("car.$index.confirmation_number", $car->confirmation_number) }}" placeholder="Confirmation Number"></td>
-                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][remarks]" value="{{ old("car.$index.remarks", $car->remarks) }}" placeholder="Remarks"></td>
-                                                            <td><input type="text" class="form-control" name="car[{{ $index }}][rental_provider_address]" value="{{ old("car.$index.rental_provider_address", $car->rental_provider_address) }}" placeholder="Rental Provider's Address"></td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-outline-danger delete-car-btn">
-                                                                    <i class="ri ri-delete-bin-line"></i>
-                                                                </button>
-                                                                <input type="hidden" name="car[{{ $index }}][id]" value="{{ $car->id }}">
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @else
-                                                    <tr id="noCars">
-                                                        <td colspan="13" class="text-center">No car rental details available. Click "Add Car" to start.</td>
-                                                    </tr>
-                                                @endif
-                                            </tbody>
-                                        </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                     </div>
                 </div>
-        <!------------------------ End Car Booking Details ------------------------------>
-
-         <!------------------------ Cruise Booking Details ------------------------------>
-                <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
-                    <div class="card p-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-header border-0 p-0">Cruise Booking Details</h5>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="row g-3 align-items-center">
-                                    
-                                <div class="col-md-12">
-                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                                    </div>
-
-
-                                    <div class="col-md-12">
-                                        <!-- Cruise Table -->
-                                        <table id="cruiseTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>S.No</th>
-                                                    <th>Date</th>
-                                                    <th>Cruise Line</th>
-                                                    <th>Name of the Ship</th>
-                                                    <th>Category</th>
-                                                    <th>Stateroom</th>
-                                                    <th>Departure Port</th>
-                                                    <th>Departure Date</th>
-                                                    <th>Hrs</th>
-                                                    <th>mm</th>
-                                                    <th>Arrival Port</th>
-                                                    <th>Arrival Date</th>
-                                                    <th>Hrs</th>
-                                                    <th>mm</th>
-                                                    <th>Remarks</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="cruiseForms">
-                                                @if($booking->travelCruise->isNotEmpty())
-                                                    @foreach($booking->travelCruise as $index => $cruise)
-                                                        <tr class="cruise-row" data-index="{{ $index }}">
-                                                            <td><span class="cruise-title">{{ $index + 1 }}</span></td>
-                                                            <td><input type="date" class="form-control" name="cruise[{{ $index }}][date]" value="{{ old("cruise.$index.date", $cruise->date) }}"></td>
-                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][cruise_line]" value="{{ old("cruise.$index.cruise_line", $cruise->cruise_line) }}" placeholder="Cruise Line"></td>
-                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][ship_name]" value="{{ old("cruise.$index.ship_name", $cruise->ship_name) }}" placeholder="Name of the Ship"></td>
-                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][category]" value="{{ old("cruise.$index.category", $cruise->category) }}" placeholder="Category"></td>
-                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][stateroom]" value="{{ old("cruise.$index.stateroom", $cruise->stateroom) }}" placeholder="Stateroom"></td>
-                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][departure_port]" value="{{ old("cruise.$index.departure_port", $cruise->departure_port) }}" placeholder="Departure Port"></td>
-                                                            <td><input type="date" class="form-control" name="cruise[{{ $index }}][departure_date]" value="{{ old("cruise.$index.departure_date", $cruise->departure_date) }}"></td>
-                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][departure_hrs]" value="{{ old("cruise.$index.departure_hrs", $cruise->departure_hrs) }}" placeholder="Hrs" min="0" max="23"></td>
-                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][departure_mm]" value="{{ old("cruise.$index.departure_mm", $cruise->departure_mm) }}" placeholder="mm" min="0" max="59"></td>
-                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][arrival_port]" value="{{ old("cruise.$index.arrival_port", $cruise->arrival_port) }}" placeholder="Arrival Port"></td>
-                                                            <td><input type="date" class="form-control" name="cruise[{{ $index }}][arrival_date]" value="{{ old("cruise.$index.arrival_date", $cruise->arrival_date) }}"></td>
-                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][arrival_hrs]" value="{{ old("cruise.$index.arrival_hrs", $cruise->arrival_hrs) }}" placeholder="Hrs" min="0" max="23"></td>
-                                                            <td><input type="number" class="form-control" name="cruise[{{ $index }}][arrival_mm]" value="{{ old("cruise.$index.arrival_mm", $cruise->arrival_mm) }}" placeholder="mm" min="0" max="59"></td>
-                                                            <td><input type="text" class="form-control" name="cruise[{{ $index }}][remarks]" value="{{ old("cruise.$index.remarks", $cruise->remarks) }}" placeholder="Remarks"></td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-outline-danger delete-cruise-btn">
-                                                                    <i class="ri ri-delete-bin-line"></i>
-                                                                </button>
-                                                                <input type="hidden" name="cruise[{{ $index }}][id]" value="{{ $cruise->id }}">
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @else
-                                                    <tr id="noCruises">
-                                                        <td colspan="16" class="text-center">No cruise details available. Click "Add Cruise" to start.</td>
-                                                    </tr>
-                                                @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-        <!------------------------ End Cruise Booking Details ------------------------------>
-
-
-             <!------------------------ Hotel Booking Details ------------------------------>
 
                 <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
                     <div class="card p-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-header border-0 p-0">Hotel Booking Details</h5>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="row g-3 align-items-center">
-
-                                <div class="col-md-12">
-                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                                    </div>
-
-                                <div class="col-md-12">
-                                    <!-- Hotel Table -->
-                                <table id="hotelTable">
-                                    <thead>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-header border-0 p-0">Hotel Booking Details</h5>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-12 table-responsive">
+                                    <table id="hotelTable" class="table">
+                                        <thead>
                                         <tr>
                                             <th>S.No</th>
                                             <th>Hotel Name</th>
@@ -546,466 +374,534 @@
                                             <th>Remarks</th>
                                             <th>Action</th>
                                         </tr>
-                                    </thead>
-                                    <tbody id="hotelForms">
-                                        @if($booking->travelHotel->isNotEmpty())
-                                            @foreach($booking->travelHotel as $index => $hotel)
-                                                <tr class="hotel-row" data-index="{{ $index }}">
-                                                    <td><span class="hotel-title">{{ $index + 1 }}</span></td>
-                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][hotel_name]" value="{{ old("hotel.$index.hotel_name", $hotel->hotel_name) }}" placeholder="Hotel Name"></td>
-                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][room_category]" value="{{ old("hotel.$index.room_category", $hotel->room_category) }}" placeholder="Room Category"></td>
-                                                    <td><input type="date" class="form-control" name="hotel[{{ $index }}][checkin_date]" value="{{ old("hotel.$index.checkin_date", $hotel->checkin_date) }}"></td>
-                                                    <td><input type="date" class="form-control" name="hotel[{{ $index }}][checkout_date]" value="{{ old("hotel.$index.checkout_date", $hotel->checkout_date) }}"></td>
-                                                    <td><input type="number" class="form-control" name="hotel[{{ $index }}][no_of_rooms]" value="{{ old("hotel.$index.no_of_rooms", $hotel->no_of_rooms) }}" placeholder="No. Of Rooms" min="1"></td>
-                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][confirmation_number]" value="{{ old("hotel.$index.confirmation_number", $hotel->confirmation_number) }}" placeholder="Confirmation Number"></td>
-                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][hotel_address]" value="{{ old("hotel.$index.hotel_address", $hotel->hotel_address) }}" placeholder="Hotel Address"></td>
-                                                    <td><input type="text" class="form-control" name="hotel[{{ $index }}][remarks]" value="{{ old("hotel.$index.remarks", $hotel->remarks) }}" placeholder="Remarks"></td>
+                                        </thead>
+                                        <tbody id="hotelForms">
+                                            @foreach($booking->travelHotel as $key=>$travelHotel)
+                                                <tr class="hotel-row" data-index="{{$key}}">
+                                                    <td><span class="hotel-title">{{$key+1}}</span></td>
+                                                    <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[{{$key}}][hotel_name]" value="{{$travelHotel->hotel_name}}" placeholder="Hotel Name"></td>
+                                                    <td><input type="text" class="form-control" style="width:9rem" name="hotel[{{$key}}][room_category]" value="{{$travelHotel->room_category}}" placeholder="Room Category"></td>
+                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkin_date]" value="{{$travelHotel->checkin_date->format('Y-m-d')}}"></td>
+                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkout_date]" value="{{$travelHotel->checkout_date->format('Y-m-d')}}"></td>
+                                                    <td><input type="number" class="form-control" style="width:10rem" name="hotel[{{$key}}][no_of_rooms]" value="{{$travelHotel->no_of_rooms}}" placeholder="No. Of Rooms" min="1"></td>
+                                                    <td><input type="text" class="form-control" style="width:12rem" name="hotel[{{$key}}][confirmation_number]" value="{{$travelHotel->confirmation_number}}" placeholder="Confirmation Number"></td>
+                                                    <td><input type="text" class="form-control" style="width:8rem" name="hotel[{{$key}}][hotel_address]" value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address"></td>
+                                                    <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[{{$key}}][remarks]" value="{{$travelHotel->remarks}}" placeholder="Remarks"></td>
                                                     <td>
                                                         <button type="button" class="btn btn-outline-danger delete-hotel-btn">
                                                             <i class="ri ri-delete-bin-line"></i>
                                                         </button>
-                                                        <input type="hidden" name="hotel[{{ $index }}][id]" value="{{ $hotel->id }}">
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                        @else
-                                            <tr id="noHotels">
-                                                <td colspan="10" class="text-center">No hotel details available. Click "Add Hotel" to start.</td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
-        <!------------------------ End Hotel Booking Details ------------------------------>
 
+                <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-header border-0 p-0">Cruise Booking Details</h5>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-12 table-responsive">
+                                    <table id="cruiseTable" class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Date</th>
+                                            <th>Cruise Line</th>
+                                            <th>Name of the Ship</th>
+                                            <th>Category</th>
+                                            <th>Stateroom</th>
+                                            <th>Departure Port</th>
+                                            <th>Departure Date</th>
+                                            <th>Hrs</th>
+                                            <th>mm</th>
+                                            <th>Arrival Port</th>
+                                            <th>Arrival Date</th>
+                                            <th>Hrs</th>
+                                            <th>mm</th>
+                                            <th>Remarks</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="cruiseForms">
+                                            @foreach($booking->travelCruise as $key=>$travelCruise)
+                                                <tr class="cruise-row" data-index="{{$key}}">
+                                            <td><span class="cruise-title">{{$key+1}}</span></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][date]" value="{{$travelCruise->date->format('Y-m-d')}}"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][cruise_line]" value="{{$travelCruise->cruise_line}}" placeholder="Cruise Line"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][ship_name]" value="{{$travelCruise->ship_name}}" placeholder="Name of the Ship"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][category]" value="{{$travelCruise->category}}" placeholder="Category"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][stateroom]" value="{{$travelCruise->stateroom}}" placeholder="Stateroom"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_port]" value="{{$travelCruise->departure_port}}" placeholder="Departure Port"></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][departure_date]" value="{{$travelCruise->departure_date->format('Y-m-d')}}"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_hrs]" value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0" max="23"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_mm]" value="{{$travelCruise->departure_mm}}" placeholder="mm" min="0" max="59"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_port]" value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port"></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][arrival_date]" value="{{$travelCruise->arrival_date->format('Y-m-d')}}"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_hrs]" value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0" max="23"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_mm]" value="{{$travelCruise->arrival_mm}}" placeholder="mm" min="0" max="59"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][remarks]" value="{{$travelCruise->remarks}}" placeholder="Remarks"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-cruise-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-      <!----------------------------------------Passeenger-------------------------------------------------->
-        <div class="tab-pane fade " id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
+                <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-header border-0 p-0">Car Booking Details</h5>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-12 table-responsive">
+                                    <table id="carTable" class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Car Rental Provider</th>
+                                            <th>Car Type</th>
+                                            <th>Pick-up Location</th>
+                                            <th>Drop-off Location</th>
+                                            <th>Pick-up Date</th>
+                                            <th>Pick-up Time</th>
+                                            <th>Drop-off Date</th>
+                                            <th>Drop-off Time</th>
+                                            <th>Confirmation Number</th>
+                                            <th>Remarks</th>
+                                            <th>Rental Provider's Address</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="carForms">
+                                            @foreach($booking->travelCar as $key=>$travelCar)
+                                                <tr class="car-row" data-index="{{$key}}">
+                                                <td><span class="car-title">{{$key+1}}</span></td>
+                                                <td><input type="text" class="form-control" style="width:10rem" name="car[{{$key}}][car_rental_provider]" value="{{$travelCar->car_rental_provider}}" placeholder="Car Rental Provider"></td>
+                                                <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][car_type]" value="{{$travelCar->car_type}}" placeholder="Car Type"></td>
+                                                <td><input type="text" class="form-control" style="width:9rem" name="car[{{$key}}][pickup_location]" value="{{$travelCar->pickup_location}}" placeholder="Pick-up Location"></td>
+                                                <td><input type="text" class="form-control" style="width:10rem" name="car[{{$key}}][dropoff_location]" value="{{$travelCar->dropoff_location}}" placeholder="Drop-off Location"></td>
+                                                <td><input type="date" class="form-control" name="car[{{$key}}][pickup_date]" value="{{$travelCar->pickup_date->format('Y-m-d')}}"></td>
+                                                <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)->format('H:i') : '' }}"></td>
+                                                <td><input type="date" class="form-control" name="car[{{$key}}][dropoff_date]" value="{{$travelCar->dropoff_date->format('Y-m-d')}}"></td>
+                                                <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][dropoff_time]" value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)->format('H:i') : '' }}"></td>
+                                                <td><input type="text" class="form-control" style="width:12rem" name="car[{{$key}}][confirmation_number]" placeholder="Confirmation Number" value="{{$travelCar->confirmation_number}}"></td>
+                                                <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][remarks]" placeholder="Remarks" value="{{$travelCar->remarks}}"></td>
+                                                <td><input type="text" class="form-control" style="width:13rem" name="car[{{$key}}][rental_provider_address]" value="{{$travelCar->rental_provider_address}}" placeholder="Rental Provider's Address"></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-danger delete-car-btn">
+                                                        <i class="ri ri-delete-bin-line"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="trainbooking" role="tabpanel" aria-labelledby="trainbooking-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-header border-0 p-0">Train Booking Details</h5>
+                        </div>
+                        <div class="card-body pt-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-12 table-responsive">
+                                    <table id="carTable" class="table">
+                                        <thead>
+                                        <tr>
+                                            <th colspan="6">Trip to Sherevport</th>
+                                            <th colspan="2">Departure	</th>
+                                            <th></th>
+                                            <th>Arrival	</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Direction</th>
+                                            <th>Date</th>
+                                            <th>Train No</th>
+                                            <th>Cabin</th>
+                                            <th>Departure station</th>
+                                            <th>Hrs</th>
+                                            <th>MM</th>
+                                            <th>Arrival station</th>
+                                            <th>Hrs</th>
+                                            <th>MM</th>
+                                            <th>Duration</th>
+                                            <th>Transit</th>
+                                            <th>Arrival date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="trainForms">
+                                            @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
+                                                <tr class="train-row" data-index="{{$key}}">
+                                            <td><span class="train-title">{{$key+1}}</span></td>
+                                            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][direction]" value="{{$trainBookingDetails->direction}}" placeholder="Direction"></td>
+                                            <td><input type="date" class="form-control" name="train[{{$key}}][departure_date]" value="{{$trainBookingDetails->departure_date->format('Y-m-d')}}"></td>
+                                            <td><input type="text" class="form-control" style="width: 8rem;" name="train[{{$key}}][train_number]" value="{{$trainBookingDetails->train_number}}" placeholder="Train No"></td>
+                                            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][cabin]" value="{{$trainBookingDetails->cabin}}" placeholder="Cabin"></td>
+                                            <td><input type="text" class="form-control" style="width: 10rem;" name="train[{{$key}}][departure_station]" value="{{$trainBookingDetails->departure_station}}" placeholder="Departure Station"></td>
+                                            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][departure_hours]" value="{{$trainBookingDetails->departure_hours}}" placeholder="Hrs" min="0" max="23"></td>
+                                            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][departure_minutes]" value="{{$trainBookingDetails->departure_minutes}}" placeholder="mm" min="0" max="59"></td>
+                                            <td><input type="text" class="form-control" style="width: 10rem;" name="train[{{$key}}][arrival_station]" value="{{$trainBookingDetails->arrival_station}}" placeholder="Arrival Station"></td>
+                                            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][arrival_hours]" value="{{$trainBookingDetails->arrival_hours}}" placeholder="Hrs" min="0" max="23"></td>
+                                            <td><input type="number" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][arrival_minutes]" value="{{$trainBookingDetails->arrival_minutes}}" placeholder="mm" min="0" max="59"></td>
+                                            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][duration]" value="{{$trainBookingDetails->duration}}" placeholder="Duration"></td>
+                                            <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[{{$key}}][transit]" value="{{$trainBookingDetails->transit}}" placeholder="Transit"></td>
+                                            <td><input type="date" class="form-control" name="train[{{$key}}][arrival_date]" value="{{$trainBookingDetails->arrival_date->format('Y-m-d')}}" ></td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-train-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-header border-0 p-0">Billing Details</h5>
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="excel-like-container table-responsive">
+                                <table class="billing-table table">
+                                    <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Card Type</th>
+                                        <th>CC Number</th>
+                                        <th>CC Holder Name</th>
+                                        <th>MM</th>
+                                        <th>YYYY</th>
+                                        <th>CVV</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>Contact No</th>
+                                        <th>City</th>
+                                        <th>Country</th>
+                                        <th>State</th>
+                                        <th>ZIP Code</th>
+                                        <th>Currency</th>
+                                        <th>Amount</th>
+                                        <th>Active</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="billingForms">
+                                        @foreach($booking->billingDetails as $key=>$billingDetails)
+                                            <tr class="billing-card" data-index="{{$key}}">
+                                                <td><h6 class="billing-card-title mb-0">{{$key+1}}</h6></td>
+                                                <td>
+                                                    <select style="width:7.5rem" class="form-control" name="billing[{{$key}}][card_type]">
+                                                        <option value="">Select</option>
+                                                        <option value="VISA" {{$billingDetails->card_type=="VISA"?'selected':''}}>VISA</option>
+                                                        <option value="Mastercard" {{$billingDetails->card_type=="Mastercard"?'selected':''}}>Mastercard</option>
+                                                        <option value="AMEX" {{$billingDetails->card_type=="AMEX"?'selected':''}}>AMEX</option>
+                                                        <option value="DISCOVER" {{$billingDetails->card_type=="DISCOVER"?'selected':''}}>DISCOVER</option>
+                                                    </select>
+                                                </td>
+
+                                                <td><input type="text" style="width:7.5rem" class="form-control" value="{{$billingDetails->cc_number}}" placeholder="CC Number" name="billing[{{$key}}][cc_number]" ></td>
+                                                <td><input type="text" style="width:10rem" class="form-control" placeholder="CC Holder Name" value="{{$billingDetails->cc_holder_name}}" name="billing[{{$key}}][cc_holder_name]" ></td>
+
+                                                <td>
+                                                    <select class="form-control" style="width:7.5rem" name="billing[{{$key}}][exp_month]">
+                                                        <option value="">MM</option>
+                                                        <option value="01" {{$billingDetails->exp_month == "01"?'selected':''}} >01</option>
+                                                        <option value="02" {{$billingDetails->exp_month == "02"?'selected':''}} >02</option>
+                                                        <option value="03" {{$billingDetails->exp_month == "03"?'selected':''}} >03</option>
+                                                        <option value="04" {{$billingDetails->exp_month == "04"?'selected':''}} >04</option>
+                                                        <option value="05" {{$billingDetails->exp_month == "05"?'selected':''}} >05</option>
+                                                        <option value="06" {{$billingDetails->exp_month == "06"?'selected':''}} >06</option>
+                                                        <option value="07" {{$billingDetails->exp_month == "07"?'selected':''}} >07</option>
+                                                        <option value="08" {{$billingDetails->exp_month == "08"?'selected':''}} >08</option>
+                                                        <option value="09" {{$billingDetails->exp_month == "09"?'selected':''}} >09</option>
+                                                        <option value="10" {{$billingDetails->exp_month == "10"?'selected':''}} >10</option>
+                                                        <option value="11" {{$billingDetails->exp_month == "11"?'selected':''}} >11</option>
+                                                        <option value="12" {{$billingDetails->exp_month == "12"?'selected':''}} >12</option>
+                                                    </select>
+                                                </td>
+
+                                                <td>
+                                                    <select class="form-control" style="width:7.5rem" name="billing[{{$key}}][exp_year]">
+                                                        <option value="">YYYY</option>
+                                                        <option value="2024" {{$billingDetails->exp_year=="2024"?'selected':''}}>2024</option>
+                                                        <option value="2025" {{$billingDetails->exp_year=="2025"?'selected':''}}>2025</option>
+                                                        <option value="2026" {{$billingDetails->exp_year=="2026"?'selected':''}}>2026</option>
+                                                        <option value="2027" {{$billingDetails->exp_year=="2027"?'selected':''}}>2027</option>
+                                                        <option value="2028" {{$billingDetails->exp_year=="2028"?'selected':''}}>2028</option>
+                                                        <option value="2029" {{$billingDetails->exp_year=="2029"?'selected':''}}>2029</option>
+                                                        <option value="2030" {{$billingDetails->exp_year=="2030"?'selected':''}}>2030</option>
+                                                        <option value="2031" {{$billingDetails->exp_year=="2031"?'selected':''}}>2031</option>
+                                                        <option value="2032" {{$billingDetails->exp_year=="2032"?'selected':''}}>2032</option>
+                                                        <option value="2033" {{$billingDetails->exp_year=="2033"?'selected':''}}>2033</option>
+                                                        <option value="2034" {{$billingDetails->exp_year=="2034"?'selected':''}}>2034</option>
+                                                    </select>
+                                                </td>
+
+                                                <td><input type="text" style="width:7.5rem" class="form-control" placeholder="CVV" value="{{$billingDetails->cvv}}" name="billing[{{$key}}][cvv]"></td>
+                                                <td><input type="text" style="width:7.5rem" class="form-control" placeholder="Address" value="{{$billingDetails->address}}" name="billing[{{$key}}][address]"></td>
+                                                <td><input type="email" style="width:7.5rem" class="form-control" placeholder="Email" value="{{$billingDetails->email}}" name="billing[{{$key}}][email]" ></td>
+                                                <td><input type="text" style="width:7.5rem" class="form-control" placeholder="Contact No" value="{{$billingDetails->contact_no}}" name="billing[{{$key}}][contact_no]"></td>
+                                                <td><input type="text" style="width:7.5rem" class="form-control" placeholder="City" value="{{$billingDetails->city}}" name="billing[{{$key}}][city]"></td>
+
+                                                <td>
+                                                    <select id="country-{{$key}}" style="width:9rem" class="form-control country-select" name="billing[{{$key}}][country]">
+                                                        <option value="">Select Country</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select id="state-{{$key}}" style="width:7.5rem" class="form-control state-select" name="billing[{{$key}}][state]">
+                                                        <option value="">Select State</option>
+                                                    </select>
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" style="width:7.5rem" class="form-control" placeholder="ZIP Code" name="billing[{{$key}}][zip_code]" value="{{$billingDetails->zip_code}}" >
+                                                </td>
+
+                                                <td>
+                                                    <select class="form-control" style="width:7.5rem" name="billing[{{$key}}][currency]">
+                                                        <option value="">Select Currency</option>
+                                                        <option value="USD" {{$billingDetails->currency=='USD'?'selected':''}}>USD</option>
+                                                        <option value="CAD" {{$billingDetails->currency=='CAD'?'selected':''}}>CAD</option>
+                                                        <option value="EUR" {{$billingDetails->currency=='EUR'?'selected':''}}>EUR</option>
+                                                        <option value="GBP" {{$billingDetails->currency=='GBP'?'selected':''}}>GBP</option>
+                                                        <option value="AUD" {{$billingDetails->currency=='AUD'?'selected':''}}>AUD</option>
+                                                        <option value="INR" {{$billingDetails->currency=='INR'?'selected':''}}>INR</option>
+                                                        <option value="MXN" {{$billingDetails->currency=='MXN'?'selected':''}}>MXN</option>
+                                                    </select>
+                                                </td>
+
+                                                <td><input type="number" style="width:7.5rem" class="form-control" placeholder="0.00" name="billing[{{$key}}][amount]" value="{{$billingDetails->amount}}" step="0.01"></td>
+                                                <td><input class="form-check-input" type="radio" name="activeCard" value="0" {{$billingDetails->activeCard==1?'selected':''}}></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-danger delete-billing-btn">
+                                                        <i class="ri ri-delete-bin-line"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-header border-0 p-0">Pricing Details</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="excel-like-container table-responsive">
+                                <table class="pricing-table table">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="3" rowspan="1"><strong>Gross Amount Collected</strong></td>
+                                        <td colspan="2" rowspan="1"><strong>Net Amount (Paid)</strong></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Passengers*</th>
+                                        <th>No. of Passengers</th>
+                                        <th>Price*</th>
+                                        <th>Total*</th>
+                                        <th>Price*</th>
+                                        <th>Total</th>
+                                        <th>Details</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="pricingForms" class="pricing-rows">
+                                        @foreach($booking->pricingDetails as $key=>$pricingDetails)
+                                            <tr class="pricing-row" data-index="{{$key}}">
+                                                <td>
+                                                    <select name="pricing[{{$key}}][passenger_type]" id="passenger_type_{{$key}}">
+                                                        <option value="adult" {{$pricingDetails->passenger_type=='adult'?'selected':''}}>Adult</option>
+                                                        <option value="child" {{$pricingDetails->passenger_type=='child'?'selected':''}}>Child</option>
+                                                        <option value="infant_on_lap" {{$pricingDetails->passenger_type=='infant_on_lap'?'selected':''}}>Infant on Lap</option>
+                                                        <option value="infant_on_seat" {{$pricingDetails->passenger_type=='infant_on_seat'?'selected':''}}>Infant on Seat</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="number" class="form-control" name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}" placeholder="No. of Passengers" min="0"></td>
+                                                <td><input type="number" class="form-control" name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}" placeholder="Gross Price" min="0" step="0.01"></td>
+                                                <td><span class="gross-total">0.00</span></td>
+                                                <td><input type="number" class="form-control" name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0" step="0.01"></td>
+                                                <td><span class="net-total">0.00</span></td>
+                                                <td>
+                                                    <select name="pricing[{{$key}}][details]" id="details_{{$key}}">
+                                                        <option value="ticket_cost" {{$pricingDetails->details=='ticket_cost'?'selected':''}}>Ticket Cost</option>
+                                                        <option value="merchant_fee" {{$pricingDetails->details=='merchant_fee'?'selected':''}}>Merchant Fee</option>
+                                                        <option value="company_card_used" {{$pricingDetails->details=='company_card_used'?'selected':''}}>Company Card Used</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                        <i class="ri ri-delete-bin-line"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="2"><strong>Gross Profit</strong></td>
+                                        <td><span id="total_gross_profit">0.00</span></td>
+                                        <td colspan="2"><strong>Net Profit</strong></td>
+                                        <td><span id="total_net_profit">0.00</span></td>
+                                        <td></td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade fade" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h4 class="mb-0">Passenger Details</h4>
                         </div>
-                        <div class="col-md-12">                        
-                            <table class="passenger-table">
+                        <div class="excel-like-container table-responsive">
+                            <table class="passenger-table table">
                                 <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Type</th>
-                                        <th>Gender</th>
-                                        <th>Title</th>
-                                        <th>First Name</th>
-                                        <th>Middle Name</th>
-                                        <th>Last Name</th>
-                                        <th>DOB</th>
-                                        <th>Seat</th>
-                                        <th>Credit Note</th>
-                                        <th>E-Ticket</th>
-                                        <th>Action</th>
-                                    </tr>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Type</th>
+                                    <th>Gender</th>
+                                    <th>Title</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Last Name</th>
+                                    <th>DOB</th>
+                                    <th>Seat</th>
+                                    <th>Credit Note</th>
+                                    <th>E-Ticket</th>
+                                    <th>Action</th>
+                                </tr>
                                 </thead>
                                 <tbody id="passengerForms">
-                                    @if($booking->passengers->isNotEmpty())
-                                        @foreach($booking->passengers as $index => $passenger)
-                                            <tr class="passenger-form" data-index="{{ $index }}">
-                                                <td><span class="billing-card-title">{{ $index + 1 }}</span></td>
-                                                <td>
-                                                    <select class="form-control" name="passenger[{{ $index }}][passenger_type]">
-                                                        <option value="">Select</option>
-                                                        <option value="Adult" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Adult' ? 'selected' : '' }}>Adult</option>
-                                                        <option value="Child" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Child' ? 'selected' : '' }}>Child</option>
-                                                        <option value="Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Infant' ? 'selected' : '' }}>Infant</option>
-                                                        <option value="Seat Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Seat Infant' ? 'selected' : '' }}>Seat Infant</option>
-                                                        <option value="Lap Infant" {{ old("passenger.$index.passenger_type", $passenger->passenger_type) === 'Lap Infant' ? 'selected' : '' }}>Lap Infant</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control" name="passenger[{{ $index }}][gender]">
-                                                        <option value="">Select</option>
-                                                        <option value="Male" {{ old("passenger.$index.gender", $passenger->gender) === 'Male' ? 'selected' : '' }}>Male</option>
-                                                        <option value="Female" {{ old("passenger.$index.gender", $passenger->gender) === 'Female' ? 'selected' : '' }}>Female</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control" name="passenger[{{ $index }}][title]">
-                                                        <option value="">Select</option>
-                                                        <option value="Mr" {{ old("passenger.$index.title", $passenger->title) === 'Mr' ? 'selected' : '' }}>Mr</option>
-                                                        <option value="Mrs" {{ old("passenger.$index.title", $passenger->title) === 'Mrs' ? 'selected' : '' }}>Mrs</option>
-                                                        <option value="Ms" {{ old("passenger.$index.title", $passenger->title) === 'Ms' ? 'selected' : '' }}>Ms</option>
-                                                        <option value="Master" {{ old("passenger.$index.title", $passenger->title) === 'Master' ? 'selected' : '' }}>Master</option>
-                                                        <option value="Miss" {{ old("passenger.$index.title", $passenger->title) === 'Miss' ? 'selected' : '' }}>Miss</option>
-                                                    </select>
-                                                </td>
-                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][first_name]" value="{{ old("passenger.$index.first_name", $passenger->first_name) }}" placeholder="First Name" required></td>
-                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][middle_name]" value="{{ old("passenger.$index.middle_name", $passenger->middle_name) }}" placeholder="Middle Name"></td>
-                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][last_name]" value="{{ old("passenger.$index.last_name", $passenger->last_name) }}" placeholder="Last Name" required></td>
-                                                <td><input type="date" class="form-control" name="passenger[{{ $index }}][dob]" value="{{ old("passenger.$index.dob", $passenger->dob) }}" required></td>
-                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][seat_number]" value="{{ old("passenger.$index.seat_number", $passenger->seat_number) }}" placeholder="Seat"></td>
-                                                <td><input type="number" class="form-control" name="passenger[{{ $index }}][credit_note]" value="{{ old("passenger.$index.credit_note", $passenger->credit_note) }}" placeholder="0" step="0.01" min="0"></td>
-                                                <td><input type="text" class="form-control" name="passenger[{{ $index }}][e_ticket_number]" value="{{ old("passenger.$index.e_ticket_number", $passenger->e_ticket_number) }}" placeholder="E Ticket"></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger delete-passenger" aria-label="Delete passenger">
-                                                        <i class="ri ri-delete-bin-line"></i>
-                                                    </button>
-                                                    <input type="hidden" name="passenger[{{ $index }}][id]" value="{{ $passenger->id }}">
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr id="noPassengers">
-                                            <td colspan="12" class="text-center">No passenger details available. Click "Add Passenger" to start.</td>
-                                        </tr>
-                                    @endif
+                                    @foreach($booking->passengers as $key=>$passengers)
+                                        <tr class="passenger-form" data-index="{{$key}}">
+                                    <td>
+                                        <span class="billing-card-title"> {{$key}}</span>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:7.5rem" name="passenger[$key][passenger_type]">
+                                            <option value="">Select</option>
+                                            <option value="Adult" {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult</option>
+                                            <option value="Child" {{$passengers->passenger_type=="Child"?'selected':''}}>Child</option>
+                                            <option value="Infant" {{$passengers->passenger_type=="Infant"?'selected':''}}>Infant</option>
+                                            <option value="Seat Infant" {{$passengers->passenger_type=="Seat Infant"?'selected':''}}>Seat Infant</option>
+                                            <option value="Lap Infant" {{$passengers->passenger_type=="Lap Infant"?'selected':''}}>Lap Infant</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:7.5rem" name="passenger[{{$key}}][gender]">
+                                            <option value="">Select</option>
+                                            <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>Male</option>
+                                            <option value="Female" {{$passengers->gender == 'Female'?'selected':''}}>Female</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:7.5rem" name="passenger[{{$key}}][title]">
+                                            <option value="">Select</option>
+                                            <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr</option>
+                                            <option value="Mrs" {{$passengers->title=="Mrs"?"selected":''}}>Mrs</option>
+                                            <option value="Ms" {{$passengers->title=="Ms"?"selected":''}}>Ms</option>
+                                            <option value="Master" {{$passengers->title=="Master"?"selected":''}}>Master</option>
+                                            <option value="Miss" {{$passengers->title=="Miss"?"selected":''}}>Miss</option>
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][first_name]" value="{{$passengers->first_name}}" placeholder="First Name">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][middle_name]" value="{{$passengers->middle_name}}" placeholder="Middle Name">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][last_name]" value="{{$passengers->last_name}}" placeholder="Last Name">
+                                    </td>
+                                    <td>
+                                        <input type="date"  class="form-control" name="passenger[{{$key}}][dob]" value="{{$passengers->dob->format('Y-m-d')}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][seat_number]" value="{{$passengers->seat_number}}" placeholder="Seat">
+                                    </td>
+                                    <td>
+                                        <input type="number" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][credit_note]" value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][e_ticket_number]" value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
+                                            <i class="icon-base ri ri-delete-bin-2-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-    <!------------------------------------End Passeenger------------------------------------------------------>
 
-
-    <!--------------------------------------Billing Details ---------------------------->
-    <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-        <div class="card p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-header border-0 p-0">Billing Details</h5>
-                <div>
-                    <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
-                </div>
-            </div>
-                    <!--------------------------------------Billing Details ---------------------------->
-                                   <div class="col-md-12">     
-
-                    <table class="billing-table" id="billingTable">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Card Type</th>
-                                <th>CC Number</th>
-                                <th>CC Holder Name</th>
-                                <th>MM</th>
-                                <th>YYYY</th>
-                                <th>CVV</th>
-                                <th>Address</th>
-                                <th>Email</th>
-                                <th>Contact No</th>
-                                <th>City</th>
-                                <th>Country</th>
-                                <th>State</th>
-                                <th>ZIP Code</th>
-                                <th>Currency</th>
-                                <th>Amount</th>
-                                <th>Active</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="billingForms">
-                            @if($booking->billingDetails->isNotEmpty())
-                                @foreach($booking->billingDetails as $index => $billing)
-                                    <tr class="billing-card" data-index="{{ $index }}">
-                                        <td><span class="billing-card-title">{{ $index + 1 }}</span></td>
-                                        <td>
-                                            <select class="form-control" name="billing[{{ $index }}][card_type]">
-                                                <option value="">Select</option>
-                                                <option value="VISA" {{ old("billing.$index.card_type", $billing->card_type) === 'VISA' ? 'selected' : '' }}>VISA</option>
-                                                <option value="Mastercard" {{ old("billing.$index.card_type", $billing->card_type) === 'Mastercard' ? 'selected' : '' }}>Mastercard</option>
-                                                <option value="AMEX" {{ old("billing.$index.card_type", $billing->card_type) === 'AMEX' ? 'selected' : '' }}>AMEX</option>
-                                                <option value="DISCOVER" {{ old("billing.$index.card_type", $billing->card_type) === 'DISCOVER' ? 'selected' : '' }}>DISCOVER</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][cc_number]" value="{{ old("billing.$index.cc_number", $billing->cc_number) }}" placeholder="CC Number"></td>
-                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][cc_holder_name]" value="{{ old("billing.$index.cc_holder_name", $billing->cc_holder_name) }}" placeholder="CC Holder Name"></td>
-                                        <td>
-                                            <select class="form-control" name="billing[{{ $index }}][exp_month]">
-                                                <option value="">MM</option>
-                                                @for($i = 1; $i <= 12; $i++)
-                                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" {{ old("billing.$index.exp_month", $billing->exp_month) === str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
-                                                @endfor
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" name="billing[{{ $index }}][exp_year]">
-                                                <option value="">YYYY</option>
-                                                @for($i = date('Y'); $i <= date('Y') + 10; $i++)
-                                                    <option value="{{ $i }}" {{ old("billing.$index.exp_year", $billing->exp_year) === $i ? 'selected' : '' }}>{{ $i }}</option>
-                                                @endfor
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][cvv]" value="{{ old("billing.$index.cvv", $billing->cvv) }}" placeholder="CVV"></td>
-                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][address]" value="{{ old("billing.$index.address", $billing->address) }}" placeholder="Address"></td>
-                                        <td><input type="email" class="form-control" name="billing[{{ $index }}][email]" value="{{ old("billing.$index.email", $billing->email) }}" placeholder="Email"></td>
-                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][contact_no]" value="{{ old("billing.$index.contact_no", $billing->contact_no) }}" placeholder="Contact No"></td>
-                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][city]" value="{{ old("billing.$index.city", $billing->city) }}" placeholder="City"></td>
-                                        <td>
-                                            <select id="country-{{ $index }}" class="form-control country-select" name="billing[{{ $index }}][country]">
-                                                <option value="">Select Country</option>
-
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select id="state-{{ $index }}" class="form-control state-select" name="billing[{{ $index }}][state]">
-                                                <option value="">Select State</option>
-                                                <!-- Populate dynamically via JavaScript based on selected country -->
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control" name="billing[{{ $index }}][zip_code]" value="{{ old("billing.$index.zip_code", $billing->zip_code) }}" placeholder="ZIP Code"></td>
-                                        <td>
-                                            <select class="form-control" name="billing[{{ $index }}][currency]">
-                                                <option value="">Select Currency</option>
-                                                <option value="USD" {{ old("billing.$index.currency", $billing->currency) === 'USD' ? 'selected' : '' }}>USD</option>
-                                                <option value="CAD" {{ old("billing.$index.currency", $billing->currency) === 'CAD' ? 'selected' : '' }}>CAD</option>
-                                                <option value="EUR" {{ old("billing.$index.currency", $billing->currency) === 'EUR' ? 'selected' : '' }}>EUR</option>
-                                                <option value="GBP" {{ old("billing.$index.currency", $billing->currency) === 'GBP' ? 'selected' : '' }}>GBP</option>
-                                                <option value="AUD" {{ old("billing.$index.currency", $billing->currency) === 'AUD' ? 'selected' : '' }}>AUD</option>
-                                                <option value="INR" {{ old("billing.$index.currency", $billing->currency) === 'INR' ? 'selected' : '' }}>INR</option>
-                                                <option value="MXN" {{ old("billing.$index.currency", $billing->currency) === 'MXN' ? 'selected' : '' }}>MXN</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="number" class="form-control" name="billing[{{ $index }}][amount]" value="{{ old("billing.$index.amount", $billing->amount) }}" placeholder="0.00" step="0.01"></td>
-                                        <td><input class="form-check-input" type="radio" name="activeCard" value="{{ $index }}" {{ old('activeCard', $billing->is_active) ? 'checked' : '' }}></td>
-                                        <td>
-                                            <button type="button" class="btn btn-outline-danger delete-billing-btn">
-                                                <i class="ri ri-delete-bin-line"></i>
-                                            </button>
-                                            <!-- Hidden input to store billing ID for existing records -->
-                                            <input type="hidden" name="billing[{{ $index }}][id]" value="{{ $billing->id }}">
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr id="noBilling">
-                                    <td colspan="18" class="text-center">No billing details available. Click "Add Billing" to start.</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-         <!--------------------------------------Billing Details ---------------------------->
-    
-
-
-        <!------------------------- Pricing Details ----------------------------------->
-                <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
-                     <div class="col-md-12">     
-
-                     <table class="pricing-table table">
-                                    <thead>
-                                        <tr>
-                                            <td colspan="3" rowspan="1"><strong>Gross Amount Collected</strong></td>
-                                            <td colspan="2" rowspan="1"><strong>Net Amount (Paid)</strong></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Passengers*</th>
-                                            <th>No. of Passengers</th>
-                                            <th>Price*</th>
-                                            <th>Total*</th>
-                                            <th>Price*</th>
-                                            <th>Total</th>
-                                            <th>Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="pricingForms" class="pricing-rows">
-                                        <tr class="pricing-row" data-index="0">
-                                            <td>
-                                                <select name="pricing[0][passenger_type]" id="passenger_type_0">
-                                                    <option value="adult">Adult</option>
-                                                    <option value="child">Child</option>
-                                                    <option value="infant_on_lap">Infant on Lap</option>
-                                                    <option value="infant_on_seat">Infant on Seat</option>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" class="form-control" name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0"></td>
-                                            <td><input type="number" class="form-control" name="pricing[0][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
-                                            <td><span class="gross-total">0.00</span></td>
-                                            <td><input type="number" class="form-control" name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
-                                            <td><span class="net-total">0.00</span></td>
-                                            <td>
-                                                <select name="pricing[0][details]" id="details_0">
-                                                    <option value="ticket_cost">Ticket Cost</option>
-                                                    <option value="merchant_fee">Merchant Fee</option>
-                                                    <option value="company_card_used">Company Card Used</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                                    <i class="ri ri-delete-bin-line"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2"><strong>Gross Profit</strong></td>
-                                            <td><span id="total_gross_profit">0.00</span></td>
-                                            <td colspan="2"><strong>Net Profit</strong></td>
-                                            <td><span id="total_net_profit">0.00</span></td>
-                                            <td></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-            </div>
-            </div>
-
-             <!-----------------------------------End Pricing ------------------------------------------>
-
-           <!--------------------------- Booking Remarks --------------------------->
-                <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
-
+                <div class="tab-pane fade " id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
+                    <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h5 class="card-header border-0 p-0">Booking Remarks</h5>
                         </div>
                         <div class="card-body p-0">
-                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{ old('particulars', '') }}</textarea>
-                        </div>
-                </div>
-
-                <!--------------------------- End Booking Remarks --------------------------->
-
-
-        <!--------------------------- feedback --------------------------->
-         <!-- Quality Feedback -->
-                <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-header border-0 p-0">Quality Feedback</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="row">
-                                 <div class="col-lg-12 col-md-12 col-12 mt-4">
-                                    <textarea class="inputs1"  id="qltynotes" name="qltynotes" spellcheck="false"></textarea> 
-                                </div>
-
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Probing & Understanding">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Probing & Understanding" id="Probing & Understanding" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Probing & Understanding</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Dead air/Hold procedure">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Dead air/Hold procedure" id="Dead air/Hold procedure" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Dead air/Hold procedure</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Soft Skills">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Soft Skills" id="Soft Skills" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Soft Skills</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Active Listening/Interruption">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Active Listening/Interruption" id="Active Listening/Interruption" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Active Listening/Interruption</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Call Handling">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Handling" id="Call Handling" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Call Handling</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Selling Skills">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Selling Skills" id="Selling Skills" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Selling Skills</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Cross Selling">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Cross Selling" id="Cross Selling" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Cross Selling</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Documentation">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Documentation" id="Documentation" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Documentation</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Disposition">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Disposition" id="Disposition" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Disposition</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Call Closing">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Closing" id="Call Closing" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Call Closing</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Misrepresentation">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Misrepresentation" id="Fatal - Misrepresentation" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Fatal - Misrepresentation</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Rude/Sarcastic behaviour">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Rude/Sarcastic behaviour" id="Fatal - Rude/Sarcastic behaviour" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Fatal - Rude/Sarcastic behaviour</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Unethical sale">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Unethical sale" id="Fatal - Unethical sale" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Fatal - Unethical sale</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Paraphrasing">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Paraphrasing" id="Paraphrasing" name="quality_feedback[]">
-                                        <span class="form-check-label text-dark">Paraphrasing</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <select id="selqlstatus" name="selqlstatus" class="form-select rm-check">
-                                        <option value="">Status</option>
-                                        <option value="Pending" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="Rejected" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                                        <option value="Approved" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Approved' ? 'selected' : '' }}>Approved</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>         
-        <!--------------------------- End feedback --------------------------->
-
-                 
-           <!--------------------------- Screenshots --------------------------->
-                <div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-header border-0 p-0">Screenshots</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <!-- FilePond input for screenshots -->
-                            <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                            <!-- Hidden input to store existing screenshot IDs (if needed for updates) -->
-                            @if($booking->screenshots->isNotEmpty())
-                                @foreach($booking->screenshots as $index => $screenshot)
-                                    <input type="hidden" name="screenshots[{{ $index }}][id]" value="{{ $screenshot->id }}">
-                                @endforeach
-                            @endif
+                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{$booking->remarks[0]->particulars}}</textarea>
                         </div>
                     </div>
                 </div>
-                 
-           <!---------------------------End  Screenshots --------------------------->
+            </div>
+        </div>
+    </div>
 
 
 
 
-            
+
             </div>
         </div>
     </div>
@@ -1025,6 +921,4 @@
 <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 @vite('resources/js/booking/edit.js')
-@vite('resources/js/booking/create.js')
-@vite('resources/js/auth/sendAuth.js')
 @endsection

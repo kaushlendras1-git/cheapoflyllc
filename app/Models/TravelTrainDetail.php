@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class TravelTrainDetail extends Model
 {
 
-    use HasFactory;
     protected $table = 'travel_train_details';
 
     protected $fillable = [
@@ -28,6 +27,10 @@ class TravelTrainDetail extends Model
 
     ];
 
+    protected $casts = [
+        'departure_date'=>'date',
+        'arrival_date'=>'date',
+    ];
     public function booking()
     {
         return $this->belongsTo(TravelBooking::class, 'booking_id');
