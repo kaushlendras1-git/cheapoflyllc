@@ -78,7 +78,7 @@ class BookingFormController extends Controller
                 'passenger' => 'required|array|min:1',
                 'passenger.*.passenger_type' => 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant',
                 'passenger.*.gender' => 'required|string|in:Male,Female,Other',
-                'passenger.*.title' => 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss',
+                'passenger.*.title' => 'nullable|string|in:Mr,Ms,Mrs,Dr',
                 'passenger.*.first_name' => 'required|string',
                 'passenger.*.middle_name' => 'nullable|string',
                 'passenger.*.last_name' => 'required|string',
@@ -97,7 +97,7 @@ class BookingFormController extends Controller
                 'billing.*.email' => 'required|email',
                 'billing.*.contact_no' => 'required|digits_between:8,15',
                 'billing.*.city' => 'required|string',
-                'billing.*.country' => 'nullable|string',
+                'billing.*.country' => 'required|string',
                 'billing.*.state' => 'nullable|string',
                 'billing.*.zip_code' => 'required|string',
                 'billing.*.currency' => 'required|string|size:3',
@@ -584,6 +584,9 @@ class BookingFormController extends Controller
                 ->delete();
 
 
+                      dd('FLIGHTS');
+
+
             // Update or Create Car Details
             $existingCarIds = $booking->carDetails->pluck('id')->toArray();
             $newCars = $request->input('car', []);
@@ -932,7 +935,4 @@ class BookingFormController extends Controller
         }
         return true; // All specified fields are empty
     }
-
-
-
 }

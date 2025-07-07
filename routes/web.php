@@ -67,6 +67,36 @@ Route::post('/update-device-token', [NotificationController::class, 'updateDevic
 Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])->name('travel.bookings.submit');
 Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
 
+Route::prefix('booking')->name('booking.')->group(function () {
+
+    Route::get('/add', [BookingFormController::class, 'add'])->name('add');
+
+    Route::get('/search', [BookingFormController::class, 'search'])->name('search');
+    Route::get('/', [BookingFormController::class, 'index'])->name('index');
+    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
+    Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
+
+
+    Route::prefix('auth-email')->name('auth-email.')->group(function () {
+        Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail');
+    });
+    
+    Route::prefix('mail')->name('mail.')->group(function () {
+        Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
+    });
+
+
+});
+
+// <a href="{{ route('booking.auth-email.index', $booking->id) }}">Send Auth Email</a>
+
+
+
+
+Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
+#Route::get('/booking', function () {return view('web.booking.index');})->name('booking');
+
+
 
 Route::get('/', function () {return view('web.login');});
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -130,14 +160,10 @@ Route::middleware('auth')->group(function () {
     #Route::resource('call-back', CallBackController::class);
     Route::resource('follow-up', FollowUpController::class);
 
-Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
-Route::get('/dashboard', function () {return view('web.dashboard');})->name('dashboard');
+    Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
 
-/**Booking **/
-Route::get('/booking-information', function () {return view('web.bookings.add');})->name('booking-information');
-
-Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
-Route::get('/booking', function () {return view('web.booking-listing');})->name('booking');
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 
     /** Call Logs**/

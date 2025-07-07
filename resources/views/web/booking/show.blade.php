@@ -1,13 +1,6 @@
 
 @extends('web.layouts.main')
-
 @section('content')
-<form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
-    @csrf
-    @method('PUT')
-
-        <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
-
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row gy-6">
@@ -17,26 +10,19 @@
                     <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Copy Authorization Link
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Mail History
-                    </button>
-                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Survey
-                    </button>
-
+                    @include('web.booking.authModel')
+                    <a href="{{ route('auth-history', $booking->id) }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                        Auth History
+                    </a>                    
                 </div>
             </div>
 
               @include('web.layouts.flash')
-
                @php
                     $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
 
-<form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
+    <form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
     @csrf
     @method('PUT')
         <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
@@ -290,7 +276,11 @@
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12">
-                                        <div class="table-responsive">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                       <div class="table-responsive">
                                             <table id="flightTable" class="table">
                                             <thead>
                                                 <tr>
@@ -319,7 +309,7 @@
                                                         <tr class="flight-row" data-index="{{ $index }}">
                                                             <td><span class="flight-title">{{ $index + 1 }}</span></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][direction]" value="{{ $flight->direction }}" placeholder="Direction"></td>
-                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][departure_date]" value="{{ $flight->departure_date ? $flight->departure_date->format('Y-m-d') : '' }}"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][departure_date]" value="{{$flight->departure_date?->format('Y-m-d')}}"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][airline_code]" value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}" placeholder="Airlines (Code)"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][flight_number]" value="{{ old("flight.$index.flight_no", $flight->flight_number) }}" placeholder="Flight No"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][cabin]" value="{{ old("flight.$index.cabin", $flight->cabin) }}" placeholder="Cabin"></td>
@@ -332,7 +322,7 @@
                                                             <td><input type="number" class="form-control" name="flight[{{ $index }}][arrival_minutes]" value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}" placeholder="mm" min="0" max="59"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][duration]" value="{{ old("flight.$index.duration", $flight->duration) }}" placeholder="Duration"></td>
                                                             <td><input type="text" class="form-control" name="flight[{{ $index }}][transit]" value="{{ old("flight.$index.transit", $flight->transit) }}" placeholder="Transit"></td>
-                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ $flight->arrival_date ? $flight->arrival_date->format('Y-m-d') : '' }}"></td>
+                                                            <td><input type="date" class="form-control" name="flight[{{ $index }}][arrival_date]" value="{{ $flight->arrival_date?->format('Y-m-d') }}"></td>
                                                             <td>
                                                                 <button type="button" class="btn btn-outline-danger delete-flight-btn">
                                                                     <i class="ri ri-delete-bin-line"></i>
@@ -347,190 +337,31 @@
                                         </table>
                                         </div>
                                     </div>
+
+
+
                                 </div>
                             </div>
                     </div>
                 </div>
+            <!------------------------ End Flight Booking Details ------------------------------>
 
-                <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-header border-0 p-0">Hotel Booking Details</h5>
-                        </div>
-                        <div class="card-body pt-3">
-                            <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
-                                    <table id="hotelTable" class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>Hotel Name</th>
-                                            <th>Room Category</th>
-                                            <th>Check-in Date</th>
-                                            <th>Check-out Date</th>
-                                            <th>No. Of Rooms</th>
-                                            <th>Confirmation Number</th>
-                                            <th>Hotel Address</th>
-                                            <th>Remarks</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="hotelForms">
-                                            @foreach($booking->travelHotel as $key=>$travelHotel)
-                                                <tr class="hotel-row" data-index="{{$key}}">
-                                                    <td><span class="hotel-title">{{$key+1}}</span></td>
-                                                    <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[{{$key}}][hotel_name]" value="{{$travelHotel->hotel_name}}" placeholder="Hotel Name"></td>
-                                                    <td><input type="text" class="form-control" style="width:9rem" name="hotel[{{$key}}][room_category]" value="{{$travelHotel->room_category}}" placeholder="Room Category"></td>
-                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkin_date]" value="{{ $travelHotel->checkin_date ? $travelHotel->checkin_date->format('Y-m-d') : '' }}"></td>
-                                                    
-                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkout_date]" value="{{ $travelHotel->checkin_date ? $travelHotel->checkout_date->format('Y-m-d') : '' }}"></td>
-
-                                                    <td><input type="number" class="form-control" style="width:10rem" name="hotel[{{$key}}][no_of_rooms]" value="{{$travelHotel->no_of_rooms}}" placeholder="No. Of Rooms" min="1"></td>
-                                                    <td><input type="text" class="form-control" style="width:12rem" name="hotel[{{$key}}][confirmation_number]" value="{{$travelHotel->confirmation_number}}" placeholder="Confirmation Number"></td>
-                                                    <td><input type="text" class="form-control" style="width:8rem" name="hotel[{{$key}}][hotel_address]" value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address"></td>
-                                                    <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[{{$key}}][remarks]" value="{{$travelHotel->remarks}}" placeholder="Remarks"></td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-outline-danger delete-hotel-btn">
-                                                            <i class="ri ri-delete-bin-line"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-header border-0 p-0">Cruise Booking Details</h5>
-                        </div>
-                        <div class="card-body pt-3">
-                            <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
-                                    <table id="cruiseTable" class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>Date</th>
-                                            <th>Cruise Line</th>
-                                            <th>Name of the Ship</th>
-                                            <th>Category</th>
-                                            <th>Stateroom</th>
-                                            <th>Departure Port</th>
-                                            <th>Departure Date</th>
-                                            <th>Hrs</th>
-                                            <th>mm</th>
-                                            <th>Arrival Port</th>
-                                            <th>Arrival Date</th>
-                                            <th>Hrs</th>
-                                            <th>mm</th>
-                                            <th>Remarks</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="cruiseForms">
-                                            @foreach($booking->travelCruise as $key=>$travelCruise)
-                                        <tr class="cruise-row" data-index="{{$key}}">
-                                            <td><span class="cruise-title">{{$key+1}}</span></td>
-                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][date]"  value="{{ $travelCruise->date?->format('Y-m-d')}}"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][cruise_line]" value="{{$travelCruise->cruise_line}}" placeholder="Cruise Line"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][ship_name]" value="{{$travelCruise->ship_name}}" placeholder="Name of the Ship"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][category]" value="{{$travelCruise->category}}" placeholder="Category"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][stateroom]" value="{{$travelCruise->stateroom}}" placeholder="Stateroom"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_port]" value="{{$travelCruise->departure_port}}" placeholder="Departure Port"></td>
-                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][departure_date]" value="{{$travelCruise->departure_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_hrs]" value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0" max="23"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_mm]" value="{{$travelCruise->departure_mm}}" placeholder="mm" min="0" max="59"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_port]" value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port"></td>
-                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][arrival_date]" value="{{$travelCruise->arrival_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_hrs]" value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0" max="23"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_mm]" value="{{$travelCruise->arrival_mm}}" placeholder="mm" min="0" max="59"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][remarks]" value="{{$travelCruise->remarks}}" placeholder="Remarks"></td>
-                                            <td>
-                                                <button type="button" class="btn btn-outline-danger delete-cruise-btn">
-                                                    <i class="ri ri-delete-bin-line"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+              <!------------------------ Car Booking Details ------------------------------>
                 <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
                     <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-header border-0 p-0">Car Booking Details</h5>
-                        </div>
-                        <div class="card-body pt-3">
-                            <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
-                                    <table id="carTable" class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>Car Rental Provider</th>
-                                            <th>Car Type</th>
-                                            <th>Pick-up Location</th>
-                                            <th>Drop-off Location</th>
-                                            <th>Pick-up Date</th>
-                                            <th>Pick-up Time</th>
-                                            <th>Drop-off Date</th>
-                                            <th>Drop-off Time</th>
-                                            <th>Confirmation Number</th>
-                                            <th>Remarks</th>
-                                            <th>Rental Provider's Address</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="carForms">
-                                            @foreach($booking->travelCar as $key=>$travelCar)
-                                                <tr class="car-row" data-index="{{$key}}">
-                                                <td><span class="car-title">{{$key+1}}</span></td>
-                                                <td><input type="text" class="form-control" style="width:10rem" name="car[{{$key}}][car_rental_provider]" value="{{$travelCar->car_rental_provider}}" placeholder="Car Rental Provider"></td>
-                                                <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][car_type]" value="{{$travelCar->car_type}}" placeholder="Car Type"></td>
-                                                <td><input type="text" class="form-control" style="width:9rem" name="car[{{$key}}][pickup_location]" value="{{$travelCar->pickup_location}}" placeholder="Pick-up Location"></td>
-                                                <td><input type="text" class="form-control" style="width:10rem" name="car[{{$key}}][dropoff_location]" value="{{$travelCar->dropoff_location}}" placeholder="Drop-off Location"></td>
-                                                <td><input type="date" class="form-control" name="car[{{$key}}][pickup_date]" value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
-                                                <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)->format('H:i') : '' }}"></td>
-                                                <td><input type="date" class="form-control" name="car[{{$key}}][dropoff_date]" value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
-                                                <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][dropoff_time]" value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)->format('H:i') : '' }}"></td>
-                                                <td><input type="text" class="form-control" style="width:12rem" name="car[{{$key}}][confirmation_number]" placeholder="Confirmation Number" value="{{$travelCar->confirmation_number}}"></td>
-                                                <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][remarks]" placeholder="Remarks" value="{{$travelCar->remarks}}"></td>
-                                                <td><input type="text" class="form-control" style="width:13rem" name="car[{{$key}}][rental_provider_address]" value="{{$travelCar->rental_provider_address}}" placeholder="Rental Provider's Address"></td>
-                                                <td>
-                                                    <button type="button" class="btn btn-outline-danger delete-car-btn">
-                                                        <i class="ri ri-delete-bin-line"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Car Booking Details</h5>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    
+                                    <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
 
-                <div class="tab-pane fade" id="trainbooking" role="tabpanel" aria-labelledby="trainbooking-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-header border-0 p-0">Train Booking Details</h5>
-                        </div>
-                        <div class="card-body pt-3">
-                            <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
-                                    <table id="carTable" class="table">
+                                    <div class="col-md-12 table-responsive">
+                                        <!-- Car Table -->
+                                        <table id="carTable" class="table">
                                         <thead>
                                         <tr>
                                             <th colspan="6">Trip to Sherevport</th>
@@ -587,22 +418,316 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+        <!------------------------ End Car Booking Details ------------------------------>
+
+         <!------------------------ Cruise Booking Details ------------------------------>
+                <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
                     <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-header border-0 p-0">Billing Details</h5>
-                            <div>
-                                <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Cruise Booking Details</h5>
                             </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    
+                                <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+
+                                    <div class="col-md-12 table-responsive">
+                                        <!-- Cruise Table -->
+                                        <table id="cruiseTable" class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Date</th>
+                                            <th>Cruise Line</th>
+                                            <th>Name of the Ship</th>
+                                            <th>Category</th>
+                                            <th>Stateroom</th>
+                                            <th>Departure Port</th>
+                                            <th>Departure Date</th>
+                                            <th>Hrs</th>
+                                            <th>mm</th>
+                                            <th>Arrival Port</th>
+                                            <th>Arrival Date</th>
+                                            <th>Hrs</th>
+                                            <th>mm</th>
+                                            <th>Remarks</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="cruiseForms">
+                                            @foreach($booking->travelCruise as $key=>$travelCruise)
+                                                <tr class="cruise-row" data-index="{{$key}}">
+                                            <td><span class="cruise-title">{{$key+1}}</span></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][date]" value="{{$travelCruise->date?->format('Y-m-d')}}"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][cruise_line]" value="{{$travelCruise->cruise_line}}" placeholder="Cruise Line"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][ship_name]" value="{{$travelCruise->ship_name}}" placeholder="Name of the Ship"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][category]" value="{{$travelCruise->category}}" placeholder="Category"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][stateroom]" value="{{$travelCruise->stateroom}}" placeholder="Stateroom"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_port]" value="{{$travelCruise->departure_port}}" placeholder="Departure Port"></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][departure_date]" value="{{$travelCruise->departure_date?->format('Y-m-d')}}"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_hrs]" value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0" max="23"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][departure_mm]" value="{{$travelCruise->departure_mm}}" placeholder="mm" min="0" max="59"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_port]" value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port"></td>
+                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][arrival_date]" value="{{$travelCruise->arrival_date?->format('Y-m-d')}}"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_hrs]" value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0" max="23"></td>
+                                            <td><input type="number" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][arrival_mm]" value="{{$travelCruise->arrival_mm}}" placeholder="mm" min="0" max="59"></td>
+                                            <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[{{$key}}][remarks]" value="{{$travelCruise->remarks}}" placeholder="Remarks"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-cruise-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+        <!------------------------ End Cruise Booking Details ------------------------------>
+
+
+             <!------------------------ Hotel Booking Details ------------------------------>
+
+                <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Hotel Booking Details</h5>
+                            </div>
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+
+                                <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+                                 <div class="col-md-12 table-responsive">
+                                    <!-- Hotel Table -->
+                                <table id="hotelTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Hotel Name</th>
+                                            <th>Room Category</th>
+                                            <th>Check-in Date</th>
+                                            <th>Check-out Date</th>
+                                            <th>No. Of Rooms</th>
+                                            <th>Confirmation Number</th>
+                                            <th>Hotel Address</th>
+                                            <th>Remarks</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="hotelForms">
+                                            @foreach($booking->travelHotel as $key=>$travelHotel)
+                                                <tr class="hotel-row" data-index="{{$key}}">
+                                                    <td><span class="hotel-title">{{$key+1}}</span></td>
+                                                    <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[{{$key}}][hotel_name]" value="{{$travelHotel->hotel_name}}" placeholder="Hotel Name"></td>
+                                                    <td><input type="text" class="form-control" style="width:9rem" name="hotel[{{$key}}][room_category]" value="{{$travelHotel->room_category}}" placeholder="Room Category"></td>
+                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkin_date]" value="{{$travelHotel->checkin_date?->format('Y-m-d')}}"></td>
+                                                    <td><input type="date" class="form-control" name="hotel[{{$key}}][checkout_date]" value="{{$travelHotel->checkout_date?->format('Y-m-d')}}"></td>
+                                                    <td><input type="number" class="form-control" style="width:10rem" name="hotel[{{$key}}][no_of_rooms]" value="{{$travelHotel->no_of_rooms}}" placeholder="No. Of Rooms" min="1"></td>
+                                                    <td><input type="text" class="form-control" style="width:12rem" name="hotel[{{$key}}][confirmation_number]" value="{{$travelHotel->confirmation_number}}" placeholder="Confirmation Number"></td>
+                                                    <td><input type="text" class="form-control" style="width:8rem" name="hotel[{{$key}}][hotel_address]" value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address"></td>
+                                                    <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[{{$key}}][remarks]" value="{{$travelHotel->remarks}}" placeholder="Remarks"></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-outline-danger delete-hotel-btn">
+                                                            <i class="ri ri-delete-bin-line"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+        <!------------------------ End Hotel Booking Details ------------------------------>
+        
+        <!------------------------ Train Booking Details ------------------------------>
+                   <div class="tab-pane fade" id="trainbooking" role="tabpanel" aria-labelledby="trainbooking-tab">
+                    <div class="card p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-header border-0 p-0">Train Booking Details</h5>
+                            </div>
+
+                            <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+                                    
+                            <div class="card-body pt-3">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12 table-responsive">
+                                        <table id="carTable" class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Car Rental Provider</th>
+                                            <th>Car Type</th>
+                                            <th>Pick-up Location</th>
+                                            <th>Drop-off Location</th>
+                                            <th>Pick-up Date</th>
+                                            <th>Pick-up Time</th>
+                                            <th>Drop-off Date</th>
+                                            <th>Drop-off Time</th>
+                                            <th>Confirmation Number</th>
+                                            <th>Remarks</th>
+                                            <th>Rental Provider's Address</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="carForms">
+                                            @foreach($booking->travelCar as $key=>$travelCar)
+                                                <tr class="car-row" data-index="{{$key}}">
+                                                <td><span class="car-title">{{$key+1}}</span></td>
+                                                <td><input type="text" class="form-control" style="width:10rem" name="car[{{$key}}][car_rental_provider]" value="{{$travelCar->car_rental_provider}}" placeholder="Car Rental Provider"></td>
+                                                <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][car_type]" value="{{$travelCar->car_type}}" placeholder="Car Type"></td>
+                                                <td><input type="text" class="form-control" style="width:9rem" name="car[{{$key}}][pickup_location]" value="{{$travelCar->pickup_location}}" placeholder="Pick-up Location"></td>
+                                                <td><input type="text" class="form-control" style="width:10rem" name="car[{{$key}}][dropoff_location]" value="{{$travelCar->dropoff_location}}" placeholder="Drop-off Location"></td>
+                                                <td><input type="date" class="form-control" name="car[{{$key}}][pickup_date]" value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
+                                                <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}"></td>
+                                                <td><input type="date" class="form-control" name="car[{{$key}}][dropoff_date]" value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
+                                                <td><input type="time" class="form-control" style="width:7.5rem" name="car[{{$key}}][dropoff_time]" value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}"></td>
+                                                <td><input type="text" class="form-control" style="width:12rem" name="car[{{$key}}][confirmation_number]" placeholder="Confirmation Number" value="{{$travelCar->confirmation_number}}"></td>
+                                                <td><input type="text" class="form-control" style="width:7.5rem" name="car[{{$key}}][remarks]" placeholder="Remarks" value="{{$travelCar->remarks}}"></td>
+                                                <td><input type="text" class="form-control" style="width:13rem" name="car[{{$key}}][rental_provider_address]" value="{{$travelCar->rental_provider_address}}" placeholder="Rental Provider's Address"></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-outline-danger delete-car-btn">
+                                                        <i class="ri ri-delete-bin-line"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+       <!------------------------ End Train Booking Details ------------------------------>
+
+
+      <!----------------------------------------Passeenger-------------------------------------------------->
+      <div class="tab-pane fade fade" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="mb-0">Passenger Details</h4>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="excel-like-container table-responsive">
-                                <table class="billing-table table">
+                        <div class="excel-like-container table-responsive">
+                            <table class="passenger-table table">
+                                <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Type</th>
+                                    <th>Gender</th>
+                                    <th>Title</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Last Name</th>
+                                    <th>DOB</th>
+                                    <th>Seat</th>
+                                    <th>Credit Note</th>
+                                    <th>E-Ticket</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="passengerForms">
+                                    @foreach($booking->passengers as $key=>$passengers)
+                                        <tr class="passenger-form" data-index="{{$key}}">
+                                    <td>
+                                        <span class="billing-card-title"> {{$key}}</span>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:7.5rem" name="passenger[$key][passenger_type]">
+                                            <option value="">Select</option>
+                                            <option value="Adult" {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult</option>
+                                            <option value="Child" {{$passengers->passenger_type=="Child"?'selected':''}}>Child</option>
+                                            <option value="Infant" {{$passengers->passenger_type=="Infant"?'selected':''}}>Infant</option>
+                                            <option value="Seat Infant" {{$passengers->passenger_type=="Seat Infant"?'selected':''}}>Seat Infant</option>
+                                            <option value="Lap Infant" {{$passengers->passenger_type=="Lap Infant"?'selected':''}}>Lap Infant</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:7.5rem" name="passenger[{{$key}}][gender]">
+                                            <option value="">Select</option>
+                                            <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>Male</option>
+                                            <option value="Female" {{$passengers->gender == 'Female'?'selected':''}}>Female</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:7.5rem" name="passenger[{{$key}}][title]">
+                                            <option value="">Select</option>
+                                            <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr</option>
+                                            <option value="Mrs" {{$passengers->title=="Mrs"?"selected":''}}>Mrs</option>
+                                            <option value="Ms" {{$passengers->title=="Ms"?"selected":''}}>Ms</option>
+                                            <option value="Master" {{$passengers->title=="Master"?"selected":''}}>Master</option>
+                                            <option value="Miss" {{$passengers->title=="Miss"?"selected":''}}>Miss</option>
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][first_name]" value="{{$passengers->first_name}}" placeholder="First Name">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][middle_name]" value="{{$passengers->middle_name}}" placeholder="Middle Name">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][last_name]" value="{{$passengers->last_name}}" placeholder="Last Name">
+                                    </td>
+                                    <td>
+                                        <input type="date"  class="form-control" name="passenger[{{$key}}][dob]" value="{{$passengers->dob?->format('Y-m-d')}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][seat_number]" value="{{$passengers->seat_number}}" placeholder="Seat">
+                                    </td>
+                                    <td>
+                                        <input type="number" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][credit_note]" value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][e_ticket_number]" value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
+                                            <i class="icon-base ri ri-delete-bin-2-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>  
+      <!------------------------------------End Passeenger------------------------------------------------------>
+
+
+    <!--------------------------------------Billing Details ---------------------------->
+    <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-header border-0 p-0">Billing Details</h5>
+                <div>
+                    <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
+                </div>
+            </div>
+                    <!--------------------------------------Billing Details ---------------------------->
+                                   <div class="col-md-12">     
+                                     <table class="billing-table table">
                                     <thead>
                                     <tr>
                                         <th>S.No</th>
@@ -722,18 +847,19 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
+            </div>
+        </div>
+         <!--------------------------------------Billing Details ---------------------------->
+    
+
+
+        <!------------------------- Pricing Details ----------------------------------->
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-header border-0 p-0">Pricing Details</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="excel-like-container table-responsive">
-                                <table class="pricing-table table">
+                     <div class="col-md-12">     
+
+                      <table class="pricing-table table">
                                     <thead>
                                     <tr>
                                         <td colspan="3" rowspan="1"><strong>Gross Amount Collected</strong></td>
@@ -791,119 +917,161 @@
                                     </tr>
                                     </tfoot>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade fade" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4 class="mb-0">Passenger Details</h4>
-                        </div>
-                        <div class="excel-like-container table-responsive">
-                            <table class="passenger-table table">
-                                <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Type</th>
-                                    <th>Gender</th>
-                                    <th>Title</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Last Name</th>
-                                    <th>DOB</th>
-                                    <th>Seat</th>
-                                    <th>Credit Note</th>
-                                    <th>E-Ticket</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="passengerForms">
-                                    @foreach($booking->passengers as $key=>$passengers)
-                                        <tr class="passenger-form" data-index="{{$key}}">
-                                    <td>
-                                        <span class="billing-card-title"> {{$key}}</span>
-                                    </td>
-                                    <td>
-                                        <select class="form-control" style="width:7.5rem" name="passenger[$key][passenger_type]">
-                                            <option value="">Select</option>
-                                            <option value="Adult" {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult</option>
-                                            <option value="Child" {{$passengers->passenger_type=="Child"?'selected':''}}>Child</option>
-                                            <option value="Infant" {{$passengers->passenger_type=="Infant"?'selected':''}}>Infant</option>
-                                            <option value="Seat Infant" {{$passengers->passenger_type=="Seat Infant"?'selected':''}}>Seat Infant</option>
-                                            <option value="Lap Infant" {{$passengers->passenger_type=="Lap Infant"?'selected':''}}>Lap Infant</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control" style="width:7.5rem" name="passenger[{{$key}}][gender]">
-                                            <option value="">Select</option>
-                                            <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>Male</option>
-                                            <option value="Female" {{$passengers->gender == 'Female'?'selected':''}}>Female</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="form-control" style="width:7.5rem" name="passenger[{{$key}}][title]">
-                                            <option value="">Select</option>
-                                            <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr</option>
-                                            <option value="Mrs" {{$passengers->title=="Mrs"?"selected":''}}>Mrs</option>
-                                            <option value="Ms" {{$passengers->title=="Ms"?"selected":''}}>Ms</option>
-                                            <option value="Master" {{$passengers->title=="Master"?"selected":''}}>Master</option>
-                                            <option value="Miss" {{$passengers->title=="Miss"?"selected":''}}>Miss</option>
-                                        </select>
-                                    </td>
+            </div>
+            </div>
 
-                                    <td>
-                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][first_name]" value="{{$passengers->first_name}}" placeholder="First Name">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][middle_name]" value="{{$passengers->middle_name}}" placeholder="Middle Name">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][last_name]" value="{{$passengers->last_name}}" placeholder="Last Name">
-                                    </td>
-                                    <td>
-                                        <input type="date"  class="form-control" name="passenger[{{$key}}][dob]" value="{{$passengers->dob->format('Y-m-d')}}">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][seat_number]" value="{{$passengers->seat_number}}" placeholder="Seat">
-                                    </td>
-                                    <td>
-                                        <input type="number" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][credit_note]" value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
-                                    </td>
-                                    <td>
-                                        <input type="text" style="width:7.5rem" class="form-control" name="passenger[{{$key}}][e_ticket_number]" value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
-                                            <i class="icon-base ri ri-delete-bin-2-line"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+             <!-----------------------------------End Pricing ------------------------------------------>
 
-                <div class="tab-pane fade " id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
-                    <div class="card p-4">
+           <!--------------------------- Booking Remarks --------------------------->
+                <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
+
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h5 class="card-header border-0 p-0">Booking Remarks</h5>
                         </div>
                         <div class="card-body p-0">
-                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here..."></textarea>
+                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{$booking->remarks[0]->particulars}}</textarea>
+                        </div>
+                </div>
+            <!--------------------------- End Booking Remarks --------------------------->
+
+
+        <!--------------------------- feedback --------------------------->
+         <!-- Quality Feedback -->
+                <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-header border-0 p-0">Quality Feedback</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="row">
+                                 <div class="col-lg-12 col-md-12 col-12 mt-4">
+                                    <textarea class="inputs1"  id="qltynotes" name="qltynotes" spellcheck="false"></textarea> 
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Probing & Understanding">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Probing & Understanding" id="Probing & Understanding" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Probing & Understanding</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Dead air/Hold procedure">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Dead air/Hold procedure" id="Dead air/Hold procedure" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Dead air/Hold procedure</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Soft Skills">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Soft Skills" id="Soft Skills" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Soft Skills</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Active Listening/Interruption">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Active Listening/Interruption" id="Active Listening/Interruption" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Active Listening/Interruption</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Call Handling">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Handling" id="Call Handling" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Call Handling</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Selling Skills">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Selling Skills" id="Selling Skills" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Selling Skills</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Cross Selling">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Cross Selling" id="Cross Selling" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Cross Selling</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Documentation">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Documentation" id="Documentation" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Documentation</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Disposition">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Disposition" id="Disposition" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Disposition</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Call Closing">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Closing" id="Call Closing" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Call Closing</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Misrepresentation">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Misrepresentation" id="Fatal - Misrepresentation" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Fatal - Misrepresentation</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Rude/Sarcastic behaviour">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Rude/Sarcastic behaviour" id="Fatal - Rude/Sarcastic behaviour" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Fatal - Rude/Sarcastic behaviour</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Fatal - Unethical sale">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Fatal - Unethical sale" id="Fatal - Unethical sale" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Fatal - Unethical sale</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <label class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check" for="Paraphrasing">
+                                        <input class="form-check-input chkqlty" type="checkbox" value="Paraphrasing" id="Paraphrasing" name="quality_feedback[]">
+                                        <span class="form-check-label text-dark">Paraphrasing</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-12 mt-4">
+                                    <select id="selqlstatus" name="selqlstatus" class="form-select rm-check">
+                                        <option value="">Status</option>
+                                        <option value="Pending" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="Rejected" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                        <option value="Approved" {{ old('selqlstatus', $booking->quality_status ?? '') === 'Approved' ? 'selected' : '' }}>Approved</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>         
+        <!--------------------------- End feedback --------------------------->
+
+                 
+           <!--------------------------- Screenshots --------------------------->
+                <div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-header border-0 p-0">Screenshots</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- FilePond input for screenshots -->
+                            <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                            <!-- Hidden input to store existing screenshot IDs (if needed for updates) -->
+                            @if($booking->screenshots->isNotEmpty())
+                                @foreach($booking->screenshots as $index => $screenshot)
+                                    <input type="hidden" name="screenshots[{{ $index }}][id]" value="{{ $screenshot->id }}">
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                 
+           <!---------------------------End  Screenshots --------------------------->
 
 
 
 
-
+            
             </div>
         </div>
     </div>
@@ -923,4 +1091,6 @@
 <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 @vite('resources/js/booking/edit.js')
+@vite('resources/js/booking/create.js')
+@vite('resources/js/auth/sendAuth.js')
 @endsection
