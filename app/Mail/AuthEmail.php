@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\TravelBooking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -12,12 +13,14 @@ class AuthEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $booking;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(TravelBooking $booking)
     {
-        //
+        $this->booking = $booking;
     }
 
     /**
@@ -26,7 +29,7 @@ class AuthEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking Acknowlegdement',
+            subject: 'Booking Acknowledgement',
         );
     }
 
@@ -36,14 +39,12 @@ class AuthEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.auth', // Use lowercase and dot notation for consistency
+            view: 'emails.auth',
         );
     }
 
     /**
      * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {

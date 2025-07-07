@@ -10,7 +10,14 @@ export default defineConfig({
 
                 //booking
                 'resources/js/booking/create.js',
-                'resources/js/booking/edit.js'
+                'resources/js/booking/edit.js',
+
+                //callLogs
+                'resources/js/callLogs/create.js',
+                
+                //AuthEmail                
+                'resources/js/auth/sendAuth.js',
+                
             ],
             refresh: true,
         }),

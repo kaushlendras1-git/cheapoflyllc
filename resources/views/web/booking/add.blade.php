@@ -15,12 +15,7 @@
                     <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Copy Authorization Link
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill">
-                        Mail History
-                    </button>
+                    
                 </div>
             </div>
 
@@ -356,6 +351,7 @@
                     </div>
                 </div>
 
+
                 <!-- Booking Remarks -->
                 <div class="tab-pane fade " id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
                     <div class="card p-4">
@@ -373,6 +369,11 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-header border-0 p-0">Flight Booking Details</h5>
                             </div>
+                            
+                            <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                            </div>
+
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12 table-responsive">
@@ -412,6 +413,11 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-header border-0 p-0">Cruise Booking Details</h5>
                             </div>
+                            
+                            <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                            </div>
+
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12 table-responsive">
@@ -448,6 +454,11 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-header border-0 p-0">Hotel Booking Details</h5>
                             </div>
+                            
+                            <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                            </div>
+
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12 table-responsive">
@@ -479,6 +490,11 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-header border-0 p-0">Car Booking Details</h5>
                             </div>
+                            
+                            <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                            </div>
+
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12 table-responsive">
@@ -513,6 +529,12 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-header border-0 p-0">Train Booking Details</h5>
                             </div>
+
+                            <div class="col-md-12">
+                                        <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                                    </div>
+
+                                    
                             <div class="card-body pt-3">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-12 table-responsive">
@@ -775,7 +797,6 @@
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
 @vite('resources/js/booking/create.js')
-
 <style>
     table {
       width: 100%;

@@ -3,12 +3,31 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\TravelBooking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AuthEmail;
+use App\Utils\JsonResponse;
 
 class AuthEmailController extends Controller
 {
-    public function index($id){
-        dd($id);
-        return view('auth.index');
+    public function index(Request $request, $id)
+    {
+        try{
+            $booking = TravelBooking::findOrFail($id);
+            #Mail::to($booking->email)->send(new AuthEmail($booking));
+            return JsonResponse::success('Booking form submitted successfully.', 201,'201');
+        }
+        catch(ValidationException $e){
+            return JsonResponse::error($e->validator->errors()->first(),422,'422');
+        }
+        catch(QueryException $e){
+            return JsonResponse::error('Failed to Query',500,'500');
+        }
+        catch(\Exception $e){
+            return JsonResponse::error('Internal Server Error',500,'500');
+        }    
+        
+        
     }
 }

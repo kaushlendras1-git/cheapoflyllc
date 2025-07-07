@@ -81,26 +81,26 @@
                     <ul class="menu-sub"> 
                       
                       <li class="menu-item">
-                        <a href="route('reports.marketing')" class="menu-link">
+                        <a href="{{route('marketing')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                           <div data-i18n="Marketing">Marketing</div>
                         </a>
                       </li>
                     
                       <li class="menu-item">
-                        <a href="{{route('reports.call_queue')}}" class="menu-link">
+                        <a href="{{route('call_queue')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                           <div data-i18n="Call Queue">Call Queue</div>
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="{{route('reports.agents')}}" class="menu-link">
+                        <a href="{{route('agents')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                           <div data-i18n="Agent">Agents</div>
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="{{route('reports.score')}}" class="menu-link">
+                        <a href="{{route('score')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                           <div data-i18n="Score">Score</div>
                         </a>

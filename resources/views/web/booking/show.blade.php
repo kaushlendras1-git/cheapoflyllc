@@ -36,7 +36,10 @@
                     $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
 
-
+<form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
+    @csrf
+    @method('PUT')
+        <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
             <!-- Top Bar -->
             <div class="card p-3 mt-2">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
@@ -274,6 +277,10 @@
 
             <!-- Tab Content -->
             <div class="tab-content" id="bookingTabsContent">
+
+
+
+        <!------------------------ Flight Booking Details ------------------------------>
 
                 <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">
                     <div class="card p-4">
@@ -894,7 +901,13 @@
 
 
 
+
+            </div>
+        </div>
+    </div>
+
 </form>
+
 
 <!-- FilePond styles -->
 <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
@@ -906,6 +919,6 @@
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
-
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 @vite('resources/js/booking/edit.js')
 @endsection

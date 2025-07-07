@@ -3,26 +3,7 @@ import axios from "axios";
 import showToast from '../toast.js';
 import '../../css/toast.css';
 
-$('.country-select').on('change',async function(e){
-
-    try{
-        const response = await axios.get(route('statelist',e.target.value));
-
-        let options = '<option value="">Select State</option>';
-        console.log(response.data.data);
-        response.data.data.forEach(function(item){
-            options += `
-                <option value="${item.id}">${item.name}</option>
-            `;
-        });
-        e.target.parentElement.nextElementSibling.querySelector('select').innerHTML = options;
-    }
-    catch (e) {
-        console.log(e)
-    }
-});
-
-$('#bookingForm').submit(async function(e){
+$('#callLogsForm').submit(async function(e){
     e.preventDefault();
     const formdata =  new FormData(e.target);
     try{
