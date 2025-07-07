@@ -65,6 +65,7 @@ Route::post('/update-device-token', [NotificationController::class, 'updateDevic
 
 /**Booking **/
 Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])->name('travel.bookings.submit');
+Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
 
 
 Route::get('/', function () {return view('web.login');});
@@ -133,7 +134,8 @@ Route::get('/forgot-password', function () {return view('web.forgot-password');}
 Route::get('/dashboard', function () {return view('web.dashboard');})->name('dashboard');
 
 /**Booking **/
-Route::get('/booking-information', function () {return view('web.booking-information');})->name('booking-information');
+Route::get('/booking-information', function () {return view('web.bookings.add');})->name('booking-information');
+
 Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
 Route::get('/booking', function () {return view('web.booking-listing');})->name('booking');
 
