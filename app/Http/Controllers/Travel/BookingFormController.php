@@ -20,6 +20,7 @@ use App\Models\TravelFlightDetail;
 use App\Models\TravelCarDetail;
 use App\Models\TravelCruiseDetail;
 use App\Models\TravelHotelDetail;
+use App\Models\UserShiftAssignment;
 use App\Models\ChangeLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +43,7 @@ class BookingFormController extends Controller
     }
 
     public function index()
-    {
+    {   
         // Fetch paginated bookings, 15 records per page
         $bookings = TravelBooking::paginate(10);
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
@@ -196,9 +197,18 @@ class BookingFormController extends Controller
                 'amadeus_sabre_pnr',
             ]);
 
+            $currentShift = UserShiftAssignment::where('user_id', auth()->id())
+            ->whereDate('effective_from', '<=', Carbon::now())
+            ->where(function ($q) {
+                $q->whereNull('effective_to')->orWhere('effective_to', '>=', Carbon::now());
+            })
+            ->orderByDesc('effective_from')
+            ->first();
+
             $campaign = substr(strtoupper($request->input('campaign')), 0, 3);
             $bookingData['pnr'] = $campaign . $request->input('pnr');
             $bookingData['user_id'] = auth()->id();
+            $bookingData['shift_id'] =  $currentShift?->shift_id;
             $booking = TravelBooking::create($bookingData);
 
             if(isset($fileName)){
@@ -883,7 +893,7 @@ class BookingFormController extends Controller
         $id = $id[0] ?? null;
 
         if (!$id) {
-            abort(404); // Handle invalid or missing hash
+            abort(404);
         }
 
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
@@ -935,4 +945,6 @@ class BookingFormController extends Controller
         }
         return true; // All specified fields are empty
     }
+
+
 }

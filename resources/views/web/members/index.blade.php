@@ -165,6 +165,20 @@
                   <td>
                       <div class="d-flex align-items-center">
                         <div class="action-icons">
+
+
+                      
+
+                       <!-- Trigger Button -->
+<a href="javascript:void(0)" 
+   class="btn btn-info" 
+   data-bs-toggle="modal" 
+   data-bs-target="#assignShiftTeamModal" 
+   data-url="{{ route('users.assignments', $member->id) }}">
+   Shift & Team
+</a>
+
+
                             <!-- Edit Icon -->
                             <a href="{{ route('members.edit', $member) }}" class="btn btn-warning" title="Edit">Edit </a>
                             <!-- Delete Icon -->
@@ -268,10 +282,48 @@
 
 
 
+<!-- Shift & Team Assignment Modal -->
+<div class="modal fade" id="assignShiftTeamModal" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="assignModalLabel">Assign Shift & Team</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="assignModalBody">
+        <div class="text-center text-muted">Loading...</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     
 
 </div>
 <!--/ Content -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('assignShiftTeamModal');
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const url = button.getAttribute('data-url');
+        const modalBody = modal.querySelector('#assignModalBody');
+
+        // Load the content via AJAX
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalBody.innerHTML = html;
+            })
+            .catch(error => {
+                modalBody.innerHTML = '<div class="alert alert-danger">Failed to load form.</div>';
+            });
+    });
+});
+</script>
+
+
 @endsection

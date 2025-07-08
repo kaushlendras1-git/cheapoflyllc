@@ -80,6 +80,7 @@
                                 <label class="form-label">Airline PNR</label>
                                 <input type="text" class="form-control" name="airlinepnr" value="{{ $booking->airlinepnr }}" placeholder="Airline PNR">
                             </div>
+                            
                             <div class="col-md-3">
                                 <label class="form-label">Amadeus/Sabre PNR</label>
                                 <input type="text" class="form-control" name="amadeus_sabre_pnr" value="{{ $booking->amadeus_sabre_pnr }}">
@@ -151,6 +152,8 @@
                         <label class="form-label">Booking Status</label>
                         <select class="form-control" name="booking_status">
                             <option value="under process" {{ old('booking_status', $booking->booking_status ?? '') === 'under process' ? 'selected' : '' }}>under process</option>
+                            <option value="cancelled" {{ old('booking_status', $booking->booking_status ?? '') === 'cancelled' ? 'selected' : '' }}>cancelled</option>
+                            <option value="confirmed & charged" {{ old('booking_status', $booking->booking_status ?? '') === 'confirmed & charged' ? 'selected' : '' }}>confirmed & charged</option>
                         </select>
                     </div>
 
@@ -158,8 +161,16 @@
                         <label class="form-label">Payment Status</label>
                         <select class="form-control" name="payment_status">
                             <option value="pending" {{ old('payment_status', $booking->payment_status ?? '') === 'pending' ? 'selected' : '' }}>pending</option>
+                            <option value="auth pending" {{ old('payment_status', $booking->payment_status ?? '') === 'auth pending' ? 'selected' : '' }}>auth pending</option>
+                            <option value="changes pending" {{ old('payment_status', $booking->payment_status ?? '') === 'changes pending' ? 'selected' : '' }}>changes pending</option>
+                            <option value="ccv pending" {{ old('payment_status', $booking->payment_status ?? '') === 'ccv pending' ? 'selected' : '' }}>ccv pending</option>
+                            <option value="sent for charge" {{ old('payment_status', $booking->payment_status ?? '') === 'sent for charge' ? 'selected' : '' }}>sent for charge</option>
+                            <option value="paid in full" {{ old('payment_status', $booking->payment_status ?? '') === 'paid in full' ? 'selected' : '' }}>paid in full</option>
+                            <option value="auth received" {{ old('payment_status', $booking->payment_status ?? '') === 'auth received' ? 'selected' : '' }}>auth received</option>
+                            <option value="refund pending" {{ old('payment_status', $booking->payment_status ?? '') === 'refund pending' ? 'selected' : '' }}>refund pending</option>
                         </select>
                     </div>
+
 
                     <div class="col-md-3">
                         <label class="form-label">Query Type</label>
@@ -205,7 +216,6 @@
                             <option value="Spanish" {{ old('campaign', $booking->campaign ?? '') === 'Spanish' ? 'selected' : '' }}>Spanish</option>
                         </select>
                     </div>
-
 
                 </div>
             </div>
@@ -1093,4 +1103,6 @@
 @vite('resources/js/booking/edit.js')
 @vite('resources/js/booking/create.js')
 @vite('resources/js/auth/sendAuth.js')
+
+
 @endsection

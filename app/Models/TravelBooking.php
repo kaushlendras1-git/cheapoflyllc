@@ -96,6 +96,14 @@ class TravelBooking extends Model
         return $this->hasMany(ChangeLogs::class, 'booking_id');
     }
 
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
 
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 
 }

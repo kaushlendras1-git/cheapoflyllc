@@ -49,4 +49,33 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function teamAssignments()
+    {
+        return $this->hasMany(UserTeamAssignment::class);
+    }
+
+    public function currentTeam()
+    {
+        return $this->hasOne(UserTeamAssignment::class)
+            ->whereDate('effective_from', '<=', now())
+            ->where(function ($q) {
+                $q->whereNull('effective_to')->orWhere('effective_to', '>=', now());
+            });
+    }
+
+    public function shiftAssignments()
+    {
+        return $this->hasMany(UserShiftAssignment::class);
+    }
+
+    public function currentShift()
+    {
+        return $this->hasOne(UserShiftAssignment::class)
+            ->whereDate('effective_from', '<=', now())
+            ->where(function ($q) {
+                $q->whereNull('effective_to')->orWhere('effective_to', '>=', now());
+            });
+    }
+
 }

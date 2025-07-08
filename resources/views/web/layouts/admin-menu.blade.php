@@ -123,18 +123,17 @@
                           <div data-i18n="Booking">Booking</div>
                         </a>
                       </li>
-                      
-                      <li class="menu-item">
-                        <a href="{{route('booking.search')}}" class="menu-link">
-                          <i class="menu-icon icon-base ri ri-layout-left-line"></i>
-                          <div data-i18n="Find Booking">Find Booking</div>
-                        </a>
-                      </li>
-
+                   
                       <li class="menu-item">
                         <a href="{{route('booking.add')}}" class="menu-link">
                           <i class="menu-icon icon-base ri ri-layout-top-line"></i>
                           <div data-i18n="Create Booking">Create Booking</div>
+                        </a>
+                      </li>
+                         <li class="menu-item">
+                        <a href="{{route('booking.search')}}" class="menu-link">
+                          <i class="menu-icon icon-base ri ri-layout-left-line"></i>
+                          <div data-i18n="Find Booking">Find Booking</div>
                         </a>
                       </li>
 

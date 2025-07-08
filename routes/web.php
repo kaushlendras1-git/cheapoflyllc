@@ -23,6 +23,11 @@ use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AuthHistoryController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\UserShiftController;
+use App\Http\Controllers\UserTeamController;
+use App\Models\User;
+use App\Models\Shift;
+use App\Models\Team;
 
 // use App\Http\Controllers\Travel\TravelBookingController;
 // use App\Http\Controllers\Travel\TravelBookingTypeController;
@@ -70,7 +75,6 @@ Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])
 Route::prefix('booking')->name('booking.')->group(function () {
 
     Route::get('/add', [BookingFormController::class, 'add'])->name('add');
-
     Route::get('/search', [BookingFormController::class, 'search'])->name('search');
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
     Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
@@ -183,5 +187,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/sms/{id}', [AuthHistoryController::class, 'sendSms'])->name('sms');
     Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
     Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
+
+    // Shift assignment route
+    Route::post('/users/{user}/change-shift', [UserShiftController::class, 'changeShift'])->name('users.change-shift');
+    // Team assignment route
+    Route::post('/users/{user}/change-team', [UserTeamController::class, 'changeTeam'])->name('users.change-team');
+
+
+        Route::get('/users/{user}/assignments', function(App\Models\User $user) {
+            $shifts = \App\Models\Shift::all();
+            $teams = \App\Models\Team::all();
+            return view('web.members.assignments', compact('user', 'shifts', 'teams'));
+        })->name('users.assignments');
+
+
+
 
 });

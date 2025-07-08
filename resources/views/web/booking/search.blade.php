@@ -6,6 +6,8 @@
 
     <!-- Filter Card -->
     <div class="col-12">
+      <form method="POST">
+      @csrf
       <div class="card p-4 dark-header">
         <h5 class="fw-bold mb-3 text-white">Bookings</h5>
         <div class="d-flex flex-wrap gap-3 align-items-end">
@@ -28,7 +30,7 @@
             <label class="form-label mb-1">Start Date</label>
             <input type="date" class="form-control">
           </div>
-
+          
           <div>
             <label class="form-label mb-1">End Date</label>
             <input type="date" class="form-control">
@@ -36,20 +38,27 @@
 
           <div>
             <label class="form-label mb-1">Booking Status</label>
-            <select class="form-select">
+            <select class="form-select" name="booking_status">
               <option selected>Booking Status</option>
-              <option>Under Process</option>
-              <option>Completed</option>
-              <option>Cancelled</option>
+                <option value="confirmed">confirmed</option>                                                       
+                <option value="cancelled">cancelled</option>               
+                <option value="confirmed & charged">confirmed & charged</option>
+                <option value="under process">under process</option>
             </select>
           </div>
 
           <div>
             <label class="form-label mb-1">Payment Status</label>
-            <select class="form-select">
+            <select class="form-select" name="booking_status">
               <option selected>Payment Status</option>
-              <option>Paid</option>
-              <option>Pending</option>
+              <option value="pending">pending</option>
+              <option value="auth pending">auth pending</option>
+              <option value="changes pending">changes pending</option>
+              <option value="ccv pending">ccv pending</option>
+              <option value="sent for charge">sent for charge</option>
+              <option value="paid in full">paid in full</option>
+              <option value="auth received">auth received</option>
+              <option value="refund pending">refund pending</option>
             </select>
           </div>
 
@@ -58,16 +67,13 @@
             <button type="button" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Search">
               <i class="ri ri-search-line fs-5"></i> Search
             </button>
-          
-            <!-- Add Button -->
-            <a href="{{route('booking.create')}}" type="button" class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
-              <i class="ri ri-add-circle-line fs-5"></i> Add
-            </a>
-
+            <!-- Add Button -->          
           </div>
         </div>
       </div>
+      </form>
     </div>
+
 
     <!-- Booking Table Card -->
     <div class="col-12">
@@ -122,7 +128,6 @@
               <!-- Render pagination links -->
             </tbody>
           </table>
-
             {{ $bookings->links('vendor.pagination.bootstrap-5') }}
         @endif
 
