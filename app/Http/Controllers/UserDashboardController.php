@@ -23,10 +23,12 @@ class UserDashboardController extends Controller
         $monthly_score= 8002;
 
         
-        $attendances = Attendance::where('user_id', $userId)
-            ->whereMonth('attendance_date', 7)  // June
-            ->whereYear('attendance_date', 2025)
-            ->pluck('status', 'attendance_date');
+        // $attendances = Attendance::where('user_id', $userId)
+        //     ->whereMonth('attendance_date', 7)  // June
+        //     ->whereYear('attendance_date', 2025)
+        //     ->pluck('status', 'attendance_date');
+
+        $attendances=[];
 
         //   \App\Models\Attendance::create([
         //     'user_id' => 1,
