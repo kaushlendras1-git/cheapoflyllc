@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('signatures', function (Blueprint $table) {
-        $table->id();
-        $table->text('signature_data'); // To store signature as text (image URL or base64)
-        $table->ipAddress('ip_address');
-        $table->string('signature_type')->default('draw'); // "draw" or "type"
-        $table->timestamps();
-    });
+        if (!Schema::hasTable('signatures')) {
+            Schema::create('signatures', function (Blueprint $table) {
+                $table->id();
+                $table->text('signature_data');
+                $table->string('ip_address', 45);
+                $table->string('signature_type')->default('draw');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
