@@ -1,11 +1,5 @@
 @extends('web.layouts.main')
 @section('content')
-
-
-ALl Done now you can do youself no need any 
-
-Sir jb kaam ho jaye gaa tb mai simple cmd se code push kr du naa ?$_COOKIE
-yes git push 
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row gy-6">

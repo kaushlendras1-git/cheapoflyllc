@@ -43,7 +43,7 @@
                       </div>
                       <p class="small mb-0"><span class="h6 mb-0">Total 48.5% Growth</span> 😎 this month</p>
                     </div>
-                    <div class="card-body pt-lg-10">
+                    <div class="card-body">
                       <div class="row g-6">
                         <div class="col-md-3 col-6">
                           <div class="d-flex align-items-center">
@@ -106,7 +106,7 @@
                 <!-- Weekly Overview Chart -->
                 <div class="col-xl-4 col-md-6">
                   <div class="card">
-                    <div class="card-header">
+                    <div class="card-header pb-0">
                       <div class="d-flex justify-content-between">
                         <h5 class="mb-1">Weekly Overview</h5>
                         <div class="dropdown">
@@ -127,9 +127,9 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card-body pt-lg-2">
+                    <div class="card-body">
                       <div id="weeklyOverviewChart"></div>
-                      <div class="mt-1 mt-md-3">
+                      <div class="mt-0">
                         <div class="d-flex align-items-center gap-4">
                           <h4 class="mb-0">45%</h4>
                           <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
@@ -146,7 +146,7 @@
                 <!-- Total Earnings -->
                 <div class="col-xl-4 col-md-6">
                   <div class="card">
-                    <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="card-header d-flex align-items-center justify-content-between pb-0">
                       <h5 class="card-title m-0 me-2">Total Earning</h5>
                       <div class="dropdown">
                         <button
@@ -165,8 +165,8 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card-body pt-lg-8">
-                      <div class="mb-5 mb-lg-12">
+                    <div class="card-body">
+                      <div class="mb-4">
                         <div class="d-flex align-items-center">
                           <h3 class="mb-0">$24,895</h3>
                           <span class="text-success ms-2">
@@ -179,7 +179,7 @@
                       <ul class="p-0 m-0">
                         <li class="d-flex mb-6">
                           <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                            <img src="./assets/img/icons/misc/zipcar.png" alt="zipcar" />
+                            <img src="../../../assets/img/icons/misc/bitbank.png" alt="zipcar" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -202,7 +202,7 @@
                         </li>
                         <li class="d-flex mb-6">
                           <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                            <img src="./assets/img/icons/misc/bitbank.png" alt="bitbank" />
+                            <img src="../../../assets/img/icons/misc/bitbank.png" alt="bitbank" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -225,7 +225,7 @@
                         </li>
                         <li class="d-flex">
                           <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                            <img src="./assets/img/icons/misc/aviato.png" alt="aviato" />
+                            <img src="../../../assets/img/icons/misc/aviato.png" alt="aviato" />
                           </div>
                           <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                             <div class="me-2">
@@ -404,7 +404,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/payments/gumroad.png"
+                                  src="../../../assets/img/icons/payments/gumroad.png"
                                   class="img-fluid"
                                   alt="gumroad"
                                   height="30"
@@ -421,7 +421,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/payments/mastercard-2.png"
+                                  src="../../../assets/img/icons/payments/mastercard-2.png"
                                   class="img-fluid"
                                   alt="mastercard"
                                   height="30"
@@ -438,7 +438,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/payments/stripes.png"
+                                  src="../../../assets/img/icons/payments/stripes.png"
                                   class="img-fluid"
                                   alt="stripes"
                                   height="30"
@@ -455,7 +455,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/payments/american-bank.png"
+                                  src="../../../assets/img/icons/payments/american-bank.png"
                                   class="img-fluid"
                                   alt="american"
                                   height="30"
@@ -472,7 +472,7 @@
                             <li class="d-flex align-items-center">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/payments/citi.png"
+                                  src="../../../assets/img/icons/payments/citi.png"
                                   class="img-fluid"
                                   alt="citi"
                                   height="30"
@@ -501,7 +501,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/brands/google.png"
+                                  src="../../../assets/img/icons/brands/google.png"
                                   class="img-fluid"
                                   alt="google"
                                   height="30"
@@ -518,7 +518,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/brands/github.png"
+                                  src="../../../assets/img/icons/brands/github.png"
                                   class="img-fluid"
                                   alt="github"
                                   height="30"
@@ -535,7 +535,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/brands/slack.png"
+                                  src="../../../assets/img/icons/brands/slack.png"
                                   class="img-fluid"
                                   alt="slack"
                                   height="30"
@@ -552,7 +552,7 @@
                             <li class="d-flex mb-4 align-items-center pb-2">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/payments/digital-ocean.png"
+                                  src="../../../assets/img/icons/payments/digital-ocean.png"
                                   class="img-fluid"
                                   alt="digital"
                                   height="30"
@@ -569,7 +569,7 @@
                             <li class="d-flex align-items-center">
                               <div class="flex-shrink-0 me-4">
                                 <img
-                                  src="./assets/img/icons/brands/aws.png"
+                                  src="../../../assets/img/icons/brands/aws.png"
                                   class="img-fluid"
                                   alt="aws"
                                   height="30"
@@ -769,7 +769,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Jordan Stevenson</h6>
@@ -790,7 +790,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Benedetto Rossiter</h6>
@@ -811,7 +811,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Bentlee Emblin</h6>
@@ -832,7 +832,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Bertha Biner</h6>
@@ -853,7 +853,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Beverlie Krabbe</h6>
@@ -874,7 +874,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Bradan Rosebotham</h6>
@@ -895,7 +895,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Bree Kilday</h6>
@@ -916,7 +916,7 @@
                             <td>
                               <div class="d-flex align-items-center">
                                 <div class="avatar avatar-sm me-4">
-                                  <img src="./assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
+                                  <img src="../../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
                                 </div>
                                 <div>
                                   <h6 class="mb-0 text-truncate">Breena Gallemore</h6>

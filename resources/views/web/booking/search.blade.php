@@ -8,7 +8,7 @@
     <div class="col-12">
       <form method="POST">
       @csrf
-      <div class="card p-4 dark-header">
+      <div class="card p-4 dark-header upper-search-boking">
         <h5 class="fw-bold mb-3 text-white">Bookings</h5>
         <div class="d-flex flex-wrap gap-3 align-items-end">
           <div>
@@ -79,7 +79,7 @@
     <div class="col-12">
       <div class="card p-4">
         <!-- Table -->
-        <div class="booking-table-wrapper py-2">
+        <div class="booking-table-wrapper py-2 crm-table">
          @if($bookings)   
           <table class="table table-hover table-sm booking-table w-100 mb-0">
             <thead class="bg-dark text-white sticky-top">
