@@ -735,3 +735,47 @@ document.addEventListener('keydown', event => {
 if (document.documentElement.querySelector('#autocomplete')) {
   loadSearchData();
 }
+
+
+
+
+// Custom Css Start Here 
+
+$(document).ready(function() {
+    $('.user-dropdown').on('click', function() {
+      $(this).parent().find('.drophead-menu').stop(true, true).slideToggle(300); // 300ms animation
+    });
+});
+
+$(document).ready(function() {
+  $('.menu-item').hover(
+    function() {
+      // Mouse enters the element
+      $(this).find('.menu-sub').stop(true, true).slideDown(300);
+    },
+    function() {
+      // Mouse leaves the element
+      $(this).find('.menu-sub').stop(true, true).slideUp(300);
+    }
+  );
+});
+// Search Input Js Start Here 
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("search-table");
+    const clearIcon = document.getElementById("clear-search");
+
+    function toggleClearIcon() {
+      clearIcon.style.display = input.value ? "block" : "none";
+    }
+
+    input.addEventListener("input", toggleClearIcon);
+
+    clearIcon.addEventListener("click", function () {
+      input.value = "";
+      toggleClearIcon();
+      input.focus();
+    });
+
+    // Show icon if there's already a value (from old request)
+    toggleClearIcon();
+  });

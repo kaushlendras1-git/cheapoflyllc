@@ -1,10 +1,10 @@
-  <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0">
+  <!-- <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0">
 
               <div class="container-xxl d-flex h-100">
 
                 <ul class="menu-inner">
 
-                  <!-- Dashboards -->
+                 
 
                   <li class="menu-item active">
 
@@ -72,7 +72,7 @@
                   </li>
 
 
-               <!-- Reports -->
+               
                   <li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link menu-toggle">
                       <i class="menu-icon icon-base ri ri-article-line"></i>
@@ -109,7 +109,6 @@
                     </ul>
                   </li>
 
-                  <!-- Layouts -->
                   <li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link menu-toggle">
                       <i class="menu-icon icon-base ri ri-layout-2-line"></i>
@@ -178,6 +177,4 @@
 
               </div>
 
-            </aside>
-
-            <!-- / Menu -->
+            </aside> -->

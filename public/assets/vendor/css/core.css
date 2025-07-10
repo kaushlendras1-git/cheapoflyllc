@@ -7778,7 +7778,7 @@ textarea.form-control-lg {
 }
 
 .container-p-y:not([class^=pt-], [class*=" pt-"]) {
-  padding-block-start: 1.5rem !important;
+  padding-block-start: 70px !important;
 }
 .container-p-y:not([class^=pb-], [class*=" pb-"]) {
   padding-block-end: 1.5rem !important;
@@ -28852,3 +28852,118 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .tabs-booked {
   margin-top: 10px;
 }
+.user-dropdown .user-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+.header-dropdown ul {
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px #cacaca;
+}
+.search-header input {
+    background-color: #fff;
+    border: 1px solid #d1d1d1;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-left: 20px;
+}
+.navbar-nav li.menu-item {
+  margin-right: 50px;
+  position: relative;
+}
+.navbar-nav li.menu-item .menu-toggle::after {
+    top: 0px;
+    right: -22px;
+    transform: rotate(90deg);
+}
+.mrt-less {
+  margin-right: 30px !important;
+}
+.navbar-nav li.menu-item .menu-sub {
+  position: absolute;
+  left: 0;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px #cacaca;
+}
+.navbar-nav li.menu-item .menu-sub .menu-item {
+  margin-bottom: 20px;
+}
+.navbar-nav li.menu-item .menu-sub .menu-item:last-child {
+  margin-bottom: 0px;
+}
+.navbar-nav li.menu-item .menu-sub .menu-item a i + div {
+  white-space: nowrap;
+}
+.block-auto {
+  min-block-size: 100%;
+}
+.layout-navbar.navbar {
+  background-color: #fff;
+  box-shadow: 0px 0px 5px #dcdcdc;
+} 
+.break-btn {
+  background-color: #f2f2f2;
+  border: 1px solid #f2f2f2;
+  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+  padding: 0px;
+}
+.attendance-table table thead tr th {
+  background-color: #f5f0ff !important;
+}
+.attendance-table table tbody tr:hover td, .attendance-table table tbody tr:hover th {
+  --bs-table-bg-state: #fff !important;
+}
+.attendance-table table tbody tr th {
+  border-bottom: none !important;
+}
+.attendance-card {
+  padding: 10px;
+}
+.card-space {
+  padding: 10px;
+}
+.searchbox-table .input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+.searchbox-table {
+  width: 300px;
+}
+.searchbox-table #search-table {
+    font-size: 12px;
+    padding: 10px 30px 10px 10px;
+}
+#search-table.form-control:focus {
+  border: 1px solid color-mix(in sRGB, var(--bs-base-color) 22%, var(--bs-paper-bg)) !important;
+}
+.searchbox-table .clear-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #888;
+    display: none; 
+    z-index: 1;
+  }
+  .booking-upper-details {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+    .booking-upper-details span {
+      font-weight: 700;
+      font-size: 15px;
+    }

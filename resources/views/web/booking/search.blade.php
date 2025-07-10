@@ -64,21 +64,16 @@
         </div>
       </div>
       </form>
-
-      <a href="{{ route('booking.export', request()->all()) }}" class="btn btn-success px-4 py-3 d-flex align-items-center gap-1">
-  <i class="ri ri-file-excel-2-line fs-5"></i> Export to Excel
-</a>
-
     </div>
 
 
     <!-- Booking Table Card -->
     <div class="col-12">
       <div class="card p-4">
-
-      
-
-
+        <div class="export-btn text-end">
+          <a href="{{ route('booking.export', request()->all()) }}" class="btn btn-success px-4 py-3 gap-1 w-auto">
+        <i class="ri ri-file-excel-2-line fs-5"></i> Export to Excel </a>
+        </div>
         <!-- Table -->
         <div class="booking-table-wrapper py-2 crm-table">
          @if($bookings)   

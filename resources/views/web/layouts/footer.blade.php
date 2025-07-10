@@ -41,7 +41,7 @@
 
     <!-- Vendors JS -->
     <script src="{{ asset('assets/vendor/libs/moment/moment.js') }}"></script>
-    <!-- <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script> -->
+    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
@@ -56,7 +56,7 @@
     <!-- <script src="{{ asset('assets/js/app-user-list.js') }}"></script> -->
 
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 
       <script src="/assets/js/booking.js"></script>
       <script src="/assets/js/country.js"></script>
