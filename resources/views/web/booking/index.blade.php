@@ -7,6 +7,23 @@
     <div class="col-12">
       <div class="card p-4">
         <!-- Table -->
+
+
+
+<form method="GET" action="{{ route('booking.index') }}" class="mb-3">
+    <div class="row g-2 align-items-center">
+        <div class="col-auto">
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Search by PNR, name, email, status, etc.">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-sm btn-primary">Search</button>
+            <a href="{{ route('booking.index') }}" class="btn btn-sm btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
+
+
+
         <div class="booking-table-wrapper py-2 crm-table">
           <table class="table table-hover table-sm booking-table w-100 mb-0">
             <thead class="bg-dark text-white sticky-top">
@@ -21,36 +38,51 @@
                 <th>Agent MCO</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <!-- Example Row -->
-            @foreach ($bookings as $booking)
-              <tr>
-                <td><a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">{{ $booking->id }}</a></td>
-                <td>{{$booking->pnr}}</td>
-                <td>{{$booking->created_at}}</td>
-                <td>Testagent</td>
-                <td><span class="badge bg-label-warning">{{$booking->pnr}}</span></td>
-                <td><span class="badge bg-label-danger">{{$booking->pnr}}</span></td>
-                <td>12</td>
-                <td>12</td>
-                <td>{{$booking->name}}</td>
-                <td>{{$booking->email}}</td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn p-0 dropdown-toggle hide-arrow shadow-none" data-bs-toggle="dropdown">
-                      <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#"><i class="ri ri-eye-line me-1"></i> View</a>
-                      <a class="dropdown-item" href="#"><i class="ri ri-delete-bin-line me-1"></i> Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            @endforeach  
+          @foreach ($bookings as $booking)
+          <tr>
+              <td>
+                  <a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
+                      {{ $booking->id }}
+                  </a>
+              </td>
+              <td>{{ $booking->pnr }}</td>
+              <td>{{ $booking->created_at }}</td>
+              <td>{{ $booking->user->name ?? 'N/A' }}</td>
+              
+              <!-- Booking Status -->
+              <td>
+                  @if($booking->bookingStatus)
+                      <span class="badge" style="background-color: {{ $booking->bookingStatus->color }}">
+                          {{ $booking->bookingStatus->name }}
+                      </span>
+                  @else
+                      <span class="badge bg-secondary">N/A</span>
+                  @endif
+              </td>
+
+              <!-- Payment Status -->
+              <td>
+                  @if($booking->paymentStatus)
+                      <span class="badge" style="background-color: {{ $booking->paymentStatus->color }}">
+                          {{ $booking->paymentStatus->name }}
+                      </span>
+                  @else
+                      <span class="badge bg-secondary">N/A</span>
+                  @endif
+              </td>
+
+              <td>{{ $booking->pricingDetails->sum('total_amount') }}</td>
+              <td>{{ $booking->pricingDetails->sum('advisor_mco') }}</td>
+              <td>{{ $booking->name }}</td>
+              <td>{{ $booking->email }}</td>
+          </tr>
+          @endforeach
+
+
               <!-- Add more rows as needed -->
               <!-- Render pagination links -->
             </tbody>

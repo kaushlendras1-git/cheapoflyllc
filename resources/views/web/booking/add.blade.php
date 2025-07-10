@@ -10,13 +10,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row gy-6">
             <div class="card p-4 create-booking-wrapper">
-                <div class="d-flex justify-content-between align-items-center flex-wrap p-0 mt-0">
-                    <div class="d-flex align-items-center flex-wrap gap-2 ticket-info">
-                        <strong>Ticket Information</strong>
-                        <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
-                    </div>
-                    <div class="d-flex gap-2"></div>
-                </div>
+             
 
                 @include('web.layouts.flash')
 

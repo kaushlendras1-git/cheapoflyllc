@@ -18,6 +18,8 @@ use App\Models\TravelQualityFeedback;
 use App\Models\TravelScreenshot;
 use App\Models\TravelFlightDetail;
 use App\Models\TravelCarDetail;
+use App\Models\BookingStatus;
+use App\Models\PaymentStatus;
 use App\Models\TravelCruiseDetail;
 use App\Models\TravelHotelDetail;
 use App\Models\UserShiftAssignment;
@@ -30,6 +32,9 @@ use App\Traits\Loggable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use App\Exports\BookingsExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class BookingFormController extends Controller
 {
@@ -42,19 +47,75 @@ class BookingFormController extends Controller
         $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
     }
 
-    public function index()
-    {   
-        // Fetch paginated bookings, 15 records per page
-        $bookings = TravelBooking::paginate(10);
-        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-        return view('web.booking.index', compact('bookings','hashids'));
+    public function index(Request $request)
+    {
+        $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
+
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('pnr', 'like', "%{$search}%")
+                ->orWhere('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhereDate('created_at', $search) // for Booking Date (exact)
+                ->orWhereHas('user', function ($uq) use ($search) {
+                    $uq->where('name', 'like', "%{$search}%"); // Agent name
+                })
+                ->orWhereHas('pricingDetails', function ($pq) use ($search) {
+                    $pq->where('total_amount', 'like', "%{$search}%")
+                        ->orWhere('advisor_mco', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
+        $bookings->appends($request->only('search'));
+
+        $hashids = new \Hashids\Hashids(config('hashids.salt'), config('hashids.length', 8));
+        return view('web.booking.index', compact('bookings', 'hashids'));
     }
 
-    public function search(){
-        $bookings = TravelBooking::paginate(10);
+    public function search(Request $request)
+    {
+        $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->keyword;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('pnr', 'like', "%{$keyword}%")
+                ->orWhere('name', 'like', "%{$keyword}%")
+                ->orWhere('email', 'like', "%{$keyword}%");
+            });
+        }
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        if ($request->filled('booking_status')) {
+            $query->where('booking_status_id', $request->booking_status);
+        }
+
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status_id', $request->payment_status);
+        }
+
+        $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
+        $bookings->appends($request->all());
+
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-        return view('web.booking.search', compact('bookings','hashids'));
+        $booking_status = BookingStatus::all();
+        $payment_status = PaymentStatus::all();
+
+        return view('web.booking.search', compact('bookings', 'hashids', 'booking_status', 'payment_status'));
     }
+
 
 
     public function store(Request $request)
@@ -70,8 +131,8 @@ class BookingFormController extends Controller
                 'email' => 'required|email|max:255',
                 'query_type' => 'nullable|string|max:255',
                 'selected_company' => 'required|string|max:255',
-                'booking_status' => 'required|string|max:255',
-                'payment_status' => 'required|string|max:255',
+                'booking_status_id' => 'required',
+                'payment_status_id' => 'required',
                 'reservation_source' => 'nullable|string|max:255',
                 'descriptor' => 'nullable|string|max:255',
                 'amadeus_sabre_pnr' => 'nullable|string|max:255',
@@ -911,9 +972,10 @@ class BookingFormController extends Controller
             'travelCar',
             'travelCruise',
             'travelHotel',
-        ])->findOrFail($id);
-
-        return view('web.booking.show', compact('booking', 'hashids'));
+        ])->findOrFail($id);      
+        $booking_status = BookingStatus::all();
+        $payment_status = PaymentStatus::all();
+        return view('web.booking.show', compact('booking', 'hashids','booking_status','payment_status'));
     }
 
 
@@ -944,6 +1006,11 @@ class BookingFormController extends Controller
             }
         }
         return true; // All specified fields are empty
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new BookingsExport($request), 'bookings.xlsx');
     }
 
 

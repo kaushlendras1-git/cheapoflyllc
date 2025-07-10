@@ -6,65 +6,57 @@
 
     <!-- Filter Card -->
     <div class="col-12">
-      <form method="POST">
+      <form method="GET" action="{{ route('booking.search') }}">
       @csrf
       <div class="card p-4 dark-header upper-search-boking">
         <h5 class="fw-bold mb-3 text-white">Bookings</h5>
         <div class="d-flex flex-wrap gap-3 align-items-end">
-          <div>
-            <label class="form-label mb-1">Search By</label>
-            <select class="form-select">
-              <option selected>Select Criteria</option>
-              <option value="pnr">PNR</option>
-              <option value="agent">Agent</option>
-              <option value="email">Email</option>
-            </select>
-          </div>
+        
 
           <div>
             <label class="form-label mb-1">Keyword</label>
-            <input type="text" class="form-control" placeholder="e.g. PNR / name / email">
+            <input type="text" name="keyword" class="form-control" value="{{ request('keyword') }}" placeholder="e.g. PNR / name / email">
+
           </div>
 
           <div>
             <label class="form-label mb-1">Start Date</label>
-            <input type="date" class="form-control">
+            <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
           </div>
           
           <div>
             <label class="form-label mb-1">End Date</label>
-            <input type="date" class="form-control">
+            <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+
           </div>
 
           <div>
             <label class="form-label mb-1">Booking Status</label>
-            <select class="form-select" name="booking_status">
-              <option selected>Booking Status</option>
-                <option value="confirmed">confirmed</option>                                                       
-                <option value="cancelled">cancelled</option>               
-                <option value="confirmed & charged">confirmed & charged</option>
-                <option value="under process">under process</option>
+             <select class="form-control" name="booking_status">
+              <option value="">All</option>
+              @foreach($booking_status as $status)
+                <option value="{{ $status->id }}" {{ request('booking_status') == $status->id ? 'selected' : '' }}>
+                  {{ $status->name }}
+                </option>
+              @endforeach
             </select>
           </div>
 
           <div>
             <label class="form-label mb-1">Payment Status</label>
-            <select class="form-select" name="booking_status">
-              <option selected>Payment Status</option>
-              <option value="pending">pending</option>
-              <option value="auth pending">auth pending</option>
-              <option value="changes pending">changes pending</option>
-              <option value="ccv pending">ccv pending</option>
-              <option value="sent for charge">sent for charge</option>
-              <option value="paid in full">paid in full</option>
-              <option value="auth received">auth received</option>
-              <option value="refund pending">refund pending</option>
+              <select class="form-control" name="payment_status">
+              <option value="">All</option>
+              @foreach($payment_status as $payment)
+                <option value="{{ $payment->id }}" {{ request('payment_status') == $payment->id ? 'selected' : '' }}>
+                  {{ $payment->name }}
+                </option>
+              @endforeach
             </select>
           </div>
 
           <div class="ms-auto d-flex gap-2">
             <!-- Search Button -->
-            <button type="button" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Search">
+            <button type="submit" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light">
               <i class="ri ri-search-line fs-5"></i> Search
             </button>
             <!-- Add Button -->          
@@ -72,12 +64,21 @@
         </div>
       </div>
       </form>
+
+      <a href="{{ route('booking.export', request()->all()) }}" class="btn btn-success px-4 py-3 d-flex align-items-center gap-1">
+  <i class="ri ri-file-excel-2-line fs-5"></i> Export to Excel
+</a>
+
     </div>
 
 
     <!-- Booking Table Card -->
     <div class="col-12">
       <div class="card p-4">
+
+      
+
+
         <!-- Table -->
         <div class="booking-table-wrapper py-2 crm-table">
          @if($bookings)   
@@ -94,40 +95,56 @@
                 <th>Agent MCO</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <!-- Example Row -->
-            @foreach ($bookings as $booking)
-              <tr>
-                <td><a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">{{ $booking->id }}</a></td>
-                <td>{{$booking->pnr}}</td>
-                <td>{{$booking->created_at}}</td>
-                <td>Testagent</td>
-                <td><span class="badge bg-label-warning">{{$booking->pnr}}</span></td>
-                <td><span class="badge bg-label-danger">{{$booking->pnr}}</span></td>
-                <td>12</td>
-                <td>12</td>
-                <td>{{$booking->name}}</td>
-                <td>{{$booking->email}}</td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn p-0 dropdown-toggle hide-arrow shadow-none" data-bs-toggle="dropdown">
-                      <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#"><i class="ri ri-eye-line me-1"></i> View</a>
-                      <a class="dropdown-item" href="#"><i class="ri ri-delete-bin-line me-1"></i> Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            @endforeach  
+          @foreach ($bookings as $booking)
+          <tr>
+              <td>
+                  <a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
+                      {{ $booking->id }}
+                  </a>
+              </td>
+              <td>{{ $booking->pnr }}</td>
+              <td>{{ $booking->created_at }}</td>
+              <td>{{ $booking->user->name ?? 'N/A' }}</td>
+              
+              <!-- Booking Status -->
+              <td>
+                  @if($booking->bookingStatus)
+                      <span class="badge" style="background-color: {{ $booking->bookingStatus->color }}">
+                          {{ $booking->bookingStatus->name }}
+                      </span>
+                  @else
+                      <span class="badge bg-secondary">N/A</span>
+                  @endif
+              </td>
+
+              <!-- Payment Status -->
+              <td>
+                  @if($booking->paymentStatus)
+                      <span class="badge" style="background-color: {{ $booking->paymentStatus->color }}">
+                          {{ $booking->paymentStatus->name }}
+                      </span>
+                  @else
+                      <span class="badge bg-secondary">N/A</span>
+                  @endif
+              </td>
+
+              <td>{{ $booking->pricingDetails->sum('total_amount') }}</td>
+              <td>{{ $booking->pricingDetails->sum('advisor_mco') }}</td>
+              <td>{{ $booking->name }}</td>
+              <td>{{ $booking->email }}</td>
+          </tr>
+          @endforeach
+
+
               <!-- Add more rows as needed -->
               <!-- Render pagination links -->
             </tbody>
           </table>
+
             {{ $bookings->links('vendor.pagination.bootstrap-5') }}
         @endif
 

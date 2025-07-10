@@ -41,7 +41,7 @@ use App\Models\Team;
 
 use App\Http\Controllers\Travel\BookingFormController;
 use App\Http\Controllers\Auth\AuthEmailController;
-#use App\Http\Controllers\Auth\MailHistoryController;
+use App\Http\Controllers\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Mail\TestEmail;
@@ -76,19 +76,18 @@ Route::prefix('booking')->name('booking.')->group(function () {
 
     Route::get('/add', [BookingFormController::class, 'add'])->name('add');
     Route::get('/search', [BookingFormController::class, 'search'])->name('search');
+    Route::get('/export', [BookingFormController::class, 'export'])->name('export'); // moved up
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
-    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
+    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show'); // moved down
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
-
 
     Route::prefix('auth-email')->name('auth-email.')->group(function () {
         Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail');
     });
-    
+
     Route::prefix('mail')->name('mail.')->group(function () {
         Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
     });
-
 
 });
 

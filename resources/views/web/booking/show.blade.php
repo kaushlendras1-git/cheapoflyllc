@@ -151,23 +151,18 @@
                     <div class="col-md-3">
                         <label class="form-label">Booking Status</label>
                         <select class="form-control" name="booking_status">
-                            <option value="under process" {{ old('booking_status', $booking->booking_status ?? '') === 'under process' ? 'selected' : '' }}>under process</option>
-                            <option value="cancelled" {{ old('booking_status', $booking->booking_status ?? '') === 'cancelled' ? 'selected' : '' }}>cancelled</option>
-                            <option value="confirmed & charged" {{ old('booking_status', $booking->booking_status ?? '') === 'confirmed & charged' ? 'selected' : '' }}>confirmed & charged</option>
+                              @foreach($booking_status as $status)
+                             <option value="pending" {{ old('payment_status', $booking->payment_status ?? '') === $status->is ? 'selected' : '' }}>{{$status->name}}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label">Payment Status</label>
                         <select class="form-control" name="payment_status">
-                            <option value="pending" {{ old('payment_status', $booking->payment_status ?? '') === 'pending' ? 'selected' : '' }}>pending</option>
-                            <option value="auth pending" {{ old('payment_status', $booking->payment_status ?? '') === 'auth pending' ? 'selected' : '' }}>auth pending</option>
-                            <option value="changes pending" {{ old('payment_status', $booking->payment_status ?? '') === 'changes pending' ? 'selected' : '' }}>changes pending</option>
-                            <option value="ccv pending" {{ old('payment_status', $booking->payment_status ?? '') === 'ccv pending' ? 'selected' : '' }}>ccv pending</option>
-                            <option value="sent for charge" {{ old('payment_status', $booking->payment_status ?? '') === 'sent for charge' ? 'selected' : '' }}>sent for charge</option>
-                            <option value="paid in full" {{ old('payment_status', $booking->payment_status ?? '') === 'paid in full' ? 'selected' : '' }}>paid in full</option>
-                            <option value="auth received" {{ old('payment_status', $booking->payment_status ?? '') === 'auth received' ? 'selected' : '' }}>auth received</option>
-                            <option value="refund pending" {{ old('payment_status', $booking->payment_status ?? '') === 'refund pending' ? 'selected' : '' }}>refund pending</option>
+                            @foreach($payment_status as $payment)
+                             <option value="pending" {{ old('payment_status', $booking->payment_status ?? '') === $payment->is ? 'selected' : '' }}>{{$payment->name}}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -939,7 +934,7 @@
                             <h5 class="card-header border-0 p-0">Booking Remarks</h5>
                         </div>
                         <div class="card-body p-0">
-                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here...">{{$booking->remarks[0]->particulars}}</textarea>
+                            <textarea class="form-control mb-4" name="particulars" rows="4" placeholder="Enter remarks here..."></textarea>
                         </div>
                 </div>
             <!--------------------------- End Booking Remarks --------------------------->
