@@ -36,7 +36,7 @@
                 </div>
                 <div class="card-body pt-lg-10">
                     <div class="row g-6">
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-2 col-6">
                             <div class="d-flex align-items-center">
                                 <div class="avatar">
                                     <div class="avatar-initial bg-primary rounded shadow-xs">
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-2 col-6">
                             <div class="d-flex align-items-center">
                                 <div class="avatar">
                                     <div class="avatar-initial bg-success rounded shadow-xs">
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-2 col-6">
                             <div class="d-flex align-items-center">
                                 <div class="avatar">
                                     <div class="avatar-initial bg-warning rounded shadow-xs">
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-2 col-6">
                             <div class="d-flex align-items-center">
                                 <div class="avatar">
                                     <div class="avatar-initial bg-info rounded shadow-xs">
@@ -85,6 +85,19 @@
                                 <div class="ms-3">
                                     <p class="mb-0">Car</p>
                                     <h5 class="mb-0">{{$car}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <div class="d-flex align-items-center blinker">
+                                <div class="avatar">
+                                    <div class="avatar-initial bg-primary rounded shadow-xs">
+                                        <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <p class="mb-0">Pending</p>
+                                    <h5 class="mb-0">0</h5>
                                 </div>
                             </div>
                         </div>

@@ -25795,9 +25795,9 @@ body {
   transition: block-size 0.3s ease-in-out;
 }
 .menu-item.active > .menu-link:not(.menu-toggle) {
-  background: linear-gradient(270deg, var(--bs-primary) 0%, color-mix(in sRGB, var(--bs-primary) 52%, var(--bs-white)) 100%);
-  box-shadow: var(--bs-box-shadow-sm);
-  color: var(--bs-menu-active-color);
+  background: transparent;
+  box-shadow: none;
+  color: #000;
 }
 :dir(rtl) .menu-item.active > .menu-link:not(.menu-toggle) {
   background: linear-gradient(-270deg, var(--bs-primary) 0%, color-mix(in sRGB, var(--bs-primary) 52%, var(--bs-white)) 100%);
@@ -28799,6 +28799,10 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .tabs-booked .nav-item .nav-link.active {
   background-color: #fff;
   border-radius: 10px 10px 0px 0px;
+  color: #8c57ff;
+}
+.tabs-booked .nav-item .nav-link:hover {
+  color: #8c57ff;
 }
 .booked-content .card{
   box-shadow: none;
@@ -28870,7 +28874,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
     border: 1px solid #d1d1d1;
     padding: 8px 15px;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 20px;
 }
 .navbar-nav li.menu-item {
@@ -28963,7 +28967,58 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
     font-weight: 500;
     line-height: 24px;
   }
-    .booking-upper-details span {
-      font-weight: 700;
-      font-size: 15px;
-    }
+.booking-upper-details span {
+  font-weight: 700;
+  font-size: 15px;
+}
+.blinker  {
+  animation: blinker 1.5s linear infinite;
+}
+.show-data .blinker .booking-upper-details {
+  color: #ff0000;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.no-btn {
+  border: none;
+  background-color: transparent;
+}
+.none-upper {
+  position: unset !important;
+  left: 0px;
+  top: 0px;
+}
+.input-style{
+  padding: 10px;
+  font-size: 12px;
+}
+.button-style {
+  padding: 8px !important;
+}
+.input-style:focus {
+  padding-block: 10px;
+  padding-inline: 10px;
+  border-width: 1px;
+}
+.export-btn a {
+    font-size: 14px;
+    white-space: nowrap;
+}
+.details-table-wrappper table {
+    border: 1px solid #000;
+}
+.details-table-wrappper table thead tr th {
+    border-block-end-color: #000000 !important;
+    border: 1px solid #000 !important;
+}
+.details-table-wrappper table tbody tr td {
+  border-right: 1px solid #000 !important;
+}
+.marketing-upper-form {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: end;
+}

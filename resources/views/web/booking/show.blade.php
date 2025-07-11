@@ -364,7 +364,7 @@
                     <div class="card-body p-0">
                         <div class="row g-3 align-items-center">
                             <div class="col-md-12">
-                                <div class="table-responsive">
+                                <div class="table-responsive details-table-wrappper">
                                     <table id="flightTable" class="table">
                                         <thead>
                                             <tr>
@@ -486,7 +486,7 @@
                     </div>
                     <div class="card-body pt-3 ps-0 pe-0">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-12 table-responsive">
+                            <div class="col-md-12 table-responsive details-table-wrappper">
                                 <!-- Car Table -->
                                 <table id="carTable" class="table">
                                     <thead>
@@ -602,7 +602,7 @@
                     </div>
                     <div class="card-body pt-3">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-12 table-responsive">
+                            <div class="col-md-12 table-responsive details-table-wrappper">
                                 <!-- Cruise Table -->
                                 <table id="cruiseTable" class="table">
                                     <thead>
@@ -708,7 +708,7 @@
                     </div>
                     <div class="card-body pt-3">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-12 table-responsive">
+                            <div class="col-md-12 table-responsive details-table-wrappper">
                                 <!-- Hotel Table -->
                                 <table id="hotelTable" class="table">
                                     <thead>
@@ -786,7 +786,7 @@
                     </div>
                     <div class="card-body pt-3">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-12 table-responsive">
+                            <div class="col-md-12 table-responsive details-table-wrappper">
                                 <table id="carTable" class="table">
                                     <thead>
                                         <tr>
@@ -872,7 +872,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
                     </div>
-                    <div class="excel-like-container table-responsive">
+                    <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
                         <table class="passenger-table table">
                             <thead>
                                 <tr>
@@ -998,7 +998,7 @@
                         </div>
                     </div>
                     <!--------------------------------------Billing Details ---------------------------->
-                    <div class="col-md-12">
+                    <div class="col-md-12 details-table-wrappper">
                         <table class="billing-table table">
                             <thead>
                                 <tr>
@@ -1191,7 +1191,7 @@
             <!------------------------- Pricing Details ----------------------------------->
             <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
                 <div class="col-md-12">
-                    <div class="card p-4">
+                    <div class="card p-4 details-table-wrappper">
                         <table class="pricing-table table">
                         <thead>
                             <tr>

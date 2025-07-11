@@ -80,7 +80,7 @@
                             </span>
                         </a>
                         <form class="search-header" action="">
-                            <input type="text" placeholder="Search...">
+                            <input type="text" placeholder="Search by PNR, name, email, status, etc.">
                         </form>
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
                             <i class="icon-base ri ri-close-line icon-sm"></i>

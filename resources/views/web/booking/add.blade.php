@@ -262,7 +262,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-0">
                             <h4 class="mb-0 detail-passanger">Passenger Details</h4>
                         </div>
-                        <div class="excel-like-container table-responsive">
+                        <div class="excel-like-container table-responsive details-table-wrappper">
                             <table class="passenger-table table">
                                 <thead>
                                     <tr>
@@ -395,7 +395,7 @@
                 </div>
 
                 <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">
-                    <div class="card pt-0 p-4">
+                    <div class="card pt-2 p-4">
                         <div class="d-flex justify-content-between align-items-center mb-0">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Flight Booking Details</h5>
                             <div class="upload-file position-relative">
@@ -405,7 +405,7 @@
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
+                                <div class="col-md-12 table-responsive details-table-wrappper">
                                     <table id="flightTable" class="table">
                                         <thead>
                                             <tr>
@@ -448,7 +448,7 @@
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
+                                <div class="col-md-12 table-responsive details-table-wrappper">
                                     <table id="cruiseTable" class="table">
                                         <thead>
                                             <tr>
@@ -488,7 +488,7 @@
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
+                                <div class="col-md-12 table-responsive details-table-wrappper">
                                     <table id="hotelTable" class="table">
                                         <thead>
                                             <tr>
@@ -523,7 +523,7 @@
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
+                                <div class="col-md-12 table-responsive details-table-wrappper">
                                     <table id="carTable" class="table">
                                         <thead>
                                             <tr>
@@ -561,7 +561,7 @@
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
-                                <div class="col-md-12 table-responsive">
+                                <div class="col-md-12 table-responsive details-table-wrappper">
                                     <table id="carTable" class="table">
                                         <thead>
                                             <tr>
@@ -603,8 +603,8 @@
 
 
                 <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-                    <div class="card pt-0 p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-0">
+                    <div class="card pt-2 p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Billing Details</h5>
                             <div>
                                 <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit
@@ -612,7 +612,7 @@
                             </div>
                         </div>
                         <div class="card-body p-0">
-                            <div class="excel-like-container table-responsive">
+                            <div class="excel-like-container table-responsive details-table-wrappper">
                                 <table class="billing-table table">
                                     <thead>
                                         <tr>
@@ -826,7 +826,7 @@
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Pricing Details</h5>
                         </div>
                         <div class="card-body p-0">
-                            <div class="excel-like-container table-responsive">
+                            <div class="excel-like-container table-responsive details-table-wrappper">
                                 <table class="pricing-table table">
                                     <thead>
                                         <tr>

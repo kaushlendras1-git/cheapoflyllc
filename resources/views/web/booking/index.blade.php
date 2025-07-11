@@ -17,8 +17,11 @@
                             <div class="data-name me-5">
                               <h3 class="booking-upper-details mb-0">Cruise: <span>25</span></h3>
                             </div>
-                            <div class="data-name">
+                            <div class="data-name me-5">
                               <h3 class="booking-upper-details mb-0">Hotels: <span>15</span></h3>
+                            </div>
+                            <div class="data-name blinker">
+                              <h3 class="booking-upper-details mb-0">Pending: <span>15</span></h3>
                             </div>
                           </div>
                           <div class="searchbox-table position-relative">
