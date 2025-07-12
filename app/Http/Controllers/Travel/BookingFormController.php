@@ -43,7 +43,7 @@ class BookingFormController extends Controller
     }
 
     public function index()
-    {   
+    {
         // Fetch paginated bookings, 15 records per page
         $bookings = TravelBooking::paginate(10);
         $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
@@ -363,6 +363,7 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
+        dd($request->all());
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -491,9 +492,6 @@ class BookingFormController extends Controller
         }
 
         try {
-           // DB::beginTransaction();
-
-           // Update TravelBooking
             $bookingData = $request->only([
                 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
@@ -584,7 +582,7 @@ class BookingFormController extends Controller
                 }
                 $processedFlightIds[] = $flight->id;
             }
-         
+
             $deletedFlights = array_diff($existingFlightIds, $processedFlightIds);
             foreach ($deletedFlights as $deletedId) {
                 $booking->logChange($booking->id, 'TravelFlightDetail', $deletedId, 'deleted', 'exists', null);
