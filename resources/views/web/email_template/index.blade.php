@@ -87,7 +87,7 @@
                   
                     <div class="card p-4">
                       <!-- Table -->
-                      <div class="booking-table-wrapper py-2">
+                      <div class="booking-table-wrapper py-2 crm-table">
                         <table class="table table-hover table-sm booking-table w-100 mb-0">
                           <thead class="bg-dark text-white sticky-top">
                             <tr>

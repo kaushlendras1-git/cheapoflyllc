@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Loggable;
+use App\Models\BookingStatus;
+use App\Models\PaymentStatus;
 
 class TravelBooking extends Model
 {
@@ -17,7 +19,7 @@ class TravelBooking extends Model
     protected $fillable = [
         'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
         'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
-        'selected_company', 'booking_status', 'payment_status', 'reservation_source',
+        'selected_company', 'booking_status', 'payment_status_id', 'reservation_source',
         'descriptor',
     ];
 
@@ -105,5 +107,21 @@ class TravelBooking extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function bookingStatus()
+    {
+        return $this->belongsTo(BookingStatus::class, 'booking_status_id');
+    }
+
+    public function paymentStatus()
+    {
+        return $this->belongsTo(PaymentStatus::class, 'payment_status_id');
+    }
+
 
 }

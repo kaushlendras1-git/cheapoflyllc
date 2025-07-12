@@ -8,7 +8,7 @@ use App\Utils\JsonResponse;
 
 class AuthHistoryController extends Controller
 {
-    public function mailHistory($id) {
+    public function authHistory($id) {
          return view('web.mail-history.index');
     }
 

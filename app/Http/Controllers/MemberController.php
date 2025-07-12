@@ -3,18 +3,77 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Hashids\Hashids;
+use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
-    public function index()
+    protected $hashids;
+
+    public function __construct()
     {
-        $members = User::all();
-        $admin_count = User::where('role', 'admin')->count();
-        $active_agent_count = User::where('role', 'agent')->where('status', '1')->count();
-        $inactive_agent_count = User::where('role', 'agent')->where('status', '0')->count();
-        return view('web.members.index', compact('members','admin_count','active_agent_count','inactive_agent_count'));
+        // Initialize Hashids with salt and length from config
+        $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
     }
 
+    public function index()
+    {
+        // Fetch all users with their current shift and team
+        $members = User::with(['currentShift.shift', 'currentTeam.team'])->get()->map(function ($member) {
+            $member->hashid = $this->hashids->encode($member->id);
+            return $member;
+        });
+
+        // Count admins and agents
+        $admin_count = User::where('role', 'Admin')->count();
+        $active_agent_count = User::where('role', 'Agent')->where('status', '1')->count();
+        $inactive_agent_count = User::where('role', 'Agent')->where('status', '0')->count();
+
+        // Count users per team
+        $team_counts = User::join('user_team_assignments', 'users.id', '=', 'user_team_assignments.user_id')
+            ->join('teams', 'user_team_assignments.team_id', '=', 'teams.id')
+            ->where('user_team_assignments.effective_from', '<=', now())
+            ->where(function ($query) {
+                $query->whereNull('user_team_assignments.effective_to')
+                    ->orWhere('user_team_assignments.effective_to', '>=', now());
+            })
+            ->groupBy('teams.id', 'teams.name')
+            ->selectRaw('count(*) as total, teams.name')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->name => $item->total];
+            });
+
+        // Count users per shift
+        $shift_counts = User::join('user_shift_assignments', 'users.id', '=', 'user_shift_assignments.user_id')
+            ->join('shifts', 'user_shift_assignments.shift_id', '=', 'shifts.id')
+            ->where('user_shift_assignments.effective_from', '<=', now())
+            ->where(function ($query) {
+                $query->whereNull('user_shift_assignments.effective_to')
+                    ->orWhere('user_shift_assignments.effective_to', '>=', now());
+            })
+            ->groupBy('shifts.id', 'shifts.name')
+            ->selectRaw('count(*) as total, shifts.name')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->name => $item->total];
+            });
+
+        // Total users with a team or shift
+        $total_team_users = $team_counts->sum('total');
+        $total_shift_users = $shift_counts->sum('total');
+
+        return view('web.members.index', compact(
+            'members',
+            'admin_count',
+            'active_agent_count',
+            'inactive_agent_count',
+            'team_counts',
+            'shift_counts',
+            'total_team_users',
+            'total_shift_users'
+        ));
+    }
 
     public function store(Request $request)
     {
@@ -23,43 +82,67 @@ class MemberController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:25',
             'password' => 'required|string|max:15',
-            'role' => 'required|string|max:30',
-            'departments' => 'required|string|max:30',
+            'role' => 'required|in:Agent,TLeader,Manager,Admin',
+            'departments' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
         ]);
 
-       $validated['status'] = 1;     
+        $validated['status'] = 1;
         User::create($validated);
-        return redirect()->route('users')->with('success', 'Member added successfully.');
-    }
 
+        return redirect()->route('members.index')->with('success', 'Member added successfully.');
+    }
 
     public function show(User $member)
     {
+        $member->hashid = $this->hashids->encode($member->id);
         return view('members.show', compact('member'));
     }
 
-    public function edit(User $member)
+    public function edit($hashid)
     {
-        return view('members.edit', compact('member'));
+        $id = $this->hashids->decode($hashid)[0] ?? abort(404, 'Invalid member ID');
+        $member = User::findOrFail($id);
+        $hashid = $this->hashids->encode($member->id);
+        return view('web.members.edit', compact('member', 'hashid'));
     }
 
-    public function update(Request $request, User $member)
+    public function update(Request $request, $hashid)
     {
+        $id = $this->hashids->decode($hashid)[0] ?? abort(404, 'Invalid member ID');
+        $member = User::findOrFail($id);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:members,email,' . $member->id,
-            'phone' => 'required|string|max:15',
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
+            'phone' => 'required|string|max:20',
+            'password' => 'nullable|string|min:8',
+            'departments' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
+            'role' => 'required|in:Agent,TLeader,Manager,Admin',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB
         ]);
 
-        $member->update($validated);
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            // Delete old profile picture if it exists
+            if ($member->profile_picture) {
+                Storage::disk('public')->delete($member->profile_picture);
+            }
+            // Store new profile picture
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $validated['profile_picture'] = $path;
+        }
 
+        $member->update(array_filter($validated, fn($value) => !is_null($value)));
         return redirect()->route('members.index')->with('success', 'Member updated successfully.');
     }
 
     public function destroy(User $member)
     {
+        // Delete profile picture if it exists
+        if ($member->profile_picture) {
+            Storage::disk('public')->delete($member->profile_picture);
+        }
         $member->delete();
-
         return redirect()->route('members.index')->with('success', 'Member deleted successfully.');
     }
 
@@ -68,9 +151,7 @@ class MemberController extends Controller
         \Log::info('Member Status Update:', ['id' => $member->id, 'status' => $member->status]);
         $member->status = $member->status === '1' ? '0' : '1';
         $member->save();
-    
+
         return redirect()->route('members.index')->with('success', 'Member status updated successfully!');
     }
-
-
 }

@@ -13,6 +13,8 @@ use App\Models\TravelBookingType;
 use Illuminate\Http\Request;
 use Hashids\Hashids;
 use DB;
+use Carbon\Carbon;
+
 
 class CallLogController extends Controller
 {
@@ -44,20 +46,22 @@ class CallLogController extends Controller
         }
 
         // Filter by date range
-        if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('call_logs.created_at', [
-                $request->input('start_date'),
-                $request->input('end_date'),
-            ]);
+       
+       if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereDate('call_logs.created_at', '>=', $request->start_date)
+                ->whereDate('call_logs.created_at', '<=', $request->end_date);
+        } elseif ($request->filled('start_date')) {
+            $query->whereDate('call_logs.created_at', '>=', $request->start_date);
+        } elseif ($request->filled('end_date')) {
+            $query->whereDate('call_logs.created_at', '<=', $request->end_date);
         }
 
         // Paginate the results
-        $callLogs = $query->paginate(30)->appends($request->except('page'));
-
-        return view('web.call-logs.index', compact('callLogs'));
+        $callLogs = $query->paginate(10)->appends($request->except('page'));
+        $hashids = new \Hashids\Hashids(config('hashids.salt'), config('hashids.length', 8));
+        return view('web.call-logs.index', compact('callLogs','hashids'));    
     }
 
-    
 
     public function create()
     {   
@@ -156,13 +160,15 @@ class CallLogController extends Controller
         return response()->json($callLog);
     }
 
-    public function edit($hashedId)
+    public function edit($hash)
     {
-        $id = Hashids::decode($hashedId)[0] ?? null;
+        $id = $this->hashids->decode($hash);
+        $id = $id[0] ?? null;
 
         if (!$id) {
-            abort(404); // Handle invalid ID
+            abort(404);
         }
+
         $callLog = CallLog::findOrFail($id);
         
         $logs = Log::where('calllog_id', $id)->with('user')->orderby('id','DESC')->get();

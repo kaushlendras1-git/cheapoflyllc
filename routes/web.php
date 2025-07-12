@@ -25,6 +25,9 @@ use App\Http\Controllers\AuthHistoryController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserShiftController;
 use App\Http\Controllers\UserTeamController;
+use App\Http\Controllers\MyProfileController;
+use App\Http\Controllers\SettingController;
+
 use App\Models\User;
 use App\Models\Shift;
 use App\Models\Team;
@@ -41,7 +44,7 @@ use App\Models\Team;
 
 use App\Http\Controllers\Travel\BookingFormController;
 use App\Http\Controllers\Auth\AuthEmailController;
-#use App\Http\Controllers\Auth\MailHistoryController;
+use App\Http\Controllers\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Mail\TestEmail;
@@ -52,11 +55,12 @@ Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('sta
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 
 
-
-
 Route::get('/signature', [SignatureController::class, 'showForm'])->name('signature.form');
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
+
+Route::get('/profile', [MyProfileController::class, 'index'])->name('profile');
+Route::get('/settings', [SettingController::class, 'index'])->name('settings');
 
 
 Route::get('/send-test-email', function () {
@@ -76,19 +80,18 @@ Route::prefix('booking')->name('booking.')->group(function () {
 
     Route::get('/add', [BookingFormController::class, 'add'])->name('add');
     Route::get('/search', [BookingFormController::class, 'search'])->name('search');
+    Route::get('/export', [BookingFormController::class, 'export'])->name('export'); // moved up
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
-    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
+    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show'); // moved down
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
-
 
     Route::prefix('auth-email')->name('auth-email.')->group(function () {
         Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail');
     });
-    
+
     Route::prefix('mail')->name('mail.')->group(function () {
         Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
     });
-
 
 });
 
@@ -179,7 +182,8 @@ Route::middleware('auth')->group(function () {
 
     /** Users**/
     Route::get('/users', [MemberController::class, 'index'])->name('users');
-    Route::patch('/members/{member}/status', [MemberController::class, 'updateStatus'])->name('members.updateStatus');
+    Route::get('members/{hashid}/edit', [MemberController::class, 'edit'])->name('members.edit');
+    Route::put('members/{hashid}', [MemberController::class, 'update'])->name('members.update');
 
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
     

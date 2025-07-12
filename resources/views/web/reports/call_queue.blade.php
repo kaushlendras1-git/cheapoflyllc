@@ -10,7 +10,7 @@
                     <div class="card p-4 dark-header">
                       <h6 class="fw-bold mb-1 text-white">Call Queues Reports</h6>
 
-                      <form method="GET" action="{{ route('reports.call_queue') }}">
+                      <form method="GET" action="{{ route('call_queue') }}">
 
                       <div class="d-flex flex-wrap gap-3 align-items-end">
                          <div>

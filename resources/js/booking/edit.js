@@ -23,6 +23,7 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
     });
 });
 document.getElementById('bookingForm').addEventListener('submit',async function(e){
+    console.log('hello')
     e.preventDefault();
     const action = e.target.action;
     const formdata = new FormData(e.target);
@@ -38,7 +39,8 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
                 'Content-Type': 'multipart/form-data'
             }
         });
-        console.log(response);
+        console.log(response)
+        showToast(response.data.message);
     }
     catch (e) {
         console.log(e);
