@@ -43,25 +43,54 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="me-1">
-                            <p class="text-heading mb-1">Pending Agents</p>
-                            <div class="d-flex align-items-center">
-                                <h4 class="mb-1 me-2">{{$inactive_agent_count }}</h4>
-                            </div>
+    <!-- Team-Wise Total Users Card -->
+  @foreach($team_counts as $team => $count)
+    <div class="col-sm-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="me-1">
+                        <p class="text-heading mb-1">{{ $team }} Team</p>
+                        <div class="d-flex flex-column">
+                             <h4 class="mb-1 me-2">{{$count}}</h4>
                         </div>
-                        <div class="avatar">
-                            <div class="avatar-initial bg-label-warning rounded">
-                                <div class="icon-base ri ri-user-search-line icon-26px"></div>
-                            </div>
+                    </div>
+                    <div class="avatar">
+                        <div class="avatar-initial bg-label-primary rounded">
+                            <div class="icon-base ri ri-group-line icon-26px"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+  @endforeach
+
+  @foreach($shift_counts as $shift => $count)
+    <!-- Shift-Wise Total Users Card -->
+    <div class="col-sm-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="me-1">
+                        <p class="text-heading mb-1">{{ $shift }} - Shift</p>
+                        <div class="d-flex flex-column">
+                                <h4 class="mb-1 me-2">{{$count}}</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <div class="avatar-initial bg-label-info rounded">
+                            <div class="icon-base ri ri-time-line icon-26px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     @endforeach
+</div>
+
+
     </div>
 
     @if (session('success'))
@@ -111,6 +140,10 @@
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Role</span><span
                                             class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Shift</span><span
+                                            class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Team</span><span
+                                            class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Status</span><span
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title">Actions</span><span
@@ -128,8 +161,8 @@
                                         <div class="d-flex justify-content-start align-items-center user-name">
                                             <div class="avatar-wrapper">
                                                 <div class="avatar avatar-sm me-4">
-                                                    <img src="{{ asset('assets/img/avatars/2.png') }}" alt="Avatar"
-                                                        class="rounded-circle">
+                                                    <img src="{{ $member->profile_picture ? asset('storage/' . $member->profile_picture) : asset('assets/img/avatars/2.png') }}" alt="Avatar" class="rounded-circle">
+
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-column">
@@ -147,49 +180,41 @@
                                                     <div class="icon-base ri ri-group-line icon-26px"></div>
                                                 </div>
                                             </div>
-                                            &nbsp; {{$member->role }}
+                                              {{$member->role }}
                                             @else
                                             <div class="avatar">
                                                 <div class="avatar-initial bg-label-danger rounded">
-                                                    <div class="icon-base ri ri-user-add-line icon-26px scaleX-n1">
-                                                    </div>
+                                                    <div class="icon-base ri ri-user-add-line icon-26px scaleX-n1"></div>
                                                 </div>
                                             </div>
-                                            &nbsp; {{ $member->role  }}
+                                              {{ $member->role }}
                                             @endif
                                         </span>
                                     </td>
+                                    <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
+                                    <td>{{ $member->currentTeam?->team->name ?? 'No Team Assigned' }}</td>
                                     <td>
-                                        @if( $member->status ==1)
+                                        @if($member->status == 1)
                                         <span class="badge bg-label-success">Active</span>
                                         @else
-                                        <span class="badge bg-label-warning">inactive</span>
+                                        <span class="badge bg-label-warning">Inactive</span>
                                         @endif
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="action-icons d-flex align-items-center">
-                                                <!-- Trigger Button -->
-                                                <a href="javascript:void(0)" data-bs-toggle="modal" class="me-2"
-                                                    data-bs-target="#assignShiftTeamModal"
-                                                    data-url="{{ route('users.assignments', $member->id) }}">
+                                                <a href="javascript:void(0)" data-bs-toggle="modal" class="me-2" data-bs-target="#assignShiftTeamModal" data-url="{{ route('users.assignments', $member->id) }}">
                                                     <img width="30" src="../../../assets/img/icons/img-icons/shift.png" alt="shift-change">
                                                 </a>
-
-                                                <!-- Edit Icon -->
-                                                <a href="{{ route('members.edit', $member) }}" class="me-2"
-                                                    title="Edit">
-                                                  <img width="20" src="../../../assets/img/icons/img-icons/edit.png" alt="edit-change">
-                                                  </a>
-                                                <!-- Delete Icon -->
-                                                <form action="{{ route('members.destroy', $member) }}" method="POST"
-                                                    style="display:inline;">
+                                                <a href="{{ route('members.edit', $member->hashid) }}" class="me-2">
+                                                    <img width="20" src="../../../assets/img/icons/img-icons/edit.png" alt="edit-change">
+                                                </a>
+                                                <form action="{{ route('members.destroy', $member) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="no-btn p-0"
-                                                        onclick="return confirm('Are you sure you want to delete this call type?')">
-                                                      <img width="25" src="../../../assets/img/icons/img-icons/delete.png" alt="shift-change">
-                                                      </button>
+                                                    <button type="submit" class="no-btn p-0" onclick="return confirm('Are you sure you want to delete this call type?')">
+                                                        <img width="25" src="../../../assets/img/icons/img-icons/delete.png" alt="shift-change">
+                                                    </button>
                                                 </form>
                                             </div>
                                         </div>

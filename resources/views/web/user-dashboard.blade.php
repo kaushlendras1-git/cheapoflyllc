@@ -24,7 +24,7 @@
             <div class="card h-100">
                 <div class="card-header">
                     <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="card-title m-0 me-2">Call Logs</h5>
+                        <h5 class="card-title m-0 me-2">Customer Touchpoints: Calls Logs / <span class="fs-3 text-primary">Bookings</span></h5>
                         <div class="dropdown">
                             <button class="btn text-body-secondary p-0" type="button" id="transactionID"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Flight</p>
-                                    <h5 class="mb-0">{{$flight}}</h5>
+                                    <h5 class="mb-0">{{$flight}} /  <span class="fs-3 text-primary">{{ $flight_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Hotel</p>
-                                    <h5 class="mb-0">{{$hotel}}</h5>
+                                    <h5 class="mb-0"><a href="{{route('call-logs.index')}}">{{$hotel}}</a> /  <span class="fs-3 text-primary"> <a href="{{route('booking.index')}}">{{ $hotel_booking }}</a> </span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Cruise</p>
-                                    <h5 class="mb-0">{{$cruise}}</h5>
+                                    <h5 class="mb-0">{{$cruise}} /  <span class="fs-3 text-primary">{{ $cruise_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -84,23 +84,38 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Car</p>
-                                    <h5 class="mb-0">{{$car}}</h5>
+                                    <h5 class="mb-0">{{$car}} /  <span class="fs-3 text-primary">{{ $car_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2 col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar">
+                                    <div class="avatar-initial bg-info rounded shadow-xs">
+                                        <i class="icon-base ri ri-money-dollar-circle-line icon-24px"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <p class="mb-0">Train</p>
+                                    <h5 class="mb-0">{{$train}} /  <span class="fs-3 text-primary">{{ $train_booking }}</span> </h5>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2 col-6">
                             <div class="d-flex align-items-center blinker">
                                 <div class="avatar">
-                                    <div class="avatar-initial bg-primary rounded shadow-xs">
+                                    <div class="avatar-initial bg-danger rounded shadow-xs">
                                         <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
                                     </div>
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Pending</p>
-                                    <h5 class="mb-0">0</h5>
+                                    <h5 class="mb-0">{{$pending}} / <span class="fs-3 text-danger">{{ $pending_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

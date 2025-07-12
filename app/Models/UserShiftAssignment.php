@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserShiftAssignment extends Model
 {
-    use HasFactory;
+    protected $fillable = ['user_id', 'shift_id', 'effective_from', 'effective_to'];
 
-    protected $fillable = [
-        'user_id',
-        'shift_id',
-        'effective_from',
-        'effective_to',
-    ];
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

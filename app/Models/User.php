@@ -25,6 +25,7 @@ class User extends Authenticatable
         'departments',
         'status',
         'remember_token',
+        'profile_picture',
     ];
 
     /**

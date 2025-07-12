@@ -12,4 +12,15 @@ class UserTeamAssignment extends Model
         'effective_from',
         'effective_to',
     ];
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

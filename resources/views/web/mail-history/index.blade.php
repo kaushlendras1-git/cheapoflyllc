@@ -4,78 +4,7 @@
 
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row gy-6">
-                  <!-- Filter Card -->
-                  <div class="col-12">
-                    <div class="card p-4 dark-header">
-                      <h6 class="fw-bold mb-1 text-white">Call logs</h6>
-
-                      <form method="GET" action="{{ route('call-logs.index') }}">
-
-                      <div class="d-flex flex-wrap gap-3 align-items-end">
-                        <!-- <div>
-                          <label class="form-label mb-1">Search By</label>
-                            <select name="criteria" class="form-select">
-                                <option value="">Select Criteria</option>
-                                <option value="pnr" {{ request('criteria') == 'pnr' ? 'selected' : '' }}>PNR</option>
-                                <option value="agent" {{ request('criteria') == 'agent' ? 'selected' : '' }}>Agent</option>
-                                <option value="email" {{ request('criteria') == 'email' ? 'selected' : '' }}>Email</option>
-                            </select>
-                        </div> -->
-
-
-                        <div>
-                          <label class="form-label mb-1">Keyword</label>
-                          <input type="text" name="keyword" style="width: 30rem;" class="form-control w-96" placeholder="e.g. PNR / name / email / Contact" value="{{ request('keyword') }}">
-                        </div>
-
-                        <div>
-                          <label class="form-label mb-1">Start Date</label>
-                          <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
-                        </div>
-
-                        <div>
-                          <label class="form-label mb-1">End Date</label>
-                            <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
-                        </div>
-
-                        <div>
-                        <button type="submit" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 ">
-                            <i class="ri ri-search-line fs-5"></i> Search
-                        </button>
-                        </div>
-
-                        <!-- <div>
-                          <label class="form-label mb-1">Booking Status</label>
-                            <select name="booking_status" class="form-select">
-                                <option value="">Booking Status</option>
-                                <option value="Under Process" {{ request('booking_status') == 'Under Process' ? 'selected' : '' }}>Under Process</option>
-                                <option value="Completed" {{ request('booking_status') == 'Completed' ? 'selected' : '' }}>Completed</option>
-                                <option value="Cancelled" {{ request('booking_status') == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
-                            </select>
-                        </div> -->
-
-                        <!-- <div>
-                          <label class="form-label mb-1">Payment Status</label>
-                            <select name="payment_status" class="form-select">
-                                <option value="">Payment Status</option>
-                                <option value="Paid" {{ request('payment_status') == 'Paid' ? 'selected' : '' }}>Paid</option>
-                                <option value="Pending" {{ request('payment_status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-                            </select>
-                        </div> -->
-
-                        <div class="ms-auto d-flex gap-2">
-
-                          <!-- Add Button -->
-                          <a href="{{route('call-logs.create')}}" type="button" class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
-                            <i class="ri ri-add-circle-line fs-5"></i> Add
-                          </a>
-
-                        </div>
-                      </div>
-
-                  </form>
-                </div>
+              
 
                 
               </div>
@@ -102,8 +31,7 @@
                               <th>Created On</th>
                             </tr>
                           </thead>
-                          <tbody>                           
-                          </tbody>
+                        <tbody><tr><td class="sorting_1"><button title="View" class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st" data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path></svg></button></td><td>under process</td><td>William</td><td>2025-07-11T16:38:45.957</td></tr><tr><td class="sorting_1"><button title="View" class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st" data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path></svg></button></td><td>under process</td><td>William</td><td>2025-07-11T16:41:10.457</td></tr><tr><td class="sorting_1"><button title="View" class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st" data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path></svg></button></td><td>under process</td><td>William</td><td>2025-07-11T16:47:50.79</td></tr><tr><td class="sorting_1"><button title="View" class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st" data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path></svg></button></td><td>under process</td><td>William</td><td>2025-07-11T16:40:27.69</td></tr><tr><td class="sorting_1"><button title="View" class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st" data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path></svg></button></td><td>under process</td><td>Zee</td><td>2025-07-11T16:48:17.53</td></tr></tbody>
                         </table>
 
           

@@ -7,11 +7,11 @@
             <div class="d-flex justify-content-between align-items-center flex-wrap p-0">
                 <div class="d-flex align-items-center flex-wrap gap-2">
                     <strong>Ticket Information</strong>
-                    <span>Created by Testagent on 4/7/2025 12:40:28 PM</span>
+                    <span>Created by {{ $booking->user_id }} on {{ $booking->created_at }}</span>
                 </div>
                 <div class="d-flex gap-2">
                     @include('web.booking.authModel')
-                    <a href="{{ route('auth-history', $booking->id) }}"
+                    <a href="{{ route('auth-history', $hashids) }}"
                         class="btn btn-outline-secondary btn-sm rounded-pill">
                         Auth History
                     </a>

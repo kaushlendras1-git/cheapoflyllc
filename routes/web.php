@@ -25,6 +25,9 @@ use App\Http\Controllers\AuthHistoryController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserShiftController;
 use App\Http\Controllers\UserTeamController;
+use App\Http\Controllers\MyProfileController;
+use App\Http\Controllers\SettingController;
+
 use App\Models\User;
 use App\Models\Shift;
 use App\Models\Team;
@@ -52,11 +55,12 @@ Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('sta
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 
 
-
-
 Route::get('/signature', [SignatureController::class, 'showForm'])->name('signature.form');
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
+
+Route::get('/profile', [MyProfileController::class, 'index'])->name('profile');
+Route::get('/settings', [SettingController::class, 'index'])->name('settings');
 
 
 Route::get('/send-test-email', function () {
@@ -178,7 +182,8 @@ Route::middleware('auth')->group(function () {
 
     /** Users**/
     Route::get('/users', [MemberController::class, 'index'])->name('users');
-    Route::patch('/members/{member}/status', [MemberController::class, 'updateStatus'])->name('members.updateStatus');
+    Route::get('members/{hashid}/edit', [MemberController::class, 'edit'])->name('members.edit');
+    Route::put('members/{hashid}', [MemberController::class, 'update'])->name('members.update');
 
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
     

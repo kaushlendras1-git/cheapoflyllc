@@ -50,7 +50,7 @@ class BookingFormController extends Controller
     public function index(Request $request)
     {
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
-
+        $userId = Auth::id();
 
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
@@ -72,9 +72,16 @@ class BookingFormController extends Controller
 
         $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
         $bookings->appends($request->only('search'));
-
         $hashids = new \Hashids\Hashids(config('hashids.salt'), config('hashids.length', 8));
-        return view('web.booking.index', compact('bookings', 'hashids'));
+
+        $flight_booking = TravelBooking::where('user_id', $userId)->where('airlinepnr','!=', NULL)->count();
+        $hotel_booking = TravelBooking::where('user_id', $userId)->where('hotel_ref','!=', NULL)->count();
+        $cruise_booking = TravelBooking::where('user_id', $userId)->where('cruise_ref','!=', NULL)->count();
+        $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
+        $train_booking = 0;
+        $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status',1)->count();
+
+        return view('web.booking.index', compact('bookings', 'hashids','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
     }
 
     public function search(Request $request)
@@ -956,8 +963,7 @@ class BookingFormController extends Controller
         if (!$id) {
             abort(404);
         }
-
-        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+        $hashids = $hash;
         $booking = TravelBooking::with([
             'bookingTypes',
             'sectorDetails',

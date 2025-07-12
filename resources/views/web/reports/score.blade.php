@@ -10,7 +10,7 @@
                     <div class="card p-4 dark-header">
                       <h6 class="fw-bold mb-1 text-white">Score Reports</h6>
 
-                      <form method="GET" action="{{ route('reports.agents') }}">
+                      <form method="GET" action="{{ route('agents') }}">
 
                       <div class="d-flex flex-wrap gap-3 align-items-end">
                          <div>

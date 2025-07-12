@@ -78,7 +78,7 @@
                             <tr>
                                 @if($log->call_converted)
                                 <!-- <td>{{ $callLogs->firstItem() + $key }}</td>  -->
-                                <td><a href="{{ route('call-logs.edit', Hashids::encode($log->id)) }}">
+                                <td><a href="{{ route('call-logs.edit',$hashids->encode($log->id)) }}">
                                         {{ $callLogs->firstItem() + $key }}</a></td>
                                 @else
                                 <td><a href="{{ route('call-logs.edit', Hashids::encode($log->id)) }}">
