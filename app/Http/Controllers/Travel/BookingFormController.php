@@ -580,8 +580,8 @@ class BookingFormController extends Controller
         }
 
         try {
-            DB::beginTransaction();
 
+            DB::beginTransaction();
            // Update TravelBooking
             $bookingData = $request->only([
                 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
@@ -688,6 +688,23 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedFlightIds)
                 ->delete();
 
+            $newTrains = !empty($request->train)?$request->train:[];
+            foreach ($newTrains as $train) {
+
+                $trainData['booking_id'] = $booking->id;
+                if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
+                    $trainData['files'] = [];
+                    foreach($request->trainbookingimage as $key => $image){
+                        $trainData['files'][] = 'storage/'.$image->store('train_booking_image','public');
+                    }
+                    $trainData['files'] = json_encode($trainData['files']);
+                }
+                $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
+                $car = TravelTrainDetail::updateOrCreate(
+                    ['id' => $trainDataD['id'] ?? null, 'booking_id' => $booking->id],
+                    $trainData
+                );
+            }
             // Update or Create Car Details
             $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];;
             $newCars = $request->input('car', []);
@@ -780,10 +797,10 @@ class BookingFormController extends Controller
                     continue;
                 }
                 $hotelData['booking_id'] = $booking->id;
-                if(isset($request->hotelbookingimage) && !empty($request->hotelbookingimage)){
+                if(!empty($request->hotelbookingimage)){
                     $hotelData['files'] = [];
                     foreach($request->hotelbookingimage as $key => $image){
-                        $hotelData['files'][] = 'storage/'.$image->store('cruise_booking_image','public');
+                        $hotelData['files'][] = 'storage/'.$image->store('hotel_booking_image','public');
                     }
                     $hotelData['files'] = json_encode($hotelData['files']);
                 }
@@ -833,7 +850,8 @@ class BookingFormController extends Controller
                             $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, $field, $oldPassenger->$field, $newValue);
                         }
                     }
-                } else {
+                }
+                else {
                     $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'created', null, json_encode($passengerData));
                 }
                 $processedPassengerIds[] = $passenger->id;
@@ -909,7 +927,8 @@ class BookingFormController extends Controller
                         $pricing->logChange($booking->id, 'TravelPricingDetail', $pricing->id, $field, $oldPricing->$field, $newValue);
                     }
                 }
-            } else {
+            }
+            else {
                 $pricing->logChange($booking->id, 'TravelPricingDetail', $pricing->id, 'created', null, json_encode($pricingData));
                 // Send OneSignal notification for new pricing
                 $user = $booking->user; // Adjust based on your relationship
@@ -951,12 +970,14 @@ class BookingFormController extends Controller
 //            }
 
             // Update or Create Quality Feedback
-            if ($request->filled('feedback')) {
+            if (!empty($request->quality_feedback)) {
                 $oldFeedback = TravelQualityFeedback::where('booking_id', $booking->id)->first();
                 $feedbackData = [
                     'qa' => 'Test QA',
                     'date_time' => now(),
                     'feedback' => $request->input('feedback'),
+                    'status'=>$request->selqlstatus,
+                    'parameters'=>json_encode($request->quality_feedback)
                 ];
                 $feedback = TravelQualityFeedback::updateOrCreate(
                     ['booking_id' => $booking->id],
@@ -969,18 +990,19 @@ class BookingFormController extends Controller
                 }
             }
 
-            // Update or Create Screenshot
-            if ($request->filled('type')) {
+            if (!empty($request->screenshots)) {
                 $oldScreenshot = TravelScreenshot::where('booking_id', $booking->id)->first();
                 $screenshotData = [
                     'type' => $request->input('type'),
                     'status' => $request->input('status'),
                     'notes' => $request->input('notes'),
                 ];
-                if(isset($request->screenshots) && !empty($request->screenshots)){
+                if(!empty($request->screenshots)){
                     $screenshotData['file_path'] = [];
                     foreach($request->screenshots as $key => $image){
-                        $screenshotData['file_path'][] = 'storage/'.$image->store('screenshots','public');
+                        if(!is_array($image)){
+                            $screenshotData['file_path'][] = 'storage/'.$image->store('screenshots','public');
+                        }
                     }
                     $screenshotData['file_path'] = json_encode($screenshotData['file_path']);
                 }

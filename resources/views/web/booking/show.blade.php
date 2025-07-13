@@ -1363,14 +1363,17 @@
                                 <div class="col-lg-12 col-md-12 col-12">
                                     <textarea class="inputs1 form-control" id="qltynotes" name="qltynotes" spellcheck="false"></textarea>
                                 </div>
+                                @php
 
+                                    $option = !empty($booking->qualityFeedback[0]->parameters)?json_decode($booking->qualityFeedback[0]->parameters):[];
+                                @endphp
                                 <div class="col-lg-3 col-md-4 col-12 mt-4">
                                     <label
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Probing & Understanding">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Probing & Understanding" id="Probing & Understanding"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Probing & Understanding',$option)?'checked':''}} />
                                         <span class="form-check-label text-dark">Probing & Understanding</span>
                                     </label>
                                 </div>
@@ -1380,7 +1383,7 @@
                                         for="Dead air/Hold procedure">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Dead air/Hold procedure" id="Dead air/Hold procedure"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Dead air/Hold procedure',$option)?'checked':''}} />
                                         <span class="form-check-label text-dark">Dead air/Hold procedure</span>
                                     </label>
                                 </div>
@@ -1389,7 +1392,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Soft Skills">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Soft Skills"
-                                               id="Soft Skills" name="quality_feedback[]">
+                                               id="Soft Skills" name="quality_feedback[]" {{in_array('Soft Skills',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Soft Skills</span>
                                     </label>
                                 </div>
@@ -1399,7 +1402,7 @@
                                         for="Active Listening/Interruption">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Active Listening/Interruption" id="Active Listening/Interruption"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Active Listening/Interruption',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Active Listening/Interruption</span>
                                     </label>
                                 </div>
@@ -1408,7 +1411,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Call Handling">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Call Handling"
-                                               id="Call Handling" name="quality_feedback[]">
+                                               id="Call Handling" name="quality_feedback[]" {{in_array('Call Handling',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Call Handling</span>
                                     </label>
                                 </div>
@@ -1417,7 +1420,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Selling Skills">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Selling Skills"
-                                               id="Selling Skills" name="quality_feedback[]">
+                                               id="Selling Skills" name="quality_feedback[]" {{in_array('Selling Skills',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Selling Skills</span>
                                     </label>
                                 </div>
@@ -1426,7 +1429,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Cross Selling">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Cross Selling"
-                                               id="Cross Selling" name="quality_feedback[]">
+                                               id="Cross Selling" name="quality_feedback[]" {{in_array('Cross Selling',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Cross Selling</span>
                                     </label>
                                 </div>
@@ -1435,7 +1438,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Documentation">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Documentation"
-                                               id="Documentation" name="quality_feedback[]">
+                                               id="Documentation" name="quality_feedback[]" {{in_array('Documentation',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Documentation</span>
                                     </label>
                                 </div>
@@ -1444,7 +1447,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Disposition">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Disposition"
-                                               id="Disposition" name="quality_feedback[]">
+                                               id="Disposition" name="quality_feedback[]" {{in_array('Disposition',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Disposition</span>
                                     </label>
                                 </div>
@@ -1453,7 +1456,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Call Closing">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Call Closing"
-                                               id="Call Closing" name="quality_feedback[]">
+                                               id="Call Closing" name="quality_feedback[]" {{in_array('Call Closing',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Call Closing</span>
                                     </label>
                                 </div>
@@ -1463,7 +1466,7 @@
                                         for="Fatal - Misrepresentation">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Fatal - Misrepresentation" id="Fatal - Misrepresentation"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Fatal - Misrepresentation',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Fatal - Misrepresentation</span>
                                     </label>
                                 </div>
@@ -1473,7 +1476,7 @@
                                         for="Fatal - Rude/Sarcastic behaviour">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Fatal - Rude/Sarcastic behaviour" id="Fatal - Rude/Sarcastic behaviour"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Fatal - Rude/Sarcastic behaviour',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Fatal - Rude/Sarcastic behaviour</span>
                                     </label>
                                 </div>
@@ -1483,7 +1486,7 @@
                                         for="Fatal - Unethical sale">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Fatal - Unethical sale" id="Fatal - Unethical sale"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Fatal - Unethical sale',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Fatal - Unethical sale</span>
                                     </label>
                                 </div>
@@ -1492,7 +1495,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Paraphrasing">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Paraphrasing"
-                                               id="Paraphrasing" name="quality_feedback[]">
+                                               id="Paraphrasing" name="quality_feedback[]" {{in_array('Paraphrasing',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Paraphrasing</span>
                                     </label>
                                 </div>
