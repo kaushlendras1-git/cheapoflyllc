@@ -24,7 +24,7 @@ class TravelTrainDetail extends Model
         'duration',
         'transit',
         'arrival_date',
-
+        'files'
     ];
 
     protected $casts = [

@@ -26,7 +26,8 @@ class TravelCruiseDetail extends Model
         'arrival_hrs',
         'arrival_mm',
         'remarks',
-        'date'
+        'date',
+        'files'
     ];
 
     protected $casts = [

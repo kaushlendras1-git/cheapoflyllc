@@ -78,11 +78,13 @@ Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])
 
 Route::prefix('booking')->name('booking.')->group(function () {
 
+    Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');
+    Route::post('/delete-remark/{id}',[BookingFormController::class,'deleteRemark'])->name('delete-remark');
     Route::get('/add', [BookingFormController::class, 'add'])->name('add');
     Route::get('/search', [BookingFormController::class, 'search'])->name('search');
-    Route::get('/export', [BookingFormController::class, 'export'])->name('export'); // moved up
+    Route::get('/export', [BookingFormController::class, 'export'])->name('export');
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
-    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show'); // moved down
+    Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
 
     Route::prefix('auth-email')->name('auth-email.')->group(function () {
@@ -186,7 +188,7 @@ Route::middleware('auth')->group(function () {
     Route::put('members/{hashid}', [MemberController::class, 'update'])->name('members.update');
 
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
-    
+
     Route::get('/auth-history/{id}', [AuthHistoryController::class, 'authHistory'])->name('auth-history');
     Route::post('/sms/{id}', [AuthHistoryController::class, 'sendSms'])->name('sms');
     Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');

@@ -22,7 +22,9 @@
             white-space: nowrap;
             text-align: center;
         }
-
+        .filepond--item {
+            width: calc(50% - 0.5em);
+        }
     </style>
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -414,6 +416,11 @@
                                             <tbody id="flightForms">
                                             @if($booking->travelFlight->isNotEmpty())
                                                 @foreach($booking->travelFlight as $index => $flight)
+                                                    <input
+                                                        type="hidden"
+                                                        name="flight_files[{{ $index }}]"
+                                                        data-files='@json($flight->files)'
+                                                    >
                                                     <tr class="flight-row" data-index="{{ $index }}">
                                                         <td><span class="flight-title">{{ $index + 1 }}</span></td>
                                                         <td><input type="text" class="form-control"
@@ -509,99 +516,73 @@
 {{--                                <label for="screenshots-upload">Upload Files</label>--}}
                             </div>
                         </div>
-
-                        <div class="card-body pt-3 ps-0 pe-0">
+                        <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
                                 <div class="col-md-12 table-responsive details-table-wrappper">
-                                    <!-- Car Table -->
                                     <table id="carTable" class="table">
                                         <thead>
                                         <tr>
-                                            <th colspan="6">Trip to Sherevport</th>
-                                            <th colspan="2">Departure </th>
-                                            <th></th>
-                                            <th>Arrival </th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                        <tr>
                                             <th>S.No</th>
-                                            <th>Direction</th>
-                                            <th>Date</th>
-                                            <th>Train No</th>
-                                            <th>Cabin</th>
-                                            <th>Departure station</th>
-                                            <th>Hrs</th>
-                                            <th>MM</th>
-                                            <th>Arrival station</th>
-                                            <th>Hrs</th>
-                                            <th>MM</th>
-                                            <th>Duration</th>
-                                            <th>Transit</th>
-                                            <th>Arrival date</th>
+                                            <th>Car Rental Provider</th>
+                                            <th>Car Type</th>
+                                            <th>Pick-up Location</th>
+                                            <th>Drop-off Location</th>
+                                            <th>Pick-up Date</th>
+                                            <th>Pick-up Time</th>
+                                            <th>Drop-off Date</th>
+                                            <th>Drop-off Time</th>
+                                            <th>Confirmation Number</th>
+                                            <th>Remarks</th>
+                                            <th>Rental Provider's Address</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
-                                        <tbody id="trainForms">
-                                        @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
-                                            <tr class="train-row" data-index="{{$key}}">
-                                                <td><span class="train-title">{{$key+1}}</span></td>
-                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][direction]"
-                                                           value="{{$trainBookingDetails->direction}}" placeholder="Direction">
+                                        <tbody id="carForms">
+                                        @foreach($booking->travelCar as $key=>$travelCar)
+                                            <tr class="car-row" data-index="{{$key}}">
+                                                <td><span class="car-title">{{$key+1}}</span></td>
+                                                <td><input type="text" class="form-control" style="width:10rem"
+                                                           name="car[{{$key}}][car_rental_provider]"
+                                                           value="{{$travelCar->car_rental_provider}}"
+                                                           placeholder="Car Rental Provider"></td>
+                                                <td><input type="text" class="form-control" style="width:7.5rem"
+                                                           name="car[{{$key}}][car_type]" value="{{$travelCar->car_type}}"
+                                                           placeholder="Car Type"></td>
+                                                <td><input type="text" class="form-control" style="width:9rem"
+                                                           name="car[{{$key}}][pickup_location]"
+                                                           value="{{$travelCar->pickup_location}}"
+                                                           placeholder="Pick-up Location"></td>
+                                                <td><input type="text" class="form-control" style="width:10rem"
+                                                           name="car[{{$key}}][dropoff_location]"
+                                                           value="{{$travelCar->dropoff_location}}"
+                                                           placeholder="Drop-off Location"></td>
+                                                <td><input type="date" class="form-control"
+                                                           name="car[{{$key}}][pickup_date]"
+                                                           value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
+                                                <td><input type="time" class="form-control" style="width:7.5rem"
+                                                           name="car[{{$key}}][pickup_time]"
+                                                           value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}">
                                                 </td>
                                                 <td><input type="date" class="form-control"
-                                                           name="train[{{$key}}][departure_date]"
-                                                           value="{{$trainBookingDetails->departure_date?->format('Y-m-d')}}">
+                                                           name="car[{{$key}}][dropoff_date]"
+                                                           value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
+                                                <td><input type="time" class="form-control" style="width:7.5rem"
+                                                           name="car[{{$key}}][dropoff_time]"
+                                                           value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}">
                                                 </td>
-                                                <td><input type="text" class="form-control" style="width: 8rem;"
-                                                           name="train[{{$key}}][train_number]"
-                                                           value="{{$trainBookingDetails->train_number}}"
-                                                           placeholder="Train No"></td>
-                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][cabin]"
-                                                           value="{{$trainBookingDetails->cabin}}" placeholder="Cabin"></td>
-                                                <td><input type="text" class="form-control" style="width: 10rem;"
-                                                           name="train[{{$key}}][departure_station]"
-                                                           value="{{$trainBookingDetails->departure_station}}"
-                                                           placeholder="Departure Station"></td>
-                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][departure_hours]"
-                                                           value="{{$trainBookingDetails->departure_hours}}" placeholder="Hrs"
-                                                           min="0" max="23"></td>
-                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][departure_minutes]"
-                                                           value="{{$trainBookingDetails->departure_minutes}}" placeholder="mm"
-                                                           min="0" max="59"></td>
-                                                <td><input type="text" class="form-control" style="width: 10rem;"
-                                                           name="train[{{$key}}][arrival_station]"
-                                                           value="{{$trainBookingDetails->arrival_station}}"
-                                                           placeholder="Arrival Station"></td>
-                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][arrival_hours]"
-                                                           value="{{$trainBookingDetails->arrival_hours}}" placeholder="Hrs"
-                                                           min="0" max="23"></td>
-                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][arrival_minutes]"
-                                                           value="{{$trainBookingDetails->arrival_minutes}}" placeholder="mm"
-                                                           min="0" max="59"></td>
-                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][duration]"
-                                                           value="{{$trainBookingDetails->duration}}" placeholder="Duration">
-                                                </td>
-                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
-                                                           name="train[{{$key}}][transit]"
-                                                           value="{{$trainBookingDetails->transit}}" placeholder="Transit">
-                                                </td>
-                                                <td><input type="date" class="form-control"
-                                                           name="train[{{$key}}][arrival_date]"
-                                                           value="{{$trainBookingDetails->arrival_date?->format('Y-m-d')}}">
-                                                </td>
+                                                <td><input type="text" class="form-control" style="width:12rem"
+                                                           name="car[{{$key}}][confirmation_number]"
+                                                           placeholder="Confirmation Number"
+                                                           value="{{$travelCar->confirmation_number}}"></td>
+                                                <td><input type="text" class="form-control" style="width:7.5rem"
+                                                           name="car[{{$key}}][remarks]" placeholder="Remarks"
+                                                           value="{{$travelCar->remarks}}"></td>
+                                                <td><input type="text" class="form-control" style="width:13rem"
+                                                           name="car[{{$key}}][rental_provider_address]"
+                                                           value="{{$travelCar->rental_provider_address}}"
+                                                           placeholder="Rental Provider's Address"></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-outline-danger delete-train-btn">
+                                                    <button type="button" class="btn btn-outline-danger delete-car-btn">
                                                         <i class="ri ri-delete-bin-line"></i>
                                                     </button>
                                                 </td>
@@ -812,73 +793,98 @@
 {{--                                <label for="screenshots-upload">Upload Files</label>--}}
                             </div>
                         </div>
-                        <div class="card-body pt-3">
+                        <div class="card-body pt-3 ps-0 pe-0">
                             <div class="row g-3 align-items-center">
                                 <div class="col-md-12 table-responsive details-table-wrappper">
+                                    <!-- Car Table -->
                                     <table id="carTable" class="table">
                                         <thead>
                                         <tr>
+                                            <th colspan="6">Trip to Sherevport</th>
+                                            <th colspan="2">Departure </th>
+                                            <th></th>
+                                            <th>Arrival </th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                        <tr>
                                             <th>S.No</th>
-                                            <th>Car Rental Provider</th>
-                                            <th>Car Type</th>
-                                            <th>Pick-up Location</th>
-                                            <th>Drop-off Location</th>
-                                            <th>Pick-up Date</th>
-                                            <th>Pick-up Time</th>
-                                            <th>Drop-off Date</th>
-                                            <th>Drop-off Time</th>
-                                            <th>Confirmation Number</th>
-                                            <th>Remarks</th>
-                                            <th>Rental Provider's Address</th>
+                                            <th>Direction</th>
+                                            <th>Date</th>
+                                            <th>Train No</th>
+                                            <th>Cabin</th>
+                                            <th>Departure station</th>
+                                            <th>Hrs</th>
+                                            <th>MM</th>
+                                            <th>Arrival station</th>
+                                            <th>Hrs</th>
+                                            <th>MM</th>
+                                            <th>Duration</th>
+                                            <th>Transit</th>
+                                            <th>Arrival date</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
-                                        <tbody id="carForms">
-                                        @foreach($booking->travelCar as $key=>$travelCar)
-                                            <tr class="car-row" data-index="{{$key}}">
-                                                <td><span class="car-title">{{$key+1}}</span></td>
-                                                <td><input type="text" class="form-control" style="width:10rem"
-                                                           name="car[{{$key}}][car_rental_provider]"
-                                                           value="{{$travelCar->car_rental_provider}}"
-                                                           placeholder="Car Rental Provider"></td>
-                                                <td><input type="text" class="form-control" style="width:7.5rem"
-                                                           name="car[{{$key}}][car_type]" value="{{$travelCar->car_type}}"
-                                                           placeholder="Car Type"></td>
-                                                <td><input type="text" class="form-control" style="width:9rem"
-                                                           name="car[{{$key}}][pickup_location]"
-                                                           value="{{$travelCar->pickup_location}}"
-                                                           placeholder="Pick-up Location"></td>
-                                                <td><input type="text" class="form-control" style="width:10rem"
-                                                           name="car[{{$key}}][dropoff_location]"
-                                                           value="{{$travelCar->dropoff_location}}"
-                                                           placeholder="Drop-off Location"></td>
-                                                <td><input type="date" class="form-control"
-                                                           name="car[{{$key}}][pickup_date]"
-                                                           value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
-                                                <td><input type="time" class="form-control" style="width:7.5rem"
-                                                           name="car[{{$key}}][pickup_time]"
-                                                           value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}">
+                                        <tbody id="trainForms">
+                                        @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
+                                            <tr class="train-row" data-index="{{$key}}">
+                                                <td><span class="train-title">{{$key+1}}</span></td>
+                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][direction]"
+                                                           value="{{$trainBookingDetails->direction}}" placeholder="Direction">
                                                 </td>
                                                 <td><input type="date" class="form-control"
-                                                           name="car[{{$key}}][dropoff_date]"
-                                                           value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
-                                                <td><input type="time" class="form-control" style="width:7.5rem"
-                                                           name="car[{{$key}}][dropoff_time]"
-                                                           value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}">
+                                                           name="train[{{$key}}][departure_date]"
+                                                           value="{{$trainBookingDetails->departure_date?->format('Y-m-d')}}">
                                                 </td>
-                                                <td><input type="text" class="form-control" style="width:12rem"
-                                                           name="car[{{$key}}][confirmation_number]"
-                                                           placeholder="Confirmation Number"
-                                                           value="{{$travelCar->confirmation_number}}"></td>
-                                                <td><input type="text" class="form-control" style="width:7.5rem"
-                                                           name="car[{{$key}}][remarks]" placeholder="Remarks"
-                                                           value="{{$travelCar->remarks}}"></td>
-                                                <td><input type="text" class="form-control" style="width:13rem"
-                                                           name="car[{{$key}}][rental_provider_address]"
-                                                           value="{{$travelCar->rental_provider_address}}"
-                                                           placeholder="Rental Provider's Address"></td>
+                                                <td><input type="text" class="form-control" style="width: 8rem;"
+                                                           name="train[{{$key}}][train_number]"
+                                                           value="{{$trainBookingDetails->train_number}}"
+                                                           placeholder="Train No"></td>
+                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][cabin]"
+                                                           value="{{$trainBookingDetails->cabin}}" placeholder="Cabin"></td>
+                                                <td><input type="text" class="form-control" style="width: 10rem;"
+                                                           name="train[{{$key}}][departure_station]"
+                                                           value="{{$trainBookingDetails->departure_station}}"
+                                                           placeholder="Departure Station"></td>
+                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][departure_hours]"
+                                                           value="{{$trainBookingDetails->departure_hours}}" placeholder="Hrs"
+                                                           min="0" max="23"></td>
+                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][departure_minutes]"
+                                                           value="{{$trainBookingDetails->departure_minutes}}" placeholder="mm"
+                                                           min="0" max="59"></td>
+                                                <td><input type="text" class="form-control" style="width: 10rem;"
+                                                           name="train[{{$key}}][arrival_station]"
+                                                           value="{{$trainBookingDetails->arrival_station}}"
+                                                           placeholder="Arrival Station"></td>
+                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][arrival_hours]"
+                                                           value="{{$trainBookingDetails->arrival_hours}}" placeholder="Hrs"
+                                                           min="0" max="23"></td>
+                                                <td><input type="number" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][arrival_minutes]"
+                                                           value="{{$trainBookingDetails->arrival_minutes}}" placeholder="mm"
+                                                           min="0" max="59"></td>
+                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][duration]"
+                                                           value="{{$trainBookingDetails->duration}}" placeholder="Duration">
+                                                </td>
+                                                <td><input type="text" class="form-control" style="width: 7.5rem;"
+                                                           name="train[{{$key}}][transit]"
+                                                           value="{{$trainBookingDetails->transit}}" placeholder="Transit">
+                                                </td>
+                                                <td><input type="date" class="form-control"
+                                                           name="train[{{$key}}][arrival_date]"
+                                                           value="{{$trainBookingDetails->arrival_date?->format('Y-m-d')}}">
+                                                </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-outline-danger delete-car-btn">
+                                                    <button type="button" class="btn btn-outline-danger delete-train-btn">
                                                         <i class="ri ri-delete-bin-line"></i>
                                                     </button>
                                                 </td>
@@ -1307,10 +1313,38 @@
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Booking Remarks</h5>
+                            <button id="saveRemark" type="button" class="btn btn-primary">Save Remark</button>
                         </div>
                         <div class="card-body p-0">
-                    <textarea class="form-control" name="particulars" rows="4"
+                            <textarea class="form-control" name="particulars" rows="4"
                               placeholder="Enter remarks here..."></textarea>
+                        </div>
+                        <div class="mt-5">
+                            <h5 class="mb-0">Saved booking remarks</h5>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>Sno.</td>
+                                        <td>Remark</td>
+                                        <td>Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingtableremarktable">
+                                @if($booking->remarks)
+                                    @foreach($booking->remarks as $key=>$remar)
+                                        <tr>
+                                            <td>{{$key+1}}</td>
+                                            <td>{{$remar->particulars}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger deleteRemark" data-id="{{$remar->id}}">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -1329,14 +1363,17 @@
                                 <div class="col-lg-12 col-md-12 col-12">
                                     <textarea class="inputs1 form-control" id="qltynotes" name="qltynotes" spellcheck="false"></textarea>
                                 </div>
+                                @php
 
+                                    $option = !empty($booking->qualityFeedback[0]->parameters)?json_decode($booking->qualityFeedback[0]->parameters):[];
+                                @endphp
                                 <div class="col-lg-3 col-md-4 col-12 mt-4">
                                     <label
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Probing & Understanding">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Probing & Understanding" id="Probing & Understanding"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Probing & Understanding',$option)?'checked':''}} />
                                         <span class="form-check-label text-dark">Probing & Understanding</span>
                                     </label>
                                 </div>
@@ -1346,7 +1383,7 @@
                                         for="Dead air/Hold procedure">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Dead air/Hold procedure" id="Dead air/Hold procedure"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Dead air/Hold procedure',$option)?'checked':''}} />
                                         <span class="form-check-label text-dark">Dead air/Hold procedure</span>
                                     </label>
                                 </div>
@@ -1355,7 +1392,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Soft Skills">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Soft Skills"
-                                               id="Soft Skills" name="quality_feedback[]">
+                                               id="Soft Skills" name="quality_feedback[]" {{in_array('Soft Skills',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Soft Skills</span>
                                     </label>
                                 </div>
@@ -1365,7 +1402,7 @@
                                         for="Active Listening/Interruption">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Active Listening/Interruption" id="Active Listening/Interruption"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Active Listening/Interruption',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Active Listening/Interruption</span>
                                     </label>
                                 </div>
@@ -1374,7 +1411,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Call Handling">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Call Handling"
-                                               id="Call Handling" name="quality_feedback[]">
+                                               id="Call Handling" name="quality_feedback[]" {{in_array('Call Handling',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Call Handling</span>
                                     </label>
                                 </div>
@@ -1383,7 +1420,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Selling Skills">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Selling Skills"
-                                               id="Selling Skills" name="quality_feedback[]">
+                                               id="Selling Skills" name="quality_feedback[]" {{in_array('Selling Skills',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Selling Skills</span>
                                     </label>
                                 </div>
@@ -1392,7 +1429,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Cross Selling">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Cross Selling"
-                                               id="Cross Selling" name="quality_feedback[]">
+                                               id="Cross Selling" name="quality_feedback[]" {{in_array('Cross Selling',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Cross Selling</span>
                                     </label>
                                 </div>
@@ -1401,7 +1438,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Documentation">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Documentation"
-                                               id="Documentation" name="quality_feedback[]">
+                                               id="Documentation" name="quality_feedback[]" {{in_array('Documentation',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Documentation</span>
                                     </label>
                                 </div>
@@ -1410,7 +1447,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Disposition">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Disposition"
-                                               id="Disposition" name="quality_feedback[]">
+                                               id="Disposition" name="quality_feedback[]" {{in_array('Disposition',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Disposition</span>
                                     </label>
                                 </div>
@@ -1419,7 +1456,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Call Closing">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Call Closing"
-                                               id="Call Closing" name="quality_feedback[]">
+                                               id="Call Closing" name="quality_feedback[]" {{in_array('Call Closing',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Call Closing</span>
                                     </label>
                                 </div>
@@ -1429,7 +1466,7 @@
                                         for="Fatal - Misrepresentation">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Fatal - Misrepresentation" id="Fatal - Misrepresentation"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Fatal - Misrepresentation',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Fatal - Misrepresentation</span>
                                     </label>
                                 </div>
@@ -1439,7 +1476,7 @@
                                         for="Fatal - Rude/Sarcastic behaviour">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Fatal - Rude/Sarcastic behaviour" id="Fatal - Rude/Sarcastic behaviour"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Fatal - Rude/Sarcastic behaviour',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Fatal - Rude/Sarcastic behaviour</span>
                                     </label>
                                 </div>
@@ -1449,7 +1486,7 @@
                                         for="Fatal - Unethical sale">
                                         <input class="form-check-input chkqlty" type="checkbox"
                                                value="Fatal - Unethical sale" id="Fatal - Unethical sale"
-                                               name="quality_feedback[]">
+                                               name="quality_feedback[]" {{in_array('Fatal - Unethical sale',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Fatal - Unethical sale</span>
                                     </label>
                                 </div>
@@ -1458,7 +1495,7 @@
                                         class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
                                         for="Paraphrasing">
                                         <input class="form-check-input chkqlty" type="checkbox" value="Paraphrasing"
-                                               id="Paraphrasing" name="quality_feedback[]">
+                                               id="Paraphrasing" name="quality_feedback[]" {{in_array('Paraphrasing',$option)?'checked':''}}>
                                         <span class="form-check-label text-dark">Paraphrasing</span>
                                     </label>
                                 </div>
@@ -1517,7 +1554,7 @@
 
 
     @vite('resources/js/booking/edit.js')
-{{--    @vite('resources/js/booking/create.js')--}}
+
     @vite('resources/js/auth/sendAuth.js')
 
 

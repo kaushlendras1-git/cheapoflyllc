@@ -20,6 +20,7 @@ class TravelHotelDetail extends Model
         'no_of_rooms',
         'confirmation_number',
         'hotel_address',
+        'files',
         'remarks',
     ];
 

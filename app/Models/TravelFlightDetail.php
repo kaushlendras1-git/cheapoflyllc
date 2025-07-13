@@ -29,6 +29,7 @@ class TravelFlightDetail extends Model
         'duration',
         'transit',
         'arrival_date',
+        'files'
     ];
 
     protected $casts = [
