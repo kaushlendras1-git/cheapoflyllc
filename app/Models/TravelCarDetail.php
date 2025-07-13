@@ -24,6 +24,7 @@ class TravelCarDetail extends Model
         'confirmation_number',
         'remarks',
         'rental_provider_address',
+        'files'
     ];
 
     protected $casts = [

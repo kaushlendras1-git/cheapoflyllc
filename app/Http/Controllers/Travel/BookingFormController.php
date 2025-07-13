@@ -433,6 +433,23 @@ class BookingFormController extends Controller
     }
 
 
+    public function updateRemark(Request $request,$id)
+    {
+        TravelBookingRemark::create([
+            'booking_id' => $this->hashids->decode($id)[0],
+            'particulars'=>$request->remark,
+        ]);
+        $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',$this->hashids->decode($id)[0])->get();
+        return JsonResponse::successWithData('Booking review saved',201,$data,'201');
+    }
+
+    public function deleteRemark(Request $request,$id){
+
+        $delete = TravelBookingRemark::where('id',$id)->delete();
+        $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',$this->hashids->decode($request->booking_id)[0])->get();
+        return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
+    }
+
     public function update(Request $request, $id)
     {
         if (empty($id)) {
@@ -615,7 +632,6 @@ class BookingFormController extends Controller
 
 
             foreach ($newFlights as $flightData) {
-
                 $fieldsToCheck = [
                     'direction',
                     'departure_date',
@@ -646,6 +662,7 @@ class BookingFormController extends Controller
                     }
                     $flightData['files'] = json_encode($flightData['files']);
                 }
+
                 $oldFlight = TravelFlightDetail::find($flightData['id'] ?? null);
                 $flight = TravelFlightDetail::updateOrCreate(
                     ['id' => $flightData['id'] ?? null, 'booking_id' => $booking->id],
@@ -770,6 +787,7 @@ class BookingFormController extends Controller
                     }
                     $hotelData['files'] = json_encode($hotelData['files']);
                 }
+
                 $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
                 $hotel = TravelHotelDetail::updateOrCreate(
                     ['id' => $hotelData['id'] ?? null, 'booking_id' => $booking->id],
@@ -914,23 +932,23 @@ class BookingFormController extends Controller
             }
 
             // Update or Create Booking Remark
-            if ($request->filled('particulars')) {
-                $oldRemark = TravelBookingRemark::where('booking_id', $booking->id)->first();
-                $remarkData = [
-                    'agent' => 'Testagent',
-                    'date_time' => now(),
-                    'particulars' => $request->input('particulars'),
-                ];
-                $remark = TravelBookingRemark::updateOrCreate(
-                    ['booking_id' => $booking->id],
-                    $remarkData
-                );
-                if ($oldRemark && $oldRemark->particulars != $remarkData['particulars']) {
-                    $booking->logChange($booking->id, 'TravelBookingRemark', $remark->id, 'particulars', $oldRemark->particulars, $remarkData['particulars']);
-                } elseif (!$oldRemark) {
-                    $booking->logChange($booking->id, 'TravelBookingRemark', $remark->id, 'created', null, json_encode($remarkData));
-                }
-            }
+//            if ($request->filled('particulars')) {
+//                $oldRemark = TravelBookingRemark::where('booking_id', $booking->id)->first();
+//                $remarkData = [
+//                    'agent' => 'Testagent',
+//                    'date_time' => now(),
+//                    'particulars' => $request->input('particulars'),
+//                ];
+//                $remark = TravelBookingRemark::updateOrCreate(
+//                    ['booking_id' => $booking->id],
+//                    $remarkData
+//                );
+//                if ($oldRemark && $oldRemark->particulars != $remarkData['particulars']) {
+//                    $booking->logChange($booking->id, 'TravelBookingRemark', $remark->id, 'particulars', $oldRemark->particulars, $remarkData['particulars']);
+//                } elseif (!$oldRemark) {
+//                    $booking->logChange($booking->id, 'TravelBookingRemark', $remark->id, 'created', null, json_encode($remarkData));
+//                }
+//            }
 
             // Update or Create Quality Feedback
             if ($request->filled('feedback')) {
@@ -1028,6 +1046,7 @@ class BookingFormController extends Controller
         $payment_status = PaymentStatus::all();
         return view('web.booking.show', compact('booking', 'hashids','booking_status','payment_status'));
     }
+
 
 
     public function add(){
