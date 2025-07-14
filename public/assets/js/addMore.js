@@ -425,276 +425,342 @@
 
 
 
-        document.addEventListener('DOMContentLoaded', () => {
-        const passengerFormsContainer = document.getElementById('passengerForms');
-        let passengerIndex = 1;
+        
+    // Passenger Section
+document.addEventListener('DOMContentLoaded', () => {
+    const passengerFormsContainer = document.getElementById('passengerForms');
+    let passengerIndex = passengerFormsContainer.querySelectorAll('.passenger-form').length || 0;
 
-        // Function to add a new passenger row
-        function addPassengerRow() {
-            const newRow = document.createElement('tr');
-            newRow.className = 'passenger-form';
-            newRow.dataset.index = passengerIndex;
-            newRow.innerHTML = `
-                                <td><span class="billing-card-title"> ${passengerIndex + 1}</span></td>
-                                <td>
-                                    <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][passenger_type]">
-                                        <option value="">Select</option>
-                                        <option value="Adult" selected>Adult</option>
-                                        <option value="Child">Child</option>
-                                        <option value="Infant">Infant</option>
-                                        <option value="Seat Infant">Seat Infant</option>
-                                        <option value="Lap Infant">Lap Infant</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][gender]">
-                                        <option value="">Select</option>
-                                        <option value="Male" selected>Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </td>
-                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][title]" placeholder="Title"></td>
-                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
-                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
-                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
-                                <td><input type="date" class="form-control" name="passenger[${passengerIndex}][dob]" ></td>
-                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
-                                <td><input type="number" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
-                                <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
-                                        <i class="icon-base ri ri-delete-bin-2-line"></i>
-                                    </button>
-                                </td>
-                            `;
-            passengerFormsContainer.appendChild(newRow);
-            passengerIndex++;
-        }
+    // Add initial row on page load if no rows exist
+    if (passengerIndex === 0) {
+        addPassengerRow();
+    }
 
-        // Function to check if a row is filled
-        function isRowFilled(row) {
-            const inputs = row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])');
-            return Array.from(inputs).every(input => input.value.trim() !== '');
-        }
+    // Function to add a new passenger row
+    function addPassengerRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'passenger-form';
+        newRow.dataset.index = passengerIndex;
+        newRow.innerHTML = `
+            <td><span class="billing-card-title"> ${passengerIndex + 1}</span></td>
+            <td>
+                <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][passenger_type]">
+                    <option value="">Select</option>
+                    <option value="Adult" selected>Adult</option>
+                    <option value="Child">Child</option>
+                    <option value="Infant">Infant</option>
+                    <option value="Seat Infant">Seat Infant</option>
+                    <option value="Lap Infant">Lap Infant</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][gender]">
+                    <option value="">Select</option>
+                    <option value="Male" selected>Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][title]">
+                    <option value="">Select</option>
+                    <option value="Mr">Mr</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Ms">Ms</option>
+                    <option value="Master">Master</option>
+                    <option value="Miss">Miss</option>
+                </select>
+            </td>
+            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
+            <td><input type="date" class="form-control" name="passenger[${passengerIndex}][dob]"></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+            <td><input type="number" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
+            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
+            <td>
+                <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
+                    <i class="icon-base ri ri-delete-bin-2-line"></i>
+                </button>
+            </td>
+        `;
+        passengerFormsContainer.appendChild(newRow);
+        passengerIndex++;
+    }
 
-        // Update passenger titles and indices after deletion
-        function updatePassengerTitles() {
-            const rows = passengerFormsContainer.querySelectorAll('.passenger-form');
-            rows.forEach((row, index) => {
-                const title = row.querySelector('.billing-card-title');
-                title.textContent = ` ${index + 1}`;
-                row.dataset.index = index;
-                const inputs = row.querySelectorAll('input');
-                inputs.forEach(input => {
-                    const name = input.name.replace(/passenger\[\d+\]/, `passenger[${index}]`);
-                    input.name = name;
-                });
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])');
+        const selects = row.querySelectorAll('select');
+        return Array.from(inputs).every(input => input.value.trim() !== '') &&
+               Array.from(selects).every(select => select.value.trim() !== '');
+    }
+
+    // Update passenger titles and indices after deletion
+    function updatePassengerTitles() {
+        const rows = passengerFormsContainer.querySelectorAll('.passenger-form');
+        rows.forEach((row, index) => {
+            const title = row.querySelector('.billing-card-title');
+            title.textContent = ` ${index + 1}`;
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                const name = input.name.replace(/passenger\[\d+\]/, `passenger[${index}]`);
+                input.name = name;
             });
-            passengerIndex = rows.length;
+        });
+        passengerIndex = rows.length;
+    }
+
+    // Event listener for input and change events to auto-add rows
+    function handlePassengerInput(e) {
+        const row = e.target.closest('.passenger-form');
+        if (!row) return;
+
+        const rows = passengerFormsContainer.querySelectorAll('.passenger-form');
+        const lastRow = rows[rows.length - 1];
+
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addPassengerRow();
         }
+    }
 
-        // Event listener for input changes to auto-add rows
-        passengerFormsContainer.addEventListener('input', (e) => {
+    passengerFormsContainer.addEventListener('input', handlePassengerInput);
+    passengerFormsContainer.addEventListener('change', handlePassengerInput);
+
+    // Delete passenger row
+    passengerFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-passenger')) {
             const row = e.target.closest('.passenger-form');
-            if (!row) return;
-
-            const rows = passengerFormsContainer.querySelectorAll('.passenger-form');
-            const lastRow = rows[rows.length - 1];
-
-            if (row === lastRow && isRowFilled(lastRow)) {
-                addPassengerRow();
+            if (passengerFormsContainer.children.length > 1) {
+                row.remove();
+                updatePassengerTitles();
             }
-        });
+        }
+    });
+});
 
-        // Delete passenger row
-        passengerFormsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.delete-passenger')) {
-                const row = e.target.closest('.passenger-form');
-                if (passengerFormsContainer.children.length > 1) {
-                    row.remove();
-                    updatePassengerTitles();
-                }
-            }
-        });
+// Billing Section
+document.addEventListener('DOMContentLoaded', () => {
+    const billingFormsContainer = document.getElementById('billingForms');
+    let billingIndex = billingFormsContainer.querySelectorAll('.billing-card').length || 0;
+    let cntrystr2 = '';
+
+    // Fetch countries
+    $.ajax({
+        url: '/countrylist',
+        method: 'GET',
+        success: function (res) {
+            let cntrylst = res.data;
+            cntrystr2 = '<option value="">Select Country</option>';
+            $.each(cntrylst, function () {
+                cntrystr2 += `<option value="${this.id}">${this.name}</option>`;
+            });
+            // Update existing country selects
+            document.querySelectorAll('.country-select').forEach(select => {
+                select.innerHTML = cntrystr2;
+            });
+        },
+        error: function (res) {
+            console.error('Failed to fetch countries:', res);
+        }
     });
 
+    // Add initial row on page load if no rows exist
+    if (billingIndex === 0) {
+        addBillingRow();
+    }
 
+    // Function to add a new billing row
+    function addBillingRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'billing-card';
+        newRow.dataset.index = billingIndex;
+        newRow.innerHTML = `
+            <td><h6 class="billing-card-title mb-0"> ${billingIndex + 1}</h6></td>
+            <td>
+                <select class="form-control" name="billing[${billingIndex}][card_type]">
+                    <option value="">Select</option>
+                    <option value="VISA">VISA</option>
+                    <option value="Mastercard">Mastercard</option>
+                    <option value="AMEX">AMEX</option>
+                    <option value="DISCOVER">DISCOVER</option>
+                </select>
+            </td>
+            <td><input type="text" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
+            <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
+            <td>
+                <select class="form-control" name="billing[${billingIndex}][exp_month]">
+                    <option value="">MM</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-control" name="billing[${billingIndex}][exp_year]">
+                    <option value="">YYYY</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                    <option value="2031">2031</option>
+                    <option value="2032">2032</option>
+                    <option value="2033">2033</option>
+                    <option value="2034">2034</option>
+                </select>
+            </td>
+            <td><input type="text" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
+            <td><input type="text" class="form-control" placeholder="Address" name="billing[${billingIndex}][address]" value=""></td>
+            <td><input type="email" class="form-control" placeholder="Email" name="billing[${billingIndex}][email]" value=""></td>
+            <td><input type="text" class="form-control" placeholder="Contact No" name="billing[${billingIndex}][contact_no]" value=""></td>
+            <td><input type="text" class="form-control" placeholder="City" name="billing[${billingIndex}][city]" value=""></td>
+            <td>
+                <select id="country-${billingIndex}" style="width:9rem" class="form-control country-select" name="billing[${billingIndex}][country]">
+                    ${cntrystr2}
+                </select>
+            </td>
+            <td>
+                <select id="state-${billingIndex}" style="width:7.5rem" class="form-control state-select" name="billing[${billingIndex}][state]">
+                    <option value="">Select State</option>
+                </select>
+            </td>
+            <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[${billingIndex}][zip_code]" value=""></td>
+            <td>
+                <select class="form-control" name="billing[${billingIndex}][currency]">
+                    <option value="">Select Currency</option>
+                    <option value="USD">USD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="AUD">AUD</option>
+                    <option value="INR">INR</option>
+                    <option value="MXN">MXN</option>
+                </select>
+            </td>
+            <td><input type="number" class="form-control" placeholder="0.00" name="billing[${billingIndex}][amount]" value="0" step="0.01"></td>
+            <td><input class="form-check-input" type="radio" name="activeCard" value="${billingIndex}"></td>
+            <td>
+                <button type="button" class="btn btn-outline-danger delete-billing-btn">
+                    <i class="ri ri-delete-bin-line"></i>
+                </button>
+            </td>
+        `;
+        billingFormsContainer.appendChild(newRow);
+        billingIndex++;
+    }
 
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input:not([type="radio"])');
+        const selects = row.querySelectorAll('select');
+        return Array.from(inputs).every(input => input.value.trim() !== '') &&
+               Array.from(selects).every(select => select.value.trim() !== '');
+    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const billingFormsContainer = document.getElementById('billingForms');
-        let billingIndex = 1;
-        let cntrystr2 = '';
-        $.ajax({
-            url:'/countrylist',
-            method:'GET',
-            success:function (res){
-                let cntrylst = res.data;
-                cntrystr2 = '<option value="">Select Country</option>';
-                $.each(cntrylst, function () {
-                    cntrystr2 += `<option value="${this.id}">${this.name}</option>`;
-                });
-            },
-            error:function (res){
-                console.log(res)
-            }
+    // Update billing titles and indices after deletion
+    function updateBillingTitles() {
+        const rows = billingFormsContainer.querySelectorAll('.billing-card');
+        rows.forEach((row, index) => {
+            const title = row.querySelector('.billing-card-title');
+            title.textContent = ` ${index + 1}`;
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type === 'radio') {
+                    input.value = index;
+                } else {
+                    const name = input.name.replace(/billing\[\d+\]/, `billing[${index}]`);
+                    input.name = name;
+                    if (input.classList.contains('country-select')) {
+                        input.id = `country-${index}`;
+                    } else if (input.classList.contains('state-select')) {
+                        input.id = `state-${index}`;
+                    }
+                }
+            });
         });
-        // Function to add a new billing row
-        function addBillingRow() {
-            const newRow = document.createElement('tr');
-            newRow.className = 'billing-card';
-            newRow.dataset.index = billingIndex;
-            newRow.innerHTML = `
-                <td><h6 class="billing-card-title mb-0"> ${billingIndex + 1}</h6></td>
-                <td>
-                    <select class="form-control" name="billing[${billingIndex}][card_type]">
-                        <option value="">Select</option>
-                        <option value="VISA">VISA</option>
-                        <option value="Mastercard">Mastercard</option>
-                        <option value="AMEX">AMEX</option>
-                        <option value="DISCOVER">DISCOVER</option>
-                    </select>
-                </td>
-                <td><input type="text" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
-                <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
+        billingIndex = rows.length;
+    }
 
-                <td>
-                    <select class="form-control" name="billing[${billingIndex}][exp_month]">
-                        <option value="">MM</option>
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-                        <option value="03">03</option>
-                        <option value="04">04</option>
-                        <option value="05">05</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                </td>
+    // Event listener for input and change events to auto-add rows
+    function handleBillingInput(e) {
+        const row = e.target.closest('.billing-card');
+        if (!row) return;
 
-                <td>
-                    <select class="form-control" name="billing[${billingIndex}][exp_year]">
-                        <option value="">YYYY</option>
-                        <option value="2024">2024</option>
-                        <option value="2025">2025</option>
-                        <option value="2026">2026</option>
-                        <option value="2027">2027</option>
-                        <option value="2028">2028</option>
-                        <option value="2029">2029</option>
-                        <option value="2030">2030</option>
-                        <option value="2031">2031</option>
-                        <option value="2032">2032</option>
-                        <option value="2033">2033</option>
-                        <option value="2034">2034</option>
-                    </select>
-                </td>
-                <td><input type="text" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
-                <td><input type="text" class="form-control" placeholder="Address" name="billing[${billingIndex}][address]" value=""></td>
-                <td><input type="email" class="form-control" placeholder="Email" name="billing[${billingIndex}][email]" value=""></td>
-                <td><input type="text" class="form-control" placeholder="Contact No" name="billing[${billingIndex}][contact_no]" value=""></td>
-                <td><input type="text" class="form-control" placeholder="City" name="billing[${billingIndex}][city]" value=""></td>
-                <td>
-                    <select id="country-${billingIndex}" style="width:9rem" class="form-control country-select" name="billing[${billingIndex}][country]">
-                        ${cntrystr2}
-                    </select>
+        const rows = billingFormsContainer.querySelectorAll('.billing-card');
+        const lastRow = rows[rows.length - 1];
 
-                </td>
-                <td>
-                    <select id="state-${billingIndex}" style="width:7.5rem" class="form-control state-select" name="billing[${billingIndex}][state]">
-                        <option value="">Select State</option>
-                    </select>       
-                </td>
-                <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[${billingIndex}][zip_code]" value=""></td>
-
-                <td>
-                    <select class="form-control" name="billing[${billingIndex}][currency]">
-                        <option value="">Select Currency</option>
-                        <option value="USD">USD</option>
-                        <option value="CAD">CAD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="GBP">GBP</option>
-                        <option value="AUD">AUD</option>
-                        <option value="INR">INR</option>
-                        <option value="MXN">MXN</option>
-                    </select>
-                </td>
-
-
-                <td><input type="number" class="form-control" placeholder="0.00" name="billing[${billingIndex}][amount]" value="0" step="0.01"></td>
-                <td><input class="form-check-input" type="radio" name="activeCard" value="${billingIndex}"></td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger delete-billing-btn">
-                        <i class="ri ri-delete-bin-line"></i>
-                    </button>
-                </td>
-            `;
-            billingFormsContainer.appendChild(newRow);
-            billingIndex++;
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addBillingRow();
         }
+    }
 
-        // Function to check if a row is filled
-        function isRowFilled(row) {
-            const inputs = row.querySelectorAll('input:not([type="radio"])');
-            return Array.from(inputs).every(input => input.value.trim() !== '');
-        }
+    billingFormsContainer.addEventListener('input', handleBillingInput);
+    billingFormsContainer.addEventListener('change', handleBillingInput);
 
-        // Update billing titles and indices after deletion
-        function updateBillingTitles() {
-            const rows = billingFormsContainer.querySelectorAll('.billing-card');
-            rows.forEach((row, index) => {
-                const title = row.querySelector('.billing-card-title');
-                title.textContent = ` ${index + 1}`;
-                row.dataset.index = index;
-                const inputs = row.querySelectorAll('input');
-                inputs.forEach(input => {
-                    if (input.type === 'radio') {
-                        input.value = index;
-                    } else {
-                        const name = input.name.replace(/billing\[\d+\]/, `billing[${index}]`);
-                        input.name = name;
+    // Handle country change to populate states
+    billingFormsContainer.addEventListener('change', (e) => {
+        if (e.target.classList.contains('country-select')) {
+            const countryId = e.target.value;
+            const index = e.target.closest('.billing-card').dataset.index;
+            const stateSelect = document.getElementById(`state-${index}`);
+            
+            if (countryId) {
+                $.ajax({
+                    url: `/statelist/${countryId}`,
+                    method: 'GET',
+                    success: function (res) {
+                        let stateOptions = '<option value="">Select State</option>';
+                        $.each(res.data, function () {
+                            stateOptions += `<option value="${this.id}">${this.name}</option>`;
+                        });
+                        stateSelect.innerHTML = stateOptions;
+                    },
+                    error: function (res) {
+                        console.error('Failed to fetch states:', res);
                     }
                 });
-            });
-            billingIndex = rows.length;
+            } else {
+                stateSelect.innerHTML = '<option value="">Select State</option>';
+            }
         }
-
-        // Event listener for input changes to auto-add rows
-        billingFormsContainer.addEventListener('input', (e) => {
-            const row = e.target.closest('.billing-card');
-            if (!row) return;
-
-            const rows = billingFormsContainer.querySelectorAll('.billing-card');
-            const lastRow = rows[rows.length - 1];
-
-            if (row === lastRow && isRowFilled(lastRow)) {
-                addBillingRow();
-            }
-        });
-
-        // Delete billing row
-        billingFormsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.delete-billing-btn')) {
-                const row = e.target.closest('.billing-card');
-                if (billingFormsContainer.children.length > 1) {
-                    row.remove();
-                    updateBillingTitles();
-                }
-            }
-        });
     });
+
+    // Delete billing row
+    billingFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-billing-btn')) {
+            const row = e.target.closest('.billing-card');
+            if (billingFormsContainer.children.length > 1) {
+                row.remove();
+                updateBillingTitles();
+            }
+        }
+    });
+});
+
+
+
+
 
 
     /************************Pricing********************* */
-
 document.addEventListener('DOMContentLoaded', () => {
     const pricingFormsContainer = document.getElementById('pricingForms');
-    let pricingIndex = 1; // Start at 1 since one row exists in HTML
+    let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
 
-    // Function to add a new pricing row
+    // Function to add a blank row
     function addPricingRow() {
         const newRow = document.createElement('tr');
         newRow.className = 'pricing-row';
@@ -702,6 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
         newRow.innerHTML = `
             <td>
                 <select name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                    <option value="">Select</option>
                     <option value="adult">Adult</option>
                     <option value="child">Child</option>
                     <option value="infant_on_lap">Infant on Lap</option>
@@ -715,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><span class="net-total">0.00</span></td>
             <td>
                 <select name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                    <option value="">Select</option>
                     <option value="ticket_cost">Ticket Cost</option>
                     <option value="merchant_fee">Merchant Fee</option>
                     <option value="company_card_used">Company Card Used</option>
@@ -726,19 +794,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 </button>
             </td>
         `;
-        pricingFormsContainer.appendChild(newRow); // Append the new row to the container
+        pricingFormsContainer.appendChild(newRow);
         pricingIndex++;
     }
 
-    // Function to check if a row is filled
+    // Check if all inputs/selects in a row are filled
     function isRowFilled(row) {
-        const inputs = row.querySelectorAll('input');
-        const selects = row.querySelectorAll('select');
-        return Array.from(inputs).every(input => input.value.trim() !== '') &&
-               Array.from(selects).every(select => select.value.trim() !== '');
+        const requiredInputs = row.querySelectorAll('input, select');
+        return Array.from(requiredInputs).every(el => el.value.trim() !== '');
     }
 
-    // Function to calculate totals for a row
+    // Calculate row totals
     function calculateRowTotals(row) {
         const numPassengers = parseFloat(row.querySelector('input[name$="[num_passengers]"]').value) || 0;
         const grossPrice = parseFloat(row.querySelector('input[name$="[gross_price]"]').value) || 0;
@@ -753,84 +819,64 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFooterTotals();
     }
 
-    // Function to update footer totals (Gross Profit and Net Profit)
+    // Update total in footer
     function updateFooterTotals() {
         const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
-        let totalGrossProfit = 0;
-        let totalNetProfit = 0;
+        let grossTotal = 0;
+        let netTotal = 0;
 
         rows.forEach(row => {
-            const grossTotal = parseFloat(row.querySelector('.gross-total').textContent) || 0;
-            const netTotal = parseFloat(row.querySelector('.net-total').textContent) || 0;
-            totalGrossProfit += grossTotal;
-            totalNetProfit += netTotal;
+            grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
+            netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
         });
 
-        document.getElementById('total_gross_profit').textContent = totalGrossProfit.toFixed(2);
-        document.getElementById('total_net_profit').textContent = totalNetProfit.toFixed(2);
+        document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
+        document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
     }
 
-    // Function to update row indices after deletion
-    function updateRowIndices() {
-        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
-        rows.forEach((row, index) => {
-            row.dataset.index = index;
-            const inputs = row.querySelectorAll('input, select');
-            inputs.forEach(input => {
-                const name = input.name.replace(/pricing\[\d+\]/, `pricing[${index}]`);
-                input.name = name;
-                if (input.id) {
-                    const id = input.id.replace(/_\d+$/, `_${index}`);
-                    input.id = id;
-                }
-            });
-        });
-        pricingIndex = rows.length;
-    }
-
-    // Event listener for input changes (number inputs)
-    pricingFormsContainer.addEventListener('input', (e) => {
-        const row = e.target.closest('.pricing-row');
-        if (!row) return;
-
-        // Recalculate totals for the current row
+    // Recalculate row and add new row if needed
+    function handleRowChange(row) {
         calculateRowTotals(row);
 
-        // Check if the last row is filled and add a new row
         const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
         const lastRow = rows[rows.length - 1];
+
         if (row === lastRow && isRowFilled(lastRow)) {
             addPricingRow();
         }
+    }
+
+    // Input change handler
+    pricingFormsContainer.addEventListener('input', (e) => {
+        const row = e.target.closest('.pricing-row');
+        if (row) {
+            handleRowChange(row);
+        }
     });
 
-    // Event listener for select changes (passenger_type and details)
+    // Select change handler
     pricingFormsContainer.addEventListener('change', (e) => {
         const row = e.target.closest('.pricing-row');
-        if (!row || e.target.tagName !== 'SELECT') return;
-
-        // Check if the last row is filled and add a new row
-        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
-        const lastRow = rows[rows.length - 1];
-        if (row === lastRow && isRowFilled(lastRow)) {
-            addPricingRow();
+        if (row) {
+            handleRowChange(row);
         }
     });
 
-    // Event listener for deleting rows
+    // Delete row handler
     pricingFormsContainer.addEventListener('click', (e) => {
         if (e.target.closest('.delete-pricing-btn')) {
             const row = e.target.closest('.pricing-row');
-            if (pricingFormsContainer.children.length > 1) {
+            if (row) {
                 row.remove();
-                updateRowIndices();
                 updateFooterTotals();
             }
         }
     });
 
-    // Initialize totals for the first row
-    updateFooterTotals();
+    // Init: recalculate all existing rows on page load
+    pricingFormsContainer.querySelectorAll('.pricing-row').forEach(row => {
+        calculateRowTotals(row);
+    });
 });
 
 

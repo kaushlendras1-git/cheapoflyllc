@@ -36,48 +36,164 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
         labelMaxFileCountExceeded: 'You can only upload up to 10 files',
     });
 });
-document.getElementById('bookingForm').addEventListener('submit',async function(e){
-    console.log('hello')
+
+document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
-    const action = e.target.action;
-    const formdata = new FormData(e.target);
+    console.log('Submitting booking form...');
 
-    const hotelInputs = document.querySelectorAll('[name^="hotel["]');
-    hotelInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
+    const form = e.target;
+    const action = form.action;
+    const formdata = new FormData(form);
+
+    // Append hotel inputs
+    document.querySelectorAll('[name^="hotel["]').forEach(input => {
+        formdata.append(input.name, input.value);
     });
 
-    const cruiseInputs = document.querySelectorAll('[name^="cruise["]');
-    cruiseInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
+    // Append cruise inputs
+    document.querySelectorAll('[name^="cruise["]').forEach(input => {
+        formdata.append(input.name, input.value);
     });
-    const carInputs = document.querySelectorAll('[name^="car["]');
-    carInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
+
+    // Append car inputs
+    document.querySelectorAll('[name^="car["]').forEach(input => {
+        formdata.append(input.name, input.value);
     });
+
+    // Append pricing inputs
+    document.querySelectorAll('[name^="pricing["]').forEach(input => {
+        formdata.append(input.name, input.value);
+    });
+
+    // Append passenger inputs (manually)
+    const passengerRows = document.querySelectorAll('#passengerForms .passenger-form');
+    let passengerAdded = false;
+
+    passengerRows.forEach((row, index) => {
+        const fields = [
+            'passenger_type', 'gender', 'title', 'first_name',
+            'middle_name', 'last_name', 'dob', 'seat_number',
+            'credit_note', 'e_ticket_number'
+        ];
+
+        fields.forEach((field) => {
+            const input = row.querySelector(`[name^="passenger"][name$="[${field}]"]`);
+            if (input) {
+                const name = `passenger[${index}][${field}]`;
+                const value = input.value?.trim() ?? '';
+                formdata.append(name, value);
+            }
+        });
+
+        const firstName = row.querySelector(`[name^="passenger"][name$="[first_name]"]`)?.value?.trim();
+        const dob = row.querySelector(`[name^="passenger"][name$="[dob]"]`)?.value?.trim();
+        const type = row.querySelector(`[name^="passenger"][name$="[passenger_type]"]`)?.value?.trim();
+
+        if (firstName && dob && type) {
+            passengerAdded = true;
+        }
+    });
+
+    if (!passengerAdded) {
+        showToast("Please provide at least one passenger", "error");
+        return;
+    }
+
+
+    const billingRows = document.querySelectorAll('#billingForms .billing-card');
+    let billingAdded = false;
+    let billingIndex = 0;
+
+    billingRows.forEach(row => {
+        const fields = [
+            'card_type', 'cc_number', 'cc_holder_name', 'exp_month', 'exp_year',
+            'cvv', 'address', 'email', 'contact_no', 'city', 'country',
+            'state', 'zip_code', 'currency', 'amount'
+        ];
+
+        let cardType = '', ccNumber = '', amount = '';
+
+        fields.forEach(field => {
+            const input = row.querySelector(`[name$="[${field}]"]`);
+            if (input) {
+                const name = `billing[${billingIndex}][${field}]`;
+                formdata.append(name, input.value ?? '');
+            }
+
+            if (field === 'card_type') cardType = input?.value;
+            if (field === 'cc_number') ccNumber = input?.value;
+            if (field === 'amount') amount = input?.value;
+        });
+
+        // Check if this row counts as filled
+        if (cardType && ccNumber && amount) {
+            billingAdded = true;
+        }
+
+        billingIndex++;
+    });
+
+    // Add activeCard radio
+    const activeCardInput = document.querySelector('input[name="activeCard"]:checked');
+    if (activeCardInput) {
+        formdata.append('activeCard', activeCardInput.value);
+    }
+
+    if (!billingAdded) {
+        showToast("Please provide at least one billing row", "error");
+        return;
+    }
+
+
+    // Append FilePond files (custom mapping)
+    const ponds = {
+        'hotelbookingimage[]': FilePond.find(document.querySelector('input[name="hotelbookingimage[]"]')),
+        'carbookingimage[]': FilePond.find(document.querySelector('input[name="carbookingimage[]"]')),
+        'cruisebookingimage[]': FilePond.find(document.querySelector('input[name="cruisebookingimage[]"]')),
+        'flightbookingimage[]': FilePond.find(document.querySelector('input[name="flightbookingimage[]"]')),
+        'trainbookingimage[]': FilePond.find(document.querySelector('input[name="trainbookingimage[]"]')),
+        'screenshots[]': FilePond.find(document.querySelector('input[name="screenshots[]"]'))
+    };
+
     for (const inputName in ponds) {
         const pond = ponds[inputName];
-        pond.getFiles().forEach(fileItem => {
-            formdata.append(inputName, fileItem.file); // Automatically handles multiple
-        });
+        if (pond) {
+            pond.getFiles().forEach(fileItem => {
+                formdata.append(inputName, fileItem.file);
+            });
+        }
     }
-    try{
+
+    // Optional: debug FormData
+    // for (let pair of formdata.entries()) {
+    //     console.log(pair[0], pair[1]);
+    // }
+
+    // Submit with Axios
+    try {
         const response = await axios.post(action, formdata, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        console.log(response)
-        showToast(response.data.message);
-    }
-    catch (e) {
-        console.log(e);
+
+        console.log(response);
+
+        if (response.status === 201) {
+            this.removeAttribute("disabled");
+            sessionStorage.setItem("successMessage", response.data.message);
+            window.location.href = route(response.data.data.route, { id: response.data.data.id });
+        } else {
+            showToast("Something went wrong", "error");
+        }
+
+    } catch (e) {
+        console.error(e);
+        if (e.response?.status === 422 || e.response?.status === 500) {
+            showToast(e.response?.data?.error ?? 'Validation/server error', "error");
+        } else {
+            showToast("Something went wrong", "error");
+        }
     }
 });
 
@@ -137,5 +253,23 @@ document.getElementById('bookingtableremarktable').addEventListener('click', asy
         } catch (err) {
             console.log(err);
         }
+    }
+});
+
+$('.country-select').on('change',async function(e){
+    try{
+        const response = await axios.get(route('statelist',e.target.value));
+
+        let options = '<option value="">Select State</option>';
+        console.log(response.data.data);
+        response.data.data.forEach(function(item){
+            options += `
+                <option value="${item.id}">${item.name}</option>
+            `;
+        });
+        e.target.parentElement.nextElementSibling.querySelector('select').innerHTML = options;
+    }
+    catch (e) {
+        console.log(e)
     }
 });

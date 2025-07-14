@@ -36,6 +36,7 @@ use App\Exports\BookingsExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 
+
 class BookingFormController extends Controller
 {
     protected $hashids;
@@ -133,7 +134,7 @@ class BookingFormController extends Controller
     {
         try{
 
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'pnr' => 'required|string|max:255',
                 'hotel_ref' => 'nullable|string|max:255',
                 'cruise_ref' => 'nullable|string|max:255',
@@ -235,6 +236,37 @@ class BookingFormController extends Controller
                 'pricing.*.net_price.min' => 'Pricing Net price cannot be negative.',
                 'pricing.*.details.required' => 'Pricing Details field is required.',
             ]);
+
+
+            // Custom AMEX/non-AMEX card number & CVV validation
+                $validator->after(function ($validator) use ($request) {
+                    $billings = $request->input('billing', []);
+
+                    foreach ($billings as $index => $billing) {
+                        $cardType = strtoupper($billing['card_type'] ?? '');
+                        $ccNumber = preg_replace('/\D/', '', $billing['cc_number'] ?? '');
+                        $cvv = preg_replace('/\D/', '', $billing['cvv'] ?? '');
+
+                        if ($cardType === 'AMEX') {
+                            if (strlen($ccNumber) !== 15) {
+                                $validator->errors()->add("billing.$index.cc_number", 'AMEX card number must be exactly 15 digits.');
+                            }
+                            if (strlen($cvv) !== 4) {
+                                $validator->errors()->add("billing.$index.cvv", 'AMEX CVV must be exactly 4 digits.');
+                            }
+                        } else {
+                            if (strlen($ccNumber) !== 16) {
+                                $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for non-AMEX.');
+                            }
+                            if (strlen($cvv) !== 3) {
+                                $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
+                            }
+                        }
+                    }
+                });
+
+        // Trigger validation (throws ValidationException on failure)
+       $validator->validate();
 
 
             if ($request->hasFile('sector_details')) {
@@ -431,6 +463,7 @@ class BookingFormController extends Controller
         //     return redirect()->route('travel.bookings.form')->with('error', 'Failed to submit booking: ' . $e->getMessage())->withFragment('booking-failed-' . ($booking->id ?? 'no-id'));
         // }
     }
+    
 
 
     public function updateRemark(Request $request,$id)
@@ -455,131 +488,156 @@ class BookingFormController extends Controller
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
-
-
+        
+        
         $booking = TravelBooking::findOrFail($id);
-
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'pnr' => 'required|string|max:255',
-            'campaign' => 'nullable|string|max:255',
-            // 'hotel_ref' => 'nullable|string|max:255',
-            // 'cruise_ref' => 'nullable|string|max:255',
-            // 'car_ref' => 'nullable|string|max:255',
-            // 'train_ref' => 'nullable|string|max:255',
-            // 'airlinepnr' => 'nullable|string|max:255',
-            // 'amadeus_sabre_pnr' => 'nullable|string|max:255',
-            // 'pnrtype' => 'nullable|in:HK,GK',
-            // 'name' => 'required|string|max:255',
-            // 'phone' => 'required|string|max:20',
-            // 'email' => 'required|email|max:255',
-            // 'query_type' => 'nullable|in:N,NC,M,UMNR,CC,CR,CH,U,NMC,S,B,CBP,AI,AE',
-            // 'selected_company' => 'required|in:1,3,5,6',
-            // 'booking_status' => 'required|string|max:255',
-            // 'payment_status' => 'required|string|max:255',
-            // 'reservation_source' => 'nullable|string|max:255',
-            // 'descriptor' => 'nullable|string|max:255',
-            // 'booking-type' => 'nullable|array',
-            // 'booking-type.*' => 'in:Flight,Hotel,Cruise,Car,Train',
-            // 'flight.*.direction' => 'nullable|string|max:255',
-            // 'flight.*.date' => 'nullable|date',
-            // 'flight.*.airlines_code' => 'nullable|string|max:255',
-            // 'flight.*.flight_no' => 'nullable|string|max:255',
-            // 'flight.*.cabin' => 'nullable|string|max:255',
-            // 'flight.*.class_of_service' => 'nullable|string|max:255',
-            // 'flight.*.departure_airport' => 'nullable|string|max:255',
-            // 'flight.*.departure_hrs' => 'nullable|integer|min:0|max:23',
-            // 'flight.*.departure_mm' => 'nullable|integer|min:0|max:59',
-            // 'flight.*.arrival_airport' => 'nullable|string|max:255',
-            // 'flight.*.arrival_hrs' => 'nullable|integer|min:0|max:23',
-            // 'flight.*.arrival_mm' => 'nullable|integer|min:0|max:59',
-            // 'flight.*.duration' => 'nullable|string|max:255',
-            // 'flight.*.transit' => 'nullable|string|max:255',
-            // 'flight.*.arrival_date' => 'nullable|date',
-            // 'car.*.car_rental_provider' => 'nullable|string|max:255',
-            // 'car.*.car_type' => 'nullable|string|max:255',
-            // 'car.*.pickup_location' => 'nullable|string|max:255',
-            // 'car.*.dropoff_location' => 'nullable|string|max:255',
-            // 'car.*.pickup_date' => 'nullable|date',
-            // 'car.*.pickup_time' => 'nullable|time',
-            // 'car.*.dropoff_date' => 'nullable|date',
-            // 'car.*.dropoff_time' => 'nullable|time',
-            // 'car.*.confirmation_number' => 'nullable|string|max:255',
-            // 'car.*.remarks' => 'nullable|string|max:255',
-            // 'car.*.rental_provider_address' => 'nullable|string|max:255',
-            // 'cruise.*.date' => 'nullable|date',
-            // 'cruise.*.cruise_line' => 'nullable|string|max:255',
-            // 'cruise.*.ship_name' => 'nullable|string|max:255',
-            // 'cruise.*.category' => 'nullable|string|max:255',
-            // 'cruise.*.stateroom' => 'nullable|string|max:255',
-            // 'cruise.*.departure_port' => 'nullable|string|max:255',
-            // 'cruise.*.departure_date' => 'nullable|date',
-            // 'cruise.*.departure_hrs' => 'nullable|integer|min:0|max:23',
-            // 'cruise.*.departure_mm' => 'nullable|integer|min:0|max:59',
-            // 'cruise.*.arrival_port' => 'nullable|string|max:255',
-            // 'cruise.*.arrival_date' => 'nullable|date',
-            // 'cruise.*.arrival_hrs' => 'nullable|integer|min:0|max:23',
-            // 'cruise.*.arrival_mm' => 'nullable|integer|min:0|max:59',
-            // 'cruise.*.remarks' => 'nullable|string|max:255',
-            // 'hotel.*.hotel_name' => 'nullable|string|max:255',
-            // 'hotel.*.room_category' => 'nullable|string|max:255',
-            // 'hotel.*.checkin_date' => 'nullable|date',
-            // 'hotel.*.checkout_date' => 'nullable|date',
-            // 'hotel.*.no_of_rooms' => 'nullable|integer|min:1',
-            // 'hotel.*.confirmation_number' => 'nullable|string|max:255',
-            // 'hotel.*.hotel_address' => 'nullable|string|max:255',
-            // 'hotel.*.remarks' => 'nullable|string|max:255',
-            // 'passenger.*.passenger_type' => 'nullable|in:Adult,Child,Infant,Seat Infant,Lap Infant',
-            // 'passenger.*.gender' => 'nullable|in:Male,Female',
-            // 'passenger.*.title' => 'nullable|in:Mr,Mrs,Ms,Master,Miss',
-            // 'passenger.*.first_name' => 'nullable|string|max:255',
-            // 'passenger.*.middle_name' => 'nullable|string|max:255',
-            // 'passenger.*.last_name' => 'nullable|string|max:255',
-            // 'passenger.*.dob' => 'nullable|date',
-            // 'passenger.*.seat_number' => 'nullable|string|max:255',
-            // 'passenger.*.credit_note' => 'nullable|numeric|min:0',
-            // 'passenger.*.e_ticket_number' => 'nullable|string|max:255',
-            // 'billing.*.card_type' => 'nullable|in:VISA,Mastercard,AMEX,DISCOVER',
-            // 'billing.*.cc_number' => 'nullable|string|max:255',
-            // 'billing.*.cc_holder_name' => 'nullable|string|max:255',
-            // 'billing.*.exp_month' => 'nullable|in:01,02,03,04,05,06,07,08,09,10,11,12',
-            // 'billing.*.exp_year' => 'nullable|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
-            // 'billing.*.cvv' => 'nullable|string|max:4',
-            // 'billing.*.address' => 'nullable|string|max:255',
-            // 'billing.*.email' => 'nullable|email|max:255',
-            // 'billing.*.contact_no' => 'nullable|string|max:20',
-            // 'billing.*.city' => 'nullable|string|max:255',
-            // 'billing.*.country' => 'nullable|string|max:255',
-            // 'billing.*.state' => 'nullable|string|max:255',
-            // 'billing.*.zip_code' => 'nullable|string|max:10',
-            // 'billing.*.currency' => 'nullable|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
-            // 'billing.*.amount' => 'nullable|numeric|min:0',
-            // 'activeCard' => 'nullable|integer',
-            // 'flight_cost' => 'nullable|numeric|min:0',
-            // 'hotel_cost' => 'nullable|numeric|min:0',
-            // 'cruise_cost' => 'nullable|numeric|min:0',
-            // 'car_cost' => 'nullable|numeric|min:0',
-            // 'train_cost' => 'nullable|numeric|min:0',
-            // 'total_amount' => 'nullable|numeric|min:0',
-            // 'issuance_fee' => 'nullable|numeric|min:0',
-            // 'advisor_mco' => 'nullable|numeric|min:0',
-            // 'airline_commission' => 'nullable|numeric|min:0',
-            // 'final_amount' => 'nullable|numeric|min:0',
-            // 'merchant' => 'nullable|in:11,12,13',
-            // 'net_mco' => 'nullable|numeric|min:0',
-            // 'sector_details.*' => 'nullable|file|image|max:2048',
-            // 'particulars' => 'nullable|string',
-            // 'feedback' => 'nullable|string',
-            // 'type' => 'nullable|string|max:255',
-            // 'status' => 'nullable|string|max:255',
-            // 'notes' => 'nullable|string',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->withFragment('booking-failed');
-        }
-
+        
         try {
+        // Validate the request data
+       $validator = Validator::make($request->all(), [
+                'pnr' => 'required|string|max:255',
+                'hotel_ref' => 'nullable|string|max:255',
+                'cruise_ref' => 'nullable|string|max:255',
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string|max:20',
+                'email' => 'required|email|max:255',
+                'query_type' => 'nullable|string|max:255',
+                'selected_company' => 'required|string|max:255',
+                'booking_status_id' => 'required',
+                'payment_status_id' => 'required',
+                'reservation_source' => 'nullable|string|max:255',
+                'descriptor' => 'nullable|string|max:255',
+                'amadeus_sabre_pnr' => 'nullable|string|max:255',
+                'sector_details.*' => 'required|file|image|max:2048',
+               
+                'passenger' => 'required|array|min:1',
+                'passenger.*.passenger_type' => 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant',
+                'passenger.*.gender' => 'required|string|in:Male,Female,Other',
+                'passenger.*.title' => 'nullable|string|in:Mr,Ms,Mrs,Dr',
+                'passenger.*.first_name' => 'required|string',
+                'passenger.*.middle_name' => 'nullable|string',
+                'passenger.*.last_name' => 'required|string',
+                'passenger.*.dob' => 'required|date|before:today',
+                'passenger.*.seat_number' => 'nullable|string',
+                'passenger.*.credit_note' => 'nullable|numeric',
+                'passenger.*.e_ticket_number' => 'nullable|string',
+               
+                'billing' => 'required|array|min:1',
+                'billing.*.card_type' => 'required|in:VISA,Mastercard,AMEX,DISCOVER',
+                'billing.*.cc_number' => 'required|string|max:255',
+                'billing.*.cc_holder_name' => 'required|string|max:255',
+                'billing.*.cc_holder_name' => ['required','string','max:255','regex:/^[A-Za-z\s]+$/'],
+                'billing.*.exp_month' => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
+                'billing.*.exp_year' => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
+                'billing.*.cvv' => 'required|string|max:4',
+                'billing.*.address' => 'required|string|max:255',
+                'billing.*.email' => 'required|email|max:255',
+                'billing.*.contact_no' => 'required|string|max:20',
+                'billing.*.city' => 'required|string|max:255',
+                'billing.*.country' => 'required|string|max:255',
+                'billing.*.state' => 'required|string|max:255',
+                'billing.*.zip_code' => 'required|string|max:10',
+                'billing.*.currency' => 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
+                'billing.*.amount' => 'required|numeric|min:0',
+
+                'pricing' => 'required|array|min:1',
+                'pricing.*.passenger_type' => 'required|string|in:adult,child,infant_on_lap,infant_on_seat',
+                'pricing.*.num_passengers' => 'required|integer|min:1',
+                'pricing.*.gross_price' => 'required|numeric|min:0',
+                'pricing.*.net_price' => 'required|numeric|min:0',
+                'pricing.*.details' => 'required|string',
+            ],
+                [
+                
+                'passenger.required' => 'Please provide at least one passenger.',
+                'passenger.*.passenger_type.required' => 'Passenger type is required.',
+                'passenger.*.passenger_type.in' => 'Passenger type must be Adult, Child, Infant, Lap Infant, Seat Infant.',
+                'passenger.*.gender.required' => 'Passenger Gender is required.',
+                'passenger.*.gender.in' => 'Passenger Gender must be Male, Female, or Other.',
+                'passenger.*.title.required' => 'Passenger Title is required (e.g., Mr, Ms, Mrs, Dr).',
+                'passenger.*.title.in' => 'Passenger Title must be one of: Mr, Ms, Mrs, Dr.',
+                'passenger.*.first_name.required' => 'Passenger First name is required.',
+                'passenger.*.last_name.required' => 'Passenger Last name is required.',
+                'passenger.*.dob.required' => 'Passenger Date of birth is required.',
+                'passenger.*.dob.date' => 'Passenger Date of birth must be a valid date.',
+                'passenger.*.dob.before' => 'Passenger Date of birth must be a past date.',
+                'passenger.*.credit_note.numeric' => 'Passenger Credit note must be a number.',
+                
+                'billing.required' => 'Please provide at least one billing entry.',
+                'billing.*.card_type.required' => 'Billing Card type is required.',
+                'billing.*.card_type.in' => 'Billing Card type must be one of: VISA, MasterCard, AMEX, Discover.',
+                'billing.*.cc_number.required' => 'Billing Card number is required.',
+                'billing.*.cc_number.digits_between' => 'Billing Card number must be between 13 and 19 digits.',
+                
+                'billing.*.cc_holder_name.required' => 'Billing Card holder name is required.',
+                'billing.*.cc_holder_name.regex' => 'Card holder name must only contain letters and spaces.',
+   
+                'billing.*.exp_month.required' => 'Billing Expiration month is required.',
+                'billing.*.exp_month.digits' => 'Billing Expiration month must be 2 digits.',
+                'billing.*.exp_year.required' => 'Billing Expiration year is required.',
+                'billing.*.exp_year.digits' => 'Billing Expiration year must be 4 digits.',
+                'billing.*.cvv.required' => 'Billing CVV is required.',
+                'billing.*.cvv.digits_between' => 'Billing CVV must be 3 or 4 digits.',
+                'billing.*.address.required' => 'Billing address is required.',
+                'billing.*.email.required' => 'Billing email is required.',
+                'billing.*.email.email' => 'Billing email must be a valid email address.',
+                'billing.*.contact_no.required' => 'Billing Contact number is required.',
+                'billing.*.contact_no.digits_between' => 'Billing Contact number must be between 8 and 15 digits.',
+                'billing.*.city.required' => 'Billing City is required.',
+                'billing.*.country.required' => 'Billing Country is required.',
+                'billing.*.zip_code.required' => 'Billing Zip code is required.',
+                'billing.*.currency.required' => 'Billing Currency is required.',
+                'billing.*.currency.size' => 'Billing Currency must be a 3-letter code (e.g., USD, EUR).',
+                'billing.*.amount.required' => 'Billing Amount is required.',
+                'billing.*.amount.numeric' => 'Billing Amount must be a valid number.',
+                'billing.*.amount.min' => 'Billing Amount must be at least 1.',
+
+
+                'pricing.required' => 'Please provide at least one pricing entry.',
+                'pricing.*.passenger_type.required' => 'Pricing Passenger type is required.',
+                'pricing.*.passenger_type.in' => 'Pricing Passenger type must be one of: adult, child, infant on lap, or infant on seat.',
+                'pricing.*.num_passengers.required' => 'Pricing Number of passengers is required.',
+                'pricing.*.num_passengers.integer' => 'Pricing Number of passengers must be a whole number.',
+                'pricing.*.num_passengers.min' => 'Pricing Number of passengers must be at least 1.',
+                'pricing.*.gross_price.required' => 'Pricing Gross price is required.',
+                'pricing.*.gross_price.numeric' => 'Pricing Gross price must be a valid number.',
+                'pricing.*.gross_price.min' => 'Pricing Gross price cannot be negative.',
+                'pricing.*.net_price.required' => 'Pricing Net price is required.',
+                'pricing.*.net_price.numeric' => 'Pricing Net price must be a valid number.',
+                'pricing.*.net_price.min' => 'Pricing Net price cannot be negative.',
+                'pricing.*.details.required' => 'Pricing Details field is required.',
+            ]);
+
+            $validator->after(function ($validator) use ($request) {
+            $billings = $request->input('billing', []);
+
+            foreach ($billings as $index => $billing) {
+                $cardType = strtoupper($billing['card_type'] ?? '');
+                $ccNumber = preg_replace('/\D/', '', $billing['cc_number'] ?? '');
+                $cvv = preg_replace('/\D/', '', $billing['cvv'] ?? '');
+
+                if ($cardType === 'AMEX') {
+                    if (strlen($ccNumber) !== 15) {
+                        $validator->errors()->add("billing.$index.cc_number", 'AMEX card number must be exactly 15 digits.');
+                    }
+                    if (strlen($cvv) !== 4) {
+                        $validator->errors()->add("billing.$index.cvv", 'AMEX CVV must be exactly 4 digits.');
+                    }
+                } else {
+                    if (strlen($ccNumber) !== 16) {
+                        $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for non-AMEX.');
+                    }
+                    if (strlen($cvv) !== 3) {
+                        $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
+                    }
+                }
+            }
+        });
+
+        // Trigger validation (throws ValidationException on failure)
+        $validator->validate();
+
+
 
             DB::beginTransaction();
            // Update TravelBooking
@@ -899,43 +957,8 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedBillingIds)
                 ->delete();
 
-            // Update or Create Pricing Detail (hasOne relationship)
-            $pricingData = [
-                'flight_cost' => $request->input('flight_cost', 0),
-                'hotel_cost' => $request->input('hotel_cost', 0),
-                'cruise_cost' => $request->input('cruise_cost', 0),
-                'car_cost' => $request->input('car_cost', 0),
-                'train_cost' => $request->input('train_cost', 0),
-                'total_amount' => $request->input('total_amount', 0),
-                'issuance_fee' => $request->input('issuance_fee', 0),
-                'advisor_mco' => $request->input('advisor_mco', 0),
-                'airline_commission' => $request->input('airline_commission', 0),
-                'final_amount' => $request->input('final_amount', 0),
-                'merchant' => $request->input('merchant'),
-                'net_mco' => $request->input('net_mco', 0),
-                'booking_id' => $booking->id,
-            ];
-            $oldPricing = $booking->pricingDetails;
-            $pricing = TravelPricingDetail::updateOrCreate(
-                ['booking_id' => $booking->id],
-                $pricingData
-            );
-            if ($oldPricing) {
-                foreach ($pricingData as $field => $newValue) {
 
-                    if ($oldPricing[0]->$field != $newValue) {
-                        $pricing->logChange($booking->id, 'TravelPricingDetail', $pricing->id, $field, $oldPricing->$field, $newValue);
-                    }
-                }
-            }
-            else {
-                $pricing->logChange($booking->id, 'TravelPricingDetail', $pricing->id, 'created', null, json_encode($pricingData));
-                // Send OneSignal notification for new pricing
-                $user = $booking->user; // Adjust based on your relationship
-                if ($user) {
-                    $user->notify(new PricingAdded($pricingData));
-                }
-            }
+            ########################pricing error###################################
 
             // Update or Create Sector Details (file uploads)
             if ($request->hasFile('sector_details')) {
@@ -950,76 +973,45 @@ class BookingFormController extends Controller
                 }
             }
 
-            // Update or Create Booking Remark
-//            if ($request->filled('particulars')) {
-//                $oldRemark = TravelBookingRemark::where('booking_id', $booking->id)->first();
-//                $remarkData = [
-//                    'agent' => 'Testagent',
-//                    'date_time' => now(),
-//                    'particulars' => $request->input('particulars'),
-//                ];
-//                $remark = TravelBookingRemark::updateOrCreate(
-//                    ['booking_id' => $booking->id],
-//                    $remarkData
-//                );
-//                if ($oldRemark && $oldRemark->particulars != $remarkData['particulars']) {
-//                    $booking->logChange($booking->id, 'TravelBookingRemark', $remark->id, 'particulars', $oldRemark->particulars, $remarkData['particulars']);
-//                } elseif (!$oldRemark) {
-//                    $booking->logChange($booking->id, 'TravelBookingRemark', $remark->id, 'created', null, json_encode($remarkData));
-//                }
-//            }
+            
+            // // Update or Create Pricing Detail (hasOne relationship)
+            // $pricingData = [
+            //     // 'flight_cost' => $request->input('flight_cost', 0),
+            //     // 'hotel_cost' => $request->input('hotel_cost', 0),
+            //     // 'cruise_cost' => $request->input('cruise_cost', 0),
+            //     // 'car_cost' => $request->input('car_cost', 0),
+            //     // 'train_cost' => $request->input('train_cost', 0),
+            //     // 'total_amount' => $request->input('total_amount', 0),
+            //     // 'issuance_fee' => $request->input('issuance_fee', 0),
+            //     // 'advisor_mco' => $request->input('advisor_mco', 0),
+            //     // 'airline_commission' => $request->input('airline_commission', 0),
+            //     // 'final_amount' => $request->input('final_amount', 0),
+            //     // 'merchant' => $request->input('merchant'),
+            //     // 'net_mco' => $request->input('net_mco', 0),
+            //     'booking_id' => '1',
+            // ];
+            // $oldPricing = $booking->pricingDetails;
+            // $pricing = TravelPricingDetail::updateOrCreate(
+            //     ['booking_id' => $booking->id],
+            //     $pricingData
+            // );
+            // if ($oldPricing) {
+            //     foreach ($pricingData as $field => $newValue) {
 
-            // Update or Create Quality Feedback
-            if (!empty($request->quality_feedback)) {
-                $oldFeedback = TravelQualityFeedback::where('booking_id', $booking->id)->first();
-                $feedbackData = [
-                    'qa' => 'Test QA',
-                    'date_time' => now(),
-                    'feedback' => $request->input('feedback'),
-                    'status'=>$request->selqlstatus,
-                    'parameters'=>json_encode($request->quality_feedback)
-                ];
-                $feedback = TravelQualityFeedback::updateOrCreate(
-                    ['booking_id' => $booking->id],
-                    $feedbackData
-                );
-                if ($oldFeedback && $oldFeedback->feedback != $feedbackData['feedback']) {
-                    $booking->logChange($booking->id, 'TravelQualityFeedback', $feedback->id, 'feedback', $oldFeedback->feedback, $feedbackData['feedback']);
-                } elseif (!$oldFeedback) {
-                    $booking->logChange($booking->id, 'TravelQualityFeedback', $feedback->id, 'created', null, json_encode($feedbackData));
-                }
-            }
-
-            if (!empty($request->screenshots)) {
-                $oldScreenshot = TravelScreenshot::where('booking_id', $booking->id)->first();
-                $screenshotData = [
-                    'type' => $request->input('type'),
-                    'status' => $request->input('status'),
-                    'notes' => $request->input('notes'),
-                ];
-                if(!empty($request->screenshots)){
-                    $screenshotData['file_path'] = [];
-                    foreach($request->screenshots as $key => $image){
-                        if(!is_array($image)){
-                            $screenshotData['file_path'][] = 'storage/'.$image->store('screenshots','public');
-                        }
-                    }
-                    $screenshotData['file_path'] = json_encode($screenshotData['file_path']);
-                }
-                $screenshot = TravelScreenshot::updateOrCreate(
-                    ['booking_id' => $booking->id],
-                    $screenshotData
-                );
-                if ($oldScreenshot) {
-                    foreach ($screenshotData as $field => $newValue) {
-                        if ($oldScreenshot->$field != $newValue) {
-                            $booking->logChange($booking->id, 'TravelScreenshot', $screenshot->id, $field, $oldScreenshot->$field, $newValue);
-                        }
-                    }
-                } else {
-                    $booking->logChange($booking->id, 'TravelScreenshot', $screenshot->id, 'created', null, json_encode($screenshotData));
-                }
-            }
+            //         if ($oldPricing && $oldPricing->$field != $newValue) {
+            //             $pricing->logChange($booking->id, 'TravelPricingDetail', $pricing->id, $field, $oldPricing->$field, $newValue);
+            //         }
+            //     }
+            // }
+            // else {
+            //     $pricing->logChange($booking->id, 'TravelPricingDetail', $pricing->id, 'created', null, json_encode($pricingData));
+            //     // Send OneSignal notification for new pricing
+            //     $user = $booking->user; // Adjust based on your relationship
+            //     if ($user) {
+            //         $user->notify(new PricingAdded($pricingData));
+            //     }
+            // }
+            
 
             DB::commit();
             return response()->json([
@@ -1028,17 +1020,24 @@ class BookingFormController extends Controller
                 'code'=>201
             ],201);
 //            return redirect()->route('booking.show', ['id' => $id])->with('success', 'Booking updated successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error('Failed to update booking: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Failed to update booking'.$e,
-                'code'=>500
-            ],500);
-//            return redirect()->back()->with('error', 'Failed to update booking: ' . $e->getMessage())->withInput()->withFragment('booking-failed');
+        }
+        catch(ValidationException $e){
+            return JsonResponse::error($e->validator->errors()->first(),422,'422');
+        }
+        catch(QueryException $e){
+            return JsonResponse::error('Failed to Query'.$e,500,'500');
+        }
+        catch(\Exception $e){
+            \Log::error('Update Booking Error: '.$e->getMessage(), [
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return JsonResponse::error('Internal Server Error', 500, '500');
         }
     }
+
 
     public function show($hash)
     {

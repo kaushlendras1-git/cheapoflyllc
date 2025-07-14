@@ -49,7 +49,7 @@
                     $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
 
-                <form id="bookingForm" action="{{ route('booking.update', $booking->id ?? '') }}" method="POST">
+                <form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
@@ -183,20 +183,20 @@
                             </div>
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Booking Status</label>
-                                <select class="form-control" name="booking_status">
+                                <select class="form-control" name="booking_status_id">
                                     @foreach($booking_status as $status)
                                         <option value="pending"
-                                            {{ old('payment_status', $booking->payment_status ?? '') === $status->is ? 'selected' : '' }}>
+                                            {{ old('booking_status_id', $booking->booking_status_id ?? '') === $status->is ? 'selected' : '' }}>
                                             {{$status->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Payment Status</label>
-                                <select class="form-control" name="payment_status">
+                                <select class="form-control" name="payment_status_id">
                                     @foreach($payment_status as $payment)
                                         <option value="pending"
-                                            {{ old('payment_status', $booking->payment_status ?? '') === $payment->is ? 'selected' : '' }}>
+                                            {{ old('payment_status_id', $booking->payment_status_id ?? '') === $payment->is ? 'selected' : '' }}>
                                             {{$payment->name}}</option>
                                     @endforeach
                                 </select>
@@ -421,6 +421,7 @@
                                                         name="flight_files[{{ $index }}]"
                                                         data-files='@json($flight->files)'
                                                     >
+                                                    
                                                     <tr class="flight-row" data-index="{{ $index }}">
                                                         <td><span class="flight-title">{{ $index + 1 }}</span></td>
                                                         <td><input type="text" class="form-control"
@@ -928,11 +929,11 @@
                                 @foreach($booking->passengers as $key=>$passengers)
                                     <tr class="passenger-form" data-index="{{$key}}">
                                         <td>
-                                            <span class="billing-card-title"> {{$key}}</span>
+                                            <span class="billing-card-title"> {{$key+1}}</span>
                                         </td>
                                         <td>
                                             <select class="form-control" style="width:7.5rem"
-                                                    name="passenger[$key][passenger_type]">
+                                                    name="passenger[{{$key}}][passenger_type]">
                                                 <option value="">Select</option>
                                                 <option value="Adult"
                                                     {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult</option>
@@ -1021,211 +1022,126 @@
                 <!------------------------------------End Passeenger------------------------------------------------------>
 
 
-                <!--------------------------------------Billing Details ---------------------------->
-                <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-header border-0 p-0">Billing Details</h5>
-                            <div>
-                                <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit
-                                    Paylink</button>
-                            </div>
-                        </div>
-                        <!--------------------------------------Billing Details ---------------------------->
-                        <div class="col-md-12 details-table-wrappper">
-                            <table class="billing-table table">
-                                <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Card Type</th>
-                                    <th>CC Number</th>
-                                    <th>CC Holder Name</th>
-                                    <th>MM</th>
-                                    <th>YYYY</th>
-                                    <th>CVV</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Contact No</th>
-                                    <th>City</th>
-                                    <th>Country</th>
-                                    <th>State</th>
-                                    <th>ZIP Code</th>
-                                    <th>Currency</th>
-                                    <th>Amount</th>
-                                    <th>Active</th>
-                                    <th>Action</th>
+  <!--------------------------------------Billing Details ---------------------------->
+<div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-header border-0 p-0">Billing Details</h5>
+            <div>
+                <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit Paylink</button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-12 table-responsive details-table-wrappper">
+                    <table id="billingTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Card Type</th>
+                                <th>CC Number</th>
+                                <th>CC Holder Name</th>
+                                <th>Exp Month</th>
+                                <th>Exp Year</th>
+                                <th>CVV</th>
+                                <th>Address</th>
+                                <th>Email</th>
+                                <th>Contact No</th>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>ZIP Code</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>Active Card</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billingForms">
+                            @foreach($booking->billingDetails as $key => $billingDetails)
+                                <tr class="billing-card" data-index="{{$key}}">
+                                    <td><h6 class="billing-card-title mb-0"> {{$key + 1}}</h6></td>
+                                    <td>
+                                        <select class="form-control" name="billing[{{$key}}][card_type]">
+                                            <option value="">Select</option>
+                                            <option value="VISA" {{$billingDetails->card_type == 'VISA' ? 'selected' : ''}}>VISA</option>
+                                            <option value="Mastercard" {{$billingDetails->card_type == 'Mastercard' ? 'selected' : ''}}>Mastercard</option>
+                                            <option value="AMEX" {{$billingDetails->card_type == 'AMEX' ? 'selected' : ''}}>AMEX</option>
+                                            <option value="DISCOVER" {{$billingDetails->card_type == 'DISCOVER' ? 'selected' : ''}}>DISCOVER</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="CC Number" name="billing[{{$key}}][cc_number]" value="{{$billingDetails->cc_number}}"></td>
+                                    <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[{{$key}}][cc_holder_name]" value="{{$billingDetails->cc_holder_name}}"></td>
+                                    <td>
+                                        <select class="form-control" name="billing[{{$key}}][exp_month]">
+                                            <option value="">MM</option>
+                                            @for($i = 1; $i <= 12; $i++)
+                                                <option value="{{ sprintf('%02d', $i) }}" {{$billingDetails->exp_month == sprintf('%02d', $i) ? 'selected' : ''}}>{{ sprintf('%02d', $i) }}</option>
+                                            @endfor
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="billing[{{$key}}][exp_year]">
+                                            <option value="">YYYY</option>
+                                            @for($i = 2024; $i <= 2034; $i++)
+                                                <option value="{{$i}}" {{$billingDetails->exp_year == $i ? 'selected' : ''}}>{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]" value="{{$billingDetails->cvv}}"></td>
+                                    <td><input type="text" class="form-control" placeholder="Address" name="billing[{{$key}}][address]" value="{{$billingDetails->address}}"></td>
+                                    <td><input type="email" class="form-control" placeholder="Email" name="billing[{{$key}}][email]" value="{{$billingDetails->email}}"></td>
+                                    <td><input type="text" class="form-control" placeholder="Contact No" name="billing[{{$key}}][contact_no]" value="{{$billingDetails->contact_no}}"></td>
+                                    <td><input type="text" class="form-control" placeholder="City" name="billing[{{$key}}][city]" value="{{$billingDetails->city}}"></td>
+                                    <td>
+                                        <select id="country-{{$key}}" style="width:9rem" class="form-control country-select" name="billing[{{$key}}][country]">
+                                            <option value="India">Select Country</option>
+                                            <!-- Populated by JavaScript -->
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select id="state-{{$key}}" style="width:7.5rem" class="form-control state-select" name="billing[{{$key}}][state]">
+                                            <option value="India">Select State</option>
+                                            <!-- Populated by JavaScript -->
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[{{$key}}][zip_code]" value="{{$billingDetails->zip_code}}"></td>
+                                    <td>
+                                        <select class="form-control" name="billing[{{$key}}][currency]">
+                                            <option value="">Select Currency</option>
+                                            <option value="USD" {{$billingDetails->currency == 'USD' ? 'selected' : ''}}>USD</option>
+                                            <option value="CAD" {{$billingDetails->currency == 'CAD' ? 'selected' : ''}}>CAD</option>
+                                            <option value="EUR" {{$billingDetails->currency == 'EUR' ? 'selected' : ''}}>EUR</option>
+                                            <option value="GBP" {{$billingDetails->currency == 'GBP' ? 'selected' : ''}}>GBP</option>
+                                            <option value="AUD" {{$billingDetails->currency == 'AUD' ? 'selected' : ''}}>AUD</option>
+                                            <option value="INR" {{$billingDetails->currency == 'INR' ? 'selected' : ''}}>INR</option>
+                                            <option value="MXN" {{$billingDetails->currency == 'MXN' ? 'selected' : ''}}>MXN</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control" placeholder="0.00" name="billing[{{$key}}][amount]" value="{{$billingDetails->amount}}" step="0.01"></td>
+                                    <td><input class="form-check-input" type="radio" name="activeCard" value="{{$key}}" {{$billingDetails->active == 1 ? 'checked' : ''}}></td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger delete-billing-btn">
+                                            <i class="ri ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
                                 </tr>
-                                </thead>
-                                <tbody id="billingForms">
-                                @foreach($booking->billingDetails as $key=>$billingDetails)
-                                    <tr class="billing-card" data-index="{{$key}}">
-                                        <td>
-                                            <h6 class="billing-card-title mb-0">{{$key+1}}</h6>
-                                        </td>
-                                        <td>
-                                            <select style="width:7.5rem" class="form-control"
-                                                    name="billing[{{$key}}][card_type]">
-                                                <option value="">Select</option>
-                                                <option value="VISA" {{$billingDetails->card_type=="VISA"?'selected':''}}>
-                                                    VISA</option>
-                                                <option value="Mastercard"
-                                                    {{$billingDetails->card_type=="Mastercard"?'selected':''}}>Mastercard
-                                                </option>
-                                                <option value="AMEX" {{$billingDetails->card_type=="AMEX"?'selected':''}}>
-                                                    AMEX</option>
-                                                <option value="DISCOVER"
-                                                    {{$billingDetails->card_type=="DISCOVER"?'selected':''}}>DISCOVER
-                                                </option>
-                                            </select>
-                                        </td>
-
-                                        <td><input type="text" style="width:7.5rem" class="form-control"
-                                                   value="{{$billingDetails->cc_number}}" placeholder="CC Number"
-                                                   name="billing[{{$key}}][cc_number]"></td>
-                                        <td><input type="text" style="width:10rem" class="form-control"
-                                                   placeholder="CC Holder Name" value="{{$billingDetails->cc_holder_name}}"
-                                                   name="billing[{{$key}}][cc_holder_name]"></td>
-
-                                        <td>
-                                            <select class="form-control" style="width:7.5rem"
-                                                    name="billing[{{$key}}][exp_month]">
-                                                <option value="">MM</option>
-                                                <option value="01" {{$billingDetails->exp_month == "01"?'selected':''}}>01
-                                                </option>
-                                                <option value="02" {{$billingDetails->exp_month == "02"?'selected':''}}>02
-                                                </option>
-                                                <option value="03" {{$billingDetails->exp_month == "03"?'selected':''}}>03
-                                                </option>
-                                                <option value="04" {{$billingDetails->exp_month == "04"?'selected':''}}>04
-                                                </option>
-                                                <option value="05" {{$billingDetails->exp_month == "05"?'selected':''}}>05
-                                                </option>
-                                                <option value="06" {{$billingDetails->exp_month == "06"?'selected':''}}>06
-                                                </option>
-                                                <option value="07" {{$billingDetails->exp_month == "07"?'selected':''}}>07
-                                                </option>
-                                                <option value="08" {{$billingDetails->exp_month == "08"?'selected':''}}>08
-                                                </option>
-                                                <option value="09" {{$billingDetails->exp_month == "09"?'selected':''}}>09
-                                                </option>
-                                                <option value="10" {{$billingDetails->exp_month == "10"?'selected':''}}>10
-                                                </option>
-                                                <option value="11" {{$billingDetails->exp_month == "11"?'selected':''}}>11
-                                                </option>
-                                                <option value="12" {{$billingDetails->exp_month == "12"?'selected':''}}>12
-                                                </option>
-                                            </select>
-                                        </td>
-
-                                        <td>
-                                            <select class="form-control" style="width:7.5rem"
-                                                    name="billing[{{$key}}][exp_year]">
-                                                <option value="">YYYY</option>
-                                                <option value="2024" {{$billingDetails->exp_year=="2024"?'selected':''}}>
-                                                    2024</option>
-                                                <option value="2025" {{$billingDetails->exp_year=="2025"?'selected':''}}>
-                                                    2025</option>
-                                                <option value="2026" {{$billingDetails->exp_year=="2026"?'selected':''}}>
-                                                    2026</option>
-                                                <option value="2027" {{$billingDetails->exp_year=="2027"?'selected':''}}>
-                                                    2027</option>
-                                                <option value="2028" {{$billingDetails->exp_year=="2028"?'selected':''}}>
-                                                    2028</option>
-                                                <option value="2029" {{$billingDetails->exp_year=="2029"?'selected':''}}>
-                                                    2029</option>
-                                                <option value="2030" {{$billingDetails->exp_year=="2030"?'selected':''}}>
-                                                    2030</option>
-                                                <option value="2031" {{$billingDetails->exp_year=="2031"?'selected':''}}>
-                                                    2031</option>
-                                                <option value="2032" {{$billingDetails->exp_year=="2032"?'selected':''}}>
-                                                    2032</option>
-                                                <option value="2033" {{$billingDetails->exp_year=="2033"?'selected':''}}>
-                                                    2033</option>
-                                                <option value="2034" {{$billingDetails->exp_year=="2034"?'selected':''}}>
-                                                    2034</option>
-                                            </select>
-                                        </td>
-
-                                        <td><input type="text" style="width:7.5rem" class="form-control" placeholder="CVV"
-                                                   value="{{$billingDetails->cvv}}" name="billing[{{$key}}][cvv]"></td>
-                                        <td><input type="text" style="width:7.5rem" class="form-control"
-                                                   placeholder="Address" value="{{$billingDetails->address}}"
-                                                   name="billing[{{$key}}][address]"></td>
-                                        <td><input type="email" style="width:7.5rem" class="form-control"
-                                                   placeholder="Email" value="{{$billingDetails->email}}"
-                                                   name="billing[{{$key}}][email]"></td>
-                                        <td><input type="text" style="width:7.5rem" class="form-control"
-                                                   placeholder="Contact No" value="{{$billingDetails->contact_no}}"
-                                                   name="billing[{{$key}}][contact_no]"></td>
-                                        <td><input type="text" style="width:7.5rem" class="form-control" placeholder="City"
-                                                   value="{{$billingDetails->city}}" name="billing[{{$key}}][city]"></td>
-
-                                        <td>
-                                            <select id="country-{{$key}}" style="width:9rem"
-                                                    class="form-control country-select" name="billing[{{$key}}][country]">
-                                                <option value="">Select Country</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select id="state-{{$key}}" style="width:7.5rem"
-                                                    class="form-control state-select" name="billing[{{$key}}][state]">
-                                                <option value="">Select State</option>
-                                            </select>
-                                        </td>
-
-                                        <td>
-                                            <input type="text" style="width:7.5rem" class="form-control"
-                                                   placeholder="ZIP Code" name="billing[{{$key}}][zip_code]"
-                                                   value="{{$billingDetails->zip_code}}">
-                                        </td>
-
-                                        <td>
-                                            <select class="form-control" style="width:7.5rem"
-                                                    name="billing[{{$key}}][currency]">
-                                                <option value="">Select Currency</option>
-                                                <option value="USD" {{$billingDetails->currency=='USD'?'selected':''}}>USD
-                                                </option>
-                                                <option value="CAD" {{$billingDetails->currency=='CAD'?'selected':''}}>CAD
-                                                </option>
-                                                <option value="EUR" {{$billingDetails->currency=='EUR'?'selected':''}}>EUR
-                                                </option>
-                                                <option value="GBP" {{$billingDetails->currency=='GBP'?'selected':''}}>GBP
-                                                </option>
-                                                <option value="AUD" {{$billingDetails->currency=='AUD'?'selected':''}}>AUD
-                                                </option>
-                                                <option value="INR" {{$billingDetails->currency=='INR'?'selected':''}}>INR
-                                                </option>
-                                                <option value="MXN" {{$billingDetails->currency=='MXN'?'selected':''}}>MXN
-                                                </option>
-                                            </select>
-                                        </td>
-
-                                        <td><input type="number" style="width:7.5rem" class="form-control"
-                                                   placeholder="0.00" name="billing[{{$key}}][amount]"
-                                                   value="{{$billingDetails->amount}}" step="0.01"></td>
-                                        <td><input class="form-check-input" type="radio" name="activeCard" value="0"
-                                                {{$billingDetails->activeCard==1?'selected':''}}></td>
-                                        <td>
-                                            <button type="button" class="btn btn-outline-danger delete-billing-btn">
-                                                <i class="ri ri-delete-bin-line"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <!--------------------------------------Billing Details ---------------------------->
-
-
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------End Billing Details ---------------------------->
+           
 
                 <!------------------------- Pricing Details ----------------------------------->
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
                     <div class="col-md-12">
                         <div class="card p-4 details-table-wrappper">
+
                             <table class="pricing-table table">
                                 <thead>
                                 <tr>
@@ -1244,6 +1160,38 @@
                                 </tr>
                                 </thead>
                                 <tbody id="pricingForms" class="pricing-rows">
+                                @if($booking->pricingDetails->isEmpty())
+                                    <tr class="pricing-row" data-index="0">
+                                        <td>
+                                            <select name="pricing[0][passenger_type]" id="passenger_type_0">
+                                                <option value="">Select</option>
+                                                <option value="adult">Adult</option>
+                                                <option value="child">Child</option>
+                                                <option value="infant_on_lap">Infant on Lap</option>
+                                                <option value="infant_on_seat">Infant on Seat</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="form-control" name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0"></td>
+                                        <td><input type="number" class="form-control" name="pricing[0][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
+                                        <td><span class="gross-total">0.00</span></td>
+                                        <td><input type="number" class="form-control" name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+                                        <td><span class="net-total">0.00</span></td>
+                                        <td>
+                                            <select name="pricing[0][details]" id="details_0">
+                                                <option value="">Select</option>
+                                                <option value="ticket_cost">Ticket Cost</option>
+                                                <option value="merchant_fee">Merchant Fee</option>
+                                                <option value="company_card_used">Company Card Used</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                <i class="ri ri-delete-bin-line"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @endif
+
                                 @foreach($booking->pricingDetails as $key=>$pricingDetails)
                                     <tr class="pricing-row" data-index="{{$key}}">
                                         <td>
@@ -1302,6 +1250,8 @@
                                 </tr>
                                 </tfoot>
                             </table>
+
+
                         </div>
                     </div>
                 </div>
@@ -1556,6 +1506,8 @@
     @vite('resources/js/booking/edit.js')
 
     @vite('resources/js/auth/sendAuth.js')
+
+
 
 
 @endsection
