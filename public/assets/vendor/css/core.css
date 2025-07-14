@@ -28709,18 +28709,22 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   border-bottom: 1px solid #ababab !important;
   font-weight: 700 !important;
   text-transform: capitalize !important;
-  background-color: #fff !important;
+  background-color: #af8aff !important;
+  color: #fff;
 }
 .crm-table table tr th, .crm-table table tr td {
   font-size: 12px !important;
   white-space: nowrap !important;
   padding: 10px 5px !important;
 }
+.crm-table table tr td {
+  color: #000;
+}
 .shadow-card-none {
   box-shadow: none !important;
 }
 .crm-table table tr:nth-child(odd){
-  background-color: #2e263d09 !important;
+  background-color: #f9f6ff !important;
 }
 .crm-table .badge.float-start {
   float: none !important;
@@ -29016,9 +29020,15 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .details-table-wrappper table tbody tr td {
   border-right: 1px solid #000 !important;
+  border-bottom: 1px solid #000 !important;
 }
 .marketing-upper-form {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   align-items: end;
+}
+.page-name {
+    font-size: 22px;
+    margin-bottom: 0px;
+    font-weight: 600;
 }

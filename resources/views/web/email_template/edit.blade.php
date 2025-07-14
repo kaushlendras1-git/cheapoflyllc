@@ -14,15 +14,15 @@
 
             <!-- Booking Form Card -->
             <div class="card p-4 mb-4">
-                <div class="row mb-3">
-                    <div class="col-md-3">
+                <div class="row mb-3 booking-form">
+                    <div class="col-md-3 position-relative">
                         <label class="form-label">Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control" value="{{ old('name', $emailTemplate->name) }}">
                         @error('name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 position-relative">
                         <label class="form-label">Subject <span class="text-danger">*</span></label>
                         <input type="text" name="subject" class="form-control" value="{{ old('subject', $emailTemplate->subject) }}">
                         @error('subject')
@@ -31,8 +31,8 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-12">
+                <div class="row mb-3 booking-form">
+                    <div class="col-md-12 position-relative">
                         <label class="form-label">Content</label>
                         <textarea name="content" class="form-control">{{ old('content', $emailTemplate->content) }}</textarea>
 

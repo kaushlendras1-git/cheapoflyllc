@@ -427,18 +427,18 @@
                                                         <td><input type="text" class="form-control"
                                                                    name="flight[{{ $index }}][direction]"
                                                                    value="{{ $flight->direction }}" placeholder="Direction"></td>
-                                                        <td><input type="date" class="form-control"
+                                                        <td><input type="date" style="width: 135px;" class="form-control"
                                                                    name="flight[{{ $index }}][departure_date]"
                                                                    value="{{$flight->departure_date?->format('Y-m-d')}}"></td>
-                                                        <td><input type="text" class="form-control"
+                                                        <td><input type="text" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][airline_code]"
                                                                    value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
                                                                    placeholder="Airlines (Code)"></td>
-                                                        <td><input type="text" class="form-control"
+                                                        <td><input type="text" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][flight_number]"
                                                                    value="{{ old("flight.$index.flight_no", $flight->flight_number) }}"
                                                                    placeholder="Flight No"></td>
-                                                        <td><input type="text" class="form-control"
+                                                        <td><input type="text" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][cabin]"
                                                                    value="{{ old("flight.$index.cabin", $flight->cabin) }}"
                                                                    placeholder="Cabin"></td>
@@ -451,26 +451,26 @@
                                                                    value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                                    placeholder="Departure Airport"></td>
                                                         <td><input type="number" class="form-control"
-                                                                   name="flight[{{ $index }}][departure_hours]"
+                                                                   name="flight[{{ $index }}][departure_hours]" style="width: 60px;"
                                                                    value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
                                                                    placeholder="Hrs" min="0" max="23"></td>
-                                                        <td><input type="number" class="form-control"
+                                                        <td><input type="number" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][departure_minutes]"
                                                                    value="{{ old("flight.$index.departure_mm", $flight->departure_minutes) }}"
                                                                    placeholder="mm" min="0" max="59"></td>
                                                         <td><input type="text" class="form-control"
-                                                                   name="flight[{{ $index }}][arrival_airport]"
+                                                                   name="flight[{{ $index }}][arrival_airport]" style="width: 60px;"
                                                                    value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}"
                                                                    placeholder="Arrival Airport"></td>
-                                                        <td><input type="number" class="form-control"
+                                                        <td><input type="number" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][arrival_hours]"
                                                                    value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}"
                                                                    placeholder="Hrs" min="0" max="23"></td>
-                                                        <td><input type="number" class="form-control"
+                                                        <td><input type="number" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][arrival_minutes]"
                                                                    value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}"
                                                                    placeholder="mm" min="0" max="59"></td>
-                                                        <td><input type="text" class="form-control"
+                                                        <td><input type="text" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][duration]"
                                                                    value="{{ old("flight.$index.duration", $flight->duration) }}"
                                                                    placeholder="Duration"></td>
@@ -478,7 +478,7 @@
                                                                    name="flight[{{ $index }}][transit]"
                                                                    value="{{ old("flight.$index.transit", $flight->transit) }}"
                                                                    placeholder="Transit"></td>
-                                                        <td><input type="date" class="form-control"
+                                                        <td><input type="date" class="form-control" style="width: 135px;"
                                                                    name="flight[{{ $index }}][arrival_date]"
                                                                    value="{{ $flight->arrival_date?->format('Y-m-d') }}"></td>
                                                         <td>
@@ -950,7 +950,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control" style="width:7.5rem"
+                                            <select class="form-control" style="width: 90px;"
                                                     name="passenger[{{$key}}][gender]">
                                                 <option value="">Select</option>
                                                 <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>Male
@@ -960,7 +960,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control" style="width:7.5rem"
+                                            <select class="form-control" style="width:80px;"
                                                     name="passenger[{{$key}}][title]">
                                                 <option value="">Select</option>
                                                 <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr</option>
@@ -989,21 +989,21 @@
                                                    placeholder="Last Name">
                                         </td>
                                         <td>
-                                            <input type="date" class="form-control" name="passenger[{{$key}}][dob]"
+                                            <input type="date" style="width: 135px;" class="form-control" name="passenger[{{$key}}][dob]"
                                                    value="{{$passengers->dob?->format('Y-m-d')}}">
                                         </td>
                                         <td>
-                                            <input type="text" style="width:7.5rem" class="form-control"
+                                            <input type="text" style="width:80px;" class="form-control"
                                                    name="passenger[{{$key}}][seat_number]" value="{{$passengers->seat_number}}"
                                                    placeholder="Seat">
                                         </td>
                                         <td>
-                                            <input type="number" style="width:7.5rem" class="form-control"
+                                            <input type="number" style="width:80px" class="form-control"
                                                    name="passenger[{{$key}}][credit_note]"
                                                    value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
                                         </td>
                                         <td>
-                                            <input type="text" style="width:7.5rem" class="form-control"
+                                            <input type="text" style="width:80px;" class="form-control"
                                                    name="passenger[{{$key}}][e_ticket_number]"
                                                    value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
                                         </td>
@@ -1163,7 +1163,7 @@
                                 @if($booking->pricingDetails->isEmpty())
                                     <tr class="pricing-row" data-index="0">
                                         <td>
-                                            <select name="pricing[0][passenger_type]" id="passenger_type_0">
+                                            <select name="pricing[0][passenger_type]" class="form-select" id="passenger_type_0">
                                                 <option value="">Select</option>
                                                 <option value="adult">Adult</option>
                                                 <option value="child">Child</option>
@@ -1177,7 +1177,7 @@
                                         <td><input type="number" class="form-control" name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
                                         <td><span class="net-total">0.00</span></td>
                                         <td>
-                                            <select name="pricing[0][details]" id="details_0">
+                                            <select name="pricing[0][details]" class="form-select" id="details_0">
                                                 <option value="">Select</option>
                                                 <option value="ticket_cost">Ticket Cost</option>
                                                 <option value="merchant_fee">Merchant Fee</option>

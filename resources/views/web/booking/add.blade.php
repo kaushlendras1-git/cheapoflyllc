@@ -307,7 +307,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control" style="width:7.5rem"
+                                            <select class="form-control" style="width: 60px;"
                                                 name="passenger[0][gender]">
                                                 <option value="">Select</option>
                                                 <option value="Male"

@@ -4,7 +4,7 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row gy-6">
-        <h4>Edit Campaign</h4>
+        <h4 class="page-name">Edit Campaign</h4>
 
         @include('web.layouts.flash')
 
@@ -15,9 +15,9 @@
 
             <!-- Booking Form Card -->
             <div class="card p-4 mb-4">
-                <div class="row mb-3">
+                <div class="row mb-3 booking-form">
                     <!-- Name Field -->
-                    <div class="col-md-3">
+                    <div class="col-md-3 position-relative">
                         <label class="form-label">Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control" value="{{ old('name', $campaign->name) }}">
                         @error('name')
@@ -26,7 +26,7 @@
                     </div>
 
                     <!-- Status Field -->
-                    <div class="col-md-3">
+                    <div class="col-md-3 position-relative">
                         <label class="form-label">Status <span class="text-danger">*</span></label>
                         <select id="status" data-sh="Campaign" name="status" class="form-control">
                             <option value="1" {{ $campaign->status == 1 ? 'selected' : '' }}>Active</option>
