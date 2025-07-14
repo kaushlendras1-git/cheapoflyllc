@@ -45,27 +45,23 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     const action = form.action;
     const formdata = new FormData(form);
 
-    // Append hotel inputs
-    document.querySelectorAll('[name^="hotel["]').forEach(input => {
+      document.querySelectorAll('[name^="hotel["]').forEach(input => {
         formdata.append(input.name, input.value);
     });
 
-    // Append cruise inputs
     document.querySelectorAll('[name^="cruise["]').forEach(input => {
         formdata.append(input.name, input.value);
     });
 
-    // Append car inputs
     document.querySelectorAll('[name^="car["]').forEach(input => {
         formdata.append(input.name, input.value);
     });
 
-    // Append pricing inputs
     document.querySelectorAll('[name^="pricing["]').forEach(input => {
         formdata.append(input.name, input.value);
     });
 
-    // Append passenger inputs (manually)
+
     const passengerRows = document.querySelectorAll('#passengerForms .passenger-form');
     let passengerAdded = false;
 
