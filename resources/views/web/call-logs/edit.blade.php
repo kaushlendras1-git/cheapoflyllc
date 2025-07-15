@@ -25,8 +25,9 @@
       @method('PUT')
       
       <!-- Top Bar -->
-      <div class="card p-3 mt-2 mb-4">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="card p-4">
+        <div class="ps-0">
+        <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
           <div class="d-flex align-items-center gap-3 flex-wrap">
             <div class="form-check form-check-inline">
               <input name="chkflight" class="form-check-input" type="checkbox" id="booking-flight" value="1" {{ $callLog->chkflight ? 'checked' : '' }}>
@@ -49,23 +50,23 @@
       </div>
       
       <!-- Booking Form Card -->
-      <div class="card p-4 mb-4">
-        <div class="row mb-3">
-          <div class="col-md-3">
+      <div class="pt-5 ps-0">
+        <div class="row booking-form">
+          <div class="col-md-3 position-relative mb-5">
             <label class="form-label">Phone <span class="text-danger">*</span></label>
             <input type="text" name="phone" class="form-control" value="{{ old('phone', $callLog->phone) }}">
             @error('phone')
               <div class="text-danger">{{ $message }}</div>
             @enderror
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 position-relative mb-5">
             <label class="form-label">Name <span class="text-danger">*</span></label>
             <input type="text" name="name" class="form-control" value="{{ old('name', $callLog->name) }}">
             @error('name')
               <div class="text-danger">{{ $message }}</div>
             @enderror
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 position-relative mb-5">
             <label class="form-label">Team <span class="text-danger">*</span></label>
             <select id="team" name="team" class="form-control">
               <option value="" {{ old('selcompany', $callLog->selcompany) == '' ? 'selected' : '' }}>Select</option>
@@ -79,7 +80,7 @@
               <div class="text-danger">{{ $message }}</div>
             @enderror
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 position-relative mb-5">
             <label class="form-label">Campaign <span class="text-danger">*</span></label>
             <select id="selcampaign" name="campaign" class="form-control">
               <option value="" {{ old('selcampaign', $callLog->campaign) == '' ? 'selected' : '' }}>Select</option>
@@ -95,15 +96,15 @@
           </div>
         </div>
         
-        <div class="row mb-3">
-          <div class="col-md-3">
+        <div class="row mb-3 booking-form">
+          <div class="col-md-3 position-relative mb-5">
             <label class="form-label">Reservation Source <span class="text-danger">*</span></label>
             <input type="text" name="reservation_source" class="form-control" value="{{ old('reservation_source', $callLog->reservation_source) }}">
             @error('reservation_source')
               <div class="text-danger">{{ $message }}</div>
             @enderror
           </div>
-          <div class="col-md-3">
+          <div class="col-md-3 position-relative mb-5">
             <label class="form-label">Call Type <span class="text-danger">*</span></label>
             <select name="call_type" id="call_type" class="form-control">
               <option value="" {{ old('call_type', $callLog->call_type) == '' ? 'selected' : '' }}>Select</option>
@@ -119,7 +120,7 @@
           </div>
 
 
-          <div class="col-md-3" id="assign" style="{{ !$callLog->assign? 'display: none;' : '' }}">
+          <div class="col-md-3 position-relative mb-5" id="assign" style="{{ !$callLog->assign? 'display: none;' : '' }}">
                   <label for="assign" class="form-label">CallBack Assign For <span class="text-danger">*</span></label>
                   <select name="assign" id="assign" class="form-control">
                   <option value="" {{ old('assign') == '' ? 'selected' : '' }}>Select</option>
@@ -134,15 +135,15 @@
                   @enderror
             </div>
 
-            <div class="col-md-3" id="followup_date" style="display: none;">
+            <div class="col-md-3 position-relative mb-5" id="followup_date" style="display: none;">
                   <label for="followup_date_input" class="form-label">Followup Date <span class="text-danger">*</span></label>
                   <input type="datetime-local" id="followup_date_input" name="followup_date" class="form-control" placeholder="YYYY-MM-DD HH:MM">
             </div>
 
 
-          <div class="col-md-3">
+          <div class="col-md-3 position-relative mb-5">
             <div class="form-group">
-              <label class="form-label d-block">Call Converted <span class="text-danger">*</span></label>
+              <label class="form-label d-block none-upper">Call Converted <span class="text-danger">*</span></label>
               <div>
                 <input type="radio" name="call_converted" value="1" {{ old('call_converted', $callLog->call_converted) == '1' ? 'checked' : '' }}>
                 <label class="me-2">Yes</label>
@@ -153,8 +154,8 @@
           </div>
         </div>
         
-        <div class="row mb-3">
-          <div class="col-md-12">
+        <div class="row booking-form">
+          <div class="col-md-12 position-relative mb-5">
             <label class="form-label">Notes</label>
             <textarea name="notes" class="form-control">{{ old('notes', $callLog->notes) }}</textarea>
             @error('notes')
@@ -166,6 +167,7 @@
         <div class="text-end">
           <button type="submit" class="btn btn-primary">Update</button>
         </div>
+      </div>
       </div>
     </form>
   </div>

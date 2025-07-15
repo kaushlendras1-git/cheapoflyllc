@@ -2,8 +2,17 @@
 @section('content')
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
+        <h2 class="mb-0">Users</h2>
+        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+            aria-label="breadcrumb">
+            <ol class="breadcrumb d-flex align-items-center mb-0">
+                <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Users</li>
+            </ol>
+        </nav>
+    </div>
     <div class="row g-6 mb-6">
-
         <div class="col-sm-6 col-xl-3">
             <div class="card">
                 <div class="card-body">
@@ -43,90 +52,61 @@
             </div>
         </div>
 
-    <!-- Team-Wise Total Users Card -->
-  @foreach($team_counts as $team => $count)
-    <div class="col-sm-6 col-xl-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div class="me-1">
-                        <p class="text-heading mb-1">{{ $team }} Team</p>
-                        <div class="d-flex flex-column">
-                             <h4 class="mb-1 me-2">{{$count}}</h4>
-                        </div>
-                    </div>
-                    <div class="avatar">
-                        <div class="avatar-initial bg-label-primary rounded">
-                            <div class="icon-base ri ri-group-line icon-26px"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  @endforeach
-
-  @foreach($shift_counts as $shift => $count)
-    <!-- Shift-Wise Total Users Card -->
-    <div class="col-sm-6 col-xl-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div class="me-1">
-                        <p class="text-heading mb-1">{{ $shift }} - Shift</p>
-                        <div class="d-flex flex-column">
+        <!-- Team-Wise Total Users Card -->
+        @foreach($team_counts as $team => $count)
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="me-1">
+                            <p class="text-heading mb-1">{{ $team }} Team</p>
+                            <div class="d-flex flex-column">
                                 <h4 class="mb-1 me-2">{{$count}}</h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="avatar">
-                        <div class="avatar-initial bg-label-info rounded">
-                            <div class="icon-base ri ri-time-line icon-26px"></div>
+                        <div class="avatar">
+                            <div class="avatar-initial bg-label-primary rounded">
+                                <div class="icon-base ri ri-group-line icon-26px"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @endforeach
+
+        @foreach($shift_counts as $shift => $count)
+        <!-- Shift-Wise Total Users Card -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="me-1">
+                            <p class="text-heading mb-1">{{ $shift }} - Shift</p>
+                            <div class="d-flex flex-column">
+                                <h4 class="mb-1 me-2">{{$count}}</h4>
+                            </div>
+                        </div>
+                        <div class="avatar">
+                            <div class="avatar-initial bg-label-info rounded">
+                                <div class="icon-base ri ri-time-line icon-26px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
-     @endforeach
-</div>
-
-
-    </div>
-
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
-
-    @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-
-
-    <!--  ______________________________  Users List Table ______________________________  -->
-
-
     <div class="card">
-
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
-              <div class="add-user-btn text-end">
+              <div class="add-user-btn text-end mb-4">
                 <button class="btn add-new btn-primary button-style" style="font-size: 12px;" tabindex="0" aria-controls="DataTables_Table_0" type="button"
                     data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"><span>
                     <i class="icon-base ri ri-add-line icon-sm me-0 me-sm-2 d-sm-none d-inline-block"></i>
                     <span class="d-none d-sm-inline-block">Add New User</span></span></button> 
-              </div>
-
-
-
+                </div>
                 <div class="justify-content-between dt-layout-table">
                     <div class="d-md-flex justify-content-between align-items-center dt-layout-full crm-table">
                         <table class=" table dataTable dtr-column table-responsive">
@@ -225,12 +205,8 @@
                         </table>
                     </div>
                 </div>
-
-
                 <div class="row mx-3 justify-content-between">
-                    <div
-                        class="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-md-0 mt-5">
-
+                    <div class="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-md-0 mt-5">
                     </div>
                 </div>
             </div>
@@ -341,30 +317,55 @@
 
 
     </div>
-    <!--/ Content -->
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('assignShiftTeamModal');
+</div>
 
-        modal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const url = button.getAttribute('data-url');
-            const modalBody = modal.querySelector('#assignModalBody');
+@if (session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
 
-            // Load the content via AJAX
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    modalBody.innerHTML = html;
-                })
-                .catch(error => {
-                    modalBody.innerHTML =
-                        '<div class="alert alert-danger">Failed to load form.</div>';
-                });
-        });
+@if ($errors->any())
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <ul class="mb-0">
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+
+
+<!--  ______________________________  Users List Table ______________________________  -->
+
+
+
+<!--/ Content -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('assignShiftTeamModal');
+
+    modal.addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+        const url = button.getAttribute('data-url');
+        const modalBody = modal.querySelector('#assignModalBody');
+
+        // Load the content via AJAX
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalBody.innerHTML = html;
+            })
+            .catch(error => {
+                modalBody.innerHTML =
+                    '<div class="alert alert-danger">Failed to load form.</div>';
+            });
     });
-    </script>
+});
+</script>
 
 
-    @endsection
+@endsection

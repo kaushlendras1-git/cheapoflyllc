@@ -414,7 +414,7 @@
                                             default => '#ffffff'
                                             };
                                             @endphp
-                                            <td style="background-color: {{ $bg }}">{{ $status }}</td>
+                                            <td style="background-color: {{ $bg }}"> {{ $status }} </td>
                                             @endfor
                                     </tr>
                                 </tbody>

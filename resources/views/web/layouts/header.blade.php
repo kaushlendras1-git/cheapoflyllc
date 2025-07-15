@@ -103,31 +103,31 @@
                             <li
                                 class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'teams') ? 'active' : '' }}">
                                 <a href="" class="menu-link menu-toggle">
-                                    <i class="menu-icon icon-base ri ri-article-line"></i>
+                                    <i class="menu-icon icon-base ri ri ri-tv-2-line"></i>
                                     <div data-i18n="Masters">Masters</div>
                                 </a>
                                 <ul class="menu-sub">
                                     <li class="menu-item">
                                         <a href="{{route('emails.index')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-mail-line"></i>
                                             <div data-i18n="Emails">Emails</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('teams.index')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-team-line"></i>
                                             <div data-i18n="Teams">Teams</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('campaign.index')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-megaphone-line"></i>
                                             <div data-i18n="Campaign">Campaign</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('call-types.index')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
                                             <div data-i18n="CallType">CallType</div>
                                         </a>
                                     </li>
@@ -143,25 +143,25 @@
                                 <ul class="menu-sub">
                                     <li class="menu-item">
                                         <a href="{{route('marketing')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-advertisement-line"></i>
                                             <div data-i18n="Marketing">Marketing</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('call_queue')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-group-line"></i>
                                             <div data-i18n="Call Queue">Call Queue</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('agents')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-user-2-line"></i>
                                             <div data-i18n="Agent">Agents</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('score')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-tv-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-star-line ri-2x"></i>
                                             <div data-i18n="Score">Score</div>
                                         </a>
                                     </li>
@@ -176,25 +176,25 @@
                                 <ul class="menu-sub">
                                     <li class="menu-item">
                                         <a href="{{route('booking.index')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-layout-4-line"></i>
+                                            <i class="menu-icon icon-base ri ri-calendar-line"></i>
                                             <div data-i18n="Booking">Booking</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('booking.add')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-layout-top-line"></i>
+                                            <i class="menu-icon icon-base ri ri-ticket-line"></i>
                                             <div data-i18n="Create Booking">Create Booking</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="{{route('booking.search')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-layout-left-line"></i>
+                                            <i class="menu-icon icon-base ri ri-calendar-check-line"></i>
                                             <div data-i18n="Find Booking">Find Booking</div>
                                         </a>
                                     </li>
                                     <li class="menu-item">
                                         <a href="layouts-container.html" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-layout-top-2-line"></i>
+                                            <i class="menu-icon icon-base ri ri-wifi-line"></i>
                                             <div data-i18n="Online Booking">Online Booking</div>
                                         </a>
                                     </li>
@@ -210,7 +210,7 @@
                             <li
                                 class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'follow-up') ? 'active' : '' }}">
                                 <a href="{{route('follow-up.index')}}" class="menu-link">
-                                    <i class="menu-icon icon-base ri ri-table-line"></i>
+                                    <i class="menu-icon icon-base ri ri-user-community-line"></i>
                                     <div>Follow Up</div>
                                 </a>
                             </li>
@@ -363,15 +363,15 @@
                                     </a>
 
                                     <ul class="list-unstyled drophead-menu" style="display: none;">
-                                        <li class="mb-3 bg-warning"> Hi, {{ Auth::user()->name }}</li>
-                                        <li class="mb-3">
+                                        <li class="mb-4 username_user"> Hi, {{ Auth::user()->name }}</li>
+                                        <li class="mb-4">
                                             <a class="dropdown-item" href="{{ route('profile') }}">
                                                 <i class="icon-base ri ri-user-3-line icon-22px me-2"></i>
                                                 <span class="align-middle">My Profile</span>
                                             </a>
                                         </li>
 
-                                        <li class="mb-3">
+                                        <li class="mb-4">
                                             <a class="dropdown-item" href="{{ route('settings') }}">
                                                 <i class="icon-base ri ri-settings-4-line icon-22px me-2"></i>
                                                 <span class="align-middle">Settings</span>

@@ -1,9 +1,12 @@
-            <div class="content-backdrop fade"></div>
+            <!-- <div class="content-backdrop fade"></div> -->
           </div>
           <!--/ Content wrapper -->
         </div>
         <!--/ Layout container -->
       </div>
+    </div>
+    <div class="crm-copyright text-center">
+      <p class="mb-0">© 2025. Copyright Cheapoflyllc. All rights are reserved</p>
     </div>
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>

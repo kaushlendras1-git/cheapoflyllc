@@ -29032,3 +29032,56 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
     margin-bottom: 0px;
     font-weight: 600;
 }
+.username_user {
+  font-weight: 700;
+}
+.upper-titles h2{
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 34px;
+}
+.upper-titles .breadcrumb .breadcrumb-item a, .upper-titles .breadcrumb li.breadcrumb-item{
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(var(--bs-primary-rgb));
+}
+.upper-titles .breadcrumb li.breadcrumb-item.active {
+  color: #433c50;
+}
+.attendance-table.crm-table thead tr th {
+    background-color: #af8aff !important;
+} 
+.attendance-table.crm-table table tbody tr:hover th {
+  --bs-table-bg-state: inherit !important;
+}
+.attendance-table.crm-table table tbody tr:hover td {
+  --bs-table-bg-state: inherit !important;
+}
+.crm-copyright p{
+  font-size: 13px;
+}
+.crm-copyright {
+  padding: 10px 20px;
+  background-color: #fff;
+}
+.w130{
+  width: 130px;
+}
+.w140{
+  width: 140px;
+}
+.container-xxl.flex-grow-1.container-p-y {
+  min-height: calc(100vh - 59px);
+}  
+.navbar-nav-right .navbar-nav .menu-item .menu-sub li a:hover {
+  color: #8c57ff;
+}
+.navbar-nav-right .navbar-nav .menu-item .menu-sub li a{
+  transition: .67s;
+}
+.navbar-nav-right .navbar-nav .menu-item .menu-link:hover {
+  color: #8c57ff;
+}
+.navbar-nav-right .navbar-nav .menu-item .menu-link {
+  transition: .67s;
+}

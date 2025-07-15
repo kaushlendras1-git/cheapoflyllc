@@ -4,6 +4,15 @@
 
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
+        <h2 class="mb-0">Score</h2>
+        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+            <ol class="breadcrumb d-flex align-items-center mb-0">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Score</li>
+            </ol>
+        </nav>
+    </div>
     <div class="row gy-6">
         <!-- Filter Card -->
         <div class="col-md-12">
@@ -12,7 +21,8 @@
 
             <div class="card p-4">
                 <form method="GET" action="{{ route('agents') }}">
-                    <div class="marketing-upper-form">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="marketing-upper-form mb-5 d-flex">
                         <div class="me-4">
                             <label class="form-label mb-1">Search By</label>
                             <select name="criteria" class="form-select">
@@ -51,9 +61,15 @@
                             </button>
                         </div>
                     </div>
+                        <div class="add-follow-btn export-btn">
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export To Excel"
+                                href="#" class="btn btn-success px-4 py-3 gap-1 w-auto button-style">
+                                <i class="ri ri-file-excel-2-line fs-5"></i> </a>
+                        </div>
+                    </div>
                 </form>
                 <!-- Table -->
-                <div class="booking-table-wrapper py-2">
+                <div class="booking-table-wrapper py-2 crm-table">
                     <table class="table table-hover table-sm booking-table w-100 mb-0">
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
