@@ -71,7 +71,7 @@
             <select id="team" name="team" class="form-control">
               <option value="" {{ old('selcompany', $callLog->selcompany) == '' ? 'selected' : '' }}>Select</option>
               @foreach($teams as $team)
-                <option value="{{ $team->name }}" {{ old('selcompany', $callLog->team) == $team->name ? 'selected' : '' }}>
+                <option value="{{ $team->id }}" {{ old('selcompany', $callLog->team) == $team->id ? 'selected' : '' }}>
                   {{ $team->name }}
                 </option>
               @endforeach
@@ -85,7 +85,7 @@
             <select id="selcampaign" name="campaign" class="form-control">
               <option value="" {{ old('selcampaign', $callLog->campaign) == '' ? 'selected' : '' }}>Select</option>
               @foreach($campaigns as $campaign)
-                <option value="{{ $campaign->name }}" {{ old('selcampaign', $callLog->campaign) == $campaign->name ? 'selected' : '' }}>
+                <option value="{{ $campaign->id }}" {{ old('selcampaign', $callLog->campaign) == $campaign->id ? 'selected' : '' }}>
                   {{ $campaign->name }}
                 </option>
               @endforeach
@@ -177,9 +177,8 @@
 <!---------------- Start History ---- ------------- --------- ----->
 
 <!-- Content -->
-<div class="container-xxl flex-grow-1 container-p-y">
+<div class="container-xxl flex-grow-1">
     <div class="row gy-6">
-        
         <div class="col-md-12 p-0 h-100">
                 <div class="card card-action mb-6">
                     <div class="card-header align-items-center">

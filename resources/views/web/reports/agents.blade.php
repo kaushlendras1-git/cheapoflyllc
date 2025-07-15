@@ -45,18 +45,25 @@
                                 <input type="date" name="end_date" class="form-control input-style"
                                     value="{{ request('end_date') }}">
                             </div>
-                            <div class="me-4">
-                                <label class="form-label mb-1">Booking Status</label>
-                                <select name="booking_status" class="form-select input-style w140">
-                                    <option value="">Booking Status</option>
-                                </select>
-                            </div>
-                            <div class="me-4">
-                                <label class="form-label mb-1">Payment Status</label>
-                                <select name="payment_status" class="form-select input-style w140">
-                                    <option value="">Payment Status</option>
-                                </select>
-                            </div>
+                             <div class="me-4">
+                            <label class="form-label mb-1">Booking Status</label>
+                            <select name="booking_status" class="form-select input-style w140">
+                                <option value="">Booking Status</option>
+                                @foreach($booking_status as $booking)
+                                     <option value="{{$booking->id}}">{{$booking->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="me-4">
+                            <label class="form-label mb-1">Payment Status</label>
+                            <select name="payment_status" class="form-select input-style w140">
+                                <option value="">Payment Status</option>
+                                 @foreach($payment_status as $payment)
+                                     <option value="{{$payment->id}}">{{$payment->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
                             <div class="">
                                 <button type="submit"
                                     class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 button-style m-auto">

@@ -311,6 +311,10 @@
             <ul class="nav nav-tabs tabs-booked" id="bookingTabs" role="tablist">
 
 
+             <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
+                aria-controls="passenger" aria-selected="true">Passengers</a>
+            </li>
 
 
                 <li class="nav-item" role="presentation" data-tab="Flight"
@@ -340,10 +344,7 @@
                 </li>
 
 
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
-                       aria-controls="passenger" aria-selected="false">Passengers</a>
-                </li>
+               
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
                        aria-controls="billing" aria-selected="false">Billing</a>
@@ -375,6 +376,126 @@
             <div class="tab-content mt-0 p-0 booked-content" id="bookingTabsContent">
 
 
+            <!----------------------------------------Passeenger-------------------------------------------------->
+                <div class="tab-pane fade show active" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
+                    <div class="card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
+                        </div>
+                        <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
+                            <table class="passenger-table table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Type</th>
+                                    <th>Gender</th>
+                                    <th>Title</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Last Name</th>
+                                    <th>DOB</th>
+                                    <th>Seat</th>
+                                    <th>Credit Note</th>
+                                    <th>E-Ticket</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="passengerForms">
+                                @foreach($booking->passengers as $key=>$passengers)
+                                    <tr class="passenger-form" data-index="{{$key}}">
+                                        <td>
+                                            <span class="billing-card-title"> {{$key+1}}</span>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width:5.5rem"
+                                                    name="passenger[{{$key}}][passenger_type]">
+                                                <option value="">Select</option>
+                                                <option value="Adult"
+                                                    {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult</option>
+                                                <option value="Child"
+                                                    {{$passengers->passenger_type=="Child"?'selected':''}}>Child</option>
+                                                <option value="Infant"
+                                                    {{$passengers->passenger_type=="Infant"?'selected':''}}>Infant</option>
+                                                <option value="Seat Infant"
+                                                    {{$passengers->passenger_type=="Seat Infant"?'selected':''}}>Seat Infant
+                                                </option>
+                                                <option value="Lap Infant"
+                                                    {{$passengers->passenger_type=="Lap Infant"?'selected':''}}>Lap Infant
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width: 70px;"
+                                                    name="passenger[{{$key}}][gender]">
+                                                <option value="">Select</option>
+                                                <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>Male
+                                                </option>
+                                                <option value="Female" {{$passengers->gender == 'Female'?'selected':''}}>
+                                                    Female</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" style="width:70px;"
+                                                    name="passenger[{{$key}}][title]">
+                                                <option value="">Select</option>
+                                                <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr</option>
+                                                <option value="Mrs" {{$passengers->title=="Mrs"?"selected":''}}>Mrs</option>
+                                                <option value="Ms" {{$passengers->title=="Ms"?"selected":''}}>Ms</option>
+                                                <option value="Master" {{$passengers->title=="Master"?"selected":''}}>Master
+                                                </option>
+                                                <option value="Miss" {{$passengers->title=="Miss"?"selected":''}}>Miss
+                                                </option>
+                                            </select>
+                                        </td>
+
+                                        <td>
+                                            <input type="text" style="width:7.5rem" class="form-control"
+                                                   name="passenger[{{$key}}][first_name]" value="{{$passengers->first_name}}"
+                                                   placeholder="First Name">
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:7.5rem" class="form-control"
+                                                   name="passenger[{{$key}}][middle_name]" value="{{$passengers->middle_name}}"
+                                                   placeholder="Middle Name">
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:7.5rem" class="form-control"
+                                                   name="passenger[{{$key}}][last_name]" value="{{$passengers->last_name}}"
+                                                   placeholder="Last Name">
+                                        </td>
+                                        <td>
+                                            <input type="date" style="width: 135px;" class="form-control" name="passenger[{{$key}}][dob]"
+                                                   value="{{$passengers->dob?->format('Y-m-d')}}">
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:80px;" class="form-control"
+                                                   name="passenger[{{$key}}][seat_number]" value="{{$passengers->seat_number}}"
+                                                   placeholder="Seat">
+                                        </td>
+                                        <td>
+                                            <input type="number" style="width:80px" class="form-control"
+                                                   name="passenger[{{$key}}][credit_note]"
+                                                   value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
+                                        </td>
+                                        <td>
+                                            <input type="text" style="width:80px;" class="form-control"
+                                                   name="passenger[{{$key}}][e_ticket_number]"
+                                                   value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
+                                                <i class="icon-base ri ri-delete-bin-2-line"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------End Passeenger------------------------------------------------------>
+
 
                 <!------------------------ Flight Booking Details ------------------------------>
 
@@ -393,27 +514,33 @@
                                     <div class="table-responsive details-table-wrappper">
                                         <table id="flightTable" class="table">
                                             <thead>
-                                            <tr>
-                                                <th>S.No</th>
-                                                <th>Direction</th>
-                                                <th>Date</th>
-                                                <th>Airlines (Code)</th>
-                                                <th>Flight No</th>
-                                                <th>Cabin</th>
-                                                <th>Class of Service</th>
-                                                <th>Departure Airport</th>
-                                                <th>Hrs</th>
-                                                <th>mm</th>
-                                                <th>Arrival Airport</th>
-                                                <th>Hrs</th>
-                                                <th>mm</th>
-                                                <th>Duration</th>
-                                                <th>Transit</th>
-                                                <th>Arrival Date</th>
-                                                <th>Action</th>
-                                            </tr>
+                                                <tr>
+                                                    <th colspan="10" style="text-align: center;">Departure</th>
+                                                    <th colspan="7" style="text-align: center;">Arrival</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Direction</th>
+                                                    <th>Date</th>
+                                                    <th>Airlines (Code)</th>
+                                                    <th>Flight No</th>
+                                                    <th>Cabin</th>
+                                                    <th>Class of Service</th>
+                                                    <th>Departure Airport</th>
+                                                    <th>Hrs</th>
+                                                    <th>mm</th>
+
+                                                    <th>Arrival Airport</th>
+                                                    <th>Hrs</th>
+                                                    <th>mm</th>
+                                                    <th>Duration</th>
+                                                    <th>Transit</th>
+                                                    <th>Arrival Date</th>
+                                                    <th>Action</th>
+                                                </tr>
                                             </thead>
                                             <tbody id="flightForms">
+                                               
                                             @if($booking->travelFlight->isNotEmpty())
                                                 @foreach($booking->travelFlight as $index => $flight)
                                                     <input
@@ -421,20 +548,21 @@
                                                         name="flight_files[{{ $index }}]"
                                                         data-files='@json($flight->files)'
                                                     >
-                                                    
                                                     <tr class="flight-row" data-index="{{ $index }}">
                                                         <td><span class="flight-title">{{ $index + 1 }}</span></td>
                                                         <td><input type="text" class="form-control"
                                                                    name="flight[{{ $index }}][direction]"
                                                                    value="{{ $flight->direction }}" placeholder="Direction"></td>
-                                                        <td><input type="date" style="width: 135px;" class="form-control"
+                                                        
+                                                        <td><input type="date" style="width: 8.5rem;" class="form-control"
                                                                    name="flight[{{ $index }}][departure_date]"
                                                                    value="{{$flight->departure_date?->format('Y-m-d')}}"></td>
+
                                                         <td><input type="text" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][airline_code]"
                                                                    value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
                                                                    placeholder="Airlines (Code)"></td>
-                                                        <td><input type="text" class="form-control" style="width: 60px;"
+                                                        <td><input type="text" class="form-control" style="width: 4.5rem;"
                                                                    name="flight[{{ $index }}][flight_number]"
                                                                    value="{{ old("flight.$index.flight_no", $flight->flight_number) }}"
                                                                    placeholder="Flight No"></td>
@@ -451,10 +579,11 @@
                                                                    value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                                    placeholder="Departure Airport"></td>
                                                         <td><input type="number" class="form-control"
-                                                                   name="flight[{{ $index }}][departure_hours]" style="width: 60px;"
+                                                                   name="flight[{{ $index }}][departure_hours]" style="width: 4.5rem;"
                                                                    value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
                                                                    placeholder="Hrs" min="0" max="23"></td>
-                                                        <td><input type="number" class="form-control" style="width: 60px;"
+
+                                                        <td><input type="number" class="form-control" style="width: 4.5rem;"
                                                                    name="flight[{{ $index }}][departure_minutes]"
                                                                    value="{{ old("flight.$index.departure_mm", $flight->departure_minutes) }}"
                                                                    placeholder="mm" min="0" max="59"></td>
@@ -462,15 +591,18 @@
                                                                    name="flight[{{ $index }}][arrival_airport]" style="width: 60px;"
                                                                    value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}"
                                                                    placeholder="Arrival Airport"></td>
+
                                                         <td><input type="number" class="form-control" style="width: 60px;"
                                                                    name="flight[{{ $index }}][arrival_hours]"
                                                                    value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}"
                                                                    placeholder="Hrs" min="0" max="23"></td>
-                                                        <td><input type="number" class="form-control" style="width: 60px;"
+
+                                                        <td><input type="number" class="form-control" style="width: 4.5rem;"
                                                                    name="flight[{{ $index }}][arrival_minutes]"
                                                                    value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}"
                                                                    placeholder="mm" min="0" max="59"></td>
-                                                        <td><input type="text" class="form-control" style="width: 60px;"
+
+                                                        <td><input type="text" class="form-control" style="width: 4.5rem;"
                                                                    name="flight[{{ $index }}][duration]"
                                                                    value="{{ old("flight.$index.duration", $flight->duration) }}"
                                                                    placeholder="Duration"></td>
@@ -523,7 +655,7 @@
                                     <table id="carTable" class="table">
                                         <thead>
                                         <tr>
-                                            <th>S.No</th>
+                                            <th>#</th>
                                             <th>Car Rental Provider</th>
                                             <th>Car Type</th>
                                             <th>Pick-up Location</th>
@@ -616,7 +748,7 @@
                                     <table id="cruiseTable" class="table">
                                         <thead>
                                         <tr>
-                                            <th>S.No</th>
+                                            <th>#</th>
                                             <th>Date</th>
                                             <th>Cruise Line</th>
                                             <th>Name of the Ship</th>
@@ -723,7 +855,7 @@
                                     <table id="hotelTable" class="table">
                                         <thead>
                                         <tr>
-                                            <th>S.No</th>
+                                            <th>#</th>
                                             <th>Hotel Name</th>
                                             <th>Room Category</th>
                                             <th>Check-in Date</th>
@@ -812,7 +944,7 @@
                                             <th></th>
                                         </tr>
                                         <tr>
-                                            <th>S.No</th>
+                                            <th>#</th>
                                             <th>Direction</th>
                                             <th>Date</th>
                                             <th>Train No</th>
@@ -901,126 +1033,7 @@
                 <!------------------------ End Train Booking Details ------------------------------>
 
 
-                <!----------------------------------------Passeenger-------------------------------------------------->
-                <div class="tab-pane fade fade" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
-                        </div>
-                        <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
-                            <table class="passenger-table table">
-                                <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Type</th>
-                                    <th>Gender</th>
-                                    <th>Title</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Last Name</th>
-                                    <th>DOB</th>
-                                    <th>Seat</th>
-                                    <th>Credit Note</th>
-                                    <th>E-Ticket</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody id="passengerForms">
-                                @foreach($booking->passengers as $key=>$passengers)
-                                    <tr class="passenger-form" data-index="{{$key}}">
-                                        <td>
-                                            <span class="billing-card-title"> {{$key+1}}</span>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width:7.5rem"
-                                                    name="passenger[{{$key}}][passenger_type]">
-                                                <option value="">Select</option>
-                                                <option value="Adult"
-                                                    {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult</option>
-                                                <option value="Child"
-                                                    {{$passengers->passenger_type=="Child"?'selected':''}}>Child</option>
-                                                <option value="Infant"
-                                                    {{$passengers->passenger_type=="Infant"?'selected':''}}>Infant</option>
-                                                <option value="Seat Infant"
-                                                    {{$passengers->passenger_type=="Seat Infant"?'selected':''}}>Seat Infant
-                                                </option>
-                                                <option value="Lap Infant"
-                                                    {{$passengers->passenger_type=="Lap Infant"?'selected':''}}>Lap Infant
-                                                </option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width: 90px;"
-                                                    name="passenger[{{$key}}][gender]">
-                                                <option value="">Select</option>
-                                                <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>Male
-                                                </option>
-                                                <option value="Female" {{$passengers->gender == 'Female'?'selected':''}}>
-                                                    Female</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width:80px;"
-                                                    name="passenger[{{$key}}][title]">
-                                                <option value="">Select</option>
-                                                <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr</option>
-                                                <option value="Mrs" {{$passengers->title=="Mrs"?"selected":''}}>Mrs</option>
-                                                <option value="Ms" {{$passengers->title=="Ms"?"selected":''}}>Ms</option>
-                                                <option value="Master" {{$passengers->title=="Master"?"selected":''}}>Master
-                                                </option>
-                                                <option value="Miss" {{$passengers->title=="Miss"?"selected":''}}>Miss
-                                                </option>
-                                            </select>
-                                        </td>
-
-                                        <td>
-                                            <input type="text" style="width:7.5rem" class="form-control"
-                                                   name="passenger[{{$key}}][first_name]" value="{{$passengers->first_name}}"
-                                                   placeholder="First Name">
-                                        </td>
-                                        <td>
-                                            <input type="text" style="width:7.5rem" class="form-control"
-                                                   name="passenger[{{$key}}][middle_name]" value="{{$passengers->middle_name}}"
-                                                   placeholder="Middle Name">
-                                        </td>
-                                        <td>
-                                            <input type="text" style="width:7.5rem" class="form-control"
-                                                   name="passenger[{{$key}}][last_name]" value="{{$passengers->last_name}}"
-                                                   placeholder="Last Name">
-                                        </td>
-                                        <td>
-                                            <input type="date" style="width: 135px;" class="form-control" name="passenger[{{$key}}][dob]"
-                                                   value="{{$passengers->dob?->format('Y-m-d')}}">
-                                        </td>
-                                        <td>
-                                            <input type="text" style="width:80px;" class="form-control"
-                                                   name="passenger[{{$key}}][seat_number]" value="{{$passengers->seat_number}}"
-                                                   placeholder="Seat">
-                                        </td>
-                                        <td>
-                                            <input type="number" style="width:80px" class="form-control"
-                                                   name="passenger[{{$key}}][credit_note]"
-                                                   value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
-                                        </td>
-                                        <td>
-                                            <input type="text" style="width:80px;" class="form-control"
-                                                   name="passenger[{{$key}}][e_ticket_number]"
-                                                   value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
-                                                <i class="icon-base ri ri-delete-bin-2-line"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!------------------------------------End Passeenger------------------------------------------------------>
-
+                
 
   <!--------------------------------------Billing Details ---------------------------->
 <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
@@ -1037,7 +1050,7 @@
                     <table id="billingTable" class="table">
                         <thead>
                             <tr>
-                                <th>S.No</th>
+                                <th>#</th>
                                 <th>Card Type</th>
                                 <th>CC Number</th>
                                 <th>CC Holder Name</th>

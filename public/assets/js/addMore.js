@@ -263,17 +263,17 @@
             newRow.innerHTML = `
                 <td><span class="flight-title">${flightIndex + 1}</span></td>
                 <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][direction]" placeholder="Direction"></td>
-                <td><input type="date" class="form-control" name="flight[${flightIndex}][departure_date]"></td>
+                <td><input type="date" class="form-control" style="width: 8.5rem;" name="flight[${flightIndex}][departure_date]"></td>
                 <td><input type="text" class="form-control" style="width: 8rem;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
-                <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
+                <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
                 <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][cabin]" placeholder="Cabin"></td>
                 <td><input type="text" class="form-control" style="width: 9rem;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
                 <td><input type="text" class="form-control" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
-                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][departure_minutes]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="number" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][departure_minutes]" placeholder="mm" min="0" max="59"></td>
                 <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
-                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="number" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][arrival_minutes]" placeholder="mm" min="0" max="59"></td>
+                <td><input type="number" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="number" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][arrival_minutes]" placeholder="mm" min="0" max="59"></td>
                 <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
                 <td><input type="text" class="form-control" style="width: 7.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
                 <td><input type="date" class="form-control" name="flight[${flightIndex}][arrival_date]"></td>
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
         newRow.innerHTML = `
             <td><span class="billing-card-title"> ${passengerIndex + 1}</span></td>
             <td>
-                <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][passenger_type]">
+                <select class="form-control" style="width: 5.5rem" name="passenger[${passengerIndex}][passenger_type]">
                     <option value="">Select</option>
                     <option value="Adult" selected>Adult</option>
                     <option value="Child">Child</option>
@@ -454,14 +454,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td>
-                <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][gender]">
+                <select class="form-control" style="width:70px;" name="passenger[${passengerIndex}][gender]">
                     <option value="">Select</option>
                     <option value="Male" selected>Male</option>
                     <option value="Female">Female</option>
                 </select>
             </td>
             <td>
-                <select class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][title]">
+                <select class="form-control" style="width:70px;" name="passenger[${passengerIndex}][title]">
                     <option value="">Select</option>
                     <option value="Mr">Mr</option>
                     <option value="Mrs">Mrs</option>
@@ -473,10 +473,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
-            <td><input type="date" class="form-control" name="passenger[${passengerIndex}][dob]"></td>
-            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
-            <td><input type="number" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
-            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
+            <td><input type="date" class="form-control" style="width: 135px;" name="passenger[${passengerIndex}][dob]"></td>
+            <td><input type="text" class="form-control" style="width:80px; name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+            <td><input type="number" class="form-control" style="width:80px; name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
+            <td><input type="text" class="form-control" style="width:80px; name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                     <i class="icon-base ri ri-delete-bin-2-line"></i>

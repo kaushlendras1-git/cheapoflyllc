@@ -80,14 +80,14 @@
                             </span>
                         </a>
                         
-                        <form method="GET" action="{{ route('booking.index') }}" class="search-header">
+                        <!-- <form method="GET" action="{{ route('booking.index') }}" class="search-header">
                                @csrf 
                             <div class="searchbox-table position-relative">
                               <input id="search-table" type="text" name="search" value="{{ request('search') }}"
                                 class="form-control" placeholder="Search by PNR, name, email, status, etc.">
                               <span class="clear-icon" id="clear-search"> <a href="{{ route('booking.index') }}">&times;</a></span>
                           </div>
-                        </form>
+                        </form> -->
 
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
                             <i class="icon-base ri ri-close-line icon-sm"></i>
@@ -180,12 +180,12 @@
                                             <div data-i18n="Booking">Booking</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
+                                    <!-- <li class="menu-item">
                                         <a href="{{route('booking.add')}}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-ticket-line"></i>
                                             <div data-i18n="Create Booking">Create Booking</div>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li class="menu-item">
                                         <a href="{{route('booking.search')}}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-calendar-check-line"></i>
