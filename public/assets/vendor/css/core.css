@@ -28748,7 +28748,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   background-color: #8c57ff;
   color: #fff;
 }
-.checkbox-servis .form-check input:checked + label::after {
+/* .checkbox-servis .form-check input:checked + label::after {
   content: '';
   position: absolute;
   right: -5px;
@@ -28762,7 +28762,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   background-color: #fff;
   box-shadow: 0px 0px 5px #aeaeae;
   background-position: 3px 3px;
-}
+} */
 .checkbox-servis .form-check {
   padding-left: 0px !important;
   margin-right: 20px;
@@ -29036,7 +29036,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   font-weight: 700;
 }
 .upper-titles h2{
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 34px;
 }
@@ -29071,7 +29071,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   width: 140px;
 }
 .container-xxl.flex-grow-1.container-p-y {
-  min-height: calc(100vh - 59px);
+  min-height: calc(100vh - 39px);
 }  
 .navbar-nav-right .navbar-nav .menu-item .menu-sub li a:hover {
   color: #8c57ff;
@@ -29081,6 +29081,12 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .navbar-nav-right .navbar-nav .menu-item .menu-link:hover {
   color: #8c57ff;
+}
+.navbar-nav-right .navbar-nav .menu-item .menu-link:hover::after {
+  background-color: #8c57ff;
+}
+.navbar-nav-right .navbar-nav .menu-item .menu-link::after{
+  transition: .67s;
 }
 .navbar-nav-right .navbar-nav .menu-item .menu-link {
   transition: .67s;

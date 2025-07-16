@@ -39,7 +39,7 @@
                     <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
                         <a href="{{route('user.dashboard')}}" class="app-brand-link gap-2">
                             <span class="app-brand-logo demo">
-                                <span class="text-primary">
+                                <span class="text-primary d-flex align-items-center">
                                     <svg width="30" height="24" viewBox="0 0 250 196" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -76,6 +76,7 @@
                                             d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
                                             fill="white" fill-opacity="0.3" />
                                     </svg>
+                                    <h5 class="mb-0 ms-4">Hi, {{ Auth::user()->name }}</h5>
                                 </span>
                             </span>
                         </a>
