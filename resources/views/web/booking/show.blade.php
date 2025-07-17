@@ -1238,7 +1238,7 @@
                                 @if($booking->pricingDetails->isEmpty())
                                 <tr class="pricing-row" data-index="0">
                                     <td>
-                                        <select name="pricing[0][passenger_type]" class="form-select"
+                                        <select name="pricing[0][passenger_type]" class="form-select form-control"
                                             id="passenger_type_0">
                                             <option value="">Select</option>
                                             <option value="adult">Adult</option>
@@ -1256,7 +1256,7 @@
                                             placeholder="Net Price" min="0" step="0.01"></td>
                                     <td><span class="net-total">0.00</span></td>
                                     <td>
-                                        <select name="pricing[0][details]" class="form-select" id="details_0">
+                                        <select name="pricing[0][details]" class="form-select form-control" id="details_0">
                                             <option value="">Select</option>
                                             <option value="ticket_cost">Ticket Cost</option>
                                             <option value="merchant_fee">Merchant Fee</option>
@@ -1274,7 +1274,7 @@
                                 @foreach($booking->pricingDetails as $key=>$pricingDetails)
                                 <tr class="pricing-row" data-index="{{$key}}">
                                     <td>
-                                        <select name="pricing[{{$key}}][passenger_type]" id="passenger_type_{{$key}}">
+                                        <select class="form-control" name="pricing[{{$key}}][passenger_type]" id="passenger_type_{{$key}}">
                                             <option value="adult"
                                                 {{$pricingDetails->passenger_type=='adult'?'selected':''}}>Adult
                                             </option>
@@ -1304,7 +1304,7 @@
                                             step="0.01"></td>
                                     <td><span class="net-total">0.00</span></td>
                                     <td>
-                                        <select name="pricing[{{$key}}][details]" id="details_{{$key}}">
+                                        <select class="form-control" name="pricing[{{$key}}][details]" id="details_{{$key}}">
                                             <option value="ticket_cost"
                                                 {{$pricingDetails->details=='ticket_cost'?'selected':''}}>Ticket Cost
                                             </option>

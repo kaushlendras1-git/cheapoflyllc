@@ -70,17 +70,17 @@
 
   <!-- Call Logs Modal without fade -->
   <div class="modal" id="callLogsModal" tabindex="-1" aria-labelledby="callLogsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 200px;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 470px;">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="callLogsModalLabel">Send Auth</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#sendMailModal" data-bs-dismiss="modal"><i class="fa-solid fa-envelope"></i> Send Mail</button>
-          <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#smsModal" data-bs-dismiss="modal"><i class="fa-solid fa-comment-sms"></i> SMS</button>
-          <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#whatsappModal" data-bs-dismiss="modal"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
-          <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#surveyModal" data-bs-dismiss="modal"><i class="fa-solid fa-square-poll-horizontal"></i> Survey</button>
+        <div class="modal-body auth-btn-style">
+          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal" data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Mail</button>
+          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> SMS</button>
+          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> WhatsApp</button>
+          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#surveyModal" data-bs-dismiss="modal"><i class="ri ri-survey-fill"></i> Survey</button>
         </div>
       </div>
     </div>
@@ -321,7 +321,7 @@
   </div>
 
 
-  <script>
+  <!-- <script>
     // Function to show buttons with delay
     document.addEventListener('DOMContentLoaded', function () {
       const callLogsModal = document.getElementById('callLogsModal');
@@ -344,4 +344,4 @@
         });
       });
     });
-  </script>
+  </script> -->

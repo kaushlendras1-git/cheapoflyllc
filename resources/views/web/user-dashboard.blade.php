@@ -409,7 +409,7 @@
                                         @for ($day = 1; $day <= 30; $day++) @php $status=$calendar[$day] ?? '' ;
                                             $bg=match($status) { 'Y'=> '#90EE90', // Green
                                             'N' => '#FF6347', // Red
-                                            'P' => '#87CEEB', // Blue
+                                            'P' => '#0ab200', // Blue
                                             'H' => '#FFFF99', // Yellow
                                             default => '#ffffff'
                                             };

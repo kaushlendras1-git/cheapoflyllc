@@ -53,6 +53,7 @@
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
                                 <th>ID</th>
+                                <th>Booking Type</th>
                                 <th>PNR</th>
                                 <th>Booking Date</th>
                                 <th>Agent</th>
@@ -72,6 +73,13 @@
                                     <a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
                                         {{ $booking->id }}
                                     </a>
+                                </td>
+                                <td> 
+                                    <i class="ri ri-flight-takeoff-line"></i> 
+                                    <i class="ri ri-ship-fill"></i>
+                                    <i class="ri ri-hotel-fill"></i>
+                                    <i class="ri ri-car-fill"></i>
+                                    <i class="ri ri-train-fill"></i>
                                 </td>
                                 <td>{{ $booking->pnr }}</td>
                                 <td>{{ $booking->created_at }}</td>
