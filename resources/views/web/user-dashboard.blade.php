@@ -1,8 +1,97 @@
 @extends('web.layouts.main')
 @section('content')
 <!-- Content -->
-<div class="container-xxl flex-grow-1 container-p-y p-70">
+<div class="container-xxl flex-grow-1 container-p-y p-70 mt-4">
     <div class="row gy-6">
+        <!-- Upper Card  -->
+        <div class="col-md-2">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-primary rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-flight-takeoff-line icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 class="mb-0">Flight</h4>
+                    <p class="mb-0">{{ $flight_booking }}</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">{{$flight}}: Calls Logs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-success rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-hotel-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #56ca00;" class="mb-0">Hotel</h4>
+                    <p class="mb-0">{{ $hotel_booking }}</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">{{$hotel}}: Calls Logs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-warning rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-ship-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ffb400;" class="mb-0">Cruise</h4>
+                    <p class="mb-0">{{ $cruise_booking }}</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">{{$cruise}}: Calls Logs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card insights-upper position-relative">
+                <div class="avatar-initial bg-info rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-car-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #16b1ff;" class="mb-0">Car</h4>
+                    <p class="mb-0">{{ $car_booking }}</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">{{$car}}: Calls Logs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card insights-upper position-relative">
+                <div class="avatar-initial bg-info rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-train-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #16b1ff;" class="mb-0">Train</h4>
+                    <p class="mb-0">{{ $train_booking }}</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">{{$train}}: Calls Logs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">Pending</h4>
+                    <p class="mb-0">{{ $pending_booking }}</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                </div>
+            </div>
+        </div>
         <!-- Congratulations card -->
         <div class="col-md-12 col-lg-4">
             <div class="card">
@@ -20,11 +109,12 @@
         <!--/ Congratulations card -->
 
         <!-- Transactions -->
-        <div class="col-lg-8">
+        <!-- <div class="col-lg-8">
             <div class="card h-100">
                 <div class="card-header">
                     <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="card-title m-0 me-2">Customer Touchpoints: Calls Logs / <span class="fs-3 text-primary">Bookings</span></h5>
+                        <h5 class="card-title m-0 me-2">Customer Touchpoints: Calls Logs / <span
+                                class="fs-3 text-primary">Bookings</span></h5>
                         <div class="dropdown">
                             <button class="btn text-body-secondary p-0" type="button" id="transactionID"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,7 +135,8 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Flight</p>
-                                    <h5 class="mb-0">{{$flight}} /  <span class="fs-3 text-primary">{{ $flight_booking }}</span> </h5>
+                                    <h5 class="mb-0">{{$flight}} / <span
+                                            class="fs-3 text-primary">{{ $flight_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +149,9 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Hotel</p>
-                                    <h5 class="mb-0"><a href="{{route('call-logs.index')}}">{{$hotel}}</a> /  <span class="fs-3 text-primary"> <a href="{{route('booking.index')}}">{{ $hotel_booking }}</a> </span> </h5>
+                                    <h5 class="mb-0"><a href="{{route('call-logs.index')}}">{{$hotel}}</a> / <span
+                                            class="fs-3 text-primary"> <a
+                                                href="{{route('booking.index')}}">{{ $hotel_booking }}</a> </span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +164,8 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Cruise</p>
-                                    <h5 class="mb-0">{{$cruise}} /  <span class="fs-3 text-primary">{{ $cruise_booking }}</span> </h5>
+                                    <h5 class="mb-0">{{$cruise}} / <span
+                                            class="fs-3 text-primary">{{ $cruise_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +178,8 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Car</p>
-                                    <h5 class="mb-0">{{$car}} /  <span class="fs-3 text-primary">{{ $car_booking }}</span> </h5>
+                                    <h5 class="mb-0">{{$car}} / <span
+                                            class="fs-3 text-primary">{{ $car_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -97,11 +192,12 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Train</p>
-                                    <h5 class="mb-0">{{$train}} /  <span class="fs-3 text-primary">{{ $train_booking }}</span> </h5>
+                                    <h5 class="mb-0">{{$train}} / <span
+                                            class="fs-3 text-primary">{{ $train_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-2 col-6">
                             <div class="d-flex align-items-center blinker">
                                 <div class="avatar">
@@ -111,7 +207,8 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-0">Pending</p>
-                                    <h5 class="mb-0">{{$pending}} / <span class="fs-3 text-danger">{{ $pending_booking }}</span> </h5>
+                                    <h5 class="mb-0">{{$pending}} / <span
+                                            class="fs-3 text-danger">{{ $pending_booking }}</span> </h5>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +216,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!--/ Transactions -->
 
         <!-- Weekly Overview Chart -->
@@ -128,20 +225,21 @@
                 <div class="card-header p-0">
                     <div class="d-flex justify-content-between">
                         <h5 class="mb-1">Weekly Score</h5>
+                        <h4 class="mb-0">${{$weekly_score}}</h4>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     <div id="weeklyOverviewChart"></div>
                     <div class="mt-1">
                         <div class="d-flex align-items-center gap-4">
-                            <h4 class="mb-0">${{$weekly_score}}</h4>
                             <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
                         </div>
 
                     </div>
                 </div>
             </div>
-            <hr>
+        </div>
+        <div class="col-xl-4 col-md-6">
             <div class="card card-space">
                 <div class="card-header p-0">
                     <div class="d-flex justify-content-between">
@@ -239,10 +337,24 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        <div class="col-xl-4 col-md-6">
             <div class="card-group mt-4">
                 <div class="card mb-0 card-space">
                     <div class="card-body card-separator p-0">
                         <div class="d-flex justify-content-between align-items-center flex-wrap mb-0">
+                            <h5 class="m-0 me-2">Quality Report</h5>
+                            <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
+                        </div>
+                        <div class="deposit-content pt-2"> booking approved 100/ decline Qc pendind
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-group mt-4">
+                <div class="card mb-0">
+                    <div class="card-body card-separator">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
                             <h5 class="m-0 me-2">Quality Report</h5>
                             <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
                         </div>
@@ -368,20 +480,7 @@
         <!--/ four cards -->
 
 
-        <div class="col-xl-12">
-            <div class="card-group">
-                <div class="card mb-0">
-                    <div class="card-body card-separator">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-                            <h5 class="m-0 me-2">Quality Report</h5>
-                            <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
-                        </div>
-                        <div class="deposit-content pt-2"> booking approved 100/ decline Qc pendind
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
 
 
         <!-- Deposit / Withdraw -->

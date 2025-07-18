@@ -29165,3 +29165,55 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   font-size: 16px;
   font-weight: 400;
 }
+.insights-upper .avatar-initial {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: -15px;
+}
+.insights-upper .avatar-initial i {
+  color: #fff;
+}
+.insights-upper {
+  padding: 10px;
+}
+.booking h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #055bdb;
+}
+.booking p {
+  color: #2e263d;
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 10px;
+  line-height: 25px;
+}
+.call-log p {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.pagination {
+  margin-bottom: 0px;
+}
+.viwer_seen li button {
+    background-color: #c1daff;
+    color: #055bdb;
+    border-radius: 5px !important;
+    border: none !important;
+}
+.viwer_seen li {
+  margin-right: 10px !important;
+}
+.viwer_seen li button.active {
+    background-color: #055bdb !important;
+    color: #fff !important;
+}
+.navbar-nav .menu-item .menu-link.active {
+  color: #055bdb;
+}
+.navbar-nav .menu-item .menu-link.active::after {
+  background-color: #055bdb;
+}

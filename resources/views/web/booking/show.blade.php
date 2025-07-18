@@ -476,12 +476,12 @@
                                             placeholder="Last Name">
                                     </td>
                                     <td>
-                                        <input type="date" style="width: 135px;" class="form-control"
+                                        <input type="date" style="width: 105px;" class="form-control"
                                             name="passenger[{{$key}}][dob]"
                                             value="{{$passengers->dob?->format('Y-m-d')}}">
                                     </td>
                                     <td>
-                                        <input type="text" style="width:80px;" class="form-control"
+                                        <input type="text" style="width:50px;" class="form-control"
                                             name="passenger[{{$key}}][seat_number]" value="{{$passengers->seat_number}}"
                                             placeholder="Seat">
                                     </td>
@@ -701,17 +701,17 @@
                                                     name="car[{{$key}}][dropoff_location]"
                                                     value="{{$travelCar->dropoff_location}}"
                                                     placeholder="Drop-off Location"></td>
-                                            <td><input type="date" class="form-control"
+                                            <td><input style="width: 110px;" type="date" class="form-control"
                                                     name="car[{{$key}}][pickup_date]"
                                                     value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="time" class="form-control" style="width:7.5rem"
+                                            <td><input type="time" class="form-control" style="width: 105px;"
                                                     name="car[{{$key}}][pickup_time]"
                                                     value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}">
                                             </td>
-                                            <td><input type="date" class="form-control"
+                                            <td><input style="width: 105px;" type="date" class="form-control"
                                                     name="car[{{$key}}][dropoff_date]"
                                                     value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="time" class="form-control" style="width:7.5rem"
+                                            <td><input type="time" class="form-control" style="width: 100px;"
                                                     name="car[{{$key}}][dropoff_time]"
                                                     value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}">
                                             </td>
@@ -782,7 +782,7 @@
                                         @foreach($booking->travelCruise as $key=>$travelCruise)
                                         <tr class="cruise-row" data-index="{{$key}}">
                                             <td><span class="cruise-title">{{$key+1}}</span></td>
-                                            <td><input type="date" class="form-control" name="cruise[{{$key}}][date]"
+                                            <td><input style="width: 105px;" type="date" class="form-control" name="cruise[{{$key}}][date]"
                                                     value="{{$travelCruise->date?->format('Y-m-d')}}"></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem"
                                                     name="cruise[{{$key}}][cruise_line]"
@@ -802,14 +802,14 @@
                                                     name="cruise[{{$key}}][departure_port]"
                                                     value="{{$travelCruise->departure_port}}"
                                                     placeholder="Departure Port"></td>
-                                            <td><input type="date" class="form-control"
+                                            <td><input style="width: 105px;" type="date" class="form-control"
                                                     name="cruise[{{$key}}][departure_date]"
                                                     value="{{$travelCruise->departure_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem"
+                                            <td><input type="number" class="form-control" style="width:50px"
                                                     name="cruise[{{$key}}][departure_hrs]"
                                                     value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem"
+                                            <td><input type="number" class="form-control" style="width:50px"
                                                     name="cruise[{{$key}}][departure_mm]"
                                                     value="{{$travelCruise->departure_mm}}" placeholder="mm" min="0"
                                                     max="59"></td>
@@ -817,14 +817,14 @@
                                                     name="cruise[{{$key}}][arrival_port]"
                                                     value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port">
                                             </td>
-                                            <td><input type="date" class="form-control"
+                                            <td><input type="date" style="width: 105px;" class="form-control"
                                                     name="cruise[{{$key}}][arrival_date]"
                                                     value="{{$travelCruise->arrival_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem"
+                                            <td><input type="number" class="form-control" style="width:50px;"
                                                     name="cruise[{{$key}}][arrival_hrs]"
                                                     value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
-                                            <td><input type="number" class="form-control" style="width:7.5rem"
+                                            <td><input type="number" class="form-control" style="width:50px;    "
                                                     name="cruise[{{$key}}][arrival_mm]"
                                                     value="{{$travelCruise->arrival_mm}}" placeholder="mm" min="0"
                                                     max="59"></td>
@@ -1113,7 +1113,7 @@
                                                     name="billing[{{$key}}][cc_holder_name]"
                                                     value="{{$billingDetails->cc_holder_name}}"></td>
                                             <td>
-                                                <select class="form-control" name="billing[{{$key}}][exp_month]">
+                                                <select style="width: 40px;" class="form-control" name="billing[{{$key}}][exp_month]">
                                                     <option value="">MM</option>
                                                     @for($i = 1; $i <= 12; $i++) <option
                                                         value="{{ sprintf('%02d', $i) }}"
@@ -1131,18 +1131,18 @@
                                                         @endfor
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control" placeholder="CVV"
+                                            <td><input style="width: 50px;" type="text" class="form-control" placeholder="CVV"
                                                     name="billing[{{$key}}][cvv]" value="{{$billingDetails->cvv}}"></td>
-                                            <td><input type="text" class="form-control" placeholder="Address"
+                                            <td><input style="width: 180px;" type="text" class="form-control" placeholder="Address"
                                                     name="billing[{{$key}}][address]"
                                                     value="{{$billingDetails->address}}"></td>
-                                            <td><input type="email" class="form-control" placeholder="Email"
+                                            <td><input style="width: 180px;" type="email" class="form-control" placeholder="Email"
                                                     name="billing[{{$key}}][email]" value="{{$billingDetails->email}}">
                                             </td>
-                                            <td><input type="text" class="form-control" placeholder="Contact No"
+                                            <td><input style="width: 100px;" type="text" class="form-control" placeholder="Contact No"
                                                     name="billing[{{$key}}][contact_no]"
                                                     value="{{$billingDetails->contact_no}}"></td>
-                                            <td><input type="text" class="form-control" placeholder="City"
+                                            <td><input style="width: 100px;" type="text" class="form-control" placeholder="City"
                                                     name="billing[{{$key}}][city]" value="{{$billingDetails->city}}">
                                             </td>
                                             <td>
@@ -1247,16 +1247,16 @@
                                             <option value="infant_on_seat">Infant on Seat</option>
                                         </select>
                                     </td>
-                                    <td><input type="number" class="form-control" name="pricing[0][num_passengers]"
+                                    <td><input style="width: 120px" type="number" class="form-control" name="pricing[0][num_passengers]"
                                             placeholder="No. of Passengers" min="0"></td>
-                                    <td><input type="number" class="form-control" name="pricing[0][gross_price]"
+                                    <td><input style="width: 110px;" type="number" class="form-control" name="pricing[0][gross_price]"
                                             placeholder="Gross Price" min="0" step="0.01"></td>
                                     <td><span class="gross-total">0.00</span></td>
-                                    <td><input type="number" class="form-control" name="pricing[0][net_price]"
+                                    <td><input type="number" style="width: 110px;" class="form-control" name="pricing[0][net_price]"
                                             placeholder="Net Price" min="0" step="0.01"></td>
                                     <td><span class="net-total">0.00</span></td>
                                     <td>
-                                        <select name="pricing[0][details]" class="form-select form-control" id="details_0">
+                                        <select style="width: 145px;" name="pricing[0][details]" class="form-select form-control" id="details_0">
                                             <option value="">Select</option>
                                             <option value="ticket_cost">Ticket Cost</option>
                                             <option value="merchant_fee">Merchant Fee</option>

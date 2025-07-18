@@ -203,7 +203,7 @@
         </form>
     </div>
     <div class="card card-action mt-4">
-        <div class="card-header align-items-center">
+        <div class="card-header align-items-center pb-0">
             <div class="d-flex align-items-center justify-content-between w-100">
                 <h5 class="card-action-title mb-0 d-flex align-items-center">
                     <i class="icon-base ri ri-bar-chart-2-line icon-24px text-body me-3"></i>
@@ -214,9 +214,9 @@
                 </button>
             </div>
         </div>
-        <div class="card-body pt-3">
+        <div class="card-body pt-3 viwer_seen">
             <!-- Tab Navigation -->
-            <ul class="nav nav-tabs" id="timelineTabs" role="tablist">
+            <ul class="nav nav-tabs mb-4" id="timelineTabs" role="tablist">
                 @php
                 // Group logs by date (YYYY-MM-DD)
                 $groupedLogs = $logs->groupBy(function($log) {
@@ -258,16 +258,16 @@
                                         <div class="avatar avatar-sm me-2 d-flex align-items-center">
                                             <img src="../../assets/img/avatars/1.png" alt="Avatar"
                                                 class="rounded-circle">
-                                            <div class="about-viewer ms-3">
+                                            <div class="about-viewer ms-3 pe-5">
                                                 <div class="d-flex align-items-center mb-1">
                                                     <p class="mb-0 small user-viewer">{{ $log->user->name }}</p>
                                                     <div class="seprator-name"></div>
                                                     <small class="text-body-secondary"
                                                         style="white-space: nowrap;">{{ $log->updated_at }}</small>
                                                 </div>
-                                                <p class="mb-0 comment-viewer"> {{ $log->comment }} @
-                                                    {{ $log->updated_at->diffForHumans() }} </p>
                                             </div>
+                                            <p class="mb-0 comment-viewer ms-5"> {{ $log->comment }} @
+                                                    {{ $log->updated_at->diffForHumans() }} </p>
                                         </div>
                                     </div>
                                     <div class="viewer-right-side">

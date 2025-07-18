@@ -103,7 +103,7 @@
                         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
                             <li
                                 class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'teams') ? 'active' : '' }}">
-                                <a href="" class="menu-link menu-toggle">
+                                <a href="" class="menu-link menu-toggle active">
                                     <i class="menu-icon icon-base ri ri ri-tv-2-line"></i>
                                     <div data-i18n="Masters">Masters</div>
                                 </a>
