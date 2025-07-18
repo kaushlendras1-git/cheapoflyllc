@@ -107,6 +107,7 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Name <span class="text-danger">*</span></label>

@@ -196,15 +196,19 @@ document.getElementById('bookingForm').addEventListener('submit', async function
 document.getElementById('saveRemark').addEventListener('click',async function (e){
 
     const remark = document.querySelector('textarea[name="particulars"]');
-    console.log(remark);
+    const agent = document.querySelector('input[name="agent"]');
+    console.log(agent);
     try{
         const response = await axios.post(route('booking.update-remark',{id:route().params.id}),{
-            remark:remark.value
+            remark:remark.value,
+            agent:agent.value,
         });
         let html = '';
         response.data.data.forEach(function(item,index){
             html += `<tr>
                     <td>${index+1}</td>
+                    <td>${item.agent}</td>
+                    <td>${item.created_at}</td>
                     <td>${item.particulars}</td>
                     <td>
                         <button type="button" class="btn btn-danger deleteRemark" data-id="${item.id}">

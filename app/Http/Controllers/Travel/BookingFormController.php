@@ -471,8 +471,9 @@ class BookingFormController extends Controller
         TravelBookingRemark::create([
             'booking_id' => $this->hashids->decode($id)[0],
             'particulars'=>$request->remark,
+            'agent'=>$request->agent,
         ]);
-        $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',$this->hashids->decode($id)[0])->get();
+        $data = TravelBookingRemark::select('id','booking_id','agent','particulars','created_at')->where('booking_id',$this->hashids->decode($id)[0])->get();
         return JsonResponse::successWithData('Booking review saved',201,$data,'201');
     }
 

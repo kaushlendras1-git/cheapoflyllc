@@ -1083,7 +1083,7 @@
                                             <option value="DISCOVER" {{$billingDetails->card_type == 'DISCOVER' ? 'selected' : ''}}>DISCOVER</option>
                                         </select>
                                     </td>
-                                    <td><input type="text" class="form-control" placeholder="CC Number" name="billing[{{$key}}][cc_number]" value="{{$billingDetails->cc_number}}"></td>
+                                    <td><input type="text" class="form-control" placeholder="CC Number" name="billing[{{$key}}][cc_number]" value="{{$billingDetails->cc_number}}" style="width: 155px;"></td>
                                     <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[{{$key}}][cc_holder_name]" value="{{$billingDetails->cc_holder_name}}"></td>
                                     <td>
                                         <select class="form-control" name="billing[{{$key}}][exp_month]">
@@ -1094,18 +1094,18 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control" name="billing[{{$key}}][exp_year]">
+                                        <select class="form-control" name="billing[{{$key}}][exp_year]" style="width:75px;">
                                             <option value="">YYYY</option>
                                             @for($i = 2024; $i <= 2034; $i++)
                                                 <option value="{{$i}}" {{$billingDetails->exp_year == $i ? 'selected' : ''}}>{{$i}}</option>
                                             @endfor
                                         </select>
                                     </td>
-                                    <td><input type="text" class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]" value="{{$billingDetails->cvv}}"></td>
-                                    <td><input type="text" class="form-control" placeholder="Address" name="billing[{{$key}}][address]" value="{{$billingDetails->address}}"></td>
-                                    <td><input type="email" class="form-control" placeholder="Email" name="billing[{{$key}}][email]" value="{{$billingDetails->email}}"></td>
-                                    <td><input type="text" class="form-control" placeholder="Contact No" name="billing[{{$key}}][contact_no]" value="{{$billingDetails->contact_no}}"></td>
-                                    <td><input type="text" class="form-control" placeholder="City" name="billing[{{$key}}][city]" value="{{$billingDetails->city}}"></td>
+                                    <td><input type="text" class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]" value="{{$billingDetails->cvv}}" style="width: 65px;"></td>
+                                    <td><input type="text" class="form-control" placeholder="Address" name="billing[{{$key}}][address]" value="{{$billingDetails->address}}" style="width: 200px;"></td>
+                                    <td><input type="email" class="form-control" placeholder="Email" name="billing[{{$key}}][email]" value="{{$billingDetails->email}}" style="width: 150px;"></td>
+                                    <td><input type="text" class="form-control" placeholder="Contact No" name="billing[{{$key}}][contact_no]" value="{{$billingDetails->contact_no}}" style="width: 100px;"></td>
+                                    <td><input type="text" class="form-control" placeholder="City" name="billing[{{$key}}][city]" value="{{$billingDetails->city}}" style="width: 90px;"></td>
                                     <td>
                                         <select id="country-{{$key}}" style="width:9rem" class="form-control country-select" name="billing[{{$key}}][country]">
                                             <option value="India">Select Country</option>
@@ -1118,7 +1118,7 @@
                                             <!-- Populated by JavaScript -->
                                         </select>
                                     </td>
-                                    <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[{{$key}}][zip_code]" value="{{$billingDetails->zip_code}}"></td>
+                                    <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[{{$key}}][zip_code]" value="{{$billingDetails->zip_code}}"  style="width: 110px;"></td>
                                     <td>
                                         <select class="form-control" name="billing[{{$key}}][currency]">
                                             <option value="">Select Currency</option>
@@ -1131,7 +1131,7 @@
                                             <option value="MXN" {{$billingDetails->currency == 'MXN' ? 'selected' : ''}}>MXN</option>
                                         </select>
                                     </td>
-                                    <td><input type="number" class="form-control" placeholder="0.00" name="billing[{{$key}}][amount]" value="{{$billingDetails->amount}}" step="0.01"></td>
+                                    <td><input type="number" class="form-control" placeholder="0.00" name="billing[{{$key}}][amount]" value="{{$billingDetails->amount}}" step="0.01"  style="width: 110px;"></td>
                                     <td><input class="form-check-input" type="radio" name="activeCard" value="{{$key}}" {{$billingDetails->active == 1 ? 'checked' : ''}}></td>
                                     <td>
                                         <button type="button" class="btn btn-outline-danger delete-billing-btn">
@@ -1184,10 +1184,10 @@
                                                 <option value="infant_on_seat">Infant on Seat</option>
                                             </select>
                                         </td>
-                                        <td><input type="number" class="form-control" name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0"></td>
-                                        <td><input type="number" class="form-control" name="pricing[0][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
+                                        <td><input type="number" class="form-control" name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0" style="width: 120px;"></td>
+                                        <td><input type="number" class="form-control" name="pricing[0][gross_price]" placeholder="Gross Price" min="0" step="0.01" style="width: 120px;"></td>
                                         <td><span class="gross-total">0.00</span></td>
-                                        <td><input type="number" class="form-control" name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+                                        <td><input type="number" class="form-control" name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01" style="width: 120px;"></td>
                                         <td><span class="net-total">0.00</span></td>
                                         <td>
                                             <select name="pricing[0][details]" class="form-select" id="details_0">
@@ -1279,6 +1279,7 @@
                             <button id="saveRemark" type="button" class="btn btn-primary">Save Remark</button>
                         </div>
                         <div class="card-body p-0">
+                            <input name="agent" value="{{Auth::user()->id}}" type="hidden">
                             <textarea class="form-control" name="particulars" rows="4"
                               placeholder="Enter remarks here..."></textarea>
                         </div>
@@ -1288,6 +1289,8 @@
                                 <thead>
                                     <tr>
                                         <td>Sno.</td>
+                                        <td>Agent</td>
+                                        <td>Date & Time</td>
                                         <td>Remark</td>
                                         <td>Action</td>
                                     </tr>
@@ -1297,6 +1300,8 @@
                                     @foreach($booking->remarks as $key=>$remar)
                                         <tr>
                                             <td>{{$key+1}}</td>
+                                            <td>{{$remar->agent}}</td>
+                                            <td>{{$remar->created_at}}</td>
                                             <td>{{$remar->particulars}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-danger deleteRemark" data-id="{{$remar->id}}">
