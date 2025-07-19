@@ -101,37 +101,32 @@
                                 <!-- <td>{{ $log->team }}</td> -->
                                 <td>{{ $log->call_type }}</td>
                                 <td>
-                                    <div>
+                                    <div style="display: flex; justify-content: center; gap: 4px;">
                                         @if($log->chkflight)
-                                        <span class="badge bg-label-primary rounded-pill float-start me-1">Flight</span>
+                                            <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
                                         @endif
 
                                         @if($log->chkhotel)
-                                        <span class="badge bg-label-warning rounded-pill float-start me-1">Hotel</span>
+                                            <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
                                         @endif
 
                                         @if($log->chkcruise)
-                                        <span
-                                            class="badge bg-label-secondary rounded-pill float-start me-1">Cruise</span>
+                                            <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
                                         @endif
 
                                         @if($log->chkcar)
-                                        <span class="badge bg-label-success rounded-pill float-start">Car</span>
+                                            <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
                                         @endif
-
                                     </div>
                                 </td>
                                 <td>Airline</td>
-
-
-                                <td>
+                              <td>
                                     @if($log->call_converted)
-                                    <span class="badge bg-label-success">Success</span>
+                                                <i class="ri ri-check-line" style="color: #228b22; font-size: 18px;"></i>
                                     @else
-                                    <span class="badge bg-label-warning">Declined</span>
+                                            <i class="ri ri-close-line" style="color: red; font-size: 18px;"></i>
                                     @endif
                                 </td>
-
 
                                 <td>{{$log->updated_at}}</td>
                                 <td>{{$log->user_name}}</td>

@@ -32,7 +32,7 @@
   --bs-gray-700: #6d6777;
   --bs-gray-800: #585164;
   --bs-gray-900: #433c50;
-  --bs-primary: #8c57ff;
+  --bs-primary: #055bdb;
   --bs-secondary: #8a8d93;
   --bs-success: #56ca00;
   --bs-info: #16b1ff;
@@ -41,7 +41,7 @@
   --bs-light: #dfdfe3;
   --bs-dark: #312d4b;
   --bs-gray: #eae9ec;
-  --bs-primary-rgb: 140, 87, 255;
+  --bs-primary-rgb: 5, 91, 219;
   --bs-secondary-rgb: 138, 141, 147;
   --bs-success-rgb: 86, 202, 0;
   --bs-info-rgb: 22, 177, 255;
@@ -28709,8 +28709,8 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   border-bottom: 1px solid #ababab !important;
   font-weight: 700 !important;
   text-transform: capitalize !important;
-  background-color: #af8aff !important;
-  color: #fff;
+  /* background-color: #fff !important; */
+  color: #000;
 }
 .crm-table table tr th, .crm-table table tr td {
   font-size: 12px !important;
@@ -28724,7 +28724,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   box-shadow: none !important;
 }
 .crm-table table tr:nth-child(odd){
-  background-color: #f9f6ff !important;
+  background-color: #fcfdff !important;
 }
 .crm-table .badge.float-start {
   float: none !important;
@@ -28734,7 +28734,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .crm-table table > tbody > tr:hover > *{
     --bs-table-color-state: #6d6777;
-    --bs-table-bg-state: #f5f0ff !important;
+    --bs-table-bg-state: #f3f6ff !important;
 }
 .checkbox-servis .form-check label {
   background-color: #f1ebff;
@@ -28748,7 +28748,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   background-color: #8c57ff;
   color: #fff;
 }
-.checkbox-servis .form-check input:checked + label::after {
+/* .checkbox-servis .form-check input:checked + label::after {
   content: '';
   position: absolute;
   right: -5px;
@@ -28762,7 +28762,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   background-color: #fff;
   box-shadow: 0px 0px 5px #aeaeae;
   background-position: 3px 3px;
-}
+} */
 .checkbox-servis .form-check {
   padding-left: 0px !important;
   margin-right: 20px;
@@ -28933,6 +28933,8 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .attendance-table table tbody tr th {
   border-bottom: none !important;
+  background-color: #055bdb;
+  color: #fff;
 }
 .attendance-card {
   padding: 10px;
@@ -29036,7 +29038,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   font-weight: 700;
 }
 .upper-titles h2{
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 34px;
 }
@@ -29049,7 +29051,8 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   color: #433c50;
 }
 .attendance-table.crm-table thead tr th {
-    background-color: #af8aff !important;
+    background-color: #055bdb !important;
+    color: #fff;
 } 
 .attendance-table.crm-table table tbody tr:hover th {
   --bs-table-bg-state: inherit !important;
@@ -29071,17 +29074,146 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   width: 140px;
 }
 .container-xxl.flex-grow-1.container-p-y {
-  min-height: calc(100vh - 59px);
+  min-height: calc(100vh - 39px);
 }  
 .navbar-nav-right .navbar-nav .menu-item .menu-sub li a:hover {
-  color: #8c57ff;
+  color: #055bdb;
 }
 .navbar-nav-right .navbar-nav .menu-item .menu-sub li a{
   transition: .67s;
 }
 .navbar-nav-right .navbar-nav .menu-item .menu-link:hover {
-  color: #8c57ff;
+  color: #055bdb;
+}
+.navbar-nav-right .navbar-nav .menu-item .menu-link:hover::after {
+  background-color: #055bdb;
+}
+.navbar-nav-right .navbar-nav .menu-item .menu-link::after{
+  transition: .67s;
 }
 .navbar-nav-right .navbar-nav .menu-item .menu-link {
   transition: .67s;
+}
+.upper-titles {
+  margin-bottom: 0px !important;
+}
+.auth-btn-style button {
+  color: #fff !important;
+  width: auto;
+  padding: 10px 20px;
+  margin-bottom: 0px !important;
+}
+.auth-btn-style button:focus {
+  background-color: #1ebe57 !important;
+}
+.auth-btn-style {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.details-table-wrappper .form-control {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+.details-table-wrappper table tr td button {
+  padding: 2px 5px;
+}
+.details-table-wrappper table tr td button i {
+  width: 16px !important;
+}
+.seprator-name {
+    height: 6px;
+    width: 6px;
+    background-color: #000;
+    border-radius: 50%;
+    margin: 0px 6px;
+}
+.user-viewer {
+    color: #000;
+    font-weight: 700 !important;
+}
+.comment-viewer {
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.ri-user-add-line {
+  color: #fff;
+}
+.avatar .avatar-initial.bg-label-danger.rounded {
+  background-color: #055bdb !important;
+}  
+.login-content .left-login .img-login img {
+  width: 70%;
+}
+.login-content {
+  height: 100vh;
+}
+.login-content .right-login {
+  background-color: #fff;
+  padding: 50px 100px;
+}
+.login-content .login-text {
+  font-size: 32px;
+  font-weight: 600;
+}
+.login-content .left-login h2 {
+  font-size: 30px;
+  font-weight: 600;
+}
+.login-content .left-login p{
+  font-size: 16px;
+  font-weight: 400;
+}
+.insights-upper .avatar-initial {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: -15px;
+}
+.insights-upper .avatar-initial i {
+  color: #fff;
+}
+.insights-upper {
+  padding: 10px;
+}
+.booking h4 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #055bdb;
+}
+.booking p {
+  color: #2e263d;
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 10px;
+  line-height: 25px;
+}
+.call-log p {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.pagination {
+  margin-bottom: 0px;
+}
+.viwer_seen li button {
+    background-color: #c1daff;
+    color: #055bdb;
+    border-radius: 5px !important;
+    border: none !important;
+}
+.viwer_seen li {
+  margin-right: 10px !important;
+}
+.viwer_seen li button.active {
+    background-color: #055bdb !important;
+    color: #fff !important;
+}
+.navbar-nav .menu-item .menu-link.active {
+  color: #055bdb;
+}
+.navbar-nav .menu-item .menu-link.active::after {
+  background-color: #055bdb;
 }

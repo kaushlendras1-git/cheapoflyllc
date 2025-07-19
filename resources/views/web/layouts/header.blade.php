@@ -39,7 +39,7 @@
                     <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
                         <a href="{{route('user.dashboard')}}" class="app-brand-link gap-2">
                             <span class="app-brand-logo demo">
-                                <span class="text-primary">
+                                <span class="text-primary d-flex align-items-center">
                                     <svg width="30" height="24" viewBox="0 0 250 196" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -76,6 +76,7 @@
                                             d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
                                             fill="white" fill-opacity="0.3" />
                                     </svg>
+                                    <h5 class="mb-0 ms-4">Hi, {{ Auth::user()->name }}</h5>
                                 </span>
                             </span>
                         </a>
@@ -98,35 +99,37 @@
                             <i class="icon-base ri ri-menu-line icon-md"></i>
                         </a>
                     </div>
+                    
                     <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
                         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
-                            <li
-                                class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'teams') ? 'active' : '' }}">
-                                <a href="" class="menu-link menu-toggle">
-                                    <i class="menu-icon icon-base ri ri ri-tv-2-line"></i>
+                            
+                           <!-- Masters -->
+                            <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['teams', 'emails', 'campaign', 'call-types']) ? 'active' : '' }}">
+                                <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['teams', 'emails', 'campaign', 'call-types']) ? 'active' : '' }}">
+                                    <i class="menu-icon icon-base ri ri-tv-2-line"></i>
                                     <div data-i18n="Masters">Masters</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item">
-                                        <a href="{{route('emails.index')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'emails.index' ? 'active' : '' }}">
+                                        <a href="{{ route('emails.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-mail-line"></i>
                                             <div data-i18n="Emails">Emails</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="{{route('teams.index')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'teams.index' ? 'active' : '' }}">
+                                        <a href="{{ route('teams.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-team-line"></i>
                                             <div data-i18n="Teams">Teams</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="{{route('campaign.index')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'campaign.index' ? 'active' : '' }}">
+                                        <a href="{{ route('campaign.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-megaphone-line"></i>
                                             <div data-i18n="Campaign">Campaign</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="{{route('call-types.index')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'call-types.index' ? 'active' : '' }}">
+                                        <a href="{{ route('call-types.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-phone-line"></i>
                                             <div data-i18n="CallType">CallType</div>
                                         </a>
@@ -135,59 +138,54 @@
                             </li>
 
                             <!-- Reports -->
-                            <li class="menu-item">
-                                <a href="javascript:void(0)" class="menu-link menu-toggle">
+                            <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
+                                <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
                                     <i class="menu-icon icon-base ri ri-article-line"></i>
                                     <div data-i18n="Reports">Reports</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item">
-                                        <a href="{{route('marketing')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'marketing' ? 'active' : '' }}">
+                                        <a href="{{ route('marketing') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-advertisement-line"></i>
                                             <div data-i18n="Marketing">Marketing</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="{{route('call_queue')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'call_queue' ? 'active' : '' }}">
+                                        <a href="{{ route('call_queue') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-group-line"></i>
                                             <div data-i18n="Call Queue">Call Queue</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="{{route('agents')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'agents' ? 'active' : '' }}">
+                                        <a href="{{ route('agents') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-user-2-line"></i>
                                             <div data-i18n="Agent">Agents</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="{{route('score')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'score' ? 'active' : '' }}">
+                                        <a href="{{ route('score') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-star-line ri-2x"></i>
                                             <div data-i18n="Score">Score</div>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
-                            <!-- Layouts -->
-                            <li class="menu-item">
-                                <a href="javascript:void(0)" class="menu-link menu-toggle">
+
+                            <!-- Booking -->
+                            <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['booking']) ? 'active' : '' }}">
+                                <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['booking']) ? 'active' : '' }}">
                                     <i class="menu-icon icon-base ri ri-layout-2-line"></i>
                                     <div data-i18n="Booking">Booking</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item">
-                                        <a href="{{route('booking.index')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'booking.index' ? 'active' : '' }}">
+                                        <a href="{{ route('booking.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-calendar-line"></i>
                                             <div data-i18n="Booking">Booking</div>
                                         </a>
                                     </li>
-                                    <!-- <li class="menu-item">
-                                        <a href="{{route('booking.add')}}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-ticket-line"></i>
-                                            <div data-i18n="Create Booking">Create Booking</div>
-                                        </a>
-                                    </li> -->
-                                    <li class="menu-item">
-                                        <a href="{{route('booking.search')}}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'booking.search' ? 'active' : '' }}">
+                                        <a href="{{ route('booking.search') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-calendar-check-line"></i>
                                             <div data-i18n="Find Booking">Find Booking</div>
                                         </a>
@@ -200,23 +198,26 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li
-                                class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'call-logs') ? 'active' : '' }}">
-                                <a href="{{route('call-logs.index')}}" class="menu-link">
+
+                            <!-- Call Logs -->
+                            <li class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'call-logs') ? 'active' : '' }}">
+                                <a href="{{ route('call-logs.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base ri ri-table-line"></i>
                                     <div>Call Logs</div>
                                 </a>
                             </li>
-                            <li
-                                class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'follow-up') ? 'active' : '' }}">
-                                <a href="{{route('follow-up.index')}}" class="menu-link">
+
+                            <!-- Follow Up -->
+                            <li class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'follow-up') ? 'active' : '' }}">
+                                <a href="{{ route('follow-up.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base ri ri-user-community-line"></i>
                                     <div>Follow Up</div>
                                 </a>
                             </li>
-                            <li
-                                class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'users') ? 'active' : '' }}">
-                                <a href="{{route('users')}}" class="menu-link">
+
+                            <!-- Users -->
+                            <li class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'users') ? 'active' : '' }}">
+                                <a href="{{ route('users') }}" class="menu-link">
                                     <i class="menu-icon icon-base ri ri-user-line"></i>
                                     <div>Users</div>
                                 </a>

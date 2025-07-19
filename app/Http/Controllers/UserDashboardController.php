@@ -28,7 +28,7 @@ class UserDashboardController extends Controller
         $cruise_booking = TravelBooking::where('user_id', $userId)->where('cruise_ref','!=', NULL)->count();
         $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
         $train_booking = 0;
-        $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status',1)->count();
+        $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
 
         $today_score = 350;
         $weekly_score= 1200;

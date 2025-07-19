@@ -53,6 +53,7 @@
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
                                 <th>ID</th>
+                                <th>Booking Type</th>
                                 <th>PNR</th>
                                 <th>Booking Date</th>
                                 <th>Agent</th>
@@ -72,6 +73,13 @@
                                     <a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
                                         {{ $booking->id }}
                                     </a>
+                                </td>
+                                <td> 
+                                <i class="ri ri-flight-takeoff-line" style="color: #1e90ff; font-size: 18px;"></i> <!-- Blue for flight -->
+                                <i class="ri ri-ship-fill" style="color: #006994; font-size: 18px;"></i>         <!-- Deep sea blue for ship -->
+                                <i class="ri ri-hotel-fill" style="color: #8b4513; font-size: 18px;"></i>        <!-- Brown for hotel -->
+                                <i class="ri ri-car-fill" style="color: #228b22; font-size: 18px;"></i>          <!-- Green for car -->
+                                <i class="ri ri-train-fill" style="color: #800000; font-size: 18px;"></i> 
                                 </td>
                                 <td>{{ $booking->pnr }}</td>
                                 <td>{{ $booking->created_at }}</td>
