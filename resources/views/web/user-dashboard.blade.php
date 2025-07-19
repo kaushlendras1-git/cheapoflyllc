@@ -221,7 +221,7 @@
 
         <!-- Weekly Overview Chart -->
         <div class="col-xl-4 col-md-6">
-            <div class="card card-space">
+            <div class="card card-space h-100">
                 <div class="card-header p-0">
                     <div class="d-flex justify-content-between">
                         <h5 class="mb-1">Weekly Score</h5>
@@ -240,7 +240,7 @@
             </div>
         </div>
         <div class="col-xl-4 col-md-6">
-            <div class="card card-space">
+            <div class="card card-space h-100">
                 <div class="card-header p-0">
                     <div class="d-flex justify-content-between">
                         <h5 class="mb-1">Monthly Score</h5>
@@ -264,7 +264,7 @@
 
         <!-- Total Earnings -->
         <div class="col-xl-4 col-md-6">
-            <div class="card card-space">
+            <div class="card card-space h-100">
                 <div class="card-header d-flex align-items-center justify-content-between p-0">
                     <h5 class="card-title m-0 me-2">Incentives</h5>
                 </div>
@@ -339,24 +339,20 @@
             </div>
         </div>
         <div class="col-xl-4 col-md-6">
-            <div class="card-group mt-4">
+            <div class="card-group h-100">
                 <div class="card mb-0 card-space">
-                    <div class="card-body card-separator p-0">
+                    <div class="card-body p-0">
                         <div class="d-flex justify-content-between align-items-center flex-wrap mb-0">
                             <h5 class="m-0 me-2">Quality Report</h5>
-                            <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
+                            <a class="fw-medium" href="javascript:void(0);">View all</a>
                         </div>
                         <div class="deposit-content pt-2"> booking approved 100/ decline Qc pendind
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card-group mt-4">
-                <div class="card mb-0">
-                    <div class="card-body card-separator">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                    <div class="card-body p-0">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-0">
                             <h5 class="m-0 me-2">Quality Report</h5>
-                            <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
+                            <a class="fw-medium" href="javascript:void(0);">View all</a>
                         </div>
                         <div class="deposit-content pt-2"> booking approved 100/ decline Qc pendind
                         </div>

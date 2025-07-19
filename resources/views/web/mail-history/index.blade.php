@@ -37,7 +37,7 @@
                             <td class="sorting_1"><button title="View"
                                     class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
                                     data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#6f39e4" width="16" height="16" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye-fill" viewBox="0 0 16 16">
                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
                                         <path
@@ -52,7 +52,7 @@
                             <td class="sorting_1"><button title="View"
                                     class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
                                     data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#6f39e4" width="16" height="16" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye-fill" viewBox="0 0 16 16">
                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
                                         <path
@@ -67,7 +67,7 @@
                             <td class="sorting_1"><button title="View"
                                     class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
                                     data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#6f39e4" width="16" height="16" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye-fill" viewBox="0 0 16 16">
                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
                                         <path
@@ -82,7 +82,7 @@
                             <td class="sorting_1"><button title="View"
                                     class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
                                     data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#6f39e4" width="16" height="16" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye-fill" viewBox="0 0 16 16">
                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
                                         <path
@@ -97,7 +97,7 @@
                             <td class="sorting_1"><button title="View"
                                     class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
                                     data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#6f39e4" width="16" height="16" fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye-fill" viewBox="0 0 16 16">
                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
                                         <path

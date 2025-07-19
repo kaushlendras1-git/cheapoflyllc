@@ -24,6 +24,9 @@
 
             <!-- Booking Form Card -->
             <div class="card p-4 mb-4">
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
                 <div class="row mb-3 booking-form">
                     <div class="col-md-3 position-relative">
                         <label class="form-label">Name <span class="text-danger">*</span></label>
@@ -52,9 +55,7 @@
                     </div>
                 </div>
 
-                <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
+                
             </div>
         </form>
     </div>

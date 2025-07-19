@@ -87,6 +87,7 @@
 
                         </div>
                         <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                             <!-- <button class="btn btn-sm btn-primary text-center">
                <i class="icon-base ri ri-save-2-fill"></i>
                </button> -->
@@ -221,9 +222,9 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="text-end">
+                    <!-- <div class="text-end">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
+                    </div> -->
             </form>
         </div>
 

@@ -28737,15 +28737,15 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
     --bs-table-bg-state: #f3f6ff !important;
 }
 .checkbox-servis .form-check label {
-  background-color: #f1ebff;
+  background-color: #e0ecff;
   padding: 6px 30px;
   border-radius: 5px;
-  color: #8c57ff;
+  color: #055bdb;
   font-size: 14px;
   font-weight: 500;
 }
 .checkbox-servis .form-check input:checked + label {
-  background-color: #8c57ff;
+  background-color: #055bdb;
   color: #fff;
 }
 /* .checkbox-servis .form-check input:checked + label::after {
@@ -28803,10 +28803,10 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .tabs-booked .nav-item .nav-link.active {
   background-color: #fff;
   border-radius: 10px 10px 0px 0px;
-  color: #8c57ff;
+  color: #055bdb;
 }
 .tabs-booked .nav-item .nav-link:hover {
-  color: #8c57ff;
+  color: #055bdb;
 }
 .booked-content .card{
   box-shadow: none;
@@ -29216,4 +29216,15 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .navbar-nav .menu-item .menu-link.active::after {
   background-color: #055bdb;
+}
+.filepond--drip {
+  background: transparent !important;
+  opacity: 1 !important;
+  border: 3px dashed #d2d2d2;
+}
+.filepond--panel-root {
+  background-color: transparent !important;
+}
+.filepond--root .filepond--drop-label {
+    min-height: 200px !important;
 }
