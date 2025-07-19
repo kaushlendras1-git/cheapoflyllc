@@ -27,6 +27,10 @@
     width: calc(50% - 0.5em);
 }
 </style>
+<form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST"
+      enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
@@ -60,260 +64,257 @@
             $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             @endphp
 
-            <form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST"
-                enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
-                <!-- Top Bar -->
-                <div class="pt-3 mt-2 ps-0">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
-                        <div class="d-flex align-items-center gap-3 flex-wrap">
-                            <div class="form-check form-check-inline">
-                                <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
-                                    id="booking-flight" value="Flight"
-                                    {{ in_array('Flight', $bookingTypes) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="booking-flight">Flight</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
-                                    id="booking-hotel" value="Hotel"
-                                    {{ in_array('Hotel', $bookingTypes) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="booking-hotel">Hotel</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
-                                    id="booking-cruise" value="Cruise"
-                                    {{ in_array('Cruise', $bookingTypes) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="booking-cruise">Cruise</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
-                                    id="booking-car" value="Car" {{ in_array('Car', $bookingTypes) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="booking-car">Car</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
-                                    id="booking-train" value="Train"
-                                    {{ in_array('Train', $bookingTypes) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="booking-train">Train</label>
-                            </div>
-                        </div>
 
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-sm btn-primary text-center">
-                                <i class="icon-base ri ri-save-2-fill"></i> Save
-                            </button>
-                            <!-- <button type="button" class="btn btn-sm btn-dark text-center">
-                                <i class="icon-base ri ri-mail-send-fill"></i> Send
-                            </button> -->
+            <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
+            <!-- Top Bar -->
+            <div class="pt-3 mt-2 ps-0">
+                <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <div class="form-check form-check-inline">
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
+                                id="booking-flight" value="Flight"
+                                {{ in_array('Flight', $bookingTypes) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="booking-flight">Flight</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
+                                id="booking-hotel" value="Hotel"
+                                {{ in_array('Hotel', $bookingTypes) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="booking-hotel">Hotel</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
+                                id="booking-cruise" value="Cruise"
+                                {{ in_array('Cruise', $bookingTypes) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="booking-cruise">Cruise</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
+                                id="booking-car" value="Car" {{ in_array('Car', $bookingTypes) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="booking-car">Car</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input name="booking-type[]" class="form-check-input toggle-tab" type="checkbox"
+                                id="booking-train" value="Train"
+                                {{ in_array('Train', $bookingTypes) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="booking-train">Train</label>
                         </div>
                     </div>
-                </div>
 
-                <!-- Booking Form Card -->
-                <div class="pt-5 ps-0">
-                    <div class="row booking-form">
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">PNR <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr" value="{{ $booking->pnr }}" readonly>
-                        </div>
-                        <fieldset id="flight-inputs" class="toggle-section col-md-6">
-                            <div class="row">
-                                <div class="col-md-4 position-relative mb-5">
-                                    <label class="form-label">Airline PNR</label>
-                                    <input type="text" class="form-control" name="airlinepnr"
-                                        value="{{ $booking->airlinepnr }}" placeholder="Airline PNR">
-                                </div>
-
-                                <div class="col-md-4 position-relative mb-5">
-                                    <label class="form-label">Amadeus/Sabre PNR</label>
-                                    <input type="text" class="form-control" name="amadeus_sabre_pnr"
-                                        value="{{ $booking->amadeus_sabre_pnr }}">
-                                </div>
-
-                                <div class="col-md-4 position-relative mb-5">
-                                    <label class="form-label"> PNR Type</label>
-                                    <select class="form-control" name="pnrtype">
-                                        <option value=""
-                                            {{ old('pnrtype', $booking->pnrtype ?? '') === '' ? 'selected' : '' }}>
-                                            Select</option>
-                                        <option value="HK"
-                                            {{ old('pnrtype', $booking->pnrtype ?? '') === 'HK' ? 'selected' : '' }}>
-                                            HK</option>
-                                        <option value="GK"
-                                            {{ old('pnrtype', $booking->pnrtype ?? '') === 'GK' ? 'selected' : '' }}>
-                                            GK</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
-                            <label class="form-label">Hotel Ref</label>
-                            <input type="text" class="form-control" name="hotel_ref"
-                                value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}" placeholder="Hotel Ref">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5" id="cruise-inputs">
-                            <label class="form-label">Cruise Ref</label>
-                            <input type="text" class="form-control" name="cruise_ref"
-                                value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}" placeholder="Cruise Ref">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5" id="car-inputs">
-                            <label class="form-label">Car Ref</label>
-                            <input type="text" class="form-control" name="car_ref"
-                                value="{{ old('car_ref', $booking->car_ref ?? '') }}" placeholder="Car Ref">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5" id="train-inputs">
-                            <label class="form-label">Train Ref</label>
-                            <input type="text" class="form-control" name="train_ref"
-                                value="{{ old('train_ref', $booking->train_ref ?? '') }}" placeholder="Train Ref">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="name"
-                                value="{{ old('name', $booking->name ?? '') }}">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="phone"
-                                value="{{ old('phone', $booking->phone ?? '') }}">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Email <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control" name="email"
-                                value="{{ old('email', $booking->email ?? '') }}">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Reservation Source</label>
-                            <input type="text" class="form-control" name="reservation_source"
-                                value="{{ old('reservation_source', $booking->reservation_source ?? '') }}">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Descriptor</label>
-                            <input type="text" class="form-control" name="descriptor"
-                                value="{{ old('descriptor', $booking->descriptor ?? '') }}">
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Booking Status</label>
-                            <select class="form-control" name="booking_status_id">
-                                @foreach($booking_status as $status)
-                                <option value="{{$status->id}}"
-                                    {{ old('booking_status_id', $booking->booking_status_id ?? '') === $status->is ? 'selected' : '' }}>
-                                    {{$status->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Payment Status</label>
-                            <select class="form-control" name="payment_status_id">
-                                @foreach($payment_status as $payment)
-                                <option value="{{$payment->id}}"
-                                    {{ old('payment_status_id', $booking->payment_status_id ?? '') === $payment->is ? 'selected' : '' }}>
-                                    {{$payment->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Query Type</label>
-                            <select id="query_type" class="form-control" name="query_type">
-                                <option value="N"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'N' ? 'selected' : '' }}>New
-                                    Booking</option>
-                                <option value="NC"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'NC' ? 'selected' : '' }}>New
-                                    Booking(Credit)</option>
-                                <option value="M"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'M' ? 'selected' : '' }}>New
-                                    Booking(Miles)</option>
-                                <option value="UMNR"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'UMNR' ? 'selected' : '' }}>
-                                    Unaccompanied Minor Reservation</option>
-                                <option value="CC"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'CC' ? 'selected' : '' }}>
-                                    Cancel(Credit)</option>
-                                <option value="CR"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'CR' ? 'selected' : '' }}>
-                                    Cancel(Refund)</option>
-                                <option value="CH"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'CH' ? 'selected' : '' }}>
-                                    Change</option>
-                                <option value="U"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'U' ? 'selected' : '' }}>
-                                    Upgrade</option>
-                                <option value="NMC"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'NMC' ? 'selected' : '' }}>Name
-                                    Correction</option>
-                                <option value="S"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'S' ? 'selected' : '' }}>Seat
-                                    Assignment</option>
-                                <option value="B"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'B' ? 'selected' : '' }}>
-                                    Baggage Addition</option>
-                                <option value="CBP"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'CBP' ? 'selected' : '' }}>
-                                    Change Bed Preference</option>
-                                <option value="AI"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'AI' ? 'selected' : '' }}>
-                                    Infant Addition</option>
-                                <option value="AE"
-                                    {{ old('query_type', $booking->query_type ?? '') === 'AE' ? 'selected' : '' }}>
-                                    Adding Excursion</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Company Organisation</label>
-                            <select id="selected_company" name="selected_company" class="form-control">
-                                <option value="1"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>
-                                    flydreamz</option>
-                                <option value="3"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>
-                                    fareticketsllc</option>
-                                <option value="5"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '5' ? 'selected' : '' }}>
-                                    fareticketsus</option>
-                                <option value="6"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '6' ? 'selected' : '' }}>
-                                    cruiselineservice</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label"> Campaign</label>
-                            <select class="form-control" name="campaign">
-                                <option value=""
-                                    {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select
-                                </option>
-                                <option value="Agency"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>
-                                    Agency</option>
-                                <option value="Airline Mix"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Airline Mix' ? 'selected' : '' }}>
-                                    Airline Mix</option>
-                                <option value="Buffer Mix"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Buffer Mix' ? 'selected' : '' }}>
-                                    Buffer Mix</option>
-                                <option value="Cruise"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Cruise' ? 'selected' : '' }}>
-                                    Cruise</option>
-                                <option value="International"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'International' ? 'selected' : '' }}>
-                                    International</option>
-                                <option value="LCC"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'LCC' ? 'selected' : '' }}>LCC
-                                </option>
-                                <option value="Premium Amtrak Bing Calls"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Premium Amtrak Bing Calls' ? 'selected' : '' }}>
-                                    Premium Amtrak Bing Calls</option>
-                                <option value="Pure AA"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Pure AA' ? 'selected' : '' }}>Pure
-                                    AA</option>
-                                <option value="Spanish"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Spanish' ? 'selected' : '' }}>
-                                    Spanish</option>
-                            </select>
-                        </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-sm btn-primary text-center">
+                            <i class="icon-base ri ri-save-2-fill"></i> Save
+                        </button>
+                        <!-- <button type="button" class="btn btn-sm btn-dark text-center">
+                            <i class="icon-base ri ri-mail-send-fill"></i> Send
+                        </button> -->
                     </div>
                 </div>
+            </div>
+
+            <!-- Booking Form Card -->
+            <div class="pt-5 ps-0">
+                <div class="row booking-form">
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">PNR <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="pnr" value="{{ $booking->pnr }}" readonly>
+                    </div>
+                    <fieldset id="flight-inputs" class="toggle-section col-md-6">
+                        <div class="row">
+                            <div class="col-md-4 position-relative mb-5">
+                                <label class="form-label">Airline PNR</label>
+                                <input type="text" class="form-control" name="airlinepnr"
+                                    value="{{ $booking->airlinepnr }}" placeholder="Airline PNR">
+                            </div>
+
+                            <div class="col-md-4 position-relative mb-5">
+                                <label class="form-label">Amadeus/Sabre PNR</label>
+                                <input type="text" class="form-control" name="amadeus_sabre_pnr"
+                                    value="{{ $booking->amadeus_sabre_pnr }}">
+                            </div>
+
+                            <div class="col-md-4 position-relative mb-5">
+                                <label class="form-label"> PNR Type</label>
+                                <select class="form-control" name="pnrtype">
+                                    <option value=""
+                                        {{ old('pnrtype', $booking->pnrtype ?? '') === '' ? 'selected' : '' }}>
+                                        Select</option>
+                                    <option value="HK"
+                                        {{ old('pnrtype', $booking->pnrtype ?? '') === 'HK' ? 'selected' : '' }}>
+                                        HK</option>
+                                    <option value="GK"
+                                        {{ old('pnrtype', $booking->pnrtype ?? '') === 'GK' ? 'selected' : '' }}>
+                                        GK</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
+                        <label class="form-label">Hotel Ref</label>
+                        <input type="text" class="form-control" name="hotel_ref"
+                            value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}" placeholder="Hotel Ref">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5" id="cruise-inputs">
+                        <label class="form-label">Cruise Ref</label>
+                        <input type="text" class="form-control" name="cruise_ref"
+                            value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}" placeholder="Cruise Ref">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5" id="car-inputs">
+                        <label class="form-label">Car Ref</label>
+                        <input type="text" class="form-control" name="car_ref"
+                            value="{{ old('car_ref', $booking->car_ref ?? '') }}" placeholder="Car Ref">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5" id="train-inputs">
+                        <label class="form-label">Train Ref</label>
+                        <input type="text" class="form-control" name="train_ref"
+                            value="{{ old('train_ref', $booking->train_ref ?? '') }}" placeholder="Train Ref">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="name"
+                            value="{{ old('name', $booking->name ?? '') }}">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="phone"
+                            value="{{ old('phone', $booking->phone ?? '') }}">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" name="email"
+                            value="{{ old('email', $booking->email ?? '') }}">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Reservation Source</label>
+                        <input type="text" class="form-control" name="reservation_source"
+                            value="{{ old('reservation_source', $booking->reservation_source ?? '') }}">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Descriptor</label>
+                        <input type="text" class="form-control" name="descriptor"
+                            value="{{ old('descriptor', $booking->descriptor ?? '') }}">
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Booking Status</label>
+                        <select class="form-control" name="booking_status_id">
+                            @foreach($booking_status as $status)
+                            <option value="{{$status->id}}"
+                                {{ old('booking_status_id', $booking->booking_status_id ?? '') === $status->is ? 'selected' : '' }}>
+                                {{$status->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Payment Status</label>
+                        <select class="form-control" name="payment_status_id">
+                            @foreach($payment_status as $payment)
+                            <option value="{{$payment->id}}"
+                                {{ old('payment_status_id', $booking->payment_status_id ?? '') === $payment->is ? 'selected' : '' }}>
+                                {{$payment->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Query Type</label>
+                        <select id="query_type" class="form-control" name="query_type">
+                            <option value="N"
+                                {{ old('query_type', $booking->query_type ?? '') === 'N' ? 'selected' : '' }}>New
+                                Booking</option>
+                            <option value="NC"
+                                {{ old('query_type', $booking->query_type ?? '') === 'NC' ? 'selected' : '' }}>New
+                                Booking(Credit)</option>
+                            <option value="M"
+                                {{ old('query_type', $booking->query_type ?? '') === 'M' ? 'selected' : '' }}>New
+                                Booking(Miles)</option>
+                            <option value="UMNR"
+                                {{ old('query_type', $booking->query_type ?? '') === 'UMNR' ? 'selected' : '' }}>
+                                Unaccompanied Minor Reservation</option>
+                            <option value="CC"
+                                {{ old('query_type', $booking->query_type ?? '') === 'CC' ? 'selected' : '' }}>
+                                Cancel(Credit)</option>
+                            <option value="CR"
+                                {{ old('query_type', $booking->query_type ?? '') === 'CR' ? 'selected' : '' }}>
+                                Cancel(Refund)</option>
+                            <option value="CH"
+                                {{ old('query_type', $booking->query_type ?? '') === 'CH' ? 'selected' : '' }}>
+                                Change</option>
+                            <option value="U"
+                                {{ old('query_type', $booking->query_type ?? '') === 'U' ? 'selected' : '' }}>
+                                Upgrade</option>
+                            <option value="NMC"
+                                {{ old('query_type', $booking->query_type ?? '') === 'NMC' ? 'selected' : '' }}>Name
+                                Correction</option>
+                            <option value="S"
+                                {{ old('query_type', $booking->query_type ?? '') === 'S' ? 'selected' : '' }}>Seat
+                                Assignment</option>
+                            <option value="B"
+                                {{ old('query_type', $booking->query_type ?? '') === 'B' ? 'selected' : '' }}>
+                                Baggage Addition</option>
+                            <option value="CBP"
+                                {{ old('query_type', $booking->query_type ?? '') === 'CBP' ? 'selected' : '' }}>
+                                Change Bed Preference</option>
+                            <option value="AI"
+                                {{ old('query_type', $booking->query_type ?? '') === 'AI' ? 'selected' : '' }}>
+                                Infant Addition</option>
+                            <option value="AE"
+                                {{ old('query_type', $booking->query_type ?? '') === 'AE' ? 'selected' : '' }}>
+                                Adding Excursion</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label">Company Organisation</label>
+                        <select id="selected_company" name="selected_company" class="form-control">
+                            <option value="1"
+                                {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>
+                                flydreamz</option>
+                            <option value="3"
+                                {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>
+                                fareticketsllc</option>
+                            <option value="5"
+                                {{ old('selected_company', $booking->selected_company ?? '') === '5' ? 'selected' : '' }}>
+                                fareticketsus</option>
+                            <option value="6"
+                                {{ old('selected_company', $booking->selected_company ?? '') === '6' ? 'selected' : '' }}>
+                                cruiselineservice</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 position-relative mb-5">
+                        <label class="form-label"> Campaign</label>
+                        <select class="form-control" name="campaign">
+                            <option value=""
+                                {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select
+                            </option>
+                            <option value="Agency"
+                                {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>
+                                Agency</option>
+                            <option value="Airline Mix"
+                                {{ old('campaign', $booking->campaign ?? '') === 'Airline Mix' ? 'selected' : '' }}>
+                                Airline Mix</option>
+                            <option value="Buffer Mix"
+                                {{ old('campaign', $booking->campaign ?? '') === 'Buffer Mix' ? 'selected' : '' }}>
+                                Buffer Mix</option>
+                            <option value="Cruise"
+                                {{ old('campaign', $booking->campaign ?? '') === 'Cruise' ? 'selected' : '' }}>
+                                Cruise</option>
+                            <option value="International"
+                                {{ old('campaign', $booking->campaign ?? '') === 'International' ? 'selected' : '' }}>
+                                International</option>
+                            <option value="LCC"
+                                {{ old('campaign', $booking->campaign ?? '') === 'LCC' ? 'selected' : '' }}>LCC
+                            </option>
+                            <option value="Premium Amtrak Bing Calls"
+                                {{ old('campaign', $booking->campaign ?? '') === 'Premium Amtrak Bing Calls' ? 'selected' : '' }}>
+                                Premium Amtrak Bing Calls</option>
+                            <option value="Pure AA"
+                                {{ old('campaign', $booking->campaign ?? '') === 'Pure AA' ? 'selected' : '' }}>Pure
+                                AA</option>
+                            <option value="Spanish"
+                                {{ old('campaign', $booking->campaign ?? '') === 'Spanish' ? 'selected' : '' }}>
+                                Spanish</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -487,7 +488,7 @@
                                     </td>
                                     <td>
                                         <input type="number" style="width:80px" class="form-control"
-                                            name="passenger[{{$key}}][credit_note]"
+                                            name="passenger[{{$key}}][credit_note_amount]"
                                             value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
                                     </td>
                                     <td>
@@ -857,7 +858,6 @@
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Booking Details</h5>
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                         <div class="upload-file position-relative">
-
                             {{--                                <label for="screenshots-upload">Upload Files</label>--}}
                         </div>
                     </div>
@@ -1108,7 +1108,7 @@
                                                         DISCOVER</option>
                                                 </select>
                                             </td>
-                                            <td><input style="width: 140px;" inputmode="numeric" pattern="\d{16}"
+                                            <td><input style="width: 140px;" inputmode="numeric" pattern="\d{15}"
                                                     maxlength="16"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,16)"
                                                     class="form-control" placeholder="CC Number"
@@ -1137,8 +1137,8 @@
                                                         @endfor
                                                 </select>
                                             </td>
-                                            <td><input style="width: 57px;" inputmode="numeric" pattern="\d{5}"
-                                                    maxlength="5"
+                                            <td><input style="width: 57px;" inputmode="numeric" pattern="\d{4}"
+                                                    maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]"
                                                     value="{{$billingDetails->cvv}}"></td>
@@ -1205,7 +1205,7 @@
                                                     value="{{$billingDetails->amount}}" step="0.01"></td>
                                             <td class="text-center"><input class="form-check-input" type="radio"
                                                     name="activeCard" value="{{$key}}"
-                                                    {{$billingDetails->active == 1 ? 'checked' : ''}}>
+                                                    {{$billingDetails->is_active == 1 ? 'checked' : ''}}>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-billing-btn">

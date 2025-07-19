@@ -12,7 +12,7 @@ if (sessionStorage.getItem("successMessage")) {
     sessionStorage.removeItem("successMessage");
 }
 FilePond.registerPlugin(FilePondPluginImagePreview);
-const ponds = {};
+let ponds = {};
 
 Array.from(document.querySelectorAll('input[name^="flight_files["]')).forEach(function(item){
     const jsonString = item.getAttribute('data-files');
@@ -36,11 +36,11 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
         labelMaxFileCountExceeded: 'You can only upload up to 10 files',
     });
 });
-
+console.log(ponds);
 document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
-    console.log('Submitting booking form...');
 
+    console.log('Submitting booking form...');
     const form = e.target;
     const action = form.action;
     const formdata = new FormData(form);
@@ -142,16 +142,10 @@ document.getElementById('bookingForm').addEventListener('submit', async function
 
 
     // Append FilePond files (custom mapping)
-    const ponds = {
-        'hotelbookingimage[]': FilePond.find(document.querySelector('input[name="hotelbookingimage[]"]')),
-        'carbookingimage[]': FilePond.find(document.querySelector('input[name="carbookingimage[]"]')),
-        'cruisebookingimage[]': FilePond.find(document.querySelector('input[name="cruisebookingimage[]"]')),
-        'flightbookingimage[]': FilePond.find(document.querySelector('input[name="flightbookingimage[]"]')),
-        'trainbookingimage[]': FilePond.find(document.querySelector('input[name="trainbookingimage[]"]')),
-        'screenshots[]': FilePond.find(document.querySelector('input[name="screenshots[]"]'))
-    };
+
 
     for (const inputName in ponds) {
+        console.log(ponds);
         const pond = ponds[inputName];
         if (pond) {
             pond.getFiles().forEach(fileItem => {
@@ -160,12 +154,6 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         }
     }
 
-    // Optional: debug FormData
-    // for (let pair of formdata.entries()) {
-    //     console.log(pair[0], pair[1]);
-    // }
-
-    // Submit with Axios
     try {
         const response = await axios.post(action, formdata, {
             headers: {
@@ -173,17 +161,18 @@ document.getElementById('bookingForm').addEventListener('submit', async function
             }
         });
 
-        console.log(response);
+        console.log(response.data);
 
         if (response.status === 201) {
             this.removeAttribute("disabled");
             sessionStorage.setItem("successMessage", response.data.message);
-            window.location.href = route(response.data.data.route, { id: response.data.data.id });
+            window.location.href = route(response.data.route, { id: response.data.id });
         } else {
             showToast("Something went wrong", "error");
         }
 
-    } catch (e) {
+    }
+    catch (e) {
         console.error(e);
         if (e.response?.status === 422 || e.response?.status === 500) {
             showToast(e.response?.data?.error ?? 'Validation/server error', "error");

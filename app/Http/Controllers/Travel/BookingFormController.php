@@ -463,7 +463,7 @@ class BookingFormController extends Controller
         //     return redirect()->route('travel.bookings.form')->with('error', 'Failed to submit booking: ' . $e->getMessage())->withFragment('booking-failed-' . ($booking->id ?? 'no-id'));
         // }
     }
-    
+
 
 
     public function updateRemark(Request $request,$id)
@@ -484,17 +484,16 @@ class BookingFormController extends Controller
         return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
     }
 
-    
+
     public function update(Request $request, $id)
     {
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
-        
-        
-     
+
+
         try {
-        // Validate the request data
+
        $validator = Validator::make($request->all(), [
                 'pnr' => 'required|string|max:255',
                 'hotel_ref' => 'nullable|string|max:255',
@@ -504,13 +503,13 @@ class BookingFormController extends Controller
                 'email' => 'required|email|max:255',
                 'query_type' => 'nullable|string|max:255',
                 'selected_company' => 'required|string|max:255',
-                'booking_status_id' => 'required',
-                'payment_status_id' => 'required',
+                'booking_status_id' => 'nullable',
+                'payment_status_id' => 'nullable',
                 'reservation_source' => 'nullable|string|max:255',
                 'descriptor' => 'nullable|string|max:255',
                 'amadeus_sabre_pnr' => 'nullable|string|max:255',
                 'sector_details.*' => 'required|file|image|max:2048',
-               
+
                 'passenger' => 'required|array|min:1',
                 'passenger.*.passenger_type' => 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant',
                 'passenger.*.gender' => 'required|string|in:Male,Female,Other',
@@ -522,7 +521,7 @@ class BookingFormController extends Controller
                 'passenger.*.seat_number' => 'nullable|string',
                 'passenger.*.credit_note' => 'nullable|numeric',
                 'passenger.*.e_ticket_number' => 'nullable|string',
-               
+
                 'billing' => 'required|array|min:1',
                 'billing.*.card_type' => 'required|in:VISA,Mastercard,AMEX,DISCOVER',
                 'billing.*.cc_number' => 'required|string|max:255',
@@ -530,14 +529,14 @@ class BookingFormController extends Controller
                 'billing.*.cc_holder_name' => ['required','string','max:255','regex:/^[A-Za-z\s]+$/'],
                 'billing.*.exp_month' => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
                 'billing.*.exp_year' => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
-                'billing.*.cvv' => 'required|string|max:4',
+                'billing.*.cvv' => 'required|string|max:5',
                 'billing.*.address' => 'required|string|max:255',
                 'billing.*.email' => 'required|email|max:255',
                 'billing.*.contact_no' => 'required|string|max:20',
                 'billing.*.city' => 'required|string|max:255',
                'billing.*.country' => 'required|string|max:255',
                'billing.*.state' => 'required|string|max:255',
-               
+
                 'billing.*.zip_code' => 'required|string|max:10',
                 'billing.*.currency' => 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
                 'billing.*.amount' => 'required|numeric|min:0',
@@ -550,7 +549,7 @@ class BookingFormController extends Controller
                 'pricing.*.details' => 'required|string',
             ],
                 [
-                
+
                 'passenger.required' => 'Please provide at least one passenger.',
                 'passenger.*.passenger_type.required' => 'Passenger type is required.',
                 'passenger.*.passenger_type.in' => 'Passenger type must be Adult, Child, Infant, Lap Infant, Seat Infant.',
@@ -564,16 +563,16 @@ class BookingFormController extends Controller
                 'passenger.*.dob.date' => 'Passenger Date of birth must be a valid date.',
                 'passenger.*.dob.before' => 'Passenger Date of birth must be a past date.',
                 'passenger.*.credit_note.numeric' => 'Passenger Credit note must be a number.',
-                
+
                 'billing.required' => 'Please provide at least one billing entry.',
                 'billing.*.card_type.required' => 'Billing Card type is required.',
                 'billing.*.card_type.in' => 'Billing Card type must be one of: VISA, MasterCard, AMEX, Discover.',
                 'billing.*.cc_number.required' => 'Billing Card number is required.',
                 'billing.*.cc_number.digits_between' => 'Billing Card number must be between 13 and 19 digits.',
-                
+
                 'billing.*.cc_holder_name.required' => 'Billing Card holder name is required.',
                 'billing.*.cc_holder_name.regex' => 'Card holder name must only contain letters and spaces.',
-   
+
                 'billing.*.exp_month.required' => 'Billing Expiration month is required.',
                 'billing.*.exp_month.digits' => 'Billing Expiration month must be 2 digits.',
                 'billing.*.exp_year.required' => 'Billing Expiration year is required.',
@@ -610,31 +609,31 @@ class BookingFormController extends Controller
                 'pricing.*.details.required' => 'Pricing Details field is required.',
             ]);
 
-            $validator->after(function ($validator) use ($request) {
-            $billings = $request->input('billing', []);
+        $validator->after(function ($validator) use ($request) {
+                $billings = $request->input('billing', []);
 
-            foreach ($billings as $index => $billing) {
-                $cardType = strtoupper($billing['card_type'] ?? '');
-                $ccNumber = preg_replace('/\D/', '', $billing['cc_number'] ?? '');
-                $cvv = preg_replace('/\D/', '', $billing['cvv'] ?? '');
+                foreach ($billings as $index => $billing) {
+                    $cardType = strtoupper($billing['card_type'] ?? '');
+                    $ccNumber = preg_replace('/\D/', '', $billing['cc_number'] ?? '');
+                    $cvv = preg_replace('/\D/', '', $billing['cvv'] ?? '');
 
-                if ($cardType === 'AMEX') {
-                    if (strlen($ccNumber) !== 15) {
-                        $validator->errors()->add("billing.$index.cc_number", 'AMEX card number must be exactly 15 digits.');
-                    }
-                    if (strlen($cvv) !== 4) {
-                        $validator->errors()->add("billing.$index.cvv", 'AMEX CVV must be exactly 4 digits.');
-                    }
-                } else {
-                    if (strlen($ccNumber) !== 16) {
-                        $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for non-AMEX.');
-                    }
-                    if (strlen($cvv) !== 3) {
-                        $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
+                    if ($cardType === 'AMEX') {
+                        if (strlen($ccNumber) !== 15) {
+                            $validator->errors()->add("billing.$index.cc_number", 'AMEX card number must be exactly 15 digits.');
+                        }
+                        if (strlen($cvv) !== 4) {
+                            $validator->errors()->add("billing.$index.cvv", 'AMEX CVV must be exactly 4 digits.');
+                        }
+                    } else {
+                        if (strlen($ccNumber) !== 16) {
+                            $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for non-AMEX.');
+                        }
+                        if (strlen($cvv) !== 3) {
+                            $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
+                        }
                     }
                 }
-            }
-        });
+            });
 
         // Trigger validation (throws ValidationException on failure)
         $validator->validate();
@@ -651,7 +650,7 @@ class BookingFormController extends Controller
             ]);
             $bookingData['shift_id'] = 2;
             $bookingData['team_id'] = 2;
-            $bookingData['user_id'] = $user_id;     
+            $bookingData['user_id'] = $user_id;
             // Perform the update
             $booking->update($bookingData);
 
@@ -679,7 +678,7 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedBookingTypeIds)
                 ->delete();
 
-                
+
              // Update or Create Passengers
                 $passengers = collect($request->input('passenger', []))
                     ->filter(function ($data) {
@@ -688,9 +687,10 @@ class BookingFormController extends Controller
 
                 $processedPassengerIds = [];
                 foreach ($passengers as $data) {
+
                     $data['booking_id'] = $booking->id;
                     $passenger = TravelPassenger::updateOrCreate(
-                        ['id' => $data['id'] ?? null, 'booking_id' => $booking->id],
+                        ['booking_id' => $booking->id],
                         $data
                     );
                     $processedPassengerIds[] = $passenger->id;
@@ -699,183 +699,37 @@ class BookingFormController extends Controller
                     ->whereNotIn('id', $processedPassengerIds)
                     ->delete();
 
+            // Update or Create Flight Details
+            $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
+            $newFlights = $request->input('flight', []);
+            $processedFlightIds = [];
 
-            // Update or Create Billing Details
-                $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
-                $newBillings = $request->input('billing', []);
-                $processedBillingIds = [];
+            foreach ($newFlights as $flightData) {
 
-                foreach ($newBillings as $index => $billingData) {
-                    $billingData['booking_id'] = $booking->id;
-                    // Set active only if this is the last card
-                    $billingData['is_active'] = ($request->input('activeCard') == $index) ? 1 : 0;
-                    $billing = TravelBillingDetail::updateOrCreate(
-                        ['id' => $billingData['id'] ?? null, 'booking_id' => $booking->id],
-                        $billingData
-                    );
-                    $processedBillingIds[] = $billing->id;
-                }
+                $flightData['booking_id'] = $booking->id;
 
-            // Delete unprocessed billings
-            TravelBillingDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedBillingIds)
-                ->delete();
-            
-            
-                  
-            // Update or Create Pricing Details
-                $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
-                $newPricings = $request->input('pricing', []);
-                $processedPricingIds = [];
+                // Handle flight booking image uploads
+                if (isset($request->flightbookingimage) && !empty($request->flightbookingimage)) {
+                    $flightData['files'] = [];
 
-                foreach ($newPricings as $index => $pricingData) {
-                    // Skip if required fields are missing (e.g., passenger_type is blank)
-                    if (empty($pricingData['passenger_type'])) {
-                        continue;
+                    foreach ($request->flightbookingimage as $key => $image) {
+                        $flightData['files'][] = 'storage/' . $image->store('flight_booking_image', 'public');
                     }
 
-                    $pricingData['booking_id'] = $booking->id;
-
-                    $pricing = TravelPricingDetail::updateOrCreate(
-                        ['id' => $pricingData['id'] ?? null, 'booking_id' => $booking->id],
-                        $pricingData
-                    );
-
-                    $processedPricingIds[] = $pricing->id;
+                    $flightData['files'] = json_encode($flightData['files']);
                 }
 
-                // Delete pricing details that were not submitted in the new request
-                TravelPricingDetail::where('booking_id', $booking->id)
-                    ->whereNotIn('id', $processedPricingIds)
-                    ->delete();
-                
-                // Update or Create Car Details
-                $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
-                $newCars = $request->input('car', []);
-                $processedCarIds = [];
-
-                foreach ($newCars as $carData) {
-                    $carData['booking_id'] = $booking->id;
-                    // Handle file upload
-                    if (isset($request->carbookingimage) && !empty($request->carbookingimage)) {
-                        $carData['files'] = [];
-                        foreach ($request->carbookingimage as $key => $image) {
-                            $carData['files'][] = 'storage/' . $image->store('car_booking_image', 'public');
-                        }
-                        $carData['files'] = json_encode($carData['files']);
-                    }
-
-                    // Insert or update car detail
-                    $car = TravelCarDetail::updateOrCreate(
-                        ['id' => $carData['id'] ?? null, 'booking_id' => $booking->id],
-                        $carData
-                    );
-
-                    $processedCarIds[] = $car->id;
-                }
-
-                // Delete removed car details
-                TravelCarDetail::where('booking_id', $booking->id)
-                    ->whereNotIn('id', $processedCarIds)
-                    ->delete();    
-                    
-
-                // Update or Create Flight Details
-                $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
-                $newFlights = $request->input('flight', []);
-                $processedFlightIds = [];
-
-                foreach ($newFlights as $flightData) {
-
-                    $flightData['booking_id'] = $booking->id;
-
-                    // Handle flight booking image uploads
-                    if (isset($request->flightbookingimage) && !empty($request->flightbookingimage)) {
-                        $flightData['files'] = [];
-
-                        foreach ($request->flightbookingimage as $key => $image) {
-                            $flightData['files'][] = 'storage/' . $image->store('flight_booking_image', 'public');
-                        }
-
-                        $flightData['files'] = json_encode($flightData['files']);
-                    }
-
-                    $flight = TravelFlightDetail::updateOrCreate(
-                        ['id' => $flightData['id'] ?? null, 'booking_id' => $booking->id],
-                        $flightData
-                    );
-
-                    $processedFlightIds[] = $flight->id;
-                }
-
-                // Delete unprocessed (removed) flight records
-                TravelFlightDetail::where('booking_id', $booking->id)
-                    ->whereNotIn('id', $processedFlightIds)
-                    ->delete();
-
-           
-
-
-
-            $newTrains = !empty($request->train)?$request->train:[];
-            foreach ($newTrains as $train) {
-
-                $trainData['booking_id'] = $booking->id;
-                if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
-                    $trainData['files'] = [];
-                    foreach($request->trainbookingimage as $key => $image){
-                        $trainData['files'][] = 'storage/'.$image->store('train_booking_image','public');
-                    }
-                    $trainData['files'] = json_encode($trainData['files']);
-                }
-                $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
-                $car = TravelTrainDetail::updateOrCreate(
-                    ['id' => $trainDataD['id'] ?? null, 'booking_id' => $booking->id],
-                    $trainData
+                $flight = TravelFlightDetail::updateOrCreate(
+                    ['booking_id' => $booking->id],
+                    $flightData
                 );
-            }
-           
-           
 
-            // Update or Create Cruise Details
-            $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
-            $newCruises = $request->input('cruise', []);
-            $processedCruiseIds = [];
+                $processedFlightIds[] = $flight->id;
+            }
 
-            foreach ($newCruises as $cruiseData) {
-                if ($this->allFieldsEmpty($cruiseData)) {
-                    continue;
-                }
-                $cruiseData['booking_id'] = $booking->id;
-                if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
-                    $cruiseData['files'] = [];
-                    foreach($request->cruisebookingimage as $key => $image){
-                        $cruiseData['files'][] = 'storage/'.$image->store('cruise_booking_image','public');
-                    }
-                    $cruiseData['files'] = json_encode($cruiseData['files']);
-                }
-                $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
-                $cruise = TravelCruiseDetail::updateOrCreate(
-                    ['id' => $cruiseData['id'] ?? null, 'booking_id' => $booking->id],
-                    $cruiseData
-                );
-                if ($oldCruise) {
-                    foreach ($cruiseData as $field => $newValue) {
-                        if ($oldCruise->$field != $newValue) {
-                            $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, $field, $oldCruise->$field, $newValue);
-                        }
-                    }
-                } else {
-                    $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, 'created', null, json_encode($cruiseData));
-                }
-                $processedCruiseIds[] = $cruise->id;
-            }
-            $deletedCruises = array_diff($existingCruiseIds, $processedCruiseIds);
-            foreach ($deletedCruises as $deletedId) {
-                $booking->logChange($booking->id, 'TravelCruiseDetail', $deletedId, 'deleted', 'exists', null);
-            }
-            TravelCruiseDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedCruiseIds)
+            // Delete unprocessed (removed) flight records
+            TravelFlightDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedFlightIds)
                 ->delete();
 
             // Update or Create Hotel Details
@@ -920,7 +774,151 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedHotelIds)
                 ->delete();
 
-           
+            // Update or Create Cruise Details
+            $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
+            $newCruises = $request->input('cruise', []);
+            $processedCruiseIds = [];
+
+            foreach ($newCruises as $cruiseData) {
+                if ($this->allFieldsEmpty($cruiseData)) {
+                    continue;
+                }
+                $cruiseData['booking_id'] = $booking->id;
+                if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
+                    $cruiseData['files'] = [];
+                    foreach($request->cruisebookingimage as $key => $image){
+                        $cruiseData['files'][] = 'storage/'.$image->store('cruise_booking_image','public');
+                    }
+                    $cruiseData['files'] = json_encode($cruiseData['files']);
+                }
+                $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
+                $cruise = TravelCruiseDetail::updateOrCreate(
+                    ['id' => $cruiseData['id'] ?? null, 'booking_id' => $booking->id],
+                    $cruiseData
+                );
+                if ($oldCruise) {
+                    foreach ($cruiseData as $field => $newValue) {
+                        if ($oldCruise->$field != $newValue) {
+                            $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, $field, $oldCruise->$field, $newValue);
+                        }
+                    }
+                } else {
+                    $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, 'created', null, json_encode($cruiseData));
+                }
+                $processedCruiseIds[] = $cruise->id;
+            }
+            $deletedCruises = array_diff($existingCruiseIds, $processedCruiseIds);
+            foreach ($deletedCruises as $deletedId) {
+                $booking->logChange($booking->id, 'TravelCruiseDetail', $deletedId, 'deleted', 'exists', null);
+            }
+            TravelCruiseDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedCruiseIds)
+                ->delete();
+
+            // Update or Create Car Details
+            $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
+            $newCars = $request->input('car', []);
+            $processedCarIds = [];
+
+            foreach ($newCars as $carData) {
+                $carData['booking_id'] = $booking->id;
+                // Handle file upload
+                if (isset($request->carbookingimage) && !empty($request->carbookingimage)) {
+                    $carData['files'] = [];
+                    foreach ($request->carbookingimage as $key => $image) {
+                        $carData['files'][] = 'storage/' . $image->store('car_booking_image', 'public');
+                    }
+                    $carData['files'] = json_encode($carData['files']);
+                }
+
+                // Insert or update car detail
+                $car = TravelCarDetail::updateOrCreate(
+                    ['id' => $carData['id'] ?? null, 'booking_id' => $booking->id],
+                    $carData
+                );
+
+                $processedCarIds[] = $car->id;
+            }
+
+            // Delete removed car details
+            TravelCarDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedCarIds)
+                ->delete();
+
+
+            $newTrains = !empty($request->train)?$request->train:[];
+
+            foreach ($newTrains as $train) {
+                $trainData = $train;
+                $trainData['booking_id'] = $booking->id;
+                if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
+                    $trainData['files'] = [];
+                    foreach($request->trainbookingimage as $key => $image){
+                        $trainData['files'][] = 'storage/'.$image->store('train_booking_image','public');
+                    }
+                    $trainData['files'] = json_encode($trainData['files']);
+                }
+                $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
+                $car = TravelTrainDetail::updateOrCreate(
+                    ['id' => $trainDataD['id'] ?? null, 'booking_id' => $booking->id],
+                    $trainData
+                );
+            }
+            // Update or Create Billing Details
+            $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
+            $newBillings = $request->input('billing', []);
+            $processedBillingIds = [];
+
+            foreach ($newBillings as $index => $billingData) {
+                    $billingData['booking_id'] = $booking->id;
+                    // Set active only if this is the last card
+                    $billingData['is_active'] = ($request->input('activeCard') == $index) ? 1 : 0;
+                    $billing = TravelBillingDetail::updateOrCreate(
+                        ['booking_id' => $booking->id],
+                        $billingData
+                    );
+                    $processedBillingIds[] = $billing->id;
+                }
+
+            // Delete unprocessed billings
+            TravelBillingDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedBillingIds)
+                ->delete();
+
+
+            // Update or Create Pricing Details
+                $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
+                $newPricings = $request->input('pricing', []);
+                $processedPricingIds = [];
+
+                foreach ($newPricings as $index => $pricingData) {
+                    // Skip if required fields are missing (e.g., passenger_type is blank)
+                    if (empty($pricingData['passenger_type'])) {
+                        continue;
+                    }
+
+                    $pricingData['booking_id'] = $booking->id;
+
+                    $pricing = TravelPricingDetail::updateOrCreate(
+                        ['id' => $pricingData['id'] ?? null, 'booking_id' => $booking->id],
+                        $pricingData
+                    );
+
+                    $processedPricingIds[] = $pricing->id;
+                }
+
+                // Delete pricing details that were not submitted in the new request
+                TravelPricingDetail::where('booking_id', $booking->id)
+                    ->whereNotIn('id', $processedPricingIds)
+                    ->delete();
+
+
+
+
+
+
+
+
 
 
             ########################pricing error###################################
@@ -938,8 +936,8 @@ class BookingFormController extends Controller
                 }
             }
 
-          
-            
+
+
 
            // DB::commit();
             return response()->json([
@@ -961,7 +959,7 @@ class BookingFormController extends Controller
                 'file' => $e->getFile(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return JsonResponse::error('Internal Server Error', 500, '500');
         }
     }
