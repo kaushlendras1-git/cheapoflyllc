@@ -11,6 +11,8 @@ package-lock.json
 !/storage/framework/.gitignore
 /storage/logs/*
 !/storage/logs/.gitignore
+composer.lock
+/public/build
 
 /.env
 /.env.*.php
