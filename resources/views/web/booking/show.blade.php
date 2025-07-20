@@ -326,60 +326,79 @@
 
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
-                    aria-controls="passenger" aria-selected="true">Passengers</a>
+                    aria-controls="passenger" aria-selected="true">
+                    <i class="ri ri-user-3-fill" title="Passengers" style="color: #00008b; font-size: 28px;"></i>
+                </a>
             </li>
 
 
             <li class="nav-item" role="presentation" data-tab="Flight"
                 style="{{ in_array('Flight', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                 <a class="nav-link" id="flightbooking-tab" data-bs-toggle="tab" href="#flightbooking" role="tab"
-                    aria-controls="flightbooking" aria-selected="true">Flight Booking</a>
+                    aria-controls="flightbooking" aria-selected="true"><i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 28px;"></i></a>
             </li>
             <li class="nav-item" role="presentation" data-tab="Hotel"
                 style="{{ in_array('Hotel', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                 <a class="nav-link" id="hotelbooking-tab" data-bs-toggle="tab" href="#hotelbooking" role="tab"
-                    aria-controls="hotelbooking" aria-selected="true">Hotel Booking</a>
+                    aria-controls="hotelbooking" aria-selected="true"><i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 28px;"></i></a>
             </li>
             <li class="nav-item" role="presentation" data-tab="Cruise"
                 style="{{ in_array('Cruise', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                 <a class="nav-link" id="cruisebooking-tab" data-bs-toggle="tab" href="#cruisebooking" role="tab"
-                    aria-controls="cruisebooking" aria-selected="true">Cruise Booking</a>
+                    aria-controls="cruisebooking" aria-selected="true"><i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 28px;"></i></a>
             </li>
             <li class="nav-item" role="presentation" data-tab="Car"
                 style="{{ in_array('Car', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                 <a class="nav-link" id="carbooking-tab" data-bs-toggle="tab" href="#carbooking" role="tab"
-                    aria-controls="carbooking" aria-selected="true">Car Booking</a>
+                    aria-controls="carbooking" aria-selected="true"><i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 28px;"></i></a>
             </li>
             <li class="nav-item" role="presentation" data-tab="Train"
                 style="{{ in_array('Train', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                 <a class="nav-link" id="trainbooking-tab" data-bs-toggle="tab" href="#trainbooking" role="tab"
-                    aria-controls="trainbooking" aria-selected="true">Train Booking</a>
+                    aria-controls="trainbooking" aria-selected="true">
+                 <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 28px;"></i></a>
             </li>
 
-
-
-            <li class="nav-item" role="presentation">
+             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
-                    aria-controls="billing" aria-selected="false">Billing</a>
+                    aria-controls="billing" aria-selected="false">
+                                        <i class="ri ri-bank-line" style="font-size: 28px; color: #2e8b57;" title="Pricing"></i>
+
+                    
+                </a>
             </li>
 
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="pricing-tab" data-bs-toggle="tab" href="#pricing" role="tab"
-                    aria-controls="pricing" aria-selected="false">Pricing</a>
+                    aria-controls="pricing" aria-selected="false">
+
+                    <i class="ri ri-money-dollar-circle-line" style="font-size: 28px; color: #6a5acd;" title="Billing"></i>
+                </a>
             </li>
 
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab"
-                    aria-controls="remarks" aria-selected="false">Booking Remarks</a>
+                    aria-controls="remarks" aria-selected="false">
+                    <i class="ri ri-sticky-note-line" style="font-size: 28px; color: #d2691e;" title="Booking Remarks"></i>
+                 
+                </a>
             </li>
+
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab"
-                    aria-controls="feedback" aria-selected="false">Quality Feedback</a>
+                    aria-controls="feedback" aria-selected="false">
+                    <i class="ri ri-feedback-line" style="font-size: 28px; color: #4169e1;" title="Quality Feedback"></i>
+                  
+                </a>
             </li>
+
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="screenshots-tab" data-bs-toggle="tab" href="#screenshots" role="tab"
-                    aria-controls="screenshots" aria-selected="false">Screenshots</a>
-            </li>
+                    aria-controls="screenshots" aria-selected="false">
+                    <i class="ri ri-image-line" style="font-size: 28px; color: #ff6347;" title="Screenshots"></i>
+                </a>
+            </li>   
+            
         </ul>
 
 
@@ -408,7 +427,9 @@
                                     <th>Last Name</th>
                                     <th>DOB</th>
                                     <th>Seat</th>
-                                    <th>Credit Note</th>
+                                    <th>Cr. OR <br>
+                                        Ref. Amt.
+                                    </th>
                                     <th>E-Ticket</th>
                                     <th>Action</th>
                                 </tr>
@@ -517,10 +538,6 @@
                 <div class="card p-4">
                     <div class="mb-4">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Flight Booking Details</h5>
-                        <input type="file" id="screenshots-upload" name="flightbookingimage[]" multiple>
-                        <div class="upload-file position-relative">
-                            {{--                                <label for="screenshots-upload">Upload Files</label>--}}
-                        </div>
                     </div>
                     <div class="card-body p-0">
                         <div class="row g-3 align-items-center">
@@ -529,24 +546,21 @@
                                     <table id="flightTable" class="table">
                                         <thead>
                                             <tr>
-                                                <th colspan="10" style="text-align: center;">Departure</th>
-                                                <th colspan="7" style="text-align: center;">Arrival</th>
+                                                <th colspan="9" style="text-align: center;"><i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i> Departure</th>
+                                                <th colspan="8" style="text-align: center;"><i class="ri ri-flight-land-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i> Arrival</th>
                                             </tr>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Direction</th>
                                                 <th>Date</th>
-                                                <th>Airlines (Code)</th>
-                                                <th>Flight No</th>
+                                                <th title="Airline (Code)">AL<br>(Code)</th>
+                                                <th>Flight<br> No</th>
                                                 <th>Cabin</th>
-                                                <th>Class of Service</th>
+                                                <th title="Class of Service">CL</th>
                                                 <th>Departure Airport</th>
-                                                <th>Hrs</th>
-                                                <th>mm</th>
-
+                                                <th>Hrs:MM</th>
                                                 <th>Arrival Airport</th>
-                                                <th>Hrs</th>
-                                                <th>mm</th>
+                                                <th>Hrs:MM</th>
                                                 <th>Duration</th>
                                                 <th>Transit</th>
                                                 <th>Arrival Date</th>
@@ -561,69 +575,88 @@
                                                 data-files='@json($flight->files)'>
                                             <tr class="flight-row" data-index="{{ $index }}">
                                                 <td><span class="flight-title">{{ $index + 1 }}</span></td>
-                                                <td><input type="text" class="form-control"
-                                                        name="flight[{{ $index }}][direction]"
-                                                        value="{{ $flight->direction }}" placeholder="Direction"></td>
+                                                
+                                                <td>
+                                                   <select class="form-control" name="flight[{{ $index }}][direction]" style="width: 80px;">
+                                                        <option value="">Select </option>
+                                                        <option value="Inbound" {{ $flight->direction == 'Inbound' ? 'selected' : '' }}>Inbound</option>
+                                                        <option value="Outbound" {{ $flight->direction == 'Outbound' ? 'selected' : '' }}>Outbound</option>
+                                                    </select>
+                                                    </td>
 
-                                                <td><input type="date" style="width: 8.5rem;" class="form-control"
+
+                                                <td><input type="date" style="width: 6.7rem;" class="form-control"
                                                         name="flight[{{ $index }}][departure_date]"
                                                         value="{{$flight->departure_date?->format('Y-m-d')}}"></td>
 
-                                                <td><input type="text" class="form-control" style="width: 60px;"
+                                                <td><input type="text" class="form-control" style="width: 40px;"
                                                         name="flight[{{ $index }}][airline_code]"
                                                         value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
                                                         placeholder="Airlines (Code)"></td>
-                                                <td><input type="text" class="form-control" style="width: 4.5rem;"
+
+                                                <td><input type="text" class="form-control" style="width: 3.5rem;"
                                                         name="flight[{{ $index }}][flight_number]"
                                                         value="{{ old("flight.$index.flight_no", $flight->flight_number) }}"
                                                         placeholder="Flight No"></td>
-                                                <td><input type="text" class="form-control" style="width: 60px;"
-                                                        name="flight[{{ $index }}][cabin]"
-                                                        value="{{ old("flight.$index.cabin", $flight->cabin) }}"
-                                                        placeholder="Cabin"></td>
+
+                                                <td>
+                                                    <select class="form-control" style="width: 75px;" name="flight[{{ $index }}][cabin]">
+                                                        <option value="">Select</option>
+                                                        <option value="B.Eco" {{ old("flight.$index.cabin", $flight->cabin) == 'B.Eco' ? 'selected' : '' }}>B.Eco</option>
+                                                        <option value="Eco" {{ old("flight.$index.cabin", $flight->cabin) == 'Eco' ? 'selected' : '' }}>Eco</option>
+                                                        <option value="Pre.Eco" {{ old("flight.$index.cabin", $flight->cabin) == 'Pre.Eco' ? 'selected' : '' }}>Pre.Eco</option>
+                                                        <option value="Buss." {{ old("flight.$index.cabin", $flight->cabin) == 'Buss.' ? 'selected' : '' }}>Buss.</option>
+                                                    </select>
+                                                </td>
+
                                                 <td><input type="text" class="form-control"
                                                         name="flight[{{ $index }}][class_of_service]"
                                                         value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}"
-                                                        placeholder="Class of Service"></td>
+                                                        placeholder="Class of Service" style="width: 37px;" min="0" max="1"></td>
                                                 <td><input type="text" class="form-control"
                                                         name="flight[{{ $index }}][departure_airport]"
                                                         value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                         placeholder="Departure Airport"></td>
-                                                <td><input type="number" class="form-control"
-                                                        name="flight[{{ $index }}][departure_hours]"
-                                                        style="width: 4.5rem;"
-                                                        value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
-                                                        placeholder="Hrs" min="0" max="23"></td>
 
-                                                <td><input type="number" class="form-control" style="width: 4.5rem;"
+                                                <td><input type="time" class="form-control"
+                                                        name="flight[{{ $index }}][departure_hours]"
+                                                        style="width: 86px"
+                                                        value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
+                                                        placeholder="Hrs" min="0" max="2"></td>
+
+                                                <!-- <td><input type="text" class="form-control" style="width: 36px;"
                                                         name="flight[{{ $index }}][departure_minutes]"
                                                         value="{{ old("flight.$index.departure_mm", $flight->departure_minutes) }}"
-                                                        placeholder="mm" min="0" max="59"></td>
+                                                        placeholder="mm" min="0" max="2"></td> -->
+
                                                 <td><input type="text" class="form-control"
                                                         name="flight[{{ $index }}][arrival_airport]"
-                                                        style="width: 60px;"
+                                                        style="width: 90px;"
                                                         value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}"
                                                         placeholder="Arrival Airport"></td>
 
-                                                <td><input type="number" class="form-control" style="width: 60px;"
+
+                                                <td><input type="time" class="form-control" style="width: 86px;"
                                                         name="flight[{{ $index }}][arrival_hours]"
                                                         value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}"
-                                                        placeholder="Hrs" min="0" max="23"></td>
+                                                        placeholder="Hrs" min="0" max="2"></td>
 
-                                                <td><input type="number" class="form-control" style="width: 4.5rem;"
+                                                <!-- <td><input type="text" class="form-control" style="width: 36px;"
                                                         name="flight[{{ $index }}][arrival_minutes]"
                                                         value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}"
-                                                        placeholder="mm" min="0" max="59"></td>
+                                                        placeholder="mm" min="0" max="2"></td> -->
 
                                                 <td><input type="text" class="form-control" style="width: 4.5rem;"
                                                         name="flight[{{ $index }}][duration]"
                                                         value="{{ old("flight.$index.duration", $flight->duration) }}"
                                                         placeholder="Duration"></td>
+
                                                 <td><input type="text" class="form-control"
                                                         name="flight[{{ $index }}][transit]"
                                                         value="{{ old("flight.$index.transit", $flight->transit) }}"
                                                         placeholder="Transit"></td>
-                                                <td><input type="date" class="form-control" style="width: 135px;"
+
+                                                <td><input type="date" class="form-control" style="width: 105px;"
                                                         name="flight[{{ $index }}][arrival_date]"
                                                         value="{{ $flight->arrival_date?->format('Y-m-d') }}"></td>
                                                 <td>
@@ -642,11 +675,13 @@
                                     </table>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </div>
+
+                     <div style="margin-top:20px">
+                         <input type="file" id="screenshots-upload" name="flightbookingimage[]" multiple>
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Flight Booking Details ------------------------------>
@@ -769,13 +804,11 @@
                                             <th>Stateroom</th>
                                             <th>Departure Port</th>
                                             <th>Departure Date</th>
-                                            <th>Hrs</th>
-                                            <th>mm</th>
+                                            <th>Hrs:MM</th>
                                             <th>Arrival Port</th>
                                             <th>Arrival Date</th>
-                                            <th>Hrs</th>
-                                            <th>mm</th>
-                                            <th>Remarks</th>
+                                            <th>Hrs:MM</th>
+                                            <!-- <th>Remarks</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -807,14 +840,12 @@
                                             <td><input style="width: 105px;" type="date" class="form-control"
                                                     name="cruise[{{$key}}][departure_date]"
                                                     value="{{$travelCruise->departure_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="number" class="form-control" style="width:50px"
+                                            <td><input type="time" class="form-control" style="width:50px"
                                                     name="cruise[{{$key}}][departure_hrs]"
                                                     value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
-                                            <td><input type="number" class="form-control" style="width:50px"
-                                                    name="cruise[{{$key}}][departure_mm]"
-                                                    value="{{$travelCruise->departure_mm}}" placeholder="mm" min="0"
-                                                    max="59"></td>
+                                           
+                                                    
                                             <td><input type="text" class="form-control" style="width:7.5rem"
                                                     name="cruise[{{$key}}][arrival_port]"
                                                     value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port">
@@ -822,17 +853,13 @@
                                             <td><input type="date" style="width: 105px;" class="form-control"
                                                     name="cruise[{{$key}}][arrival_date]"
                                                     value="{{$travelCruise->arrival_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="number" class="form-control" style="width:50px;"
+                                            <td><input type="time" class="form-control" style="width:50px;"
                                                     name="cruise[{{$key}}][arrival_hrs]"
                                                     value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
-                                            <td><input type="number" class="form-control" style="width:50px;    "
-                                                    name="cruise[{{$key}}][arrival_mm]"
-                                                    value="{{$travelCruise->arrival_mm}}" placeholder="mm" min="0"
-                                                    max="59"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="cruise[{{$key}}][remarks]" value="{{$travelCruise->remarks}}"
-                                                    placeholder="Remarks"></td>
+                                           
+                                                    
+                                          
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-cruise-btn">
                                                     <i class="ri ri-delete-bin-line"></i>
@@ -856,10 +883,6 @@
                 <div class="card p-4">
                     <div class="mb-4">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Booking Details</h5>
-                        <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
-                        <div class="upload-file position-relative">
-                            {{--                                <label for="screenshots-upload">Upload Files</label>--}}
-                        </div>
                     </div>
                     <div class="card-body pt-3">
                         <div class="row g-3 align-items-center">
@@ -887,24 +910,29 @@
                                             <td><input type="text" class="form-control" style="width:7.5rem"
                                                     name="hotel[{{$key}}][hotel_name]"
                                                     value="{{$travelHotel->hotel_name}}" placeholder="Hotel Name"></td>
-                                            <td><input type="text" class="form-control" style="width:9rem"
+                                            <td><input type="text" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][room_category]"
                                                     value="{{$travelHotel->room_category}}" placeholder="Room Category">
                                             </td>
+
                                             <td><input type="date" class="form-control"
                                                     name="hotel[{{$key}}][checkin_date]"
-                                                    value="{{$travelHotel->checkin_date?->format('Y-m-d')}}"></td>
+                                                    value="{{$travelHotel->checkin_date?->format('Y-m-d')}}" style="width: 114px;"></td>
+
                                             <td><input type="date" class="form-control"
                                                     name="hotel[{{$key}}][checkout_date]"
-                                                    value="{{$travelHotel->checkout_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="number" class="form-control" style="width:10rem"
+                                                    value="{{$travelHotel->checkout_date?->format('Y-m-d')}}" style="width: 114px;"></td>
+                                            
+                                            <td><input type="number" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][no_of_rooms]"
                                                     value="{{$travelHotel->no_of_rooms}}" placeholder="No. Of Rooms"
                                                     min="1"></td>
-                                            <td><input type="text" class="form-control" style="width:12rem"
+
+                                            <td><input type="text" class="form-control" style="width:10.5rem"
                                                     name="hotel[{{$key}}][confirmation_number]"
                                                     value="{{$travelHotel->confirmation_number}}"
                                                     placeholder="Confirmation Number"></td>
+
                                             <td><input type="text" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][hotel_address]"
                                                     value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address">
@@ -924,6 +952,9 @@
 
                             </div>
                         </div>
+                    </div>
+                    <div style="margin:20px">
+                        <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
                 </div>
             </div>
@@ -1080,7 +1111,7 @@
                                             <th>ZIP Code</th>
                                             <th>Currency</th>
                                             <th>Amount</th>
-                                            <th>Active Card</th>
+                                            <th>Active</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -1238,7 +1269,7 @@
                                 </tr>
                                 <tr>
                                     <th>Passengers*</th>
-                                    <th>No. of Passengers</th>
+                                    <th>No. of Pax</th>
                                     <th>Price*</th>
                                     <th>Total*</th>
                                     <th>Price*</th>
@@ -1631,6 +1662,10 @@
 @vite('resources/js/auth/sendAuth.js')
 
 
-
+<style>
+    .booked-content table thead th, .booked-content table tbody td {
+    padding: 5px !important;
+}
+</style>
 
 @endsection
