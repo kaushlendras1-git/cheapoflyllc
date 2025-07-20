@@ -865,7 +865,7 @@ class BookingFormController extends Controller
                         $trainbookingimage[] = 'storage/'.$image->store('train_booking_image','public');
                     }
                     TravelBooking::where('id',$booking->id)->update([
-                        'carbookingimage'=>json_encode($trainbookingimage)
+                        'trainbookingimage'=>json_encode($trainbookingimage)
                     ]);
                 }
                 $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();

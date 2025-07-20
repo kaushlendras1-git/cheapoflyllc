@@ -17,8 +17,8 @@ class TravelPricingDetail extends Model
         'num_passengers',
         'gross_price',
         'net_price',
-        'details',
+        'details'
     ];
 
-  
+
 }

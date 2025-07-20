@@ -28,7 +28,13 @@
 }
 </style>
 
-<span id="flight_uploaded_files" data-images></span>
+<span id="flight_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->flightbookingimage}}"></span>
+<span id="hotel_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->hotelbookingimage}}"></span>
+<span id="cruise_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->cruisebookingimage}}"></span>
+<span id="car_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->carbookingimage}}"></span>
+<span id="train_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->trainbookingimage}}"></span>
+
+
 <form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST"
       enctype="multipart/form-data">
     @csrf
@@ -366,7 +372,7 @@
                     aria-controls="billing" aria-selected="false">
                                         <i class="ri ri-bank-line" style="font-size: 28px; color: #2e8b57;" title="Pricing"></i>
 
-                    
+
                 </a>
             </li>
 
@@ -382,7 +388,7 @@
                 <a class="nav-link" id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab"
                     aria-controls="remarks" aria-selected="false">
                     <i class="ri ri-sticky-note-line" style="font-size: 28px; color: #d2691e;" title="Booking Remarks"></i>
-                 
+
                 </a>
             </li>
 
@@ -390,7 +396,7 @@
                 <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab"
                     aria-controls="feedback" aria-selected="false">
                     <i class="ri ri-feedback-line" style="font-size: 28px; color: #4169e1;" title="Quality Feedback"></i>
-                  
+
                 </a>
             </li>
 
@@ -399,8 +405,8 @@
                     aria-controls="screenshots" aria-selected="false">
                     <i class="ri ri-image-line" style="font-size: 28px; color: #ff6347;" title="Screenshots"></i>
                 </a>
-            </li>   
-            
+            </li>
+
         </ul>
 
 
@@ -577,7 +583,7 @@
                                                 data-files='@json($flight->files)'>
                                             <tr class="flight-row" data-index="{{ $index }}">
                                                 <td><span class="flight-title">{{ $index + 1 }}</span></td>
-                                                
+
                                                 <td>
                                                    <select class="form-control" name="flight[{{ $index }}][direction]" style="width: 80px;">
                                                         <option value="">Select </option>
@@ -846,8 +852,8 @@
                                                     name="cruise[{{$key}}][departure_hrs]"
                                                     value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
-                                           
-                                                    
+
+
                                             <td><input type="text" class="form-control" style="width:7.5rem"
                                                     name="cruise[{{$key}}][arrival_port]"
                                                     value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port">
@@ -859,9 +865,9 @@
                                                     name="cruise[{{$key}}][arrival_hrs]"
                                                     value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
-                                           
-                                                    
-                                          
+
+
+
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-cruise-btn">
                                                     <i class="ri ri-delete-bin-line"></i>
@@ -924,7 +930,7 @@
                                             <td><input type="date" class="form-control"
                                                     name="hotel[{{$key}}][checkout_date]"
                                                     value="{{$travelHotel->checkout_date?->format('Y-m-d')}}" style="width: 114px;"></td>
-                                            
+
                                             <td><input type="number" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][no_of_rooms]"
                                                     value="{{$travelHotel->no_of_rooms}}" placeholder="No. Of Rooms"

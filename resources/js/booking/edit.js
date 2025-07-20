@@ -14,17 +14,7 @@ if (sessionStorage.getItem("successMessage")) {
 FilePond.registerPlugin(FilePondPluginImagePreview);
 let ponds = {};
 
-Array.from(document.querySelectorAll('input[name^="flight_files["]')).forEach(function(item){
-    const jsonString = item.getAttribute('data-files');
 
-    try {
-        const files = JSON.parse(jsonString); // ✅ becomes an array
-        console.log(Array.isArray(files));    // true
-        console.log(files[0]);                // "storage/flight_booking_image/..."
-    } catch (e) {
-        console.error('Invalid JSON:', jsonString);
-    }
-});
 document.querySelectorAll('input[type="file"]').forEach(input => {
     ponds[input.name] = FilePond.create(input, {
         allowMultiple: true,
@@ -36,7 +26,40 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
         labelMaxFileCountExceeded: 'You can only upload up to 10 files',
     });
 });
-console.log(ponds);
+
+const bookingTypes = [
+    { key: 'flight', inputName: 'flightbookingimage[]' },
+    { key: 'hotel', inputName: 'hotelbookingimage[]' },
+    { key: 'cruise', inputName: 'cruisebookingimage[]' },
+    { key: 'car', inputName: 'carbookingimage[]' },
+    { key: 'train', inputName: 'trainbookingimage[]' },
+];
+
+bookingTypes.forEach(({ key, inputName }) => {
+    const span = document.getElementById(`${key}_uploaded_files`);
+    const baseUrl = span.dataset.baseurl;
+    const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+    const uploadedImages = JSON.parse(span.dataset.images || '[]');
+
+    const pondInstance = ponds[inputName];
+
+    if (pondInstance && uploadedImages.length) {
+        uploadedImages.forEach((filePath) => {
+            if (filePath) {
+                const fullUrl = normalizedBaseUrl + filePath;
+                fetch(fullUrl)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const fileName = filePath.split('/').pop();
+                        const file = new File([blob], fileName, { type: blob.type });
+                        pondInstance.addFile(file);
+                    })
+                    .catch(error => console.error(`Error loading ${key} file:`, error));
+            }
+        });
+    }
+});
+
 document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 

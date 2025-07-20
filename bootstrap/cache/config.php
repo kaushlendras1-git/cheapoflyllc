@@ -6,7 +6,7 @@
   14 => 'view',
   'app' => 
   array (
-    'name' => 'Laravel',
+    'name' => 'CallNow',
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost',
@@ -17,7 +17,7 @@
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:3Ku1THdG+RToUi2lMIjlDOcqjILs/HFSiCoXV08Uzv0=',
+    'key' => 'base64:kKUYoHogUDea4icpx/BkMCuvX2+baupdBRdFNUuas+Q=',
     'previous_keys' => 
     array (
     ),
@@ -157,8 +157,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'path' => 'F:\\web development\\cheapoflyllc\\storage\\framework/cache/data',
+        'lock_path' => 'F:\\web development\\cheapoflyllc\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -202,7 +202,7 @@
         'driver' => 'octane',
       ),
     ),
-    'prefix' => 'laravel_cache_',
+    'prefix' => 'callnow_cache_',
   ),
   'database' => 
   array (
@@ -224,8 +224,8 @@
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
-        'username' => 'root',
-        'password' => 'root',
+        'username' => 'newroot',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -244,8 +244,8 @@
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
-        'username' => 'root',
-        'password' => 'root',
+        'username' => 'newroot',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_uca1400_ai_ci',
@@ -264,8 +264,8 @@
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
-        'username' => 'root',
-        'password' => 'root',
+        'username' => 'newroot',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -279,8 +279,8 @@
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
-        'username' => 'root',
-        'password' => 'root',
+        'username' => 'newroot',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -297,7 +297,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'laravel_database_',
+        'prefix' => 'callnow_database_',
       ),
       'default' => 
       array (
@@ -327,13 +327,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app',
+        'root' => 'F:\\web development\\cheapoflyllc\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
+        'root' => 'F:\\web development\\cheapoflyllc\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -353,7 +353,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
+      'F:\\web development\\cheapoflyllc\\public\\storage' => 'F:\\web development\\cheapoflyllc\\storage\\app/public',
     ),
   ),
   'hashids' => 
@@ -378,7 +378,7 @@
   ),
   'logging' => 
   array (
-    'default' => 'stack',
+    'default' => 'daily',
     'deprecations' => 
     array (
       'channel' => 'null',
@@ -398,14 +398,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'F:\\web development\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'F:\\web development\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -470,7 +470,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'F:\\web development\\cheapoflyllc\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -483,11 +483,11 @@
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => 'smtp.example.com',
-        'port' => '587',
-        'encryption' => 'tls',
-        'username' => 'your-username',
-        'password' => 'your-password',
+        'host' => 'smtp.hostinger.com',
+        'port' => '465',
+        'encryption' => 'ssl',
+        'username' => 'test@techuweb.com',
+        'password' => 'Test@123',
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -538,15 +538,15 @@
     ),
     'from' => 
     array (
-      'address' => 'from@example.com',
-      'name' => 'Laravel',
+      'address' => 'test@techuweb.com',
+      'name' => 'CallNow',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
+        0 => 'F:\\web development\\cheapoflyllc\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -641,7 +641,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
+    'files' => 'F:\\web development\\cheapoflyllc\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -650,7 +650,7 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'laravel_session',
+    'cookie' => 'callnow_session',
     'path' => '/',
     'domain' => NULL,
     'secure' => NULL,
@@ -688,9 +688,9 @@
         'app_id' => '',
         'options' => 
         array (
-          'cluster' => NULL,
+          'cluster' => 'mt1',
           'host' => 'api-mt1.pusher.com',
-          'port' => '443',
+          'port' => 443,
           'scheme' => 'https',
           'encrypted' => true,
           'useTLS' => true,
@@ -767,9 +767,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views',
+      0 => 'F:\\web development\\cheapoflyllc\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework\\views',
+    'compiled' => 'F:\\web development\\cheapoflyllc\\storage\\framework\\views',
   ),
   'excel' => 
   array (
@@ -884,7 +884,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'F:\\web development\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -977,7 +977,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc',
+    'remote_sites_path' => 'F:\\web development\\cheapoflyllc',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
