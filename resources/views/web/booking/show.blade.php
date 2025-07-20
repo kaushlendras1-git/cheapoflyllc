@@ -27,6 +27,8 @@
     width: calc(50% - 0.5em);
 }
 </style>
+
+<span id="flight_uploaded_files" data-images></span>
 <form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST"
       enctype="multipart/form-data">
     @csrf
@@ -1624,7 +1626,6 @@
 </div>
 
 </form>
-
 
 @vite('resources/js/booking/edit.js')
 
