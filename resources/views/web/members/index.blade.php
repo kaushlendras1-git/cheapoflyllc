@@ -132,6 +132,11 @@
                             </thead>
                             <tbody>
                                 @foreach($members as $member)
+                                 @php
+                                        $name = $member->name ? $member->name : '';
+                                        $initials = collect(explode(' ', $name))->map(fn($word) => strtoupper(substr($word, 0, 2)))->join('');
+                                    @endphp
+
                                 <tr>
                                     <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
                                     <td class="dt-select">
@@ -141,7 +146,9 @@
                                         <div class="d-flex justify-content-start align-items-center user-name">
                                             <div class="avatar-wrapper">
                                                 <div class="avatar avatar-sm me-4">
-                                                    <img src="{{ $member->profile_picture ? asset('storage/' . $member->profile_picture) : asset('assets/img/avatars/2.png') }}" alt="Avatar" class="rounded-circle">
+                                                 <div class="rounded-circle   @if($member->role == 'admin') bg-danger  @else bg-primary @endif text-white d-flex justify-content-center align-items-center" style="width: 30px; height: 30px;">
+                                                       <span style="font-size: 14px; font-weight: bold;">{{ $initials }}</span>
+                                                  </div>    
 
                                                 </div>
                                             </div>

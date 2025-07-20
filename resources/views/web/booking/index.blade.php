@@ -70,16 +70,27 @@
                             @foreach ($bookings as $booking)
                             <tr>
                                 <td>
-                                    <a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
-                                        {{ $booking->id }}
+                                    <a title="{{ $booking->id }}" href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
+                                        {{ ($bookings->currentPage() - 1) * $bookings->perPage() + $loop->iteration }}
                                     </a>
                                 </td>
                                 <td> 
-                                <i class="ri ri-flight-takeoff-line" style="color: #1e90ff; font-size: 18px;"></i> <!-- Blue for flight -->
-                                <i class="ri ri-ship-fill" style="color: #006994; font-size: 18px;"></i>         <!-- Deep sea blue for ship -->
-                                <i class="ri ri-hotel-fill" style="color: #8b4513; font-size: 18px;"></i>        <!-- Brown for hotel -->
-                                <i class="ri ri-car-fill" style="color: #228b22; font-size: 18px;"></i>          <!-- Green for car -->
-                                <i class="ri ri-train-fill" style="color: #800000; font-size: 18px;"></i> 
+                                    <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
+                                    @if($flight_booking)
+                                        <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
+                                    @endif
+                                    
+                                    @if($hotel_booking)
+                                        <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
+                                    @endif
+
+                                    @if($cruise_booking)
+                                        <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
+                                    @endif
+
+                                    @if($car_booking)
+                                        <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
+                                    @endif 
                                 </td>
                                 <td>{{ $booking->pnr }}</td>
                                 <td>{{ $booking->created_at }}</td>
