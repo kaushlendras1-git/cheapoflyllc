@@ -801,13 +801,15 @@
             <!------------------------ Cruise Booking Details ------------------------------>
             <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
                 <div class="card p-4">
-                    <div class="mb-4">
+                    <div class="mb-4 d-flex align-items-center justify-content-between">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
-                        <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
                         <div class="upload-file position-relative">
-
-                            {{--                                <label for="screenshots-upload">Upload Files</label>--}}
+                            <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
+                            <label for="screenshots-upload">Upload Files</label>
                         </div>
+                        <!-- <div class="upload-file position-relative">
+                            {{--<label for="screenshots-upload">Upload Files</label>--}}
+                        </div> -->
                     </div>
                     <div class="card-body pt-3">
                         <div class="row g-3 align-items-center">
@@ -1739,7 +1741,6 @@
 @vite('resources/js/booking/edit.js')
 
 @vite('resources/js/auth/sendAuth.js')
-
 
 <style>
     .booked-content table thead th, .booked-content table tbody td {
