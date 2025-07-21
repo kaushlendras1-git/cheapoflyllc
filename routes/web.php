@@ -184,8 +184,8 @@ Route::middleware('auth')->group(function () {
 
     /** Users**/
     Route::get('/users', [MemberController::class, 'index'])->name('users');
-    Route::get('members/{hashid}/edit', [MemberController::class, 'edit'])->name('members.edit');
-    Route::put('members/{hashid}', [MemberController::class, 'update'])->name('members.update');
+   # Route::get('members/{hashid}/edit', [MemberController::class, 'edit'])->name('members.edit');
+   # Route::put('members/{hashid}', [MemberController::class, 'update'])->name('members.update');
 
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
 

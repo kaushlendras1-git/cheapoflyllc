@@ -187,11 +187,7 @@
                         <input type="text" class="form-control" name="phone"
                             value="{{ old('phone', $booking->phone ?? '') }}">
                     </div>
-                    <div class="col-md-2 position-relative mb-5">
-                        <label class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" name="email"
-                            value="{{ old('email', $booking->email ?? '') }}">
-                    </div>
+                    
                     <div class="col-md-2 position-relative mb-5">
                         <label class="form-label">Reservation Source</label>
                         <input type="text" class="form-control" name="reservation_source"
@@ -222,55 +218,71 @@
                             @endforeach
                         </select>
                     </div>
+                    
                     <div class="col-md-2 position-relative mb-5">
-                        <label class="form-label">Query Type</label>
+                        <label class="form-label">Booking Type</label>
                         <select id="query_type" class="form-control" name="query_type">
-                            <option value="N"
-                                {{ old('query_type', $booking->query_type ?? '') === 'N' ? 'selected' : '' }}>New
-                                Booking</option>
-                            <option value="NC"
-                                {{ old('query_type', $booking->query_type ?? '') === 'NC' ? 'selected' : '' }}>New
-                                Booking(Credit)</option>
-                            <option value="M"
-                                {{ old('query_type', $booking->query_type ?? '') === 'M' ? 'selected' : '' }}>New
-                                Booking(Miles)</option>
-                            <option value="UMNR"
-                                {{ old('query_type', $booking->query_type ?? '') === 'UMNR' ? 'selected' : '' }}>
-                                Unaccompanied Minor Reservation</option>
-                            <option value="CC"
-                                {{ old('query_type', $booking->query_type ?? '') === 'CC' ? 'selected' : '' }}>
-                                Cancel(Credit)</option>
-                            <option value="CR"
-                                {{ old('query_type', $booking->query_type ?? '') === 'CR' ? 'selected' : '' }}>
-                                Cancel(Refund)</option>
-                            <option value="CH"
-                                {{ old('query_type', $booking->query_type ?? '') === 'CH' ? 'selected' : '' }}>
-                                Change</option>
-                            <option value="U"
-                                {{ old('query_type', $booking->query_type ?? '') === 'U' ? 'selected' : '' }}>
-                                Upgrade</option>
-                            <option value="NMC"
-                                {{ old('query_type', $booking->query_type ?? '') === 'NMC' ? 'selected' : '' }}>Name
-                                Correction</option>
-                            <option value="S"
-                                {{ old('query_type', $booking->query_type ?? '') === 'S' ? 'selected' : '' }}>Seat
-                                Assignment</option>
-                            <option value="B"
-                                {{ old('query_type', $booking->query_type ?? '') === 'B' ? 'selected' : '' }}>
-                                Baggage Addition</option>
-                            <option value="CBP"
-                                {{ old('query_type', $booking->query_type ?? '') === 'CBP' ? 'selected' : '' }}>
-                                Change Bed Preference</option>
-                            <option value="AI"
-                                {{ old('query_type', $booking->query_type ?? '') === 'AI' ? 'selected' : '' }}>
-                                Infant Addition</option>
-                            <option value="AE"
-                                {{ old('query_type', $booking->query_type ?? '') === 'AE' ? 'selected' : '' }}>
-                                Adding Excursion</option>
+
+                            <option>Package Reservation</option>
+                            <option data-type="Flight">Flight Reservation </option>
+                            <option data-type="Flight">Flight Reservation with Credits & Vouchers</option>
+                            <option data-type="Flight">Flight Reservation with Miles</option>
+                            <option data-type="Flight">Passenger Name Corrections</option>
+                            <option data-type="Flight">Flight Change Request</option>
+                            <option data-type="Flight">Cabin Class Upgrade</option>
+                            <option data-type="Flight">Seat Assignment</option>
+                            <option data-type="Flight">Pet Reservation</option>
+                            <option data-type="Flight">Cancellation for Credits</option>
+                            <option data-type="Flight">Cancellation for Refunds</option>
+                            <option data-type="Flight">Extention for Expired Credits & Vouchers</option>
+                            <option data-type="Cruise">Cruise Reservation</option>
+                            <option data-type="Cruise">Cruise Reservation With Credits & Vouchers</option>
+                            <option data-type="Cruise">Casino Reservations</option>
+                            <option data-type="Cruise">Cabin Upgrade/Change Requests</option>
+                            <option data-type="Cruise">Date or Itinerary Changes</option>
+                            <option data-type="Cruise">Passenger Name Corrections</option>
+                            <option data-type="Cruise">Request for Adding a Passenger</option>
+                            <option data-type="Cruise">Collection of Final Payment</option>
+                            <option data-type="Cruise">Check-in Procedures</option>
+                            <option data-type="Cruise">Booking Excursions</option>
+                            <option data-type="Cruise">Dining and Beverage Packages</option>
+                            <option data-type="Cruise">Spa and Wellness Pre-Bookings</option>
+                            <option data-type="Cruise">Celebration Packages</option>
+                            <option data-type="Cruise">Accessibility or Medical Needs</option>
+                            <option data-type="Cruise">Speciality Dining Request</option>
+                            <option data-type="Cruise">Cancellation for Future Credits</option>
+                            <option data-type="Cruise">Cancellation for Refunds</option>
+                            <option data-type="Cruise">Extentions on Due Payments</option>
+                            <option data-type="Hotel">Hotel Reservation</option>
+                            <option data-type="Hotel">Hotel Reservation with Rewards Points</option>
+                            <option data-type="Hotel">Date Changes / Rebooking</option>
+                            <option data-type="Hotel">Room Upgrade Requests</option>
+                            <option data-type="Hotel">Room Change Request</option>
+                            <option data-type="Hotel">Adding or Removing Guests</option>
+                            <option data-type="Hotel">Guest's Name Correction</option>
+                            <option data-type="Hotel">Parking Reservation Request</option>
+                            <option data-type="Hotel">Cancellation for Future Credits</option>
+                            <option data-type="Hotel">Cancellation for Refunds</option>
+                            <option data-type="Car">Car Rental Reservation</option>
+                            <option data-type="Car">Date or Time Changes Requests</option>
+                            <option data-type="Car">Location Change (Pickup/Drop-off)</option>
+                            <option data-type="Car">Cancellation for Refunds</option>
+                            <option data-type="Train">New Reservation for Amtrak</option>
+                            <option data-type="Train">Date or Time Change Request</option>
+                            <option data-type="Train">Change of Route or Destination</option>
+                            <option data-type="Train">Name Correction</option>
+                            <option data-type="Train">Change in Number of Travelers</option>
+                            <option data-type="Train">Upgrading Seat Class or Service</option><option>
+                            <option data-type="Train">Seat Assignment or Preference Request</option>
+                            <option data-type="Train">Missed Connections</option>
+                            <option data-type="Train">Cancellation for Future Credits</option>
+                            <option data-type="Train">Cancellation for Refunds</option>
                         </select>
                     </div>
+
+
                     <div class="col-md-2 position-relative mb-5">
-                        <label class="form-label">Company Organisation</label>
+                        <label class="form-label">LOB</label>
                         <select id="selected_company" name="selected_company" class="form-control">
                             <option value="1"
                                 {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>
@@ -287,7 +299,7 @@
                         </select>
                     </div>
                     <div class="col-md-2 position-relative mb-5">
-                        <label class="form-label"> Campaign</label>
+                        <label class="form-label"> Call Queue</label>
                         <select class="form-control" name="campaign">
                             <option value=""
                                 {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select
@@ -1090,16 +1102,69 @@
             <!--------------------------------------Billing Details ---------------------------->
             <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
                 <div class="card p-4">
+
+
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-header border-0 p-0">Billing Details</h5>
-                        <div>
+                        <h5 class="card-header border-0 p-0">Billing  Details</h5>
+
+                      
+                        
+
+                    </div>
+
+                    <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; text-align: center; width: 100%;">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th>S.No</th>
+            <th>Email</th>
+            <th>Contact No.</th>
+            <th>Street Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip code</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+       
+    </tbody>
+</table>
+
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-header border-0 p-0">Card Details</h5>
+                        <!-- <div>
                             <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit
                                 Paylink</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="card-body p-0">
                         <div class="row g-3 align-items-center">
                             <div class="col-md-12 table-responsive details-table-wrappper">
+
+
+
+
                                 <table id="billingTable" class="table">
                                     <thead>
                                         <tr>
@@ -1110,20 +1175,21 @@
                                             <th>Exp Month</th>
                                             <th>Exp Year</th>
                                             <th>CVV</th>
-                                            <th>Address</th>
+                                            <!-- <th>Address</th>
                                             <th>Email</th>
                                             <th>Contact No</th>
                                             <th>City</th>
                                             <th>Country</th>
                                             <th>State</th>
-                                            <th>ZIP Code</th>
-                                            <th>Currency</th>
-                                            <th>Amount</th>
+                                            <th>ZIP Code</th> -->
+                                            <th>Billing </th>
+                                            <th>Authorized Amt.<br> (USD)</th>
                                             <th>Active</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="billingForms">
+                                        
                                         @foreach($booking->billingDetails as $key => $billingDetails)
                                         <tr class="billing-card" data-index="{{$key}}">
                                             <td>
@@ -1147,9 +1213,8 @@
                                                         DISCOVER</option>
                                                 </select>
                                             </td>
-                                            <td><input style="width: 140px;" inputmode="numeric" pattern="\d{15}"
+                                            <td><input style="width: 140px;" inputmode="numeric" 
                                                     maxlength="16"
-                                                    oninput="this.value = this.value.replace(/\D/g, '').slice(0,16)"
                                                     class="form-control" placeholder="CC Number"
                                                     name="billing[{{$key}}][cc_number]"
                                                     value="{{$billingDetails->cc_number}}"></td>
@@ -1176,12 +1241,15 @@
                                                         @endfor
                                                 </select>
                                             </td>
-                                            <td><input style="width: 57px;" inputmode="numeric" pattern="\d{4}"
+                                           
+                                           
+                                            <td><input style="width: 57px;" inputmode="numeric" 
                                                     maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]"
                                                     value="{{$billingDetails->cvv}}"></td>
-                                            <td><input style="width: 180px;" type="text" class="form-control"
+                                       
+                                           <!--td><input style="width: 180px;" type="text" class="form-control"
                                                     placeholder="Address" name="billing[{{$key}}][address]"
                                                     value="{{$billingDetails->address}}"></td>
                                             <td><input style="width: 180px;" type="email" class="form-control"
@@ -1206,10 +1274,13 @@
                                             <td>
                                                 <select id="state-{{$key}}" style="width:7.5rem"
                                                     class="form-control state-select" name="billing[{{$key}}][state]">
-                                                    <option value="India">Select State</option>
+                                                    <option value="India">Select Billing</option>
+                                                    <option value="India">Address</option>
+                                                    <option value="India">Select Billing</option>
                                                     <!-- Populated by JavaScript -->
                                                 </select>
-                                            </td>
+                                            </td-->
+
                                             <td><input style="width: 65px;" type="text" class="form-control"
                                                     placeholder="ZIP Code" name="billing[{{$key}}][zip_code]"
                                                     value="{{$billingDetails->zip_code}}"></td>
@@ -1242,11 +1313,9 @@
                                             <td><input style="width: 120px;" type="number" class="form-control"
                                                     placeholder="0.00" name="billing[{{$key}}][amount]"
                                                     value="{{$billingDetails->amount}}" step="0.01"></td>
-                                            <td class="text-center"><input class="form-check-input" type="radio"
-                                                    name="activeCard" value="{{$key}}"
-                                                    {{$billingDetails->is_active == 1 ? 'checked' : ''}}>
-                                            </td>
+                                            
                                             <td>
+                                                
                                                 <button type="button" class="btn btn-outline-danger delete-billing-btn">
                                                     <i class="ri ri-delete-bin-line"></i>
                                                 </button>
@@ -1260,6 +1329,9 @@
                     </div>
                 </div>
             </div>
+
+
+
             <!--------------------------------------End Billing Details ---------------------------->
 
 
@@ -1452,7 +1524,7 @@
                 <div class="card p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Quality Feedback</h5>
-                        <button id="saveRemark" type="button" class="btn btn-primary">Save Feedback</button>
+                        <button id="saveFeedback" type="button" class="btn btn-primary">Save Feedback</button>
                     </div>
                     <div class="card-body p-0">
                         <div class="row">

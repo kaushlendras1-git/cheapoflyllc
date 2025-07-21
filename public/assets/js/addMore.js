@@ -640,12 +640,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" placeholder="City" name="billing[${billingIndex}][city]" value=""></td>
             <td>
                 <select id="country-${billingIndex}" style="width:9rem" class="form-control country-select" name="billing[${billingIndex}][country]">
+                    <option>india</option>
                     ${cntrystr2}
                 </select>
             </td>
             <td>
                 <select id="state-${billingIndex}" style="width:7.5rem" class="form-control state-select" name="billing[${billingIndex}][state]">
-                    <option value="">Select State</option>
+                    <option value="india">Select State</option>
                 </select>
             </td>
             <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[${billingIndex}][zip_code]" value=""></td>
