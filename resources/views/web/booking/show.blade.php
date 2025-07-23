@@ -53,13 +53,13 @@
         <div class="row">
             <div class="card p-4 create-booking-wrapper">
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="d-flex" style="font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; background-color: #ffffff; padding: 12px 16px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); max-width: 700px; margin: 15px auto; transition: transform 0.2s ease-in-out;">
-                            <strong style="color: #1a3c5e; font-weight: 700; ">Sales:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Roger</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; ">Changes:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Zee</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; ">Billing:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Mark</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; ">Quality:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Smith</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; ">Issued On:</strong><span style="color: #2c3e50; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">12 July 2025</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; ">Shared :</strong><span style="color: #2c3e50; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Agent</span>
+                        <div class="d-flex">
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Sales:</strong><span style="color: #2c3e50; margin-right: 20px;">Roger</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Changes:</strong><span style="color: #2c3e50; margin-right: 20px;">Zee</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Billing:</strong><span style="color: #2c3e50; margin-right: 20px;">Mark</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Quality:</strong><span style="color: #2c3e50; margin-right: 20px;">Smith</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Issued On:</strong><span style="color: #2c3e50; margin-right: 20px;">12 July 2025</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Shared :</strong><span style="color: #2c3e50;">Agent</span>
                         </div>
                     <div class="d-flex gap-2">
                         @include('web.booking.authModel')
@@ -1160,10 +1160,10 @@
 
                         <div class="d-flex justify-content-between align-items-center mb-3 add-bank">
                             <h5 class="card-header border-0 p-0">Billing Details</h5>
-                            <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="ri ri-add-circle-fill"></i>
+                            <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="ri ri-add-circle-fill pointer"></i>
                         </div>
 
-                        <table border="1" cellpadding="8" cellspacing="0"
+                        <table class="mb-3" border="1" cellpadding="8" cellspacing="0"
                             style="border-collapse: collapse; text-align: center; width: 100%;">
                             <thead style="background-color: #f2f2f2;">
                                 <tr>
@@ -1180,23 +1180,23 @@
                             <tbody>
                                 <tr>
                                     <td>1</td>
+                                    <td>admin@example.com</td>
+                                    <td>9874563210</td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>USA</td>
+                                    <td>fgfhfyjh</td>
+                                    <td>120120</td>
+                                    <td>United</td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
+                                    <td>admin@example.com</td>
+                                    <td>9874563210</td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>USA</td>
+                                    <td>fgfhfyjh</td>
+                                    <td>120120</td>
+                                    <td>United</td>
                                 </tr>
 
                             </tbody>
@@ -1857,8 +1857,6 @@
     padding: 5px !important;
 }
 </style>
-@vite('resources/js/booking/edit.js')
 
-@vite('resources/js/auth/sendAuth.js')
 
 @endsection

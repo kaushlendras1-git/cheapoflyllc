@@ -29243,3 +29243,6 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .bank-details .modal-header button {
   filter: invert(2);
 }
+.pointer{
+  cursor: pointer;
+}
