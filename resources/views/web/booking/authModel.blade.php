@@ -93,13 +93,28 @@
         <div class="modal-header">
           <h5 class="modal-title" id="sendMailModalLabel">Send Mail</h5>
 
+     <a href="{{ route('signature.form') }}" >Authorization Link</a>
+       
+          <div class="row">
+                <div class="col-md-12">
+                  <form id="sendAuthEmail" action="{{ route('booking.auth-email.sendmail', $booking->id) }}" method="POST" style="display: flex; align-items: center; gap: 15px; font-size: 14px;">
+                    @csrf
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" name="subscribe" value="yes"> xxx8956
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" name="terms" value="accepted"> xxx7412
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" name="terms" value="accepted"> All
+                    </label>
+                    <button class="send-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
+                </form>
+                </div>
 
-        <a href="{{ route('signature.form') }}" class="btn btn-outline-secondary btn-sm rounded-pill">Authorization Link</a>
-                     
-         <form id="sendAuthEmail" action="{{ route('booking.auth-email.sendmail', $booking->id) }}" method="POST">
-            @csrf
-            <button class="send-btn">Send Auth</button>
-         </form>
+           </div>    
+
+        
        
           
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

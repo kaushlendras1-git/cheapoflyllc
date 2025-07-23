@@ -24,6 +24,7 @@ use App\Models\TravelCruiseDetail;
 use App\Models\TravelHotelDetail;
 use App\Models\UserShiftAssignment;
 use App\Models\ChangeLog;
+use App\Models\Campaign;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
@@ -192,14 +193,15 @@ class BookingFormController extends Controller
                     'billing.*.exp_month' => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
                     'billing.*.exp_year' => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
                     'billing.*.cvv' => 'required|string|max:5',
-                    'billing.*.address' => 'required|string|max:255',
-                    'billing.*.email' => 'required|email|max:255',
-                    'billing.*.contact_no' => 'required|string|max:20',
-                    'billing.*.city' => 'required|string|max:255',
-                   'billing.*.country' => 'required|string|max:255',
-                   'billing.*.state' => 'required|string|max:255',
+                
+                    //     'billing.*.address' => 'required|string|max:255',
+                    //     'billing.*.email' => 'required|email|max:255',
+                    //     'billing.*.contact_no' => 'required|string|max:20',
+                    //     'billing.*.city' => 'required|string|max:255',
+                    //    'billing.*.country' => 'required|string|max:255',
+                    //    'billing.*.state' => 'required|string|max:255',
+                    //     'billing.*.zip_code' => 'required|string|max:10',
 
-                    'billing.*.zip_code' => 'required|string|max:10',
                     'billing.*.currency' => 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
                     'billing.*.amount' => 'required|numeric|min:0',
 
@@ -663,9 +665,10 @@ class BookingFormController extends Controller
             'travelCruise',
             'travelHotel',
         ])->findOrFail($id);
-        $booking_status = BookingStatus::all();
-        $payment_status = PaymentStatus::all();
-        return view('web.booking.show', compact('booking', 'hashids','booking_status','payment_status'));
+        $booking_status = BookingStatus::where('status',1)->get();
+        $payment_status = PaymentStatus::where('status',1)->get();
+        $campaigns = Campaign::where('status',1)->get();
+        return view('web.booking.show', compact('booking', 'hashids','booking_status','payment_status','campaigns'));
     }
 
 

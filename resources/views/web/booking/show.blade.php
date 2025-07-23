@@ -52,11 +52,15 @@
         </div>
         <div class="row">
             <div class="card p-4 create-booking-wrapper">
-                <div class="d-flex justify-content-between align-items-center flex-wrap p-0">
-                    <div class="d-flex align-items-center flex-wrap gap-2">
-                        <strong>Ticket Information</strong>
-                        <span>Created by {{ $booking->user_id }} on {{ $booking->created_at }}</span>
-                    </div>
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="d-flex" style="font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; background-color: #ffffff; padding: 12px 16px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); max-width: 700px; margin: 15px auto; transition: transform 0.2s ease-in-out;">
+                            <strong style="color: #1a3c5e; font-weight: 700; ">Sales:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Roger</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; ">Changes:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Zee</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; ">Billing:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Mark</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; ">Quality:</strong><span style="color: #2c3e50; margin-right: 20px; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Smith</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; ">Issued On:</strong><span style="color: #2c3e50; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">12 July 2025</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; ">Shared :</strong><span style="color: #2c3e50; padding: 4px 8px; border-radius: 4px; background-color: #e6f0fa; transition: background-color 0.2s;">Agent</span>
+                        </div>
                     <div class="d-flex gap-2">
                         @include('web.booking.authModel')
                         <a href="{{ route('auth-history', $hashids) }}"
@@ -65,6 +69,7 @@
                         </a>
                     </div>
                 </div>
+                
 
                 @include('web.layouts.flash')
                 @php
@@ -298,52 +303,44 @@
                                     cruiselineservice</option>
                             </select>
                         </div>
+
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label"> Call Queue</label>
                             <select class="form-control" name="campaign">
                                 <option value=""
                                     {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select
                                 </option>
-                                <option value="Agency"
+                                @foreach($campaigns as $campaign)
+                                <option value="{{$campaign->name}}"
                                     {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>
-                                    Agency</option>
-                                <option value="Airline Mix"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Airline Mix' ? 'selected' : '' }}>
-                                    Airline Mix</option>
-                                <option value="Buffer Mix"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Buffer Mix' ? 'selected' : '' }}>
-                                    Buffer Mix</option>
-                                <option value="Cruise"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Cruise' ? 'selected' : '' }}>
-                                    Cruise</option>
-                                <option value="International"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'International' ? 'selected' : '' }}>
-                                    International</option>
-                                <option value="LCC"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'LCC' ? 'selected' : '' }}>LCC
-                                </option>
-                                <option value="Premium Amtrak Bing Calls"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Premium Amtrak Bing Calls' ? 'selected' : '' }}>
-                                    Premium Amtrak Bing Calls</option>
-                                <option value="Pure AA"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Pure AA' ? 'selected' : '' }}>Pure
-                                    AA</option>
-                                <option value="Spanish"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Spanish' ? 'selected' : '' }}>
-                                    Spanish</option>
+                                    {{$campaign->name}}</option>
+                                @endforeach    
                             </select>
                         </div>
+
+
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label"> Is Shared Booking</label>
+                            <select class="form-control" name="campaign">
+                                <option value=""
+                                    {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select
+                                </option>
+                                @foreach($campaigns as $campaign)
+                                <option value="{{$campaign->name}}"
+                                    {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>
+                                    {{$campaign->name}}</option>
+                                @endforeach    
+                            </select>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
 
-
-
-
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs tabs-booked" id="bookingTabs" role="tablist">
-
-
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
                         aria-controls="passenger" aria-selected="true">
