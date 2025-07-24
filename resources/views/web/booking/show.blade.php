@@ -855,7 +855,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Date</th>
+                                              
                                                 <th>Cruise Line</th>
                                                 <th>Name of the Ship</th>
                                                 <th>Category</th>
@@ -874,9 +874,7 @@
                                             @foreach($booking->travelCruise as $key=>$travelCruise)
                                             <tr class="cruise-row" data-index="{{$key}}">
                                                 <td><span class="cruise-title">{{$key+1}}</span></td>
-                                                <td><input style="width: 105px;" type="date" class="form-control"
-                                                        name="cruise[{{$key}}][date]"
-                                                        value="{{$travelCruise->date?->format('Y-m-d')}}"></td>
+                                               
                                                 <td><input type="text" class="form-control" style="width:7.5rem"
                                                         name="cruise[{{$key}}][cruise_line]"
                                                         value="{{$travelCruise->cruise_line}}"
@@ -1236,8 +1234,8 @@
                                             <th>ZIP Code</th> -->
                                                 <th>Billing </th>
                                                 <th>Authorized Amt.<br> (USD)</th>
-                                                <th>Active</th>
-                                                <th>Action</th>
+                                                <th>Currency</th>
+                                                <th>Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody id="billingForms">
@@ -1330,17 +1328,15 @@
                                                         name="billing[{{$key}}][state]">
                                                         <option value="India">Select Billing</option>
                                                         <option value="India">Address</option>
-                                                        <option value="India">Select Billing</option>
-                                                        <!-- Populated by JavaScript -->
                                                     </select>
-                                                    </td-->
+                                                    </td>
 
                                                 <td><input style="width: 65px;" type="text" class="form-control"
                                                         placeholder="ZIP Code" name="billing[{{$key}}][zip_code]"
                                                         value="{{$billingDetails->zip_code}}"></td>
                                                 <td>
                                                     <select class="form-control" name="billing[{{$key}}][currency]">
-                                                        <option value="">Select Currency</option>
+                                                        <option value="">Select</option>
                                                         <option value="USD"
                                                             {{$billingDetails->currency == 'USD' ? 'selected' : ''}}>USD
                                                         </option>
@@ -1364,9 +1360,7 @@
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td><input style="width: 120px;" type="number" class="form-control"
-                                                        placeholder="0.00" name="billing[{{$key}}][amount]"
-                                                        value="{{$billingDetails->amount}}" step="0.01"></td>
+                                                <td> AUD<span>90909</span></td>
 
                                                 <td>
 
@@ -1398,9 +1392,8 @@
                             <table class="pricing-table table">
                                 <thead>
                                     <tr>
-                                        <td colspan="3" rowspan="1"><strong>Gross Amount Collected</strong></td>
-                                        <td colspan="2" rowspan="1"><strong>Net Amount (Paid)</strong></td>
-                                        <td></td>
+                                        <td colspan="4" style="border: solid 1px;"><strong>Gross Amount Collected</strong></td>
+                                        <td colspan="4" ><strong>Net Amount (Paid)</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Passengers*</th>
@@ -1410,6 +1403,7 @@
                                         <th>Price*</th>
                                         <th>Total</th>
                                         <th>Details</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="pricingForms" class="pricing-rows">
@@ -1423,15 +1417,17 @@
                                                 <option value="child">Child</option>
                                                 <option value="infant_on_lap">Infant on Lap</option>
                                                 <option value="infant_on_seat">Infant on Seat</option>
+                                                <option value="Senior">Senior</option>
                                             </select>
                                         </td>
                                         <td><input style="width: 120px" type="number" class="form-control"
                                                 name="pricing[0][num_passengers]" placeholder="No. of Passengers"
                                                 min="0">
                                         </td>
-                                        <td><input style="width: 110px;" type="number" class="form-control"
+                                        <td><input style="width: 80px;" type="number" class="form-control"
                                                 name="pricing[0][gross_price]" placeholder="Gross Price" min="0"
-                                                step="0.01"></td>
+                                                step="0.01" ></td>
+                                                
                                         <td><span class="gross-total">0.00</span></td>
                                         <td><input type="number" style="width: 110px;" class="form-control"
                                                 name="pricing[0][net_price]" placeholder="Net Price" min="0"
@@ -1493,10 +1489,21 @@
                                         <td>
                                             <select class="form-control" name="pricing[{{$key}}][details]"
                                                 id="details_{{$key}}">
+                                                
                                                 <option value="ticket_cost"
                                                     {{$pricingDetails->details=='ticket_cost'?'selected':''}}>Ticket
                                                     Cost
                                                 </option>
+
+                                                <option>Flight Ticket Cost</option>
+                                                <option>Cruise Ticket Cost</option>
+                                                <option>Car Rental Cost</option>
+                                                <option>Train Cost</option>
+                                                <option>Hotel Cost</option>
+                                                <option>Company Card</option>
+                                                <option>Issuance Fees</option>
+                                                <option>FXL Issuance Fees</option>
+                                                
                                                 <option value="merchant_fee"
                                                     {{$pricingDetails->details=='merchant_fee'?'selected':''}}>Merchant
                                                     Fee
