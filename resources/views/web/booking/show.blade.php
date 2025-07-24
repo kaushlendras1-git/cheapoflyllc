@@ -1424,10 +1424,10 @@
                                                 name="pricing[0][num_passengers]" placeholder="No. of Passengers"
                                                 min="0">
                                         </td>
-                                        <td><input style="width: 80px;" type="number" class="form-control"
+                                        <td><input type="number" class="form-control"
                                                 name="pricing[0][gross_price]" placeholder="Gross Price" min="0"
-                                                step="0.01" ></td>
-                                                
+                                                step="0.01" style="width: 110px;"></td>
+
                                         <td><span class="gross-total">0.00</span></td>
                                         <td><input type="number" style="width: 110px;" class="form-control"
                                                 name="pricing[0][net_price]" placeholder="Net Price" min="0"
