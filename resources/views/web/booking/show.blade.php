@@ -1,31 +1,31 @@
 @extends('web.layouts.main')
 @section('content')
 <style>
-/* Ensure FilePond container doesn't shrink weirdly */
-.filepond--root {
-    width: 100% !important;
-    max-width: 100%;
-    box-sizing: border-box;
-}
+    /* Ensure FilePond container doesn't shrink weirdly */
+    .filepond--root {
+        width: 100% !important;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
 
-/* Optional: give a min-height if it's collapsing */
-.filepond--drop-label {
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+    /* Optional: give a min-height if it's collapsing */
+    .filepond--drop-label {
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 
-/* Prevent vertical stacking of drag message */
-.filepond--drop-label label {
-    white-space: nowrap;
-    text-align: center;
-}
+    /* Prevent vertical stacking of drag message */
+    .filepond--drop-label label {
+        white-space: nowrap;
+        text-align: center;
+    }
 
-.filepond--item {
-    width: calc(50% - 0.5em);
-}
+    .filepond--item {
+        width: calc(50% - 0.5em);
+    }
 </style>
 
 <span id="flight_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->flightbookingimage}}"></span>
@@ -441,6 +441,11 @@
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
+                            <button class="btn btn-primary" type="button" id="passenger-detail-button">
+                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                            </button>
                         </div>
                         <div
                             class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
@@ -577,8 +582,13 @@
 
                 <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">
                     <div class="card p-4">
-                        <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Flight Booking Details</h5>
+                            <button class="btn btn-primary" type="button" id="flight-booking-button">
+                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                            </button>
                         </div>
                         <div class="card-body p-0">
                             <div class="row g-3 align-items-center">
@@ -749,13 +759,21 @@
                 <!------------------------ Car Booking Details ------------------------------>
                 <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
                     <div class="card p-4">
-                        <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-4">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Car Booking Details</h5>
-                            <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
-                            <div class="upload-file position-relative">
-                                {{--                                <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>--}}
-                                {{--                                <label for="screenshots-upload">Upload Files</label>--}}
+                            <div>
+                                <button class="btn btn-primary" type="button" id="car-booking-button">
+                                    <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                </button>
+                                <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
+                                <div class="upload-file position-relative">
+                                    {{--                                <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>--}}
+                                    {{--                                <label for="screenshots-upload">Upload Files</label>--}}
+                                </div>
                             </div>
+
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
@@ -843,10 +861,18 @@
                     <div class="card p-4">
                         <div class="mb-4 d-flex align-items-center justify-content-between">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
-                            <div class="upload-file position-relative">
-                                <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
-                                <label for="screenshots-upload">Upload Files</label>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" type="button" id="cruise-booking-button">
+                                    <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                </button>
+                                <div class="upload-file position-relative">
+                                    <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
+                                    <label for="screenshots-upload">Upload Files</label>
+                                </div>
                             </div>
+
                             <!-- <div class="upload-file position-relative">
                             {{--<label for="screenshots-upload">Upload Files</label>--}}
                         </div> -->
@@ -947,8 +973,13 @@
 
                 <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
                     <div class="card p-4">
-                        <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-4">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Booking Details</h5>
+                            <button class="btn btn-primary" type="button" id="hotel-booking-button">
+                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                            </button>
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
@@ -1035,11 +1066,18 @@
                 <!------------------------ Train Booking Details ------------------------------>
                 <div class="tab-pane fade" id="trainbooking" role="tabpanel" aria-labelledby="trainbooking-tab">
                     <div class="card p-4">
-                        <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-4">
                             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Train Booking Details</h5>
-                            <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
-                            <div class="upload-file position-relative">
-                                {{--                                <label for="screenshots-upload">Upload Files</label>--}}
+                            <div>
+                                <button class="btn btn-primary" type="button" id="train-booking-button">
+                                    <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                </button>
+                                <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
+                                <div class="upload-file position-relative">
+                                    {{--                                <label for="screenshots-upload">Upload Files</label>--}}
+                                </div>
                             </div>
                         </div>
                         <div class="card-body pt-3 ps-0 pe-0">
@@ -1207,6 +1245,11 @@
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="card-header border-0 p-0">Card Details</h5>
+                            <button class="btn btn-primary" type="button" id="billing-booking-button">
+                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                            </button>
                             <!-- <div>
                             <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit
                                 Paylink</button>
@@ -1390,8 +1433,16 @@
 
                 <!------------------------- Pricing Details ----------------------------------->
                 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
+
                     <div class="col-md-12">
                         <div class="card p-4 details-table-wrappper">
+                            <div class="d-flex justify-content-end mb-2">
+                                <button class="btn btn-primary" type="button" id="pricing-booking-button">
+                                    <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                </button>
+                            </div>
 
                             <table class="pricing-table table">
                                 <thead>
@@ -1866,11 +1917,11 @@
     .booked-content table thead th, .booked-content table tbody td {
         padding: 5px !important;
     }
-.booked-content table thead th,
-.booked-content table tbody td {
-    padding: 5px !important;
-}
+    .booked-content table thead th,
+    .booked-content table tbody td {
+        padding: 5px !important;
+    }
 </style>
 
-
+@vite('resources/js/booking/edit.js')
 @endsection

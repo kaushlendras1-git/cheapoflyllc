@@ -1,5 +1,6 @@
 
     document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('hotel-booking-button').addEventListener('click',addHotelRow)
         const hotelFormsContainer = document.getElementById('hotelForms');
         let hotelIndex = 0;
 
@@ -80,10 +81,10 @@
 
 
     document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('cruise-booking-button').addEventListener('click',addCruiseRow )
         const cruiseFormsContainer = document.getElementById('cruiseForms');
         let cruiseIndex = 0;
 
-        // Add initial row on page load
         addCruiseRow();
 
         // Function to add a new cruise row
@@ -103,7 +104,7 @@
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][arrival_port]" placeholder="Arrival Port"></td>
                 <td><input type="date" class="form-control" style="width:105px; name="cruise[${cruiseIndex}][arrival_date]"></td>
                 <td><input type="time" class="form-control" style="width:50px; name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
-                
+
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-cruise-btn">
                         <i class="ri ri-delete-bin-line"></i>
@@ -163,6 +164,7 @@
 
 
     document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('car-booking-button').addEventListener('click', addCarRow)
         const carFormsContainer = document.getElementById('carForms');
         let carIndex = 0;
 
@@ -244,8 +246,8 @@
         });
     });
 
-
     document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('flight-booking-button').addEventListener('click',addFlightRow)
         const flightFormsContainer = document.getElementById('flightForms');
         let flightIndex = 0;
 
@@ -259,7 +261,7 @@
             newRow.dataset.index = flightIndex;
             newRow.innerHTML = `
                 <td><span class="flight-title">${flightIndex + 1}</span></td>
-                
+
                 <td><select class="form-control" style="width: 80px;" name="flight[${flightIndex}][direction]">
                         <option value="">Select</option>
                         <option value="Inbound">Inbound</option>
@@ -270,7 +272,7 @@
                 <td><input type="date" class="form-control" style="width: 6.7rem" name="flight[${flightIndex}][departure_date]"></td>
                 <td><input type="text" class="form-control" style="width: 40px;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
                 <td><input type="text" class="form-control" style="width: 3.5rem;" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
-               
+
                 <td><select class="form-control" style="width: 60px;" name="flight[${flightIndex}][cabin]">
                     <option value="">Select</option>
                     <option value="B.Eco">B.Eco</option>
@@ -278,13 +280,13 @@
                     <option value="Pre.Eco">Pre.Eco</option>
                     <option value="Buss.">Buss.</option>
                 </select></td>
-               
+
                 <td><input type="text" class="form-control" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
                 <td><input type="text" class="form-control" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
                 <td><input type="time" class="form-control" style="style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
                 <td><input type="text" class="form-control" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
                 <td><input type="time" class="form-control" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
-               
+
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
                 <td><input type="date" class="form-control" style="width: 105px;" name="flight[${flightIndex}][arrival_date]"></td>
@@ -349,6 +351,7 @@
     /**************************** ************** Start Train*********************** */
 
     document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('train-booking-button').addEventListener('click',addTrainRow)
     const trainFormsContainer = document.getElementById('trainForms');
     let trainIndex = 0;
 
@@ -436,7 +439,7 @@
 
 
 
-        
+
     // Passenger Section
 document.addEventListener('DOMContentLoaded', () => {
     const passengerFormsContainer = document.getElementById('passengerForms');
@@ -522,6 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
         passengerIndex = rows.length;
     }
 
+    document.getElementById('passenger-detail-button').addEventListener('click', addPassengerRow);
     // Event listener for input and change events to auto-add rows
     function handlePassengerInput(e) {
         const row = e.target.closest('.passenger-form');
@@ -552,6 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Billing Section
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('billing-booking-button').addEventListener('click',addBillingRow);
     const billingFormsContainer = document.getElementById('billingForms');
     let billingIndex = billingFormsContainer.querySelectorAll('.billing-card').length || 0;
     let cntrystr2 = '';
@@ -633,7 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
-            
+
             <td>
                 <select id="" style="width:7.5rem"
                     class="form-control state-select"
@@ -658,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td> AUD<span>90909</span></td>
-          
+
             <td>
                 <button type="button" class="btn btn-outline-danger delete-billing-btn">
                     <i class="ri ri-delete-bin-line"></i>
@@ -724,7 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const countryId = e.target.value;
             const index = e.target.closest('.billing-card').dataset.index;
             const stateSelect = document.getElementById(`state-${index}`);
-            
+
             if (countryId) {
                 $.ajax({
                     url: `/statelist/${countryId}`,
@@ -765,6 +770,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /************************Pricing********************* */
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('pricing-booking-button').addEventListener('click',addPricingRow)
     const pricingFormsContainer = document.getElementById('pricingForms');
     let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
 

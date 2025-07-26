@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all checkboxes and the select element
     const checkboxes = document.querySelectorAll('.toggle-tab');
     const select = document.querySelector('#query_type');
-    
+
     // Store all options for later use
     const allOptions = Array.from(select.options).map(option => ({
         text: option.text,
@@ -353,3 +353,50 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the select options on page load
     updateSelectOptions();
 });
+
+document.querySelector('select[name="pnrtype"]').addEventListener('change',function(e){
+    console.log(e.target.value);
+    if(e.target.value == 'HK'){
+        const pricingFormsContainer = document.getElementById('pricingForms');
+        let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
+        const newRow = document.createElement('tr');
+        newRow.className = 'pricing-row hkRow';
+        newRow.dataset.index = pricingIndex;
+        newRow.innerHTML = `
+            <td>
+                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                    <option value="">Select</option>
+                    <option value="adult">Adult</option>
+                    <option value="child">Child</option>
+                    <option value="infant_on_lap">Infant on Lap</option>
+                    <option value="infant_on_seat">Infant on Seat</option>
+                </select>
+            </td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" placeholder="No. of Passengers" min="0"></td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
+            <td><span class="gross-total">$10</span></td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+            <td><span class="net-total">$10</span></td>
+            <td>
+                <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                    <option value="">Select</option>
+                    <option value="ticket_cost">Ticket Cost</option>
+                    <option value="merchant_fee">Merchant Fee</option>
+                    <option value="company_card_used">Company Card Used</option>
+                </select>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                    <i class="ri ri-delete-bin-line"></i>
+                </button>
+            </td>
+        `;
+        pricingFormsContainer.appendChild(newRow);
+        pricingIndex++;
+    }
+    else{
+        Array.from(document.querySelectorAll('.hkRow')).forEach(e => {
+            e.remove();
+        });
+    }
+})
