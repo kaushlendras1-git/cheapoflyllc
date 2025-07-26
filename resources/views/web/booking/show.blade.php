@@ -370,7 +370,7 @@
              <li class="nav-item" role="presentation">
                 <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
                     aria-controls="billing" aria-selected="false">
-                                        <i class="ri ri-bank-line" style="font-size: 28px; color: #2e8b57;" title="Pricing"></i>
+                                    <i class="ri ri-bank-line" style="font-size: 28px; color: #2e8b57;" title="Pricing"></i>
 
 
                 </a>
@@ -1671,8 +1671,8 @@
 
 <style>
     .booked-content table thead th, .booked-content table tbody td {
-    padding: 5px !important;
-}
+        padding: 5px !important;
+    }
 </style>
 
 @endsection
