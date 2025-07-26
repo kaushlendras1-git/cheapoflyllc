@@ -81,6 +81,7 @@
           <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> SMS</button>
           <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> WhatsApp</button>
           <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#surveyModal" data-bs-dismiss="modal"><i class="ri ri-survey-fill"></i> Survey</button>
+          <a style="color: #fff !important;" class="btn btn-custom d-block text-center" href="{{ route('signature.form') }}" >Authorization Link</a>
         </div>
       </div>
     </div>
@@ -93,19 +94,31 @@
         <div class="modal-header">
           <h5 class="modal-title" id="sendMailModalLabel">Send Mail</h5>
 
+     <!-- <a href="{{ route('signature.form') }}" >Authorization Link</a> -->
+          
 
-        <a href="{{ route('signature.form') }}" class="btn btn-outline-secondary btn-sm rounded-pill">Authorization Link</a>
-                     
-         <form id="sendAuthEmail" action="{{ route('booking.auth-email.sendmail', $booking->id) }}" method="POST">
-            @csrf
-            <button class="send-btn">Send Auth</button>
-         </form>
+        
        
           
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
         </div>
         <div class="modal-body">
+          <form class="d-flex align-items-center justify-content-between" id="sendAuthEmail" action="{{ route('booking.auth-email.sendmail', $booking->id) }}" method="POST" style="display: flex; align-items: center; gap: 15px; font-size: 14px;">
+                    @csrf
+                   <div class="d-flex align-items-center">
+                     <label class="me-3" style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" name="subscribe" value="yes"> xxx8956
+                    </label>
+                    <label class="me-3" style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" name="terms" value="accepted"> xxx7412
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" name="terms" value="accepted"> All
+                    </label>
+                   </div>
+                    <button class="send-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
+                </form>
           <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; margin: 20px auto; background: #fff; border: 1px solid #ddd;">
             <tr>
               <td style="padding: 20px;">

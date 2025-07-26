@@ -75,22 +75,29 @@
                                     </a>
                                 </td>
                                 <td> 
-                                    <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
-                                    @if($flight_booking)
-                                        <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
-                                    @endif
-                                    
-                                    @if($hotel_booking)
-                                        <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
-                                    @endif
+                                       @php
+                                            $types = collect($booking->bookingTypes)->pluck('type')->map(fn($t) => strtolower($t))->toArray();
+                                        @endphp
 
-                                    @if($cruise_booking)
-                                        <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
-                                    @endif
+                                        {{-- Flight Icon --}}
+                                        @if(in_array('flight', $types))
+                                            <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
+                                        @endif
 
-                                    @if($car_booking)
-                                        <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
-                                    @endif 
+                                        {{-- Hotel Icon --}}
+                                        @if(in_array('hotel', $types))
+                                            <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
+                                        @endif
+
+                                        {{-- Cruise Icon --}}
+                                        @if(in_array('cruise', $types))
+                                            <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
+                                        @endif
+
+                                        {{-- Car Icon --}}
+                                        @if(in_array('car', $types))
+                                            <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
+                                        @endif
                                 </td>
                                 <td>{{ $booking->pnr }}</td>
                                 <td>{{ $booking->created_at }}</td>

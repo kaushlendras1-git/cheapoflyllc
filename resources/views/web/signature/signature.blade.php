@@ -390,7 +390,7 @@
         });
     });
     </script>
-    <table style="background-color: #fff; margin: auto; width: 45%; border: 1px solid #d2d2d2;">
+    <!-- <table style="background-color: #fff; margin: auto; width: 45%; border: 1px solid #d2d2d2;">
         <thead>
             <tr style="background-color: #e4e4e4;">
                 <th style="padding: 10px;"><img width="120"
@@ -401,13 +401,14 @@
                             style="color: #ff1c0b; text-decoration: none;" href="tel:+1-844-382-2225"><img
                                 style="margin-right: 10px;" src="https://www.cheapoflyllc.com/images/24hour.png"
                                 alt="24/7 Support" style="max-width: 50px; height: auto; vertical-align: middle;">
-                            +1-844-382-2225</a> </p>
+                            +1-844-382-2225</a> </ p>
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style="font-size: 18px; font-weight: 700; padding: 20px 30px 5px 30px;" colspan="2"> Dear {{ $user->name ?? 'Customer' }}, 
+                <td style="font-size: 18px; font-weight: 700; padding: 20px 30px 5px 30px;" colspan="2"> Dear
+                    {{ $user->name ?? 'Customer' }},
                 </td>
             </tr>
             <tr>
@@ -448,7 +449,8 @@
                         <tr>
                             <td style="font-size: 16px; font-weight: 600; padding: 0px 0px 20px 120px; width: 50%;">
                                 Booking Date:</td>
-                            <td style="padding-bottom: 20px; color: #646464;">{{ $booking->date ?? 'Sunday, Jun 29, 2025' }}</td>
+                            <td style="padding-bottom: 20px; color: #646464;">
+                                {{ $booking->date ?? 'Sunday, Jun 29, 2025' }}</td>
                         </tr>
                     </table>
                 </td>
@@ -472,7 +474,8 @@
                             <td
                                 style="font-size: 14px; font-weight: 600; padding: 5px 0px 5px 30px; width: 50%; border-right: 1px solid #dfdfdf;">
                                 Card Holder Name</td>
-                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">{{ $user->name ?? 'Gordon Scott Mcknight' }}</td>
+                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">
+                                {{ $user->name ?? 'Gordon Scott Mcknight' }}</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #dfdfdf;">
                             <td
@@ -485,13 +488,15 @@
                             <td
                                 style="font-size: 14px; font-weight: 600; padding: 5px 0px 5px 30px; width: 50%; border-right: 1px solid #dfdfdf;">
                                 Booking Date</td>
-                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">{{ $booking->date ?? 'Sunday, Jun 29, 2025' }}</td>
+                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">
+                                {{ $booking->date ?? 'Sunday, Jun 29, 2025' }}</td>
                         </tr>
                         <tr style="border-bottom: 1px solid #dfdfdf;">
                             <td
                                 style="font-size: 14px; font-weight: 600; padding: 5px 0px 5px 30px; width: 50%; border-right: 1px solid #dfdfdf;">
                                 Airline Ref</td>
-                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">{{ $booking->airline_ref ?? '4QO44P/4QNGLG' }}</td>
+                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">
+                                {{ $booking->airline_ref ?? '4QO44P/4QNGLG' }}</td>
                         </tr>
                     </table>
                 </td>
@@ -522,7 +527,8 @@
                             <td
                                 style="padding: 5px 0px 5px 30px; font-size: 14px; border-right: 1px solid #dfdfdf; color: #646464;">
                                 {{ $passenger->name ?? 'Mary Ann Mcknight' }}</td>
-                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">{{ $passenger->type ?? 'Adult' }}</td>
+                            <td style="padding: 5px 30px 5px 20px; font-size: 14px; color: #646464;">
+                                {{ $passenger->type ?? 'Adult' }}</td>
                         </tr>
                     </table>
                 </td>
@@ -553,7 +559,9 @@
                                 <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
                                     @csrf
                                     <input type="hidden" name="signature" id="signatureData">
-                                    <button style="background:#119516; padding:10px 20px; border-radius:2px;font-size:14px; color:#fff; font-weight:500; border: 1px solid transparent; border-radius: 3px;" type="submit" id="authorizeButton">I Authorized</button>
+                                    <button
+                                        style="background:#119516; padding:10px 20px; border-radius:2px;font-size:14px; color:#fff; font-weight:500; border: 1px solid transparent; border-radius: 3px;"
+                                        type="submit" id="authorizeButton">I Authorized</button>
                                 </form>
                             </td>
                         </tr>
@@ -561,6 +569,421 @@
                 </td>
             </tr>
         </tfoot>
+    </table> -->
+
+    <table style="width: 45%; margin: auto; background-color: #fff;">
+        <thead>
+            <tr>
+                <td style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;"> <img width="100"
+                        src="https://www.fareticketsllc.com/assets/img/logo-dark.webp" alt="logo"> </td>
+                <td style="text-align: end; padding-right: 30px; padding-top: 10px; padding-bottom: 10px;"> <a
+                        style="color: #ff1a09; font-size: 16px; font-weight: 600; text-decoration: none;"
+                        href="tel:+1-844-382-2225">
+                        <img style="margin-right: 10px;" src="https://www.cheapoflyllc.com/images/24hour.png" alt="call"
+                            style="max-width: 50px; height: auto; vertical-align: middle;"> +1-844-382-2225
+                    </a>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-size: 20px; font-weight: 700; color: #000; padding-left: 30px;" colspan="2">Dear Miker
+                    Test,</td>
+            </tr>
+            <tr>
+                <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px;" colspan="2">Thank you
+                    for using fareticketsllc for your travel needs. Please take a moment to review the names, date,
+                    Flight itinerary, price and other relevant details of your booking.</td>
+            </tr>
+            <tr>
+                <td style="padding: 20px 30px; padding-top: 0px; font-size: 16px; font-weight: 600; color: #696969;">
+                    Team <a class="color: #055bdb; text-decoration: none;"
+                        href="https://www.fareticketsllc.com/">Fareticketsllc</a> </td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="width: 45%; margin: auto; background-color: #fff; margin-top: 10px;">
+        <tr>
+            <td style="text-align: center; font-size: 20px; font-weight: 700; color: #000; padding: 10px 30px;"
+                colspan="2">Booking Status</td>
+        </tr>
+        <tr>
+            <td
+                style="font-size: 14px; font-weight: 700; color: #000; text-align: center; padding-top: 10px; padding-bottom: 20px;">
+                Booking Reference Number <span style="font-size: 12px; font-weight: 400; display: block;">
+                    AGE14073012930 </span> </td>
+            <td
+                style="font-size: 14px; font-weight: 700; color: #000; text-align: center; padding-top: 10px; padding-bottom: 20px;">
+                Booking Date <span style="font-size: 12px; font-weight: 400; display: block;"> Monday, Jul 14,2025
+                </span> </td>
+        </tr>
+    </table>
+    <table style="width: 45%; margin: auto; background-color: #fff; border-top: 1px solid #dbdbdb;">
+        <tr>
+            <td style="text-align: center; font-size: 20px; font-weight: 700; color: #000; padding: 10px 30px;">Customer
+                Information</td>
+        </tr>
+        <tr>
+            <td style="padding: 20px 30px;">
+                <table style="width: 100%; margin: auto;">
+                    <tr>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Card Holder Name</th>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #696969;">
+                            Miker Test</td>
+                    </tr>
+                    <tr>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Email</th>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #696969;">
+                            <a style="color: #055bdb; text-decoration: none;"
+                                href="mailto:merv.adams21@gmail.com">merv.adams21@gmail.com</a> </td>
+                    </tr>
+                    <tr>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Booking Date</th>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #696969;">
+                            Monday, Jul 14,2025</td>
+                    </tr>
+                    <tr>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Airline Ref</th>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #696969;">
+                            DBD60B</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 45%; margin: auto; background-color: #fff; border-top: 1px solid #dbdbdb;">
+        <tr>
+            <td style="text-align: center; font-size: 20px; font-weight: 700; color: #000; padding: 10px 30px;">
+                Passenger Details</td>
+        </tr>
+        <tr>
+            <td style="padding: 20px 30px;">
+                <table style="width: 100%; margin: auto;">
+                    <tr>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Passenger Name</th>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Type</th>
+                    </tr>
+                    <tr>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #696969;">
+                            Merv Testing test</td>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #696969;">
+                            Adult</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 45%; margin: auto; background-color: #fff; border-top: 1px solid #dbdbdb;">
+        <tr>
+            <td style="text-align: center; font-size: 20px; font-weight: 700; color: #000; padding: 10px 30px;">Price
+                Details (USD)</td>
+        </tr>
+        <tr>
+            <td style="padding: 20px 30px;">
+                <table style="width: 100%; margin: auto;">
+                    <tr>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Total Price per person including taxes and fees</th>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #119516;">
+                            2000.00</td>
+                    </tr>
+                    <tr>
+                        <th
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 600; color: #000;">
+                            Total Price for Entire Itinerary including taxes and fees</th>
+                        <td
+                            style="border: 1px solid #dbdbdb; padding: 10px 30px; font-size: 14px; font-weight: 400; color: #119516;">
+                            2000.00 </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 45%; margin: auto; background-color: #fff; margin-top: 10px;">
+        <tr>
+            <td
+                style="background-color: #055bdb; font-size: 20px; font-weight: 600; color: #fff; text-align: center; padding: 10px 30px;">
+                General Flight Terms and Conditions</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px;">These terms and
+                conditions (“terms of use”) apply to you right the moment you access and use our website or make a
+                purchase by speaking to an agent on +1-844-382-2225.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">General Conditions</td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-weight: 700; color: #e50000; padding: 10px 30px; padding-top: 0px;">
+                Important Note : Tickets are Non-Refundable/Non-Transferable and name changes are not permitted.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px;"> <span
+                    style="font-size: 14px; font-weight: 700; color: #000;">NOTE :</span> Date and routing changes will
+                be subject to Airline Penalty and Fare Difference if any</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> For
+                any modification or changes please contact our Travel Consultant on +1-844-382-2225</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> All
+                customers are advised to verify travel documents (transit visa/entry visa) for the country through which
+                they are transiting and/or entering. fareticketsllc will not be responsible if proper travel documents
+                are not available and you are denied entry or transit into a Country. We request you to consult the
+                embassy of the country(s) you are visiting or transiting through.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> For
+                any modification or any other query please contact our Travel Consultant on +1-844-382-2225.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                fareticketsllc provides its services, products, and contents either through the phone service or
+                website. This is a legal agreement between you and fareticketsllc. You must read all the information
+                carefully as you agree to these terms and conditions while accessing or using any services or products
+                or contents of fareticketsllc.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px;"> <span
+                    style="font-size: 14px; font-weight: 700; color: #000;">Visas:</span> Please check with your local
+                embassy regarding any visa requirements as we do not deal with any visa/travel related documents.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px;"> <span
+                    style="font-size: 14px; font-weight: 700; color: #000;">Passports:</span> It is advisable that your
+                passport must be at least valid for 6 months from the date of return.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px;"> <span
+                    style="font-size: 14px; font-weight: 700; color: #000;">Travel Insurance:</span> You are advised to
+                take travel insurance to cover any medical expenses.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">Travelers Name</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                Traveler First name and Last name must be entered during the time of reservation exactly as it appears
+                on your Government issued identification, be it your passport, Driving License or other acceptable forms
+                of identification depending on your type of journey (Domestic/International). Name once entered will not
+                be changed. Some ‘Typo Error’ (Name Correction) however, is allowed, depending on Airline Terms of Use,
+                & charges would be applicable according as per airline policy.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">Fare Policy</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                Electronic Tickets (e-tickets) will be issued shortly.If we are not able to issue the e ticket, you will
+                be notified.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 30px; padding-top: 0px;">
+                Passengers are required to reconfirm flights 72 (seventy two) hours prior to departure with the airline
+                you are travelling with. Passengers are required to arrive at the gate, 3 (three) hours before departure
+                for international travel and 2 (two) hours prior to departure for domestic travel. We are not
+                responsible or liable for flight changes made by the airline. If a passenger misses or does not show for
+                their flight and does not notify the airline prior to missing or no showing the flight, the passenger
+                assumes all responsibility for any change or cancel fee and/or possible loss of ticket value. This no
+                show policy is an airline enforced rule and at their discretion to determine how they will deal with it.
+                However, most airlines look at no shows as a violation of their ticket policies meaning you forfeit any
+                and all funds paid for said ticket. Frequent Flyer Mileage can be accrued on some carriers. Please
+                contact your airline to advise your mileage number. Fares are not guaranteed until ticketed.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                Passengers are responsible for all of the required travel documents. If the passenger attempts to fly
+                without proper documentation and are turned away from the airport or required to cancel or change their
+                tickets because of lack of proper travelling documentation, then the passenger assumes full
+                responsibility for any and all change or cancel fees if applicable and/or the loss of the tickets
+                purchased.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> All
+                Tickets are not guaranteed until ticketed. The fare may alter as revised by the Airline company or
+                dealer anytime even after the confirmation of a reservation. fareticketsllc will inform you about the
+                fare changes if made without assuming any responsibility – financial or otherwise for any such fare
+                alters made by the supplier.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                fareticketsllc will inform you about the new fares. At that point of time you may- depending on your
+                requirement – either purchase or cancel the product or service at the new cost. You also can cancel the
+                booking at no cost in case there is an increase in fare before ticketing and your card being charged.
+                You’ll be charged nothing if you cancel such a booking.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">Payment Policy</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                fareticketsllc accepts Debit Cards and Credit Cards</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                fareticketsllc may divide your total charge into two parts: Taxes and Airline Base. But, the combined
+                total amount will be the same as authorized and quoted by you at the time of booking.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> Ticket
+                fares don't include baggage fees of the airline.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;">
+                Tickets are guaranteed only after the ticketing is completed. The tickets will not be guaranteed upon
+                submission of payment. In case, your credit card payment fails to proceed due to any reason, we will
+                notify you about this within 24 hours.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">Third Party and
+                International Credit & Debit Cards Payment.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> In
+                case you are using an International Debit Card or Credit while purchasing Plane Tickets for a personal
+                journey, or for somebody else, you need to have some specific documents for processing passenger
+                E-Tickets. Documents required for the same have been mentioned below.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> A
+                complete ‘Credit Card Authorization Form’.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> A A
+                copy of identity proof issued by the Government with front and back side which has photograph and
+                signatures and copy of your card from which you are paying for the booking.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> A
+                Airline Ticket prices are not guaranteed until ticketed.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">Credit Card Declines</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> On Credit Card being declined while processing your transaction, we will alert you about this by emailing you at your valid email id within 24 to 48 hours. In this case, neither the transaction will be processed nor the fare and any other booking details will be guaranteed.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">Cancellations and Exchanges</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 30px; padding-top: 0px;"> Changes are subject to the following rules/penalties plus any difference in the airfare at the time the changes are made.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> Changes (before or after departure): As per the airline policy</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> Cancel / Refund (before or after departure): Not allowed in most of the airlines/as per the airline policy</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> For all cancellation and exchanges, you agree to request at least 24 hours before scheduled departure. All flight tickets bought from us are 100% non-refundable. You, however, reserve the right to entertain refund or exchange if allowed by the airline fare rules associated with the ticket(s) issued to you. Your ticket(s) may be refunded or exchanged for the original purchase price after the deduction of applicable airline penalties, and any fare difference between the original fares paid and the fare associated with the new ticket(s).</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> Furthermore, fareticketsllc has the right to charge a Change/Refund fees. fareticketsllc has no control over airline penalties associated with refunds or exchanges.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> If you travel internationally, you may often be offered to travel in more than one airline. Each airline has formed its own set of fare rules. If more than one set of fare rules are applied to the total fare, the most restrictive rules will be applicable to the entire booking.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> Thanks for spending your valuable time and using fareticketsllc. For using the website, you are authorized to agree with the aforementioned ‘Terms of Use’.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">24/7 Customer Care</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> Our customer service representatives are available 24x7 to assist you. Our proficient team will make sure that all your travel needs are addressed at the earliest.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> For any modification or changes please contact our Travel Consultant on +1-844-382-2225.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 700; color: #000; padding: 10px 30px;">Safe & Secure Booking</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> Our site comes equipped with the latest technology, so your data and information are always secured.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #696969; padding: 10px 30px; padding-top: 0px;"> We value your business and look forward to serve your travel needs in the near future</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 30px; padding-top: 0px;"> Please feel free to contact us at  <a style="color: #055bdb; text-decoration: none;" href="mailto:+1-844-382-2225">+1-844-382-2225.</a> </td>
+        </tr>
+    </table>
+    <table style="width: 45%; margin: auto; background-color: #fff; margin-top: 10px;">
+        <tr>
+            <td
+                style="background-color: #055bdb; font-size: 20px; font-weight: 600; color: #fff; text-align: center; padding: 10px 30px;">
+                Charge Authorization, Your Electronic Signature Copy</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 30px;">I, Miker Test, have read the term & conditions and I understand that fare is non-refundable. I agree to pay a total amount of USD 2000.00 (Credit Card Number ending with. 1111) for this purchase. I understand is to serve as my legal signature.</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 30px;">Thanks you for using fareticketsllc</td>
+        </tr>
+    </table>
+    <table style="width: 45%; margin: auto; background-color: #fff; margin-top: 10px;">
+        <tr>
+            <td
+                style="font-size: 20px; font-weight: 600; color: #000; padding: 10px 30px;">
+                Please cancel this Booking!</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 30px;">I, Miker Test, Authorize fareticketsllc to charge my VISA Credit/Debit Card, ending with 1111 for the total amount of USD 2000.00 to cancel the below Flight ticket/tickets</td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #ff0000; padding: 10px 30px;">By Clicking on Authorize button, you agree to below mentioned terms.</td>
+        </tr>
+        <tr>
+            <td style="padding: 20px 30px;">
+                <a href="https://www.cheapoflyllc.com/successful.aspx?Bkey=J788lsWix+kxHMS1k6kRVi1sLz4lxhIiwOfM57Cergpz489aZ+zdiXVigTUW6WHmEe+FNXOhI8c8Dqsm5hqUJw==" style="background:#119516;padding:10px 20px;border-radius:2px;font-size:14px;color:#fff;text-decoration:none;font-weight:500;letter-spacing:.5px;display:inline-block" rel="noreferrer" target="_blank" > I Authorize </a>
+            </td>
+        </tr>
+    </table>
+
+    <table style="background-color: #fff; width: 45%; margin: auto;">
+        <tr style="background-color: #da3743;">
+            <td style="text-align: center; padding: 10px;"> <img width="150" src="https://www.fareticketsllc.com/assets/img/logo-dark.webp" alt="img-logo"> </td>
+        </tr>
+        <tr>
+            <td style="font-size: 36px; font-weight: 800; text-align: center; padding: 40px 30px 0px 30px; color: #fff; background-color: #da3743; border-top: 1px solid #ff5a5a; line-height: 40px;">Done!</td>
+        </tr>
+        <tr>
+            <td style="font-size: 36px; font-weight: 800; text-align: center; padding: 0px 30px 0px 30px; color: #fff; background-color: #da3743; line-height: 40px;">Your Reservation</td>
+        </tr>
+        <tr>
+            <td style="font-size: 36px; font-weight: 800; text-align: center; padding: 0px 30px 30px 30px; color: #fff; background-color: #da3743; line-height: 40px;">Is Canceled</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 0px 50px; font-size: 14px; font-weight: 400; color: #fff; background-color: #da3743;">Thanks for letting the airline know your plans changed (It helps them better plan and operate efficiently). Whenever you're ready to make new plans, left's finD a seat that matches your occassion. </td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="background-color: #da3743;"> <a style="background-color: #000; color: #fff; padding: 10px 20px; display: inline-block; text-decoration: none; font-size: 16px; font-weight: 600; border-radius: 5px; margin-top: 40px; margin-bottom: 20px;" href="#">Book A New Flight</a> </td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 30px; text-align: center;">feel free to contact us at <a style="color: #055bdb; text-decoration: none;" href="mailto:+1-844-382-2225">+1-844-382-2225.</a></td>
+        </tr>
     </table>
 </body>
 

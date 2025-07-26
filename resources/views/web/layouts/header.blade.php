@@ -19,7 +19,7 @@
     <!-- <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script> -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
     @routes
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     @yield('head')
 
 </head>
@@ -134,6 +134,33 @@
                                             <div data-i18n="CallType">CallType</div>
                                         </a>
                                     </li>
+                                    <li class="menu-item {{ Route::currentRouteName() == 'booking-status.index' ? 'active' : '' }}">
+                                        <a href="{{ route('booking-status.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
+                                            <div data-i18n="Booking Status">Booking Status</div>
+                                        </a>
+                                    </li>
+
+                                    <li class="menu-item {{ Route::currentRouteName() == 'payment-status.index' ? 'active' : '' }}">
+                                        <a href="{{ route('payment-status.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
+                                            <div data-i18n="Payment Status">Payment Status</div>
+                                        </a>
+                                    </li>
+
+                                    <li class="menu-item {{ Route::currentRouteName() == 'quality-feedback.index' ? 'active' : '' }}">
+                                        <a href="{{ route('quality-feedback.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
+                                            <div data-i18n="Quality Feedback">Quality Feedback</div>
+                                        </a>
+                                    </li>
+
+                                    <!-- LOB -->
+                                   
+
+                                   
+
+
                                 </ul>
                             </li>
 

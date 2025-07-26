@@ -185,13 +185,12 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         });
 
         console.log(response.data);
-
         if (response.status === 201) {
             this.removeAttribute("disabled");
             sessionStorage.setItem("successMessage", response.data.message);
             window.location.href = route(response.data.route, { id: response.data.id });
         } else {
-            showToast("Something went wrong", "error");
+            showToast("Something went wrong1", "error");
         }
 
     }
@@ -200,7 +199,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         if (e.response?.status === 422 || e.response?.status === 500) {
             showToast(e.response?.data?.error ?? 'Validation/server error', "error");
         } else {
-            showToast("Something went wrong", "error");
+            showToast("Something went wrong2", "error");
         }
     }
 });
@@ -284,4 +283,73 @@ $('.country-select').on('change',async function(e){
     catch (e) {
         console.log(e)
     }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all checkboxes and the select element
+    const checkboxes = document.querySelectorAll('.toggle-tab');
+    const select = document.querySelector('#query_type');
+    
+    // Store all options for later use
+    const allOptions = Array.from(select.options).map(option => ({
+        text: option.text,
+        value: option.value,
+        dataType: option.getAttribute('data-type') || null,
+        selected: option.selected
+    }));
+
+    // Function to update select options based on checkbox selection
+    function updateSelectOptions() {
+        // Get all selected checkboxes
+        const selectedTypes = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        // Clear current options
+        select.innerHTML = '';
+
+        if (selectedTypes.length === 0) {
+            // If no checkboxes are selected, show all options
+            allOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.text = opt.text;
+                option.value = opt.value;
+                if (opt.dataType) option.setAttribute('data-type', opt.dataType);
+                if (opt.selected) option.selected = true;
+                select.appendChild(option);
+            });
+        } else if (selectedTypes.length === 1) {
+            // If exactly one checkbox is selected, show options with matching data-type
+            const selectedType = selectedTypes[0];
+            allOptions.forEach(opt => {
+                if (opt.dataType === selectedType || opt.text === 'Package Reservation') {
+                    const option = document.createElement('option');
+                    option.text = opt.text;
+                    option.value = opt.value;
+                    if (opt.dataType) option.setAttribute('data-type', opt.dataType);
+                    if (opt.selected) option.selected = true;
+                    select.appendChild(option);
+                }
+            });
+        } else {
+            // If multiple checkboxes are selected, show only "Package Reservation"
+            const packageOption = allOptions.find(opt => opt.text === 'Package Reservation');
+            if (packageOption) {
+                const option = document.createElement('option');
+                option.text = packageOption.text;
+                option.value = packageOption.value;
+                if (packageOption.selected) option.selected = true;
+                select.appendChild(option);
+            }
+        }
+    }
+
+    // Add event listeners to checkboxes
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateSelectOptions);
+    });
+
+    // Initialize the select options on page load
+    updateSelectOptions();
 });

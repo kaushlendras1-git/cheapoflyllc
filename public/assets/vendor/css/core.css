@@ -29228,3 +29228,21 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .filepond--root .filepond--drop-label {
     min-height: 200px !important;
 }
+.add-bank i {
+  font-size: 20px;
+  color: #055bdb;
+}
+.bank-details .modal-header {
+  background-color: #055bdb;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.bank-details .modal-header h5 {
+  color: #fff;
+}
+.bank-details .modal-header button {
+  filter: invert(2);
+}
+.pointer{
+  cursor: pointer;
+}

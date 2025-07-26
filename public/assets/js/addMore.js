@@ -93,7 +93,6 @@
             newRow.dataset.index = cruiseIndex;
             newRow.innerHTML = `
                 <td><span class="cruise-title">${cruiseIndex + 1}</span></td>
-                <td><input type="date" class="form-control" style="width: 105px;" name="cruise[${cruiseIndex}][date]"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][cruise_line]" placeholder="Cruise Line"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][ship_name]" placeholder="Name of the Ship"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][category]" placeholder="Category"></td>
@@ -633,25 +632,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="2034">2034</option>
                 </select>
             </td>
-            <td><input type="text" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
-            <td><input type="text" class="form-control" placeholder="Address" name="billing[${billingIndex}][address]" value=""></td>
-            <td><input type="email" class="form-control" placeholder="Email" name="billing[${billingIndex}][email]" value=""></td>
-            <td><input type="text" class="form-control" placeholder="Contact No" name="billing[${billingIndex}][contact_no]" value=""></td>
-            <td><input type="text" class="form-control" placeholder="City" name="billing[${billingIndex}][city]" value=""></td>
+            <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
+            
             <td>
-                <select id="country-${billingIndex}" style="width:9rem" class="form-control country-select" name="billing[${billingIndex}][country]">
-                    ${cntrystr2}
+                <select id="" style="width:7.5rem"
+                    class="form-control state-select"
+                    name="billing[{{$key}}][state]">
+                    <option value="India">Select Billing</option>
+                    <option value="India">Address</option>
                 </select>
             </td>
-            <td>
-                <select id="state-${billingIndex}" style="width:7.5rem" class="form-control state-select" name="billing[${billingIndex}][state]">
-                    <option value="">Select State</option>
-                </select>
-            </td>
-            <td><input type="text" class="form-control" placeholder="ZIP Code" name="billing[${billingIndex}][zip_code]" value=""></td>
+
+            <td><input type="text" style="width: 65px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
+
             <td>
                 <select class="form-control" name="billing[${billingIndex}][currency]">
-                    <option value="">Select Currency</option>
+                    <option value="">Select </option>
                     <option value="USD">USD</option>
                     <option value="CAD">CAD</option>
                     <option value="EUR">EUR</option>
@@ -661,8 +657,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="MXN">MXN</option>
                 </select>
             </td>
-            <td><input type="number" class="form-control" placeholder="0.00" name="billing[${billingIndex}][amount]" value="0" step="0.01"></td>
-            <td><input class="form-check-input" type="radio" name="activeCard" value="${billingIndex}"></td>
+            <td> AUD<span>90909</span></td>
+          
             <td>
                 <button type="button" class="btn btn-outline-danger delete-billing-btn">
                     <i class="ri ri-delete-bin-line"></i>
@@ -779,7 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
         newRow.dataset.index = pricingIndex;
         newRow.innerHTML = `
             <td>
-                <select name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
                     <option value="">Select</option>
                     <option value="adult">Adult</option>
                     <option value="child">Child</option>
@@ -793,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="number" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
             <td><span class="net-total">0.00</span></td>
             <td>
-                <select name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
                     <option value="ticket_cost">Ticket Cost</option>
                     <option value="merchant_fee">Merchant Fee</option>

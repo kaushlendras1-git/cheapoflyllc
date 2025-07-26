@@ -9,5 +9,5 @@ class BookingStatus extends Model
 {
     protected $table = 'booking_statuses';
 
-    protected $fillable = ['name', 'color'];
+    protected $fillable = ['name', 'status'];
 }
