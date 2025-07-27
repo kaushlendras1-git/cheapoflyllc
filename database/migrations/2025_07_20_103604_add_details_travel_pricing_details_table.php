@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('travel_pricing_details', function (Blueprint $table) {
+        if (!Schema::hasColumn('travel_pricing_details', 'passenger_type')) {
             $table->string('passenger_type')->nullable();
-        });
+        }
     }
 
     /**

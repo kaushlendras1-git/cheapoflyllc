@@ -14,13 +14,13 @@ if (sessionStorage.getItem("successMessage")) {
 FilePond.registerPlugin(FilePondPluginImagePreview);
 let ponds = {};
 
-const bookingTypes = [
-    { key: 'flight', inputName: 'flightbookingimage[]' },
-    { key: 'hotel', inputName: 'hotelbookingimage[]' },
-    { key: 'cruise', inputName: 'cruisebookingimage[]' },
-    { key: 'car', inputName: 'carbookingimage[]' },
-    { key: 'train', inputName: 'trainbookingimage[]' },
-];
+// const bookingTypes = [
+//     { key: 'flight', inputName: 'flightbookingimage[]' },
+//     { key: 'hotel', inputName: 'hotelbookingimage[]' },
+//     { key: 'cruise', inputName: 'cruisebookingimage[]' },
+//     { key: 'car', inputName: 'carbookingimage[]' },
+//     { key: 'train', inputName: 'trainbookingimage[]' },
+// ];
 
 document.querySelectorAll('input[type="file"]').forEach(input => {
     ponds[input.name] = FilePond.create(input, {
@@ -98,6 +98,27 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             formdata.append(inputName, fileItem.file); // Automatically handles multiple
         });
     }
+
+    const passengerInputs = document.querySelectorAll('[name^="passenger["]');
+    passengerInputs.forEach(input => {
+        const name = input.name;
+        const value = input.value;
+        formdata.append(name, value);
+    });
+
+     const billingInputs = document.querySelectorAll('[name^="billing["]');
+     billingInputs.forEach(input => {
+        const name = input.name;
+        const value = input.value;
+    
+        // Alert when the input is for card_type
+        if (name === 'billing[card_type]') {
+            alert("Card Type Value: " + value);
+        }
+
+        formdata.append(name, value);
+     });
+
     try{
         const response = await axios.post(action, formdata, {
             headers: {
@@ -120,10 +141,11 @@ document.getElementById('saveRemark').addEventListener('click',async function (e
 
     const remark = document.querySelector('textarea[name="particulars"]');
     console.log(remark);
+    alert('s');
     try{
         const response = await axios.post(route('booking.update-remark',{id:route().params.id}),{
             remark:remark.value,
-            agent:agent.value,
+           // agent:agent.value,
         });
         let html = '';
         response.data.data.forEach(function(item,index){
@@ -144,7 +166,10 @@ document.getElementById('saveRemark').addEventListener('click',async function (e
         showToast(response.data.message);
     }
     catch (e){
-
+        console.error("AXIOS ERROR", e);
+        if (e.response) {
+            console.error("Server responded with:", e.response.data);
+        }
     }
 });
 
@@ -312,34 +337,86 @@ document.querySelector('select[name="pnrtype"]').addEventListener('change',funct
     }
 })
 
-document.getElementById('save-billing-detail').addEventListener('click',async function (e) {
-    e.preventDefault();
-    const element = document.getElementById('billing-detail-add');
-    const formdata = new FormData(element);
-    const action = element.action;
-    try{
-        const response = await axios.post(action,formdata);
-        console.log(response);
-        showToast(response.data.message);
-        document.getElementById('billing-close-modal').click();
-        element.reset();
-    }
-    catch(e){
-        console.log(e);
-        showToast(e.response.data.message,'error');
-    }
-})
+function toggleBillingTableVisibility() {
+    const tableBody = document.querySelector('#billing-table tbody');
+    const tableContainer = document.getElementById('billing-table-container');
+    const rowCount = tableBody.querySelectorAll('tr').length;
 
-Array.from(document.querySelectorAll('.deleteBillData')).forEach((el) => {
+    if (rowCount === 0) {
+        tableContainer.style.display = 'none';
+    } else {
+        tableContainer.style.display = 'block';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    toggleBillingTableVisibility(); // Initial check
+
+    document.getElementById('save-billing-detail').addEventListener('click', async function (e) {
+        e.preventDefault();
+
+        const element = document.getElementById('billing-detail-add');
+        const formdata = new FormData(element);
+        const action = element.action;
+
+        try {
+            const response = await axios.post(action, formdata);
+            showToast(response.data.message);
+            document.getElementById('billing-close-modal').click();
+            element.reset();
+
+            const data = response.data.data;
+            const tableBody = document.querySelector('#billing-table tbody');
+            const rowCount = tableBody.querySelectorAll('tr').length;
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${rowCount + 1}</td>
+                <td>${data.email}</td>
+                <td>${data.contact_number}</td>
+                <td>${data.street_address}</td>
+                <td>${data.city}</td>
+                <td>${data.state}</td>
+                <td>${data.zip_code}</td>
+                <td>${data.country}</td>
+                <td>
+                    <button class="btn btn-danger deleteBillData" data-href="/booking/billing-details/${data.id}">Delete</button>
+                </td>
+            `;
+            tableBody.appendChild(newRow);
+            attachDeleteHandler(newRow.querySelector('.deleteBillData'));
+
+            toggleBillingTableVisibility(); // 👈 After add
+        } catch (e) {
+            showToast(e?.response?.data?.message || 'Something went wrong', 'error');
+        }
+    });
+
+    Array.from(document.querySelectorAll('.deleteBillData')).forEach(attachDeleteHandler);
+});
+
+function attachDeleteHandler(el) {
     el.addEventListener('click', async e => {
         e.preventDefault();
-        const action = e.target.getAttribute('data-href');
+        const confirmed = confirm('Are you sure you want to delete this billing record?');
+        if (!confirmed) return;
+
+        const button = e.target;
+        const action = button.getAttribute('data-href');
+
         try {
             const response = await axios.delete(action);
             showToast(response.data.message);
+            const row = button.closest('tr');
+            row.remove();
+            const rows = document.querySelectorAll('#billing-table tbody tr');
+            rows.forEach((tr, index) => {
+                tr.querySelector('td').textContent = index + 1;
+            });
+
+            toggleBillingTableVisibility(); // 👈 After delete
+        } catch (e) {
+            showToast(e?.response?.data?.message || 'Failed to delete', 'error');
         }
-        catch(e){
-            showToast(e.response.data.message);
-        }
-    })
-})
+    });
+}
