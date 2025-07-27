@@ -96,16 +96,14 @@
 
      <!-- <a href="{{ route('signature.form') }}" >Authorization Link</a> -->
           
-
-        
-       
           
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
         </div>
         <div class="modal-body">
-          <form class="d-flex align-items-center justify-content-between" id="sendAuthEmail" action="{{ route('booking.auth-email.sendmail', $booking->id) }}" method="POST" style="display: flex; align-items: center; gap: 15px; font-size: 14px;">
-                    @csrf
+          
+            <form id="sendAuthEmail" action="{{ route('booking.auth-email.sendmail', $booking->id) }}" method="POST">
+            @csrf
                    <div class="d-flex align-items-center">
                      <label class="me-3" style="display: flex; align-items: center; gap: 5px;">
                         <input type="checkbox" name="subscribe" value="yes"> xxx8956
@@ -117,8 +115,9 @@
                         <input type="checkbox" name="terms" value="accepted"> All
                     </label>
                    </div>
-                    <button class="send-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
-                </form>
+                    <button class="btn btn-info send-auth-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
+            </form>
+
           <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; margin: 20px auto; background: #fff; border: 1px solid #ddd;">
             <tr>
               <td style="padding: 20px;">
