@@ -78,7 +78,8 @@ Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])-
 Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
 
 Route::prefix('booking')->name('booking.')->group(function () {
-
+    Route::post('/billing-details/{id}', [BookingFormController::class, 'billingDetails'])->name('billing-details');
+    Route::delete('/billing-details/{id}', [BookingFormController::class, 'deletebillingDetails'])->name('billing-details.destroy');
     Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');
     Route::post('/delete-remark/{id}',[BookingFormController::class,'deleteRemark'])->name('delete-remark');
     Route::get('/add', [BookingFormController::class, 'add'])->name('add');

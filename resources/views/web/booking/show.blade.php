@@ -148,14 +148,11 @@
                                 <div class="col-md-4 position-relative mb-5">
                                     <label class="form-label"> PNR Type</label>
                                     <select class="form-control" name="pnrtype">
-                                        <option value=""
-                                            {{ old('pnrtype', $booking->pnrtype ?? '') === '' ? 'selected' : '' }}>
-                                            Select</option>
-                                        <option value="HK"
-                                            {{ old('pnrtype', $booking->pnrtype ?? '') === 'HK' ? 'selected' : '' }}>
+                                        <option value="">Select</option>
+                                        <option value="HK" {{$booking->pnrtype == 'HK'?'selected':''}}>
                                             HK</option>
                                         <option value="GK"
-                                            {{ old('pnrtype', $booking->pnrtype ?? '') === 'GK' ? 'selected' : '' }}>
+                                            {{$booking->pnrtype == 'GK'?'selected':''}}>
                                             GK</option>
                                     </select>
                                 </div>
@@ -1215,29 +1212,25 @@
                                     <th>State</th>
                                     <th>Zip code</th>
                                     <th>Country</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>admin@example.com</td>
-                                    <td>9874563210</td>
-                                    <td></td>
-                                    <td>USA</td>
-                                    <td>fgfhfyjh</td>
-                                    <td>120120</td>
-                                    <td>United</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>admin@example.com</td>
-                                    <td>9874563210</td>
-                                    <td></td>
-                                    <td>USA</td>
-                                    <td>fgfhfyjh</td>
-                                    <td>120120</td>
-                                    <td>United</td>
-                                </tr>
+                                @foreach($billingData as $key=>$bill)
+                                    <tr>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$bill->email}}</td>
+                                        <td>{{$bill->contact_number}}</td>
+                                        <td>{{$bill->street_address}}</td>
+                                        <td>{{$bill->city}}</td>
+                                        <td>{{$bill->state}}</td>
+                                        <td>{{$bill->zip_code}}</td>
+                                        <td>{{$bill->country}}</td>
+                                        <td>
+                                            <button class="btn btn-danger deleteBillData" data-href="{{route('booking.billing-details.destroy',['id'=>$bill->id])}}">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>
@@ -1250,18 +1243,10 @@
                                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                                 </svg>
                             </button>
-                            <!-- <div>
-                            <button type="button" class="btn btn-outline-secondary btn-sm submit-paylink-btn">Submit
-                                Paylink</button>
-                        </div> -->
                         </div>
                         <div class="card-body p-0">
                             <div class="row g-3 align-items-center">
                                 <div class="col-md-12 table-responsive details-table-wrappper">
-
-
-
-
                                     <table id="billingTable" class="table">
                                         <thead>
                                             <tr>
@@ -1272,13 +1257,6 @@
                                                 <th>Exp Month</th>
                                                 <th>Exp Year</th>
                                                 <th>CVV</th>
-                                                <!-- <th>Address</th>
-                                            <th>Email</th>
-                                            <th>Contact No</th>
-                                            <th>City</th>
-                                            <th>Country</th>
-                                            <th>State</th>
-                                            <th>ZIP Code</th> -->
                                                 <th>Billing </th>
                                                 <th>Authorized Amt.<br> (USD)</th>
                                                 <th>Currency</th>
@@ -1366,7 +1344,7 @@
                                                     class="form-control country-select"
                                                     name="billing[{{$key}}][country]">
                                                     <option value="India">Select Country</option>
-                                                    <!-- Populated by JavaScript -->
+                                                    Populated by JavaScript -->
                                                 </select>
                                                 </td>
                                                 <td>
@@ -1407,7 +1385,9 @@
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td> AUD<span>90909</span></td>
+                                                <td> AUD<span>90909</span>
+                                                    <input value="0" name="billing[{{$key}}][amount]" type="hidden" />
+                                                </td>
 
                                                 <td>
 
@@ -1868,44 +1848,45 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Bank Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="billing-close-modal"></button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="{{route('booking.billing-details',['id'=>$booking->id])}}" id="billing-detail-add">
+                    @csrf
                     <div class="row booking-form">
                         <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Emial <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr">
+                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="email">
                         </div>
                         <div class="col-md-3 position-relative mb-5">
                             <label class="form-label">Conatct No. <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr">
+                            <input type="text" class="form-control" name="contact_number">
                         </div>
                         <div class="col-md-3 position-relative mb-5">
                             <label class="form-label">Street Address <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr">
+                            <input type="text" class="form-control" name="street_address">
                         </div>
                         <div class="col-md-3 position-relative mb-5">
                             <label class="form-label">City <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr">
+                            <input type="text" class="form-control" name="city">
                         </div>
                         <div class="col-md-3 position-relative">
                             <label class="form-label">State <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr">
+                            <input type="text" class="form-control" name="state">
                         </div>
                         <div class="col-md-3 position-relative">
                             <label class="form-label">Zip Code <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr">
+                            <input type="text" class="form-control" name="zip_code">
                         </div>
                         <div class="col-md-3 position-relative">
                             <label class="form-label">Country <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr">
+                            <input type="text" class="form-control" name="country">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer justify-content-start">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" id="save-billing-detail">Save</button>
             </div>
         </div>
     </div>

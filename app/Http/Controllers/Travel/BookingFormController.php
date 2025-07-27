@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Travel;
 
 use App\Http\Controllers\Controller;
+use App\Models\BillingDetail;
 use App\Models\TravelTrainDetail;
 use App\Utils\JsonResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Models\TravelBooking;
@@ -49,6 +51,92 @@ class BookingFormController extends Controller
         $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
     }
 
+    public function billingDetails(Request $request,$id){
+        try{
+            $data = $request->validate([
+                'email'=>'required|email',
+                'contact_number'=>'required|regex:/^\d{10}$/',
+                'street_address'=>'required',
+                'city'=>'required',
+                'state'=>'required',
+                'zip_code'=>'required|regex:/^\d{6}$/',
+                'country'=>'required',
+            ],[
+                'email.required' => 'The email field is required.',
+                'email.email' => 'Please enter a valid email address.',
+                'contact_number.required' => 'The contact number is required.',
+                'contact_number.regex' => 'Please enter a valid 10-digit contact number.',
+                'street_address.required' => 'The street address is required.',
+                'city.required' => 'The city is required.',
+                'state.required' => 'The state is required.',
+                'zip_code.required' => 'The zip code is required.',
+                'zip_code.regex' => 'Please enter a valid 6-digit zip code.',
+                'country.required' => 'The country is required.',
+            ]);
+            $data['booking_id'] = $id;
+            $insert = BillingDetail::create($data);
+            return response()->json([
+                'status'=>'success',
+                'code'=>201,
+                'message'=>'Billing Details Added Successfully',
+                'data'=>$insert
+            ],201);
+        }
+        catch (ValidationException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>$e->validator->errors()->first(),
+                'code'=>'422'
+            ],422);
+        }
+        catch (QueryException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Failed to query',
+                'code'=>'500'
+            ],500);
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Something went wrong',
+                'code'=>'500'
+            ],500);
+        }
+    }
+
+    public function deletebillingDetails($id){
+        try{
+            $destroy = BillingDetail::findOrFail($id);
+            $destroy->delete();
+            return response()->json([
+                'status'=>'success',
+                'message'=>'Billing Details Deleted Successfully',
+                'code'=>'200'
+            ],200);
+        }
+        catch(ModelNotFoundException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Billing Details not found',
+                'code'=>'404'
+            ],404);
+        }
+        catch(QueryException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Failed to query',
+                'code'=>'500'
+            ],500);
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Something went wrong',
+                'code'=>'500'
+            ],500);
+        }
+    }
     public function index(Request $request)
     {
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
@@ -155,9 +243,8 @@ class BookingFormController extends Controller
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
 
-
         try {
-           $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                     'pnr' => 'required|string|max:255',
                     'hotel_ref' => 'nullable|string|max:255',
                     'cruise_ref' => 'nullable|string|max:255',
@@ -193,7 +280,6 @@ class BookingFormController extends Controller
                     'billing.*.exp_month' => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
                     'billing.*.exp_year' => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
                     'billing.*.cvv' => 'required|string|max:5',
-                
                     //     'billing.*.address' => 'required|string|max:255',
                     //     'billing.*.email' => 'required|email|max:255',
                     //     'billing.*.contact_no' => 'required|string|max:20',
@@ -201,9 +287,8 @@ class BookingFormController extends Controller
                     //    'billing.*.country' => 'required|string|max:255',
                     //    'billing.*.state' => 'required|string|max:255',
                     //     'billing.*.zip_code' => 'required|string|max:10',
-
                     'billing.*.currency' => 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
-                    'billing.*.amount' => 'required|numeric|min:0',
+                    'billing.*.amount' => 'required|string',
 
                     'pricing' => 'required|array|min:1',
                     'pricing.*.passenger_type' => 'required|string|in:adult,child,infant_on_lap,infant_on_seat',
@@ -272,9 +357,9 @@ class BookingFormController extends Controller
                 'pricing.*.net_price.min' => 'Pricing Net price cannot be negative.',
                 'pricing.*.details.required' => 'Pricing Details field is required.',
             ]
-           );
+            );
 
-           $validator->after(function ($validator) use ($request) {
+            $validator->after(function ($validator) use ($request) {
             $billings = $request->input('billing', []);
 
             //dd($request->all());
@@ -302,13 +387,11 @@ class BookingFormController extends Controller
             }
         });
 
-            // Trigger validation (throws ValidationException on failure)
             $validator->validate();
             $user_id =Auth::id();
 
-            //DB::beginTransaction();
+            DB::beginTransaction();
 
-            // Update TravelBooking
             $booking = TravelBooking::findOrFail($id);
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
@@ -318,11 +401,9 @@ class BookingFormController extends Controller
             $bookingData['shift_id'] = 2;
             $bookingData['team_id'] = 2;
             $bookingData['user_id'] = $user_id;
-            // Perform the update
             $booking->update($bookingData);
 
 
-            // Update or Create Booking Types
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();
             $newBookingTypes = $request->input('booking-type', []);
             $processedBookingTypeIds = [];
@@ -346,10 +427,9 @@ class BookingFormController extends Controller
                 ->delete();
 
 
-             // Update or Create Passengers
             $passengers = collect($request->input('passenger', []))
                 ->filter(function ($data) {
-                return collect($data)->filter()->isNotEmpty(); // Skip empty rows
+                return collect($data)->filter()->isNotEmpty();
             });
 
             $processedPassengerIds = [];
@@ -366,12 +446,9 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedPassengerIds)
                 ->delete();
 
-            // Update or Create Flight Details
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
-
-          
 
             foreach ($newFlights as $flightData) {
 
@@ -397,14 +474,10 @@ class BookingFormController extends Controller
                 $processedFlightIds[] = $flight->id;
             }
 
-            
-
-            // Delete unprocessed (removed) flight records
             TravelFlightDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedFlightIds)
                 ->delete();
 
-            // Update or Create Hotel Details
             $existingHotelIds = $booking->travelHotel->pluck('id')->toArray();
             $newHotels = $request->input('hotel', []);
             $processedHotelIds = [];
@@ -448,7 +521,6 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedHotelIds)
                 ->delete();
 
-            // Update or Create Cruise Details
             $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
             $newCruises = $request->input('cruise', []);
             $processedCruiseIds = [];
@@ -491,7 +563,6 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedCruiseIds)
                 ->delete();
 
-            // Update or Create Car Details
             $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
             $newCars = $request->input('car', []);
             $processedCarIds = [];
@@ -518,7 +589,6 @@ class BookingFormController extends Controller
                 $processedCarIds[] = $car->id;
             }
 
-            // Delete removed car details
             TravelCarDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedCarIds)
                 ->delete();
@@ -545,7 +615,6 @@ class BookingFormController extends Controller
                     $trainData
                 );
             }
-            // Update or Create Billing Details
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
@@ -561,45 +630,34 @@ class BookingFormController extends Controller
                     $processedBillingIds[] = $billing->id;
                 }
 
-            // Delete unprocessed billings
             TravelBillingDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedBillingIds)
                 ->delete();
 
+            $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
+            $newPricings = $request->input('pricing', []);
+            $processedPricingIds = [];
 
-            // Update or Create Pricing Details
-                $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
-                $newPricings = $request->input('pricing', []);
-                $processedPricingIds = [];
-
-                foreach ($newPricings as $index => $pricingData) {
-                    // Skip if required fields are missing (e.g., passenger_type is blank)
-                    if (empty($pricingData['passenger_type'])) {
-                        continue;
-                    }
-
-                    $pricingData['booking_id'] = $booking->id;
-
-                    $pricing = TravelPricingDetail::updateOrCreate(
-                        ['id' => $pricingData['id'] ?? null, 'booking_id' => $booking->id],
-                        $pricingData
-                    );
-
-                    $processedPricingIds[] = $pricing->id;
+            foreach ($newPricings as $index => $pricingData) {
+                // Skip if required fields are missing (e.g., passenger_type is blank)
+                if (empty($pricingData['passenger_type'])) {
+                    continue;
                 }
 
-                // Delete pricing details that were not submitted in the new request
-                TravelPricingDetail::where('booking_id', $booking->id)
-                    ->whereNotIn('id', $processedPricingIds)
-                    ->delete();
+                $pricingData['booking_id'] = $booking->id;
 
+                $pricing = TravelPricingDetail::updateOrCreate(
+                    ['id' => $pricingData['id'] ?? null, 'booking_id' => $booking->id],
+                    $pricingData
+                );
 
+                $processedPricingIds[] = $pricing->id;
+            }
 
+            TravelPricingDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedPricingIds)
+                ->delete();
 
-
-            ########################pricing error###################################
-
-            // Update or Create Sector Details (file uploads)
             if ($request->hasFile('sector_details')) {
                 foreach ($request->file('sector_details') as $file) {
                     $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
@@ -612,25 +670,21 @@ class BookingFormController extends Controller
                 }
             }
 
-
-
-
-           // DB::commit();
+            DB::commit();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Booking updated successfully',
                 'code'=>201
             ],201);
-           //return redirect()->route('booking.show', ['id' => $id])->with('success', 'Booking updated successfully.');
         }
         catch(ValidationException $e){
             return JsonResponse::error($e->validator->errors()->first(),422,'422');
         }
         catch(QueryException $e){
-            return JsonResponse::error('Failed to Query'.$e,500,'500');
+            return JsonResponse::error('Failed to Query',500,'500');
         }
         catch(\Exception $e){
-            \Log::error('Update Booking Error: '.$e->getMessage(), [
+            \Log::error('Update Booking Error', [
                 'line' => $e->getLine(),
                 'file' => $e->getFile(),
                 'trace' => $e->getTraceAsString()
@@ -668,7 +722,8 @@ class BookingFormController extends Controller
         $booking_status = BookingStatus::where('status',1)->get();
         $payment_status = PaymentStatus::where('status',1)->get();
         $campaigns = Campaign::where('status',1)->get();
-        return view('web.booking.show', compact('booking', 'hashids','booking_status','payment_status','campaigns'));
+        $billingData = BillingDetail::where('booking_id',$booking->id)->get();
+        return view('web.booking.show', compact('booking', 'hashids','booking_status','payment_status','campaigns','billingData'));
     }
 
 

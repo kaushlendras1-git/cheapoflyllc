@@ -23,7 +23,7 @@ $('.country-select').on('change',async function(e){
 });
 
 $('#bookingForm').submit(async function(e){
-    e.preventDefault();
+    console.log();
     const formdata =  new FormData(e.target);
     try{
         const response = await axios.post(e.target.action,formdata);
