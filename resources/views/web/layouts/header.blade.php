@@ -19,7 +19,7 @@
     <!-- <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script> -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
     @routes
-    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('head')
 
 </head>

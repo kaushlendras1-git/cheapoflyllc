@@ -16,7 +16,7 @@ class AuthEmailController extends Controller
         try{
             $booking = TravelBooking::findOrFail($id);
             #Mail::to($booking->email)->send(new AuthEmail($booking));
-            return JsonResponse::success('Booking form submitted successfully.', 201,'201');
+            return JsonResponse::success('Auth Email sent successfully.', 201,'201');
         }
         catch(ValidationException $e){
             return JsonResponse::error($e->validator->errors()->first(),422,'422');

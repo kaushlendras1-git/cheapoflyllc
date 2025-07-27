@@ -89,7 +89,7 @@ Route::prefix('booking')->name('booking.')->group(function () {
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
 
     Route::prefix('auth-email')->name('auth-email.')->group(function () {
-        Route::get('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail');
+        Route::post('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail'); // this is correct
     });
 
     Route::prefix('mail')->name('mail.')->group(function () {

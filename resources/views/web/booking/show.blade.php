@@ -35,10 +35,6 @@
 <span id="train_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->trainbookingimage}}"></span>
 
 
-<form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-    <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
             <h2 class="mb-0">Edit Booking</h2>
@@ -69,7 +65,11 @@
                         </a>
                     </div>
                 </div>
-
+                
+<form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+    <!-- Content -->
 
                 @include('web.layouts.flash')
                 @php
@@ -341,6 +341,7 @@
 
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs tabs-booked" id="bookingTabs" role="tablist">
+                
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
                         aria-controls="passenger" aria-selected="true">
@@ -355,24 +356,28 @@
                         aria-controls="flightbooking" aria-selected="true"><i class="ri ri-flight-takeoff-line"
                             title="Flight" style="color: #1e90ff; font-size: 28px;"></i></a>
                 </li>
+
                 <li class="nav-item" role="presentation" data-tab="Hotel"
                     style="{{ in_array('Hotel', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                     <a class="nav-link" id="hotelbooking-tab" data-bs-toggle="tab" href="#hotelbooking" role="tab"
                         aria-controls="hotelbooking" aria-selected="true"><i class="ri ri-hotel-fill" title="Hotel"
                             style="color: #8b4513; font-size: 28px;"></i></a>
                 </li>
+
                 <li class="nav-item" role="presentation" data-tab="Cruise"
                     style="{{ in_array('Cruise', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                     <a class="nav-link" id="cruisebooking-tab" data-bs-toggle="tab" href="#cruisebooking" role="tab"
                         aria-controls="cruisebooking" aria-selected="true"><i class="ri ri-ship-fill" title="Cruise"
                             style="color: #006994; font-size: 28px;"></i></a>
                 </li>
+
                 <li class="nav-item" role="presentation" data-tab="Car"
                     style="{{ in_array('Car', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                     <a class="nav-link" id="carbooking-tab" data-bs-toggle="tab" href="#carbooking" role="tab"
                         aria-controls="carbooking" aria-selected="true"><i class="ri ri-car-fill" title="Car"
                             style="color: #228b22; font-size: 28px;"></i></a>
                 </li>
+
                 <li class="nav-item" role="presentation" data-tab="Train"
                     style="{{ in_array('Train', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                     <a class="nav-link" id="trainbooking-tab" data-bs-toggle="tab" href="#trainbooking" role="tab"
@@ -384,12 +389,6 @@
                     <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
                         aria-controls="billing" aria-selected="false">
                         <i class="ri ri-bank-line" style="font-size: 28px; color: #2e8b57;" title="Pricing"></i>
-             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
-                    aria-controls="billing" aria-selected="false">
-                                    <i class="ri ri-bank-line" style="font-size: 28px; color: #2e8b57;" title="Pricing"></i>
-
-
                     </a>
                 </li>
 
@@ -1244,7 +1243,7 @@
 
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-header border-0 p-0">Card Details</h5>
+                            <h5 class="card-header border-0 p-0">Card Details   $1052</h5>
                             <button class="btn btn-primary" type="button" id="billing-booking-button">
                                 <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
                                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -1420,6 +1419,15 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+
+
+
+
+
+
+
+
+
                                 </div>
                             </div>
                         </div>

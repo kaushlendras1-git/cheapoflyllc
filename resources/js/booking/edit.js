@@ -114,7 +114,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     });
 
     if (!passengerAdded) {
-        showToast("Please provide at least one passenger", "error");
+        showToast("Please provide at least one passengers", "error");
         return;
     }
 
@@ -400,3 +400,26 @@ document.querySelector('select[name="pnrtype"]').addEventListener('change',funct
         });
     }
 })
+
+document.querySelector('.send-auth-btn').addEventListener('click', async function (e) {
+    e.preventDefault();
+    const form = document.getElementById('sendAuthEmail');
+    const action = form.action;
+    const formData = new FormData(form);
+
+    try {
+        const response = await axios.post(action, formData); // No need to manually set headers
+        showToast(response.data.message || 'Authorization email sent successfully!');
+        const modalEl = document.getElementById('sendMailModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+    } catch (error) {
+        console.error('Error:', error);
+
+        let message = 'Failed to send authorization email.';
+        if (error.response?.data?.message) {
+            message = error.response.data.message;
+        }
+        showToast(message);
+    }
+});
