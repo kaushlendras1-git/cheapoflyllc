@@ -275,7 +275,6 @@
                                 <option data-type="Train">Name Correction</option>
                                 <option data-type="Train">Change in Number of Travelers</option>
                                 <option data-type="Train">Upgrading Seat Class or Service</option>
-                                <option>
                                 <option data-type="Train">Seat Assignment or Preference Request</option>
                                 <option data-type="Train">Missed Connections</option>
                                 <option data-type="Train">Cancellation for Future Credits</option>
@@ -1828,10 +1827,7 @@
                     <div class="card p-4">
                         <div class="mb-4">
                             <h5 class="card-header border-0 p-0 mb-4 detail-passanger">Screenshots</h5>
-                            <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                            <div class="upload-file position-relative">
-                                {{--                                <label for="screenshots-upload">Upload Files</label>--}}
-                            </div>
+                                <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
                         </div>
                         <div class="card-body p-0">
                             @if($booking->screenshots->isNotEmpty())

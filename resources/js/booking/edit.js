@@ -14,13 +14,13 @@ if (sessionStorage.getItem("successMessage")) {
 FilePond.registerPlugin(FilePondPluginImagePreview);
 let ponds = {};
 
-// const bookingTypes = [
-//     { key: 'flight', inputName: 'flightbookingimage[]' },
-//     { key: 'hotel', inputName: 'hotelbookingimage[]' },
-//     { key: 'cruise', inputName: 'cruisebookingimage[]' },
-//     { key: 'car', inputName: 'carbookingimage[]' },
-//     { key: 'train', inputName: 'trainbookingimage[]' },
-// ];
+const bookingTypes = [
+    { key: 'flight', inputName: 'flightbookingimage[]' },
+    { key: 'hotel', inputName: 'hotelbookingimage[]' },
+    { key: 'cruise', inputName: 'cruisebookingimage[]' },
+    { key: 'car', inputName: 'carbookingimage[]' },
+    { key: 'train', inputName: 'trainbookingimage[]' },
+];
 
 document.querySelectorAll('input[type="file"]').forEach(input => {
     ponds[input.name] = FilePond.create(input, {
@@ -34,13 +34,13 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
     });
 });
 
-const bookingTypes = [
-    { key: 'flight', inputName: 'flightbookingimage[]' },
-    { key: 'hotel', inputName: 'hotelbookingimage[]' },
-    { key: 'cruise', inputName: 'cruisebookingimage[]' },
-    { key: 'car', inputName: 'carbookingimage[]' },
-    { key: 'train', inputName: 'trainbookingimage[]' },
-];
+// const bookingTypes = [
+//     { key: 'flight', inputName: 'flightbookingimage[]' },
+//     { key: 'hotel', inputName: 'hotelbookingimage[]' },
+//     { key: 'cruise', inputName: 'cruisebookingimage[]' },
+//     { key: 'car', inputName: 'carbookingimage[]' },
+//     { key: 'train', inputName: 'trainbookingimage[]' },
+// ];
 
 bookingTypes.forEach(({ key, inputName }) => {
     const span = document.getElementById(`${key}_uploaded_files`);
@@ -73,6 +73,14 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     const action = e.target.action;
     const formdata = new FormData(e.target);
 
+    
+    const flightInputs = document.querySelectorAll('[name^="flight["]');
+    flightInputs.forEach(input => {
+        const name = input.name;
+        const value = input.value;
+        formdata.append(name, value);
+    });
+
     const hotelInputs = document.querySelectorAll('[name^="hotel["]');
     hotelInputs.forEach(input => {
         const name = input.name;
@@ -92,6 +100,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         const value = input.value;
         formdata.append(name, value);
     });
+
     for (const inputName in ponds) {
         const pond = ponds[inputName];
         pond.getFiles().forEach(fileItem => {
@@ -99,26 +108,14 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         });
     }
 
-    const passengerInputs = document.querySelectorAll('[name^="passenger["]');
-    passengerInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
+    ['passenger', 'billing', 'pricing'].forEach(prefix => {
+        const inputs = document.querySelectorAll(`[name^="${prefix}["]`);
+        inputs.forEach(input => {
+            formdata.append(input.name, input.value);
+        });
     });
 
-     const billingInputs = document.querySelectorAll('[name^="billing["]');
-     billingInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
     
-        // Alert when the input is for card_type
-        if (name === 'billing[card_type]') {
-            alert("Card Type Value: " + value);
-        }
-
-        formdata.append(name, value);
-     });
-
     try{
         const response = await axios.post(action, formdata, {
             headers: {

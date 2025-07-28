@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Exports\BookingsExport;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Illuminate\Validation\Rule;
 
 
 class BookingFormController extends Controller
@@ -244,61 +244,112 @@ class BookingFormController extends Controller
         }
 
         try {
-            $validator = Validator::make($request->all(), [
-                    'pnr' => 'required|string|max:255',
-                    'hotel_ref' => 'nullable|string|max:255',
-                    'cruise_ref' => 'nullable|string|max:255',
-                    'name' => 'required|string|max:255',
-                    'phone' => 'required|string|max:20',
-//                    'email' => 'required|email|max:255',
-                    'query_type' => 'nullable|string|max:255',
-                    'selected_company' => 'required|string|max:255',
-                    'booking_status_id' => 'nullable',
-                    'payment_status_id' => 'nullable',
-                    'reservation_source' => 'nullable|string|max:255',
-                    'descriptor' => 'nullable|string|max:255',
-                    'amadeus_sabre_pnr' => 'nullable|string|max:255',
-                    'sector_details.*' => 'required|file|image|max:2048',
-                    
-                    'passenger' => 'required|array|min:1',
-                    'passenger.*.passenger_type' => 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant',
-                    'passenger.*.gender' => 'required|string|in:Male,Female,Other',
-                    'passenger.*.title' => 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss',
-                    'passenger.*.first_name' => 'required|string',
-                    'passenger.*.middle_name' => 'nullable|string',
-                    'passenger.*.last_name' => 'required|string',
-                    'passenger.*.dob' => 'required|date|before:today',
-                    'passenger.*.seat_number' => 'nullable|string',
-                    'passenger.*.credit_note' => 'nullable|numeric',
-                    'passenger.*.e_ticket_number' => 'nullable|string',
+           
+            $bookingTypes = $request->input('booking-type', []);
+            
+            $rules = [
+                'booking-type' => 'required|array|min:1',
+                'booking-type.*' => 'in:Flight,Hotel,Cruise,Car,Train',
+                'pnr' => 'required|string|max:255',
+                'hotel_ref' => 'nullable|string|max:255',
+                'cruise_ref' => 'nullable|string|max:255',
+                'name' => 'required|string|max:255',
+                'phone' => 'required|string|max:20',
+                'query_type' => 'nullable|string|max:255',
+                'selected_company' => 'required|string|max:255',
+                'booking_status_id' => 'nullable',
+                'payment_status_id' => 'nullable',
+                'reservation_source' => 'nullable|string|max:255',
+                'descriptor' => 'nullable|string|max:255',
+                'amadeus_sabre_pnr' => 'nullable|string|max:255',
+                'sector_details.*' => 'required|file|image|max:2048',
 
-                    'billing' => 'required|array|min:1',
-                    'billing.*.card_type' => 'required',
-                    'billing.*.cc_number' => 'required|string|max:255',
-                    'billing.*.cc_holder_name' => 'required|string|max:255',
-                    'billing.*.cc_holder_name' => ['required','string','max:255','regex:/^[A-Za-z\s]+$/'],
-                    'billing.*.exp_month' => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
-                    'billing.*.exp_year' => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
-                    'billing.*.cvv' => 'required|string|max:4',
-                    'billing.*.currency' => 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
-                    'billing.*.amount' => 'required|string',
+                'passenger' => 'required|array|min:1',
+                'passenger.*.passenger_type' => 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant',
+                'passenger.*.gender' => 'required|string|in:Male,Female,Other',
+                'passenger.*.title' => 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss',
+                'passenger.*.first_name' => 'required|string',
+                'passenger.*.middle_name' => 'nullable|string',
+                'passenger.*.last_name' => 'required|string',
+                'passenger.*.dob' => 'required|date|before:today',
+                'passenger.*.seat_number' => 'nullable|string',
+                'passenger.*.credit_note' => 'nullable|numeric',
+                'passenger.*.e_ticket_number' => 'nullable|string',
 
-                    'pricing' => 'required|array|min:1',
-                    'pricing.*.passenger_type' => 'required|string|in:adult,child,infant_on_lap,infant_on_seat',
-                    'pricing.*.num_passengers' => 'required|integer|min:1',
-                    'pricing.*.gross_price' => 'required|numeric|min:0',
-                    'pricing.*.net_price' => 'required|numeric|min:0',
-                    'pricing.*.details' => 'required|string',
-                ],
-                [
+              /*
+                // Flight-specific validations
+                'flight' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|array|min:1',
+                'flight.*.direction' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|in:Inbound,Outbound',
+                'flight.*.departure_date' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|date|after_or_equal:today',
+                'flight.*.airline_code' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|size:2', // Corrected to size:2
+                'flight.*.flight_number' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|max:10',
+                'flight.*.cabin' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|in:Economy,Premium Economy,Business,First',
+                'flight.*.class_of_service' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|max:3',
 
+                // Hotel-specific validations
+                'hotel' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|array|min:1',
+                'hotel.*.hotel_name' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|string|max:255',
+                'hotel.*.room_category' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|string|max:255',
+                'hotel.*.checkin_date' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|date|after_or_equal:today',
+                'hotel.*.checkout_date' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|date|after:hotel.*.checkin_date',
+
+                // Cruise-specific validations
+                'cruise' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|array|min:1',
+                'cruise.*.cruise_line' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
+                'cruise.*.ship_name' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
+                'cruise.*.category' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
+                'cruise.*.stateroom' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
+                'cruise.*.departure_port' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
+
+                // Car-specific validations
+                'car' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|array|min:1',
+                'car.*.car_rental_provider' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
+                'car.*.car_type' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
+                'car.*.pickup_location' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
+                'car.*.dropoff_location' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
+                'car.*.dropoff_date' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|date|after_or_equal:today',
+                'car.*.dropoff_time' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|date_format:H:i',
+                'car.*.confirmation_number' => 'nullable|string|max:255',
+                'car.*.remarks' => 'nullable|string|max:255',
+                'car.*.rental_provider_address' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
+
+                // Train-specific validations
+                'train' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|array|min:1',
+                'train.*.direction' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|in:One Way,Round Trip',
+                'train.*.departure_date' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|date|after_or_equal:today',
+                'train.*.train_number' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|max:255',
+                'train.*.cabin' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|in:Economy,Sleeper,Business,First',
+                'train.*.departure_station' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|max:255',
+                
+                */
+               
+                'billing' => 'required|array|min:1',
+                'billing.*.card_type' => 'required|string|in:VISA,MasterCard,AMEX,Discover',
+                'billing.*.cc_number' => 'required|string|max:255',
+                'billing.*.cc_holder_name' => ['required', 'string', 'max:255', 'regex:/^[A-Za-z\s]+$/'],
+                'billing.*.exp_month' => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
+                'billing.*.exp_year' => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
+                'billing.*.cvv' => 'required|string|max:4',
+                'billing.*.currency' => 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
+                'billing.*.amount' => 'required|numeric|min:1', // Changed from string to numeric for consistency
+
+                'pricing' => 'required|array|min:1',
+                'pricing.*.passenger_type' => 'required|string|in:adult,child,infant_on_lap,infant_on_seat',
+                'pricing.*.num_passengers' => 'required|integer|min:1',
+                'pricing.*.gross_price' => 'required|numeric|min:0',
+                'pricing.*.net_price' => 'required|numeric|min:0',
+                'pricing.*.details' => 'required|string',
+
+            ];
+
+            $messages = [
+                'booking-type.*.in' => 'Each booking type must be one of: Flight, Hotel, Cruise, Car, Train.',
                 'passenger.required' => 'Please provide at least one passenger.',
                 'passenger.*.passenger_type.required' => 'Passenger type is required.',
                 'passenger.*.passenger_type.in' => 'Passenger type must be Adult, Child, Infant, Lap Infant, Seat Infant.',
                 'passenger.*.gender.required' => 'Passenger Gender is required.',
                 'passenger.*.gender.in' => 'Passenger Gender must be Male, Female, or Other.',
-                'passenger.*.title.required' => 'Passenger Title is required (e.g., Mr, Ms, Mrs, Dr).',
-                'passenger.*.title.in' => 'Passenger Title must be one of: Mr, Ms, Mrs, Dr.',
+                'passenger.*.title.in' => 'Passenger Title must be one of: Mr, Ms, Mrs, Dr, Master, Miss.',
                 'passenger.*.first_name.required' => 'Passenger First name is required.',
                 'passenger.*.last_name.required' => 'Passenger Last name is required.',
                 'passenger.*.dob.required' => 'Passenger Date of birth is required.',
@@ -310,31 +361,15 @@ class BookingFormController extends Controller
                 'billing.*.card_type.required' => 'Billing Card type is required.',
                 'billing.*.card_type.in' => 'Billing Card type must be one of: VISA, MasterCard, AMEX, Discover.',
                 'billing.*.cc_number.required' => 'Billing Card number is required.',
-                'billing.*.cc_number.digits_between' => 'Billing Card number must be between 13 and 19 digits.',
-
                 'billing.*.cc_holder_name.required' => 'Billing Card holder name is required.',
                 'billing.*.cc_holder_name.regex' => 'Card holder name must only contain letters and spaces.',
-
                 'billing.*.exp_month.required' => 'Billing Expiration month is required.',
-                'billing.*.exp_month.digits' => 'Billing Expiration month must be 2 digits.',
                 'billing.*.exp_year.required' => 'Billing Expiration year is required.',
-                'billing.*.exp_year.digits' => 'Billing Expiration year must be 4 digits.',
                 'billing.*.cvv.required' => 'Billing CVV is required.',
-                'billing.*.cvv.digits_between' => 'Billing CVV must be 3 or 4 digits.',
-                'billing.*.address.required' => 'Billing address is required.',
-                'billing.*.email.required' => 'Billing email is required.',
-                'billing.*.email.email' => 'Billing email must be a valid email address.',
-                'billing.*.contact_no.required' => 'Billing Contact number is required.',
-                'billing.*.contact_no.digits_between' => 'Billing Contact number must be between 8 and 15 digits.',
-                'billing.*.city.required' => 'Billing City is required.',
-                'billing.*.country.required' => 'Billing Country is required.',
-                'billing.*.zip_code.required' => 'Billing Zip code is required.',
                 'billing.*.currency.required' => 'Billing Currency is required.',
-                'billing.*.currency.size' => 'Billing Currency must be a 3-letter code (e.g., USD, EUR).',
                 'billing.*.amount.required' => 'Billing Amount is required.',
                 'billing.*.amount.numeric' => 'Billing Amount must be a valid number.',
                 'billing.*.amount.min' => 'Billing Amount must be at least 1.',
-
 
                 'pricing.required' => 'Please provide at least one pricing entry.',
                 'pricing.*.passenger_type.required' => 'Pricing Passenger type is required.',
@@ -349,38 +384,106 @@ class BookingFormController extends Controller
                 'pricing.*.net_price.numeric' => 'Pricing Net price must be a valid number.',
                 'pricing.*.net_price.min' => 'Pricing Net price cannot be negative.',
                 'pricing.*.details.required' => 'Pricing Details field is required.',
-            ]
-            );
 
-            $validator->after(function ($validator) use ($request) {
-            $billings = $request->input('billing', []);
+                // Flight-specific error messages
+                'flight.required_if' => 'Flight details are required when booking type is Flight.',
+                'flight.*.direction.required_if' => 'Flight direction is required.',
+                'flight.*.direction.in' => 'Flight direction must be Inbound or Outbound.',
+                'flight.*.departure_date.required_if' => 'Flight departure date is required.',
+                'flight.*.departure_date.date' => 'Flight departure date must be a valid date.',
+                'flight.*.departure_date.after_or_equal' => 'Flight departure date must be today or later.',
+                'flight.*.airline_code.required_if' => 'Flight airline code is required.',
+                'flight.*.airline_code.size' => 'Flight airline code must be exactly 2 characters.',
+                'flight.*.flight_number.required_if' => 'Flight number is required.',
+                'flight.*.cabin.required_if' => 'Flight cabin is required.',
+                'flight.*.cabin.in' => 'Flight cabin must be Economy, Premium Economy, Business, or First.',
+                'flight.*.class_of_service.required_if' => 'Flight class of service is required.',
 
-            //dd($request->all());
+                // Hotel-specific error messages
+                'hotel.required_if' => 'Hotel details are required when booking type is Hotel.',
+                'hotel.*.hotel_name.required_if' => 'Hotel name is required.',
+                'hotel.*.room_category.required_if' => 'Hotel room category is required.',
+                'hotel.*.checkin_date.required_if' => 'Hotel check-in date is required.',
+                'hotel.*.checkin_date.date' => 'Hotel check-in date must be a valid date.',
+                'hotel.*.checkin_date.after_or_equal' => 'Hotel check-in date must be today or later.',
+                'hotel.*.checkout_date.required_if' => 'Hotel check-out date is required.',
+                'hotel.*.checkout_date.date' => 'Hotel check-out date must be a valid date.',
+                'hotel.*.checkout_date.after' => 'Hotel check-out date must be after check-in date.',
 
-            foreach ($billings as $index => $billing) {
-                $cardType = strtoupper($billing['card_type'] ?? '');
-                $ccNumber = preg_replace('/\D/', '', $billing['cc_number'] ?? '');
-                $cvv = preg_replace('/\D/', '', $billing['cvv'] ?? '');
+                // Cruise-specific error messages
+                'cruise.required_if' => 'Cruise details are required when booking type is Cruise.',
+                'cruise.*.cruise_line.required_if' => 'Cruise line is required.',
+                'cruise.*.ship_name.required_if' => 'Cruise ship name is required.',
+                'cruise.*.category.required_if' => 'Cruise category is required.',
+                'cruise.*.stateroom.required_if' => 'Cruise stateroom is required.',
+                'cruise.*.departure_port.required_if' => 'Cruise departure port is required.',
 
-                if ($cardType === 'AMEX') {
-                    if (strlen($ccNumber) !== 15) {
-                        $validator->errors()->add("billing.$index.cc_number", 'AMEX card number must be exactly 15 digits.');
-                    }
-                    if (strlen($cvv) !== 4) {
-                        $validator->errors()->add("billing.$index.cvv", 'AMEX CVV must be exactly 4 digits.');
-                    }
-                } else {
-                    if (strlen($ccNumber) !== 16) {
-                        $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for non-AMEX.');
-                    }
-                    if (strlen($cvv) !== 3) {
-                        $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
+                // Car-specific error messages
+                'car.required_if' => 'Car details are required when booking type is Car.',
+                'car.*.car_rental_provider.required_if' => 'Car rental provider is required.',
+                'car.*.car_type.required_if' => 'Car type is required.',
+                'car.*.pickup_location.required_if' => 'Car pickup location is required.',
+                'car.*.dropoff_location.required_if' => 'Car drop-off location is required.',
+                'car.*.dropoff_date.required_if' => 'Car drop-off date is required.',
+                'car.*.dropoff_date.date' => 'Car drop-off date must be a valid date.',
+                'car.*.dropoff_date.after_or_equal' => 'Car drop-off date must be today or later.',
+                'car.*.dropoff_time.required_if' => 'Car drop-off time is required.',
+                'car.*.dropoff_time.date_format' => 'Car drop-off time must be in HH:MM format.',
+                'car.*.rental_provider_address.required_if' => 'Car rental provider address is required.',
+
+                // Train-specific error messages
+                'train.required_if' => 'Train details are required when booking type is Train.',
+                'train.*.direction.required_if' => 'Train direction is required.',
+                'train.*.direction.in' => 'Train direction must be One Way or Round Trip.',
+                'train.*.departure_date.required_if' => 'Train departure date is required.',
+                'train.*.departure_date.date' => 'Train departure date must be a valid date.',
+                'train.*.departure_date.after_or_equal' => 'Train departure date must be today or later.',
+                'train.*.train_number.required_if' => 'Train number is required.',
+                'train.*.cabin.required_if' => 'Train cabin is required.',
+                'train.*.cabin.in' => 'Train cabin must be Economy, Sleeper, Business, or First.',
+                'train.*.departure_station.required_if' => 'Train departure station is required.',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            $validator->after(function ($validator) use ($request, $bookingTypes) {
+                // Billing card number and CVV validation
+                $billings = $request->input('billing', []);
+                foreach ($billings as $index => $billing) {
+                    $cardType = strtoupper($billing['card_type'] ?? '');
+                    $ccNumber = preg_replace('/\D/', '', $billing['cc_number'] ?? '');
+                    $cvv = preg_replace('/\D/', '', $billing['cvv'] ?? '');
+
+                    if ($cardType === 'AMEX') {
+                        if (strlen($ccNumber) !== 15) {
+                            $validator->errors()->add("billing.$index.cc_number", 'AMEX card number must be exactly 15 digits.');
+                        }
+                        if (strlen($cvv) !== 4) {
+                            $validator->errors()->add("billing.$index.cvv", 'AMEX CVV must be exactly 4 digits.');
+                        }
+                    } else {
+                        if (strlen($ccNumber) !== 16) {
+                            $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for non-AMEX.');
+                        }
+                        if (strlen($cvv) !== 3) {
+                            $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
+                        }
                     }
                 }
-            }
-        });
+
+                // // Prevent validation of fields for unselected booking types
+                // $allowedFields = array_map('strtolower', $bookingTypes);
+                // $possibleFields = ['flight', 'hotel', 'cruise', 'car', 'train'];
+
+                // foreach ($possibleFields as $field) {
+                //     if (!in_array($field, $allowedFields) && $request->has($field)) {
+                //         $validator->errors()->add($field, "The {$field} field should not be provided when booking type does not include " . ucfirst($field) . ".");
+                //     }
+                // }
+            });
 
             $validator->validate();
+
             $user_id =Auth::id();
 
             DB::beginTransaction();
