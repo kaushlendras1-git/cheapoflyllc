@@ -20,7 +20,8 @@ class TravelBooking extends Model
         'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
         'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
         'selected_company', 'booking_status_id', 'payment_status_id', 'reservation_source',
-        'descriptor','flightbookingimage','hotelbookingimage','cruisebookingimage','carbookingimage','trainbookingimage'
+        'descriptor','flightbookingimage','hotelbookingimage','cruisebookingimage','carbookingimage','trainbookingimage',
+        'call_queue','shared_booking','screenshot'
     ];
 
     protected $casts = [

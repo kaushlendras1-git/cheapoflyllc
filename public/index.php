@@ -1,5 +1,6 @@
 <?php
-
+ini_set('post_max_size', '50M');
+ini_set('upload_max_filesize', '50M');
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));

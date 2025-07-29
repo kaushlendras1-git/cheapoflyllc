@@ -492,7 +492,7 @@ class BookingFormController extends Controller
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
-                'selected_company', 'reservation_source', 'descriptor',
+                'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue'
             ]);
             $bookingData['shift_id'] = 2;
             $bookingData['team_id'] = 2;
@@ -658,7 +658,6 @@ class BookingFormController extends Controller
             TravelCruiseDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedCruiseIds)
                 ->delete();
-
             $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
             $newCars = $request->input('car', []);
             $processedCarIds = [];
@@ -765,7 +764,15 @@ class BookingFormController extends Controller
                     $booking->logChange($booking->id, 'TravelSectorDetail', $sector->id, 'created', null, $fileName);
                 }
             }
-
+            if (isset($request->screenshots) && !empty($request->screenshots)) {
+                $screenshots = [];
+                foreach ($request->screenshots as $key => $image) {
+                    $screenshots[] = 'storage/' . $image->store('screenshots', 'public');
+                }
+                TravelBooking::where('id',$booking->id)->update([
+                    'screenshot'=>json_encode($screenshots)
+                ]);
+            }
             DB::commit();
             return response()->json([
                 'status' => 'success',
@@ -777,7 +784,7 @@ class BookingFormController extends Controller
             return JsonResponse::error($e->validator->errors()->first(),422,'422');
         }
         catch(QueryException $e){
-            return JsonResponse::error('Failed to Query',500,'500');
+            return JsonResponse::error('Failed to Query'.$e,500,'500');
         }
         catch(\Exception $e){
             \Log::error('Update Booking Error', [

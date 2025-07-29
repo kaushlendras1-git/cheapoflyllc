@@ -20,6 +20,7 @@ const bookingTypes = [
     { key: 'cruise', inputName: 'cruisebookingimage[]' },
     { key: 'car', inputName: 'carbookingimage[]' },
     { key: 'train', inputName: 'trainbookingimage[]' },
+    { key: 'screenshots', inputName: 'screenshots[]' },
 ];
 
 document.querySelectorAll('input[type="file"]').forEach(input => {
@@ -73,7 +74,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     const action = e.target.action;
     const formdata = new FormData(e.target);
 
-    
+
     const flightInputs = document.querySelectorAll('[name^="flight["]');
     flightInputs.forEach(input => {
         const name = input.name;
@@ -115,7 +116,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         });
     });
 
-    
+
     try{
         const response = await axios.post(action, formdata, {
             headers: {
@@ -137,19 +138,16 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
 document.getElementById('saveRemark').addEventListener('click',async function (e){
 
     const remark = document.querySelector('textarea[name="particulars"]');
-    console.log(remark);
-    alert('s');
     try{
         const response = await axios.post(route('booking.update-remark',{id:route().params.id}),{
             remark:remark.value,
            // agent:agent.value,
         });
         let html = '';
+        console.log(response);
         response.data.data.forEach(function(item,index){
             html += `<tr>
                     <td>${index+1}</td>
-                    <td>${item.agent}</td>
-                    <td>${item.created_at}</td>
                     <td>${item.particulars}</td>
                     <td>
                         <button type="button" class="btn btn-danger deleteRemark" data-id="${item.id}">

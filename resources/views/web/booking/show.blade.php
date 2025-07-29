@@ -33,6 +33,7 @@
 <span id="cruise_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->cruisebookingimage}}"></span>
 <span id="car_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->carbookingimage}}"></span>
 <span id="train_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->trainbookingimage}}"></span>
+<span id="screenshots_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->screenshot}}"></span>
 
 
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -303,13 +304,11 @@
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label"> Call Queue</label>
-                            <select class="form-control" name="campaign">
-                                <option value=""
-                                    {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select
+                            <select class="form-control" name="call_queue">
+                                <option value="">Select
                                 </option>
                                 @foreach($campaigns as $campaign)
-                                <option value="{{$campaign->name}}"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>
+                                <option value="{{$campaign->name}}" {{$campaign->name == $booking->call_queue?'selected':''}}>
                                     {{$campaign->name}}</option>
                                 @endforeach
                             </select>
@@ -318,13 +317,12 @@
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label"> Is Shared Booking</label>
-                            <select class="form-control" name="campaign">
-                                <option value=""
-                                    {{ old('campaign', $booking->campaign ?? '') === '' ? 'selected' : '' }}>Select
+                            <select class="form-control" name="shared_booking">
+                                <option value="">Select
                                 </option>
                                 @foreach($campaigns as $campaign)
                                 <option value="{{$campaign->name}}"
-                                    {{ old('campaign', $booking->campaign ?? '') === 'Agency' ? 'selected' : '' }}>
+                                    {{$campaign->name == $booking->shared_booking?'selected':''}}>
                                     {{$campaign->name}}</option>
                                 @endforeach
                             </select>
@@ -1355,9 +1353,9 @@
                                                 <td>
                                                     <select id="state-{{$key}}" style="width:7.5rem"
                                                         class="form-control state-select"
-                                                        name="billing[{{$key}}][state]">
-                                                        <option value="India">Select Billing</option>
-                                                        <option value="India">Address</option>
+                                                        name="billing[{{$key}}][address]">
+                                                        <option value="">Select Billing</option>
+                                                        <option value="address" {{$billingDetails->address == 'address'?'selected':''}}>Address</option>
                                                     </select>
                                                     </td>
 
@@ -1830,11 +1828,11 @@
                                 <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
                         </div>
                         <div class="card-body p-0">
-                            @if($booking->screenshots->isNotEmpty())
-                            @foreach($booking->screenshots as $index => $screenshot)
-                            <input type="hidden" name="screenshots[{{ $index }}][id]" value="{{ $screenshot->id }}">
-                            @endforeach
-                            @endif
+{{--                            @if($booking->screenshots->isNotEmpty())--}}
+{{--                            @foreach($booking->screenshots as $index => $screenshot)--}}
+{{--                                <input type="hidden" name="screenshots[{{ $index }}][id]" value="{{ $screenshot->id }}">--}}
+{{--                            @endforeach--}}
+{{--                            @endif--}}
                         </div>
                     </div>
                 </div>
