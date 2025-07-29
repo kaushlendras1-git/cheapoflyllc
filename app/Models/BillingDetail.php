@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class BillingDetail extends Model
 {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'email',
         'contact_number',
@@ -14,7 +20,14 @@ class BillingDetail extends Model
         'state',
         'zip_code',
         'country',
-        'booking_id'
+        'booking_id',
     ];
 
+    /**
+     * Get the booking associated with the billing detail.
+     */
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class);
+    }
 }

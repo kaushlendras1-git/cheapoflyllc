@@ -12,10 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('travel_pricing_details', function (Blueprint $table) {
-            $table->string('num_passengers');
-            $table->string('gross_price');
-            $table->string('net_price');
-            $table->string('details');
+            if (!Schema::hasColumn('travel_pricing_details', 'num_passengers')) {
+                $table->string('num_passengers');
+            }
+
+            if (!Schema::hasColumn('travel_pricing_details', 'gross_price')) {
+                $table->string('gross_price');
+            }
+
+            if (!Schema::hasColumn('travel_pricing_details', 'net_price')) {
+                $table->string('net_price');
+            }
+
+            if (!Schema::hasColumn('travel_pricing_details', 'details')) {
+                $table->string('details');
+            }
         });
     }
 

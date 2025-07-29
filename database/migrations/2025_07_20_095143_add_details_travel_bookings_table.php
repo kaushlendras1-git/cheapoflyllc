@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('travel_bookings', function (Blueprint $table) {
-            $table->text('flightbookingimage')->nullable();
-            $table->text('hotelbookingimage')->nullable();
-            $table->text('cruisebookingimage')->nullable();
-            $table->text('carbookingimage')->nullable();
-            $table->text('trainbookingimage')->nullable();
+            // $table->text('flightbookingimage')->nullable();
+            // $table->text('hotelbookingimage')->nullable();
+            // $table->text('cruisebookingimage')->nullable();
+            // $table->text('carbookingimage')->nullable();
+            // $table->text('trainbookingimage')->nullable();
         });
     }
 

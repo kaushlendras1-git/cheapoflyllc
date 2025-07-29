@@ -642,13 +642,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <select id="" style="width:7.5rem"
                     class="form-control state-select"
-                    name="billing[{{$key}}][state]">
+                    name="billing[${billingIndex}][state]">
                     <option value="India">Select Billing</option>
                     <option value="India">Address</option>
                 </select>
             </td>
 
-            <td><input type="text" style="width: 65px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
+            <td><input type="text" style="width: 65px;" class="form-control" placeholder="Amount" name="billing[${billingIndex}][amount]" value=""></td>
 
             <td>
                 <select class="form-control" name="billing[${billingIndex}][currency]">
@@ -797,9 +797,17 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
-                    <option value="ticket_cost">Ticket Cost</option>
+                    <option>Ticket Cost</option>
+                    <option>Flight Ticket Cost</option>
+                    <option>Cruise Ticket Cost</option>
+                    <option>Car Rental Cost</option>
+                    <option>Train Cost</option>
+                    <option>Hotel Cost</option>
+                    <option>Company Card</option>
+                    <option>Issuance Fees</option>
+                    <option>FXL Issuance Fees</option>
                     <option value="merchant_fee">Merchant Fee</option>
-                    <option value="company_card_used">Company Card Used</option>
+                    <option value="company_card_used"> Company Card Used</option>
                 </select>
             </td>
             <td>

@@ -55,7 +55,8 @@
                             <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Billing:</strong><span style="color: #2c3e50; margin-right: 20px;">Mark</span>
                             <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Quality:</strong><span style="color: #2c3e50; margin-right: 20px;">Smith</span>
                             <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Issued On:</strong><span style="color: #2c3e50; margin-right: 20px;">12 July 2025</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Shared :</strong><span style="color: #2c3e50;">Agent</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Shared :</strong><span style="color: #2c3e50;margin-right: 20px;">Agent</span>
+                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Booking :</strong><span style="color: #2c3e50;">{{$booking->id}}</span>
                         </div>
                     <div class="d-flex gap-2">
                         @include('web.booking.authModel')
@@ -65,7 +66,7 @@
                         </a>
                     </div>
                 </div>
-                
+
 <form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -274,7 +275,6 @@
                                 <option data-type="Train">Name Correction</option>
                                 <option data-type="Train">Change in Number of Travelers</option>
                                 <option data-type="Train">Upgrading Seat Class or Service</option>
-                                <option>
                                 <option data-type="Train">Seat Assignment or Preference Request</option>
                                 <option data-type="Train">Missed Connections</option>
                                 <option data-type="Train">Cancellation for Future Credits</option>
@@ -338,7 +338,7 @@
 
             <!-- Tab Navigation -->
             <ul class="nav nav-tabs tabs-booked" id="bookingTabs" role="tablist">
-                
+
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
                         aria-controls="passenger" aria-selected="true">
@@ -763,11 +763,6 @@
                                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                                     </svg>
                                 </button>
-                                <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
-                                <div class="upload-file position-relative">
-                                    {{--                                <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>--}}
-                                    {{--                                <label for="screenshots-upload">Upload Files</label>--}}
-                                </div>
                             </div>
 
                         </div>
@@ -848,6 +843,11 @@
                                 </div>
                             </div>
                         </div>
+
+
+                    <div style="margin-top:20px">
+                        <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
+                    </div>
                     </div>
                 </div>
                 <!------------------------ End Car Booking Details ------------------------------>
@@ -863,15 +863,8 @@
                                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                                     </svg>
                                 </button>
-                                <div class="upload-file position-relative">
-                                    <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
-                                    <label for="screenshots-upload">Upload Files</label>
-                                </div>
                             </div>
 
-                            <!-- <div class="upload-file position-relative">
-                            {{--<label for="screenshots-upload">Upload Files</label>--}}
-                        </div> -->
                         </div>
                         <div class="card-body pt-3">
                             <div class="row g-3 align-items-center">
@@ -961,6 +954,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <div style="margin-top:20px">
+                        <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
+                    </div>
+
+
                 </div>
                 <!------------------------ End Cruise Booking Details ------------------------------>
 
@@ -1070,10 +1069,6 @@
                                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                                     </svg>
                                 </button>
-                                <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
-                                <div class="upload-file position-relative">
-                                    {{--                                <label for="screenshots-upload">Upload Files</label>--}}
-                                </div>
                             </div>
                         </div>
                         <div class="card-body pt-3 ps-0 pe-0">
@@ -1182,6 +1177,11 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div style="margin-top:20px">
+                            <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
+                        </div>
+
                     </div>
                 </div>
                 <!------------------------ End Train Booking Details ------------------------------>
@@ -1199,49 +1199,55 @@
                             <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="ri ri-add-circle-fill pointer"></i>
                         </div>
 
-                        <table class="mb-3" border="1" cellpadding="8" cellspacing="0"
-                            style="border-collapse: collapse; text-align: center; width: 100%;">
-                            <thead style="background-color: #f2f2f2;">
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Email</th>
-                                    <th>Contact No.</th>
-                                    <th>Street Address</th>
-                                    <th>City</th>
-                                    <th>State</th>
-                                    <th>Zip code</th>
-                                    <th>Country</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($billingData as $key=>$bill)
+                        <div id="billing-table-container">
+                            <table id="billing-table" class="mb-3" border="1" cellpadding="8" cellspacing="0"
+                                style="border-collapse: collapse; text-align: center; width: 100%;">
+                                <thead style="background-color: #f2f2f2;">
                                     <tr>
-                                        <td>{{$key+1}}</td>
-                                        <td>{{$bill->email}}</td>
-                                        <td>{{$bill->contact_number}}</td>
-                                        <td>{{$bill->street_address}}</td>
-                                        <td>{{$bill->city}}</td>
-                                        <td>{{$bill->state}}</td>
-                                        <td>{{$bill->zip_code}}</td>
-                                        <td>{{$bill->country}}</td>
-                                        <td>
-                                            <button class="btn btn-danger deleteBillData" data-href="{{route('booking.billing-details.destroy',['id'=>$bill->id])}}">Delete</button>
-                                        </td>
+                                        <th>S.No</th>
+                                        <th>Email</th>
+                                        <th>Contact No.</th>
+                                        <th>Street Address</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Zip code</th>
+                                        <th>Country</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach($billingData as $key=>$bill)
+                                        <tr>
+                                            <td>{{$key+1}}</td>
+                                            <td>{{$bill->email}}</td>
+                                            <td>{{$bill->contact_number}}</td>
+                                            <td>{{$bill->street_address}}</td>
+                                            <td>{{$bill->city}}</td>
+                                            <td>{{$bill->state}}</td>
+                                            <td>{{$bill->zip_code}}</td>
+                                            <td>{{$bill->country}}</td>
+                                            <td>
+                                                <button class="btn btn-danger deleteBillData"
+                                                    data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}">Delete</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="card-header border-0 p-0">Card Details   $1052</h5>
+
                             <button class="btn btn-primary" type="button" id="billing-booking-button">
                                 <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
                                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                                 </svg>
                             </button>
+
+
+
                         </div>
                         <div class="card-body p-0">
                             <div class="row g-3 align-items-center">
@@ -1385,7 +1391,7 @@
                                                     </select>
                                                 </td>
                                                 <td> AUD<span>90909</span>
-                                                    <input value="0" name="billing[{{$key}}][amount]" type="hidden" />
+                                                    <input value="1" name="billing[{{$key}}][amount]" type="hidden" />
                                                 </td>
 
                                                 <td>
@@ -1821,10 +1827,7 @@
                     <div class="card p-4">
                         <div class="mb-4">
                             <h5 class="card-header border-0 p-0 mb-4 detail-passanger">Screenshots</h5>
-                            <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                            <div class="upload-file position-relative">
-                                {{--                                <label for="screenshots-upload">Upload Files</label>--}}
-                            </div>
+                                <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
                         </div>
                         <div class="card-body p-0">
                             @if($booking->screenshots->isNotEmpty())
