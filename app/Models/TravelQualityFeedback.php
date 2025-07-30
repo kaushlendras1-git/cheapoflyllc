@@ -12,7 +12,7 @@ class TravelQualityFeedback extends Model
 
     protected $table = 'travel_quality_feedback';
 
-    protected $fillable = ['booking_id', 'qa', 'date_time', 'feedback', 'parameters', 'status'];
+    protected $fillable = ['booking_id', 'user_id','parameter', 'date_time', 'note', 'marks', 'quality'];
 
     protected $casts = [
         'date_time' => 'datetime',
@@ -25,5 +25,10 @@ class TravelQualityFeedback extends Model
     public function booking()
     {
         return $this->belongsTo(TravelBooking::class, 'booking_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -59,7 +59,7 @@ class BookingFormController extends Controller
                 'street_address'=>'required',
                 'city'=>'required',
                 'state'=>'required',
-                'zip_code'=>'required|regex:/^\d{6}$/',
+                'zip_code'=>'required',
                 'country'=>'required',
             ],[
                 'email.required' => 'The email field is required.',
@@ -170,7 +170,6 @@ class BookingFormController extends Controller
         $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
         $train_booking = 0;
         $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
-
         return view('web.booking.index', compact('bookings', 'hashids','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
     }
 
@@ -223,7 +222,7 @@ class BookingFormController extends Controller
         TravelBookingRemark::create([
             'booking_id' => $this->hashids->decode($id)[0],
             'particulars'=>$request->remark,
-            'agent'=>$request->agent,
+            'agent'=>Auth::id(),
         ]);
         $data = TravelBookingRemark::select('id','booking_id','agent','particulars','created_at')->where('booking_id',$this->hashids->decode($id)[0])->get();
         return JsonResponse::successWithData('Booking review saved',201,$data,'201');
@@ -233,6 +232,45 @@ class BookingFormController extends Controller
 
         $delete = TravelBookingRemark::where('id',$id)->delete();
         $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',$this->hashids->decode($request->booking_id)[0])->get();
+        return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
+    }
+
+   public function updateFeedBack(Request $request, $id)
+    {
+        Log::info('Received parameters:', $request->all());
+
+        $request->validate([
+            'parameters' => 'required|array',
+            'parameters.*.parameter' => 'required|string',
+            'parameters.*.note' => 'nullable|string',
+            'parameters.*.marks' => 'nullable|string',
+            'parameters.*.quality' => 'nullable|string',
+        ]);
+
+        $bookingId = $this->hashids->decode($id)[0];
+
+        foreach ($request->parameters as $param) {
+            TravelQualityFeedback::create([
+                'booking_id' => $bookingId,
+                'user_id' => Auth::id(),
+                'parameter' => $param['parameter'] ?? '',
+                'note' => $param['note'] ?? '',
+                'marks' => $param['marks'] ?? '',
+                'quality' => $param['quality'] ?? '',
+            ]);
+        }
+
+        $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')
+            ->where('booking_id', $bookingId)
+            ->get();
+
+        return JsonResponse::successWithData('Booking Feedback saved', 201, $data, '201');
+    }
+
+
+    public function deleteFeedBack(Request $request,$id){
+        $delete = TravelQualityFeedback::where('id',$id)->delete();
+        $data = TravelQualityFeedback::select('id','booking_id','user_id','qa','status','parameters','feedback','created_at')->where('booking_id',$this->hashids->decode($id)[0])->get();
         return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
     }
 
@@ -246,6 +284,10 @@ class BookingFormController extends Controller
         try {
 
             $bookingTypes = $request->input('booking-type', []);
+
+            // if query_type = Cancellation for Refunds
+            // query_type=seat_number
+            // query_type=credit_note_amount
 
             $rules = [
                 'booking-type' => 'required|array|min:1',
@@ -826,7 +868,8 @@ class BookingFormController extends Controller
         $payment_status = PaymentStatus::where('status',1)->get();
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
-        return view('web.booking.show', compact('booking', 'hashids','booking_status','payment_status','campaigns','billingData'));
+        $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
+        return view('web.booking.show', compact('booking', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
 

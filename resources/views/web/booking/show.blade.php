@@ -453,7 +453,7 @@
                                         <th>First Name</th>
                                         <th>Middle Name</th>
                                         <th>Last Name</th>
-                                        <th>DOB</th>
+                                        <th>DOB(dd-mm-yyyy)</th>
                                         <th>Seat</th>
                                         <th>Cr. OR <br>
                                             Ref. Amt.
@@ -1604,9 +1604,10 @@
                             <div class="crm-table">
                                 <table class="table table-striped table-hover">
                                     <thead>
-                                        <tr>
-                                            <td>Sno.</td>
+                                        <tr style="background-color:#e0ecff !important">
+                                            <td>Sno.</td>                                          
                                             <td>Remark</td>
+                                            <td>Agent</td>
                                             <td>Action</td>
                                         </tr>
                                     </thead>
@@ -1614,13 +1615,15 @@
                                         @if($booking->remarks)
                                         @foreach($booking->remarks as $key=>$remar)
                                         <tr>
-                                            <td>{{$key+1}}</td>
+                                            <td>{{$key+1}}</td>                                            
                                             <td>{{$remar->particulars}}</td>
+                                            <td>{{$remar->agent}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-danger deleteRemark"
-                                                    data-id="{{$remar->id}}">
-                                                    Delete
-                                                </button>
+                                                <button  data-id="{{$remar->id}}" type="submit" class="no-btn p-0 " onclick="return confirm('Are you sure you want to delete this call type?')">
+                                                        <img width="25" src="../../../assets/img/icons/img-icons/delete.png" alt="shift-change">
+                                                    </button>
+
+
                                             </td>
                                         </tr>
                                         @endforeach
@@ -1634,8 +1637,7 @@
                 <!--------------------------- End Booking Remarks --------------------------->
 
 
-                <!--------------------------- feedback --------------------------->
-                <!-- Quality Feedback -->
+                <!--------------------------- Quality Feedback --------------------------->
                 <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
                     <div class="card p-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -1643,181 +1645,410 @@
                             <button id="saveFeedback" type="button" class="btn btn-primary">Save Feedback</button>
                         </div>
                         <div class="card-body p-0">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-12">
-                                    <textarea class="inputs1 form-control" id="qltynotes" name="qltynotes"
-                                        spellcheck="false"></textarea>
-                                </div>
-                                @php
+                            
+                                <!-- Checkboxes for Parameters -->
+                                     <div class="my-5">
+                                       
 
-                                $option =
-                                !empty($booking->qualityFeedback[0]->parameters)?json_decode($booking->qualityFeedback[0]->parameters):[];
-                                @endphp
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Probing & Understanding">
-                                        <input class="form-check-input chkqlty" type="checkbox"
-                                            value="Probing & Understanding" id="Probing & Understanding"
-                                            name="quality_feedback[]"
-                                            {{in_array('Probing & Understanding',$option)?'checked':''}} />
-                                        <span class="form-check-label text-dark">Probing & Understanding</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Dead air/Hold procedure">
-                                        <input class="form-check-input chkqlty" type="checkbox"
-                                            value="Dead air/Hold procedure" id="Dead air/Hold procedure"
-                                            name="quality_feedback[]"
-                                            {{in_array('Dead air/Hold procedure',$option)?'checked':''}} />
-                                        <span class="form-check-label text-dark">Dead air/Hold procedure</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Soft Skills">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Soft Skills"
-                                            id="Soft Skills" name="quality_feedback[]"
-                                            {{in_array('Soft Skills',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Soft Skills</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Active Listening/Interruption">
-                                        <input class="form-check-input chkqlty" type="checkbox"
-                                            value="Active Listening/Interruption" id="Active Listening/Interruption"
-                                            name="quality_feedback[]"
-                                            {{in_array('Active Listening/Interruption',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Active Listening/Interruption</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Call Handling">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Handling"
-                                            id="Call Handling" name="quality_feedback[]"
-                                            {{in_array('Call Handling',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Call Handling</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Selling Skills">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Selling Skills"
-                                            id="Selling Skills" name="quality_feedback[]"
-                                            {{in_array('Selling Skills',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Selling Skills</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Cross Selling">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Cross Selling"
-                                            id="Cross Selling" name="quality_feedback[]"
-                                            {{in_array('Cross Selling',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Cross Selling</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Documentation">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Documentation"
-                                            id="Documentation" name="quality_feedback[]"
-                                            {{in_array('Documentation',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Documentation</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Disposition">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Disposition"
-                                            id="Disposition" name="quality_feedback[]"
-                                            {{in_array('Disposition',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Disposition</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Call Closing">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Call Closing"
-                                            id="Call Closing" name="quality_feedback[]"
-                                            {{in_array('Call Closing',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Call Closing</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Fatal - Misrepresentation">
-                                        <input class="form-check-input chkqlty" type="checkbox"
-                                            value="Fatal - Misrepresentation" id="Fatal - Misrepresentation"
-                                            name="quality_feedback[]"
-                                            {{in_array('Fatal - Misrepresentation',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Fatal - Misrepresentation</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Fatal - Rude/Sarcastic behaviour">
-                                        <input class="form-check-input chkqlty" type="checkbox"
-                                            value="Fatal - Rude/Sarcastic behaviour"
-                                            id="Fatal - Rude/Sarcastic behaviour" name="quality_feedback[]"
-                                            {{in_array('Fatal - Rude/Sarcastic behaviour',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Fatal - Rude/Sarcastic behaviour</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Fatal - Unethical sale">
-                                        <input class="form-check-input chkqlty" type="checkbox"
-                                            value="Fatal - Unethical sale" id="Fatal - Unethical sale"
-                                            name="quality_feedback[]"
-                                            {{in_array('Fatal - Unethical sale',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Fatal - Unethical sale</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <label
-                                        class="form-check form-check-custom form-check-solid form-check-sm form-check-dark rm-check"
-                                        for="Paraphrasing">
-                                        <input class="form-check-input chkqlty" type="checkbox" value="Paraphrasing"
-                                            id="Paraphrasing" name="quality_feedback[]"
-                                            {{in_array('Paraphrasing',$option)?'checked':''}}>
-                                        <span class="form-check-label text-dark">Paraphrasing</span>
-                                    </label>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-12 mt-4">
-                                    <select id="selqlstatus" name="selqlstatus" class="form-select rm-check">
-                                        <option value="">Status</option>
-                                        <option value="Pending"
-                                            {{ old('selqlstatus', $booking->quality_status ?? '') === 'Pending' ? 'selected' : '' }}>
-                                            Pending</option>
-                                        <option value="Rejected"
-                                            {{ old('selqlstatus', $booking->quality_status ?? '') === 'Rejected' ? 'selected' : '' }}>
-                                            Rejected</option>
-                                        <option value="Approved"
-                                            {{ old('selqlstatus', $booking->quality_status ?? '') === 'Approved' ? 'selected' : '' }}>
-                                            Approved</option>
-                                    </select>
-                                </div>
+                                     Score 78% Status - Approved 
+                                        <div class="switch-container">
+                                        
+                                        
+                                    <!-- Include this inside your Blade view or HTML form -->
+
+                                    <div class="row">
+                                        <!-- Fatal Section -->
+                                        <div class="col-12"><h5 class="text-success">NOT FATAL</h5></div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Call Opening" id="CallOpening" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="CallOpening">Call Opening</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="CallOpening" name="parameter_notes[Call Opening]" rows="2" placeholder="Add comment for Call Opening..."></textarea>
+                                          <input name="marks_value" type="hidden" value="5">
+                                         <input name="quality_type" type="hidden" value="non_fatal">
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Call Openingfareneeds" id="CallOpeningfareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="CallOpeningfareneeds">Call Openingfareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-marksvalue="10" data-qualitytype="fatal" data-related="CallOpeningfareneeds" name="parameter_notes[Call Openingfareneeds]" rows="2" placeholder="Add comment for Call Openingfareneeds..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Call Closingfareneeds" id="CallClosingfareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="CallClosingfareneeds">Call Closingfareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-marksvalue="5" data-qualitytype="non_fatal" data-related="CallClosingfareneeds" name="parameter_notes[Call Closingfareneeds]" rows="2" placeholder="Add comment for Call Closingfareneeds..."></textarea>
+                                        <input name="marks_value" type="hidden" value="5">
+                                        <input name="quality_type" type="hidden" value="fatal">
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Probingfareneeds" id="Probingfareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="Probingfareneeds">Probingfareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="Probingfareneeds" name="parameter_notes[Probingfareneeds]" rows="2" placeholder="Add comment for Probingfareneeds..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Parapharsingfareneeds" id="Parapharsingfareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="Parapharsingfareneeds">Parapharsingfareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="Parapharsingfareneeds" name="parameter_notes[Parapharsingfareneeds]" rows="2" placeholder="Add comment for Parapharsingfareneeds..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Dead air/Hold Procedurefareneeds" id="DeadAirHoldProcedurefareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="DeadAirHoldProcedurefareneeds">Dead air/Hold Procedurefareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="DeadAirHoldProcedurefareneeds" name="parameter_notes[Dead air/Hold Procedurefareneeds]" rows="2" placeholder="Add comment for Dead air/Hold Procedurefareneeds..."></textarea>
+                                        
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Currencyfareneeds" id="Currencyfareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="Currencyfareneeds">Currencyfareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="Currencyfareneeds" name="parameter_notes[Currencyfareneeds]" rows="2" placeholder="Add comment for Currencyfareneeds..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Cold/Blind Transferfareneeds" id="ColdBlindTransferfareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ColdBlindTransferfareneeds">Cold/Blind Transferfareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ColdBlindTransferfareneeds" name="parameter_notes[Cold/Blind Transferfareneeds]" rows="2" placeholder="Add comment for Cold/Blind Transferfareneeds..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="E-Ticketsfareneeds" id="ETicketsfareneeds" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ETicketsfareneeds">E-Ticketsfareneeds</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ETicketsfareneeds" name="parameter_notes[E-Ticketsfareneeds]" rows="2" placeholder="Add comment for E-Ticketsfareneeds..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Active Listening" id="ActiveListening" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ActiveListening">Active Listening</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ActiveListening" name="parameter_notes[Active Listening]" rows="2" placeholder="Add comment for Active Listening..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Rebuttals/Objection Handling" id="RebuttalsObjectionHandling" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="RebuttalsObjectionHandling">Rebuttals/Objection Handling</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="RebuttalsObjectionHandling" name="parameter_notes[Rebuttals/Objection Handling]" rows="2" placeholder="Add comment for Rebuttals/Objection Handling..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Call Handling" id="CallHandling" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="CallHandling">Call Handling</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="CallHandling" name="parameter_notes[Call Handling]" rows="2" placeholder="Add comment for Call Handling..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Selling Skills" id="SellingSkills" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="SellingSkills">Selling Skills</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="SellingSkills" name="parameter_notes[Selling Skills]" rows="2" placeholder="Add comment for Selling Skills..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Cross Selling (HCIL)" id="CrossSellingHCIL" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="CrossSellingHCIL">Cross Selling (HCIL)</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="CrossSellingHCIL" name="parameter_notes[Cross Selling (HCIL)]" rows="2" placeholder="Add comment for Cross Selling (HCIL)..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Itinerary Recapping/Call Summary" id="ItineraryRecappingCallSummary" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ItineraryRecappingCallSummary">Itinerary Recapping/Call Summary</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ItineraryRecappingCallSummary" name="parameter_notes[Itinerary Recapping/Call Summary]" rows="2" placeholder="Add comment for Itinerary Recapping/Call Summary..."></textarea>
+                                    </div>
+
+
+
+                                        <!-- Add more fatal checkboxes with textarea below as needed -->
+
+                                        <!-- Non-Fatal Section -->
+                                        <div class="col-12 mt-4"><h5 class="text-danger">Fatal</h5></div>
+
+                                        <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Hold Procedure" id="HoldProcedure" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="HoldProcedure">Hold Procedure</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="HoldProcedure" name="parameter_notes[Hold Procedure]" rows="2" placeholder="Add comment for Hold Procedure..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Misrepresentation" id="Misrepresentation" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="Misrepresentation">Misrepresentation</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="Misrepresentation" name="parameter_notes[Misrepresentation]" rows="2" placeholder="Add comment for Misrepresentation..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Rude/Sarcastic behaviour" id="RudeSarcasticBehaviour" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="RudeSarcasticBehaviour">Rude/Sarcastic behaviour</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="RudeSarcasticBehaviour" name="parameter_notes[Rude/Sarcastic behaviour]" rows="2" placeholder="Add comment for Rude/Sarcastic behaviour..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Screenshot of services provided" id="ScreenshotOfServicesProvided" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ScreenshotOfServicesProvided">Screenshot of services provided</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ScreenshotOfServicesProvided" name="parameter_notes[Screenshot of services provided]" rows="2" placeholder="Add comment for Screenshot of services provided..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Merchant Name" id="MerchantName" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="MerchantName">Merchant Name</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="MerchantName" name="parameter_notes[Merchant Name]" rows="2" placeholder="Add comment for Merchant Name..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Split Charges" id="SplitCharges" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="SplitCharges">Split Charges</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="SplitCharges" name="parameter_notes[Split Charges]" rows="2" placeholder="Add comment for Split Charges..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Suspicious Customer" id="SuspiciousCustomer" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="SuspiciousCustomer">Suspicious Customer</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="SuspiciousCustomer" name="parameter_notes[Suspicious Customer]" rows="2" placeholder="Add comment for Suspicious Customer..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Force Sell" id="ForceSell" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ForceSell">Force Sell</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ForceSell" name="parameter_notes[Force Sell]" rows="2" placeholder="Add comment for Force Sell..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Fake/Unethical Sell" id="FakeUnethicalSell" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="FakeUnethicalSell">Fake/Unethical Sell</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="FakeUnethicalSell" name="parameter_notes[Fake/Unethical Sell]" rows="2" placeholder="Add comment for Fake/Unethical Sell..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Service Not Provided" id="ServiceNotProvided" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ServiceNotProvided">Service Not Provided</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ServiceNotProvided" name="parameter_notes[Service Not Provided]" rows="2" placeholder="Add comment for Service Not Provided..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Call Back Number/Extension" id="CallBackNumberExtension" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="CallBackNumberExtension">Call Back Number/Extension</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="CallBackNumberExtension" name="parameter_notes[Call Back Number/Extension]" rows="2" placeholder="Add comment for Call Back Number/Extension..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Follow Up" id="FollowUp" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="FollowUp">Follow Up</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="FollowUp" name="parameter_notes[Follow Up]" rows="2" placeholder="Add comment for Follow Up..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Confirmation Sale" id="ConfirmationSale" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ConfirmationSale">Confirmation Sale</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="ConfirmationSale" name="parameter_notes[Confirmation Sale]" rows="2" placeholder="Add comment for Confirmation Sale..."></textarea>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Documentation" id="Documentation" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="Documentation">Documentation</label>
+                                        </div>
+                                        <textarea class="form-control mt-2 feedback-textarea d-none" data-related="Documentation" name="parameter_notes[Documentation]" rows="2" placeholder="Add comment for Documentation..."></textarea>
+                                    </div>
+
+
+    <!-- Add more non-fatal checkboxes with textarea below as needed -->
+</div>
+
+<!-- SCRIPT -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.chkqlty').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                const relatedId = this.id;
+                const textarea = document.querySelector('textarea[data-related="' + relatedId + '"]');
+                if (this.checked) {
+                    textarea.classList.remove('d-none');
+                } else {
+                    textarea.classList.add('d-none');
+                    textarea.value = '';
+                }
+            });
+        });
+    });
+</script>
+
+<!-- Optional Styling -->
+<style>
+    .feedback-textarea {
+        resize: vertical;
+        min-height: 60px;
+    }
+</style>
+
+
+
+
+
+
+
+                                        </div>
+                                    </div>                               
+                            </div>
+
+ 
+
+
+                            <div class="col-lg-12 col-md-12 col-12 mt-4">
+
+                        
+                                    <style>
+                                        .qis-label {
+                                        color: white;
+                                        font-weight: bold;
+                                        padding: 10px;
+                                        border-radius: 5px;
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 10px;
+                                        }
+                                        .timely { background-color: #00bcd4; }
+                                        .efficient { background-color: #ff9800; }
+                                        .patient { background-color: #f44336; }
+                                        .safety { background-color: #e91e63; }
+                                        .effective { background-color: #9c27b0; }
+                                        .qis-icon {
+                                        font-size: 1.2rem;
+                                        }
+                                        th, td {
+                                        vertical-align: top;
+                                        }
+                                    </style>
+
+
+                                    <div class="mt-5">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered align-middle">
+                                        <thead class="table-primary text-center">
+                                            <tr>
+                                            <th style="width: 20%">Quality Improvement strategies</th>
+                                            <th style="width: 50%">Comment</th>
+                                            <th style="width: 15%">Date</th>
+                                            <th style="width: 15%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            <td>
+                                                <div class="qis-label timely">
+                                                <span class="qis-icon">⏱️</span> Call Opening 5%
+                                                </div>
+                                            </td>
+                                            <td>- Discharge summary sent from hospital to community care provider within 48 hours of discharge</td>
+                                            <td>20-05-2025</td>
+                                           <td>Edit Delete</td>
+                                            </tr>
+                                            <tr>
+                                            <td>
+                                                <div class="qis-label efficient">
+                                                <span class="qis-icon">⚙️</span> Probing & Understanding 10%
+                                                </div>
+                                            </td>
+                                            <td>- Average number of inpatients receiving care in unconventional spaces or ER stretchers</td>
+                                            <td>20-05-2025</td>
+                                            <td>Edit Delete</td>
+                                            </tr>
+                                            <tr>
+                                            <td>
+                                                <div class="qis-label patient">
+                                                <span class="qis-icon">❤️</span> Hold Procedure 5
+                                                </div>
+                                            </td>
+                                            <td>- Percentage of positive scores to survey questions: did you receive enough information upon discharge from hospital?</td>
+                                            <td>20-05-2025</td>
+                                            <td>Edit Delete</td>
+                                            </tr>
+                                            <tr>
+                                            <td>
+                                                <div class="qis-label safety">
+                                                <span class="qis-icon">🛡️</span>Call Closure
+                                                </div>
+                                            </td>
+                                            <td>- Number of workplace violence incidents reported by hospital workers<br>- Add text here</td>
+                                             <td>20-05-2025</td>
+                                            <td>Edit Delete</td>
+                                            </tr>
+                                            <tr>
+                                            <td>
+                                                <div class="qis-label effective">
+                                                <span class="qis-icon">📈</span> Effectiveness
+                                                </div>
+                                            </td>
+                                            <td>- Rate of mental health and addiction re-visit to an emergency department within 30 days</td>
+                                            <td>- Number of mental health patients<br>- Add text here</td>
+                                           <td>Edit Delete</td>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+
+
+                                
+                            
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--------------------------- End feedback --------------------------->
+                <!--------------------------- End Feedback --------------------------->
 
 
                 <!--------------------------- Screenshots --------------------------->

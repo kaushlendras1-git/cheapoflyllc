@@ -415,3 +415,99 @@ function attachDeleteHandler(el) {
         }
     });
 }
+
+
+
+document.getElementById('saveFeedback').addEventListener('click', async function (e) {
+    e.preventDefault();
+
+   
+    const parameters = Array.from(document.querySelectorAll('input[name="parameters[]"]:checked')).map(input => {
+        const parentDiv = input.closest('.col-lg-3, .col-md-6, .col-12');
+
+        const textarea = parentDiv.querySelector(`textarea[data-related="${input.id}"]`);
+
+        let marks = textarea?.dataset.marksvalue || '';
+        let quality = textarea?.dataset.qualitytype || '';
+
+        if (!marks) {
+            const marksInput = parentDiv.querySelector('input[name="marks_value"]');
+            marks = marksInput ? marksInput.value : '';
+        }
+        if (!quality) {
+            const qualityInput = parentDiv.querySelector('input[name="quality_type"]');
+            quality = qualityInput ? qualityInput.value : '';
+        }
+
+        const note = textarea ? textarea.value : '';
+
+        return {
+            parameter: input.value,
+            note,
+            marks,
+            quality
+        };
+    });
+
+    try {
+        const response = await axios.post(route('booking.update-feedback', { id: route().params.id }), {
+            parameters: parameters
+        });
+
+        let html = '';
+        response.data.data.forEach(function (item, index) {
+            // Assuming each item has a single parameter for simplicity; adjust if multiple parameters are returned
+            const param = item.parameters[0] || { parameter: 'N/A', note: 'No note' };
+            const percentage = param.percentage || '5%'; // Default percentage; adjust based on backend data
+            const date = new Date(item.created_at).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }).split('/').join('-'); // Format as DD-MM-YYYY
+
+            html += `<tr>
+                <td>
+                    <div class="qis-label timely">
+                        <span class="qis-icon">⏱️</span> ${param.parameter} ${percentage}
+                    </div>
+                </td>
+                <td>${param.note}</td>
+                <td>${date}</td>
+                <td>
+                    <button class="editFeedback no-btn p-0" data-id="${item.id}" title="Edit">
+                        <img width="25" src="../../../assets/img/icons/img-icons/edit.png" alt="edit">
+                    </button>
+                    <button class="deleteFeedback no-btn p-0" data-id="${item.id}" onclick="return confirm('Are you sure you want to delete this feedback?')">
+                        <img width="25" src="../../../assets/img/icons/img-icons/delete.png" alt="delete">
+                    </button>
+                </td>
+            </tr>`;
+        });
+
+        $('#booking_feed_back_table').html(html);
+        showToast(response.data.message);
+    } catch (e) {
+        console.error("AXIOS ERROR", e);
+        if (e.response) {
+            console.error("Server responded with:", e.response.data);
+            showToast('Error saving feedback: ' + e.response.data.message, 'error');
+        } else {
+            showToast('Error saving feedback', 'error');
+        }
+    }
+});
+
+// Optional: Handle delete button clicks
+document.addEventListener('click', async function (e) {
+    if (e.target.classList.contains('deleteFeedback')) {
+        const id = e.target.getAttribute('data-id');
+        try {
+            const response = await axios.post(route('booking.delete-feedback', { id: id }));
+            e.target.closest('tr').remove();
+            showToast(response.data.message);
+        } catch (e) {
+            console.error("AXIOS ERROR", e);
+            showToast('Error deleting feedback', 'error');
+        }
+    }
+});
