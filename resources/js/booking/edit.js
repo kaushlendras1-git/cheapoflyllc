@@ -456,36 +456,33 @@ document.getElementById('saveFeedback').addEventListener('click', async function
 
         let html = '';
         response.data.data.forEach(function (item, index) {
-            // Assuming each item has a single parameter for simplicity; adjust if multiple parameters are returned
-            const param = item.parameters[0] || { parameter: 'N/A', note: 'No note' };
-            const percentage = param.percentage || '5%'; // Default percentage; adjust based on backend data
             const date = new Date(item.created_at).toLocaleDateString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            }).split('/').join('-'); // Format as DD-MM-YYYY
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                }).split('/').join('-');
 
-            html += `<tr>
+                let labelClass = 'bg-secondary text-white'; // default
+                if (item.quality === 'fatal') {
+                    labelClass = 'bg-danger text-white';
+                } else if (item.quality === 'non_fatal') {
+                    labelClass = 'bg-success text-white';
+                }
+                html += `<tr>
                 <td>
-                    <div class="qis-label timely">
-                        <span class="qis-icon">⏱️</span> ${param.parameter} ${percentage}
+                    <div class="qis-label ${labelClass} p-1 rounded">
+                        <span class="qis-icon">⏱️</span> ${item.parameter}
                     </div>
                 </td>
-                <td>${param.note}</td>
-                <td>${date}</td>
-                <td>
-                    <button class="editFeedback no-btn p-0" data-id="${item.id}" title="Edit">
-                        <img width="25" src="../../../assets/img/icons/img-icons/edit.png" alt="edit">
-                    </button>
-                    <button class="deleteFeedback no-btn p-0" data-id="${item.id}" onclick="return confirm('Are you sure you want to delete this feedback?')">
-                        <img width="25" src="../../../assets/img/icons/img-icons/delete.png" alt="delete">
-                    </button>
-                </td>
+                <td>${item.note}</td>
+                <td>${item.user_id}</td>
+                <td>${item.created_at}</td>
             </tr>`;
         });
-
-        $('#booking_feed_back_table').html(html);
+        console.log(html);
+        $('#booking_feed_back_table tbody').html(html);
         showToast(response.data.message);
+
     } catch (e) {
         console.error("AXIOS ERROR", e);
         if (e.response) {
@@ -497,17 +494,59 @@ document.getElementById('saveFeedback').addEventListener('click', async function
     }
 });
 
-// Optional: Handle delete button clicks
-document.addEventListener('click', async function (e) {
-    if (e.target.classList.contains('deleteFeedback')) {
-        const id = e.target.getAttribute('data-id');
-        try {
-            const response = await axios.post(route('booking.delete-feedback', { id: id }));
-            e.target.closest('tr').remove();
-            showToast(response.data.message);
-        } catch (e) {
-            console.error("AXIOS ERROR", e);
-            showToast('Error deleting feedback', 'error');
-        }
-    }
+document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.chkqlty').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                const relatedId = this.id;
+                const textarea = document.querySelector('textarea[data-related="' + relatedId + '"]');
+                if (this.checked) {
+                    textarea.classList.remove('d-none');
+                } else {
+                    textarea.classList.add('d-none');
+                    textarea.value = '';
+                }
+            });
+        });
+    });
+
+
+    // Optional: Handle delete button clicks
+document.addEventListener('DOMContentLoaded', function () {
+    const bookingId = route().params.id; // This works if you're on a route like /booking/{id}/...
+
+    document.querySelectorAll('.chkqlty').forEach(function (checkbox) {
+        checkbox.addEventListener('change', async function () {
+            const paramName = this.value;
+            const textarea = document.querySelector(`textarea[data-related="${paramName}"]`);
+
+            if (!this.checked) {
+                const confirmDelete = confirm(`Are you sure you want to delete feedback for "${paramName}"?`);
+                if (confirmDelete) {
+                    if (textarea) {
+                        textarea.value = '';
+                        textarea.classList.add('d-none');
+                    }
+
+                    try {
+                        const response = await axios.post(route('booking.delete-feedback', { id: bookingId }), {
+                            booking_id: bookingId,
+                            parameter: paramName
+                        });
+
+                            showToast(response.data.message);
+                    } catch (e) {
+                        console.error("Delete error", e);
+                        showToast('Error deleting feedback.', 'error');
+                    }
+                } else {
+                    this.checked = true; // restore if canceled
+                }
+            } else {
+                // Show textarea on check
+                if (textarea) {
+                    textarea.classList.remove('d-none');
+                }
+            }
+        });
+    });
 });

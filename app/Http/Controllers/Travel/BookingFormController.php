@@ -27,6 +27,7 @@ use App\Models\TravelHotelDetail;
 use App\Models\UserShiftAssignment;
 use App\Models\ChangeLog;
 use App\Models\Campaign;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
@@ -250,14 +251,16 @@ class BookingFormController extends Controller
         $bookingId = $this->hashids->decode($id)[0];
 
         foreach ($request->parameters as $param) {
-            TravelQualityFeedback::create([
-                'booking_id' => $bookingId,
-                'user_id' => Auth::id(),
-                'parameter' => $param['parameter'] ?? '',
-                'note' => $param['note'] ?? '',
-                'marks' => $param['marks'] ?? '',
-                'quality' => $param['quality'] ?? '',
-            ]);
+            if($param['note']){
+                TravelQualityFeedback::create([
+                    'booking_id' => $bookingId,
+                    'user_id' => Auth::id(),
+                    'parameter' => $param['parameter'] ?? '',
+                    'note' => $param['note'] ?? '',
+                    'marks' => $param['marks'] ?? '',
+                    'quality' => $param['quality'] ?? '',
+                ]);
+            }
         }
 
         $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')
@@ -269,8 +272,10 @@ class BookingFormController extends Controller
 
 
     public function deleteFeedBack(Request $request,$id){
-        $delete = TravelQualityFeedback::where('id',$id)->delete();
-        $data = TravelQualityFeedback::select('id','booking_id','user_id','qa','status','parameters','feedback','created_at')->where('booking_id',$this->hashids->decode($id)[0])->get();
+        $bookingId = $this->hashids->decode($id)[0];
+
+        $delete = TravelQualityFeedback::where('booking_id',$bookingId)->where('parameter',$request->parameter)->delete();
+        $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')->where('booking_id', $bookingId)->get();
         return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
     }
 
@@ -869,7 +874,8 @@ class BookingFormController extends Controller
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
-        return view('web.booking.show', compact('booking', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        $users = User::get();
+        return view('web.booking.show', compact('booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
 

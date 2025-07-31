@@ -68,7 +68,10 @@
                         <tbody>
                             <!-- Example Row -->
                             @foreach ($bookings as $booking)
-                            <tr>
+                            <tr  @if($booking->booking_status_id == 16) style="background-color: #c8dfc8 !important;"
+                                 @endif
+                                >
+
                                 <td>
                                     <a title="{{ $booking->id }}" href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
                                         {{ ($bookings->currentPage() - 1) * $bookings->perPage() + $loop->iteration }}

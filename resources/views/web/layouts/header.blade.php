@@ -154,8 +154,15 @@
                                             <div data-i18n="Quality Feedback">Quality Feedback</div>
                                         </a>
                                     </li>
+                                    
+                                    <li class="menu-item {{ Route::currentRouteName() == 'quality-feedback.index' ? 'active' : '' }}">
+                                        <a href="{{ route('quality-feedback.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
+                                            <div data-i18n="LOB">LOB</div>
+                                        </a>
+                                    </li>
 
-                                    <!-- LOB -->
+                                    <!--  -->
                                    
 
                                    

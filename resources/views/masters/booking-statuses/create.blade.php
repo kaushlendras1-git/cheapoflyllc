@@ -20,37 +20,91 @@
             @csrf
             <!-- Top Bar -->
 
-
-            <!-- Booking Form Card -->
             <div class="card p-4 mb-4">
-                <div class="row mb-3 booking-form">
-                    <div class="col-md-3 position-relative">
-                        <label class="form-label">Name <span class="text-danger">*</span></label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name') }}">
-                        @error('name')
-                        <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+    <div class="row mb-3 booking-form">
+        <div class="col-md-3 position-relative">
+            <label class="form-label">Name <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+            @error('name')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <div class="col-md-3 position-relative">
-                        <label class="form-label">Status <span class="text-danger">*</span></label>
-                        <select id="status" data-sh="Team" name="status" class="form-control">
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                        </select>
-                        @error('Status')
-                        <div class="text-danger">{{ $Status }}</div>
-                        @enderror
-                    </div>
+        <div class="col-md-3 position-relative">
+            <label class="form-label">Status <span class="text-danger">*</span></label>
+            <select id="status" data-sh="Team" name="status" class="form-control">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+            @error('Status')
+            <div class="text-danger">{{ $Status }}</div>
+            @enderror
+        </div>
 
+     </div>
 
+        <div class="row">
+            <div class="col-mb-12 ">
+                <label class="form-label">Roles</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="manager" name="roles[]" value="Manager">
+                    <label class="form-check-label" for="manager">Manager</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="teamleader" name="roles[]" value="TeamLeader">
+                    <label class="form-check-label" for="teamleader">TeamLeader</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="supervisor" name="roles[]" value="Supervisor">
+                    <label class="form-check-label" for="supervisor">Supervisor</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="user" name="roles[]" value="User">
+                    <label class="form-check-label" for="user">User</label>
+                </div>
+            </div>
+        
+        </div>
 
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
+        <div class="row">
+
+           <div class="col-mb-12">
+                <label class="form-label">Department</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="sales" name="department[]" value="Sales">
+                    <label class="form-check-label" for="sales">Sales</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="ccv" name="department[]" value="CCV">
+                    <label class="form-check-label" for="ccv">CCV</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="billings" name="department[]" value="Billings">
+                    <label class="form-check-label" for="billings">Billings</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="changes" name="department[]" value="Changes">
+                    <label class="form-check-label" for="changes">Changes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="quality" name="department[]" value="Quality">
+                    <label class="form-check-label" for="quality">Quality</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="ChargeBack" name="department[]" value="ChargeBack">
+                    <label class="form-check-label" for="ChargeBack">ChargeBack</label>
+                </div>
+            </div>
+     
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</div>
+     
+
         </form>
-
-
     </div>
 
 

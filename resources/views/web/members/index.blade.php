@@ -12,93 +12,53 @@
             </ol>
         </nav>
     </div>
-    <div class="row g-6 mb-6">
-        <div class="col-sm-6 col-xl-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="me-1">
-                            <p class="text-heading mb-1">Admin Users</p>
-                            <div class="d-flex align-items-center">
-                                <h4 class="mb-1 me-2">{{$admin_count}}</h4>
-                            </div>
-                        </div>
-                        <div class="avatar">
-                            <div class="avatar-initial bg-label-danger rounded">
-                                <div class="icon-base ri ri-user-add-line icon-26px scaleX-n1"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="me-1">
-                            <p class="text-heading mb-1">Active Agents</p>
-                            <div class="d-flex align-items-center">
-                                <h4 class="mb-1 me-2">{{$active_agent_count}}</h4>
-                            </div>
-                        </div>
-                        <div class="avatar">
-                            <div class="avatar-initial bg-label-success rounded">
-                                <div class="icon-base ri ri-user-follow-line icon-26px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Team-Wise Total Users Card -->
-        @foreach($team_counts as $team => $count)
-        <div class="col-sm-6 col-xl-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="me-1">
-                            <p class="text-heading mb-1">{{ $team }} Team</p>
-                            <div class="d-flex flex-column">
-                                <h4 class="mb-1 me-2">{{$count}}</h4>
-                            </div>
-                        </div>
-                        <div class="avatar">
-                            <div class="avatar-initial bg-label-primary rounded">
-                                <div class="icon-base ri ri-group-line icon-26px"></div>
+        <div class="row g-6 mb-6 mt-1">       
+        <div class="container mt-4">
+                <div class="row justify-content-start">
+                    <div class="col-2">
+                        <div class="card text-white bg-primary mb-3" style="font-size: 0.85rem;">
+                            <div class="card-body text-center p-2">
+                                <h6 class="card-title text-white mb-1">Admin Users</h6>
+                                <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$admin_count}}</p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        @endforeach
+                    <div class="col-2">
+                        <div class="card text-white bg-primary mb-3" style="font-size: 0.85rem;">
+                            <div class="card-body text-center p-2">
+                                <h6 class="card-title text-white mb-1">{{$active_agent_count}}</h6>
+                                <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">14</p>
+                            </div>
+                        </div>
+                    </div>
+                    @foreach($team_counts as $team => $count)
+                        <div class="col-2">
+                            <div class="card text-white bg-warning mb-3" style="font-size: 0.85rem;">
+                                <div class="card-body text-center p-2">
+                                    <h6 class="card-title text-white mb-1">{{ $team }} Team</h6>
+                                    <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$count}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
 
-        @foreach($shift_counts as $shift => $count)
-        <!-- Shift-Wise Total Users Card -->
-        <div class="col-sm-6 col-xl-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="me-1">
-                            <p class="text-heading mb-1">{{ $shift }} - Shift</p>
-                            <div class="d-flex flex-column">
-                                <h4 class="mb-1 me-2">{{$count}}</h4>
+                    @foreach($shift_counts as $shift => $count)
+                        <div class="col-2">
+                            <div class="card text-white bg-info mb-3" style="font-size: 0.85rem;">
+                                <div class="card-body text-center p-2">
+                                    <h6 class="card-title text-white mb-1">{{ $shift }} - Shift</h6>
+                                    <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$count}}</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="avatar">
-                            <div class="avatar-initial bg-label-info rounded">
-                                <div class="icon-base ri ri-time-line icon-26px"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
             </div>
         </div>
-        @endforeach
     </div>
-    <div class="card">
+
+
+   <div class="card">
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
               <div class="add-user-btn text-end mb-4">
