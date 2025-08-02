@@ -7778,7 +7778,7 @@ textarea.form-control-lg {
 }
 
 .container-p-y:not([class^=pt-], [class*=" pt-"]) {
-  padding-block-start: 70px !important;
+  padding-block-start: 25px !important;
 }
 .container-p-y:not([class^=pb-], [class*=" pb-"]) {
   padding-block-end: 1.5rem !important;
@@ -12139,6 +12139,7 @@ button:focus-visible {
 }
 .nav .nav-item {
   white-space: nowrap;
+  margin-right: 10px;
 }
 .nav:not(.nav-pills) .nav-link:hover, .nav:not(.nav-pills) .nav-link:focus {
   color: var(--bs-primary);
@@ -26489,7 +26490,7 @@ body {
   z-index: 2;
   flex-wrap: nowrap;
   backdrop-filter: blur(7.5px);
-  block-size: 4rem;
+  block-size: auto;
   color: var(--bs-body-color);
   padding-block: 0.25rem 0.2rem;
 }
@@ -28781,7 +28782,11 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   font-weight: 400 !important;
   font-size: 14px;
 }
-.booking-form input{
+.booking-form input, .booking-form select{
+    font-size: 11px;
+    font-weight: 700;
+}
+.app-brand-logo.demo h5 {
   font-size: 14px;
 }
 .booking-form .form-control {
@@ -28799,6 +28804,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .tabs-booked .nav-item .nav-link {
   box-shadow: none !important;
   font-size: 14px;
+      padding: 6px;
 }
 .tabs-booked .nav-item .nav-link.active {
   background-color: #fff;
@@ -28812,8 +28818,14 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   box-shadow: none;
 }
 .detail-passanger {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+}
+.add-no-btn {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding: 0px !important;
 }
 .booked-content table thead th, .booked-content table tbody td {
   border: none !important;
@@ -28823,6 +28835,9 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .booked-content table thead th {
   white-space: nowrap;
+}
+.show-booking-card {
+  padding: 1px !important;
 }
 .upload-file label {
   font-size: 14px;
@@ -28855,7 +28870,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   border-radius: 30px;
 }
 .create-booking-wrapper {
-  margin-top: 10px !important;
+  margin-top: 0px !important;
 }
 .tabs-booked {
   margin-top: 10px;
@@ -29019,6 +29034,10 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .details-table-wrappper table thead tr th {
     border-block-end-color: #000000 !important;
     border: 1px solid #000 !important;
+    background-color: #c75858 !important;
+    color: #fff !important;
+    text-align: center;
+    vertical-align: middle;
 }
 .details-table-wrappper table tbody tr td {
   border-right: 1px solid #000 !important;
@@ -29038,7 +29057,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   font-weight: 700;
 }
 .upper-titles h2{
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 34px;
 }
@@ -29093,6 +29112,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .navbar-nav-right .navbar-nav .menu-item .menu-link {
   transition: .67s;
+  font-size: 14px;
 }
 .upper-titles {
   margin-bottom: 0px !important;
@@ -29245,4 +29265,116 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .pointer{
   cursor: pointer;
+}
+
+
+
+
+.breadcrumb {
+	/*centering*/
+	display: inline-block;
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.35);
+	overflow: hidden;
+	border-radius: 5px;
+	/*Lets add the numbers for each link using CSS counters. flag is the name of the counter. to be defined using counter-reset in the parent element of the links*/
+	counter-reset: flag; 
+  margin-bottom: 0px !important;
+}
+
+.breadcrumb a {
+	text-decoration: none;
+	outline: none;
+	display: block;
+	float: left;
+	font-size: 12px;
+	line-height: 26px;
+	color: white;
+	/*need more margin on the left of links to accomodate the numbers*/
+	padding: 0 10px 0 60px;
+	background: #666;
+	background: linear-gradient(#6ea8ff, #6ea8ff);
+	position: relative;
+}
+/*since the first link does not have a triangle before it we can reduce the left padding to make it look consistent with other links*/
+.breadcrumb a:first-child {
+	padding-left: 46px;
+	border-radius: 5px 0 0 5px; /*to match with the parent's radius*/
+}
+.breadcrumb a:first-child:before {
+	left: 14px;
+}
+.breadcrumb a:last-child {
+	border-radius: 0 5px 5px 0; /*this was to prevent glitches on hover*/
+	padding-right: 20px;
+}
+.breadcrumb a.active, .breadcrumb a:hover{
+	background: #333;
+	background: linear-gradient(#055bdb, #055bdb);
+}
+.breadcrumb a.active:after, .breadcrumb a:hover:after {
+	background: #333;
+	background: linear-gradient(#055bdb, #055bdb);
+}
+
+/*adding the arrows for the breadcrumbs using rotated pseudo elements*/
+.breadcrumb a::after {
+	content: '';
+	position: absolute;
+	top: 0; 
+	right: -18px; /*half of square's length*/
+	/*same dimension as the line-height of .breadcrumb a */
+	width: 36px; 
+	height: 26px;
+	/*as you see the rotated square takes a larger height. which makes it tough to position it properly. So we are going to scale it down so that the diagonals become equal to the line-height of the link. We scale it to 70.7% because if square's: 
+	length = 1; diagonal = (1^2 + 1^2)^0.5 = 1.414 (pythagoras theorem)
+	if diagonal required = 1; length = 1/1.414 = 0.707*/
+	transform: scale(0.707) rotate(45deg);
+	/*we need to prevent the arrows from getting buried under the next link*/
+	z-index: 1;
+	/*background same as links but the gradient will be rotated to compensate with the transform applied*/
+	background: #666;
+	background: linear-gradient(135deg, #666, #333);
+	/*stylish arrow design using box shadow*/
+	box-shadow:  2px -2px 0 2px rgb(75 138 232), 3px -3px 0 2px rgba(255, 255, 255, 0.1);
+	/*
+		5px - for rounded arrows and 
+		50px - to prevent hover glitches on the border created using shadows*/
+	border-radius: 0 5px 0 50px;
+}
+/*we dont need an arrow after the last link*/
+.breadcrumb a:last-child::after {
+	content: none;
+}
+/*we will use the :before element to show numbers*/
+.breadcrumb a:before {
+	content: counter(flag);
+	counter-increment: flag;
+	border-radius: 100%;
+	width: 14px;
+	height: 14px;
+  font-size: 9px;
+	line-height: 20px;
+	margin: 8px 0;
+	position: absolute;
+	top: 0;
+	left: 30px;
+	background: #444;
+	background: linear-gradient(#083a84, #083a84);
+	font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upper-status {
+    background-color: #c75858;
+    padding: 10px;
+}
+.auth-button {
+    font-size: 11px;
+    padding: 5px 10px;
+    line-height: 10px;
+    height: auto;
+    border: 1px solid #055bdb;
+    color: #fff;
+    background-color: #055bdb;
 }
