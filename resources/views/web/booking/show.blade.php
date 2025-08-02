@@ -1664,9 +1664,7 @@
 
                                     
                                     @php
-                                        // Create an array of parameters from the feedback collection for easier lookup
                                         $feedbackParameters = $feed_backs->pluck('parameter')->toArray();
-                                        // Optionally, create an array to map parameters to their notes (if notes exist in the model)
                                         $feedbackNotes = $feed_backs->pluck('notes', 'parameter')->toArray();
                                     @endphp
 
