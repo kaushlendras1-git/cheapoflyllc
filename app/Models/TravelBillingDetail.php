@@ -53,7 +53,7 @@ class TravelBillingDetail extends Model
 
     public function getCcNumberAttribute($value)
     {
-        return $value ? decrypt($value) : null;
+//        return $value ? decrypt($value) : null;
     }
 
     public function setCvvAttribute($value)
@@ -63,6 +63,6 @@ class TravelBillingDetail extends Model
 
     public function getCvvAttribute($value)
     {
-        return $value ? decrypt($value) : null;
+//        return $value ? decrypt($value) : null;
     }
 }

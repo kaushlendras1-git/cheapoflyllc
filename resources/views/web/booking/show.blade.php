@@ -27,7 +27,6 @@
     width: calc(50% - 0.5em);
 }
 </style>
-
 <span id="flight_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->flightbookingimage}}"></span>
 <span id="hotel_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->hotelbookingimage}}"></span>
 <span id="cruise_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->cruisebookingimage}}"></span>
@@ -58,8 +57,8 @@
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Booking :</strong><span
                         style="color: #fff;margin-right: 20px;">{{$booking->id}}</span>
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Sales:</strong><span
-                        style="color: #fff; margin-right: 20px;">{{$booking->user->name}} - {{$booking->user->role}}</span>
-                    
+{{--                        style="color: #fff; margin-right: 20px;">{{$booking->user->name}} - {{$booking->user->role}}</span>--}}
+
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Issued On:</strong><span
                         style="color: #fff; margin-right: 20px;">{{$booking->created_at}}</span>
 
@@ -485,6 +484,7 @@
                                     <td>
                                         <span class="billing-card-title"> {{$key+1}}</span>
                                     </td>
+                                    <input type="hidden" name="passenger[{{$key}}][booking_id]" value="{{$passengers->booking_id}}"/>
                                     <td>
                                         <select class="form-control" style="width:5.5rem"
                                             name="passenger[{{$key}}][passenger_type]">
@@ -579,7 +579,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -1291,35 +1291,35 @@
                                                     name="billing[{{$key}}][card_type]">
                                                     <option value="">Select</option>
                                                     <option value="VISA"
-                                                        {{$billingDetails->card_type == 'VISA' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'VISA' ? 'selected' : ''}}>
                                                         VISA
                                                     </option>
                                                     <option value="Mastercard"
-                                                        {{$billingDetails->card_type == 'Mastercard' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'Mastercard' ? 'selected' : ''}}>
                                                         Mastercard</option>
                                                     <option value="AMEX"
-                                                        {{$billingDetails->card_type == 'AMEX' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'AMEX' ? 'selected' : ''}}>
                                                         AMEX
                                                     </option>
                                                     <option value="DISCOVER"
-                                                        {{$billingDetails->card_type == 'DISCOVER' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'DISCOVER' ? 'selected' : ''}}>
                                                         DISCOVER</option>
                                                 </select>
                                             </td>
                                             <td><input style="width: 140px;" inputmode="numeric" maxlength="16"
                                                     class="form-control" placeholder="CC Number"
                                                     name="billing[{{$key}}][cc_number]"
-                                                    value="{{$billingDetails->cc_number}}"></td>
+                                                    value="{{!empty($billingDetails['cc_number'])?$billingDetails['cc_number']:''}}"></td>
                                             <td><input type="text" class="form-control" placeholder="CC Holder Name"
                                                     name="billing[{{$key}}][cc_holder_name]"
-                                                    value="{{$billingDetails->cc_holder_name}}"></td>
+                                                    value="{{$billingDetails['cc_holder_name']}}"></td>
                                             <td>
                                                 <select style="width: 45px; margin: auto;" class="form-control"
                                                     name="billing[{{$key}}][exp_month]">
                                                     <option value="">MM</option>
                                                     @for($i = 1; $i <= 12; $i++) <option
                                                         value="{{ sprintf('%02d', $i) }}"
-                                                        {{$billingDetails->exp_month == sprintf('%02d', $i) ? 'selected' : ''}}>
+                                                        {{$billingDetails['exp_month'] == sprintf('%02d', $i) ? 'selected' : ''}}>
                                                         {{ sprintf('%02d', $i) }}</option>
                                                         @endfor
                                                 </select>
@@ -1328,7 +1328,7 @@
                                                 <select class="form-control" name="billing[{{$key}}][exp_year]">
                                                     <option value="">YYYY</option>
                                                     @for($i = 2024; $i <= 2034; $i++) <option value="{{$i}}"
-                                                        {{$billingDetails->exp_year == $i ? 'selected' : ''}}>{{$i}}
+                                                        {{$billingDetails['exp_year'] == $i ? 'selected' : ''}}>{{$i}}
                                                         </option>
                                                         @endfor
                                                 </select>
@@ -1338,7 +1338,7 @@
                                             <td><input style="width: 57px;" inputmode="numeric" maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]"
-                                                    value="{{$billingDetails->cvv}}">
+                                                    value="{{!empty($billingDetails['cvv'])?decrypt($billingDetails['cvv']):''}}">
                                             </td>
 
                                             <!--td><input style="width: 180px;" type="text" class="form-control"
@@ -1368,37 +1368,37 @@
                                                     class="form-control state-select" name="billing[{{$key}}][address]">
                                                     <option value="">Select Billing</option>
                                                     <option value="address"
-                                                        {{$billingDetails->address == 'address'?'selected':''}}>Address
+                                                        {{$billingDetails['address'] == 'address'?'selected':''}}>Address
                                                     </option>
                                                 </select>
                                             </td>
 
                                             <td><input style="width: 65px;" type="text" class="form-control"
                                                     placeholder="ZIP Code" name="billing[{{$key}}][zip_code]"
-                                                    value="{{$billingDetails->zip_code}}"></td>
+                                                    value="{{$billingDetails['zip_code']}}"></td>
                                             <td>
                                                 <select class="form-control" name="billing[{{$key}}][currency]">
                                                     <option value="">Select</option>
                                                     <option value="USD"
-                                                        {{$billingDetails->currency == 'USD' ? 'selected' : ''}}>USD
+                                                        {{$billingDetails['currency'] == 'USD' ? 'selected' : ''}}>USD
                                                     </option>
                                                     <option value="CAD"
-                                                        {{$billingDetails->currency == 'CAD' ? 'selected' : ''}}>CAD
+                                                        {{$billingDetails['currency'] == 'CAD' ? 'selected' : ''}}>CAD
                                                     </option>
                                                     <option value="EUR"
-                                                        {{$billingDetails->currency == 'EUR' ? 'selected' : ''}}>EUR
+                                                        {{$billingDetails['currency'] == 'EUR' ? 'selected' : ''}}>EUR
                                                     </option>
                                                     <option value="GBP"
-                                                        {{$billingDetails->currency == 'GBP' ? 'selected' : ''}}>GBP
+                                                        {{$billingDetails['currency'] == 'GBP' ? 'selected' : ''}}>GBP
                                                     </option>
                                                     <option value="AUD"
-                                                        {{$billingDetails->currency == 'AUD' ? 'selected' : ''}}>AUD
+                                                        {{$billingDetails['currency'] == 'AUD' ? 'selected' : ''}}>AUD
                                                     </option>
                                                     <option value="INR"
-                                                        {{$billingDetails->currency == 'INR' ? 'selected' : ''}}>INR
+                                                        {{$billingDetails['currency'] == 'INR' ? 'selected' : ''}}>INR
                                                     </option>
                                                     <option value="MXN"
-                                                        {{$billingDetails->currency == 'MXN' ? 'selected' : ''}}>MXN
+                                                        {{$billingDetails['currency'] == 'MXN' ? 'selected' : ''}}>MXN
                                                     </option>
                                                 </select>
                                             </td>
@@ -1683,9 +1683,9 @@
 
 
                                     @php
-                                   
+
                                     $feedbackParameters = $feed_backs->pluck('parameter')->toArray();
-                                    
+
                                     $feedbackNotes = $feed_backs->pluck('notes', 'parameter')->toArray();
                                     @endphp
 
@@ -2181,7 +2181,7 @@
         <!--------------------------- End Feedback --------------------------->
 
 
-        
+
 
 
 
