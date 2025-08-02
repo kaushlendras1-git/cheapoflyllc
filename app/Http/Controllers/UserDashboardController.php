@@ -57,12 +57,13 @@ class UserDashboardController extends Controller
     //     'approved' => true,
     // ]);
 
+    
         // Format result for calendar grid
-        $daysInMonth = Carbon::createFromDate(2025, 7, 1)->daysInMonth;
+        $daysInMonth = Carbon::createFromDate(2025, date('m'), 1)->daysInMonth;
         $calendar = [];
 
         for ($day = 1; $day <= $daysInMonth; $day++) {
-            $date = Carbon::create(2025, 7, $day)->format('Y-m-d');
+            $date = Carbon::create(2025, date('m'), $day)->format('Y-m-d');
             $calendar[$day] = $attendances[$date] ?? '';
         }
 

@@ -36,39 +36,56 @@
 <span id="screenshots_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->screenshot}}"></span>
 
 
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-            <h2 class="mb-0">Edit Booking</h2>
-            <nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);"
-                aria-label="breadcrumb">
-                <ol class="breadcrumb d-flex align-items-center mb-0">
-                    <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit Booking</li>
-                </ol>
-            </nav>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
+        <h2 class="mb-0">Edit Booking</h2>
+        <!-- <nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);"
+            aria-label="breadcrumb">
+            <ol class="breadcrumb d-flex align-items-center mb-0">
+                <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Booking</li>
+            </ol>
+        </nav> -->
+        <div class="breadcrumb">
+            <a href="{{ route('user.dashboard') }}" class="active">Dashboard</a>
+            <a href="javascript:void(0);">Edit Booking</a>
         </div>
-        <div class="row">
-            <div class="card p-4 create-booking-wrapper">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div class="d-flex" style="font-size: 12px;">
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Sales:</strong><span style="color: #2c3e50; margin-right: 20px;">Roger</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Changes:</strong><span style="color: #2c3e50; margin-right: 20px;">Zee</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Billing:</strong><span style="color: #2c3e50; margin-right: 20px;">Mark</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Quality:</strong><span style="color: #2c3e50; margin-right: 20px;">Smith</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Issued On:</strong><span style="color: #2c3e50; margin-right: 20px;">12 July 2025</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Shared :</strong><span style="color: #2c3e50;margin-right: 20px;">Agent</span>
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Booking :</strong><span style="color: #2c3e50;margin-right: 20px;">{{$booking->id}}</span> 
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Qc Score :</strong><span style="color: #2c3e50;margin-right: 20px;">78%</span> 
-                            <strong style="color: #1a3c5e; font-weight: 700; margin-right: 5px;">Qc Status :</strong><span style="color: #2c3e50;">Approved</span> 
-                        </div>
-                    <div class="d-flex gap-2">
-                        @include('web.booking.authModel')
-                        <a href="{{ route('auth-history', $hashids) }}"
-                            class="btn btn-outline-secondary btn-sm rounded-pill">
-                            Auth History
-                        </a>
-                    </div>
+    </div>
+    <div class="row">
+        <div class="card p-1 create-booking-wrapper">
+            <div class="upper-status d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex" style="font-size: 12px;">
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Booking :</strong><span
+                        style="color: #fff;margin-right: 20px;">{{$booking->id}}</span>
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Sales:</strong><span
+                        style="color: #fff; margin-right: 20px;">{{$booking->user->name}} - {{$booking->user->role}}</span>
+                    
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Issued On:</strong><span
+                        style="color: #fff; margin-right: 20px;">{{$booking->created_at}}</span>
+
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Changes:</strong><span
+                        style="color: #fff; margin-right: 20px;">Zee</span>
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Billing:</strong><span
+                        style="color: #fff; margin-right: 20px;">Mark</span>
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Quality:</strong><span
+                        style="color: #fff; margin-right: 20px;">Smith</span>
+
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Shared :</strong><span
+                        style="color: #fff;margin-right: 20px;">Agent</span>
+
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Qc Score :</strong><span
+                        style="color: #fff;margin-right: 20px;">78%</span>
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Qc Status :</strong><span
+                        style="color: #fff;">Approved</span>
                 </div>
+                <div class="d-flex gap-2">
+                    @include('web.booking.authModel')
+                    <a href="{{ route('auth-history', $hashids) }}"
+                        class="btn btn-outline-secondary btn-sm rounded-pill auth-button">
+                        Auth History
+                    </a>
+                </div>
+            </div>
 
             <form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST"
                 enctype="multipart/form-data">
@@ -84,7 +101,7 @@
 
                 <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
                 <!-- Top Bar -->
-                <div class="pt-3 mt-2 ps-0">
+                <div class="pt-1 mt-1 ps-0">
                     <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="form-check form-check-inline">
@@ -317,17 +334,14 @@
                             </select>
                         </div>
 
-
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label"> Is Shared Booking</label>
                             <select class="form-control" name="shared_booking">
-                                <option value="">Select
-                                </option>
-                                @foreach($campaigns as $campaign)
-                                <option value="{{$campaign->name}}"
-                                    {{$campaign->name == $booking->shared_booking?'selected':''}}>
-                                    {{$campaign->name}}</option>
+                                <option value="">Select</option>
+                                @foreach($users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
                                 @endforeach
+
                             </select>
                         </div>
 
@@ -340,89 +354,89 @@
         <!-- Tab Navigation -->
         <ul class="nav nav-tabs tabs-booked" id="bookingTabs" role="tablist">
 
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
-                        aria-controls="passenger" aria-selected="true">
-                        <i class="ri ri-user-3-fill" title="Passengers" style="color: #00008b; font-size: 28px;"></i>
-                    </a>
-                </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="passenger-tab" data-bs-toggle="tab" href="#passenger" role="tab"
+                    aria-controls="passenger" aria-selected="true">
+                    <i class="ri ri-user-3-fill" title="Passengers" style="color: #00008b; font-size: 20px;"></i>
+                </a>
+            </li>
 
 
-                <li class="nav-item" role="presentation" data-tab="Flight"
-                    style="{{ in_array('Flight', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
-                    <a class="nav-link" id="flightbooking-tab" data-bs-toggle="tab" href="#flightbooking" role="tab"
-                        aria-controls="flightbooking" aria-selected="true"><i class="ri ri-flight-takeoff-line"
-                            title="Flight" style="color: #1e90ff; font-size: 28px;"></i></a>
-                </li>
+            <li class="nav-item" role="presentation" data-tab="Flight"
+                style="{{ in_array('Flight', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
+                <a class="nav-link" id="flightbooking-tab" data-bs-toggle="tab" href="#flightbooking" role="tab"
+                    aria-controls="flightbooking" aria-selected="true"><i class="ri ri-flight-takeoff-line"
+                        title="Flight" style="color: #1e90ff; font-size: 20px;"></i></a>
+            </li>
 
-                <li class="nav-item" role="presentation" data-tab="Hotel"
-                    style="{{ in_array('Hotel', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
-                    <a class="nav-link" id="hotelbooking-tab" data-bs-toggle="tab" href="#hotelbooking" role="tab"
-                        aria-controls="hotelbooking" aria-selected="true"><i class="ri ri-hotel-fill" title="Hotel"
-                            style="color: #8b4513; font-size: 28px;"></i></a>
-                </li>
+            <li class="nav-item" role="presentation" data-tab="Hotel"
+                style="{{ in_array('Hotel', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
+                <a class="nav-link" id="hotelbooking-tab" data-bs-toggle="tab" href="#hotelbooking" role="tab"
+                    aria-controls="hotelbooking" aria-selected="true"><i class="ri ri-hotel-fill" title="Hotel"
+                        style="color: #8b4513; font-size: 20px;"></i></a>
+            </li>
 
-                <li class="nav-item" role="presentation" data-tab="Cruise"
-                    style="{{ in_array('Cruise', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
-                    <a class="nav-link" id="cruisebooking-tab" data-bs-toggle="tab" href="#cruisebooking" role="tab"
-                        aria-controls="cruisebooking" aria-selected="true"><i class="ri ri-ship-fill" title="Cruise"
-                            style="color: #006994; font-size: 28px;"></i></a>
-                </li>
+            <li class="nav-item" role="presentation" data-tab="Cruise"
+                style="{{ in_array('Cruise', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
+                <a class="nav-link" id="cruisebooking-tab" data-bs-toggle="tab" href="#cruisebooking" role="tab"
+                    aria-controls="cruisebooking" aria-selected="true"><i class="ri ri-ship-fill" title="Cruise"
+                        style="color: #006994; font-size: 20px;"></i></a>
+            </li>
 
-                <li class="nav-item" role="presentation" data-tab="Car"
-                    style="{{ in_array('Car', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
-                    <a class="nav-link" id="carbooking-tab" data-bs-toggle="tab" href="#carbooking" role="tab"
-                        aria-controls="carbooking" aria-selected="true"><i class="ri ri-car-fill" title="Car"
-                            style="color: #228b22; font-size: 28px;"></i></a>
-                </li>
+            <li class="nav-item" role="presentation" data-tab="Car"
+                style="{{ in_array('Car', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
+                <a class="nav-link" id="carbooking-tab" data-bs-toggle="tab" href="#carbooking" role="tab"
+                    aria-controls="carbooking" aria-selected="true"><i class="ri ri-car-fill" title="Car"
+                        style="color: #228b22; font-size: 20px;"></i></a>
+            </li>
 
-                <li class="nav-item" role="presentation" data-tab="Train"
-                    style="{{ in_array('Train', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
-                    <a class="nav-link" id="trainbooking-tab" data-bs-toggle="tab" href="#trainbooking" role="tab"
-                        aria-controls="trainbooking" aria-selected="true">
-                        <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 28px;"></i></a>
-                </li>
+            <li class="nav-item" role="presentation" data-tab="Train"
+                style="{{ in_array('Train', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
+                <a class="nav-link" id="trainbooking-tab" data-bs-toggle="tab" href="#trainbooking" role="tab"
+                    aria-controls="trainbooking" aria-selected="true">
+                    <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 20px;"></i></a>
+            </li>
 
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
-                        aria-controls="billing" aria-selected="false">
-                        <i class="ri ri-bank-line" style="font-size: 28px; color: #2e8b57;" title="Pricing"></i>
-                    </a>
-                </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
+                    aria-controls="billing" aria-selected="false">
+                    <i class="ri ri-bank-line" style="font-size: 20px; color: #2e8b57;" title="Pricing"></i>
+                </a>
+            </li>
 
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="pricing-tab" data-bs-toggle="tab" href="#pricing" role="tab"
                     aria-controls="pricing" aria-selected="false">
 
-                        <i class="ri ri-money-dollar-circle-line" style="font-size: 28px; color: #6a5acd;"
-                            title="Billing"></i>
-                    </a>
-                </li>
+                    <i class="ri ri-money-dollar-circle-line" style="font-size: 20px; color: #6a5acd;"
+                        title="Billing"></i>
+                </a>
+            </li>
 
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab"
-                        aria-controls="remarks" aria-selected="false">
-                        <i class="ri ri-sticky-note-line" style="font-size: 28px; color: #d2691e;"
-                            title="Booking Remarks"></i>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="remarks-tab" data-bs-toggle="tab" href="#remarks" role="tab"
+                    aria-controls="remarks" aria-selected="false">
+                    <i class="ri ri-sticky-note-line" style="font-size: 20px; color: #d2691e;"
+                        title="Booking Remarks"></i>
 
                 </a>
             </li>
 
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab"
-                        aria-controls="feedback" aria-selected="false">
-                        <i class="ri ri-feedback-line" style="font-size: 28px; color: #4169e1;"
-                            title="Quality Feedback"></i>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab"
+                    aria-controls="feedback" aria-selected="false">
+                    <i class="ri ri-feedback-line" style="font-size: 20px; color: #4169e1;"
+                        title="Quality Feedback"></i>
 
                 </a>
             </li>
 
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="screenshots-tab" data-bs-toggle="tab" href="#screenshots" role="tab"
-                        aria-controls="screenshots" aria-selected="false">
-                        <i class="ri ri-image-line" style="font-size: 28px; color: #ff6347;" title="Screenshots"></i>
-                    </a>
-                </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="screenshots-tab" data-bs-toggle="tab" href="#screenshots" role="tab"
+                    aria-controls="screenshots" aria-selected="false">
+                    <i class="ri ri-image-line" style="font-size: 20px; color: #ff6347;" title="Screenshots"></i>
+                </a>
+            </li>
 
         </ul>
 
@@ -433,96 +447,95 @@
         <div class="tab-content mt-0 p-0 booked-content" id="bookingTabsContent">
 
 
-                <!----------------------------------------Passeenger-------------------------------------------------->
-                <div class="tab-pane fade show active" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
-                    <div class="card p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
-                            <button class="btn btn-primary" type="button" id="passenger-detail-button">
+            <!----------------------------------------Passeenger-------------------------------------------------->
+            <div class="tab-pane fade show active" id="passenger" role="tabpanel" aria-labelledby="passenger-tab">
+                <div class="card p-4 show-booking-card">
+                    <div class="d-flex justify-content-between align-items-center mb-0">
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
+                         <button class="btn btn-primary" type="button" id="passenger-detail-button">
                                 <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
                                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                                 </svg>
                             </button>
-                        </div>
-                        <div
-                            class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
-                            <table class="passenger-table table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Type</th>
-                                        <th>Gender</th>
-                                        <th>Title</th>
-                                        <th>First Name</th>
-                                        <th>Middle Name</th>
-                                        <th>Last Name</th>
-                                        <th>DOB(dd-mm-yyyy)</th>
-                                        <th>Seat</th>
-                                        <th>Cr. OR <br>
-                                            Ref. Amt.
-                                        </th>
-                                        <th>E-Ticket</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="passengerForms">
-                                    @foreach($booking->passengers as $key=>$passengers)
-                                    <tr class="passenger-form" data-index="{{$key}}">
-                                        <td>
-                                            <span class="billing-card-title"> {{$key+1}}</span>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width:5.5rem"
-                                                name="passenger[{{$key}}][passenger_type]">
-                                                <option value="">Select</option>
-                                                <option value="Adult"
-                                                    {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult
-                                                </option>
-                                                <option value="Child"
-                                                    {{$passengers->passenger_type=="Child"?'selected':''}}>Child
-                                                </option>
-                                                <option value="Infant"
-                                                    {{$passengers->passenger_type=="Infant"?'selected':''}}>Infant
-                                                </option>
-                                                <option value="Seat Infant"
-                                                    {{$passengers->passenger_type=="Seat Infant"?'selected':''}}>Seat
-                                                    Infant
-                                                </option>
-                                                <option value="Lap Infant"
-                                                    {{$passengers->passenger_type=="Lap Infant"?'selected':''}}>Lap
-                                                    Infant
-                                                </option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width: 70px;"
-                                                name="passenger[{{$key}}][gender]">
-                                                <option value="">Select</option>
-                                                <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>
-                                                    Male
-                                                </option>
-                                                <option value="Female"
-                                                    {{$passengers->gender == 'Female'?'selected':''}}>
-                                                    Female</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" style="width:70px;"
-                                                name="passenger[{{$key}}][title]">
-                                                <option value="">Select</option>
-                                                <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr
-                                                </option>
-                                                <option value="Mrs" {{$passengers->title=="Mrs"?"selected":''}}>Mrs
-                                                </option>
-                                                <option value="Ms" {{$passengers->title=="Ms"?"selected":''}}>Ms
-                                                </option>
-                                                <option value="Master" {{$passengers->title=="Master"?"selected":''}}>
-                                                    Master
-                                                </option>
-                                                <option value="Miss" {{$passengers->title=="Miss"?"selected":''}}>Miss
-                                                </option>
-                                            </select>
-                                        </td>
+                    </div>
+
+                    <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
+                        <table class="passenger-table table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Type</th>
+                                    <th>Gender</th>
+                                    <th>Title</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
+                                    <th>Last Name</th>
+                                    <th>DOB(dd-mm-yyyy)</th>
+                                    <th>Seat</th>
+                                    <th>Cr. OR <br>
+                                        Ref. Amt.
+                                    </th>
+                                    <th>E-Ticket</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="passengerForms">
+                                @foreach($booking->passengers as $key=>$passengers)
+                                <tr class="passenger-form" data-index="{{$key}}">
+                                    <td>
+                                        <span class="billing-card-title"> {{$key+1}}</span>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:5.5rem"
+                                            name="passenger[{{$key}}][passenger_type]">
+                                            <option value="">Select</option>
+                                            <option value="Adult"
+                                                {{$passengers->passenger_type=="Adult"?'selected':''}}>Adult
+                                            </option>
+                                            <option value="Child"
+                                                {{$passengers->passenger_type=="Child"?'selected':''}}>Child
+                                            </option>
+                                            <option value="Infant"
+                                                {{$passengers->passenger_type=="Infant"?'selected':''}}>Infant
+                                            </option>
+                                            <option value="Seat Infant"
+                                                {{$passengers->passenger_type=="Seat Infant"?'selected':''}}>Seat
+                                                Infant
+                                            </option>
+                                            <option value="Lap Infant"
+                                                {{$passengers->passenger_type=="Lap Infant"?'selected':''}}>Lap
+                                                Infant
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width: 70px;"
+                                            name="passenger[{{$key}}][gender]">
+                                            <option value="">Select</option>
+                                            <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>
+                                                Male
+                                            </option>
+                                            <option value="Female" {{$passengers->gender == 'Female'?'selected':''}}>
+                                                Female</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" style="width:70px;"
+                                            name="passenger[{{$key}}][title]">
+                                            <option value="">Select</option>
+                                            <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr
+                                            </option>
+                                            <option value="Mrs" {{$passengers->title=="Mrs"?"selected":''}}>Mrs
+                                            </option>
+                                            <option value="Ms" {{$passengers->title=="Ms"?"selected":''}}>Ms
+                                            </option>
+                                            <option value="Master" {{$passengers->title=="Master"?"selected":''}}>
+                                                Master
+                                            </option>
+                                            <option value="Miss" {{$passengers->title=="Miss"?"selected":''}}>Miss
+                                            </option>
+                                        </select>
+                                    </td>
 
                                     <td>
                                         <input type="text" style="width:7.5rem" class="form-control"
@@ -566,6 +579,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                
                             </tbody>
                         </table>
                     </div>
@@ -1189,7 +1203,8 @@
 
 
                     <div class="d-flex justify-content-between align-items-center mb-3 add-bank">
-                        <h5 class="card-header border-0 p-0">Billing Details</h5>
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Billing Details</h5>
+
                         <i data-bs-toggle="modal" data-bs-target="#exampleModal"
                             class="ri ri-add-circle-fill pointer"></i>
                     </div>
@@ -1233,7 +1248,7 @@
 
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-header border-0 p-0">Card Details $1052</h5>
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Card Details $1052</h5>
 
                         <button class="btn btn-primary" type="button" id="billing-booking-button">
                             <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
@@ -1266,58 +1281,58 @@
                                     </thead>
                                     <tbody id="billingForms">
 
-                                            @foreach($booking->billingDetails as $key => $billingDetails)
-                                            <tr class="billing-card" data-index="{{$key}}">
-                                                <td>
-                                                    <h6 class="billing-card-title mb-0"> {{$key + 1}}</h6>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control" style="width: 90px;"
-                                                        name="billing[{{$key}}][card_type]">
-                                                        <option value="">Select</option>
-                                                        <option value="VISA"
-                                                            {{$billingDetails->card_type == 'VISA' ? 'selected' : ''}}>
-                                                            VISA
+                                        @foreach($booking->billingDetails as $key => $billingDetails)
+                                        <tr class="billing-card" data-index="{{$key}}">
+                                            <td>
+                                                <h6 class="billing-card-title mb-0"> {{$key + 1}}</h6>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" style="width: 90px;"
+                                                    name="billing[{{$key}}][card_type]">
+                                                    <option value="">Select</option>
+                                                    <option value="VISA"
+                                                        {{$billingDetails->card_type == 'VISA' ? 'selected' : ''}}>
+                                                        VISA
+                                                    </option>
+                                                    <option value="Mastercard"
+                                                        {{$billingDetails->card_type == 'Mastercard' ? 'selected' : ''}}>
+                                                        Mastercard</option>
+                                                    <option value="AMEX"
+                                                        {{$billingDetails->card_type == 'AMEX' ? 'selected' : ''}}>
+                                                        AMEX
+                                                    </option>
+                                                    <option value="DISCOVER"
+                                                        {{$billingDetails->card_type == 'DISCOVER' ? 'selected' : ''}}>
+                                                        DISCOVER</option>
+                                                </select>
+                                            </td>
+                                            <td><input style="width: 140px;" inputmode="numeric" maxlength="16"
+                                                    class="form-control" placeholder="CC Number"
+                                                    name="billing[{{$key}}][cc_number]"
+                                                    value="{{$billingDetails->cc_number}}"></td>
+                                            <td><input type="text" class="form-control" placeholder="CC Holder Name"
+                                                    name="billing[{{$key}}][cc_holder_name]"
+                                                    value="{{$billingDetails->cc_holder_name}}"></td>
+                                            <td>
+                                                <select style="width: 45px; margin: auto;" class="form-control"
+                                                    name="billing[{{$key}}][exp_month]">
+                                                    <option value="">MM</option>
+                                                    @for($i = 1; $i <= 12; $i++) <option
+                                                        value="{{ sprintf('%02d', $i) }}"
+                                                        {{$billingDetails->exp_month == sprintf('%02d', $i) ? 'selected' : ''}}>
+                                                        {{ sprintf('%02d', $i) }}</option>
+                                                        @endfor
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" name="billing[{{$key}}][exp_year]">
+                                                    <option value="">YYYY</option>
+                                                    @for($i = 2024; $i <= 2034; $i++) <option value="{{$i}}"
+                                                        {{$billingDetails->exp_year == $i ? 'selected' : ''}}>{{$i}}
                                                         </option>
-                                                        <option value="Mastercard"
-                                                            {{$billingDetails->card_type == 'Mastercard' ? 'selected' : ''}}>
-                                                            Mastercard</option>
-                                                        <option value="AMEX"
-                                                            {{$billingDetails->card_type == 'AMEX' ? 'selected' : ''}}>
-                                                            AMEX
-                                                        </option>
-                                                        <option value="DISCOVER"
-                                                            {{$billingDetails->card_type == 'DISCOVER' ? 'selected' : ''}}>
-                                                            DISCOVER</option>
-                                                    </select>
-                                                </td>
-                                                <td><input style="width: 140px;" inputmode="numeric" maxlength="16"
-                                                        class="form-control" placeholder="CC Number"
-                                                        name="billing[{{$key}}][cc_number]"
-                                                        value="{{$billingDetails->cc_number}}"></td>
-                                                <td><input type="text" class="form-control" placeholder="CC Holder Name"
-                                                        name="billing[{{$key}}][cc_holder_name]"
-                                                        value="{{$billingDetails->cc_holder_name}}"></td>
-                                                <td>
-                                                    <select style="width: 45px; margin: auto;" class="form-control"
-                                                        name="billing[{{$key}}][exp_month]">
-                                                        <option value="">MM</option>
-                                                        @for($i = 1; $i <= 12; $i++) <option
-                                                            value="{{ sprintf('%02d', $i) }}"
-                                                            {{$billingDetails->exp_month == sprintf('%02d', $i) ? 'selected' : ''}}>
-                                                            {{ sprintf('%02d', $i) }}</option>
-                                                            @endfor
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control" name="billing[{{$key}}][exp_year]">
-                                                        <option value="">YYYY</option>
-                                                        @for($i = 2024; $i <= 2034; $i++) <option value="{{$i}}"
-                                                            {{$billingDetails->exp_year == $i ? 'selected' : ''}}>{{$i}}
-                                                            </option>
-                                                            @endfor
-                                                    </select>
-                                                </td>
+                                                        @endfor
+                                                </select>
+                                            </td>
 
 
                                             <td><input style="width: 57px;" inputmode="numeric" maxlength="4"
@@ -1426,6 +1441,7 @@
 
                 <div class="col-md-12">
                     <div class="card p-4 details-table-wrappper">
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Pricing Details</h5>
                         <div class="d-flex justify-content-end mb-2">
                             <button class="btn btn-primary" type="button" id="pricing-booking-button">
                                 <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
@@ -1473,28 +1489,27 @@
                                     <td><input type="number" class="form-control" name="pricing[0][gross_price]"
                                             placeholder="Gross Price" min="0" step="0.01" style="width: 110px;"></td>
 
-                                        <td><span class="gross-total">0.00</span></td>
-                                        <td><input type="number" style="width: 110px;" class="form-control"
-                                                name="pricing[0][net_price]" placeholder="Net Price" min="0"
-                                                step="0.01">
-                                        </td>
-                                        <td><span class="net-total">0.00</span></td>
-                                        <td>
-                                            <select style="width: 145px;" name="pricing[0][details]"
-                                                class="form-select form-control" id="details_0">
-                                                <option value="">Select</option>
-                                                <option value="ticket_cost">Ticket Cost</option>
-                                                <option value="merchant_fee">Merchant Fee</option>
-                                                <option value="company_card_used">Company Card Used</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                                <i class="ri ri-delete-bin-line"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    @endif
+                                    <td><span class="gross-total">0.00</span></td>
+                                    <td><input type="number" style="width: 110px;" class="form-control"
+                                            name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01">
+                                    </td>
+                                    <td><span class="net-total">0.00</span></td>
+                                    <td>
+                                        <select style="width: 145px;" name="pricing[0][details]"
+                                            class="form-select form-control" id="details_0">
+                                            <option value="">Select</option>
+                                            <option value="ticket_cost">Ticket Cost</option>
+                                            <option value="merchant_fee">Merchant Fee</option>
+                                            <option value="company_card_used">Company Card Used</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                            <i class="ri ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endif
 
                                 @foreach($booking->pricingDetails as $key=>$pricingDetails)
                                 <tr class="pricing-row" data-index="{{$key}}">
@@ -1658,14 +1673,20 @@
 
                                 <!-- Include this inside your Blade view or HTML form -->
 
-                                    <div class="row">
-                                        <!-- Fatal Section -->
-                                        <div class="col-12 text-center"><h6 class="text-success fw-bold py-1 px-2" style="background-color: #e6ffe6; display: inline-block; border-radius: 5px; font-size: 0.9rem;">NOT FATAL</h6></div>
+                                <div class="row">
+                                    <!-- Fatal Section -->
+                                    <div class="col-12 text-center">
+                                        <h6 class="text-success fw-bold py-1 px-2"
+                                            style="background-color: #e6ffe6; display: inline-block; border-radius: 5px; font-size: 0.9rem;">
+                                            NOT FATAL</h6>
+                                    </div>
 
-                                    
+
                                     @php
-                                        $feedbackParameters = $feed_backs->pluck('parameter')->toArray();
-                                        $feedbackNotes = $feed_backs->pluck('notes', 'parameter')->toArray();
+                                   
+                                    $feedbackParameters = $feed_backs->pluck('parameter')->toArray();
+                                    
+                                    $feedbackNotes = $feed_backs->pluck('notes', 'parameter')->toArray();
                                     @endphp
 
                                     <div class="col-lg-3 col-md-6 col-12">
@@ -2095,69 +2116,72 @@
 
 
 
-                                    <div class="mt-5">
-                                    <div class="table-responsive">
-                                        <table id="booking_feed_back_table" class="table table-bordered align-middle">
-                                            <thead class="table-primary text-center">
-                                                <tr>
-                                                    <th style="width: 20%">Quality strategies</th>
-                                                    <th style="width: 50%">Comment</th>
-                                                    <th style="width: 10%">Agent</th>
-                                                    <th style="width: 20%">Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($feed_backs as $feed_back)
-                                                    <tr>
-                                                        <td>
-                                                            <div class="qis-label @if($feed_back->quality == 'non_fatal') bg-success text-white @else bg-danger text-white @endif p-1 rounded">
-                                                                <span class="qis-icon">⏱️</span>{{$feed_back->parameter}} 
-                                                            </div>
-                                                        </td>
-                                                        <td>{{$feed_back->note}}</td>
-                                                        <td>{{$feed_back->user_id}}</td>
-                                                        <td>{{$feed_back->created_at}}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    </div>                                
-                            
+                        <div class="mt-5">
+                            <div class="table-responsive">
+                                <table id="booking_feed_back_table" class="table table-bordered align-middle">
+                                    <thead class="table-primary text-center">
+                                        <tr>
+                                            <th style="width: 20%">Quality strategies</th>
+                                            <th style="width: 50%">Comment</th>
+                                            <th style="width: 10%">Agent</th>
+                                            <th style="width: 20%">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($feed_backs as $feed_back)
+                                        <tr>
+                                            <td>
+                                                <div
+                                                    class="qis-label @if($feed_back->quality == 'non_fatal') bg-success text-white @else bg-danger text-white @endif p-1 rounded">
+                                                    <span class="qis-icon">⏱️</span>{{$feed_back->parameter}}
+                                                </div>
+                                            </td>
+                                            <td>{{$feed_back->note}}</td>
+                                            <td>{{$feed_back->user_id}}</td>
+                                            <td>{{$feed_back->created_at}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
-                <!--------------------------- End Feedback --------------------------->
+            </div>
+            <!--------------------------- Screenshots --------------------------->
+        <div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+            <div class="card p-4">
+                <div class="mb-4">
+                    <h5 class="card-header border-0 p-0 mb-4 detail-passanger">Screenshots</h5>
+                    <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
+                </div>
 
-
-                <!--------------------------- Screenshots --------------------------->
-                <div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
-                    <div class="card p-4">
-                        <div class="mb-4">
-                            <h5 class="card-header border-0 p-0 mb-4 detail-passanger">Screenshots</h5>
-                                <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
-                        </div>
-                        
-                        <div class="card-body p-2">
-                            @php
-                            $screenshots = json_decode($booking->screenshot, true);
-                        @endphp
-                            @if (!empty($screenshots))
-                                @foreach ($screenshots as $file)
-                                    <div class="mb-2">
-                                        <img src="{{ asset($file) }}" alt="Screenshot" class="img-fluid rounded" style="max-height: 200px;">
-                                    </div>
-                                @endforeach
-                            @else
-                                <p class="text-muted">No screenshots available.</p>
-                            @endif
-                        </div>
+                <div class="card-body p-2">
+                    @php
+                    $screenshots = json_decode($booking->screenshot, true);
+                    @endphp
+                    @if (!empty($screenshots))
+                    @foreach ($screenshots as $file)
+                    <div class="mb-2">
+                        <img src="{{ asset($file) }}" alt="Screenshot" class="img-fluid rounded"
+                            style="max-height: 200px;">
+                    </div>
+                    @endforeach
+                    @else
+                    <p class="text-muted">No screenshots available.</p>
+                    @endif
+                </div>
 
             </div>
         </div>
 
-                <!---------------------------End  Screenshots --------------------------->
+        <!---------------------------End  Screenshots --------------------------->
+        </div>
+        <!--------------------------- End Feedback --------------------------->
+
+
+        
 
 
 

@@ -72,22 +72,15 @@
                         <table class=" table dataTable dtr-column table-responsive">
                             <thead>
                                 <tr>
-                                    <th><span class="dt-column-title" role="button">Sno</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">User</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Email</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Role</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Shift</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Team</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Status</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title">Actions</span><span
-                                            class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Sno</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">User</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Email</span><span class="dt-column-order"></span></th>
+                                     <th><span class="dt-column-title" role="button">Pseudo</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Role</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Shift</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Team</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Status</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">Actions</span><span class="dt-column-order"></span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -119,25 +112,8 @@
                                         </div>
                                     </td>
                                     <td><span>{{ $member->email }}</span></td>
-                                    <td>
-                                        <span class="text-truncate d-flex align-items-center text-heading">
-                                            @if($member->role == 'admin')
-                                            <div class="avatar">
-                                                <div class="avatar-initial bg-label-primary rounded">
-                                                    <div class="icon-base ri ri-group-line icon-26px"></div>
-                                                </div>
-                                            </div>
-                                              {{$member->role }}
-                                            @else
-                                            <div class="avatar">
-                                                <div class="avatar-initial bg-label-danger rounded">
-                                                    <div class="icon-base ri ri-user-add-line icon-26px scaleX-n1"></div>
-                                                </div>
-                                            </div>
-                                              {{ $member->role }}
-                                            @endif
-                                        </span>
-                                    </td>
+                                    <td><span>{{ $member->pseudo }}</span></td>
+                                    <td> {{$member->role }}</td>
                                     <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                                     <td>{{ $member->currentTeam?->team->name ?? 'No Team Assigned' }}</td>
                                     <td>
@@ -198,6 +174,13 @@
                             <label for="add-user-fullname">Full Name</label>
                         </div>
 
+                        <div class="form-floating form-floating-outline mb-5 form-control-validation">
+                            <input type="text" class="form-control" id="add-user-fullname" placeholder="John Doe"
+                                name="pseudo" aria-label="John Doe" required="">
+                            <label for="add-user-fullname">Pseudo</label>
+                        </div>
+
+
                         <!-- Email Field -->
                         <div class="form-floating form-floating-outline mb-5 form-control-validation">
                             <input type="email" id="add-user-email" class="form-control"
@@ -243,6 +226,18 @@
                                 <option value="Admin">Admin</option>
                             </select>
                             <label for="user-role">User Role</label>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-5">
+                            <select id="lob" name="lob" class="form-select" required="">
+                                <option value="1">Jacob Bethell</option>
+                                <option value="2">Joe Root</option>
+                                <option value="3">Ollie Pope</option>
+                                <option value="4">Ben Duckett</option>
+                                <option value="5">Zak Crawley</option>
+                                <option value="6">Harry Brook</option>
+                            </select>
+                            <label for="lob">LOB</label>
                         </div>
 
 

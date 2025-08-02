@@ -322,8 +322,7 @@ class BookingFormController extends Controller
                 'passenger.*.seat_number' => 'nullable|string',
                 'passenger.*.credit_note' => 'nullable|numeric',
                 'passenger.*.e_ticket_number' => 'nullable|string',
-
-              /*
+                /*
                 // Flight-specific validations
                 'flight' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|array|min:1',
                 'flight.*.direction' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|in:Inbound,Outbound',
@@ -517,23 +516,12 @@ class BookingFormController extends Controller
                         }
                     }
                 }
-
-                // // Prevent validation of fields for unselected booking types
-                // $allowedFields = array_map('strtolower', $bookingTypes);
-                // $possibleFields = ['flight', 'hotel', 'cruise', 'car', 'train'];
-
-                // foreach ($possibleFields as $field) {
-                //     if (!in_array($field, $allowedFields) && $request->has($field)) {
-                //         $validator->errors()->add($field, "The {$field} field should not be provided when booking type does not include " . ucfirst($field) . ".");
-                //     }
-                // }
             });
-
             $validator->validate();
 
             $user_id =Auth::id();
 
-            DB::beginTransaction();
+            #DB::beginTransaction();
 
             $booking = TravelBooking::findOrFail($id);
             $bookingData = $request->only([
@@ -776,29 +764,29 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedBillingIds)
                 ->delete();
 
+
             $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
             $newPricings = $request->input('pricing', []);
+
+
+          #  dd($newPricings);
+
             $processedPricingIds = [];
-
             foreach ($newPricings as $index => $pricingData) {
-                // Skip if required fields are missing (e.g., passenger_type is blank)
-                if (empty($pricingData['passenger_type'])) {
-                    continue;
-                }
-
                 $pricingData['booking_id'] = $booking->id;
-
                 $pricing = TravelPricingDetail::updateOrCreate(
                     ['id' => $pricingData['id'] ?? null, 'booking_id' => $booking->id],
                     $pricingData
                 );
-
                 $processedPricingIds[] = $pricing->id;
             }
+
 
             TravelPricingDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedPricingIds)
                 ->delete();
+
+
 
             if ($request->hasFile('sector_details')) {
                 foreach ($request->file('sector_details') as $file) {
@@ -820,7 +808,7 @@ class BookingFormController extends Controller
                     'screenshot'=>json_encode($screenshots)
                 ]);
             }
-            DB::commit();
+           # DB::commit();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Booking updated successfully',

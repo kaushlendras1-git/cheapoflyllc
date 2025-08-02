@@ -74,13 +74,16 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     const action = e.target.action;
     const formdata = new FormData(e.target);
 
-
-    const flightInputs = document.querySelectorAll('[name^="flight["]');
-    flightInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
-    });
+    const isFlightChecked = document.querySelector('#booking-flight').checked;
+    if (isFlightChecked) {
+        const flightInputs = document.querySelectorAll('[name^="flight["]');
+        flightInputs.forEach(input => {
+            const name = input.name;
+            const value = input.value;
+            formdata.append(name, value);
+        });
+        alert('w');
+    }
 
     const hotelInputs = document.querySelectorAll('[name^="hotel["]');
     hotelInputs.forEach(input => {
@@ -102,6 +105,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         formdata.append(name, value);
     });
 
+    
     for (const inputName in ponds) {
         const pond = ponds[inputName];
         pond.getFiles().forEach(fileItem => {
@@ -110,9 +114,11 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     }
 
     ['passenger', 'billing', 'pricing'].forEach(prefix => {
-        const inputs = document.querySelectorAll(`[name^="${prefix}["]`);
+        const inputs = document.querySelectorAll(`[name^="${prefix}["], [name^="${prefix}["] *`);
         inputs.forEach(input => {
-            formdata.append(input.name, input.value);
+            if (input.name) {
+                formdata.append(input.name, input.value);
+            }
         });
     });
 

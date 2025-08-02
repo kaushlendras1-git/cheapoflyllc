@@ -157,8 +157,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -213,7 +213,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'cheapoflyllc_new',
+        'database' => 'cheapoflyllc',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -221,11 +221,11 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'cheapoflyllc_new',
+        'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -241,11 +241,11 @@
       array (
         'driver' => 'mariadb',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'cheapoflyllc_new',
+        'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_uca1400_ai_ci',
@@ -261,11 +261,11 @@
       array (
         'driver' => 'pgsql',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'cheapoflyllc_new',
+        'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -276,11 +276,11 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'cheapoflyllc_new',
+        'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => '',
+        'password' => 'root',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -327,13 +327,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\app',
+        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\app/public',
+        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -353,7 +353,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\app/public',
+      'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
     ),
   ),
   'hashids' => 
@@ -398,14 +398,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -470,7 +470,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -483,11 +483,11 @@
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => '127.0.0.1',
-        'port' => '1025',
-        'encryption' => NULL,
-        'username' => NULL,
-        'password' => NULL,
+        'host' => 'smtp.example.com',
+        'port' => '587',
+        'encryption' => 'tls',
+        'username' => 'your-username',
+        'password' => 'your-password',
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -538,7 +538,7 @@
     ),
     'from' => 
     array (
-      'address' => 'auth@example.com',
+      'address' => 'from@example.com',
       'name' => 'Laravel',
     ),
     'markdown' => 
@@ -546,7 +546,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -641,7 +641,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -767,9 +767,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\resources\\views',
+      0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework\\views',
   ),
   'excel' => 
   array (
@@ -884,7 +884,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -977,7 +977,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\Users\\Raman Walia\\Desktop\\cheapoflyllc',
+    'remote_sites_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
