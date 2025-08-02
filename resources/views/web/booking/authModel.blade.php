@@ -120,7 +120,7 @@
 
           <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; margin: 20px auto; background: #fff; border: 1px solid #ddd;">
             <tr>
-              <td style="padding: 20px;">
+              <td style="padding: 20px;">  
                 <!-- Header -->
                 <table width="100%" cellpadding="0" cellspacing="0">
                   <tr>
