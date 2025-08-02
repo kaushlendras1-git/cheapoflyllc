@@ -64,7 +64,7 @@
 <body>
 
 <!-- Button to trigger call logs modal -->
-  <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#callLogsModal">
+  <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill auth-button" data-bs-toggle="modal" data-bs-target="#callLogsModal">
     Send Auth
   </button>
 
