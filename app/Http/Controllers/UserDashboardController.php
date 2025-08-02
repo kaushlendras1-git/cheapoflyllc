@@ -29,14 +29,12 @@ class UserDashboardController extends Controller
         $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
         $train_booking = 0;
         $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
-
         $today_score = 350;
         $weekly_score= 1200;
         $monthly_score= 8002;
-
         
-         $attendances = Attendance::where('user_id', $userId)
-             ->whereMonth('attendance_date', 7)  // June
+        $attendances = Attendance::where('user_id', $userId)
+             ->whereMonth('attendance_date', date('m'))  // June
              ->whereYear('attendance_date', 2025)
              ->pluck('status', 'attendance_date');
 
