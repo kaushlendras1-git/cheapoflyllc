@@ -488,9 +488,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
             <td><input type="date" class="form-control" style="width: 105px;" name="passenger[${passengerIndex}][dob]"></td>
-            <td><input type="text" class="form-control" style="width:50px; name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
-            <td><input type="number" class="form-control" style="width:80px; name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
-            <td><input type="text" class="form-control" style="width:80px; name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
+            <td><input type="text" class="form-control" style="width:50px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+            <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
+            <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                     <i class="icon-base ri ri-delete-bin-2-line"></i>

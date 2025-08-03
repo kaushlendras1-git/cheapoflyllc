@@ -564,11 +564,12 @@ class BookingFormController extends Controller
             });
 
             $processedPassengerIds = [];
+            TravelPassenger::where('booking_id', $booking->id)->delete();
             foreach ($passengers as $data) {
 
                 $data['booking_id'] = $booking->id;
-                $passenger = TravelPassenger::updateOrCreate(
-                    ['booking_id' => $booking->id],
+
+                $passenger = TravelPassenger::create(
                     $data
                 );
                 $processedPassengerIds[] = $passenger->id;
@@ -580,7 +581,7 @@ class BookingFormController extends Controller
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
-
+            $check = TravelFlightDetail::where('booking_id', $booking->id)->forceDelete();
             foreach ($newFlights as $flightData) {
 
                 $flightData['booking_id'] = $booking->id;
@@ -597,8 +598,8 @@ class BookingFormController extends Controller
                     ]);
 
                 }
-                $flight = TravelFlightDetail::updateOrCreate(
-                    ['booking_id' => $booking->id],
+
+                $flight = TravelFlightDetail::create(
                     $flightData
                 );
 
@@ -612,7 +613,7 @@ class BookingFormController extends Controller
             $existingHotelIds = $booking->travelHotel->pluck('id')->toArray();
             $newHotels = $request->input('hotel', []);
             $processedHotelIds = [];
-
+            TravelHotelDetail::where('booking_id', $booking->id)->delete();
             foreach ($newHotels as $hotelData) {
                 if ($this->allFieldsEmpty($hotelData)) {
                     continue;
@@ -629,8 +630,7 @@ class BookingFormController extends Controller
                 }
 
                 $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
-                $hotel = TravelHotelDetail::updateOrCreate(
-                    ['id' => $hotelData['id'] ?? null, 'booking_id' => $booking->id],
+                $hotel = TravelHotelDetail::create(
                     $hotelData
                 );
                 if ($oldHotel) {
@@ -655,7 +655,7 @@ class BookingFormController extends Controller
             $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
             $newCruises = $request->input('cruise', []);
             $processedCruiseIds = [];
-
+            TravelCruiseDetail::where('booking_id', $booking->id)->delete();
             foreach ($newCruises as $cruiseData) {
                 if ($this->allFieldsEmpty($cruiseData)) {
                     continue;
@@ -671,8 +671,7 @@ class BookingFormController extends Controller
                     ]);
                 }
                 $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
-                $cruise = TravelCruiseDetail::updateOrCreate(
-                    ['id' => $cruiseData['id'] ?? null, 'booking_id' => $booking->id],
+                $cruise = TravelCruiseDetail::create(
                     $cruiseData
                 );
                 if ($oldCruise) {
@@ -696,7 +695,7 @@ class BookingFormController extends Controller
             $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
             $newCars = $request->input('car', []);
             $processedCarIds = [];
-
+            TravelCarDetail::where('booking_id', $booking->id)->delete();
             foreach ($newCars as $carData) {
                 $carData['booking_id'] = $booking->id;
                 // Handle file upload
@@ -711,8 +710,7 @@ class BookingFormController extends Controller
                 }
 
                 // Insert or update car detail
-                $car = TravelCarDetail::updateOrCreate(
-                    ['id' => $carData['id'] ?? null, 'booking_id' => $booking->id],
+                $car = TravelCarDetail::create(
                     $carData
                 );
 
@@ -725,11 +723,10 @@ class BookingFormController extends Controller
 
 
             $newTrains = !empty($request->train)?$request->train:[];
-
+            TravelTrainDetail::where('booking_id', $booking->id)->delete();
             foreach ($newTrains as $train) {
                 $trainData = $train;
                 $trainData['booking_id'] = $booking->id;
-
                 if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
                     $trainbookingimage = [];
                     foreach($request->trainbookingimage as $key => $image){
@@ -740,21 +737,19 @@ class BookingFormController extends Controller
                     ]);
                 }
                 $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
-                $car = TravelTrainDetail::updateOrCreate(
-                    ['id' => $trainDataD['id'] ?? null, 'booking_id' => $booking->id],
+                $car = TravelTrainDetail::create(
                     $trainData
                 );
             }
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
-
+            TravelBillingDetail::where('booking_id',$booking->id)->delete();
             foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;
                     // Set active only if this is the last card
                     $billingData['is_active'] = ($request->input('activeCard') == $index) ? 1 : 0;
-                    $billing = TravelBillingDetail::updateOrCreate(
-                        ['booking_id' => $booking->id],
+                    $billing = TravelBillingDetail::create(
                         $billingData
                     );
                     $processedBillingIds[] = $billing->id;
@@ -772,10 +767,10 @@ class BookingFormController extends Controller
           #  dd($newPricings);
 
             $processedPricingIds = [];
+            TravelPricingDetail::where('booking_id',$booking->id)->delete();
             foreach ($newPricings as $index => $pricingData) {
                 $pricingData['booking_id'] = $booking->id;
-                $pricing = TravelPricingDetail::updateOrCreate(
-                    ['id' => $pricingData['id'] ?? null, 'booking_id' => $booking->id],
+                $pricing = TravelPricingDetail::create(
                     $pricingData
                 );
                 $processedPricingIds[] = $pricing->id;
@@ -828,7 +823,7 @@ class BookingFormController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
 
-            return JsonResponse::error('Internal Server Error', 500, '500');
+            return JsonResponse::error('Internal Server Error'.$e, 500, '500');
         }
     }
 

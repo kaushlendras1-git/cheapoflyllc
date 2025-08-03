@@ -82,11 +82,17 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             const value = input.value;
             formdata.append(name, value);
         });
-        alert('w');
     }
 
     const hotelInputs = document.querySelectorAll('[name^="hotel["]');
     hotelInputs.forEach(input => {
+        const name = input.name;
+        const value = input.value;
+        formdata.append(name, value);
+    });
+
+    const trainInputs = document.querySelectorAll('[name^="train["]');
+    trainInputs.forEach(input => {
         const name = input.name;
         const value = input.value;
         formdata.append(name, value);
@@ -105,7 +111,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         formdata.append(name, value);
     });
 
-    
+
     for (const inputName in ponds) {
         const pond = ponds[inputName];
         pond.getFiles().forEach(fileItem => {
@@ -130,6 +136,8 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             }
         });
         showToast(response.data.message);
+
+
     }
     catch (e) {
         console.error(e);
@@ -427,7 +435,7 @@ function attachDeleteHandler(el) {
 document.getElementById('saveFeedback').addEventListener('click', async function (e) {
     e.preventDefault();
 
-   
+
     const parameters = Array.from(document.querySelectorAll('input[name="parameters[]"]:checked')).map(input => {
         const parentDiv = input.closest('.col-lg-3, .col-md-6, .col-12');
 
