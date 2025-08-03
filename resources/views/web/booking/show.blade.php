@@ -27,6 +27,7 @@
     width: calc(50% - 0.5em);
 }
 </style>
+
 <span id="flight_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->flightbookingimage}}"></span>
 <span id="hotel_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->hotelbookingimage}}"></span>
 <span id="cruise_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->cruisebookingimage}}"></span>
@@ -243,7 +244,6 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Booking Type</label>
                             <select id="query_type" class="form-control" name="query_type">
-
                                 <option>Package Reservation</option>
                                 <option data-type="Flight">Flight Reservation </option>
                                 <option data-type="Flight">Flight Reservation with Credits & Vouchers</option>
@@ -767,14 +767,27 @@
                             $images = json_decode($booking->flightbookingimage, true);
                         @endphp
 
-                        @if ($images && is_array($images))
-                            <div class="row">
-                                @foreach ($images as $img)
-                                    <div class="col-md-3 mb-2">
-                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
-                                    </div>
-                                @endforeach
-                            </div>
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @else
                             <p>No images found.</p>
                         @endif
@@ -887,14 +900,27 @@
                             $images = json_decode($booking->carbookingimage, true);
                         @endphp
 
-                        @if ($images && is_array($images))
-                            <div class="row">
-                                @foreach ($images as $img)
-                                    <div class="col-md-3 mb-2">
-                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
-                                    </div>
-                                @endforeach
-                            </div>
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @else
                             <p>No images found.</p>
                         @endif
@@ -1013,14 +1039,27 @@
                             $images = json_decode($booking->cruisebookingimage, true);
                         @endphp
 
-                        @if ($images && is_array($images))
-                            <div class="row">
-                                @foreach ($images as $img)
-                                    <div class="col-md-3 mb-2">
-                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
-                                    </div>
-                                @endforeach
-                            </div>
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @else
                             <p>No images found.</p>
                         @endif
@@ -1125,14 +1164,27 @@
                             $images = json_decode($booking->hotelbookingimage, true);
                         @endphp
 
-                        @if ($images && is_array($images))
-                            <div class="row">
-                                @foreach ($images as $img)
-                                    <div class="col-md-3 mb-2">
-                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
-                                    </div>
-                                @endforeach
-                            </div>
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @else
                             <p>No images found.</p>
                         @endif
@@ -1269,14 +1321,27 @@
                             $images = json_decode($booking->trainbookingimage, true);
                         @endphp
 
-                        @if ($images && is_array($images))
-                            <div class="row">
-                                @foreach ($images as $img)
-                                    <div class="col-md-3 mb-2">
-                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
-                                    </div>
-                                @endforeach
-                            </div>
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @else
                             <p>No images found.</p>
                         @endif
@@ -2237,13 +2302,12 @@
                         @php
                             $images = json_decode($booking->screenshot, true);
                         @endphp
-                        @if ($images && is_array($images))
+                        @if($images && is_array($images))
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Image Preview</th>
-                                       
                                         <th>Agent Name</th>
                                         <th>Date</th>
                                     </tr>
