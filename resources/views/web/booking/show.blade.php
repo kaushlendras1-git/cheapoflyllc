@@ -1698,7 +1698,8 @@
                                         <td>Sno.</td>
                                         <td>Remark</td>
                                         <td>Agent</td>
-                                        <td>Action</td>
+                                        <td>Date/Time</td>
+                                        <td>Show/Hide</td>
                                     </tr>
                                 </thead>
                                 <tbody id="bookingtableremarktable">
@@ -1708,13 +1709,13 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$remar->particulars}}</td>
                                         <td>{{$remar->agent}}</td>
+                                        <td>{{$remar->created_at}}</td>
                                         <td>
-                                            <button data-id="{{$remar->id}}" type="submit" class="no-btn p-0 "
-                                                onclick="return confirm('Are you sure you want to delete this call type?')">
-                                                <img width="25" src="../../../assets/img/icons/img-icons/delete.png"
-                                                    alt="shift-change">
-                                            </button>
-
+                                          
+                                          <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Active Listening" id="ActiveListening" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ActiveListening"></label>
+                                        </div>
 
                                         </td>
                                     </tr>
@@ -2236,15 +2237,28 @@
                         @php
                             $images = json_decode($booking->screenshot, true);
                         @endphp
-
                         @if ($images && is_array($images))
-                            <div class="row">
-                                @foreach ($images as $img)
-                                    <div class="col-md-3 mb-2">
-                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
-                                    </div>
-                                @endforeach
-                            </div>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                       
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @else
                             <p>No images found.</p>
                         @endif
