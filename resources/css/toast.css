@@ -1,16 +1,15 @@
 .toast-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    font-family: sans-serif;
-    font-size: 14px;
-    max-width: 300px;
-    z-index: 9999;
-    display: flex;
+display: flex;
     align-items: center;
+    background-color: #28a745; /* green */
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 15px;
+    min-width: 320px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeSlideIn 0.3s ease-out forwards;
 }
 
 .toast-enter {
