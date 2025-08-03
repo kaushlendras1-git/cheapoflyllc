@@ -1189,7 +1189,7 @@
                             <p>No images found.</p>
                         @endif
                     </div>
-                    
+
                 </div>
             </div>
             <!------------------------ End Hotel Booking Details ------------------------------>
@@ -1468,7 +1468,7 @@
                                                     name="billing[{{$key}}][cc_number]"
                                                    value="{{$billingDetails['cc_number']}}"></td>
 
-                                            
+
                                                     <td><input type="text" class="form-control" placeholder="CC Holder Name"
                                                     name="billing[{{$key}}][cc_holder_name]"
                                                     value="{{$billingDetails['cc_holder_name']}}"></td>
@@ -1500,16 +1500,16 @@
                                                     value="{{$billingDetails['cvv']}}">
                                             </td>
 
-                                           
+
                                             </select>
                                             </td>
                                             <td>
                                                 <select id="state-{{$key}}" style="width:7.5rem"
                                                     class="form-control state-select" name="billing[{{$key}}][address]">
                                                     <option value="">Select Billing</option>
-                                                    <option value="address"
-                                                        {{$billingDetails['address'] == 'address'?'selected':''}}>Address
-                                                    </option>
+                                                    @foreach($billingData as $bi)
+                                                        <option value="{{$bi->id}}" {{$bi->id == $billingDetails['address']?'selected':''}}>{{$bi->street_address}}</option>
+                                                    @endforeach
                                                 </select>
                                             </td>
 
@@ -1776,7 +1776,7 @@
                                         <td>{{$remar->agent}}</td>
                                         <td>{{$remar->created_at}}</td>
                                         <td>
-                                          
+
                                           <div class="form-check form-switch">
                                             <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Active Listening" id="ActiveListening" name="parameters[]">
                                             <label class="form-check-label text-dark" for="ActiveListening"></label>
@@ -2390,7 +2390,12 @@
                         </div>
                         <div class="col-md-3 position-relative">
                             <label class="form-label">Country <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="country">
+                            <select class="form-control" name="country">
+                                <option value="">Select country</option>
+                                @foreach($countries as $country)
+                                    <option value="{{$country->id}}">{{$country->country_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </form>

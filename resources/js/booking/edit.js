@@ -370,6 +370,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const response = await axios.post(action, formdata);
+            const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
+                return el.name.endsWith('][address]');
+            });
+
+            billingElements.forEach(el => {
+                if (el.tagName.toLowerCase() === 'select') { // Confirm it is a select element
+                    const option = document.createElement('option');
+                    option.value = response.data.data.id;
+                    option.textContent = response.data.data.street_address;
+
+                    el.appendChild(option);
+                } else {
+                    console.warn('Element is not a select, cannot add option:', el);
+                }
+            });
+            console.log(response);
             showToast(response.data.message);
             document.getElementById('billing-close-modal').click();
             element.reset();
@@ -397,6 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             toggleBillingTableVisibility(); // 👈 After add
         } catch (e) {
+            console.log(e);
             showToast(e?.response?.data?.message || 'Something went wrong', 'error');
         }
     });
@@ -416,11 +433,33 @@ function attachDeleteHandler(el) {
         try {
             const response = await axios.delete(action);
             showToast(response.data.message);
+
+            // Remove table row
             const row = button.closest('tr');
             row.remove();
+
+            // Update row numbers
             const rows = document.querySelectorAll('#billing-table tbody tr');
             rows.forEach((tr, index) => {
                 tr.querySelector('td').textContent = index + 1;
+            });
+
+            // Remove corresponding <option> from all select fields
+            // Adjust 'deletedId' as per your API response structure
+            const deletedId = response.data.deleted_id;
+
+            const billingSelects = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
+                return el.name.endsWith('][address]');
+            });
+
+            billingSelects.forEach(select => {
+                if (select.tagName.toLowerCase() === 'select') {
+                    // Find the option with the deleted id
+                    const optionToRemove = select.querySelector(`option[value="${deletedId}"]`);
+                    if (optionToRemove) {
+                        select.removeChild(optionToRemove);
+                    }
+                }
             });
 
             toggleBillingTableVisibility(); // 👈 After delete

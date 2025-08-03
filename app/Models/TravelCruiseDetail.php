@@ -34,10 +34,10 @@ class TravelCruiseDetail extends Model
         'departure_date' => 'date',
         'date'=>'date',
         'arrival_date' => 'date',
-        'departure_hrs' => 'integer',
-        'departure_mm' => 'integer',
-        'arrival_hrs' => 'integer',
-        'arrival_mm' => 'integer',
+//        'departure_hrs' => 'integer',
+//        'departure_mm' => 'integer',
+//        'arrival_hrs' => 'integer',
+//        'arrival_mm' => 'integer',
     ];
 
     public function booking()
