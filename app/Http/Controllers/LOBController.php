@@ -24,7 +24,7 @@ class LOBController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'reference' => 'required|string|max:255',
+            #'reference' => 'required|string|max:255',
             'user_id' => 'required|exists:users,id',
         ]);
 
@@ -41,14 +41,14 @@ class LOBController extends Controller
     public function edit(LOB $lob)
     {
         $users = User::all();
-        return view('masters.lob.edit', compact('lob', 'users'));
+        return view('masters.lob.create', compact('lob', 'users'));
     }
 
     public function update(Request $request, LOB $lob)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'reference' => 'required|string|max:255',
+            #'reference' => 'required|string|max:255',
             'user_id' => 'required|exists:users,id',
         ]);
 

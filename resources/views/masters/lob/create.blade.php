@@ -14,7 +14,18 @@
             </ol>
         </nav>
     </div>
+
     <div class="row">
+
+        @if($errors->any())
+        <div class="alert alert-danger">  
+            <ul class="mb-0">
+            @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div> 
+        @endif
 
         <form method="POST" action="{{ isset($lob) ? route('lobs.update', $lob->id) : route('lobs.store') }}">
             @csrf
@@ -22,11 +33,16 @@
                 @method('PUT')
             @endif
 
-            <label>Name</label>
-            <input type="text" name="name" value="{{ old('name', $lob->name ?? '') }}" required>
+             <div class="card p-4 mb-4">
+                <div class="row mb-3 payment-form">
+             <div class="col-md-3 position-relative">
+                <label>Name</label>
+                <input type="text" name="name" value="{{ old('name', $lob->name ?? '') }}" required>
+            </div>
 
+             <div class="col-md-3 position-relative">
             <label>User (Reference)</label>
-            <select name="user_id" required>
+            <select name="user_id" required  class="form-control">
                 <option value="">-- Select User --</option>
                 @foreach($users as $user)
                     <option value="{{ $user->id }}" {{ isset($lob) && $lob->user_id == $user->id ? 'selected' : '' }}>
@@ -34,8 +50,12 @@
                     </option>
                 @endforeach
             </select>
+             </div>
 
-            <button type="submit">Save</button>
+             <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+
         </form>
 
 

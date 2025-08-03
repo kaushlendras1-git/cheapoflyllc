@@ -27,35 +27,6 @@
             <div class="card p-4">
                 <form method="GET" action="{{ route('payment-status.index') }}"
                     class="d-flex align-items-end justify-content-between mb-4">
-                    <div class="row align-items-end w-100">
-                        <div class="col-md-4">
-                            <div>
-                            <label class="form-label mb-1">Keyword</label>
-                            <input type="text" name="keyword" style="width: 30rem;" class="form-control input-style w-100"
-                                placeholder="e.g. name " value="{{ request('keyword') }}">
-                        </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div>
-                            <label class="form-label mb-1">Start Date</label>
-                            <input type="date" name="start_date" class="form-control input-style"
-                                value="{{ request('start_date') }}">
-                        </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div>
-                            <label class="form-label mb-1">End Date</label>
-                            <input type="date" name="end_date" class="form-control input-style" value="{{ request('end_date') }}">
-                        </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div>
-                            <button type="submit" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 button-style">
-                                <i class="ri ri-search-line fs-5"></i> Search
-                            </button>
-                        </div>
-                        </div>
-                    </div>
                     <div class="add-follow-btn">
                         <a href="{{route('lobs.create')}}" type="button"
                                 class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style"
@@ -76,18 +47,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($lobs as $lob)
+                            @foreach($lobs as $key => $lob)
                             <tr>
-                <td>{{ $lob->name }}</td>
-                <td>{{ $lob->user->name ?? 'N/A' }}</td>
-                <td>
-                    <a href="{{ route('lobs.edit', $lob->id) }}">Edit</a>
-                    <form method="POST" action="{{ route('lobs.destroy', $lob->id) }}">
-                        @csrf @method('DELETE')
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $lob->name }}</td>
+                                <td>{{ $lob->user->name ?? 'N/A' }}</td>
+                                <td>
+                                         <a href="{{ route('lobs.edit', $lob->id) }}"
+                                        class="">
+                                      <img width="25" src="../../../assets/img/icons/img-icons/edit.png" alt="edit-change">
+                                      </a>
+
+                                    <form action="{{ route('lobs.destroy', $lob->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="no-btn p-0 ms-3"
+                                            onclick="return confirm('Are you sure you want to delete this call type?')">
+                                          <img width="25" src="../../../assets/img/icons/img-icons/delete.png" alt="shift-change">
+                                          </button>
+                                    </form>
+
+                            </td>
+                        </tr>
                             @endforeach
                         </tbody>
                     </table>
