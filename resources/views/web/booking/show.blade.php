@@ -762,6 +762,24 @@
                         <input type="file" id="screenshots-upload" name="flightbookingimage[]" multiple>
                     </div>
 
+                     <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->flightbookingimage, true);
+                        @endphp
+
+                        @if ($images && is_array($images))
+                            <div class="row">
+                                @foreach ($images as $img)
+                                    <div class="col-md-3 mb-2">
+                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Flight Booking Details ------------------------------>
@@ -863,6 +881,25 @@
                     <div style="margin-top:20px">
                         <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
                     </div>
+
+                    <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->carbookingimage, true);
+                        @endphp
+
+                        @if ($images && is_array($images))
+                            <div class="row">
+                                @foreach ($images as $img)
+                                    <div class="col-md-3 mb-2">
+                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Car Booking Details ------------------------------>
@@ -971,6 +1008,24 @@
                     <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
                 </div>
 
+                <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->cruisebookingimage, true);
+                        @endphp
+
+                        @if ($images && is_array($images))
+                            <div class="row">
+                                @foreach ($images as $img)
+                                    <div class="col-md-3 mb-2">
+                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
 
             </div>
             <!------------------------ End Cruise Booking Details ------------------------------>
@@ -1064,6 +1119,25 @@
                     <div style="margin:20px">
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
+
+                    <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->hotelbookingimage, true);
+                        @endphp
+
+                        @if ($images && is_array($images))
+                            <div class="row">
+                                @foreach ($images as $img)
+                                    <div class="col-md-3 mb-2">
+                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+                    
                 </div>
             </div>
             <!------------------------ End Hotel Booking Details ------------------------------>
@@ -1190,6 +1264,24 @@
                         <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
                     </div>
 
+                    <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->trainbookingimage, true);
+                        @endphp
+
+                        @if ($images && is_array($images))
+                            <div class="row">
+                                @foreach ($images as $img)
+                                    <div class="col-md-3 mb-2">
+                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Train Booking Details ------------------------------>
@@ -1309,8 +1401,10 @@
                                             <td><input style="width: 140px;" inputmode="numeric" maxlength="16"
                                                     class="form-control" placeholder="CC Number"
                                                     name="billing[{{$key}}][cc_number]"
-                                                    value="{{!empty($billingDetails['cc_number'])?$billingDetails['cc_number']:''}}"></td>
-                                            <td><input type="text" class="form-control" placeholder="CC Holder Name"
+                                                   value="{{$billingDetails['cc_number']}}"></td>
+
+                                            
+                                                    <td><input type="text" class="form-control" placeholder="CC Holder Name"
                                                     name="billing[{{$key}}][cc_holder_name]"
                                                     value="{{$billingDetails['cc_holder_name']}}"></td>
                                             <td>
@@ -1338,29 +1432,10 @@
                                             <td><input style="width: 57px;" inputmode="numeric" maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]"
-                                                    value="{{!empty($billingDetails['cvv'])?decrypt($billingDetails['cvv']):''}}">
+                                                    value="{{$billingDetails['cvv']}}">
                                             </td>
 
-                                            <!--td><input style="width: 180px;" type="text" class="form-control"
-                                                    placeholder="Address" name="billing[{{$key}}][address]"
-                                                    value="{{$billingDetails->address}}"></td>
-                                            <td><input style="width: 180px;" type="email" class="form-control"
-                                                    placeholder="Email" name="billing[{{$key}}][email]"
-                                                    value="{{$billingDetails->email}}">
-                                            </td>
-                                            <td><input style="width: 100px;" type="text" class="form-control"
-                                                    placeholder="Contact No" name="billing[{{$key}}][contact_no]"
-                                                    value="{{$billingDetails->contact_no}}"></td>
-                                            <td><input style="width: 100px;" type="text" class="form-control"
-                                                    placeholder="City" name="billing[{{$key}}][city]"
-                                                    value="{{$billingDetails->city}}">
-                                            </td>
-                                            <td>
-                                                <select id="country-{{$key}}" style="width:9rem"
-                                                    class="form-control country-select"
-                                                    name="billing[{{$key}}][country]">
-                                                    <option value="India">Select Country</option>
-                                                    Populated by JavaScript -->
+                                           
                                             </select>
                                             </td>
                                             <td>
@@ -2157,21 +2232,23 @@
                     <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
                 </div>
 
-                <div class="card-body p-2">
-                    @php
-                    $screenshots = json_decode($booking->screenshot, true);
-                    @endphp
-                    @if (!empty($screenshots))
-                    @foreach ($screenshots as $file)
-                    <div class="mb-2">
-                        <img src="{{ asset($file) }}" alt="Screenshot" class="img-fluid rounded"
-                            style="max-height: 200px;">
+                <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->screenshot, true);
+                        @endphp
+
+                        @if ($images && is_array($images))
+                            <div class="row">
+                                @foreach ($images as $img)
+                                    <div class="col-md-3 mb-2">
+                                        <img src="{{ asset($img) }}" class="img-fluid rounded shadow" style="max-height: 150px;" alt="Flight Image">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p>No images found.</p>
+                        @endif
                     </div>
-                    @endforeach
-                    @else
-                    <p class="text-muted">No screenshots available.</p>
-                    @endif
-                </div>
 
             </div>
         </div>

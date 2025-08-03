@@ -18,7 +18,7 @@
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][room_category]" placeholder="Room Category"></td>
                 <td><input type="date" class="form-control" style="width:114px" name="hotel[${hotelIndex}][checkin_date]"></td>
                 <td><input type="date" class="form-control" style="width:114px" name="hotel[${hotelIndex}][checkout_date]"></td>
-                <td><input type="number" class="form-control" style="width:10rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
+                <td><input type="number" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
                 <td><input type="text" class="form-control" style="width:12rem" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][hotel_address]" placeholder="Hotel Address"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[${hotelIndex}][remarks]" placeholder="Remarks"></td>
@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="DISCOVER">DISCOVER</option>
                 </select>
             </td>
-            <td><input type="text" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
+            <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
             <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
             <td>
                 <select class="form-control" name="billing[${billingIndex}][exp_month]">

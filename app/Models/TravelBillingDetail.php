@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -53,7 +53,11 @@ class TravelBillingDetail extends Model
 
     public function getCcNumberAttribute($value)
     {
-//        return $value ? decrypt($value) : null;
+        try {
+            return $value ? decrypt($value) : null;
+        } catch (DecryptException $e) {
+            return $value; // fallback if already plain or broken
+        }
     }
 
     public function setCvvAttribute($value)
@@ -63,6 +67,10 @@ class TravelBillingDetail extends Model
 
     public function getCvvAttribute($value)
     {
-//        return $value ? decrypt($value) : null;
+        try {
+            return $value ? decrypt($value) : null;
+        } catch (DecryptException $e) {
+            return $value;
+        }
     }
 }

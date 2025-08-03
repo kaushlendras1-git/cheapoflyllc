@@ -385,7 +385,6 @@ class BookingFormController extends Controller
                 'pricing.*.gross_price' => 'required|numeric|min:0',
                 'pricing.*.net_price' => 'required|numeric|min:0',
                 'pricing.*.details' => 'required|string',
-
             ];
 
             $messages = [
@@ -829,7 +828,7 @@ class BookingFormController extends Controller
 
 
     public function show($hash)
-    {
+    {   
         $id = $this->hashids->decode($hash);
         $id = $id[0] ?? null;
 
