@@ -43,30 +43,30 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
 //     { key: 'train', inputName: 'trainbookingimage[]' },
 // ];
 
-bookingTypes.forEach(({ key, inputName }) => {
-    const span = document.getElementById(`${key}_uploaded_files`);
-    const baseUrl = span.dataset.baseurl;
-    const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    const uploadedImages = JSON.parse(span.dataset.images || '[]');
-
-    const pondInstance = ponds[inputName];
-
-    if (pondInstance && uploadedImages.length) {
-        uploadedImages.forEach((filePath) => {
-            if (filePath) {
-                const fullUrl = normalizedBaseUrl + filePath;
-                fetch(fullUrl)
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const fileName = filePath.split('/').pop();
-                        const file = new File([blob], fileName, { type: blob.type });
-                        pondInstance.addFile(file);
-                    })
-                    .catch(error => console.error(`Error loading ${key} file:`, error));
-            }
-        });
-    }
-});
+// bookingTypes.forEach(({ key, inputName }) => {
+//     const span = document.getElementById(`${key}_uploaded_files`);
+//     const baseUrl = span.dataset.baseurl;
+//     const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+//     const uploadedImages = JSON.parse(span.dataset.images || '[]');
+//
+//     const pondInstance = ponds[inputName];
+//
+//     if (pondInstance && uploadedImages.length) {
+//         uploadedImages.forEach((filePath) => {
+//             if (filePath) {
+//                 const fullUrl = normalizedBaseUrl + filePath;
+//                 fetch(fullUrl)
+//                     .then(response => response.blob())
+//                     .then(blob => {
+//                         const fileName = filePath.split('/').pop();
+//                         const file = new File([blob], fileName, { type: blob.type });
+//                         pondInstance.addFile(file);
+//                     })
+//                     .catch(error => console.error(`Error loading ${key} file:`, error));
+//             }
+//         });
+//     }
+// });
 
 document.getElementById('bookingForm').addEventListener('submit',async function(e){
     console.log('hello')

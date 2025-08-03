@@ -694,6 +694,7 @@ class BookingFormController extends Controller
             $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
             $newCars = $request->input('car', []);
             $processedCarIds = [];
+//            dd(TravelCarDetail::where('booking_id', $booking->id)->get());
             TravelCarDetail::where('booking_id', $booking->id)->delete();
             foreach ($newCars as $carData) {
                 $carData['booking_id'] = $booking->id;
@@ -828,7 +829,7 @@ class BookingFormController extends Controller
 
 
     public function show($hash)
-    {   
+    {
         $id = $this->hashids->decode($hash);
         $id = $id[0] ?? null;
 
