@@ -97,7 +97,7 @@
 
                 <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
                 <!-- Top Bar -->
-                <div class="pt-3 mt-2 ps-0">
+                <div class="mt-2 ps-0">
                     <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="form-check form-check-inline">
@@ -132,8 +132,8 @@
                         </div>
 
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-sm btn-primary text-center">
-                                <i class="icon-base ri ri-save-2-fill"></i> Save
+                            <button type="submit" style="padding: 5px; font-size: 12px;" class="btn btn-sm btn-primary text-center">
+                                <i style="width: 14px; margin-right: 3px; height: 14px;" class="icon-base ri ri-save-2-fill"></i> Save
                             </button>
                             <!-- <button type="button" class="btn btn-sm btn-dark text-center">
                             <i class="icon-base ri ri-mail-send-fill"></i> Send
@@ -452,7 +452,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="passenger-detail-button">
-                            <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="ri ri-add-circle-fill pointer"></i>
+                            <i class="ri ri-add-circle-fill pointer"></i>
                         </button>
                     </div>
                     <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
@@ -586,14 +586,11 @@
             <!------------------------ Flight Booking Details ------------------------------>
 
             <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">
-                <div class="card p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="card p-4 show-booking-card">
+                    <div class="d-flex justify-content-between align-items-center mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Flight Booking Details</h5>
-                        <button class="btn btn-primary" type="button" id="flight-booking-button">
-                            <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                focusable="false">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                            </svg>
+                        <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="flight-booking-button">
+                            <i class="ri ri-add-circle-fill pointer"></i>
                         </button>
                     </div>
                     <div class="card-body p-0">
@@ -763,21 +760,18 @@
 
             <!------------------------ Car Booking Details ------------------------------>
             <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
-                <div class="card p-4">
-                    <div class="d-flex justify-content-between mb-4">
+                <div class="card p-4 show-booking-card">
+                    <div class="d-flex justify-content-between mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Car Booking Details</h5>
                         <div>
-                            <button class="btn btn-primary" type="button" id="car-booking-button">
-                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                    focusable="false">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                </svg>
+                            <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="car-booking-button">
+                                <i class="ri ri-add-circle-fill pointer"></i>
                             </button>
                         </div>
 
                     </div>
-                    <div class="card-body pt-3">
-                        <div class="row g-3 align-items-center">
+                    <div class="card-body pt-0 ps-0 pe-0">
+                        <div class="g-3 align-items-center">
                             <div class="col-md-12 table-responsive details-table-wrappper">
                                 <table id="carTable" class="table">
                                     <thead>
@@ -864,21 +858,18 @@
 
             <!------------------------ Cruise Booking Details ------------------------------>
             <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
-                <div class="card p-4">
-                    <div class="mb-4 d-flex align-items-center justify-content-between">
+                <div class="card p-4 show-booking-card">
+                    <div class="mb-0 d-flex align-items-center justify-content-between">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
                         <div class="d-flex gap-2">
-                            <button class="btn btn-primary" type="button" id="cruise-booking-button">
-                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                    focusable="false">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                </svg>
+                            <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="cruise-booking-button">
+                                <i class="ri ri-add-circle-fill pointer"></i>
                             </button>
                         </div>
 
                     </div>
-                    <div class="card-body pt-3">
-                        <div class="row g-3 align-items-center">
+                    <div class="card-body pt-0 px-0">
+                        <div class="g-3 align-items-center">
                             <div class="col-md-12 table-responsive details-table-wrappper">
                                 <!-- Cruise Table -->
                                 <table id="cruiseTable" class="table">
@@ -974,18 +965,15 @@
             <!------------------------ Hotel Booking Details ------------------------------>
 
             <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
-                <div class="card p-4">
-                    <div class="d-flex justify-content-between mb-4">
+                <div class="card p-4 show-booking-card">
+                    <div class="d-flex justify-content-between mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Booking Details</h5>
-                        <button class="btn btn-primary" type="button" id="hotel-booking-button">
-                            <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                focusable="false">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                            </svg>
+                        <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="hotel-booking-button">
+                            <i class="ri ri-add-circle-fill pointer"></i>
                         </button>
                     </div>
-                    <div class="card-body pt-3">
-                        <div class="row g-3 align-items-center">
+                    <div class="card-body pt-0 ps-0 pe-0">
+                        <div class="g-3 align-items-center">
                             <div class="col-md-12 table-responsive details-table-wrappper">
                                 <!-- Hotel Table -->
                                 <table id="hotelTable" class="table">
@@ -1065,19 +1053,16 @@
 
             <!------------------------ Train Booking Details ------------------------------>
             <div class="tab-pane fade" id="trainbooking" role="tabpanel" aria-labelledby="trainbooking-tab">
-                <div class="card p-4">
-                    <div class="d-flex justify-content-between mb-4">
+                <div class="card p-4 show-booking-card">
+                    <div class="d-flex justify-content-between mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Train Booking Details</h5>
                         <div>
-                            <button class="btn btn-primary" type="button" id="train-booking-button">
-                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                    focusable="false">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                </svg>
+                            <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="train-booking-button">
+                                <i class="ri ri-add-circle-fill pointer"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="card-body pt-3 ps-0 pe-0">
+                    <div class="card-body pt-0 ps-0 pe-0">
                         <div class="row g-3 align-items-center">
                             <div class="col-md-12 table-responsive details-table-wrappper">
                                 <!-- Car Table -->
@@ -1194,17 +1179,14 @@
 
             <!--------------------------------------Billing Details ---------------------------->
             <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-                <div class="card p-4">
-
-
-                    <div class="d-flex justify-content-between align-items-center mb-3 add-bank">
-                        <h5 class="card-header border-0 p-0">Billing Details</h5>
+                <div class="card p-4 show-booking-card">
+                    <div class="d-flex justify-content-between align-items-center add-bank">
+                        <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
                         <i data-bs-toggle="modal" data-bs-target="#exampleModal"
                             class="ri ri-add-circle-fill pointer"></i>
                     </div>
-
-                    <div id="billing-table-container">
-                        <table id="billing-table" class="mb-3" border="1" cellpadding="8" cellspacing="0"
+                    <div class="details-table-wrappper" id="billing-table-container">
+                        <table id="billing-table" class="mb-3 billing_detalis_table" border="1" cellpadding="8" cellspacing="0"
                             style="border-collapse: collapse; text-align: center; width: 100%;">
                             <thead style="background-color: #f2f2f2;">
                                 <tr>
@@ -1230,29 +1212,22 @@
                                     <td>{{$bill->state}}</td>
                                     <td>{{$bill->zip_code}}</td>
                                     <td>{{$bill->country}}</td>
-                                    <td>
-                                        <button class="btn btn-danger deleteBillData"
-                                            data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}">Delete</button>
+                                    <td class="text-center">
+                                            <button data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}" class="btn btn-outline-danger deleteBillData">
+                                                    <i class="ri ri-delete-bin-line"></i> </button>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-header border-0 p-0">Card Details $1052</h5>
-
-                        <button class="btn btn-primary" type="button" id="billing-booking-button">
-                            <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                focusable="false">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                            </svg>
+                </div> 
+                <div class="card p-4 mt-4 show-booking-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-header border-0 p-0 detail-passanger">Card Details $1052</h5>
+                        <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="billing-booking-button">
+                            <i  class="ri ri-add-circle-fill pointer"></i>
                         </button>
-
-
-
                     </div>
                     <div class="card-body p-0">
                         <div class="row g-3 align-items-center">
@@ -1410,15 +1385,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-
-
-
-
-
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -1434,13 +1400,10 @@
             <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
 
                 <div class="col-md-12">
-                    <div class="card p-4 details-table-wrappper">
+                    <div class="card p-4 details-table-wrappper show-booking-card">
                         <div class="d-flex justify-content-end mb-2">
-                            <button class="btn btn-primary" type="button" id="pricing-booking-button">
-                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                    focusable="false">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                                </svg>
+                            <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
+                                <i class="ri ri-add-circle-fill pointer"></i>
                             </button>
                         </div>
 
@@ -1598,8 +1561,8 @@
 
             <!--------------------------- Booking Remarks --------------------------->
             <div class="tab-pane fade" id="remarks" role="tabpanel" aria-labelledby="remarks-tab">
-                <div class="card p-4">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="card p-4 show-booking-card">
+                    <div class="d-flex justify-content-between align-items-start mb-1">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Booking Remarks</h5>
                         <button id="saveRemark" type="button" class="btn btn-primary">Save Remark</button>
                     </div>
@@ -1649,23 +1612,16 @@
 
             <!--------------------------- Quality Feedback --------------------------->
             <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
-                <div class="card p-4" style="font-size: 12px;">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="card p-4 show-booking-card" style="font-size: 12px;">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Quality Feedback</h5>
                         <button id="saveFeedback" type="button" class="btn btn-primary">Save Feedback</button>
                     </div>
                     <div class="card-body p-0">
-
                         <!-- Checkboxes for Parameters -->
                         <div class="my-5">
-
-
-
                             <div class="switch-container">
-
-
                                 <!-- Include this inside your Blade view or HTML form -->
-
                                 <div class="row">
                                     <!-- Fatal Section -->
                                     <div class="col-12 text-center">
@@ -1673,8 +1629,6 @@
                                             style="background-color: #e6ffe6; display: inline-block; border-radius: 5px; font-size: 0.9rem;">
                                             NOT FATAL</h6>
                                     </div>
-
-
                                     @php
                                    
                                     $feedbackParameters = $feed_backs->pluck('parameter')->toArray();
@@ -2111,13 +2065,13 @@
 
                         <div class="mt-5">
                             <div class="table-responsive">
-                                <table id="booking_feed_back_table" class="table table-bordered align-middle">
+                                <table id="booking_feed_back_table" class="table table-bordered align-middle" style="border-collapse: separate;">
                                     <thead class="table-primary text-center">
                                         <tr>
-                                            <th style="width: 20%">Quality strategies</th>
-                                            <th style="width: 50%">Comment</th>
-                                            <th style="width: 10%">Agent</th>
-                                            <th style="width: 20%">Date</th>
+                                            <th style="width: 25%;border: none !important;background-color: #3569df;font-size: 14px;text-align: center;border-radius: 6px;color: #fff;padding: 20px 10px !important;">Quality strategies</th>
+                                            <th style="width: 25%;border: none !important;background-color: #3569df;font-size: 14px;text-align: center;border-radius: 6px;color: #fff;padding: 20px 10px !important;">Comment</th>
+                                            <th style="width: 25%; border: none !important; background-color: #00a5fe; font-size: 14px; text-align: center; border-radius: 6px; color: #fff; padding: 20px 10px !important;">Agent</th>
+                                            <th style="width: 25%; border: none !important; background-color: #fda305; font-size: 14px; text-align: center; border-radius: 6px; color: #fff; padding: 20px 10px !important;">Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -2125,13 +2079,13 @@
                                         <tr>
                                             <td>
                                                 <div
-                                                    class="qis-label @if($feed_back->quality == 'non_fatal') bg-success text-white @else bg-danger text-white @endif p-1 rounded">
+                                                    class="qis-label @if($feed_back->quality == 'non_fatal') green_feedback @else red_feedback @endif p-1 rounded">
                                                     <span class="qis-icon">⏱️</span>{{$feed_back->parameter}}
                                                 </div>
                                             </td>
-                                            <td>{{$feed_back->note}}</td>
-                                            <td>{{$feed_back->user_id}}</td>
-                                            <td>{{$feed_back->created_at}}</td>
+                                            <td class="text-center">{{$feed_back->note}}</td>
+                                            <td class="text-center">{{$feed_back->user_id}}</td>
+                                            <td class="text-center">{{$feed_back->created_at}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -2144,9 +2098,9 @@
             </div>
             <!--------------------------- Screenshots --------------------------->
         <div class="tab-pane fade" id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
-            <div class="card p-4">
-                <div class="mb-4">
-                    <h5 class="card-header border-0 p-0 mb-4 detail-passanger">Screenshots</h5>
+            <div class="card p-4 show-booking-card">
+                <div class="mb-0">
+                    <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Screenshots</h5>
                     <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
                 </div>
 

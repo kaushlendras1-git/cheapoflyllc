@@ -28739,11 +28739,13 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .checkbox-servis .form-check label {
   background-color: #e0ecff;
-  padding: 6px 30px;
+  padding: 5px 10px;
   border-radius: 5px;
   color: #055bdb;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
+  width: 60px;
+  text-align: center;
 }
 .checkbox-servis .form-check input:checked + label {
   background-color: #055bdb;
@@ -28766,7 +28768,8 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 } */
 .checkbox-servis .form-check {
   padding-left: 0px !important;
-  margin-right: 20px;
+  margin-right: 0px;
+  margin-bottom: 0px;
 }
 .checkbox-servis .form-check input {
   height: 100%;
@@ -29245,6 +29248,12 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .filepond--panel-root {
   background-color: transparent !important;
 }
+.billing_detalis_table th {
+  font-size: 13px;
+}
+.billing_detalis_table td {
+  font-size: 12px;
+}
 .filepond--root .filepond--drop-label {
     min-height: 200px !important;
 }
@@ -29265,6 +29274,27 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 }
 .pointer{
   cursor: pointer;
+}
+.green_feedback {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px !important;
+  background-color: #56ca00;
+  color: #fff;
+}
+.red_feedback {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px !important;
+  background-color: #ff4c51;
+  color: #fff;
+}
+.green_feedback span, .red_feedback span {
+  font-size: 25px;
 }
 
 
