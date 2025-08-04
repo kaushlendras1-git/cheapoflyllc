@@ -155,8 +155,8 @@
                                         </a>
                                     </li>
                                     
-                                    <li class="menu-item {{ Route::currentRouteName() == 'quality-feedback.index' ? 'active' : '' }}">
-                                        <a href="{{ route('quality-feedback.index') }}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'lob.index' ? 'active' : '' }}">
+                                        <a href="{{ route('lobs.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-phone-line"></i>
                                             <div data-i18n="LOB">LOB</div>
                                         </a>

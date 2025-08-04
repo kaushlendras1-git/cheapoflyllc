@@ -5,7 +5,7 @@
         let hotelIndex = 0;
 
         // Add initial row on page load
-        addHotelRow();
+        // addHotelRow();
 
         // Function to add a new hotel row
         function addHotelRow() {
@@ -18,7 +18,7 @@
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][room_category]" placeholder="Room Category"></td>
                 <td><input type="date" class="form-control" style="width:114px" name="hotel[${hotelIndex}][checkin_date]"></td>
                 <td><input type="date" class="form-control" style="width:114px" name="hotel[${hotelIndex}][checkout_date]"></td>
-                <td><input type="number" class="form-control" style="width:10rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
+                <td><input type="number" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
                 <td><input type="text" class="form-control" style="width:12rem" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][hotel_address]" placeholder="Hotel Address"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[${hotelIndex}][remarks]" placeholder="Remarks"></td>
@@ -85,7 +85,7 @@
         const cruiseFormsContainer = document.getElementById('cruiseForms');
         let cruiseIndex = 0;
 
-        addCruiseRow();
+        // addCruiseRow();
 
         // Function to add a new cruise row
         function addCruiseRow() {
@@ -102,8 +102,8 @@
                 <td><input type="date" class="form-control" style="width: 105px;" name="cruise[${cruiseIndex}][departure_date]"></td>
                 <td><input type="time" class="form-control" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][arrival_port]" placeholder="Arrival Port"></td>
-                <td><input type="date" class="form-control" style="width:105px; name="cruise[${cruiseIndex}][arrival_date]"></td>
-                <td><input type="time" class="form-control" style="width:50px; name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="date" class="form-control" style="width:105px;" name="cruise[${cruiseIndex}][arrival_date]"></td>
+                <td><input type="time" class="form-control" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
 
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-cruise-btn">
@@ -154,10 +154,12 @@
         cruiseFormsContainer.addEventListener('click', (e) => {
             if (e.target.closest('.delete-cruise-btn')) {
                 const row = e.target.closest('.cruise-row');
-                if (cruiseFormsContainer.children.length > 1) {
-                    row.remove();
-                    updateCruiseTitles();
-                }
+                row.remove();
+                updateCruiseTitles();
+                // if (cruiseFormsContainer.children.length > 1) {
+                //     row.remove();
+                //     updateCruiseTitles();
+                // }
             }
         });
     });
@@ -169,7 +171,7 @@
         let carIndex = 0;
 
         // Add initial row on page load
-        addCarRow();
+        // addCarRow();
 
         // Function to add a new car rental row
         function addCarRow() {
@@ -238,10 +240,12 @@
         carFormsContainer.addEventListener('click', (e) => {
             if (e.target.closest('.delete-car-btn')) {
                 const row = e.target.closest('.car-row');
-                if (carFormsContainer.children.length > 1) {
-                    row.remove();
-                    updateCarTitles();
-                }
+                row.remove();
+                updateCarTitles();
+                // if (carFormsContainer.children.length > 1) {
+                //     row.remove();
+                //     updateCarTitles();
+                // }
             }
         });
     });
@@ -252,7 +256,7 @@
         let flightIndex = 0;
 
         // Add initial row on page load
-        addFlightRow();
+        // addFlightRow();
 
         // Function to add a new flight row
         function addFlightRow() {
@@ -356,7 +360,7 @@
     let trainIndex = 0;
 
     // Add initial row on page load
-    addTrainRow();
+    // addTrainRow();
 
     // Function to add a new train row
     function addTrainRow() {
@@ -427,10 +431,12 @@
     trainFormsContainer.addEventListener('click', (e) => {
         if (e.target.closest('.delete-train-btn')) {
             const row = e.target.closest('.train-row');
-            if (trainFormsContainer.children.length > 1) {
-                row.remove();
-                updateTrainTitles();
-            }
+            row.remove();
+            updateTrainTitles();
+            // if (trainFormsContainer.children.length > 1) {
+            //     row.remove();
+            //     updateTrainTitles();
+            // }
         }
     });
 });
@@ -487,10 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
-            <td><input type="date" class="form-control" style="width: 135px;" name="passenger[${passengerIndex}][dob]"></td>
-            <td><input type="text" class="form-control" style="width:80px; name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
-            <td><input type="number" class="form-control" style="width:80px; name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
-            <td><input type="text" class="form-control" style="width:80px; name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
+            <td><input type="date" class="form-control" style="width: 105px;" name="passenger[${passengerIndex}][dob]"></td>
+            <td><input type="text" class="form-control" style="width:50px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+            <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
+            <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                     <i class="icon-base ri ri-delete-bin-2-line"></i>
@@ -602,10 +608,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="DISCOVER">DISCOVER</option>
                 </select>
             </td>
-            <td><input type="text" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
+            <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
             <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
             <td>
-                <select class="form-control" name="billing[${billingIndex}][exp_month]">
+                <select style="width: 45px; margin: auto;" class="form-control" name="billing[${billingIndex}][exp_month]">
                     <option value="">MM</option>
                     <option value="01">01</option>
                     <option value="02">02</option>

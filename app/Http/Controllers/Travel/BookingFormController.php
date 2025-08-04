@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Travel;
 
 use App\Http\Controllers\Controller;
 use App\Models\BillingDetail;
+use App\Models\CarImages;
+use App\Models\CruiseImages;
+use App\Models\flightImages;
+use App\Models\HotelImages;
+use App\Models\ScreenshotImages;
+use App\Models\TrainImages;
 use App\Models\TravelTrainDetail;
 use App\Utils\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -111,6 +117,7 @@ class BookingFormController extends Controller
             $destroy = BillingDetail::findOrFail($id);
             $destroy->delete();
             return response()->json([
+                'deleted_id'=>$id,
                 'status'=>'success',
                 'message'=>'Billing Details Deleted Successfully',
                 'code'=>'200'
@@ -293,7 +300,6 @@ class BookingFormController extends Controller
             // if query_type = Cancellation for Refunds
             // query_type=seat_number
             // query_type=credit_note_amount
-
             $rules = [
                 'booking-type' => 'required|array|min:1',
                 'booking-type.*' => 'in:Flight,Hotel,Cruise,Car,Train',
@@ -322,53 +328,75 @@ class BookingFormController extends Controller
                 'passenger.*.seat_number' => 'nullable|string',
                 'passenger.*.credit_note' => 'nullable|numeric',
                 'passenger.*.e_ticket_number' => 'nullable|string',
-
-              /*
                 // Flight-specific validations
                 'flight' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|array|min:1',
-                'flight.*.direction' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|in:Inbound,Outbound',
-                'flight.*.departure_date' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|date|after_or_equal:today',
-                'flight.*.airline_code' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|size:2', // Corrected to size:2
-                'flight.*.flight_number' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|max:10',
-                'flight.*.cabin' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|in:Economy,Premium Economy,Business,First',
-                'flight.*.class_of_service' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|string|max:3',
+                'flight.*.direction' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|nullable|string|in:Inbound,Outbound',
+                'flight.*.departure_date' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|nullable|date|after_or_equal:today',
+                'flight.*.departure_airport'=>Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|nullable|string|max:255',
+                'flight.*.departure_hours'=>Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)).'|nullable|date_format:H:i',
+                'flight.*.arrival_airport'=>Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)).'|nullable|string|max:255',
+                'flight.*.arrival_hours'=>Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)).'|nullable|date_format:H:i',
+                'flight.*.duration'=>Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)).'|nullable',
+                'flight.*.transit'=>Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)).'|nullable',
+                'flight.*.arrival_date'=>Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)).'|nullable',
+                'flight.*.airline_code' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|nullable|string|size:2', // Corrected to size:2
+                'flight.*.flight_number' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|nullable|string|max:10',
+                'flight.*.cabin' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|nullable|string|in:B.Eco,Eco,Pre.Eco,Buss.',
+                'flight.*.class_of_service' => Rule::requiredIf(fn () => in_array('Flight', $bookingTypes)) . '|nullable|string|max:3',
 
                 // Hotel-specific validations
                 'hotel' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|array|min:1',
-                'hotel.*.hotel_name' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|string|max:255',
-                'hotel.*.room_category' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|string|max:255',
-                'hotel.*.checkin_date' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|date|after_or_equal:today',
-                'hotel.*.checkout_date' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|date|after:hotel.*.checkin_date',
+                'hotel.*.hotel_name' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|nullable|string|max:255',
+                'hotel.*.room_category' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|nullable|string|max:255',
+                'hotel.*.checkin_date' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|nullable|date|after_or_equal:today',
+                'hotel.*.checkout_date' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)) . '|nullable|date|after:hotel.*.checkin_date',
+                'hotel.*.no_of_rooms' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)).'|nullable|integer|min:1',
+                'hotel.*.confirmation_number' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)).'|nullable|string|max:100',
+                'hotel.*.hotel_address' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)).'|nullable|string|max:500',
+                'hotel.*.remarks' => Rule::requiredIf(fn () => in_array('Hotel', $bookingTypes)).'|nullable|string|max:1000',
 
                 // Cruise-specific validations
                 'cruise' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|array|min:1',
-                'cruise.*.cruise_line' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
-                'cruise.*.ship_name' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
-                'cruise.*.category' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
-                'cruise.*.stateroom' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
-                'cruise.*.departure_port' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|string|max:255',
+                'cruise.*.cruise_line' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|nullable|string|max:255',
+                'cruise.*.ship_name' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|nullable|string|max:255',
+                'cruise.*.category' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|nullable|string|max:255',
+                'cruise.*.stateroom' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|nullable|string|max:255',
+                'cruise.*.departure_port' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)) . '|nullable|string|max:255',
+                'cruise.*.departure_date' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)).'|nullable|date|required',
+                'cruise.*.departure_hrs' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)).'|nullable|date_format:H:i|required',
+                'cruise.*.arrival_port' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)).'|nullable|string|max:255|required',
+                'cruise.*.arrival_hrs' => Rule::requiredIf(fn () => in_array('Cruise', $bookingTypes)).'|nullable|date_format:H:i|required',
 
                 // Car-specific validations
                 'car' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|array|min:1',
-                'car.*.car_rental_provider' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
-                'car.*.car_type' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
-                'car.*.pickup_location' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
-                'car.*.dropoff_location' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
-                'car.*.dropoff_date' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|date|after_or_equal:today',
-                'car.*.dropoff_time' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|date_format:H:i',
+                'car.*.car_rental_provider' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|string|max:255',
+                'car.*.car_type' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|string|max:255',
+                'car.*.pickup_location' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|string|max:255',
+                'car.*.dropoff_location' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|string|max:255',
+                'car.*.pickup_date' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|date|after_or_equal:today',
+                'car.*.pickup_time' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|date_format:H:i',
+                'car.*.dropoff_date' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|date|after_or_equal:today',
+                'car.*.dropoff_time' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|date_format:H:i',
                 'car.*.confirmation_number' => 'nullable|string|max:255',
                 'car.*.remarks' => 'nullable|string|max:255',
-                'car.*.rental_provider_address' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|string|max:255',
+                'car.*.rental_provider_address' => Rule::requiredIf(fn () => in_array('Car', $bookingTypes)) . '|nullable|string|max:255',
 
                 // Train-specific validations
                 'train' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|array|min:1',
-                'train.*.direction' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|in:One Way,Round Trip',
-                'train.*.departure_date' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|date|after_or_equal:today',
-                'train.*.train_number' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|max:255',
-                'train.*.cabin' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|in:Economy,Sleeper,Business,First',
-                'train.*.departure_station' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|string|max:255',
+                'train.*.direction' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|in:One Way,Round Trip',
+                'train.*.departure_date' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|date|after_or_equal:today',
+                'train.*.train_number' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|max:255',
+                'train.*.cabin' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|in:Economy,Sleeper,Business,First',
+                'train.*.departure_station' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|max:255',
+                'train.*.departure_hours' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|integer|between:0,23',
+                'train.*.departure_minutes' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|integer|between:0,59',
+                'train.*.arrival_station' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|string|max:255',
+                'train.*.arrival_hours' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|integer|between:0,23',
+                'train.*.arrival_minutes' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|integer|between:0,59',
 
-                */
+                'train.*.duration' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|string',
+                'train.*.transit' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|string',
+                'train.*.arrival_date' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|date',
 
                 'billing' => 'required|array|min:1',
                 'billing.*.card_type' => 'required|string|in:VISA,MasterCard,AMEX,Discover',
@@ -386,10 +414,12 @@ class BookingFormController extends Controller
                 'pricing.*.gross_price' => 'required|numeric|min:0',
                 'pricing.*.net_price' => 'required|numeric|min:0',
                 'pricing.*.details' => 'required|string',
-
             ];
 
             $messages = [
+                'booking-type.required' => 'Atleast one booking type is required',
+                'booking-type.array' => 'Atleast one booking type is required',
+                'booking-type.min' => 'Atleast one booking type is required',
                 'booking-type.*.in' => 'Each booking type must be one of: Flight, Hotel, Cruise, Car, Train.',
                 'passenger.required' => 'Please provide at least one passenger.',
                 'passenger.*.passenger_type.required' => 'Passenger type is required.',
@@ -433,62 +463,234 @@ class BookingFormController extends Controller
                 'pricing.*.details.required' => 'Pricing Details field is required.',
 
                 // Flight-specific error messages
-                'flight.required_if' => 'Flight details are required when booking type is Flight.',
-                'flight.*.direction.required_if' => 'Flight direction is required.',
-                'flight.*.direction.in' => 'Flight direction must be Inbound or Outbound.',
-                'flight.*.departure_date.required_if' => 'Flight departure date is required.',
+                'flight.required' => 'Please add flight details.',
+                'flight.array' => 'Flight information must be an array.',
+                'flight.min' => 'At least one flight entry is required.',
+
+                'flight.*.direction.required' => 'Please specify the flight direction (Inbound or Outbound).',
+                'flight.*.direction.string' => 'Flight direction must be a valid text.',
+                'flight.*.direction.in' => 'Flight direction must be either Inbound or Outbound.',
+
+                'flight.*.departure_date.required' => 'Please provide the flight departure date.',
                 'flight.*.departure_date.date' => 'Flight departure date must be a valid date.',
-                'flight.*.departure_date.after_or_equal' => 'Flight departure date must be today or later.',
-                'flight.*.airline_code.required_if' => 'Flight airline code is required.',
+                'flight.*.departure_date.after_or_equal' => 'Flight departure date cannot be in the past.',
+
+                'flight.*.departure_airport.required' => 'Please enter the flight departure airport.',
+                'flight.*.departure_airport.string' => 'Flight departure airport must be a valid text.',
+                // Added rule to restrict max length for airport codes or names if desired
+                'flight.*.departure_airport.max' => 'Flight departure airport name cannot exceed 255 characters.',
+
+                'flight.*.departure_hours.required' => 'Please provide the flight departure time.',
+                'flight.*.departure_hours.date_format' => 'Flight departure time must have a valid time format (HH:MM).', // Added date_format rule
+
+                'flight.*.arrival_airport.required' => 'Please enter the flight arrival airport.',
+                'flight.*.arrival_airport.string' => 'Flight arrival airport must be a valid text.',
+                'flight.*.arrival_airport.max' => 'Flight arrival airport name cannot exceed 255 characters.', // Added max length
+
+                'flight.*.arrival_hours.required' => 'Please provide the flight arrival time.',
+                'flight.*.arrival_hours.date_format' => 'Flight arrival time must have a valid time format (HH:MM).', // Added date_format
+
+                'flight.*.duration.required' => 'Please specify the flight duration.',
+                'flight.*.duration.string' => 'Flight duration must be a valid text.',
+                // Could consider format validation (e.g. regex) for duration if format fixed, e.g., "HH:MM"
+
+                'flight.*.transit.required' => 'Please specify the flight transit details.',
+                'flight.*.transit.string' => 'Flight transit information must be a valid text.',
+                // Optional: add max length if needed
+
+                'flight.*.arrival_date.required' => 'Please provide the flight arrival date.',
+                'flight.*.arrival_date.date' => 'Flight arrival date must be a valid date.',
+                // Optional: add comparison with departure_date, e.g., after_or_equal
+
+                'flight.*.airline_code.required' => 'Please enter the flight airline code.',
+                'flight.*.airline_code.string' => 'Flight airline code must be a text value.',
                 'flight.*.airline_code.size' => 'Flight airline code must be exactly 2 characters.',
-                'flight.*.flight_number.required_if' => 'Flight number is required.',
-                'flight.*.cabin.required_if' => 'Flight cabin is required.',
-                'flight.*.cabin.in' => 'Flight cabin must be Economy, Premium Economy, Business, or First.',
-                'flight.*.class_of_service.required_if' => 'Flight class of service is required.',
+
+                'flight.*.flight_number.required' => 'Please enter the flight number.',
+                'flight.*.flight_number.string' => 'Flight number must be a text value.',
+                'flight.*.flight_number.max' => 'Flight number cannot exceed 10 characters.',
+
+                'flight.*.cabin.required' => 'Please select the flight cabin class.',
+                'flight.*.cabin.string' => 'Flight cabin class must be a valid text.',
+                'flight.*.cabin.in' => 'Flight cabin class must be one of: B.Eco, Eco, Pre.Eco, Buss.',
+
+                'flight.*.class_of_service.required' => 'Please specify the flight class of service.',
+                'flight.*.class_of_service.string' => 'Flight class of service must be text.',
+                'flight.*.class_of_service.max' => 'Flight class of service cannot exceed 3 characters.',
 
                 // Hotel-specific error messages
-                'hotel.required_if' => 'Hotel details are required when booking type is Hotel.',
-                'hotel.*.hotel_name.required_if' => 'Hotel name is required.',
-                'hotel.*.room_category.required_if' => 'Hotel room category is required.',
-                'hotel.*.checkin_date.required_if' => 'Hotel check-in date is required.',
+                'hotel.required' => 'Please provide hotel details.',
+                'hotel.array' => 'Hotel details must be an array.',
+                'hotel.min' => 'At least one hotel booking is required.',
+
+                'hotel.*.hotel_name.required' => 'Please enter the hotel name.',
+                'hotel.*.hotel_name.string' => 'Hotel name must be a valid text.',
+                'hotel.*.hotel_name.max' => 'Hotel name cannot exceed 255 characters.',
+
+                'hotel.*.room_category.required' => 'Please specify the hotel room category.',
+                'hotel.*.room_category.string' => 'Hotel room category must be valid text.',
+                'hotel.*.room_category.max' => 'Hotel room category cannot exceed 255 characters.',
+
+                'hotel.*.checkin_date.required' => 'Please provide the hotel check-in date.',
                 'hotel.*.checkin_date.date' => 'Hotel check-in date must be a valid date.',
-                'hotel.*.checkin_date.after_or_equal' => 'Hotel check-in date must be today or later.',
-                'hotel.*.checkout_date.required_if' => 'Hotel check-out date is required.',
+                'hotel.*.checkin_date.after_or_equal' => 'The hotel check-in date cannot be before today.',
+
+                'hotel.*.checkout_date.required' => 'Please provide the hotel check-out date.',
                 'hotel.*.checkout_date.date' => 'Hotel check-out date must be a valid date.',
-                'hotel.*.checkout_date.after' => 'Hotel check-out date must be after check-in date.',
+                'hotel.*.checkout_date.after' => 'The hotel check-out date must be after the check-in date.',
+
+                'hotel.*.no_of_rooms.required' => 'Please specify the hotel number of rooms.',
+                'hotel.*.no_of_rooms.integer' => 'The hotel number of rooms must be a whole number.',
+                'hotel.*.no_of_rooms.min' => 'You must book at least 1 hotel room.',
+
+                'hotel.*.confirmation_number.required' => 'Please enter the hotel confirmation number.',
+                'hotel.*.confirmation_number.string' => 'Hotel confirmation number must be a valid text.',
+                'hotel.*.confirmation_number.max' => 'Hotel confirmation number cannot exceed 100 characters.',
+
+                'hotel.*.hotel_address.required' => 'Please enter the hotel address.',
+                'hotel.*.hotel_address.string' => 'Hotel address must be a valid text.',
+                'hotel.*.hotel_address.max' => 'Hotel address cannot exceed 500 characters.',
+
+                'hotel.*.remarks.required' => 'Please provide hotel remarks.',
+                'hotel.*.remarks.string' => 'Hotel remarks must be a valid text.',
+                'hotel.*.remarks.max' => 'Hotel remarks cannot exceed 1000 characters.',
 
                 // Cruise-specific error messages
-                'cruise.required_if' => 'Cruise details are required when booking type is Cruise.',
-                'cruise.*.cruise_line.required_if' => 'Cruise line is required.',
-                'cruise.*.ship_name.required_if' => 'Cruise ship name is required.',
-                'cruise.*.category.required_if' => 'Cruise category is required.',
-                'cruise.*.stateroom.required_if' => 'Cruise stateroom is required.',
-                'cruise.*.departure_port.required_if' => 'Cruise departure port is required.',
+                'cruise.required' => 'Please provide cruise details.',
+                'cruise.array' => 'Cruise details must be an array.',
+                'cruise.min' => 'At least one cruise booking entry is required.',
+
+                'cruise.*.cruise_line.required' => 'Please enter the cruise line name.',
+                'cruise.*.cruise_line.string' => 'Cruise line must be a valid text.',
+                'cruise.*.cruise_line.max' => 'Cruise line name cannot exceed 255 characters.',
+
+                'cruise.*.ship_name.required' => 'Please enter the cruise ship name.',
+                'cruise.*.ship_name.string' => 'Cruise ship name must be a valid text.',
+                'cruise.*.ship_name.max' => 'Cruise ship name cannot exceed 255 characters.',
+
+                'cruise.*.category.required' => 'Please specify the cruise category.',
+                'cruise.*.category.string' => 'Cruise category must be a valid text.',
+                'cruise.*.category.max' => 'Cruise category cannot exceed 255 characters.',
+
+                'cruise.*.stateroom.required' => 'Please specify the cruise stateroom.',
+                'cruise.*.stateroom.string' => 'Cruise stateroom must be a valid text.',
+                'cruise.*.stateroom.max' => 'Cruise stateroom cannot exceed 255 characters.',
+
+                'cruise.*.departure_port.required' => 'Please specify the cruise departure port.',
+                'cruise.*.departure_port.string' => 'Cruise departure port must be a valid text.',
+                'cruise.*.departure_port.max' => 'Cruise departure port cannot exceed 255 characters.',
+
+                'cruise.*.departure_date.required' => 'Please provide the cruise departure date.',
+                'cruise.*.departure_date.date' => 'Cruise departure date must be a valid date.',
+
+                'cruise.*.departure_hrs.required' => 'Please provide the cruise departure time.',
+                'cruise.*.departure_hrs.date_format' => 'Cruise departure time must be in the format HH:MM.',
+
+                'cruise.*.arrival_port.required' => 'Please specify the cruise arrival port.',
+                'cruise.*.arrival_port.string' => 'Cruise arrival port must be a valid text.',
+                'cruise.*.arrival_port.max' => 'Cruise arrival port cannot exceed 255 characters.',
+
+                'cruise.*.arrival_hrs.required' => 'Please provide the cruise arrival time.',
+                'cruise.*.arrival_hrs.date_format' => 'Cruise arrival time must be in the format HH:MM.',
 
                 // Car-specific error messages
-                'car.required_if' => 'Car details are required when booking type is Car.',
-                'car.*.car_rental_provider.required_if' => 'Car rental provider is required.',
-                'car.*.car_type.required_if' => 'Car type is required.',
-                'car.*.pickup_location.required_if' => 'Car pickup location is required.',
-                'car.*.dropoff_location.required_if' => 'Car drop-off location is required.',
-                'car.*.dropoff_date.required_if' => 'Car drop-off date is required.',
-                'car.*.dropoff_date.date' => 'Car drop-off date must be a valid date.',
-                'car.*.dropoff_date.after_or_equal' => 'Car drop-off date must be today or later.',
-                'car.*.dropoff_time.required_if' => 'Car drop-off time is required.',
-                'car.*.dropoff_time.date_format' => 'Car drop-off time must be in HH:MM format.',
-                'car.*.rental_provider_address.required_if' => 'Car rental provider address is required.',
+                'car.required' => 'Please provide car rental details.',
+                'car.array' => 'Car details must be an array.',
+                'car.min' => 'At least one car rental entry is required.',
+
+                'car.*.car_rental_provider.required' => 'Please enter the car rental provider name.',
+                'car.*.car_rental_provider.string' => 'Car rental provider must be a valid text.',
+                'car.*.car_rental_provider.max' => 'Car rental provider name cannot exceed 255 characters.',
+
+                'car.*.car_type.required' => 'Please specify the car type.',
+                'car.*.car_type.string' => 'Car type must be a valid text.',
+                'car.*.car_type.max' => 'Car type cannot exceed 255 characters.',
+
+                'car.*.pickup_location.required' => 'Please specify the pickup location.',
+                'car.*.pickup_location.string' => 'Pickup location must be a valid text.',
+                'car.*.pickup_location.max' => 'Pickup location cannot exceed 255 characters.',
+
+                'car.*.dropoff_location.required' => 'Please specify the dropoff location.',
+                'car.*.dropoff_location.string' => 'Dropoff location must be a valid text.',
+                'car.*.dropoff_location.max' => 'Dropoff location cannot exceed 255 characters.',
+
+                'car.*.pickup_date.required' => 'Please provide the pickup date.',
+                'car.*.pickup_date.date' => 'Pickup date must be a valid date.',
+                'car.*.pickup_date.after_or_equal' => 'Pickup date cannot be earlier than today.',
+
+                'car.*.pickup_time.required' => 'Please provide the pickup time.',
+                'car.*.pickup_time.date_format' => 'Pickup time must be in the format HH:MM.',
+
+                'car.*.dropoff_date.required' => 'Please provide the dropoff date.',
+                'car.*.dropoff_date.date' => 'Dropoff date must be a valid date.',
+                'car.*.dropoff_date.after_or_equal' => 'Dropoff date cannot be earlier than today.',
+
+                'car.*.dropoff_time.required' => 'Please provide the dropoff time.',
+                'car.*.dropoff_time.date_format' => 'Dropoff time must be in the format HH:MM.',
+
+                'car.*.confirmation_number.string' => 'Confirmation number must be a valid text.',
+                'car.*.confirmation_number.max' => 'Confirmation number cannot exceed 255 characters.',
+
+                'car.*.remarks.string' => 'Remarks must be a valid text.',
+                'car.*.remarks.max' => 'Remarks cannot exceed 255 characters.',
+
+                'car.*.rental_provider_address.required' => 'Please enter the rental provider address.',
+                'car.*.rental_provider_address.string' => 'Rental provider address must be a valid text.',
+                'car.*.rental_provider_address.max' => 'Rental provider address cannot exceed 255 characters.',
 
                 // Train-specific error messages
-                'train.required_if' => 'Train details are required when booking type is Train.',
-                'train.*.direction.required_if' => 'Train direction is required.',
-                'train.*.direction.in' => 'Train direction must be One Way or Round Trip.',
-                'train.*.departure_date.required_if' => 'Train departure date is required.',
-                'train.*.departure_date.date' => 'Train departure date must be a valid date.',
-                'train.*.departure_date.after_or_equal' => 'Train departure date must be today or later.',
-                'train.*.train_number.required_if' => 'Train number is required.',
-                'train.*.cabin.required_if' => 'Train cabin is required.',
-                'train.*.cabin.in' => 'Train cabin must be Economy, Sleeper, Business, or First.',
-                'train.*.departure_station.required_if' => 'Train departure station is required.',
+                'train.required' => 'Please provide train booking details.',
+                'train.array' => 'Train bookings must be provided as an array.',
+                'train.min' => 'At least one train booking is required.',
+
+                'train.*.direction.required' => 'Please select the train trip direction.',
+                'train.*.direction.string' => 'Train trip direction must be a valid text.',
+                'train.*.direction.in' => 'Train trip direction must be either "One Way" or "Round Trip".',
+
+                'train.*.departure_date.required' => 'Please enter a departure date.',
+                'train.*.departure_date.date' => 'Departure date must be a valid date.',
+                'train.*.departure_date.after_or_equal' => 'Departure date cannot be in the past.',
+
+                'train.*.train_number.required' => 'Please enter the train number.',
+                'train.*.train_number.string' => 'Train number must be valid text.',
+                'train.*.train_number.max' => 'Train number cannot exceed 255 characters.',
+
+                'train.*.cabin.required' => 'Please specify the cabin class.',
+                'train.*.cabin.string' => 'Cabin class must be valid text.',
+                'train.*.cabin.in' => 'Cabin class must be one of: Economy, Sleeper, Business, or First.',
+
+                'train.*.departure_station.required' => 'Please provide the departure station.',
+                'train.*.departure_station.string' => 'Departure station must be valid text.',
+                'train.*.departure_station.max' => 'Departure station cannot exceed 255 characters.',
+
+                'train.*.departure_hours.required' => 'Please provide departure hour (0-23).',
+                'train.*.departure_hours.integer' => 'Departure hour must be an integer.',
+                'train.*.departure_hours.between' => 'Departure hour must be between 0 and 23.',
+
+                'train.*.departure_minutes.required' => 'Please provide departure minutes (0-59).',
+                'train.*.departure_minutes.integer' => 'Departure minutes must be an integer.',
+                'train.*.departure_minutes.between' => 'Departure minutes must be between 0 and 59.',
+
+                'train.*.arrival_station.required' => 'Please provide the arrival station.',
+                'train.*.arrival_station.string' => 'Arrival station must be valid text.',
+                'train.*.arrival_station.max' => 'Arrival station cannot exceed 255 characters.',
+
+                'train.*.arrival_hours.required' => 'Please provide arrival hour (0-23).',
+                'train.*.arrival_hours.integer' => 'Arrival hour must be an integer.',
+                'train.*.arrival_hours.between' => 'Arrival hour must be between 0 and 23.',
+
+                'train.*.arrival_minutes.required' => 'Please provide arrival minutes (0-59).',
+                'train.*.arrival_minutes.integer' => 'Arrival minutes must be an integer.',
+                'train.*.arrival_minutes.between' => 'Arrival minutes must be between 0 and 59.',
+
+                'train.*.duration.required' => 'Please specify the trip duration.',
+                'train.*.duration.string' => 'Duration must be valid text.',
+
+                'train.*.transit.required' => 'Please provide transit details.',
+                'train.*.transit.string' => 'Transit details must be valid text.',
+
+                'train.*.arrival_date.required' => 'Please enter an arrival date.',
+                'train.*.arrival_date.date' => 'Arrival date must be a valid date.',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -517,23 +719,12 @@ class BookingFormController extends Controller
                         }
                     }
                 }
-
-                // // Prevent validation of fields for unselected booking types
-                // $allowedFields = array_map('strtolower', $bookingTypes);
-                // $possibleFields = ['flight', 'hotel', 'cruise', 'car', 'train'];
-
-                // foreach ($possibleFields as $field) {
-                //     if (!in_array($field, $allowedFields) && $request->has($field)) {
-                //         $validator->errors()->add($field, "The {$field} field should not be provided when booking type does not include " . ucfirst($field) . ".");
-                //     }
-                // }
             });
-
             $validator->validate();
 
             $user_id =Auth::id();
 
-            DB::beginTransaction();
+            #DB::beginTransaction();
 
             $booking = TravelBooking::findOrFail($id);
             $bookingData = $request->only([
@@ -576,11 +767,12 @@ class BookingFormController extends Controller
             });
 
             $processedPassengerIds = [];
+            TravelPassenger::where('booking_id', $booking->id)->delete();
             foreach ($passengers as $data) {
 
                 $data['booking_id'] = $booking->id;
-                $passenger = TravelPassenger::updateOrCreate(
-                    ['booking_id' => $booking->id],
+
+                $passenger = TravelPassenger::create(
                     $data
                 );
                 $processedPassengerIds[] = $passenger->id;
@@ -592,29 +784,33 @@ class BookingFormController extends Controller
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
+            $check = TravelFlightDetail::where('booking_id', $booking->id)->forceDelete();
+            if(in_array('Flight',$newBookingTypes)){
+                foreach ($newFlights as $flightData) {
 
-            foreach ($newFlights as $flightData) {
+                    $flightData['booking_id'] = $booking->id;
 
-                $flightData['booking_id'] = $booking->id;
+                    // Handle flight booking image uploads
+                    if (isset($request->flightbookingimage) && !empty($request->flightbookingimage)) {
+                        $flightbookingimage = [];
 
-                // Handle flight booking image uploads
-                if (isset($request->flightbookingimage) && !empty($request->flightbookingimage)) {
-                    $flightbookingimage = [];
+                        foreach ($request->flightbookingimage as $key => $image) {
+                            $file =  'storage/' . $image->store('flight_booking_image', 'public');
+                            FlightImages::create([
+                                'booking_id' => $booking->id,
+                                'agent_id' => auth()->user()->id,
+                                'file_path'=>$file
+                            ]);
+                        }
 
-                    foreach ($request->flightbookingimage as $key => $image) {
-                        $flightbookingimage[] = 'storage/' . $image->store('flight_booking_image', 'public');
                     }
-                    TravelBooking::where('id',$booking->id)->update([
-                        'flightbookingimage'=>json_encode($flightbookingimage)
-                    ]);
 
+                    $flight = TravelFlightDetail::create(
+                        $flightData
+                    );
+
+                    $processedFlightIds[] = $flight->id;
                 }
-                $flight = TravelFlightDetail::updateOrCreate(
-                    ['booking_id' => $booking->id],
-                    $flightData
-                );
-
-                $processedFlightIds[] = $flight->id;
             }
 
             TravelFlightDetail::where('booking_id', $booking->id)
@@ -625,36 +821,41 @@ class BookingFormController extends Controller
             $newHotels = $request->input('hotel', []);
             $processedHotelIds = [];
 
-            foreach ($newHotels as $hotelData) {
-                if ($this->allFieldsEmpty($hotelData)) {
-                    continue;
-                }
-                $hotelData['booking_id'] = $booking->id;
-                if(!empty($request->hotelbookingimage)){
-                    $hotelbookingimage = [];
-                    foreach($request->hotelbookingimage as $key => $image){
-                        $hotelbookingimage[] = 'storage/'.$image->store('hotel_booking_image','public');
+            $delete = TravelHotelDetail::where('booking_id', $booking->id)->delete();
+            if(in_array('Hotel',$newBookingTypes)){
+                foreach ($newHotels as $hotelData) {
+                    if ($this->allFieldsEmpty($hotelData)) {
+                        continue;
                     }
-                    TravelBooking::where('id',$booking->id)->update([
-                        'hotelbookingimage'=>json_encode($hotelbookingimage)
-                    ]);
-                }
-
-                $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
-                $hotel = TravelHotelDetail::updateOrCreate(
-                    ['id' => $hotelData['id'] ?? null, 'booking_id' => $booking->id],
-                    $hotelData
-                );
-                if ($oldHotel) {
-                    foreach ($hotelData as $field => $newValue) {
-                        if ($oldHotel->$field != $newValue) {
-                            $booking->logChange($booking->id, 'TravelHotelDetail', $hotel->id, $field, $oldHotel->$field, $newValue);
+                    $hotelData['booking_id'] = $booking->id;
+                    if(!empty($request->hotelbookingimage)){
+                        $hotelbookingimage = [];
+                        foreach($request->hotelbookingimage as $key => $image){
+                            $fileHotel = 'storage/'.$image->store('hotel_booking_image','public');
+                            HotelImages::create([
+                                'file_path'=>$fileHotel,
+                                'agent_id'=>auth()->user()->id,
+                                'booking_id'=>$booking->id
+                            ]);
                         }
+
                     }
-                } else {
-                    $booking->logChange($booking->id, 'TravelHotelDetail', $hotel->id, 'created', null, json_encode($hotelData));
+
+                    $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
+                    $hotel = TravelHotelDetail::create(
+                        $hotelData
+                    );
+                    if ($oldHotel) {
+                        foreach ($hotelData as $field => $newValue) {
+                            if ($oldHotel->$field != $newValue) {
+                                $booking->logChange($booking->id, 'TravelHotelDetail', $hotel->id, $field, $oldHotel->$field, $newValue);
+                            }
+                        }
+                    } else {
+                        $booking->logChange($booking->id, 'TravelHotelDetail', $hotel->id, 'created', null, json_encode($hotelData));
+                    }
+                    $processedHotelIds[] = $hotel->id;
                 }
-                $processedHotelIds[] = $hotel->id;
             }
             $deletedHotels = array_diff($existingHotelIds, $processedHotelIds);
             foreach ($deletedHotels as $deletedId) {
@@ -667,36 +868,39 @@ class BookingFormController extends Controller
             $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
             $newCruises = $request->input('cruise', []);
             $processedCruiseIds = [];
-
-            foreach ($newCruises as $cruiseData) {
-                if ($this->allFieldsEmpty($cruiseData)) {
-                    continue;
-                }
-                $cruiseData['booking_id'] = $booking->id;
-                if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
-                    $cruisebookingimage = [];
-                    foreach($request->cruisebookingimage as $key => $image){
-                        $cruisebookingimage[] = 'storage/'.$image->store('cruise_booking_image','public');
+            TravelCruiseDetail::where('booking_id', $booking->id)->delete();
+            if(in_array('Cruise',$newBookingTypes)){
+                foreach ($newCruises as $cruiseData) {
+                    if ($this->allFieldsEmpty($cruiseData)) {
+                        continue;
                     }
-                    TravelBooking::where('id',$booking->id)->update([
-                        'cruisebookingimage'=>json_encode($cruisebookingimage)
-                    ]);
-                }
-                $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
-                $cruise = TravelCruiseDetail::updateOrCreate(
-                    ['id' => $cruiseData['id'] ?? null, 'booking_id' => $booking->id],
-                    $cruiseData
-                );
-                if ($oldCruise) {
-                    foreach ($cruiseData as $field => $newValue) {
-                        if ($oldCruise->$field != $newValue) {
-                            $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, $field, $oldCruise->$field, $newValue);
+                    $cruiseData['booking_id'] = $booking->id;
+                    if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
+                        foreach($request->cruisebookingimage as $key => $image){
+                            $cruisebookingimage = 'storage/'.$image->store('cruise_booking_image','public');
+                            CruiseImages::create([
+                                'booking_id' => $booking->id,
+                                'agent_id'=>auth()->user()->id,
+                                'file_path'=>$cruisebookingimage,
+                            ]);
                         }
+
                     }
-                } else {
-                    $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, 'created', null, json_encode($cruiseData));
+                    $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
+                    $cruise = TravelCruiseDetail::create(
+                        $cruiseData
+                    );
+                    if ($oldCruise) {
+                        foreach ($cruiseData as $field => $newValue) {
+                            if ($oldCruise->$field != $newValue) {
+                                $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, $field, $oldCruise->$field, $newValue);
+                            }
+                        }
+                    } else {
+                        $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, 'created', null, json_encode($cruiseData));
+                    }
+                    $processedCruiseIds[] = $cruise->id;
                 }
-                $processedCruiseIds[] = $cruise->id;
             }
             $deletedCruises = array_diff($existingCruiseIds, $processedCruiseIds);
             foreach ($deletedCruises as $deletedId) {
@@ -708,27 +912,29 @@ class BookingFormController extends Controller
             $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
             $newCars = $request->input('car', []);
             $processedCarIds = [];
-
-            foreach ($newCars as $carData) {
-                $carData['booking_id'] = $booking->id;
-                // Handle file upload
-                if (isset($request->carbookingimage) && !empty($request->carbookingimage)) {
-                    $carbookingimage = [];
-                    foreach ($request->carbookingimage as $key => $image) {
-                        $carbookingimage[] = 'storage/' . $image->store('car_booking_image', 'public');
+            TravelCarDetail::where('booking_id', $booking->id)->delete();
+            if(in_array('Car',$newBookingTypes)){
+                foreach ($newCars as $carData) {
+                    $carData['booking_id'] = $booking->id;
+                    // Handle file upload
+                    if (isset($request->carbookingimage) && !empty($request->carbookingimage)) {
+                        $carbookingimage = [];
+                        foreach ($request->carbookingimage as $key => $image) {
+                            $carbookingimage = 'storage/' . $image->store('car_booking_image', 'public');
+                            CarImages::create([
+                                'booking_id' => $booking->id,
+                                'agent_id'=>auth()->user()->id,
+                                'file_path'=>$carbookingimage
+                            ]);
+                        }
                     }
-                    TravelBooking::where('id',$booking->id)->update([
-                        'carbookingimage'=>json_encode($carbookingimage)
-                    ]);
+
+                    $car = TravelCarDetail::create(
+                        $carData
+                    );
+
+                    $processedCarIds[] = $car->id;
                 }
-
-                // Insert or update car detail
-                $car = TravelCarDetail::updateOrCreate(
-                    ['id' => $carData['id'] ?? null, 'booking_id' => $booking->id],
-                    $carData
-                );
-
-                $processedCarIds[] = $car->id;
             }
 
             TravelCarDetail::where('booking_id', $booking->id)
@@ -737,36 +943,37 @@ class BookingFormController extends Controller
 
 
             $newTrains = !empty($request->train)?$request->train:[];
+            TravelTrainDetail::where('booking_id', $booking->id)->delete();
+            if(in_array('Train',$newBookingTypes)){
+                foreach ($newTrains as $train) {
+                    $trainData = $train;
+                    $trainData['booking_id'] = $booking->id;
+                    if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
+                        foreach($request->trainbookingimage as $key => $image){
+                            $trainbookingimage = 'storage/'.$image->store('train_booking_image','public');
+                            TrainImages::create([
+                                'booking_id' => $booking->id,
+                                'agent_id'=>auth()->user()->id,
+                                'file_path'=>$trainbookingimage,
+                            ]);
+                        }
 
-            foreach ($newTrains as $train) {
-                $trainData = $train;
-                $trainData['booking_id'] = $booking->id;
-
-                if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
-                    $trainbookingimage = [];
-                    foreach($request->trainbookingimage as $key => $image){
-                        $trainbookingimage[] = 'storage/'.$image->store('train_booking_image','public');
                     }
-                    TravelBooking::where('id',$booking->id)->update([
-                        'trainbookingimage'=>json_encode($trainbookingimage)
-                    ]);
+                    $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
+                    $car = TravelTrainDetail::create(
+                        $trainData
+                    );
                 }
-                $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
-                $car = TravelTrainDetail::updateOrCreate(
-                    ['id' => $trainDataD['id'] ?? null, 'booking_id' => $booking->id],
-                    $trainData
-                );
             }
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
-
+            TravelBillingDetail::where('booking_id',$booking->id)->forceDelete();
             foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;
                     // Set active only if this is the last card
                     $billingData['is_active'] = ($request->input('activeCard') == $index) ? 1 : 0;
-                    $billing = TravelBillingDetail::updateOrCreate(
-                        ['booking_id' => $booking->id],
+                    $billing = TravelBillingDetail::create(
                         $billingData
                     );
                     $processedBillingIds[] = $billing->id;
@@ -776,29 +983,29 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedBillingIds)
                 ->delete();
 
+
             $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
             $newPricings = $request->input('pricing', []);
+
+
+          #  dd($newPricings);
+
             $processedPricingIds = [];
-
+            TravelPricingDetail::where('booking_id',$booking->id)->delete();
             foreach ($newPricings as $index => $pricingData) {
-                // Skip if required fields are missing (e.g., passenger_type is blank)
-                if (empty($pricingData['passenger_type'])) {
-                    continue;
-                }
-
                 $pricingData['booking_id'] = $booking->id;
-
-                $pricing = TravelPricingDetail::updateOrCreate(
-                    ['id' => $pricingData['id'] ?? null, 'booking_id' => $booking->id],
+                $pricing = TravelPricingDetail::create(
                     $pricingData
                 );
-
                 $processedPricingIds[] = $pricing->id;
             }
+
 
             TravelPricingDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedPricingIds)
                 ->delete();
+
+
 
             if ($request->hasFile('sector_details')) {
                 foreach ($request->file('sector_details') as $file) {
@@ -812,15 +1019,16 @@ class BookingFormController extends Controller
                 }
             }
             if (isset($request->screenshots) && !empty($request->screenshots)) {
-                $screenshots = [];
                 foreach ($request->screenshots as $key => $image) {
-                    $screenshots[] = 'storage/' . $image->store('screenshots', 'public');
+                    $screenshots = 'storage/' . $image->store('screenshots', 'public');
+                    ScreenshotImages::create([
+                       'booking_id' => $booking->id,
+                       'agent_id'=>auth()->user()->id,
+                       'file_path'=>$screenshots,
+                    ]);
                 }
-                TravelBooking::where('id',$booking->id)->update([
-                    'screenshot'=>json_encode($screenshots)
-                ]);
             }
-            DB::commit();
+           # DB::commit();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Booking updated successfully',
@@ -840,7 +1048,7 @@ class BookingFormController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
 
-            return JsonResponse::error('Internal Server Error', 500, '500');
+            return JsonResponse::error('Internal Server Error'.$e, 500, '500');
         }
     }
 
@@ -875,7 +1083,8 @@ class BookingFormController extends Controller
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
         $users = User::get();
-        return view('web.booking.show', compact('booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        $countries = \DB::table('countries')->get();
+        return view('web.booking.show', compact('countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
 

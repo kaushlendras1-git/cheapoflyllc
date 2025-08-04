@@ -28,6 +28,7 @@ use App\Http\Controllers\UserShiftController;
 use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\LOBController;
 
 use App\Models\User;
 use App\Models\Shift;
@@ -164,7 +165,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('call-types', CallTypeController::class);
         Route::resource('campaign', CampaignController::class);
         Route::resource('quality-feedback', QualityFeedbackController::class);
-
+        Route::resource('lobs', LOBController::class);
         Route::resource('teams', TeamController::class);
         Route::resource('status', StatusController::class);
         Route::resource('supplier', SupplierController::class);

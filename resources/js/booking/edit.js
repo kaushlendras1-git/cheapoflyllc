@@ -43,30 +43,30 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
 //     { key: 'train', inputName: 'trainbookingimage[]' },
 // ];
 
-bookingTypes.forEach(({ key, inputName }) => {
-    const span = document.getElementById(`${key}_uploaded_files`);
-    const baseUrl = span.dataset.baseurl;
-    const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    const uploadedImages = JSON.parse(span.dataset.images || '[]');
-
-    const pondInstance = ponds[inputName];
-
-    if (pondInstance && uploadedImages.length) {
-        uploadedImages.forEach((filePath) => {
-            if (filePath) {
-                const fullUrl = normalizedBaseUrl + filePath;
-                fetch(fullUrl)
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const fileName = filePath.split('/').pop();
-                        const file = new File([blob], fileName, { type: blob.type });
-                        pondInstance.addFile(file);
-                    })
-                    .catch(error => console.error(`Error loading ${key} file:`, error));
-            }
-        });
-    }
-});
+// bookingTypes.forEach(({ key, inputName }) => {
+//     const span = document.getElementById(`${key}_uploaded_files`);
+//     const baseUrl = span.dataset.baseurl;
+//     const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+//     const uploadedImages = JSON.parse(span.dataset.images || '[]');
+//
+//     const pondInstance = ponds[inputName];
+//
+//     if (pondInstance && uploadedImages.length) {
+//         uploadedImages.forEach((filePath) => {
+//             if (filePath) {
+//                 const fullUrl = normalizedBaseUrl + filePath;
+//                 fetch(fullUrl)
+//                     .then(response => response.blob())
+//                     .then(blob => {
+//                         const fileName = filePath.split('/').pop();
+//                         const file = new File([blob], fileName, { type: blob.type });
+//                         pondInstance.addFile(file);
+//                     })
+//                     .catch(error => console.error(`Error loading ${key} file:`, error));
+//             }
+//         });
+//     }
+// });
 
 document.getElementById('bookingForm').addEventListener('submit',async function(e){
     console.log('hello')
@@ -74,16 +74,25 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     const action = e.target.action;
     const formdata = new FormData(e.target);
 
+    const isFlightChecked = document.querySelector('#booking-flight').checked;
+    if (isFlightChecked) {
+        const flightInputs = document.querySelectorAll('[name^="flight["]');
+        flightInputs.forEach(input => {
+            const name = input.name;
+            const value = input.value;
+            formdata.append(name, value);
+        });
+    }
 
-    const flightInputs = document.querySelectorAll('[name^="flight["]');
-    flightInputs.forEach(input => {
+    const hotelInputs = document.querySelectorAll('[name^="hotel["]');
+    hotelInputs.forEach(input => {
         const name = input.name;
         const value = input.value;
         formdata.append(name, value);
     });
 
-    const hotelInputs = document.querySelectorAll('[name^="hotel["]');
-    hotelInputs.forEach(input => {
+    const trainInputs = document.querySelectorAll('[name^="train["]');
+    trainInputs.forEach(input => {
         const name = input.name;
         const value = input.value;
         formdata.append(name, value);
@@ -102,6 +111,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         formdata.append(name, value);
     });
 
+
     for (const inputName in ponds) {
         const pond = ponds[inputName];
         pond.getFiles().forEach(fileItem => {
@@ -110,9 +120,11 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     }
 
     ['passenger', 'billing', 'pricing'].forEach(prefix => {
-        const inputs = document.querySelectorAll(`[name^="${prefix}["]`);
+        const inputs = document.querySelectorAll(`[name^="${prefix}["], [name^="${prefix}["] *`);
         inputs.forEach(input => {
-            formdata.append(input.name, input.value);
+            if (input.name) {
+                formdata.append(input.name, input.value);
+            }
         });
     });
 
@@ -124,6 +136,8 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             }
         });
         showToast(response.data.message);
+
+
     }
     catch (e) {
         console.error(e);
@@ -356,6 +370,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const response = await axios.post(action, formdata);
+            const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
+                return el.name.endsWith('][address]');
+            });
+
+            billingElements.forEach(el => {
+                if (el.tagName.toLowerCase() === 'select') { // Confirm it is a select element
+                    const option = document.createElement('option');
+                    option.value = response.data.data.id;
+                    option.textContent = response.data.data.street_address;
+
+                    el.appendChild(option);
+                } else {
+                    console.warn('Element is not a select, cannot add option:', el);
+                }
+            });
+            console.log(response);
             showToast(response.data.message);
             document.getElementById('billing-close-modal').click();
             element.reset();
@@ -383,6 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             toggleBillingTableVisibility(); // 👈 After add
         } catch (e) {
+            console.log(e);
             showToast(e?.response?.data?.message || 'Something went wrong', 'error');
         }
     });
@@ -402,11 +433,33 @@ function attachDeleteHandler(el) {
         try {
             const response = await axios.delete(action);
             showToast(response.data.message);
+
+            // Remove table row
             const row = button.closest('tr');
             row.remove();
+
+            // Update row numbers
             const rows = document.querySelectorAll('#billing-table tbody tr');
             rows.forEach((tr, index) => {
                 tr.querySelector('td').textContent = index + 1;
+            });
+
+            // Remove corresponding <option> from all select fields
+            // Adjust 'deletedId' as per your API response structure
+            const deletedId = response.data.deleted_id;
+
+            const billingSelects = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
+                return el.name.endsWith('][address]');
+            });
+
+            billingSelects.forEach(select => {
+                if (select.tagName.toLowerCase() === 'select') {
+                    // Find the option with the deleted id
+                    const optionToRemove = select.querySelector(`option[value="${deletedId}"]`);
+                    if (optionToRemove) {
+                        select.removeChild(optionToRemove);
+                    }
+                }
             });
 
             toggleBillingTableVisibility(); // 👈 After delete
@@ -421,7 +474,7 @@ function attachDeleteHandler(el) {
 document.getElementById('saveFeedback').addEventListener('click', async function (e) {
     e.preventDefault();
 
-   
+
     const parameters = Array.from(document.querySelectorAll('input[name="parameters[]"]:checked')).map(input => {
         const parentDiv = input.closest('.col-lg-3, .col-md-6, .col-12');
 

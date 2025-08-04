@@ -102,8 +102,7 @@
                     <div class="row booking-form">
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Phone <span class="text-danger">*</span></label>
-                            <input type="tel" id="phone" name="phone" placeholder="123 456 7890" class="form-control"
-                                value="{{ old('phone') }}">
+                            <input type="tel" id="phone" name="phone" class="form-control" value="{{ old('phone') }}">
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror

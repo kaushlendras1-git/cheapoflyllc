@@ -39,36 +39,33 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Edit Booking</h2>
-        <!-- <nav style="--bs-breadcrumb-divider: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&quot;);"
-            aria-label="breadcrumb">
-            <ol class="breadcrumb d-flex align-items-center mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Booking</li>
-            </ol>
-        </nav> -->
         <div class="breadcrumb">
             <a href="{{ route('user.dashboard') }}" class="active">Dashboard</a>
             <a href="javascript:void(0);">Edit Booking</a>
         </div>
     </div>
     <div class="row">
-        <div class="card p-4 create-booking-wrapper">
+        <div class="card p-1 create-booking-wrapper">
             <div class="upper-status d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex" style="font-size: 12px;">
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Booking :</strong><span
+                        style="color: #fff;margin-right: 20px;">{{$booking->id}}</span>
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Sales:</strong><span
-                        style="color: #fff; margin-right: 20px;">Roger</span>
+{{--                        style="color: #fff; margin-right: 20px;">{{$booking->user->name}} - {{$booking->user->role}}</span>--}}
+
+                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Issued On:</strong><span
+                        style="color: #fff; margin-right: 20px;">{{$booking->created_at}}</span>
+
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Changes:</strong><span
                         style="color: #fff; margin-right: 20px;">Zee</span>
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Billing:</strong><span
                         style="color: #fff; margin-right: 20px;">Mark</span>
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Quality:</strong><span
                         style="color: #fff; margin-right: 20px;">Smith</span>
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Issued On:</strong><span
-                        style="color: #fff; margin-right: 20px;">12 July 2025</span>
+
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Shared :</strong><span
                         style="color: #fff;margin-right: 20px;">Agent</span>
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Booking :</strong><span
-                        style="color: #fff;margin-right: 20px;">{{$booking->id}}</span>
+
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Qc Score :</strong><span
                         style="color: #fff;margin-right: 20px;">78%</span>
                     <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Qc Status :</strong><span
@@ -97,7 +94,11 @@
 
                 <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
                 <!-- Top Bar -->
+<<<<<<< HEAD
                 <div class="mt-2 ps-0">
+=======
+                <div class="pt-1 mt-1 ps-0">
+>>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                     <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="form-check form-check-inline">
@@ -240,7 +241,6 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Booking Type</label>
                             <select id="query_type" class="form-control" name="query_type">
-
                                 <option>Package Reservation</option>
                                 <option data-type="Flight">Flight Reservation </option>
                                 <option data-type="Flight">Flight Reservation with Credits & Vouchers</option>
@@ -330,17 +330,14 @@
                             </select>
                         </div>
 
-
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label"> Is Shared Booking</label>
                             <select class="form-control" name="shared_booking">
-                                <option value="">Select
-                                </option>
-                                @foreach($campaigns as $campaign)
-                                <option value="{{$campaign->name}}"
-                                    {{$campaign->name == $booking->shared_booking?'selected':''}}>
-                                    {{$campaign->name}}</option>
+                                <option value="">Select</option>
+                                @foreach($users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
                                 @endforeach
+
                             </select>
                         </div>
 
@@ -451,10 +448,19 @@
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
+<<<<<<< HEAD
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="passenger-detail-button">
                             <i class="ri ri-add-circle-fill pointer"></i>
                         </button>
+=======
+                         <button class="btn btn-primary" type="button" id="passenger-detail-button">
+                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                </svg>
+                            </button>
+>>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                     </div>
+
                     <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
                         <table class="passenger-table table">
                             <thead>
@@ -481,6 +487,7 @@
                                     <td>
                                         <span class="billing-card-title"> {{$key+1}}</span>
                                     </td>
+                                    <input type="hidden" name="passenger[{{$key}}][booking_id]" value="{{$passengers->booking_id}}"/>
                                     <td>
                                         <select class="form-control" style="width:5.5rem"
                                             name="passenger[{{$key}}][passenger_type]">
@@ -575,6 +582,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -754,6 +762,37 @@
                         <input type="file" id="screenshots-upload" name="flightbookingimage[]" multiple>
                     </div>
 
+                     <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->flightbookingimage, true);
+                        @endphp
+
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Flight Booking Details ------------------------------>
@@ -852,6 +891,38 @@
                     <div style="margin-top:20px">
                         <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
                     </div>
+
+                    <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->carbookingimage, true);
+                        @endphp
+
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Car Booking Details ------------------------------>
@@ -957,6 +1028,37 @@
                     <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
                 </div>
 
+                <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->cruisebookingimage, true);
+                        @endphp
+
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
 
             </div>
             <!------------------------ End Cruise Booking Details ------------------------------>
@@ -1047,6 +1149,38 @@
                     <div style="margin:20px">
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
+
+                    <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->hotelbookingimage, true);
+                        @endphp
+
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Hotel Booking Details ------------------------------>
@@ -1170,6 +1304,37 @@
                         <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
                     </div>
 
+                    <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->trainbookingimage, true);
+                        @endphp
+
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>No images found.</p>
+                        @endif
+                    </div>
+
                 </div>
             </div>
             <!------------------------ End Train Booking Details ------------------------------>
@@ -1179,9 +1344,18 @@
 
             <!--------------------------------------Billing Details ---------------------------->
             <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+<<<<<<< HEAD
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center add-bank">
                         <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
+=======
+                <div class="card p-4">
+
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 add-bank">
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Billing Details</h5>
+
+>>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         <i data-bs-toggle="modal" data-bs-target="#exampleModal"
                             class="ri ri-add-circle-fill pointer"></i>
                     </div>
@@ -1221,12 +1395,25 @@
                             </tbody>
                         </table>
                     </div>
+<<<<<<< HEAD
                 </div> 
                 <div class="card p-4 mt-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-header border-0 p-0 detail-passanger">Card Details $1052</h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="billing-booking-button">
                             <i  class="ri ri-add-circle-fill pointer"></i>
+=======
+
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Card Details $1052</h5>
+
+                        <button class="btn btn-primary" type="button" id="billing-booking-button">
+                            <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
+                                focusable="false">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                            </svg>
+>>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         </button>
                     </div>
                     <div class="card-body p-0">
@@ -1260,35 +1447,37 @@
                                                     name="billing[{{$key}}][card_type]">
                                                     <option value="">Select</option>
                                                     <option value="VISA"
-                                                        {{$billingDetails->card_type == 'VISA' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'VISA' ? 'selected' : ''}}>
                                                         VISA
                                                     </option>
                                                     <option value="Mastercard"
-                                                        {{$billingDetails->card_type == 'Mastercard' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'Mastercard' ? 'selected' : ''}}>
                                                         Mastercard</option>
                                                     <option value="AMEX"
-                                                        {{$billingDetails->card_type == 'AMEX' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'AMEX' ? 'selected' : ''}}>
                                                         AMEX
                                                     </option>
                                                     <option value="DISCOVER"
-                                                        {{$billingDetails->card_type == 'DISCOVER' ? 'selected' : ''}}>
+                                                        {{$billingDetails['card_type'] == 'DISCOVER' ? 'selected' : ''}}>
                                                         DISCOVER</option>
                                                 </select>
                                             </td>
                                             <td><input style="width: 140px;" inputmode="numeric" maxlength="16"
                                                     class="form-control" placeholder="CC Number"
                                                     name="billing[{{$key}}][cc_number]"
-                                                    value="{{$billingDetails->cc_number}}"></td>
-                                            <td><input type="text" class="form-control" placeholder="CC Holder Name"
+                                                   value="{{$billingDetails['cc_number']}}"></td>
+
+
+                                                    <td><input type="text" class="form-control" placeholder="CC Holder Name"
                                                     name="billing[{{$key}}][cc_holder_name]"
-                                                    value="{{$billingDetails->cc_holder_name}}"></td>
+                                                    value="{{$billingDetails['cc_holder_name']}}"></td>
                                             <td>
                                                 <select style="width: 45px; margin: auto;" class="form-control"
                                                     name="billing[{{$key}}][exp_month]">
                                                     <option value="">MM</option>
                                                     @for($i = 1; $i <= 12; $i++) <option
                                                         value="{{ sprintf('%02d', $i) }}"
-                                                        {{$billingDetails->exp_month == sprintf('%02d', $i) ? 'selected' : ''}}>
+                                                        {{$billingDetails['exp_month'] == sprintf('%02d', $i) ? 'selected' : ''}}>
                                                         {{ sprintf('%02d', $i) }}</option>
                                                         @endfor
                                                 </select>
@@ -1297,7 +1486,7 @@
                                                 <select class="form-control" name="billing[{{$key}}][exp_year]">
                                                     <option value="">YYYY</option>
                                                     @for($i = 2024; $i <= 2034; $i++) <option value="{{$i}}"
-                                                        {{$billingDetails->exp_year == $i ? 'selected' : ''}}>{{$i}}
+                                                        {{$billingDetails['exp_year'] == $i ? 'selected' : ''}}>{{$i}}
                                                         </option>
                                                         @endfor
                                                 </select>
@@ -1307,67 +1496,48 @@
                                             <td><input style="width: 57px;" inputmode="numeric" maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]"
-                                                    value="{{$billingDetails->cvv}}">
+                                                    value="{{$billingDetails['cvv']}}">
                                             </td>
 
-                                            <!--td><input style="width: 180px;" type="text" class="form-control"
-                                                    placeholder="Address" name="billing[{{$key}}][address]"
-                                                    value="{{$billingDetails->address}}"></td>
-                                            <td><input style="width: 180px;" type="email" class="form-control"
-                                                    placeholder="Email" name="billing[{{$key}}][email]"
-                                                    value="{{$billingDetails->email}}">
-                                            </td>
-                                            <td><input style="width: 100px;" type="text" class="form-control"
-                                                    placeholder="Contact No" name="billing[{{$key}}][contact_no]"
-                                                    value="{{$billingDetails->contact_no}}"></td>
-                                            <td><input style="width: 100px;" type="text" class="form-control"
-                                                    placeholder="City" name="billing[{{$key}}][city]"
-                                                    value="{{$billingDetails->city}}">
-                                            </td>
-                                            <td>
-                                                <select id="country-{{$key}}" style="width:9rem"
-                                                    class="form-control country-select"
-                                                    name="billing[{{$key}}][country]">
-                                                    <option value="India">Select Country</option>
-                                                    Populated by JavaScript -->
+
                                             </select>
                                             </td>
                                             <td>
                                                 <select id="state-{{$key}}" style="width:7.5rem"
                                                     class="form-control state-select" name="billing[{{$key}}][address]">
                                                     <option value="">Select Billing</option>
-                                                    <option value="address"
-                                                        {{$billingDetails->address == 'address'?'selected':''}}>Address
-                                                    </option>
+                                                    @foreach($billingData as $bi)
+                                                        <option value="{{$bi->id}}" {{$bi->id == $billingDetails['address']?'selected':''}}>{{$bi->street_address}}</option>
+                                                    @endforeach
                                                 </select>
                                             </td>
 
                                             <td><input style="width: 65px;" type="text" class="form-control"
                                                     placeholder="ZIP Code" name="billing[{{$key}}][zip_code]"
-                                                    value="{{$billingDetails->zip_code}}"></td>
+                                                    value="{{$billingDetails['zip_code']}}"></td>
                                             <td>
                                                 <select class="form-control" name="billing[{{$key}}][currency]">
                                                     <option value="">Select</option>
                                                     <option value="USD"
-                                                        {{$billingDetails->currency == 'USD' ? 'selected' : ''}}>USD
+                                                        {{$billingDetails['currency'] == 'USD' ? 'selected' : ''}}>USD
                                                     </option>
                                                     <option value="CAD"
-                                                        {{$billingDetails->currency == 'CAD' ? 'selected' : ''}}>CAD
+                                                        {{$billingDetails['currency'] == 'CAD' ? 'selected' : ''}}>CAD
                                                     </option>
                                                     <option value="EUR"
-                                                        {{$billingDetails->currency == 'EUR' ? 'selected' : ''}}>EUR
+                                                        {{$billingDetails['currency'] == 'EUR' ? 'selected' : ''}}>EUR
                                                     </option>
                                                     <option value="GBP"
-                                                        {{$billingDetails->currency == 'GBP' ? 'selected' : ''}}>GBP
+                                                        {{$billingDetails['currency'] == 'GBP' ? 'selected' : ''}}>GBP
                                                     </option>
                                                     <option value="AUD"
-                                                        {{$billingDetails->currency == 'AUD' ? 'selected' : ''}}>AUD
+                                                        {{$billingDetails['currency'] == 'AUD' ? 'selected' : ''}}>AUD
                                                     </option>
                                                     <option value="INR"
-                                                        {{$billingDetails->currency == 'INR' ? 'selected' : ''}}>INR
+                                                        {{$billingDetails['currency'] == 'INR' ? 'selected' : ''}}>INR
                                                     </option>
                                                     <option value="MXN"
-                                                        {{$billingDetails->currency == 'MXN' ? 'selected' : ''}}>MXN
+                                                        {{$billingDetails['currency'] == 'MXN' ? 'selected' : ''}}>MXN
                                                     </option>
                                                 </select>
                                             </td>
@@ -1400,7 +1570,12 @@
             <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
 
                 <div class="col-md-12">
+<<<<<<< HEAD
                     <div class="card p-4 details-table-wrappper show-booking-card">
+=======
+                    <div class="card p-4 details-table-wrappper">
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Pricing Details</h5>
+>>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         <div class="d-flex justify-content-end mb-2">
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
                                 <i class="ri ri-add-circle-fill pointer"></i>
@@ -1579,7 +1754,8 @@
                                         <td>Sno.</td>
                                         <td>Remark</td>
                                         <td>Agent</td>
-                                        <td>Action</td>
+                                        <td>Date/Time</td>
+                                        <td>Show/Hide</td>
                                     </tr>
                                 </thead>
                                 <tbody id="bookingtableremarktable">
@@ -1589,13 +1765,13 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$remar->particulars}}</td>
                                         <td>{{$remar->agent}}</td>
+                                        <td>{{$remar->created_at}}</td>
                                         <td>
-                                            <button data-id="{{$remar->id}}" type="submit" class="no-btn p-0 "
-                                                onclick="return confirm('Are you sure you want to delete this call type?')">
-                                                <img width="25" src="../../../assets/img/icons/img-icons/delete.png"
-                                                    alt="shift-change">
-                                            </button>
 
+                                          <div class="form-check form-switch">
+                                            <input class="form-check-input chkqlty" type="checkbox" role="switch" value="Active Listening" id="ActiveListening" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ActiveListening"></label>
+                                        </div>
 
                                         </td>
                                     </tr>
@@ -1630,9 +1806,9 @@
                                             NOT FATAL</h6>
                                     </div>
                                     @php
-                                   
+
                                     $feedbackParameters = $feed_backs->pluck('parameter')->toArray();
-                                    
+
                                     $feedbackNotes = $feed_backs->pluck('notes', 'parameter')->toArray();
                                     @endphp
 
@@ -2104,21 +2280,35 @@
                     <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
                 </div>
 
-                <div class="card-body p-2">
-                    @php
-                    $screenshots = json_decode($booking->screenshot, true);
-                    @endphp
-                    @if (!empty($screenshots))
-                    @foreach ($screenshots as $file)
-                    <div class="mb-2">
-                        <img src="{{ asset($file) }}" alt="Screenshot" class="img-fluid rounded"
-                            style="max-height: 200px;">
+                <div style="margin-top:20px">
+                        @php
+                            $images = json_decode($booking->screenshot, true);
+                        @endphp
+                        @if($images && is_array($images))
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image Preview</th>
+                                        <th>Agent Name</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($images as $key => $img)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <p>No images found.</p>
+                        @endif
                     </div>
-                    @endforeach
-                    @else
-                    <p class="text-muted">No screenshots available.</p>
-                    @endif
-                </div>
 
             </div>
         </div>
@@ -2128,7 +2318,7 @@
         <!--------------------------- End Feedback --------------------------->
 
 
-        
+
 
 
 
@@ -2182,7 +2372,12 @@
                         </div>
                         <div class="col-md-3 position-relative">
                             <label class="form-label">Country <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="country">
+                            <select class="form-control" name="country">
+                                <option value="">Select country</option>
+                                @foreach($countries as $country)
+                                    <option value="{{$country->id}}">{{$country->country_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </form>

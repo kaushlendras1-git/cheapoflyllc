@@ -7,5 +7,7 @@ use Illuminate\Http\Request;
 
 class QualityFeedbackController extends Controller
 {
-    //
+    public function index(){
+        dd('11');
+    }
 }

@@ -495,21 +495,21 @@
                                     <tr>
                                         <th>Date</th>
                                         @for ($day = 1; $day <= 30; $day++) <th>{{ $day }}</th>
-                                            @endfor
+                                        @endfor
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>July</th>
+                                        <th>{{date('M')}}</th>
                                         @for ($day = 1; $day <= 30; $day++) @php $status=$calendar[$day] ?? '' ;
-                                            $bg=match($status) { 'Y'=> '#90EE90', // Green
-                                            'N' => '#FF6347', // Red
-                                            'P' => '#0ab200', // Blue
-                                            'H' => '#FFFF99', // Yellow
+                                            $bg=match($status) { 'Y'=> '#90EE90',
+                                            'N' => '#FF6347',
+                                            'P' => '#0ab200',
+                                            'H' => '#FFFF99',
                                             default => '#ffffff'
                                             };
                                             @endphp
-                                            <td style="background-color: {{ $bg }}"> {{ $status }} </td>
+                                                <td style="background-color: {{ $bg }}"> {{ $status }} </td>
                                             @endfor
                                     </tr>
                                 </tbody>
@@ -525,8 +525,6 @@
             </div>
         </div>
         <!-- Deposit / Withdraw -->
-
-
 
     </div>
 </div>
