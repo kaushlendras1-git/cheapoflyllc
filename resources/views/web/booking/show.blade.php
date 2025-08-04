@@ -94,11 +94,7 @@
 
                 <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
                 <!-- Top Bar -->
-<<<<<<< HEAD
                 <div class="mt-2 ps-0">
-=======
-                <div class="pt-1 mt-1 ps-0">
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                     <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="form-check form-check-inline">
@@ -448,17 +444,9 @@
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
-<<<<<<< HEAD
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="passenger-detail-button">
                             <i class="ri ri-add-circle-fill pointer"></i>
                         </button>
-=======
-                         <button class="btn btn-primary" type="button" id="passenger-detail-button">
-                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                                </svg>
-                            </button>
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                     </div>
 
                     <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
@@ -1344,18 +1332,9 @@
 
             <!--------------------------------------Billing Details ---------------------------->
             <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-<<<<<<< HEAD
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center add-bank">
                         <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
-=======
-                <div class="card p-4">
-
-
-                    <div class="d-flex justify-content-between align-items-center mb-3 add-bank">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Billing Details</h5>
-
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         <i data-bs-toggle="modal" data-bs-target="#exampleModal"
                             class="ri ri-add-circle-fill pointer"></i>
                     </div>
@@ -1395,25 +1374,12 @@
                             </tbody>
                         </table>
                     </div>
-<<<<<<< HEAD
                 </div> 
                 <div class="card p-4 mt-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-header border-0 p-0 detail-passanger">Card Details $1052</h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="billing-booking-button">
                             <i  class="ri ri-add-circle-fill pointer"></i>
-=======
-
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Card Details $1052</h5>
-
-                        <button class="btn btn-primary" type="button" id="billing-booking-button">
-                            <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                focusable="false">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                            </svg>
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         </button>
                     </div>
                     <div class="card-body p-0">
@@ -1570,12 +1536,7 @@
             <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
 
                 <div class="col-md-12">
-<<<<<<< HEAD
                     <div class="card p-4 details-table-wrappper show-booking-card">
-=======
-                    <div class="card p-4 details-table-wrappper">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Pricing Details</h5>
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         <div class="d-flex justify-content-end mb-2">
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
                                 <i class="ri ri-add-circle-fill pointer"></i>
