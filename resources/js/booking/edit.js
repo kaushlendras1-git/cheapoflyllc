@@ -607,3 +607,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const toggles = document.querySelectorAll('.toggle-remark');
+    toggles.forEach(function (checkbox) {
+        checkbox.addEventListener('change', async function () {
+            const id = this.dataset.remarkid;
+                try {
+                    const response = await axios.post(route('booking.status-remark', { id }));
+
+                    if (response.data.success) {
+                        
+                            const row = document.getElementById(`remark-row-${id}`);
+                            if (row) {
+                                setTimeout(() => {
+                                    row.style.display = 'none';
+                                }, 1000);
+                            }
+
+                        console.log(response.data.message);
+                    }
+                } catch (error) {
+                    console.error('Failed to toggle remark status:', error);
+                }
+        });
+    });
+});

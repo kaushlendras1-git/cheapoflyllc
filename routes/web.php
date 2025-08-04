@@ -84,6 +84,7 @@ Route::prefix('booking')->name('booking.')->group(function () {
     
     Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');
     Route::post('/delete-remark/{id}',[BookingFormController::class,'deleteRemark'])->name('delete-remark');
+    Route::post('/status-remark/{id}', [BookingFormController::class, 'toggleRemarkStatus'])->name('status-remark');
 
     Route::post('/update-feedback/{id}',[BookingFormController::class,'updateFeedBack'])->name('update-feedback');
     Route::post('/delete-feedback/{id}',[BookingFormController::class,'deleteFeedBack'])->name('delete-feedback');

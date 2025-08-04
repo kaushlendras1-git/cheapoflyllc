@@ -62,7 +62,7 @@ class TravelBooking extends Model
 
     public function remarks()
     {
-        return $this->hasMany(TravelBookingRemark::class, 'booking_id');
+        return $this->hasMany(TravelBookingRemark::class, 'booking_id')->where('status',1)->orderBy('id', 'asc');
     }
 
     public function qualityFeedback()

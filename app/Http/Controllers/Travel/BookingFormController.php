@@ -1077,7 +1077,6 @@ class BookingFormController extends Controller
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
-
         $car_images = CarImages::where('booking_id', $booking->id)->get();
         $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
         $flight_images = flightImages::where('booking_id', $booking->id)->get();
@@ -1088,7 +1087,6 @@ class BookingFormController extends Controller
         $countries = \DB::table('countries')->get();
         return view('web.booking.show', compact('car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
-
 
     public function add(){
        $pnr = date('dm') . str_pad(time() % 86400 % 10000, 4, '0', STR_PAD_LEFT) . str_pad(
@@ -1123,6 +1121,21 @@ class BookingFormController extends Controller
     {
         return Excel::download(new BookingsExport($request), 'bookings.xlsx');
     }
+
+    public function toggleRemarkStatus($id)
+    {   
+        $remark = TravelBookingRemark::findOrFail($id);
+        // Toggle status
+        $remark->status = !$remark->status;
+        $remark->save();
+
+        return response()->json([
+            'success' => true,
+            'new_status' => $remark->status,
+            'message' => $remark->status ? 'Remark is now visible.' : 'Remark is now hidden.',
+        ]);
+    }
+
 
 
 }
