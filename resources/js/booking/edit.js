@@ -160,17 +160,15 @@ document.getElementById('saveRemark').addEventListener('click',async function (e
         let html = '';
         console.log(response);
         response.data.data.forEach(function(item,index){
-            html += `<tr>
+            html += `<tr id="remark-row-${item.id}">
                     <td>${index+1}</td>
                     <td>${item.particulars}</td>
                     <td>${item.agent}</td>
                     <td>${item.created_at}</td>
                     <td>
                         <div class="form-check form-switch">
-                                            <input data-id="${item.id}" class="form-check-input chkqlty" type="checkbox" role="switch" value="Active Listening" id="ActiveListening" name="parameters[]">
-                                            <label class="form-check-label text-dark" for="ActiveListening"></label>
+                            <input type="checkbox" class="form-check-input toggle-remark"  data-remarkid="${item.id}" checked>
                         </div>
-
                     </td>
                 </tr>`;
         });
@@ -182,36 +180,6 @@ document.getElementById('saveRemark').addEventListener('click',async function (e
         console.error("AXIOS ERROR", e);
         if (e.response) {
             console.error("Server responded with:", e.response.data);
-        }
-    }
-});
-
-document.getElementById('bookingtableremarktable').addEventListener('click', async function (e) {
-    if (e.target.classList.contains('deleteRemark')) {
-        const id = e.target.getAttribute('data-id');
-        try {
-            const response = await axios.post(route('booking.delete-remark', { id: id }), {
-                booking_id: route().params.id
-            });
-
-            let html = '';
-            response.data.data.forEach(function(item, index) {
-                html += `<tr>
-                    <td>${index + 1}</td>
-                    <td>${item.particulars}</td>
-                    <td>
-                        <button type="button" class="btn btn-danger deleteRemark" data-id="${item.id}">
-                            Delete
-                        </button>
-                    </td>
-                </tr>`;
-            });
-
-            $('#bookingtableremarktable').html(html);
-            document.querySelector('textarea[name="particulars"]').value = "";
-            showToast(response.data.message);
-        } catch (err) {
-            console.log(err);
         }
     }
 });
@@ -634,3 +602,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+// document.getElementById('bookingtableremarktable').addEventListener('click', async function (e) {
+//     if (e.target.classList.contains('deleteRemark')) {
+//         const id = e.target.getAttribute('data-id');
+//         try {
+//             const response = await axios.post(route('booking.delete-remark', { id: id }), {
+//                 booking_id: route().params.id
+//             });
+
+//             let html = '';
+//             response.data.data.forEach(function(item, index) {
+//                 html += `<tr>
+//                     <td>${index + 1}</td>
+//                     <td>${item.particulars}</td>
+//                     <td>
+//                         <button type="button" class="btn btn-danger deleteRemark" data-id="${item.id}">
+//                             Delete
+//                         </button>
+//                     </td>
+//                 </tr>`;
+//             });
+
+//             $('#bookingtableremarktable').html(html);
+//             document.querySelector('textarea[name="particulars"]').value = "";
+//             showToast(response.data.message);
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }
+// });
