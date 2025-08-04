@@ -383,10 +383,10 @@ class BookingFormController extends Controller
 
                 // Train-specific validations
                 'train' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|array|min:1',
-                'train.*.direction' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|in:One Way,Round Trip',
+                'train.*.direction' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string',
                 'train.*.departure_date' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|date|after_or_equal:today',
                 'train.*.train_number' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|max:255',
-                'train.*.cabin' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|in:Economy,Sleeper,Business,First',
+                'train.*.cabin' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string',
                 'train.*.departure_station' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)) . '|nullable|string|max:255',
                 'train.*.departure_hours' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|integer|between:0,23',
                 'train.*.departure_minutes' => Rule::requiredIf(fn () => in_array('Train', $bookingTypes)).'|nullable|integer|between:0,59',
@@ -467,230 +467,225 @@ class BookingFormController extends Controller
                 'flight.array' => 'Flight information must be an array.',
                 'flight.min' => 'At least one flight entry is required.',
 
-                'flight.*.direction.required' => 'Please specify the flight direction (Inbound or Outbound).',
-                'flight.*.direction.string' => 'Flight direction must be a valid text.',
+                'flight.*.direction.required' => 'Flight direction is required (Inbound or Outbound).',
+                'flight.*.direction.string' => 'Flight direction must be valid text.',
                 'flight.*.direction.in' => 'Flight direction must be either Inbound or Outbound.',
 
-                'flight.*.departure_date.required' => 'Please provide the flight departure date.',
+                'flight.*.departure_date.required' => 'Flight departure date is required.',
                 'flight.*.departure_date.date' => 'Flight departure date must be a valid date.',
                 'flight.*.departure_date.after_or_equal' => 'Flight departure date cannot be in the past.',
 
-                'flight.*.departure_airport.required' => 'Please enter the flight departure airport.',
-                'flight.*.departure_airport.string' => 'Flight departure airport must be a valid text.',
-                // Added rule to restrict max length for airport codes or names if desired
+                'flight.*.departure_airport.required' => 'Flight departure airport is required.',
+                'flight.*.departure_airport.string' => 'Flight departure airport must be valid text.',
                 'flight.*.departure_airport.max' => 'Flight departure airport name cannot exceed 255 characters.',
 
-                'flight.*.departure_hours.required' => 'Please provide the flight departure time.',
-                'flight.*.departure_hours.date_format' => 'Flight departure time must have a valid time format (HH:MM).', // Added date_format rule
+                'flight.*.departure_hours.required' => 'Flight departure time is required.',
+                'flight.*.departure_hours.date_format' => 'Flight departure time must be in the format HH:MM.',
 
-                'flight.*.arrival_airport.required' => 'Please enter the flight arrival airport.',
-                'flight.*.arrival_airport.string' => 'Flight arrival airport must be a valid text.',
-                'flight.*.arrival_airport.max' => 'Flight arrival airport name cannot exceed 255 characters.', // Added max length
+                'flight.*.arrival_airport.required' => 'Flight arrival airport is required.',
+                'flight.*.arrival_airport.string' => 'Flight arrival airport must be valid text.',
+                'flight.*.arrival_airport.max' => 'Flight arrival airport name cannot exceed 255 characters.',
 
-                'flight.*.arrival_hours.required' => 'Please provide the flight arrival time.',
-                'flight.*.arrival_hours.date_format' => 'Flight arrival time must have a valid time format (HH:MM).', // Added date_format
+                'flight.*.arrival_hours.required' => 'Flight arrival time is required.',
+                'flight.*.arrival_hours.date_format' => 'Flight arrival time must be in the format HH:MM.',
 
-                'flight.*.duration.required' => 'Please specify the flight duration.',
-                'flight.*.duration.string' => 'Flight duration must be a valid text.',
-                // Could consider format validation (e.g. regex) for duration if format fixed, e.g., "HH:MM"
+                'flight.*.duration.required' => 'Flight duration is required.',
+                'flight.*.duration.string' => 'Flight duration must be valid text.',
 
-                'flight.*.transit.required' => 'Please specify the flight transit details.',
-                'flight.*.transit.string' => 'Flight transit information must be a valid text.',
-                // Optional: add max length if needed
+                'flight.*.transit.required' => 'Flight transit details are required.',
+                'flight.*.transit.string' => 'Flight transit details must be valid text.',
 
-                'flight.*.arrival_date.required' => 'Please provide the flight arrival date.',
+                'flight.*.arrival_date.required' => 'Flight arrival date is required.',
                 'flight.*.arrival_date.date' => 'Flight arrival date must be a valid date.',
-                // Optional: add comparison with departure_date, e.g., after_or_equal
 
-                'flight.*.airline_code.required' => 'Please enter the flight airline code.',
+                'flight.*.airline_code.required' => 'Flight airline code is required.',
                 'flight.*.airline_code.string' => 'Flight airline code must be a text value.',
                 'flight.*.airline_code.size' => 'Flight airline code must be exactly 2 characters.',
 
-                'flight.*.flight_number.required' => 'Please enter the flight number.',
+                'flight.*.flight_number.required' => 'Flight number is required.',
                 'flight.*.flight_number.string' => 'Flight number must be a text value.',
                 'flight.*.flight_number.max' => 'Flight number cannot exceed 10 characters.',
 
-                'flight.*.cabin.required' => 'Please select the flight cabin class.',
-                'flight.*.cabin.string' => 'Flight cabin class must be a valid text.',
+                'flight.*.cabin.required' => 'Flight cabin class is required.',
+                'flight.*.cabin.string' => 'Flight cabin class must be valid text.',
                 'flight.*.cabin.in' => 'Flight cabin class must be one of: B.Eco, Eco, Pre.Eco, Buss.',
 
-                'flight.*.class_of_service.required' => 'Please specify the flight class of service.',
-                'flight.*.class_of_service.string' => 'Flight class of service must be text.',
+                'flight.*.class_of_service.required' => 'Flight class of service is required.',
+                'flight.*.class_of_service.string' => 'Flight class of service must be valid text.',
                 'flight.*.class_of_service.max' => 'Flight class of service cannot exceed 3 characters.',
 
                 // Hotel-specific error messages
-                'hotel.required' => 'Please provide hotel details.',
-                'hotel.array' => 'Hotel details must be an array.',
+                'hotel.required' => 'Please provide hotel booking details.',
+                'hotel.array' => 'Hotel booking details must be an array.',
                 'hotel.min' => 'At least one hotel booking is required.',
 
-                'hotel.*.hotel_name.required' => 'Please enter the hotel name.',
+                'hotel.*.hotel_name.required' => 'Hotel name is required.',
                 'hotel.*.hotel_name.string' => 'Hotel name must be a valid text.',
                 'hotel.*.hotel_name.max' => 'Hotel name cannot exceed 255 characters.',
 
-                'hotel.*.room_category.required' => 'Please specify the hotel room category.',
+                'hotel.*.room_category.required' => 'Hotel room category is required.',
                 'hotel.*.room_category.string' => 'Hotel room category must be valid text.',
                 'hotel.*.room_category.max' => 'Hotel room category cannot exceed 255 characters.',
 
-                'hotel.*.checkin_date.required' => 'Please provide the hotel check-in date.',
+                'hotel.*.checkin_date.required' => 'Hotel check-in date is required.',
                 'hotel.*.checkin_date.date' => 'Hotel check-in date must be a valid date.',
-                'hotel.*.checkin_date.after_or_equal' => 'The hotel check-in date cannot be before today.',
+                'hotel.*.checkin_date.after_or_equal' => 'Hotel check-in date cannot be before today.',
 
-                'hotel.*.checkout_date.required' => 'Please provide the hotel check-out date.',
+                'hotel.*.checkout_date.required' => 'Hotel check-out date is required.',
                 'hotel.*.checkout_date.date' => 'Hotel check-out date must be a valid date.',
-                'hotel.*.checkout_date.after' => 'The hotel check-out date must be after the check-in date.',
+                'hotel.*.checkout_date.after' => 'Hotel check-out date must be after the check-in date.',
 
-                'hotel.*.no_of_rooms.required' => 'Please specify the hotel number of rooms.',
-                'hotel.*.no_of_rooms.integer' => 'The hotel number of rooms must be a whole number.',
+                'hotel.*.no_of_rooms.required' => 'Hotel number of rooms is required.',
+                'hotel.*.no_of_rooms.integer' => 'Hotel number of rooms must be a whole number.',
                 'hotel.*.no_of_rooms.min' => 'You must book at least 1 hotel room.',
 
-                'hotel.*.confirmation_number.required' => 'Please enter the hotel confirmation number.',
-                'hotel.*.confirmation_number.string' => 'Hotel confirmation number must be a valid text.',
+                'hotel.*.confirmation_number.required' => 'Hotel confirmation number is required.',
+                'hotel.*.confirmation_number.string' => 'Hotel confirmation number must be valid text.',
                 'hotel.*.confirmation_number.max' => 'Hotel confirmation number cannot exceed 100 characters.',
 
-                'hotel.*.hotel_address.required' => 'Please enter the hotel address.',
-                'hotel.*.hotel_address.string' => 'Hotel address must be a valid text.',
+                'hotel.*.hotel_address.required' => 'Hotel address is required.',
+                'hotel.*.hotel_address.string' => 'Hotel address must be valid text.',
                 'hotel.*.hotel_address.max' => 'Hotel address cannot exceed 500 characters.',
 
-                'hotel.*.remarks.required' => 'Please provide hotel remarks.',
-                'hotel.*.remarks.string' => 'Hotel remarks must be a valid text.',
+                'hotel.*.remarks.required' => 'Hotel remarks are required.',
+                'hotel.*.remarks.string' => 'Hotel remarks must be valid text.',
                 'hotel.*.remarks.max' => 'Hotel remarks cannot exceed 1000 characters.',
 
                 // Cruise-specific error messages
-                'cruise.required' => 'Please provide cruise details.',
-                'cruise.array' => 'Cruise details must be an array.',
+                'cruise.required' => 'Please provide cruise booking details.',
+                'cruise.array' => 'Cruise booking details must be an array.',
                 'cruise.min' => 'At least one cruise booking entry is required.',
 
-                'cruise.*.cruise_line.required' => 'Please enter the cruise line name.',
-                'cruise.*.cruise_line.string' => 'Cruise line must be a valid text.',
+                'cruise.*.cruise_line.required' => 'Cruise line name is required.',
+                'cruise.*.cruise_line.string' => 'Cruise line name must be valid text.',
                 'cruise.*.cruise_line.max' => 'Cruise line name cannot exceed 255 characters.',
 
-                'cruise.*.ship_name.required' => 'Please enter the cruise ship name.',
-                'cruise.*.ship_name.string' => 'Cruise ship name must be a valid text.',
+                'cruise.*.ship_name.required' => 'Cruise ship name is required.',
+                'cruise.*.ship_name.string' => 'Cruise ship name must be valid text.',
                 'cruise.*.ship_name.max' => 'Cruise ship name cannot exceed 255 characters.',
 
-                'cruise.*.category.required' => 'Please specify the cruise category.',
-                'cruise.*.category.string' => 'Cruise category must be a valid text.',
+                'cruise.*.category.required' => 'Cruise category is required.',
+                'cruise.*.category.string' => 'Cruise category must be valid text.',
                 'cruise.*.category.max' => 'Cruise category cannot exceed 255 characters.',
 
-                'cruise.*.stateroom.required' => 'Please specify the cruise stateroom.',
-                'cruise.*.stateroom.string' => 'Cruise stateroom must be a valid text.',
+                'cruise.*.stateroom.required' => 'Cruise stateroom is required.',
+                'cruise.*.stateroom.string' => 'Cruise stateroom must be valid text.',
                 'cruise.*.stateroom.max' => 'Cruise stateroom cannot exceed 255 characters.',
 
-                'cruise.*.departure_port.required' => 'Please specify the cruise departure port.',
-                'cruise.*.departure_port.string' => 'Cruise departure port must be a valid text.',
+                'cruise.*.departure_port.required' => 'Cruise departure port is required.',
+                'cruise.*.departure_port.string' => 'Cruise departure port must be valid text.',
                 'cruise.*.departure_port.max' => 'Cruise departure port cannot exceed 255 characters.',
 
-                'cruise.*.departure_date.required' => 'Please provide the cruise departure date.',
+                'cruise.*.departure_date.required' => 'Cruise departure date is required.',
                 'cruise.*.departure_date.date' => 'Cruise departure date must be a valid date.',
 
-                'cruise.*.departure_hrs.required' => 'Please provide the cruise departure time.',
+                'cruise.*.departure_hrs.required' => 'Cruise departure time is required.',
                 'cruise.*.departure_hrs.date_format' => 'Cruise departure time must be in the format HH:MM.',
 
-                'cruise.*.arrival_port.required' => 'Please specify the cruise arrival port.',
-                'cruise.*.arrival_port.string' => 'Cruise arrival port must be a valid text.',
+                'cruise.*.arrival_port.required' => 'Cruise arrival port is required.',
+                'cruise.*.arrival_port.string' => 'Cruise arrival port must be valid text.',
                 'cruise.*.arrival_port.max' => 'Cruise arrival port cannot exceed 255 characters.',
 
-                'cruise.*.arrival_hrs.required' => 'Please provide the cruise arrival time.',
+                'cruise.*.arrival_hrs.required' => 'Cruise arrival time is required.',
                 'cruise.*.arrival_hrs.date_format' => 'Cruise arrival time must be in the format HH:MM.',
-
                 // Car-specific error messages
                 'car.required' => 'Please provide car rental details.',
-                'car.array' => 'Car details must be an array.',
+                'car.array' => 'Car details must be a valid array.',
                 'car.min' => 'At least one car rental entry is required.',
 
-                'car.*.car_rental_provider.required' => 'Please enter the car rental provider name.',
+                'car.*.car_rental_provider.required' => 'Car rental provider name is required.',
                 'car.*.car_rental_provider.string' => 'Car rental provider must be a valid text.',
                 'car.*.car_rental_provider.max' => 'Car rental provider name cannot exceed 255 characters.',
 
-                'car.*.car_type.required' => 'Please specify the car type.',
+                'car.*.car_type.required' => 'Car type is required.',
                 'car.*.car_type.string' => 'Car type must be a valid text.',
                 'car.*.car_type.max' => 'Car type cannot exceed 255 characters.',
 
-                'car.*.pickup_location.required' => 'Please specify the pickup location.',
-                'car.*.pickup_location.string' => 'Pickup location must be a valid text.',
-                'car.*.pickup_location.max' => 'Pickup location cannot exceed 255 characters.',
+                'car.*.pickup_location.required' => 'Car pickup location is required.',
+                'car.*.pickup_location.string' => 'Car pickup location must be a valid text.',
+                'car.*.pickup_location.max' => 'Car pickup location cannot exceed 255 characters.',
 
-                'car.*.dropoff_location.required' => 'Please specify the dropoff location.',
-                'car.*.dropoff_location.string' => 'Dropoff location must be a valid text.',
-                'car.*.dropoff_location.max' => 'Dropoff location cannot exceed 255 characters.',
+                'car.*.dropoff_location.required' => 'Car dropoff location is required.',
+                'car.*.dropoff_location.string' => 'Car dropoff location must be a valid text.',
+                'car.*.dropoff_location.max' => 'Car dropoff location cannot exceed 255 characters.',
 
-                'car.*.pickup_date.required' => 'Please provide the pickup date.',
-                'car.*.pickup_date.date' => 'Pickup date must be a valid date.',
-                'car.*.pickup_date.after_or_equal' => 'Pickup date cannot be earlier than today.',
+                'car.*.pickup_date.required' => 'Car pickup date is required.',
+                'car.*.pickup_date.date' => 'Car pickup date must be a valid date.',
+                'car.*.pickup_date.after_or_equal' => 'Car pickup date cannot be earlier than today.',
 
-                'car.*.pickup_time.required' => 'Please provide the pickup time.',
-                'car.*.pickup_time.date_format' => 'Pickup time must be in the format HH:MM.',
+                'car.*.pickup_time.required' => 'Car pickup time is required.',
+                'car.*.pickup_time.date_format' => 'Car pickup time must be in the format HH:MM.',
 
-                'car.*.dropoff_date.required' => 'Please provide the dropoff date.',
-                'car.*.dropoff_date.date' => 'Dropoff date must be a valid date.',
-                'car.*.dropoff_date.after_or_equal' => 'Dropoff date cannot be earlier than today.',
+                'car.*.dropoff_date.required' => 'Car dropoff date is required.',
+                'car.*.dropoff_date.date' => 'Car dropoff date must be a valid date.',
+                'car.*.dropoff_date.after_or_equal' => 'Car dropoff date cannot be earlier than today.',
 
-                'car.*.dropoff_time.required' => 'Please provide the dropoff time.',
-                'car.*.dropoff_time.date_format' => 'Dropoff time must be in the format HH:MM.',
+                'car.*.dropoff_time.required' => 'Car dropoff time is required.',
+                'car.*.dropoff_time.date_format' => 'Car dropoff time must be in the format HH:MM.',
 
-                'car.*.confirmation_number.string' => 'Confirmation number must be a valid text.',
-                'car.*.confirmation_number.max' => 'Confirmation number cannot exceed 255 characters.',
+                'car.*.confirmation_number.string' => 'Car confirmation number must be a valid text.',
+                'car.*.confirmation_number.max' => 'Car confirmation number cannot exceed 255 characters.',
 
-                'car.*.remarks.string' => 'Remarks must be a valid text.',
-                'car.*.remarks.max' => 'Remarks cannot exceed 255 characters.',
+                'car.*.remarks.string' => 'Car remarks must be a valid text.',
+                'car.*.remarks.max' => 'Car remarks cannot exceed 255 characters.',
 
-                'car.*.rental_provider_address.required' => 'Please enter the rental provider address.',
-                'car.*.rental_provider_address.string' => 'Rental provider address must be a valid text.',
-                'car.*.rental_provider_address.max' => 'Rental provider address cannot exceed 255 characters.',
+                'car.*.rental_provider_address.required' => 'Car rental provider address is required.',
+                'car.*.rental_provider_address.string' => 'Car rental provider address must be a valid text.',
+                'car.*.rental_provider_address.max' => 'Car rental provider address cannot exceed 255 characters.',
 
                 // Train-specific error messages
                 'train.required' => 'Please provide train booking details.',
                 'train.array' => 'Train bookings must be provided as an array.',
                 'train.min' => 'At least one train booking is required.',
 
-                'train.*.direction.required' => 'Please select the train trip direction.',
-                'train.*.direction.string' => 'Train trip direction must be a valid text.',
+                'train.*.direction.required' => 'Train trip direction is required.',
+                'train.*.direction.string' => 'Train trip direction must be valid text.',
                 'train.*.direction.in' => 'Train trip direction must be either "One Way" or "Round Trip".',
 
-                'train.*.departure_date.required' => 'Please enter a departure date.',
-                'train.*.departure_date.date' => 'Departure date must be a valid date.',
-                'train.*.departure_date.after_or_equal' => 'Departure date cannot be in the past.',
+                'train.*.departure_date.required' => 'Train departure date is required.',
+                'train.*.departure_date.date' => 'Train departure date must be a valid date.',
+                'train.*.departure_date.after_or_equal' => 'Train departure date cannot be in the past.',
 
-                'train.*.train_number.required' => 'Please enter the train number.',
+                'train.*.train_number.required' => 'Train number is required.',
                 'train.*.train_number.string' => 'Train number must be valid text.',
                 'train.*.train_number.max' => 'Train number cannot exceed 255 characters.',
 
-                'train.*.cabin.required' => 'Please specify the cabin class.',
-                'train.*.cabin.string' => 'Cabin class must be valid text.',
-                'train.*.cabin.in' => 'Cabin class must be one of: Economy, Sleeper, Business, or First.',
+                'train.*.cabin.required' => 'Train cabin class is required.',
+                'train.*.cabin.string' => 'Train cabin class must be valid text.',
+                'train.*.cabin.in' => 'Train cabin class must be one of: Economy, Sleeper, Business, or First.',
 
-                'train.*.departure_station.required' => 'Please provide the departure station.',
-                'train.*.departure_station.string' => 'Departure station must be valid text.',
-                'train.*.departure_station.max' => 'Departure station cannot exceed 255 characters.',
+                'train.*.departure_station.required' => 'Train departure station is required.',
+                'train.*.departure_station.string' => 'Train departure station must be valid text.',
+                'train.*.departure_station.max' => 'Train departure station cannot exceed 255 characters.',
 
-                'train.*.departure_hours.required' => 'Please provide departure hour (0-23).',
-                'train.*.departure_hours.integer' => 'Departure hour must be an integer.',
-                'train.*.departure_hours.between' => 'Departure hour must be between 0 and 23.',
+                'train.*.departure_hours.required' => 'Train departure hour is required (0-23).',
+                'train.*.departure_hours.integer' => 'Train departure hour must be an integer.',
+                'train.*.departure_hours.between' => 'Train departure hour must be between 0 and 23.',
 
-                'train.*.departure_minutes.required' => 'Please provide departure minutes (0-59).',
-                'train.*.departure_minutes.integer' => 'Departure minutes must be an integer.',
-                'train.*.departure_minutes.between' => 'Departure minutes must be between 0 and 59.',
+                'train.*.departure_minutes.required' => 'Train departure minutes are required (0-59).',
+                'train.*.departure_minutes.integer' => 'Train departure minutes must be an integer.',
+                'train.*.departure_minutes.between' => 'Train departure minutes must be between 0 and 59.',
 
-                'train.*.arrival_station.required' => 'Please provide the arrival station.',
-                'train.*.arrival_station.string' => 'Arrival station must be valid text.',
-                'train.*.arrival_station.max' => 'Arrival station cannot exceed 255 characters.',
+                'train.*.arrival_station.required' => 'Train arrival station is required.',
+                'train.*.arrival_station.string' => 'Train arrival station must be valid text.',
+                'train.*.arrival_station.max' => 'Train arrival station cannot exceed 255 characters.',
 
-                'train.*.arrival_hours.required' => 'Please provide arrival hour (0-23).',
-                'train.*.arrival_hours.integer' => 'Arrival hour must be an integer.',
-                'train.*.arrival_hours.between' => 'Arrival hour must be between 0 and 23.',
+                'train.*.arrival_hours.required' => 'Train arrival hour is required (0-23).',
+                'train.*.arrival_hours.integer' => 'Train arrival hour must be an integer.',
+                'train.*.arrival_hours.between' => 'Train arrival hour must be between 0 and 23.',
 
-                'train.*.arrival_minutes.required' => 'Please provide arrival minutes (0-59).',
-                'train.*.arrival_minutes.integer' => 'Arrival minutes must be an integer.',
-                'train.*.arrival_minutes.between' => 'Arrival minutes must be between 0 and 59.',
+                'train.*.arrival_minutes.required' => 'Train arrival minutes are required (0-59).',
+                'train.*.arrival_minutes.integer' => 'Train arrival minutes must be an integer.',
+                'train.*.arrival_minutes.between' => 'Train arrival minutes must be between 0 and 59.',
 
-                'train.*.duration.required' => 'Please specify the trip duration.',
-                'train.*.duration.string' => 'Duration must be valid text.',
+                'train.*.duration.required' => 'Train trip duration is required.',
+                'train.*.duration.string' => 'Train trip duration must be valid text.',
 
-                'train.*.transit.required' => 'Please provide transit details.',
-                'train.*.transit.string' => 'Transit details must be valid text.',
+                'train.*.transit.required' => 'Train transit details are required.',
+                'train.*.transit.string' => 'Train transit details must be valid text.',
 
-                'train.*.arrival_date.required' => 'Please enter an arrival date.',
-                'train.*.arrival_date.date' => 'Arrival date must be a valid date.',
+                'train.*.arrival_date.required' => 'Train arrival date is required.',
+                'train.*.arrival_date.date' => 'Train arrival date must be a valid date.',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -1082,9 +1077,16 @@ class BookingFormController extends Controller
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
+
+        $car_images = CarImages::where('booking_id', $booking->id)->get();
+        $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
+        $flight_images = flightImages::where('booking_id', $booking->id)->get();
+        $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
+        $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
+        $train_images = TrainImages::where('booking_id', $booking->id)->get();
         $users = User::get();
         $countries = \DB::table('countries')->get();
-        return view('web.booking.show', compact('countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        return view('web.booking.show', compact('car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
 

@@ -94,11 +94,7 @@
 
                 <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
                 <!-- Top Bar -->
-<<<<<<< HEAD
                 <div class="mt-2 ps-0">
-=======
-                <div class="pt-1 mt-1 ps-0">
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                     <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="form-check form-check-inline">
@@ -448,17 +444,9 @@
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Passenger Details</h5>
-<<<<<<< HEAD
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="passenger-detail-button">
                             <i class="ri ri-add-circle-fill pointer"></i>
                         </button>
-=======
-                         <button class="btn btn-primary" type="button" id="passenger-detail-button">
-                                <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
-                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                                </svg>
-                            </button>
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                     </div>
 
                     <div class="excel-like-container table-responsive details-table-wrappper details-table-wrappper">
@@ -762,13 +750,9 @@
                         <input type="file" id="screenshots-upload" name="flightbookingimage[]" multiple>
                     </div>
 
-                     <div style="margin-top:20px">
-                        @php
-                            $images = json_decode($booking->flightbookingimage, true);
-                        @endphp
-
-                        @if($images && is_array($images))
-                            <table class="table table-bordered table-striped">
+                     <div class="" style="margin-top:20px">
+                        @if($flight_images)
+                            <table class="table table-bordered table-striped crm-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -778,11 +762,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($images as $key => $img)
+                                    @foreach ($flight_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -892,13 +876,9 @@
                         <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
                     </div>
 
-                    <div style="margin-top:20px">
-                        @php
-                            $images = json_decode($booking->carbookingimage, true);
-                        @endphp
-
-                        @if($images && is_array($images))
-                            <table class="table table-bordered table-striped">
+                    <div class="" style="margin-top:20px">
+                        @if($car_images)
+                            <table class="table table-bordered table-striped crm-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -908,11 +888,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($images as $key => $img)
+                                    @foreach ($car_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -1028,13 +1008,9 @@
                     <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>
                 </div>
 
-                <div style="margin-top:20px">
-                        @php
-                            $images = json_decode($booking->cruisebookingimage, true);
-                        @endphp
-
-                        @if($images && is_array($images))
-                            <table class="table table-bordered table-striped">
+                <div class="" style="margin-top:20px">
+                        @if($cruise_images)
+                            <table class="table table-bordered table-striped crm-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -1044,11 +1020,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($images as $key => $img)
+                                    @foreach ($cruise_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -1150,13 +1126,9 @@
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
 
-                    <div style="margin-top:20px">
-                        @php
-                            $images = json_decode($booking->hotelbookingimage, true);
-                        @endphp
-
-                        @if($images && is_array($images))
-                            <table class="table table-bordered table-striped">
+                    <div class="" style="margin-top:20px">
+                        @if($hotel_images)
+                            <table class="table table-bordered table-striped crm-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -1166,11 +1138,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($images as $key => $img)
+                                    @foreach ($hotel_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -1304,13 +1276,9 @@
                         <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
                     </div>
 
-                    <div style="margin-top:20px">
-                        @php
-                            $images = json_decode($booking->trainbookingimage, true);
-                        @endphp
-
-                        @if($images && is_array($images))
-                            <table class="table table-bordered table-striped">
+                    <div class="" style="margin-top:20px">
+                        @if($train_images)
+                            <table class="table table-bordered table-striped crm-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -1320,11 +1288,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($images as $key => $img)
+                                    @foreach ($train_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -1344,18 +1312,9 @@
 
             <!--------------------------------------Billing Details ---------------------------->
             <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
-<<<<<<< HEAD
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center add-bank">
                         <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
-=======
-                <div class="card p-4">
-
-
-                    <div class="d-flex justify-content-between align-items-center mb-3 add-bank">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Billing Details</h5>
-
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         <i data-bs-toggle="modal" data-bs-target="#exampleModal"
                             class="ri ri-add-circle-fill pointer"></i>
                     </div>
@@ -1395,25 +1354,12 @@
                             </tbody>
                         </table>
                     </div>
-<<<<<<< HEAD
                 </div> 
                 <div class="card p-4 mt-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-header border-0 p-0 detail-passanger">Card Details $1052</h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="billing-booking-button">
                             <i  class="ri ri-add-circle-fill pointer"></i>
-=======
-
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Card Details $1052</h5>
-
-                        <button class="btn btn-primary" type="button" id="billing-booking-button">
-                            <svg style="fill: white" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-                                focusable="false">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-                            </svg>
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         </button>
                     </div>
                     <div class="card-body p-0">
@@ -1570,12 +1516,7 @@
             <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
 
                 <div class="col-md-12">
-<<<<<<< HEAD
                     <div class="card p-4 details-table-wrappper show-booking-card">
-=======
-                    <div class="card p-4 details-table-wrappper">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Pricing Details</h5>
->>>>>>> b525f7d671c75f894a8b38170fb5a08f4a204941
                         <div class="d-flex justify-content-end mb-2">
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
                                 <i class="ri ri-add-circle-fill pointer"></i>
@@ -1800,7 +1741,7 @@
                                 <!-- Include this inside your Blade view or HTML form -->
                                 <div class="row">
                                     <!-- Fatal Section -->
-                                    <div class="col-12 text-center">
+                                    <div class="col-12">
                                         <h6 class="text-success fw-bold py-1 px-2"
                                             style="background-color: #e6ffe6; display: inline-block; border-radius: 5px; font-size: 0.9rem;">
                                             NOT FATAL</h6>
@@ -2014,7 +1955,7 @@
                                             placeholder="Add comment for Itinerary Recapping/Call Summary...">{{ $feedbackNotes['Itinerary Recapping/Call Summary'] ?? '' }}</textarea>
                                     </div>
 
-
+<hr>
 
                                     <!-- Add more fatal checkboxes with textarea below as needed -->
 
@@ -2245,7 +2186,7 @@
                                     <thead class="table-primary text-center">
                                         <tr>
                                             <th style="width: 25%;border: none !important;background-color: #3569df;font-size: 14px;text-align: center;border-radius: 6px;color: #fff;padding: 20px 10px !important;">Quality strategies</th>
-                                            <th style="width: 25%;border: none !important;background-color: #3569df;font-size: 14px;text-align: center;border-radius: 6px;color: #fff;padding: 20px 10px !important;">Comment</th>
+                                            <th style="width: 25%;border: none !important;background-color: #273960;font-size: 14px;text-align: center;border-radius: 6px;color: #fff;padding: 20px 10px !important;">Comment</th>
                                             <th style="width: 25%; border: none !important; background-color: #00a5fe; font-size: 14px; text-align: center; border-radius: 6px; color: #fff; padding: 20px 10px !important;">Agent</th>
                                             <th style="width: 25%; border: none !important; background-color: #fda305; font-size: 14px; text-align: center; border-radius: 6px; color: #fff; padding: 20px 10px !important;">Date</th>
                                         </tr>
@@ -2280,12 +2221,9 @@
                     <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
                 </div>
 
-                <div style="margin-top:20px">
-                        @php
-                            $images = json_decode($booking->screenshot, true);
-                        @endphp
-                        @if($images && is_array($images))
-                            <table class="table table-bordered table-striped">
+                <div class="" style="margin-top:20px">
+                        @if($screenshot_images)
+                            <table class="table table-bordered table-striped crm-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -2295,11 +2233,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($images as $key => $img)
+                                    @foreach ($screenshot_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                              <a href="{{ asset($img) }}" target="_blank"><img src="{{ asset($img) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
+                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
                                             </td>
                                         </tr>
                                     @endforeach
