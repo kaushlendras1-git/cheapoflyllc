@@ -163,10 +163,14 @@ document.getElementById('saveRemark').addEventListener('click',async function (e
             html += `<tr>
                     <td>${index+1}</td>
                     <td>${item.particulars}</td>
+                    <td>${item.agent}</td>
+                    <td>${item.created_at}</td>
                     <td>
-                        <button type="button" class="btn btn-danger deleteRemark" data-id="${item.id}">
-                            Delete
-                        </button>
+                        <div class="form-check form-switch">
+                                            <input data-id="${item.id}" class="form-check-input chkqlty" type="checkbox" role="switch" value="Active Listening" id="ActiveListening" name="parameters[]">
+                                            <label class="form-check-label text-dark" for="ActiveListening"></label>
+                        </div>
+
                     </td>
                 </tr>`;
         });

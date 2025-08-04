@@ -2,7 +2,7 @@
 @section('content')
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y p-70 mt-4">
-    <div class="row gy-6">
+    <div class="row gy-6 mt-0">
         <!-- Upper Card  -->
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
