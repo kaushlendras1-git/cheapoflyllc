@@ -29037,7 +29037,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .details-table-wrappper table thead tr th {
     border-block-end-color: #000000 !important;
     border: 1px solid #000 !important;
-    background-color: #c75858 !important;
+    background-color: #c7ad58 !important;
     color: #fff !important;
     text-align: center;
     vertical-align: middle;
@@ -29154,6 +29154,28 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .user-viewer {
     color: #000;
     font-weight: 700 !important;
+}
+.user_anyletics .col-2:nth-child(3) .card{
+  background-color: #2bbada !important;
+}
+.user_anyletics .col-2:last-child .card{
+  background-color: #32a396 !important;
+}
+.user_anyletics .card .card-body {
+  position: relative;
+  overflow: hidden;
+}
+.user_anyletics .card .card-body::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    bottom: -20px;
+    display: block;
+    height: 70px;
+    width: 70px;
+    background-color: #fff;
+    border-radius: 60px;
+    opacity: .2;
 }
 .comment-viewer {
   font-size: 14px;
@@ -29396,7 +29418,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   justify-content: center;
 }
 .upper-status {
-    background-color: #c75858;
+    background-color: #c7ad58;
     padding: 10px;
 }
 .auth-button {
