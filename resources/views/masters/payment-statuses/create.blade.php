@@ -23,7 +23,7 @@
 
             <!-- payment Form Card -->
             <div class="card p-4 mb-4">
-                <div class="row mb-3 payment-form">
+                <div class="row mb-3 payment-form booking-form gen_form">
                     <div class="col-md-3 position-relative">
                         <label class="form-label">Name <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control" value="{{ old('name') }}">

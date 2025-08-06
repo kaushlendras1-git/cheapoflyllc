@@ -29037,10 +29037,24 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
 .details-table-wrappper table thead tr th {
     border-block-end-color: #000000 !important;
     border: 1px solid #000 !important;
-    background-color: #c7ad58 !important;
-    color: #fff !important;
+    background-color: #dfecff !important;
+    color: #055bdb !important;
     text-align: center;
     vertical-align: middle;
+}
+.booking-form.gen_form label {
+  left: 12px;
+}
+.booking-form.gen_form button {
+  font-size: 12px;
+  padding: 7px 8px !important;
+}
+.short-add {
+  font-size: 13px !important;
+  padding: 7px 10px !important;
+}
+.short-add i {
+  font-size: 13px !important;
 }
 .details-table-wrappper table tbody tr td {
   border-right: 1px solid #000 !important;
@@ -29418,7 +29432,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   justify-content: center;
 }
 .upper-status {
-    background-color: #c7ad58;
+    background-color: #dfecff;
     padding: 10px;
 }
 .auth-button {

@@ -21,23 +21,23 @@
             @endif
             <div class="card p-4">
                 <form class="d-flex align-items-end justify-content-between mb-4" method="GET" action="{{ route('call-logs.index') }}">
-                    <div class="row align-items-end w-100">
+                    <div class="row align-items-end w-100 booking-form gen_form">
                         <div class="col-md-4">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">Keyword</label>
                                 <input type="text" name="keyword" class="form-control w-96 input-style"
                                     placeholder="e.g. PNR / name / email / Contact" value="{{ request('keyword') }}">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">Start Date</label>
                                 <input type="date" name="start_date" class="form-control input-style"
                                     value="{{ request('start_date') }}">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">End Date</label>
                                 <input type="date" name="end_date" class="form-control input-style"
                                     value="{{ request('end_date') }}">

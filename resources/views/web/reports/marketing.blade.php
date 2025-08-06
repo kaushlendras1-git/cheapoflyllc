@@ -19,26 +19,25 @@
 
             <div class="card p-4">
                 <div class="d-flex align-items-center justify-content-between">
-                    <div class="marketing-upper-form mb-5 d-flex">
-                        
-                        <div class="me-4">
+                    <div class="marketing-upper-form mb-5 d-flex booking-form gen_form">
+                        <div class="me-4 position-relative">
                             <label class="form-label mb-1">Keyword</label>
                             <input type="text" name="keyword" style="width: 250px;"
                                 class="form-control w-96 input-style" placeholder="e.g. PNR / name / email / Contact"
                                 value="{{ request('keyword') }}">
                         </div>
-                        <div class="me-4">
+                        <div class="me-4 position-relative">
                             <label class="form-label mb-1">Start Date</label>
                             <input type="date" name="start_date" class="form-control input-style"
                                 value="{{ request('start_date') }}">
                         </div>
-                        <div class="me-4">
+                        <div class="me-4 position-relative">
                             <label class="form-label mb-1">End Date</label>
                             <input type="date" name="end_date" class="form-control input-style"
                                 value="{{ request('end_date') }}">
                         </div>
 
-                        <div class="me-4">
+                        <div class="me-4 position-relative">
                             <label class="form-label mb-1">Booking Status</label>
                             <select name="booking_status" class="form-select input-style w140">
                                 <option value="">Booking Status</option>
@@ -47,7 +46,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="me-4">
+                        <div class="me-4 position-relative">
                             <label class="form-label mb-1">Payment Status</label>
                             <select name="payment_status" class="form-select input-style w140">
                                 <option value="">Payment Status</option>
