@@ -53,7 +53,7 @@
                 <div class="left-login text-center p-5 d-flex align-items-center h-100">
                     <div class="w-100">
                       <div class="img-login">
-                        <img src="../../../assets/img/login.png" alt="login">
+                        <img src="{{ asset('assets/img/login.png') }}" alt="login">
                     </div>
                     <h2 class="mb-0 mt-4">Lowest Prices on the Planet</h2>
                     <p class="mb-0">Find a lower rate available on any public travel site, we'll match it and give you an extra discount for your trouble.</p>
@@ -71,12 +71,12 @@
 
                         <div class="card-body mt-1">
                             <div class="logo-login mb-5 text-center">
-                              <img width="200" src="../../../assets/img/logo.png" alt="login">
+                                <img width="200" src="{{ asset('assets/img/logo.png') }}" alt="login">
                             </div>
                             <h2 class="login-text text-center mb-5">Login</h2>
                             @include('web.layouts.flash')
 
-                            <form id="formAuthentication" class="mb-5" method="POST" action="/login">
+                            <form id="formAuthentication" class="mb-5" method="POST" action="{{ route('post.login') }}">
                                 @csrf
                                 <div class="form-floating form-floating-outline mb-5 form-control-validation">
                                     <input type="text" class="form-control" id="email" name="email"
