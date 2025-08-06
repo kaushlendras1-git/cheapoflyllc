@@ -11,8 +11,6 @@
     <meta name="description" content="" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
         rel="stylesheet" />
-
-
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
@@ -21,11 +19,7 @@
     @routes
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('head')
-
 </head>
-
-
-
 <body>
 
     <!-- Layout wrapper -->
@@ -81,15 +75,6 @@
                             </span>
                         </a>
                         
-                        <!-- <form method="GET" action="{{ route('booking.index') }}" class="search-header">
-                               @csrf 
-                            <div class="searchbox-table position-relative">
-                              <input id="search-table" type="text" name="search" value="{{ request('search') }}"
-                                class="form-control" placeholder="Search by PNR, name, email, status, etc.">
-                              <span class="clear-icon" id="clear-search"> <a href="{{ route('booking.index') }}">&times;</a></span>
-                          </div>
-                        </form> -->
-
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
                             <i class="icon-base ri ri-close-line icon-sm"></i>
                         </a>
@@ -102,7 +87,6 @@
                     
                     <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
                         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
-                            
                            <!-- Masters -->
                             <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['teams', 'emails', 'campaign', 'call-types']) ? 'active' : '' }}">
                                 <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['teams', 'emails', 'campaign', 'call-types']) ? 'active' : '' }}">
@@ -161,13 +145,7 @@
                                             <div data-i18n="LOB">LOB</div>
                                         </a>
                                     </li>
-
                                     <!--  -->
-                                   
-
-                                   
-
-
                                 </ul>
                             </li>
 
@@ -224,12 +202,13 @@
                                             <div data-i18n="Find Booking">Find Booking</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item">
-                                        <a href="layouts-container.html" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-wifi-line"></i>
+                                     <li class="menu-item {{ Route::currentRouteName() == 'booking.online-booking.index' ? 'active' : '' }}">
+                                        <a href="{{ route('booking.online-booking.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-calendar-check-line"></i>
                                             <div data-i18n="Online Booking">Online Booking</div>
                                         </a>
                                     </li>
+
                                 </ul>
                             </li>
 
@@ -321,64 +300,38 @@
                                                     </div>
 
                                                     <div class="flex-grow-1">
-
                                                         <h6 class="small mb-50">Congratulation Lettie 🎉</h6>
-
                                                         <small class="mb-1 d-block text-body">Won the monthly best
                                                             seller gold badge</small>
-
                                                         <small class="text-body-secondary">1h ago</small>
-
                                                     </div>
 
                                                     <div class="flex-shrink-0 dropdown-notifications-actions">
-
-                                                        <a href="javascript:void(0)"
-                                                            class="dropdown-notifications-read">
-
+                                                        <a href="javascript:void(0)" class="dropdown-notifications-read">
                                                             <span class="badge badge-dot"></span></a>
 
                                                         <a href="javascript:void(0)"
                                                             class="dropdown-notifications-archive">
-
                                                             <span class="icon-base ri ri-close-line"></span></a>
-
                                                     </div>
-
                                                 </div>
-
                                             </li>
-
-
-
                                         </ul>
-
                                     </li>
 
                                     <li class="border-top">
-
                                         <div class="d-grid p-4">
-
                                             <a class="btn btn-primary btn-sm d-flex h-px-34" href="javascript:void(0);">
-
                                                 <small class="align-middle">View all notifications</small>
-
                                             </a>
-
                                         </div>
-
                                     </li>
-
                                 </ul>
-
                             </li>
 
                             <!--/ Notification -->
 
-
-
                             <!-- User -->
-
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <div class="header-dropdown">
                                     @php
@@ -435,26 +388,7 @@
                     </div>
                 </div>
             </nav>
-
             <!-- / Navbar -->
-
             <!-- Layout container -->
-
-            <!-- <div class="layout-page">
-
-                
-
+            <div class="layout-page">
                 <div class="content-wrapper">
-
-                   
-                    @if(Auth::user()->role == 'admin')
-                    @include('web.layouts.admin-menu')
-                    @elseif(Auth::user()->role == 'agent')
-                    @include('web.layouts.agent-menu')
-                    @endif
-                   
-
-
-
-                </div>
-            </div> -->

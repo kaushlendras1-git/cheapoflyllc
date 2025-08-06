@@ -46,7 +46,6 @@ use App\Exports\BookingsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\Rule;
 
-
 class BookingFormController extends Controller
 {
     protected $hashids;
@@ -54,97 +53,9 @@ class BookingFormController extends Controller
 
     public function __construct()
     {
-        // Initialize Hashids with salt and length from config
         $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
     }
 
-    public function billingDetails(Request $request,$id){
-        try{
-            $data = $request->validate([
-                'email'=>'required|email',
-                'contact_number'=>'required|regex:/^\d{10}$/',
-                'street_address'=>'required',
-                'city'=>'required',
-                'state'=>'required',
-                'zip_code'=>'required',
-                'country'=>'required',
-            ],[
-                'email.required' => 'The email field is required.',
-                'email.email' => 'Please enter a valid email address.',
-                'contact_number.required' => 'The contact number is required.',
-                'contact_number.regex' => 'Please enter a valid 10-digit contact number.',
-                'street_address.required' => 'The street address is required.',
-                'city.required' => 'The city is required.',
-                'state.required' => 'The state is required.',
-                'zip_code.required' => 'The zip code is required.',
-                'zip_code.regex' => 'Please enter a valid 6-digit zip code.',
-                'country.required' => 'The country is required.',
-            ]);
-            $data['booking_id'] = $id;
-            $insert = BillingDetail::create($data);
-            return response()->json([
-                'status'=>'success',
-                'code'=>201,
-                'message'=>'Billing Details Added Successfully',
-                'data'=>$insert
-            ],201);
-        }
-        catch (ValidationException $e){
-            return response()->json([
-                'status'=>'failed',
-                'message'=>$e->validator->errors()->first(),
-                'code'=>'422'
-            ],422);
-        }
-        catch (QueryException $e){
-            return response()->json([
-                'status'=>'failed',
-                'message'=>'Failed to query',
-                'code'=>'500'
-            ],500);
-        }
-        catch (\Exception $e){
-            return response()->json([
-                'status'=>'failed',
-                'message'=>'Something went wrong',
-                'code'=>'500'
-            ],500);
-        }
-    }
-
-    public function deletebillingDetails($id){
-        try{
-            $destroy = BillingDetail::findOrFail($id);
-            $destroy->delete();
-            return response()->json([
-                'deleted_id'=>$id,
-                'status'=>'success',
-                'message'=>'Billing Details Deleted Successfully',
-                'code'=>'200'
-            ],200);
-        }
-        catch(ModelNotFoundException $e){
-            return response()->json([
-                'status'=>'failed',
-                'message'=>'Billing Details not found',
-                'code'=>'404'
-            ],404);
-        }
-        catch(QueryException $e){
-            return response()->json([
-                'status'=>'failed',
-                'message'=>'Failed to query',
-                'code'=>'500'
-            ],500);
-        }
-        catch (\Exception $e){
-            return response()->json([
-                'status'=>'failed',
-                'message'=>'Something went wrong',
-                'code'=>'500'
-            ],500);
-        }
-    }
     public function index(Request $request)
     {
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
@@ -171,7 +82,6 @@ class BookingFormController extends Controller
         $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
         $bookings->appends($request->only('search'));
         $hashids = new \Hashids\Hashids(config('hashids.salt'), config('hashids.length', 8));
-
         $flight_booking = TravelBooking::where('user_id', $userId)->where('airlinepnr','!=', NULL)->count();
         $hotel_booking = TravelBooking::where('user_id', $userId)->where('hotel_ref','!=', NULL)->count();
         $cruise_booking = TravelBooking::where('user_id', $userId)->where('cruise_ref','!=', NULL)->count();
@@ -181,112 +91,6 @@ class BookingFormController extends Controller
         return view('web.booking.index', compact('bookings', 'hashids','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
     }
 
-    public function search(Request $request)
-    {
-        $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
-
-        if ($request->filled('keyword')) {
-            $keyword = $request->keyword;
-            $query->where(function ($q) use ($keyword) {
-                $q->where('pnr', 'like', "%{$keyword}%")
-                ->orWhere('name', 'like', "%{$keyword}%")
-                ->orWhere('email', 'like', "%{$keyword}%");
-            });
-            $bookings = TravelBooking::paginate(10);
-            $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-            return view('web.booking.index', compact('bookings','hashids'));
-        }
-
-
-        if ($request->filled('start_date')) {
-            $query->whereDate('created_at', '>=', $request->start_date);
-        }
-
-        if ($request->filled('end_date')) {
-            $query->whereDate('created_at', '<=', $request->end_date);
-        }
-
-        if ($request->filled('booking_status')) {
-            $query->where('booking_status_id', $request->booking_status);
-        }
-
-        if ($request->filled('payment_status')) {
-            $query->where('payment_status_id', $request->payment_status);
-        }
-
-        $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
-        $bookings->appends($request->all());
-
-        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-        $booking_status = BookingStatus::all();
-        $payment_status = PaymentStatus::all();
-
-        return view('web.booking.search', compact('bookings', 'hashids', 'booking_status', 'payment_status'));
-    }
-
-
-    public function updateRemark(Request $request,$id)
-    {
-        TravelBookingRemark::create([
-            'booking_id' => $this->hashids->decode($id)[0],
-            'particulars'=>$request->remark,
-            'agent'=>Auth::id(),
-        ]);
-        $data = TravelBookingRemark::select('id','booking_id','agent','particulars','created_at')->where('booking_id',$this->hashids->decode($id)[0])->where('status',1)->get();
-        return JsonResponse::successWithData('Booking review saved',201,$data,'201');
-    }
-
-    public function deleteRemark(Request $request,$id){
-
-        $delete = TravelBookingRemark::where('id',$id)->delete();
-        $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',$this->hashids->decode($request->booking_id)[0])->get();
-        return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
-    }
-
-   public function updateFeedBack(Request $request, $id)
-    {
-        Log::info('Received parameters:', $request->all());
-
-        $request->validate([
-            'parameters' => 'required|array',
-            'parameters.*.parameter' => 'required|string',
-            'parameters.*.note' => 'nullable|string',
-            'parameters.*.marks' => 'nullable|string',
-            'parameters.*.quality' => 'nullable|string',
-        ]);
-
-        $bookingId = $this->hashids->decode($id)[0];
-
-        foreach ($request->parameters as $param) {
-            if($param['note']){
-                TravelQualityFeedback::create([
-                    'booking_id' => $bookingId,
-                    'user_id' => Auth::id(),
-                    'parameter' => $param['parameter'] ?? '',
-                    'note' => $param['note'] ?? '',
-                    'marks' => $param['marks'] ?? '',
-                    'quality' => $param['quality'] ?? '',
-                ]);
-            }
-        }
-
-        $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')
-            ->where('booking_id', $bookingId)
-            ->get();
-
-        return JsonResponse::successWithData('Booking Feedback saved', 201, $data, '201');
-    }
-
-
-    public function deleteFeedBack(Request $request,$id){
-        $bookingId = $this->hashids->decode($id)[0];
-
-        $delete = TravelQualityFeedback::where('booking_id',$bookingId)->where('parameter',$request->parameter)->delete();
-        $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')->where('booking_id', $bookingId)->get();
-        return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
-    }
-
-
     public function update(Request $request, $id)
     {
         if (empty($id)) {
@@ -294,9 +98,7 @@ class BookingFormController extends Controller
         }
 
         try {
-
             $bookingTypes = $request->input('booking-type', []);
-
             $rules = [
                 'booking-type'        => 'required|array|min:1',
                 'booking-type.*'      => 'in:Flight,Hotel,Cruise,Car,Train',
@@ -426,16 +228,15 @@ class BookingFormController extends Controller
 
             // Optional: Put your custom messages array here (same as you posted)
             $messages = [/* ... paste your $messages array ... */];
+          
+            // $validator = Validator::make($request->all(), $rules, $messages);
 
-            // Validation
-            $validator = Validator::make($request->all(), $rules, $messages);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => 'error',
-                    'errors' => $validator->errors(),
-                ], 422);
-            }
+            // if ($validator->fails()) {
+            //     return response()->json([
+            //         'status' => 'error',
+            //         'errors' => $validator->errors(),
+            //     ], 422);
+            // }
 
             $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -884,6 +685,200 @@ class BookingFormController extends Controller
             'message' => $remark->status ? 'Remark is now visible.' : 'Remark is now hidden.',
         ]);
     }
+
+    public function billingDetails(Request $request,$id){
+        try{
+            $data = $request->validate([
+                'email'=>'required|email',
+                'contact_number'=>'required|regex:/^\d{10}$/',
+                'street_address'=>'required',
+                'city'=>'required',
+                'state'=>'required',
+                'zip_code'=>'required',
+                'country'=>'required',
+            ],[
+                'email.required' => 'The email field is required.',
+                'email.email' => 'Please enter a valid email address.',
+                'contact_number.required' => 'The contact number is required.',
+                'contact_number.regex' => 'Please enter a valid 10-digit contact number.',
+                'street_address.required' => 'The street address is required.',
+                'city.required' => 'The city is required.',
+                'state.required' => 'The state is required.',
+                'zip_code.required' => 'The zip code is required.',
+                'zip_code.regex' => 'Please enter a valid 6-digit zip code.',
+                'country.required' => 'The country is required.',
+            ]);
+            $data['booking_id'] = $id;
+            $insert = BillingDetail::create($data);
+            return response()->json([
+                'status'=>'success',
+                'code'=>201,
+                'message'=>'Billing Details Added Successfully',
+                'data'=>$insert
+            ],201);
+        }
+        catch (ValidationException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>$e->validator->errors()->first(),
+                'code'=>'422'
+            ],422);
+        }
+        catch (QueryException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Failed to query',
+                'code'=>'500'
+            ],500);
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Something went wrong',
+                'code'=>'500'
+            ],500);
+        }
+    }
+
+    public function deletebillingDetails($id){
+        try{
+            $destroy = BillingDetail::findOrFail($id);
+            $destroy->delete();
+            return response()->json([
+                'deleted_id'=>$id,
+                'status'=>'success',
+                'message'=>'Billing Details Deleted Successfully',
+                'code'=>'200'
+            ],200);
+        }
+        catch(ModelNotFoundException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Billing Details not found',
+                'code'=>'404'
+            ],404);
+        }
+        catch(QueryException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Failed to query',
+                'code'=>'500'
+            ],500);
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Something went wrong',
+                'code'=>'500'
+            ],500);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->keyword;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('pnr', 'like', "%{$keyword}%")
+                ->orWhere('name', 'like', "%{$keyword}%")
+                ->orWhere('email', 'like', "%{$keyword}%");
+            });
+            $bookings = TravelBooking::paginate(10);
+            $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+            return view('web.booking.index', compact('bookings','hashids'));
+        }
+
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        if ($request->filled('booking_status')) {
+            $query->where('booking_status_id', $request->booking_status);
+        }
+
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status_id', $request->payment_status);
+        }
+
+        $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
+        $bookings->appends($request->all());
+
+        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+        $booking_status = BookingStatus::all();
+        $payment_status = PaymentStatus::all();
+
+        return view('web.booking.search', compact('bookings', 'hashids', 'booking_status', 'payment_status'));
+    }
+
+
+    public function updateRemark(Request $request,$id)
+    {
+        TravelBookingRemark::create([
+            'booking_id' => $this->hashids->decode($id)[0],
+            'particulars'=>$request->remark,
+            'agent'=>Auth::id(),
+        ]);
+        $data = TravelBookingRemark::select('id','booking_id','agent','particulars','created_at')->where('booking_id',$this->hashids->decode($id)[0])->where('status',1)->get();
+        return JsonResponse::successWithData('Booking review saved',201,$data,'201');
+    }
+
+    public function deleteRemark(Request $request,$id){
+
+        $delete = TravelBookingRemark::where('id',$id)->delete();
+        $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',$this->hashids->decode($request->booking_id)[0])->get();
+        return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
+    }
+
+    public function updateFeedBack(Request $request, $id)
+    {
+        Log::info('Received parameters:', $request->all());
+
+        $request->validate([
+            'parameters' => 'required|array',
+            'parameters.*.parameter' => 'required|string',
+            'parameters.*.note' => 'nullable|string',
+            'parameters.*.marks' => 'nullable|string',
+            'parameters.*.quality' => 'nullable|string',
+        ]);
+
+        $bookingId = $this->hashids->decode($id)[0];
+
+        foreach ($request->parameters as $param) {
+            if($param['note']){
+                TravelQualityFeedback::create([
+                    'booking_id' => $bookingId,
+                    'user_id' => Auth::id(),
+                    'parameter' => $param['parameter'] ?? '',
+                    'note' => $param['note'] ?? '',
+                    'marks' => $param['marks'] ?? '',
+                    'quality' => $param['quality'] ?? '',
+                ]);
+            }
+        }
+
+        $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')
+            ->where('booking_id', $bookingId)
+            ->get();
+
+        return JsonResponse::successWithData('Booking Feedback saved', 201, $data, '201');
+    }
+
+
+    public function deleteFeedBack(Request $request,$id){
+        $bookingId = $this->hashids->decode($id)[0];
+
+        $delete = TravelQualityFeedback::where('booking_id',$bookingId)->where('parameter',$request->parameter)->delete();
+        $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')->where('booking_id', $bookingId)->get();
+        return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
+    }
+
 
 
 

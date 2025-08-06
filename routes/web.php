@@ -12,7 +12,6 @@ use App\Http\Controllers\Masters\QueryTypeController;
 use App\Http\Controllers\Masters\BookingStatusController;
 use App\Http\Controllers\Masters\PaymentStatusController;
 use App\Http\Controllers\Masters\CompaniesController;
-
 use App\Http\Controllers\CallLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
@@ -29,6 +28,7 @@ use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\LOBController;
+use App\Http\Controllers\OnlineBookingController;
 
 use App\Models\User;
 use App\Models\Shift;
@@ -79,86 +79,48 @@ Route::post('/travel/bookings/submit', [BookingFormController::class, 'store'])-
 Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])->name('travel.bookings.edit');
 
 Route::prefix('booking')->name('booking.')->group(function () {
+    Route::resource('online-booking', OnlineBookingController::class);
     Route::post('/billing-details/{id}', [BookingFormController::class, 'billingDetails'])->name('billing-details');
     Route::delete('/billing-details/{id}', [BookingFormController::class, 'deletebillingDetails'])->name('billing-details.destroy');
-    
     Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');
     Route::post('/delete-remark/{id}',[BookingFormController::class,'deleteRemark'])->name('delete-remark');
     Route::post('/status-remark/{id}', [BookingFormController::class, 'toggleRemarkStatus'])->name('status-remark');
-
     Route::post('/update-feedback/{id}',[BookingFormController::class,'updateFeedBack'])->name('update-feedback');
     Route::post('/delete-feedback/{id}',[BookingFormController::class,'deleteFeedBack'])->name('delete-feedback');
-
-
     Route::get('/add', [BookingFormController::class, 'add'])->name('add');
     Route::get('/search', [BookingFormController::class, 'search'])->name('search');
     Route::get('/export', [BookingFormController::class, 'export'])->name('export');
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
     Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
     Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
-
     Route::prefix('auth-email')->name('auth-email.')->group(function () {
         Route::post('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail'); // this is correct
     });
-
     Route::prefix('mail')->name('mail.')->group(function () {
         Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
     });
 
+
 });
 
-// <a href="{{ route('booking.auth-email.index', $booking->id) }}">Send Auth Email</a>
-
-
-
-
 Route::get('/booking-information-next', function () {return view('web.booking-information-next');})->name('booking-information-next');
-#Route::get('/booking', function () {return view('web.booking.index');})->name('booking');
-
-
 
 Route::get('/', function () {return view('web.login');});
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// <a href="{{ route('auth-email.index', ['id' => $id]) }}">Link Text</a>
-
-// Route::prefix('travel')->group(function () {
-//     Route::post('/bookings', [TravelBookingController::class, 'add']);
-//     Route::put('/bookings/{id}', [TravelBookingController::class, 'update']);
-//     Route::post('/booking-types', [TravelBookingTypeController::class, 'add']);
-//     Route::put('/booking-types/{id}', [TravelBookingTypeController::class, 'update']);
-//     Route::post('/sector-details', [TravelSectorDetailController::class, 'add']);
-//     Route::put('/sector-details/{id}', [TravelSectorDetailController::class, 'update']);
-//     Route::post('/passengers', [TravelPassengerController::class, 'add']);
-//     Route::put('/passengers/{id}', [TravelPassengerController::class, 'update']);
-//     Route::post('/billing-details', [TravelBillingDetailController::class, 'add']);
-//     Route::put('/billing-details/{id}', [TravelBillingDetailController::class, 'update']);
-//     Route::post('/pricing-details', [TravelPricingDetailController::class, 'add']);
-//     Route::put('/pricing-details/{id}', [TravelPricingDetailController::class, 'update']);
-//     Route::post('/booking-remarks', [TravelBookingRemarkController::class, 'add']);
-//     Route::put('/booking-remarks/{id}', [TravelBookingRemarkController::class, 'update']);
-//     Route::post('/quality-feedback', [TravelQualityFeedbackController::class, 'add']);
-//     Route::put('/quality-feedback/{id}', [TravelQualityFeedbackController::class, 'update']);
-//     Route::post('/screenshots', [TravelScreenshotController::class, 'add']);
-//     Route::put('/screenshots/{id}', [TravelScreenshotController::class, 'update']);
-// });
-
 
 Route::middleware('auth')->group(function () {
-
     Route::prefix('reports')->group(function () {
         Route::get('marketing', [ReportController::class,'marketing'])->name('marketing');
         Route::get('call_queue', [ReportController::class,'call_queue'])->name('call_queue');
         Route::get('agents', [ReportController::class,'agents'])->name('agents');
         Route::get('score', [ReportController::class,'score'])->name('score');
     });
-
 
     Route::prefix('masters')->group(function () {
         Route::resource('booking-status', BookingStatusController::class);
