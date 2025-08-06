@@ -48,28 +48,28 @@
         <div class="card p-1 create-booking-wrapper">
             <div class="upper-status d-flex justify-content-between align-items-center flex-wrap">
                 <div class="d-flex" style="font-size: 12px;">
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Booking :</strong><span
-                        style="color: #fff;margin-right: 20px;">{{$booking->id}}</span>
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Sales:</strong><span
-                      style="color: #fff; margin-right: 20px;">{{ $booking->user?->name ?? 'N/A' }} - {{ $booking->user?->role ?? 'N/A' }}</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Booking :</strong><span
+                        style="color: #055bdb;margin-right: 20px;">{{$booking->id}}</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Sales:</strong><span
+                      style="color: #055bdb; margin-right: 20px;">{{ $booking->user?->name ?? 'N/A' }} - {{ $booking->user?->role ?? 'N/A' }}</span>
 
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Issued On:</strong><span
-                        style="color: #fff; margin-right: 20px;">{{$booking->created_at}}</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Issued On:</strong><span
+                        style="color: #055bdb; margin-right: 20px;">{{$booking->created_at}}</span>
 
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Changes:</strong><span
-                        style="color: #fff; margin-right: 20px;">Zee</span>
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Billing:</strong><span
-                        style="color: #fff; margin-right: 20px;">Mark</span>
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Quality:</strong><span
-                        style="color: #fff; margin-right: 20px;">Smith</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Changes:</strong><span
+                        style="color: #055bdb; margin-right: 20px;">Zee</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Billing:</strong><span
+                        style="color: #055bdb; margin-right: 20px;">Mark</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Quality:</strong><span
+                        style="color: #055bdb; margin-right: 20px;">Smith</span>
 
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Shared :</strong><span
-                        style="color: #fff;margin-right: 20px;">Agent</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Shared :</strong><span
+                        style="color: #055bdb;margin-right: 20px;">Agent</span>
 
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Qc Score :</strong><span
-                        style="color: #fff;margin-right: 20px;">78%</span>
-                    <strong style="color: #fff; font-weight: 700; margin-right: 5px;">Qc Status :</strong><span
-                        style="color: #fff;">Approved</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Qc Score :</strong><span
+                        style="color: #055bdb;margin-right: 20px;">78%</span>
+                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Qc Status :</strong><span
+                        style="color: #055bdb;">Approved</span>
                 </div>
                 <div class="d-flex gap-2">
                     @include('web.booking.authModel')

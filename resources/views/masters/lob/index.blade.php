@@ -24,10 +24,10 @@
 
             <div class="card p-4">
                 <form method="GET" action="{{ route('payment-status.index') }}"
-                    class="d-flex align-items-end justify-content-between mb-4">
+                    class="d-flex align-items-end justify-content-end mb-4">
                     <div class="add-follow-btn">
                         <a href="{{route('lobs.create')}}" type="button"
-                                class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style"
+                                class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style short-add"
                                 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
                                 <i class="ri ri-add-circle-line fs-5"></i> Add
                             </a>
