@@ -414,14 +414,15 @@
                 </a>
             </li>
 
+             @if(Auth::user()->role !== 'agent')
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="feedback-tab" data-bs-toggle="tab" href="#feedback" role="tab"
                     aria-controls="feedback" aria-selected="false">
                     <i class="ri ri-feedback-line" style="font-size: 20px; color: #4169e1;"
                         title="Quality Feedback"></i>
-
                 </a>
             </li>
+            @endif
 
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="screenshots-tab" data-bs-toggle="tab" href="#screenshots" role="tab"
@@ -430,12 +431,14 @@
                 </a>
             </li>
 
-            <li class="nav-item" role="conversations">
-                <a class="nav-link" id="conversations-tab" data-bs-toggle="tab" href="#conversations" role="tab"
-                    aria-controls="conversations" aria-selected="false">
-                    <i class="ri ri-chat-3-line" style="font-size: 20px; color: #25D366;" title="Conversations"></i>
-                </a>
-            </li>
+            @if(Auth::user()->role !== 'agent')
+                <li class="nav-item" role="conversations">
+                    <a class="nav-link" id="conversations-tab" data-bs-toggle="tab" href="#conversations" role="tab"
+                        aria-controls="conversations" aria-selected="false">
+                        <i class="ri ri-chat-3-line" style="font-size: 20px; color: #25D366;" title="Conversations"></i>
+                    </a>
+                </li>
+            @endif
 
 
         </ul>
@@ -468,7 +471,7 @@
                                     <th>First Name</th>
                                     <th>Middle Name</th>
                                     <th>Last Name</th>
-                                    <th>DOB(dd-mm-yyyy)</th>
+                                    <th>DOB(DD-MM-YYYY)</th>
                                     <th>Seat</th>
                                     <th>Cr. OR <br>
                                         Ref. Amt.
@@ -773,9 +776,9 @@
                                     @foreach ($flight_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>
-                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
-                                            </td>
+                                            <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
+                                            <td>{{ $img->get_agent?->name }}</td>
+                                            <td>{{ $img->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -899,9 +902,9 @@
                                     @foreach ($car_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>
-                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
-                                            </td>
+                                            <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
+                                            <td>{{ $img->get_agent?->name }}</td>
+                                            <td>{{ $img->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -1029,11 +1032,11 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($cruise_images as $key => $img)
-                                        <tr>
+                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>
-                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
-                                            </td>
+                                            <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
+                                            <td>{{ $img->get_agent?->name }}</td>
+                                            <td>{{ $img->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -1147,11 +1150,11 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($hotel_images as $key => $img)
-                                        <tr>
+                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>
-                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
-                                            </td>
+                                            <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
+                                            <td>{{ $img->get_agent?->name }}</td>
+                                            <td>{{ $img->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -1297,11 +1300,11 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($train_images as $key => $img)
-                                        <tr>
+                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>
-                                              <a href="{{ asset($img->file_path) }}" target="_blank"><img width="100" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a>
-                                            </td>
+                                            <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
+                                            <td>{{ $img->get_agent?->name }}</td>
+                                            <td>{{ $img->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -2544,12 +2547,10 @@
 .booked-content table tbody td {
     padding: 5px !important;
 }
-
 .booked-content table thead th,
 .booked-content table tbody td {
     padding: 5px !important;
 }
-
 .feedback-textarea {
     resize: vertical;
     min-height: 60px;
