@@ -10,7 +10,7 @@ class EmailTemplateController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
         $email_templates = EmailTemplate::paginate(10); 
         return view('web.email_template.index', compact('email_templates'));
     }

@@ -5,10 +5,10 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-        <h2 class="mb-0">Payment Status</h2>
+        <h2 class="mb-0">Lobs</h2>
         <div class="breadcrumb">
                 <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" aria-current="page">Payment Status</a>
+                <a class="active" aria-current="page">Lobs</a>
         </div>
     </div>
     <div class="row gy-6">

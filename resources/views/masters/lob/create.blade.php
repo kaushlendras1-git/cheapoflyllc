@@ -4,11 +4,11 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-        <h2 class="mb-0">Add Payment Staus</h2>
+        <h2 class="mb-0">Add Lobs</h2>
         <div class="breadcrumb">
                 <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" href="{{ route('payment-status.index') }}">Add Payment Status</a>
-                <a aria-current="page">Add Payment Status</a>
+                <a class="active" href="{{ route('lobs.index') }}">Lobs</a>
+                <a aria-current="page">Add Lobs</a>
         </div>
     </div>
 
