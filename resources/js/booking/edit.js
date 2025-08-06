@@ -142,7 +142,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     catch (e) {
         console.error(e);
         if (e.response?.status === 422 || e.response?.status === 500) {
-            showToast(e.response?.data?.error ?? 'Validation/server error', "error");
+            showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
         } else {
             showToast("Something went wrong2", "error");
         }
@@ -586,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const response = await axios.post(route('booking.status-remark', { id }));
 
                     if (response.data.success) {
-                        
+
                             const row = document.getElementById(`remark-row-${id}`);
                             if (row) {
                                 setTimeout(() => {

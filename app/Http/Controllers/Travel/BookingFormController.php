@@ -228,15 +228,16 @@ class BookingFormController extends Controller
 
             // Optional: Put your custom messages array here (same as you posted)
             $messages = [/* ... paste your $messages array ... */];
-          
-            // $validator = Validator::make($request->all(), $rules, $messages);
 
-            // if ($validator->fails()) {
-            //     return response()->json([
-            //         'status' => 'error',
-            //         'errors' => $validator->errors(),
-            //     ], 422);
-            // }
+            // Validation
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
 
             $validator = Validator::make($request->all(), $rules, $messages);
 
