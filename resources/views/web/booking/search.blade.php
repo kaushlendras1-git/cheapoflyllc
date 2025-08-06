@@ -15,9 +15,9 @@
             <div class="card p-4">
                 <form method="GET" action="{{ route('booking.search') }}"
                     class="d-flex align-items-end justify-content-between mb-4">
-                    <div class="row align-items-end w-100">
+                    <div class="row align-items-end w-100 booking-form gen_form">
                         <div class="col-md-2">
-                            <div>
+                            <div Class="position-relative"> 
                                 <label class="form-label mb-1">Keyword</label>
                                 <input type="text" name="keyword" class="form-control input-style" value="{{ request('keyword') }}"
                                     placeholder="e.g. PNR / name / email">
@@ -25,21 +25,21 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">Start Date</label>
                                 <input type="date" name="start_date" class="form-control input-style"
                                     value="{{ request('start_date') }}">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">End Date</label>
                                 <input type="date" name="end_date" class="form-control input-style"
                                     value="{{ request('end_date') }}">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">Booking Status</label>
                                 <select class="form-control input-style" name="booking_status">
                                     <option value="">All</option>
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">Payment Status</label>
                                 <select class="form-control input-style" name="payment_status">
                                     <option value="">All</option>

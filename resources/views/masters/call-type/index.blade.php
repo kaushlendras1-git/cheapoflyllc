@@ -25,23 +25,23 @@
             <div class="card p-4">
                 <form method="GET" action="{{ route('call-types.index') }}"
                     class="d-flex align-items-end justify-content-between mb-4">
-                    <div class="row align-items-end w-100">
+                    <div class="row align-items-end w-100 booking-form gen_form">
                         <div class="col-md-4">
-                            <div>
+                            <div class="position-relative">
                             <label class="form-label mb-1">Keyword</label>
                             <input type="text" name="keyword" style="width: 30rem;" class="form-control input-style w-100"
                                 placeholder="e.g. name " value="{{ request('keyword') }}">
                         </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                             <label class="form-label mb-1">Start Date</label>
                             <input type="date" name="start_date" class="form-control input-style"
                                 value="{{ request('start_date') }}">
                         </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                             <label class="form-label mb-1">End Date</label>
                             <input type="date" name="end_date" class="form-control input-style" value="{{ request('end_date') }}">
                         </div>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="add-follow-btn">
                         <a href="{{route('call-types.create')}}" type="button"
-                                class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style"
+                                class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style short-add"
                                 data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
                                 <i class="ri ri-add-circle-line fs-5"></i> Add
                             </a>

@@ -6,12 +6,10 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Emails</h2>
-        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-            <ol class="breadcrumb d-flex align-items-center mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Emails</li>
-            </ol>
-        </nav>
+        <div class="breadcrumb">
+                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
+                <a class="active" aria-current="page">Emails</a>
+        </div>
     </div>
     <div class="row gy-6">
         <!-- Filter Card -->
@@ -22,23 +20,23 @@
             <div class="card p-4">
                 <form method="GET" action="{{ route('emails.index') }}"
                     class="d-flex align-items-end justify-content-between mb-4">
-                    <div class="row align-items-end w-100">
+                    <div class="row align-items-end w-100 booking-form gen_form">
                         <div class="col-md-4">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">Keyword</label>
                                 <input type="text" name="keyword" class="form-control input-style"
                                     placeholder="e.g. Name / Subject" value="{{ request('keyword') }}">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">Start Date</label>
                                 <input type="date" name="start_date" class="form-control input-style"
                                     value="{{ request('start_date') }}">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div>
+                            <div class="position-relative">
                                 <label class="form-label mb-1">End Date</label>
                                 <input type="date" name="end_date" class="form-control input-style"
                                     value="{{ request('end_date') }}">
@@ -55,7 +53,7 @@
                     </div>
                     <div class="add-follow-btn">
                         <a href="{{route('emails.create')}}" type="button"
-                            class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style"
+                            class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style short-add"
                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
                             <i class="ri ri-add-circle-line fs-5"></i> Add
                         </a>
