@@ -15,15 +15,10 @@
                                 <table id="carTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th colspan="6">Trip to Sherevport</th>
-                                            <th colspan="2">Departure </th>
+                                            <th colspan="5">Trip to Sherevport</th>
+                                            <th colspan="3">Departure </th>
                                             <th></th>
-                                            <th>Arrival </th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <th colspan="4">Arrival </th>
                                         </tr>
                                         <tr>
                                             <th>#</th>
@@ -32,11 +27,9 @@
                                             <th>Train No</th>
                                             <th>Cabin</th>
                                             <th>Departure station</th>
-                                            <th>Hrs</th>
-                                            <th>MM</th>
+                                            <th>Hrs/MM</th>
                                             <th>Arrival station</th>
-                                            <th>Hrs</th>
-                                            <th>MM</th>
+                                            <th>Hrs/MM</th>
                                             <th>Duration</th>
                                             <th>Transit</th>
                                             <th>Arrival date</th>
@@ -63,39 +56,35 @@
                                                     name="train[{{$key}}][cabin]"
                                                     value="{{$trainBookingDetails->cabin}}" placeholder="Cabin">
                                             </td>
-                                            <td><input type="text" class="form-control" style="width: 10rem;"
+                                            <td><input type="text" class="form-control" style="width: 9rem;"
                                                     name="train[{{$key}}][departure_station]"
                                                     value="{{$trainBookingDetails->departure_station}}"
                                                     placeholder="Departure Station"></td>
-                                            <td><input type="number" class="form-control" style="width: 58px;"
+
+                                            <td><input type="time" class="form-control" style="width: 80px;"
                                                     name="train[{{$key}}][departure_hours]"
                                                     value="{{$trainBookingDetails->departure_hours}}" placeholder="Hrs"
                                                     min="0" max="23"></td>
-                                            <td><input type="number" class="form-control" style="width: 58px;"
-                                                    name="train[{{$key}}][departure_minutes]"
-                                                    value="{{$trainBookingDetails->departure_minutes}}" placeholder="mm"
-                                                    min="0" max="59"></td>
-                                            <td><input type="text" class="form-control" style="width: 10rem;"
+                                           
+                                            <td><input type="text" class="form-control" style="width: 9rem;"
                                                     name="train[{{$key}}][arrival_station]"
                                                     value="{{$trainBookingDetails->arrival_station}}"
                                                     placeholder="Arrival Station"></td>
-                                            <td><input type="number" class="form-control" style="width: 7.5rem;"
+                                                    
+                                            <td><input type="time" class="form-control" style="width: 80px;"
                                                     name="train[{{$key}}][arrival_hours]"
                                                     value="{{$trainBookingDetails->arrival_hours}}" placeholder="Hrs"
                                                     min="0" max="23"></td>
-                                            <td><input type="number" class="form-control" style="width: 7.5rem;"
-                                                    name="train[{{$key}}][arrival_minutes]"
-                                                    value="{{$trainBookingDetails->arrival_minutes}}" placeholder="mm"
-                                                    min="0" max="59"></td>
-                                            <td><input type="text" class="form-control" style="width: 7.5rem;"
+                                           
+                                            <td><input type="text" class="form-control" style="width: 5.5rem;"
                                                     name="train[{{$key}}][duration]"
                                                     value="{{$trainBookingDetails->duration}}" placeholder="Duration">
                                             </td>
-                                            <td><input type="text" class="form-control" style="width: 7.5rem;"
+                                            <td><input type="text" class="form-control" style="width: 5.5rem;"
                                                     name="train[{{$key}}][transit]"
                                                     value="{{$trainBookingDetails->transit}}" placeholder="Transit">
                                             </td>
-                                            <td><input type="date" class="form-control"
+                                            <td><input type="date" class="form-control" style="width: 105px;"
                                                     name="train[{{$key}}][arrival_date]"
                                                     value="{{$trainBookingDetails->arrival_date?->format('Y-m-d')}}">
                                             </td>
