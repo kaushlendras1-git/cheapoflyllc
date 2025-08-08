@@ -53,6 +53,8 @@ use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\SignatureController;
 
+Route::get('/mail-sent',[AuthEmailController::class,'index']);
+
 Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('statelist');
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 
