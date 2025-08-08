@@ -76,7 +76,7 @@
                                                 <h6 class="billing-card-title mb-0"> {{$key + 1}}</h6>
                                             </td>
                                             <td>
-                                                <select class="form-control" style="width: 90px;"
+                                                <select class="form-control w-100"
                                                     name="billing[{{$key}}][card_type]">
                                                     <option value="">Select</option>
                                                     <option value="VISA"
@@ -95,17 +95,17 @@
                                                         DISCOVER</option>
                                                 </select>
                                             </td>
-                                            <td><input style="width: 140px;" inputmode="numeric" maxlength="16"
-                                                    class="form-control" placeholder="CC Number"
+                                            <td><input inputmode="numeric" maxlength="16"
+                                                    class="form-control w-100" placeholder="CC Number"
                                                     name="billing[{{$key}}][cc_number]"
                                                    value="{{$billingDetails['cc_number']}}"></td>
 
 
-                                                    <td><input type="text" class="form-control" placeholder="CC Holder Name"
+                                                    <td><input type="text" class="form-control w-100" placeholder="CC Holder Name"
                                                     name="billing[{{$key}}][cc_holder_name]"
                                                     value="{{$billingDetails['cc_holder_name']}}"></td>
                                             <td>
-                                                <select style="width: 45px; margin: auto;" class="form-control"
+                                                <select style="margin: auto;" class="form-control w-100"
                                                     name="billing[{{$key}}][exp_month]">
                                                     <option value="">MM</option>
                                                     @for($i = 1; $i <= 12; $i++) <option
@@ -116,7 +116,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <select class="form-control" name="billing[{{$key}}][exp_year]">
+                                                <select class="form-control w-100" name="billing[{{$key}}][exp_year]">
                                                     <option value="">YYYY</option>
                                                     @for($i = 2024; $i <= 2034; $i++) <option value="{{$i}}"
                                                         {{$billingDetails['exp_year'] == $i ? 'selected' : ''}}>{{$i}}
@@ -126,9 +126,9 @@
                                             </td>
 
 
-                                            <td><input style="width: 57px;" inputmode="numeric" maxlength="4"
+                                            <td><input inputmode="numeric" maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
-                                                    class="form-control" placeholder="CVV" name="billing[{{$key}}][cvv]"
+                                                    class="form-control w-100" placeholder="CVV" name="billing[{{$key}}][cvv]"
                                                     value="{{$billingDetails['cvv']}}">
                                             </td>
 
@@ -136,8 +136,8 @@
                                             </select>
                                             </td>
                                             <td>
-                                                <select id="state-{{$key}}" style="width:7.5rem"
-                                                    class="form-control state-select" name="billing[{{$key}}][address]">
+                                                <select id="state-{{$key}}"
+                                                    class="form-control state-select w-100" name="billing[{{$key}}][address]">
                                                     <option value="">Select Billing</option>
                                                     @foreach($billingData as $bi)
                                                         <option value="{{$bi->id}}" {{$bi->id == $billingDetails['address']?'selected':''}}>{{$bi->street_address}}</option>
@@ -145,11 +145,11 @@
                                                 </select>
                                             </td>
 
-                                            <td><input style="width: 65px;" type="text" class="form-control"
+                                            <td><input type="text" class="form-control w-100"
                                                     placeholder="ZIP Code" name="billing[{{$key}}][zip_code]"
                                                     value="{{$billingDetails['zip_code']}}"></td>
                                             <td>
-                                                <select class="form-control" name="billing[{{$key}}][currency]">
+                                                <select class="form-control w-100" name="billing[{{$key}}][currency]">
                                                     <option value="">Select</option>
                                                     <option value="USD"
                                                         {{$billingDetails['currency'] == 'USD' ? 'selected' : ''}}>USD
@@ -196,59 +196,4 @@
 
 
 
-            <!-- Modal -->
-<div class="modal fade bank-details" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Bank Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    id="billing-close-modal"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{route('booking.billing-details',['id'=>$booking->id])}}" id="billing-detail-add">
-                    @csrf
-                    <div class="row booking-form">
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Email <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="email">
-                        </div>
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Conatct No. <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="contact_number">
-                        </div>
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Street Address <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="street_address">
-                        </div>
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">City <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="city">
-                        </div>
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label">State <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="state">
-                        </div>
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label">Zip Code <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="zip_code">
-                        </div>
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label">Country <span class="text-danger">*</span></label>
-                            <select class="form-control" name="country">
-                                <option value="">Select country</option>
-                                @foreach($countries as $country)
-                                    <option value="{{$country->id}}">{{$country->country_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer justify-content-start">
-                <button type="button" class="btn btn-primary" id="save-billing-detail">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
+            

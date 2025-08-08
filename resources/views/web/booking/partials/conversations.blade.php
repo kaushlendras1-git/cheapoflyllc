@@ -17,17 +17,17 @@
                                     <!-- Tab Navigation -->
                                     <ul class="nav nav-tabs mb-4" id="timelineTabs" role="tablist">
                                                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="tab-2025-07-12" data-bs-toggle="tab" data-bs-target="#content-2025-07-12" type="button" role="tab" aria-controls="content-2025-07-12" aria-selected="true">
+                                            <button class="nav-link save-feedback-btn active" id="tab-2025-07-12" data-bs-toggle="tab" data-bs-target="#content-2025-07-12" type="button" role="tab" aria-controls="content-2025-07-12" aria-selected="true">
                                                 Jul 12, 2025
                                             </button>
                                         </li>
                                                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link " id="tab-2025-06-16" data-bs-toggle="tab" data-bs-target="#content-2025-06-16" type="button" role="tab" aria-controls="content-2025-06-16" aria-selected="false" tabindex="-1">
+                                            <button class="nav-link save-feedback-btn" id="tab-2025-06-16" data-bs-toggle="tab" data-bs-target="#content-2025-06-16" type="button" role="tab" aria-controls="content-2025-06-16" aria-selected="false" tabindex="-1">
                                                 Jun 16, 2025
                                             </button>
                                         </li>
                                                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link " id="tab-2025-05-17" data-bs-toggle="tab" data-bs-target="#content-2025-05-17" type="button" role="tab" aria-controls="content-2025-05-17" aria-selected="false" tabindex="-1">
+                                            <button class="nav-link save-feedback-btn" id="tab-2025-05-17" data-bs-toggle="tab" data-bs-target="#content-2025-05-17" type="button" role="tab" aria-controls="content-2025-05-17" aria-selected="false" tabindex="-1">
                                                 May 17, 2025
                                             </button>
                                         </li>

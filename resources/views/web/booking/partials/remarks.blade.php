@@ -2,7 +2,7 @@
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-start mb-1">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Booking Remarks</h5>
-                        <button id="saveRemark" type="button" class="btn btn-primary">Save Remark</button>
+                        <button id="saveRemark" type="button" class="btn btn-primary save-feedback-btn">Save Remark</button>
                     </div>
                     <div class="card-body p-0">
                         <textarea class="form-control" name="particulars" rows="4"
