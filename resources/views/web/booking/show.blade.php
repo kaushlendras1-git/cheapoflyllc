@@ -47,28 +47,28 @@
     <div class="row">
         <div class="card p-1 create-booking-wrapper">
             <div class="upper-status d-flex justify-content-between align-items-center flex-wrap">
-                <div class="d-flex" style="font-size: 12px;">
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Booking :</strong><span
-                        style="color: #055bdb;margin-right: 20px;">{{$booking->id}}</span>
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Sales:</strong><span
-                      style="color: #055bdb; margin-right: 20px;">{{ $booking->user?->name ?? 'N/A' }} - {{ $booking->user?->role ?? 'N/A' }}</span>
+                <div class="d-flex fs12">
+                    <strong class="book-upper-tags">Booking :</strong><span
+                        class="book-bottom-tags">{{$booking->id}}</span>
+                    <strong class="book-upper-tags">Sales:</strong><span
+                      class="book-bottom-tags">{{ $booking->user?->name ?? 'N/A' }} - {{ $booking->user?->role ?? 'N/A' }}</span>
 
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Issued On:</strong><span
-                        style="color: #055bdb; margin-right: 20px;">{{$booking->created_at}}</span>
+                    <strong class="book-upper-tags">Issued On:</strong><span
+                        class="book-bottom-tags">{{$booking->created_at}}</span>
 
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Changes:</strong><span
-                        style="color: #055bdb; margin-right: 20px;">Zee</span>
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Billing:</strong><span
-                        style="color: #055bdb; margin-right: 20px;">Mark</span>
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Quality:</strong><span
-                        style="color: #055bdb; margin-right: 20px;">Smith</span>
+                    <strong class="book-upper-tags">Changes:</strong><span
+                        class="book-bottom-tags">Zee</span>
+                    <strong class="book-upper-tags">Billing:</strong><span
+                        class="book-bottom-tags">Mark</span>
+                    <strong class="book-upper-tags">Quality:</strong><span
+                        class="book-bottom-tags">Smith</span>
 
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Shared :</strong><span
-                        style="color: #055bdb;margin-right: 20px;">Agent</span>
+                    <strong class="book-upper-tags">Shared :</strong><span
+                        class="book-bottom-tags">Agent</span>
 
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Qc Score :</strong><span
-                        style="color: #055bdb;margin-right: 20px;">78%</span>
-                    <strong style="color: #055bdb; font-weight: 700; margin-right: 5px;">Qc Status :</strong><span
+                    <strong class="book-upper-tags">Qc Score :</strong><span
+                        class="book-bottom-tags">78%</span>
+                    <strong class="book-upper-tags">Qc Status :</strong><span
                         style="color: #055bdb;">Approved</span>
                 </div>
                 <div class="d-flex gap-2">
@@ -449,6 +449,65 @@
     min-height: 60px;
 }
 </style>
+
+
+
+<!-- Modal -->
+<div class="modal fade bank-details" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Bank Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="billing-close-modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('booking.billing-details',['id'=>$booking->id])}}" id="billing-detail-add">
+                    @csrf
+                    <div class="row booking-form">
+                        <div class="col-md-3 position-relative mb-5">
+                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="email">
+                        </div>
+                        <div class="col-md-3 position-relative mb-5">
+                            <label class="form-label">Conatct No. <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="contact_number">
+                        </div>
+                        <div class="col-md-3 position-relative mb-5">
+                            <label class="form-label">Street Address <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="street_address">
+                        </div>
+                        <div class="col-md-3 position-relative mb-5">
+                            <label class="form-label">City <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="city">
+                        </div>
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label">State <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="state">
+                        </div>
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label">Zip Code <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="zip_code">
+                        </div>
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label">Country <span class="text-danger">*</span></label>
+                            <select class="form-control" name="country">
+                                <option value="">Select country</option>
+                                @foreach($countries as $country)
+                                    <option value="{{$country->id}}">{{$country->country_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-start">
+                <button type="button" class="btn btn-primary" id="save-billing-detail">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @vite('resources/js/booking/edit.js')
 @endsection
