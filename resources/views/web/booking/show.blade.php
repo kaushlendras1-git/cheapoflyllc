@@ -72,7 +72,9 @@
                         style="color: #055bdb;">Approved</span>
                 </div>
                 <div class="d-flex gap-2">
-                    @include('web.booking.authModel')
+                      <!-- authModel -->
+                     @include('web.booking.partials.authModel')
+
                     <a href="{{ route('auth-history', $hashids) }}"
                         class="btn btn-outline-secondary btn-sm rounded-pill auth-button">
                         Auth History
@@ -87,6 +89,7 @@
                 <!-- Content -->
 
                 @include('web.layouts.flash')
+                
                 @php
                 $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
@@ -234,48 +237,6 @@
                                 @foreach($booking_types as $booking_type)
                                     <option data-type="{{$booking_type->type}}">{{$booking_type->name}}</option>
                                 @endforeach
-
-                                <option data-type="Cruise">Cruise Reservation</option>
-                                <option data-type="Cruise">Cruise Reservation With Credits & Vouchers</option>
-                                <option data-type="Cruise">Casino Reservations</option>
-                                <option data-type="Cruise">Cabin Upgrade/Change Requests</option>
-                                <option data-type="Cruise">Date or Itinerary Changes</option>
-                                <option data-type="Cruise">Passenger Name Corrections</option>
-                                <option data-type="Cruise">Request for Adding a Passenger</option>
-                                <option data-type="Cruise">Collection of Final Payment</option>
-                                <option data-type="Cruise">Check-in Procedures</option>
-                                <option data-type="Cruise">Booking Excursions</option>
-                                <option data-type="Cruise">Dining and Beverage Packages</option>
-                                <option data-type="Cruise">Spa and Wellness Pre-Bookings</option>
-                                <option data-type="Cruise">Celebration Packages</option>
-                                <option data-type="Cruise">Accessibility or Medical Needs</option>
-                                <option data-type="Cruise">Speciality Dining Request</option>
-                                <option data-type="Cruise">Cancellation for Future Credits</option>
-                                <option data-type="Cruise">Cancellation for Refunds</option>
-                                <option data-type="Cruise">Extentions on Due Payments</option>
-
-                                <option data-type="Hotel">Hotel Reservation</option>
-                                <option data-type="Hotel">Hotel Reservation with Rewards Points</option>
-                                <option data-type="Hotel">Date Changes / Rebooking</option>
-                                <option data-type="Hotel">Room Upgrade Requests</option>
-                                <option data-type="Hotel">Room Change Request</option>
-                                <option data-type="Hotel">Adding or Removing Guests</option>
-                                <option data-type="Hotel">Guest's Name Correction</option>
-                                <option data-type="Hotel">Parking Reservation Request</option>
-                                <option data-type="Hotel">Cancellation for Future Credits</option>
-                                <option data-type="Hotel">Cancellation for Refunds</option>
-
-                                <option data-type="Train">New Reservation for Amtrak</option>
-                                <option data-type="Train">Date or Time Change Request</option>
-                                <option data-type="Train">Change of Route or Destination</option>
-                                <option data-type="Train">Name Correction</option>
-                                <option data-type="Train">Change in Number of Travelers</option>
-                                <option data-type="Train">Upgrading Seat Class or Service</option>
-                                <option data-type="Train">Seat Assignment or Preference Request</option>
-                                <option data-type="Train">Missed Connections</option>
-                                <option data-type="Train">Cancellation for Future Credits</option>
-                                <option data-type="Train">Cancellation for Refunds</option>
-
                             </select>
                         </div>
 
@@ -318,12 +279,8 @@
                                 @foreach($users as $user)
                                 <option value="{{$user->id}}">{{$user->name}}</option>
                                 @endforeach
-
                             </select>
                         </div>
-
-
-
                     </div>
                 </div>
         </div>
@@ -337,7 +294,6 @@
                     <i class="ri ri-user-3-fill" title="Passengers" style="color: #00008b; font-size: 20px;"></i>
                 </a>
             </li>
-
 
             <li class="nav-item" role="presentation" data-tab="Flight"
                 style="{{ in_array('Flight', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
