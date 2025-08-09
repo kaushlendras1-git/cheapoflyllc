@@ -126,7 +126,7 @@
                                             </td>
 
 
-                                            <td><input inputmode="numeric" maxlength="4"
+                                            <td><input style="width: 57px !important;" inputmode="numeric" maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control w-100" placeholder="CVV" name="billing[{{$key}}][cvv]"
                                                     value="{{$billingDetails['cvv']}}">
@@ -145,9 +145,11 @@
                                                 </select>
                                             </td>
 
-                                            <td><input type="text" class="form-control w-100 usdAmount"
+                                            <td><input style="width: 65px; !important;" type="text" class="form-control usdAmount"
                                                     placeholder="" name="billing[{{$key}}][authorized_amt]"
-                                                    value="{{$billingDetails['authorized_amt']}}"></td>
+                                                    value="{{$billingDetails['authorized_amt']}}">
+                                            </td>
+                                            
                                             <td>
                                                 <select class="form-control w-100 currencyField" name="billing[{{$key}}][currency]">
                                                     <option value="">Select</option>

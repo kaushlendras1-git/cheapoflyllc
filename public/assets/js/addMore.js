@@ -888,19 +888,20 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
-                    <option>Ticket Cost</option>
                     <option>Flight Ticket Cost</option>
-                    <option>Cruise Ticket Cost</option>
-                    <option>Car Rental Cost</option>
-                    <option>Train Cost</option>
                     <option>Hotel Cost</option>
-                    <option>Company Card</option>
-                    <option>Issuance Fees</option>
+                    <option>Car Rental Cost</option>
+                    <option>Cruise Cost</option>
+                    <option>Train Cost</option>
+                    <option>Company card</option>
+                    <option>Merchant fee</option>
+                    <option>Partial Refund</option>
+                    <option>Full Refund</option>
+                    <option>Chargeback Fee</option>
+                    <option>Partial Chargeback Amt.</option>
+                    <option>Chargeback Amt.</option>
                     <option>FXL Issuance Fees</option>
-                    <option>Refund</option>
-                    <option>Charge Back Fee</option>
-                    <option>Charge Back Amount</option>
-                    <option>Voyzant</option>
+                    <option>Issuance Fees - Voyzant</option>
                 </select>
             </td>
             <td>

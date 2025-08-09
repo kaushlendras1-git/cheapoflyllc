@@ -113,19 +113,20 @@
                                                 {{$pricingDetails->details=='ticket_cost'?'selected':''}}>Ticket
                                                 Cost
                                             </option>
-
                                             <option>Flight Ticket Cost</option>
-                                            <option>Cruise Ticket Cost</option>
-                                            <option>Car Rental Cost</option>
-                                            <option>Train Cost</option>
                                             <option>Hotel Cost</option>
-                                            <option>Company Card</option>
-                                            <option>Issuance Fees</option>
+                                            <option>Car Rental Cost</option>
+                                            <option>Cruise Cost</option>
+                                            <option>Train Cost</option>
+                                            <option>Company card</option>
+                                            <option>Merchant fee</option>
+                                            <option>Partial Refund</option>
+                                            <option>Full Refund</option>
+                                            <option>Chargeback Fee</option>
+                                            <option>Partial Chargeback Amt.</option>
+                                            <option>Chargeback Amt.</option>
                                             <option>FXL Issuance Fees</option>
-                                            <option>Refund</option>
-                                            <option>Charge Back Fee</option>
-                                            <option>Charge Back Amount</option>
-                                            <option>Voyzant</option>
+                                            <option>Issuance Fees - Voyzant</option>
 
                                             <!-- <option value="merchant_fee"
                                                 {{$pricingDetails->details=='merchant_fee'?'selected':''}}>Merchant
@@ -156,9 +157,8 @@
                                         <strong>Gross-MCO =  Gross Amount Collected  - (Flight Ticket Cost +Cruise Ticket Cost+Car Rental Cost+Train Cost+Hotel Cost + company cost )</strong>
                                     
                                         <br>
-                                        Gross-MCO -  15%
-                                        <BR>
-                                        Net Profit == 
+                                        Net Profit ==  Gross-MCO -  (15% + Merchant fee + Partial Refund + Full Refund + Chargeback Fee + Partial Chargeback Amt. + Chargeback Amt. + FXL Issuance Fees + Issuance Fees - Voyzant )
+                                       
                                     </td>
                                 
                                     <td></td>

@@ -52,6 +52,9 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\SignatureController;
+use App\Http\Controllers\FcmController;
+
+Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 
 Route::get('/mail-sent',[AuthEmailController::class,'index']);
 
