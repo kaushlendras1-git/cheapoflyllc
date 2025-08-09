@@ -233,7 +233,25 @@ class BookingFormController extends Controller
             'particulars'=>$request->remark,
             'agent'=>Auth::id(),
         ]);
+<<<<<<< Updated upstream
         $data = TravelBookingRemark::select('id','booking_id','agent','particulars','created_at')->where('booking_id',$this->hashids->decode($id)[0])->where('status',1)->get();
+=======
+       $data = TravelBookingRemark::with('agentUser:id,name')
+                ->select('id','booking_id','agent','particulars','created_at')
+                ->where('booking_id', $this->hashids->decode($id)[0])
+                ->where('status', 1)
+                ->get()
+                ->map(function($item) {
+                    return [
+                        'id' => $item->id,
+                        'booking_id' => $item->booking_id,
+                        'agent' => $item->agentUser->name ?? 'N/A',
+                        'particulars' => $item->particulars,
+                        'created_at' => $item->created_at->format('d-m-Y'),
+                    ];
+                });
+
+>>>>>>> Stashed changes
         return JsonResponse::successWithData('Booking review saved',201,$data,'201');
     }
 
@@ -804,7 +822,6 @@ class BookingFormController extends Controller
 
             // Validation
             $validator = Validator::make($request->all(), $rules, $messages);
-
             if ($validator->fails()) {
                 return response()->json([
                     'status' => 'error',
@@ -855,7 +872,6 @@ class BookingFormController extends Controller
             $bookingData['team_id'] = 2;
             $bookingData['user_id'] = $user_id;
             $booking->update($bookingData);
-
 
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();
             $newBookingTypes = $request->input('booking-type', []);
@@ -1021,10 +1037,12 @@ class BookingFormController extends Controller
                     $processedCruiseIds[] = $cruise->id;
                 }
             }
+
             $deletedCruises = array_diff($existingCruiseIds, $processedCruiseIds);
             foreach ($deletedCruises as $deletedId) {
                 $booking->logChange($booking->id, 'TravelCruiseDetail', $deletedId, 'deleted', 'exists', null);
             }
+
             TravelCruiseDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedCruiseIds)
                 ->delete();
