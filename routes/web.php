@@ -171,6 +171,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
 
     
+    
     // Shift assignment route
     Route::post('/users/{user}/change-shift', [UserShiftController::class, 'changeShift'])->name('users.change-shift');
     // Team assignment route

@@ -79,7 +79,8 @@
         <div class="modal-body auth-btn-style">
           
         <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"  
-        data-id="{{ $booking->id }}" 
+        
+        data-id="{{ $hashids }}" 
         data-email1="credentials@cheapoflytravel.com" 
         data-email2="kaushlendras1@gmail.com"
         data-bs-dismiss="modal">
@@ -96,8 +97,8 @@
 
   <!-- Send Mail Modal -->
 <div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
+  <div class="modal-dialog modal-dialog-centered  modal-lg">
+    <div class="modal-content" style="height:700px; overflow-y:auto;">
       <div class="modal-header">
         <h5 class="modal-title">Send Mail</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -174,6 +175,7 @@
   </div>
 
   
+  
   <!-- Survey Modal -->
   <div class="modal fade" id="surveyModal" tabindex="-1" aria-labelledby="surveyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -186,10 +188,12 @@
           <div class="survey-preview">
             <p>How satisfied are you with your booking experience at Faretickets LLC? Please rate from 1 to 5 and share your feedback. Ref: INT29060202244</p>
           </div>
+          
           <form id="sendSurvey" action="{{ route('survey', $booking->id) }}" method="POST">
             @csrf
             <button class="send-btn">Send Survey</button>
-          </form>             
+          </form>
+
         </div>
       </div>
     </div>

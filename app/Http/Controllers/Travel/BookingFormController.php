@@ -353,7 +353,7 @@ class BookingFormController extends Controller
             if (in_array('Flight', $bookingTypes)) {
                 $rules['flight']                        = 'required|array|min:1';
                 $rules['flight.*.direction']            = 'required|string|in:Inbound,Outbound';
-                $rules['flight.*.departure_date']       = 'required|date|after_or_equal:today';
+                $rules['flight.*.departure_date']       = 'required|date';
                 $rules['flight.*.departure_airport']    = 'required|string|max:255';
                 $rules['flight.*.departure_hours']      = 'required|date_format:H:i';
                 $rules['flight.*.arrival_airport']      = 'required|string|max:255';
@@ -371,7 +371,7 @@ class BookingFormController extends Controller
                 $rules['hotel']                         = 'required|array|min:1';
                 $rules['hotel.*.hotel_name']            = 'required|string|max:255';
                 $rules['hotel.*.room_category']         = 'required|string|max:255';
-                $rules['hotel.*.checkin_date']          = 'required|date|after_or_equal:today';
+                $rules['hotel.*.checkin_date']          = 'required|date';
                 $rules['hotel.*.checkout_date']         = 'required|date|after:hotel.*.checkin_date';
                 $rules['hotel.*.no_of_rooms']           = 'required|integer|min:1';
                 $rules['hotel.*.confirmation_number']   = 'required|string|max:100';

@@ -618,6 +618,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('auth_id').value = id;
             document.getElementById('auth_email1').value = email1;
             document.getElementById('auth_email2').value = email2;
+            
 
             // Load dynamic content
             const loadContainer = document.getElementById('load_model');
