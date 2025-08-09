@@ -594,6 +594,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to add a new billing row
     function addBillingRow() {
+        $.ajax({
+            url:"",
+            type:'GET',
+            success: function (res) {
+                console.log();
+            },
+            error: function (res) {
+                console.log();
+            }
+        });
         const newRow = document.createElement('tr');
         newRow.className = 'billing-card';
         newRow.dataset.index = billingIndex;
