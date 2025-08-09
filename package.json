@@ -11,6 +11,7 @@
         "vite": "^7.0.5"
     },
     "dependencies": {
+        "@everapi/currencyapi-js": "^1.0.6",
         "filepond": "^4.32.8",
         "filepond-plugin-image-preview": "^4.6.12",
         "ziggy-js": "^2.5.3"

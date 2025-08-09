@@ -84,6 +84,7 @@ Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])
 Route::prefix('booking')->name('booking.')->group(function () {
     Route::resource('online-booking', OnlineBookingController::class);
     Route::post('/billing-details/{id}', [BookingFormController::class, 'billingDetails'])->name('billing-details');
+    Route::get('/billing-details/{id}', [BookingFormController::class, 'getBillingDetails'])->name('billing-details');
     Route::delete('/billing-details/{id}', [BookingFormController::class, 'deletebillingDetails'])->name('billing-details.destroy');
     Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');
     Route::post('/delete-remark/{id}',[BookingFormController::class,'deleteRemark'])->name('delete-remark');
@@ -170,8 +171,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
     Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
 
-    
-    
+
+
     // Shift assignment route
     Route::post('/users/{user}/change-shift', [UserShiftController::class, 'changeShift'])->name('users.change-shift');
     // Team assignment route

@@ -89,7 +89,7 @@
                 <!-- Content -->
 
                 @include('web.layouts.flash')
-                
+
                 @php
                 $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 @endphp
@@ -233,7 +233,7 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Booking Type</label>
                             <select id="query_type" class="form-control" name="query_type">
-                                <option>Package Reservation</option>                                
+                                <option>Package Reservation</option>
                                 @foreach($booking_types as $booking_type)
                                     <option data-type="{{$booking_type->type}}">{{$booking_type->name}}</option>
                                 @endforeach
@@ -396,13 +396,13 @@
 
             <!-- Cruise Tab -->
             @include('web.booking.partials.cruise')
-            
+
               <!-- Hotel Tab -->
             @include('web.booking.partials.hotel')
 
             <!-- Train Tab -->
             @include('web.booking.partials.train')
-               
+
             <!-- Biling Tab -->
             @include('web.booking.partials.billing')
 
@@ -421,7 +421,7 @@
             <!-- Conversations Tab -->
              @include('web.booking.partials.conversations')
 
-    
+
             </div>
         </div>
       </div>
@@ -508,6 +508,8 @@
         </div>
     </div>
 </div>
-
+<script>
+    let booking_id = "{{$booking->id}}";
+</script>
 @vite('resources/js/booking/edit.js')
 @endsection

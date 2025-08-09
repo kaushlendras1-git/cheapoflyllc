@@ -591,91 +591,178 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to add a new billing row
+    // function addBillingRow() {
+    //     let billingOptions = '<option value="">Select Billing</option>';
+    //     $.ajax({
+    //         url:`/booking/billing-details/${booking_id}`,
+    //         type:'GET',
+    //         success: function (res) {
+    //             res.data.forEach((booking) => {
+    //                billingOptions += `<option value="${booking.id}">${booking.street_address}</option>`;
+    //             });
+    //         },
+    //         error: function (res) {
+    //             console.log(res);
+    //         }
+    //     });
+    //     const newRow = document.createElement('tr');
+    //     newRow.className = 'billing-card';
+    //     newRow.dataset.index = billingIndex;
+    //     newRow.innerHTML = `
+    //         <td><h6 class="billing-card-title mb-0"> ${billingIndex + 1}</h6></td>
+    //         <td>
+    //             <select class="form-control" name="billing[${billingIndex}][card_type]">
+    //                 <option value="">Select</option>
+    //                 <option value="VISA">VISA</option>
+    //                 <option value="Mastercard">Mastercard</option>
+    //                 <option value="AMEX">AMEX</option>
+    //                 <option value="DISCOVER">DISCOVER</option>
+    //             </select>
+    //         </td>
+    //         <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
+    //         <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
+    //         <td>
+    //             <select style="width: 45px; margin: auto;" class="form-control" name="billing[${billingIndex}][exp_month]">
+    //                 <option value="">MM</option>
+    //                 <option value="01">01</option>
+    //                 <option value="02">02</option>
+    //                 <option value="03">03</option>
+    //                 <option value="04">04</option>
+    //                 <option value="05">05</option>
+    //                 <option value="06">06</option>
+    //                 <option value="07">07</option>
+    //                 <option value="08">08</option>
+    //                 <option value="09">09</option>
+    //                 <option value="10">10</option>
+    //                 <option value="11">11</option>
+    //                 <option value="12">12</option>
+    //             </select>
+    //         </td>
+    //         <td>
+    //             <select class="form-control" name="billing[${billingIndex}][exp_year]">
+    //                 <option value="">YYYY</option>
+    //                 <option value="2024">2024</option>
+    //                 <option value="2025">2025</option>
+    //                 <option value="2026">2026</option>
+    //                 <option value="2027">2027</option>
+    //                 <option value="2028">2028</option>
+    //                 <option value="2029">2029</option>
+    //                 <option value="2030">2030</option>
+    //                 <option value="2031">2031</option>
+    //                 <option value="2032">2032</option>
+    //                 <option value="2033">2033</option>
+    //                 <option value="2034">2034</option>
+    //             </select>
+    //         </td>
+    //         <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
+    //
+    //         <td>
+    //             <select id="" style="width:7.5rem"
+    //                 class="form-control state-select"
+    //                 name="billing[${billingIndex}][state]">
+    //                 ${billingOptions}
+    //             </select>
+    //         </td>
+    //
+    //         <td><input type="text" style="width: 65px;" class="form-control" placeholder="Amount" name="billing[${billingIndex}][amount]" value=""></td>
+    //
+    //         <td>
+    //             <select class="form-control" name="billing[${billingIndex}][currency]">
+    //                 <option value="">Select </option>
+    //                 <option value="USD">USD</option>
+    //                 <option value="CAD">CAD</option>
+    //                 <option value="EUR">EUR</option>
+    //                 <option value="GBP">GBP</option>
+    //                 <option value="AUD">AUD</option>
+    //                 <option value="INR">INR</option>
+    //                 <option value="MXN">MXN</option>
+    //             </select>
+    //         </td>
+    //         <td> AUD<span>90909</span></td>
+    //
+    //         <td>
+    //             <button type="button" class="btn btn-outline-danger delete-billing-btn">
+    //                 <i class="ri ri-delete-bin-line"></i>
+    //             </button>
+    //         </td>
+    //     `;
+    //     billingFormsContainer.appendChild(newRow);
+    //     billingIndex++;
+    // }
     function addBillingRow() {
-        const newRow = document.createElement('tr');
-        newRow.className = 'billing-card';
-        newRow.dataset.index = billingIndex;
-        newRow.innerHTML = `
-            <td><h6 class="billing-card-title mb-0"> ${billingIndex + 1}</h6></td>
-            <td>
-                <select class="form-control" name="billing[${billingIndex}][card_type]">
-                    <option value="">Select</option>
-                    <option value="VISA">VISA</option>
-                    <option value="Mastercard">Mastercard</option>
-                    <option value="AMEX">AMEX</option>
-                    <option value="DISCOVER">DISCOVER</option>
-                </select>
-            </td>
-            <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]" value=""></td>
-            <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]" value=""></td>
-            <td>
-                <select style="width: 45px; margin: auto;" class="form-control" name="billing[${billingIndex}][exp_month]">
-                    <option value="">MM</option>
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                </select>
-            </td>
-            <td>
-                <select class="form-control" name="billing[${billingIndex}][exp_year]">
-                    <option value="">YYYY</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                    <option value="2027">2027</option>
-                    <option value="2028">2028</option>
-                    <option value="2029">2029</option>
-                    <option value="2030">2030</option>
-                    <option value="2031">2031</option>
-                    <option value="2032">2032</option>
-                    <option value="2033">2033</option>
-                    <option value="2034">2034</option>
-                </select>
-            </td>
-            <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]" value=""></td>
+        $.ajax({
+            url: `/booking/billing-details/${booking_id}`,
+            type: 'GET',
+            success: function (res) {
+                let billingOptions = '<option value="">Select Billing</option>';
+                res.data.forEach((booking) => {
+                    billingOptions += `<option value="${booking.id}">${booking.street_address}</option>`;
+                });
 
-            <td>
-                <select id="" style="width:7.5rem"
-                    class="form-control state-select"
-                    name="billing[${billingIndex}][state]">
-                    <option value="India">Select Billing</option>
-                    <option value="India">Address</option>
-                </select>
-            </td>
-
-            <td><input type="text" style="width: 65px;" class="form-control" placeholder="Amount" name="billing[${billingIndex}][amount]" value=""></td>
-
-            <td>
-                <select class="form-control" name="billing[${billingIndex}][currency]">
-                    <option value="">Select </option>
-                    <option value="USD">USD</option>
-                    <option value="CAD">CAD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="AUD">AUD</option>
-                    <option value="INR">INR</option>
-                    <option value="MXN">MXN</option>
-                </select>
-            </td>
-            <td> AUD<span>90909</span></td>
-
-            <td>
-                <button type="button" class="btn btn-outline-danger delete-billing-btn">
-                    <i class="ri ri-delete-bin-line"></i>
-                </button>
-            </td>
-        `;
-        billingFormsContainer.appendChild(newRow);
-        billingIndex++;
+                const newRow = document.createElement('tr');
+                newRow.className = 'billing-card';
+                newRow.dataset.index = billingIndex;
+                newRow.innerHTML = `
+                <td><h6 class="billing-card-title mb-0">${billingIndex + 1}</h6></td>
+                <td>
+                    <select class="form-control" name="billing[${billingIndex}][card_type]">
+                        <option value="">Select</option>
+                        <option value="VISA">VISA</option>
+                        <option value="Mastercard">Mastercard</option>
+                        <option value="AMEX">AMEX</option>
+                        <option value="DISCOVER">DISCOVER</option>
+                    </select>
+                </td>
+                <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]"></td>
+                <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]"></td>
+                <td>
+                    <select style="width: 45px; margin: auto;" class="form-control" name="billing[${billingIndex}][exp_month]">
+                        <option value="">MM</option>
+                        ${Array.from({ length: 12 }, (_, i) => `<option value="${String(i+1).padStart(2, '0')}">${String(i+1).padStart(2, '0')}</option>`).join('')}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" name="billing[${billingIndex}][exp_year]">
+                        <option value="">YYYY</option>
+                        ${Array.from({ length: 11 }, (_, i) => `<option value="${2024+i}">${2024+i}</option>`).join('')}
+                    </select>
+                </td>
+                <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]"></td>
+                <td>
+                    <select style="width:7.5rem" class="form-control state-select" name="billing[${billingIndex}][state]">
+                        ${billingOptions}
+                    </select>
+                </td>
+                <td><input type="text" style="width: 65px;" class="form-control usdAmount" placeholder="Amount" name="billing[${billingIndex}][amount]"></td>
+                <td>
+                    <select class="form-control currencyField" name="billing[${billingIndex}][currency]">
+                        <option value="">Select</option>
+                        <option value="USD">USD</option>
+                        <option value="CAD">CAD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="AUD">AUD</option>
+                        <option value="INR">INR</option>
+                        <option value="MXN">MXN</option>
+                    </select>
+                </td>
+                <td>
+                    <span class="textAmount">0</span>
+                    <input value="0" name="billing[${billingIndex}][amount]" class="finalAmount" type="hidden" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger delete-billing-btn">
+                        <i class="ri ri-delete-bin-line"></i>
+                    </button>
+                </td>
+            `;
+                billingFormsContainer.appendChild(newRow);
+                billingIndex++;
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        });
     }
 
     // Function to check if a row is filled
