@@ -333,7 +333,7 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
                     aria-controls="billing" aria-selected="false">
-                    <i class="ri ri-bank-line" style="font-size: 20px; color: #2e8b57;" title="Pricing"></i>
+                    <i class="ri ri-bank-line" style="font-size: 20px; color: #2e8b57;" title="Billing"></i>
                 </a>
             </li>
 
@@ -342,7 +342,7 @@
                     aria-controls="pricing" aria-selected="false">
 
                     <i class="ri ri-money-dollar-circle-line" style="font-size: 20px; color: #6a5acd;"
-                        title="Billing"></i>
+                        title="Pricing"></i>
                 </a>
             </li>
 

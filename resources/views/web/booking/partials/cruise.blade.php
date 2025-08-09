@@ -19,7 +19,6 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-
                                             <th>Cruise Line</th>
                                             <th>Name of the Ship</th>
                                             <th>Category</th>

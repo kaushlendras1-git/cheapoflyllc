@@ -178,17 +178,13 @@
                                 @endforeach
 
                                  @if($flight_images)
-
                                   @foreach ($flight_images as $key => $img)
                                         <tr>
                                             <td colspan="13">
-                                                <img src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image">
+                                                <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
                                             </td>
-                                    @endforeach
-                                 
+                                    @endforeach                                 
                                  @endif
-
-
                             @endif
                         </table>
                     </div>
@@ -207,6 +203,7 @@
                                     <span> <img style="margin-bottom: -2px;" width="20" src="{{asset('email-templates/hotel.png')}}" alt="hotel"> </span>
                                     Hotel Booking Details</th>
                             </tr>
+                        @if($booking->travelHotel->isNotEmpty())    
                             <tr>
                                 <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hotel Name</th>
                                 <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Room Category</th>
@@ -216,17 +213,23 @@
                                 <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Confirmation Number</th>
                                 <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hotel Address</th>
                             </tr>
-                        @foreach($booking->travelHotel as $key=>$travelHotel)    
-                            <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->hotel_name}}</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->room_category}}</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->checkin_date?->format('Y-m-d')}}</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->checkout_date?->format('Y-m-d')}}</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->no_of_rooms}}</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->confirmation_number}}</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->hotel_address}}</td>
-                            </tr>
-                        @endforeach
+                            @foreach($booking->travelHotel as $key=>$travelHotel)    
+                                <tr>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->hotel_name}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->room_category}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->checkin_date?->format('Y-m-d')}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->checkout_date?->format('Y-m-d')}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->no_of_rooms}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->confirmation_number}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelHotel->hotel_address}}</td>
+                                </tr>
+                            @endforeach
+                            @foreach ($hotel_images as $key => $img)
+                                      <tr>
+                                        <td colpan="7"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></td>
+                                      </tr>
+                            @endforeach
+                        @endif    
                         </table>
                     </div>
                 </td>
@@ -256,18 +259,28 @@
                                 <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Date</th>
                                 <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
                             </tr>
-                            <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Disney Cruise Line</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">SS Bennachie</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">cargo carriers</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">3</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Denmark</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/06/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 00 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Aberdeen</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/08/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 00 PM</td>
-                            </tr>
+                             @foreach($booking->travelCruise as $key=>$travelCruise)
+                                <tr>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->cruise_line}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->ship_name}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->category}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->stateroom}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->departure_port}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->departure_date?->format('Y-m-d')}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->departure_hrs}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->arrival_port}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->arrival_date?->format('Y-m-d')}}</td>
+                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCruise->arrival_hrs}}</td>
+                                </tr>
+                            @endforeach
+
+                             @if($cruise_images)
+                                @foreach ($cruise_images as $key => $img)
+                                    <tr>
+                                        <td colspan="10"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                                    </tr>
+                                @endforeach
+                            @endif                        
                         </table>
                     </div>
                 </td>
@@ -311,6 +324,16 @@
                                 <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$travelCar->rental_provider_address}}</td>
                             </tr>
                         @endforeach
+
+                         @if($car_images)
+                            @foreach ($car_images as $key => $img)
+                                <tr>
+                                    <td colspan="10"><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
                         </table>
                     </div>
                 </td>
@@ -356,6 +379,15 @@
                                 <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$trainBookingDetails->arrival_date?->format('Y-m-d')}}</td>
                             </tr>
                         @endforeach
+
+                        @if($train_images)
+                            @foreach ($train_images as $key => $img)
+                                    <tr>
+                                        <td><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                                    </tr>
+                            @endforeach
+                        @endif
+
                         </table>
                     </div>
                 </td>

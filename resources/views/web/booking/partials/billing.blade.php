@@ -24,7 +24,7 @@
                             <tbody>
                                 @foreach($billingData as $key=>$bill)
                                 <tr>
-                                    <td>{{$key+1}}</td>
+                                    <td>Card No. {{$key+1}}</td>
                                     <td>{{$bill->email}}</td>
                                     <td>{{$bill->contact_number}}</td>
                                     <td>{{$bill->street_address}}</td>

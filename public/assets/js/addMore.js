@@ -793,8 +793,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="infant_on_seat">Infant on Seat</option>
                 </select>
             </td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" placeholder="No. of Passengers" min="0"></td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="1" min="0"></td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
             <td><span class="gross-total">0.00</span></td>
             <td><input type="number" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
             <td><span class="net-total">0.00</span></td>
@@ -810,8 +810,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option>Company Card</option>
                     <option>Issuance Fees</option>
                     <option>FXL Issuance Fees</option>
-                    <option value="merchant_fee">Merchant Fee</option>
-                    <option value="company_card_used"> Company Card Used</option>
+                    <option>Refund</option>
+                    <option>Charge Back Fee</option>
+                    <option>Charge Back Amount</option>
+                    <option>Voyzant</option>
                 </select>
             </td>
             <td>

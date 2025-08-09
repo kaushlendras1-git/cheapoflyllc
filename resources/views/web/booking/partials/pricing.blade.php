@@ -11,9 +11,13 @@
                         <table class="pricing-table table">
                             <thead>
                                 <tr>
-                                    <td colspan="4" style="border: solid 1px;"><strong>Gross Amount Collected</strong>
+                                    <td colspan="4" style="border: solid 1px;">
+                                        <strong style="text-align: left;">Gross Amount Collected</strong>
+                                        <span style="text-align: left;" id="total_gross_profit">255.00</span>
                                     </td>
-                                    <td colspan="4"><strong>Net Amount (Paid)</strong></td>
+                                    <td colspan="4"><strong>Net Amount (Paid)</strong>
+                                        <span id="total_net_profit">0.00</span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Passengers*</th>
@@ -123,10 +127,10 @@
                                             <option>Charge Back Amount</option>
                                             <option>Voyzant</option>
 
-                                            <option value="merchant_fee"
+                                            <!-- <option value="merchant_fee"
                                                 {{$pricingDetails->details=='merchant_fee'?'selected':''}}>Merchant
                                                 Fee
-                                            </option>
+                                            </option> -->
                                             <option value="company_card_used"
                                                 {{$pricingDetails->details=='company_card_used'?'selected':''}}>
                                                 Company
@@ -141,13 +145,23 @@
                                     </td>
                                 </tr>
                                 @endforeach
+
                             </tbody>
+
+
                             <tfoot>
+                                 
                                 <tr>
-                                    <td colspan="2"><strong>Gross Profit</strong></td>
-                                    <td><span id="total_gross_profit">0.00</span></td>
-                                    <td colspan="2"><strong>Net Profit</strong></td>
-                                    <td><span id="total_net_profit">0.00</span></td>
+                                    <td colspan="5">
+                                        <strong>Gross-MCO =  Gross Amount Collected  - (Flight Ticket Cost +Cruise Ticket Cost+Car Rental Cost+Train Cost+Hotel Cost + company cost )</strong>
+                                    
+                                        <br>
+                                        Gross-MCO -  15%
+                                        <BR>
+                                        Net Profit == 
+                                    </td>
+                                
+                                    <td></td>
                                     <td></td>
                                 </tr>
                             </tfoot>
