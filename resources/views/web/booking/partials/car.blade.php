@@ -52,9 +52,11 @@
                                                     name="car[{{$key}}][dropoff_location]"
                                                     value="{{$travelCar->dropoff_location}}"
                                                     placeholder="Drop-off Location"></td>
+                                            
                                             <td><input style="width: 110px;" type="date" class="form-control"
                                                     name="car[{{$key}}][pickup_date]"
                                                     value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
+
                                             <td><input type="time" class="form-control" style="width: 105px;"
                                                     name="car[{{$key}}][pickup_time]"
                                                     value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}">

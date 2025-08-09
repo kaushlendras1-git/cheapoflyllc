@@ -233,9 +233,6 @@ class BookingFormController extends Controller
             'particulars'=>$request->remark,
             'agent'=>Auth::id(),
         ]);
-<<<<<<< Updated upstream
-        $data = TravelBookingRemark::select('id','booking_id','agent','particulars','created_at')->where('booking_id',$this->hashids->decode($id)[0])->where('status',1)->get();
-=======
        $data = TravelBookingRemark::with('agentUser:id,name')
                 ->select('id','booking_id','agent','particulars','created_at')
                 ->where('booking_id', $this->hashids->decode($id)[0])
@@ -251,7 +248,6 @@ class BookingFormController extends Controller
                     ];
                 });
 
->>>>>>> Stashed changes
         return JsonResponse::successWithData('Booking review saved',201,$data,'201');
     }
 
@@ -428,15 +424,15 @@ class BookingFormController extends Controller
             if (in_array('Train', $bookingTypes)) {
                 $rules['train']                        = 'required|array|min:1';
                 $rules['train.*.direction']            = 'required|string';
-                $rules['train.*.departure_date']       = 'required|date|after_or_equal:today';
+                $rules['train.*.departure_date']       = 'required|date';
                 $rules['train.*.train_number']         = 'required|string|max:255';
                 $rules['train.*.cabin']                = 'required|string';
                 $rules['train.*.departure_station']    = 'required|string|max:255';
-                $rules['train.*.departure_hours']      = 'required|integer|between:0,23';
-                $rules['train.*.departure_minutes']    = 'required|integer|between:0,59';
+                $rules['train.*.departure_hours']      = 'required|string';
+               # $rules['train.*.departure_minutes']    = 'required|string';
                 $rules['train.*.arrival_station']      = 'required|string|max:255';
-                $rules['train.*.arrival_hours']        = 'required|integer|between:0,23';
-                $rules['train.*.arrival_minutes']      = 'required|integer|between:0,59';
+                $rules['train.*.arrival_hours']        = 'required|string';
+               # $rules['train.*.arrival_minutes']      = 'required|string';
                 $rules['train.*.duration']             = 'required|string';
                 $rules['train.*.transit']              = 'required|string';
                 $rules['train.*.arrival_date']         = 'required|date';
