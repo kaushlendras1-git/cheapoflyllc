@@ -5,6 +5,8 @@
         <!--/ Layout container -->
       </div>
     </div>
+    </div>
+   </div> 
     <div class="crm-copyright text-center">
       <p class="mb-0">© {{date('Y')}}. Copyright Cheapoflyllc. All rights are reserved</p>
     </div>

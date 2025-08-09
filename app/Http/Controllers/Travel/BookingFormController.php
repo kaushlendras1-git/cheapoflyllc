@@ -34,6 +34,7 @@ use App\Models\UserShiftAssignment;
 use App\Models\ChangeLog;
 use App\Models\Campaign;
 use App\Models\User;
+use App\Models\BookingType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Hashids\Hashids;
@@ -352,7 +353,7 @@ class BookingFormController extends Controller
             if (in_array('Flight', $bookingTypes)) {
                 $rules['flight']                        = 'required|array|min:1';
                 $rules['flight.*.direction']            = 'required|string|in:Inbound,Outbound';
-                $rules['flight.*.departure_date']       = 'required|date|after_or_equal:today';
+                $rules['flight.*.departure_date']       = 'required|date';
                 $rules['flight.*.departure_airport']    = 'required|string|max:255';
                 $rules['flight.*.departure_hours']      = 'required|date_format:H:i';
                 $rules['flight.*.arrival_airport']      = 'required|string|max:255';
@@ -370,7 +371,7 @@ class BookingFormController extends Controller
                 $rules['hotel']                         = 'required|array|min:1';
                 $rules['hotel.*.hotel_name']            = 'required|string|max:255';
                 $rules['hotel.*.room_category']         = 'required|string|max:255';
-                $rules['hotel.*.checkin_date']          = 'required|date|after_or_equal:today';
+                $rules['hotel.*.checkin_date']          = 'required|date';
                 $rules['hotel.*.checkout_date']         = 'required|date|after:hotel.*.checkin_date';
                 $rules['hotel.*.no_of_rooms']           = 'required|integer|min:1';
                 $rules['hotel.*.confirmation_number']   = 'required|string|max:100';
@@ -1207,8 +1208,9 @@ class BookingFormController extends Controller
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
         $users = User::get();
+        $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
-        return view('web.booking.show', compact('car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        return view('web.booking.show', compact('booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
     public function add(){

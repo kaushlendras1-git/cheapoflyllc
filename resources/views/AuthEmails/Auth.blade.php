@@ -1,200 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signature Form</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script&family=Sacramento&family=Pacifico&family=Satisfy&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-    <style>
-    #signatureCanvas {
-        border: 1px solid #007bff;
-        border-radius: 8px;
-        width: 100%;
-        height: 100px;
-    }
-
-    .signature-preview {
-        border: 1px dashed #007bff;
-        padding: 10px;
-        text-align: center;
-        margin-top: 10px;
-        font-size: 30px;
-    }
-    </style>
-</head>
-
-<body>
-    <div class="container mt-5">
-        <!-- Add Signature Button -->
-        <div class="text-center my-3">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signatureModal">Add
-                Signature</button>
-        </div>
-
-        <!-- Signature Preview -->
-        <div id="signaturePreview" class="signature-preview d-none">No signature added.</div>
-
-        <!-- I Authorized Button -->
-        <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
-            @csrf
-            <input type="hidden" name="signature" id="signatureData">
-            <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>I Authorized</button>
-        </form>
-    </div>
-
-    <!-- Signature Modal -->
-    <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signatureModalLabel">Add Signature</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Tab Navigation -->
-                    <ul class="nav nav-tabs" id="signatureTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="draw-tab" data-bs-toggle="tab" data-bs-target="#draw"
-                                type="button" role="tab" aria-controls="draw" aria-selected="true">Draw</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="type-tab" data-bs-toggle="tab" data-bs-target="#type"
-                                type="button" role="tab" aria-controls="type" aria-selected="false">Type</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content mt-3">
-                        <!-- Draw Tab -->
-                        <div class="tab-pane fade show active" id="draw" role="tabpanel" aria-labelledby="draw-tab">
-                            <canvas id="signatureCanvas"></canvas>
-                            <button type="button" class="btn btn-secondary mt-2" id="clearButton">Clear</button>
-                        </div>
-                        <!-- Type Tab -->
-                        <div class="tab-pane fade" id="type" role="tabpanel" aria-labelledby="type-tab">
-                            <label for="typedName" class="form-label">Type your name:</label>
-                            <input type="text" id="typedName" class="form-control" placeholder="Enter your name">
-                            <label for="fontSelect" class="form-label mt-2">Select Font:</label>
-                            <select id="fontSelect" class="form-select">
-                                <option value="Great Vibes">Great Vibes</option>
-                                <option value="Dancing Script">Dancing Script</option>
-                                <option value="Sacramento">Sacramento</option>
-                                <option value="Pacifico">Pacifico</option>
-                                <option value="Satisfy">Satisfy</option>
-                            </select>
-                            <div id="preview" class="signature-preview mt-2">Preview: </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addSignatureButton">Add Signature</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const canvas = document.getElementById('signatureCanvas');
-        const signaturePad = new SignaturePad(canvas);
-        const clearButton = document.getElementById('clearButton');
-        const addSignatureButton = document.getElementById('addSignatureButton');
-        const typedNameInput = document.getElementById('typedName');
-        const fontSelect = document.getElementById('fontSelect');
-        const preview = document.getElementById('preview');
-        const signaturePreview = document.getElementById('signaturePreview');
-        const authorizeButton = document.getElementById('authorizeButton');
-        const signatureDataInput = document.getElementById('signatureData');
-
-        // Function to resize the canvas
-        const resizeCanvas = () => {
-            const ratio = Math.max(window.devicePixelRatio || 1, 1);
-            canvas.width = canvas.offsetWidth * ratio;
-            canvas.height = canvas.offsetHeight * ratio;
-            canvas.getContext('2d').scale(ratio, ratio);
-            signaturePad.clear();
-        };
-
-        // Resize canvas when the modal is shown
-        const signatureModal = document.getElementById('signatureModal');
-        signatureModal.addEventListener('shown.bs.modal', () => {
-            resizeCanvas(); // Resize the canvas when the modal opens
-        });
-
-        // Clear Button for Draw Signature
-        clearButton.addEventListener('click', () => {
-            signaturePad.clear();
-        });
-
-        // Update Preview for Typed Signature
-        const updatePreview = () => {
-            const name = typedNameInput.value;
-            const font = fontSelect.value;
-            preview.style.fontFamily = font;
-            preview.textContent = name ? name : 'Preview: ';
-        };
-
-        typedNameInput.addEventListener('input', updatePreview);
-        fontSelect.addEventListener('change', updatePreview);
-
-        // Add Signature Button Logic
-        addSignatureButton.addEventListener('click', () => {
-            const activeTab = document.querySelector('.nav-link.active').id;
-            if (activeTab === 'draw-tab') {
-                if (signaturePad.isEmpty()) {
-                    alert('Please draw a signature.');
-                    return;
-                }
-                const signatureData = signaturePad.toDataURL();
-                signatureDataInput.value = signatureData;
-                signaturePreview.innerHTML =
-                    `<img src="${signatureData}" alt="Signature" style="max-width: 100%;">`;
-            } else if (activeTab === 'type-tab') {
-                const name = typedNameInput.value;
-                const font = fontSelect.value;
-                if (!name) {
-                    alert('Please type your name.');
-                    return;
-                }
-                const signatureHTML =
-                    `<span style="font-family: ${font}; font-size: 24px;">${name}</span>`;
-                signatureDataInput.value = signatureHTML; // Save as HTML for backend
-                signaturePreview.innerHTML = signatureHTML;
-            }
-
-            // Update UI
-            signaturePreview.classList.remove('d-none');
-            authorizeButton.disabled = false;
-
-            // Close modal
-            const modal = bootstrap.Modal.getInstance(signatureModal);
-            modal.hide();
-        });
-
-        // Reset Modal on Close
-        signatureModal.addEventListener('hidden.bs.modal', () => {
-            signaturePad.clear();
-            typedNameInput.value = '';
-            preview.textContent = 'Preview: ';
-        });
-    });
-    </script>
-    
-
-   
-   
-<!-- ============================================================================================================================= -->
-
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -205,30 +10,25 @@
     <title>Invoice</title>
 </head>
 
-            @php
-                $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
-            @endphp
-
-
 <body style="margin: 0px; padding: 0px;">
     <table style="font-family: 'Work Sans', sans-serif; width: 50%; background-color: #fff3f3; margin: auto; border-collapse: collapse;">
         <thead>
             <tr>
-                <th style="text-align: left; padding: 10px 0px 10px 30px;"> <img width="80" src="{{asset('email-templates/logo.png')}}" alt="logo">
+                <th style="text-align: left; padding: 10px 0px 10px 30px;"> <img width="80" src="https://people.sau.int/email-templates/logo.png" alt="logo">
                 </th>
                 <th style="padding: 10px 30px 10px 0px;"> <span
                         style="display: flex; align-items: center; justify-content: end;"><img
-                            style="margin-right: 10px;" width="20" src="{{asset('email-templates/call.png')}}" alt="call"> <a
+                            style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/call.png" alt="call"> <a
                             style="font-size: 18px; font-weight: 600; color: #c53d3d; text-decoration: none;"
                             href="tel:+1-844-382-2225">+1-844-382-2225</a></span> </th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="2" style="padding: 0px;"> <img style="height: 300px; width: 100%; object-fit: cover;" src="{{asset('email-templates/flight-banner.png')}}" alt="Banner"> </td>
+                <td colspan="2" style="padding: 0px;"> <img style="height: 300px; width: 100%; object-fit: cover;" src="https://people.sau.int/email-templates/flight-banner.png" alt="Banner"> </td>
             </tr>
             <tr>
-                <td colspan="2" style="font-size: 16px; font-weight: 600; padding: 10px 30px 0px 30px;">Dear Miker Test,</td>
+                <td colspan="2" style="font-size: 16px; font-weight: 600; padding: 10px 30px 0px 30px;">Dear {{ $booking->name }},</td>
             </tr>
             <tr>
                 <td colspan="2" style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">Thank you
@@ -242,13 +42,13 @@
             <tr>
                 <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 0px 0px 30px;">
                         <span style="display: inline-block; background-color: #fff; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                        <span style="display: block; margin-bottom: 10px;"> <img width="40" src="{{asset('email-templates/sku.png')}}" alt="Number"> </span>
+                        <span style="display: block; margin-bottom: 10px;"> <img width="40" src="https://people.sau.int/email-templates/sku.png" alt="Number"> </span>
                         Booking Reference Number 
-                        <span style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">AGE14073012930</span></span>
+                        <span style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">{{ $booking->pnr }}Customer Information</span></span>
                 </td>
                 <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 30px 0px 0px;"> 
                     <span style="display: inline-block; background-color: #fff; padding: 20px 65px; border-radius: 10px; margin-top: 20px;">
-                        <span style="display: block; margin-bottom: 10px;"> <img width="40" src="{{asset('email-templates/event.png')}}" alt="Number"> </span>
+                        <span style="display: block; margin-bottom: 10px;"> <img width="40" src="https://people.sau.int/email-templates/event.png" alt="Number"> </span>
                         Booking Date 
                         <span style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">Monday,
                             Jul 14,2025</span></span> </td>
@@ -260,7 +60,7 @@
                             <tr>
                                 <th colspan="2"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                     <span> <img style="margin-bottom: -2px;" width="16" src="{{asset('email-templates/information.png')}}" alt="info"> </span> Customer Information</th>
+                                     <span> <img style="margin-bottom: -2px;" width="16" src="https://people.sau.int/email-templates/information.png" alt="info"> </span> Customer Information</th>
                             </tr>
                             <tr>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">Card Holder Name</th>
@@ -289,7 +89,7 @@
                             <tr>
                                 <th colspan="2"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="16" src="{{asset('email-templates/detail.png')}}" alt="details"> </span>
+                                    <span> <img style="margin-bottom: -2px;" width="16" src="https://people.sau.int/email-templates/detail.png" alt="details"> </span>
                                     Passenger Details</th>
                             </tr>
                             <tr>
@@ -311,7 +111,7 @@
                             <tr>
                                 <th colspan="2"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="16" src="{{asset('email-templates/coin.png')}}" alt="dollor"> </span>
+                                    <span> <img style="margin-bottom: -2px;" width="16" src="https://people.sau.int/email-templates/coin.png" alt="dollor"> </span>
                                     Price Details (USD)</th>
                             </tr>
                             <tr>
@@ -326,7 +126,6 @@
                     </div>
                 </td>
             </tr>
-        @if(in_array('Flight', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
@@ -334,51 +133,58 @@
                             <tr>
                                 <th colspan="13"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25" src="{{asset('email-templates/plane.png')}}" alt="plain"> </span>
+                                    <span> <img style="margin-bottom: -2px;" width="25" src="https://people.sau.int/email-templates/plane.png" alt="plain"> </span>
                                     Flight Booking Details</th>
                             </tr>
-                             @if($booking->travelFlight->isNotEmpty())
-                               
-                                    <tr>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Direction</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Date</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">AL (Code)</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Flight No</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Cabin</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">CL</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Departure Airport</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Airport</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Duration</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Transit</th>
-                                        <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Date</th>
-                                    </tr>                                 
-                              
-                                @foreach($booking->travelFlight as $index => $flight)   
-                                <tr>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->direction}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->departure_date?->format('Y-m-d')}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->airline_code}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->flight_number}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->cabin}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->class_of_service}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->departure_airport}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->departure_hours}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">{{$flight->arrival_airport}}</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 15 PM</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2 hrs</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">....</td>
-                                    <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 0px 20px 10px 0px;"> 08/04/2025 </td>
-                                </tr>
-                                @endforeach
-                            @endif
+                            <tr>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Direction</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">AL (Code)</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Flight No</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Cabin</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">CL</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Departure Airport</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Airport</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Duration</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Transit</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Date</th>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Outbound</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">0000001</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2314566970</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">ECO</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Business</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">New York</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">04: 15 PM</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Boston</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 15 PM</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2 hrs</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">....</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 0px 20px 10px 0px;"> 08/04/2025 </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Outbound</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">0000001</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2314566970</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">ECO</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Business</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">New York</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">04: 15 PM</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Boston</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 15 PM</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2 hrs</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">....</td>
+                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 0px 20px 10px 0px;"> 08/04/2025 </td>
+                            </tr>
                         </table>
                     </div>
                 </td>
             </tr>
-        @endif
-        @if(in_array('Hotel', $bookingTypes))    
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
@@ -386,7 +192,7 @@
                             <tr>
                                 <th colspan="8"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="20" src="{{asset('email-templates/hotel.png')}}" alt="hotel"> </span>
+                                    <span> <img style="margin-bottom: -2px;" width="20" src="https://people.sau.int/email-templates/hotel.png" alt="hotel"> </span>
                                     Hotel Booking Details</th>
                             </tr>
                             <tr>
@@ -423,8 +229,6 @@
                     </div>
                 </td>
             </tr>
-        @endif
-        @if(in_array('Cruise', $bookingTypes))        
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
@@ -432,7 +236,7 @@
                             <tr>
                                 <th colspan="10"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25" src="{{asset('email-templates/cruise.png')}}" alt="cruise"> </span>
+                                    <span> <img style="margin-bottom: -2px;" width="25" src="https://people.sau.int/email-templates/cruise.png" alt="cruise"> </span>
                                     Cruise Booking Details</th>
                             </tr>
                             <tr>
@@ -475,8 +279,6 @@
                     </div>
                 </td>
             </tr>
-        @endif
-        @if(in_array('Car', $bookingTypes))            
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
@@ -484,7 +286,7 @@
                             <tr>
                                 <th colspan="11"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25" src="{{asset('email-templates/car.png')}}" alt="car"> </span>
+                                    <span> <img style="margin-bottom: -2px;" width="25" src="https://people.sau.int/email-templates/car.png" alt="car"> </span>
                                     Car Booking Details</th>
                             </tr>
                             <tr>
@@ -530,8 +332,6 @@
                     </div>
                 </td>
             </tr>
-        @endif
-        @if(in_array('Train', $bookingTypes))           
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
@@ -539,7 +339,7 @@
                             <tr>
                                 <th colspan="13"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -3px;" width="13" src="{{asset('email-templates/train.png')}}" alt="train"> </span>
+                                    <span> <img style="margin-bottom: -3px;" width="13" src="https://people.sau.int/email-templates/train.png" alt="train"> </span>
                                     Train Booking Details</th>
                             </tr>
                             <tr>
@@ -591,8 +391,7 @@
                     </div>
                 </td>
             </tr>
-         @endif
-
+            
             <tr>
                 <td colspan="2" style="font-size: 18px; font-weight: 700; padding: 30px 30px 10px 30px;">General Flight Terms and Conditions</td>
             </tr>
@@ -627,10 +426,10 @@
             <tr>
                 <td colspan="2" style="padding: 30px 0px;"> 
                     <span style="display: flex; align-items: center; justify-content: center;">
-                        <img style="margin-right: 10px;" width="20" src="{{asset('email-templates/facebook.png')}}" alt="facebook">
-                        <img style="margin-right: 10px;" width="20" src="{{asset('email-templates/linkedin.png')}}" alt="linkdin">
-                        <img style="margin-right: 10px;" width="20" src="{{asset('email-templates/instagram.png')}}" alt="instagram">
-                        <img style="margin-right: 10px;" width="20" src="{{asset('email-templates/twitter.png')}}" alt="twitter">
+                        <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/facebook.png" alt="facebook">
+                        <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/linkedin.png" alt="linkdin">
+                        <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/instagram.png" alt="instagram">
+                        <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/twitter.png" alt="twitter">
                     </span> 
                     <span style="font-size: 16px; font-weight: 400; color: #fff; text-align: center; display: block; padding-top: 20px;">© All Rights Reserved.</span>
                 </td>
@@ -638,4 +437,5 @@
         </tfoot>
     </table>
 </body>
+
 </html>

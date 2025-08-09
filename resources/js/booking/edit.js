@@ -604,6 +604,82 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('sendMailModal');
+
+    if (modal) {
+        modal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+            const email1 = button.getAttribute('data-email1');
+            const email2 = button.getAttribute('data-email2');
+
+            // Set hidden inputs
+            document.getElementById('auth_id').value = id;
+            document.getElementById('auth_email1').value = email1;
+            document.getElementById('auth_email2').value = email2;
+            
+
+            // Load dynamic content
+            const loadContainer = document.getElementById('load_model');
+            if (loadContainer && id) {
+                loadContainer.innerHTML = 'Loading...';
+                fetch(`/i_authorized/${id}`)
+                    .then(res => res.text())
+                    .then(html => {
+                        loadContainer.innerHTML = html;
+                    })
+                    .catch(() => {
+                        loadContainer.innerHTML = '<p class="text-danger">Failed to load content.</p>';
+                    });
+            }
+        });
+
+        modal.addEventListener('hidden.bs.modal', function () {
+            document.getElementById('load_model').innerHTML = ''; // Clear content
+        });
+    }
+
+    const form = document.getElementById('sendAuthEmail');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const queryString = new URLSearchParams(formData).toString();
+
+            fetch('/mail-sent?' + queryString, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                showToast(data.message);
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                if (modalInstance) modalInstance.hide();
+            })
+            .catch(error => {
+                showToast('Error sending email.', 'error');
+                console.error(error);
+            });
+        });
+    }
+
+    const checkAll = document.querySelector('.check-all');
+    const emailCheckboxes = form.querySelectorAll('input[name="auth_email[]"]');
+
+    if (checkAll) {
+        checkAll.addEventListener('change', function () {
+            emailCheckboxes.forEach(cb => {
+                cb.checked = this.checked;
+            });
+        });
+    }
+
+});
+
 // document.getElementById('bookingtableremarktable').addEventListener('click', async function (e) {
 //     if (e.target.classList.contains('deleteRemark')) {
 //         const id = e.target.getAttribute('data-id');

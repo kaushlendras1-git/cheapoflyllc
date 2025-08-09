@@ -7778,7 +7778,7 @@ textarea.form-control-lg {
 }
 
 .container-p-y:not([class^=pt-], [class*=" pt-"]) {
-  padding-block-start: 25px !important;
+  padding-block-start: 0px !important;
 }
 .container-p-y:not([class^=pb-], [class*=" pb-"]) {
   padding-block-end: 1.5rem !important;
@@ -29443,4 +29443,28 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
     border: 1px solid #055bdb;
     color: #fff;
     background-color: #055bdb;
+}
+select {
+  background-image: url('../../img/dropdown-arrow.png');
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: right 5px top 10px;
+}
+.book-upper-tags {
+  color: #055bdb !important; 
+  font-weight: 700 !important; 
+  margin-right: 5px !important;
+}
+.book-bottom-tags {
+  color: #055bdb; 
+  margin-right: 20px;
+}
+.fs12 {
+  font-size: 12px;
+}
+.save-feedback-btn {
+    font-size: 12px;
+    padding: 5px 6px;
+    margin-top: 5px;
+    margin-right: 5px;
 }
