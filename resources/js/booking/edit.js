@@ -6,6 +6,63 @@ import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import {route} from "ziggy-js";
+import CurrencyAPI from '@everapi/currencyapi-js';
+
+
+const currencyApi = new CurrencyAPI('cur_live_hNVrB7FwaBu1B2psLRKf7ALfqrSU5tXfIpFipPhY');
+function convertAndDisplay(usdValue, toCurrency) {
+    if (!usdValue || !toCurrency) return Promise.resolve(0); // Return a resolved Promise
+
+    return currencyApi.latest({
+        base_currency: 'USD',
+        currencies: toCurrency
+    }).then(response => {
+        const rate = response.data[toCurrency].value;
+        const converted = Number(usdValue) * rate;
+        return converted;
+    });
+}
+
+const container = document.getElementById('billingForms');
+
+async function handleInputChange(e) {
+    // .usdAmount
+    if (e.target.classList.contains('usdAmount')) {
+        const row = e.target.closest('tr'); // adjust as needed based on your markup
+        const amt = e.target.value;
+        const currencyField = row.querySelector('.currencyField');
+        const finalAmountField = row.querySelector('.finalAmount');
+        const textAmountField = row.querySelector('.textAmount');
+
+        if (!currencyField) return;
+        const selectedCurrency = currencyField.value;
+        const finalAmount = await convertAndDisplay(amt, selectedCurrency);
+        const roundedAmount = finalAmount.toFixed(2);
+        if(finalAmountField) finalAmountField.value = roundedAmount;
+        if(textAmountField) textAmountField.innerText = `${selectedCurrency} ${roundedAmount}`;
+    }
+
+    // .currencyField
+    if (e.target.classList.contains('currencyField')) {
+        const row = e.target.closest('tr'); // adjust as needed
+        const amtField = row.querySelector('.usdAmount');
+        const finalAmountField = row.querySelector('.finalAmount');
+        const textAmountField = row.querySelector('.textAmount');
+
+        if (!amtField) return;
+        const amt = amtField.value;
+        const selectedCurrency = e.target.value;
+        const finalAmount = await convertAndDisplay(amt, selectedCurrency);
+        const roundedAmount = finalAmount.toFixed(2);
+        if(finalAmountField) finalAmountField.value = roundedAmount;
+        if(textAmountField) textAmountField.innerText = `${selectedCurrency} ${roundedAmount}`;
+    }
+}
+
+// Listen to input events bubbling up from child elements
+container.addEventListener('input', handleInputChange);
+
+
 
 if (sessionStorage.getItem("successMessage")) {
     showToast(sessionStorage.getItem("successMessage"));
@@ -618,7 +675,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('auth_id').value = id;
             document.getElementById('auth_email1').value = email1;
             document.getElementById('auth_email2').value = email2;
-            
+
 
             // Load dynamic content
             const loadContainer = document.getElementById('load_model');

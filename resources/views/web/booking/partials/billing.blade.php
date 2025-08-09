@@ -41,7 +41,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div> 
+                </div>
                 <div class="card p-4 mt-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="card-header border-0 p-0 detail-passanger">Card Details $1052</h5>
@@ -145,11 +145,11 @@
                                                 </select>
                                             </td>
 
-                                            <td><input type="text" class="form-control w-100"
-                                                    placeholder="ZIP Code" name="billing[{{$key}}][zip_code]"
-                                                    value="{{$billingDetails['zip_code']}}"></td>
+                                            <td><input type="text" class="form-control w-100 usdAmount"
+                                                    placeholder="" name="billing[{{$key}}][authorized_amt]"
+                                                    value="{{$billingDetails['authorized_amt']}}"></td>
                                             <td>
-                                                <select class="form-control w-100" name="billing[{{$key}}][currency]">
+                                                <select class="form-control w-100 currencyField" name="billing[{{$key}}][currency]">
                                                     <option value="">Select</option>
                                                     <option value="USD"
                                                         {{$billingDetails['currency'] == 'USD' ? 'selected' : ''}}>USD
@@ -174,8 +174,9 @@
                                                     </option>
                                                 </select>
                                             </td>
-                                            <td> AUD<span>90909</span>
-                                                <input value="1" name="billing[{{$key}}][amount]" type="hidden" />
+                                            <td>
+                                                <span class="textAmount">{{$billingDetails['amount']}}</span>
+                                                <input value="{{$billingDetails['amount']??0}}" name="billing[{{$key}}][amount]" class="finalAmount" type="hidden" />
                                             </td>
 
                                             <td>
@@ -196,4 +197,3 @@
 
 
 
-            

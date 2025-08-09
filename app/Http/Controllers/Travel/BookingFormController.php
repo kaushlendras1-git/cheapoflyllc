@@ -113,6 +113,14 @@ class BookingFormController extends Controller
         }
     }
 
+    public function getBillingDetails($id){
+        $data = BillingDetail::where('booking_id',$id)->get();
+        return response()->json([
+            'status'=>'success',
+            'code'=>200,
+            'data'=>$data
+        ],200);
+    }
     public function deletebillingDetails($id){
         try{
             $destroy = BillingDetail::findOrFail($id);
@@ -875,9 +883,15 @@ class BookingFormController extends Controller
             foreach ($deletedBookingTypes as $deletedId) {
                 $booking->logChange($booking->id, 'TravelBookingType', $deletedId, 'deleted', 'exists', null);
             }
-            TravelBookingType::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedBookingTypeIds)
-                ->delete();
+//            TravelBookingType::where('booking_id', $booking->id)
+//                ->whereNotIn('id', $processedBookingTypeIds)
+//                ->delete();
+            $bookingTypesToDelete = TravelBookingType::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedBookingTypeIds ?? [])
+                ->get();
+            foreach ($bookingTypesToDelete as $bt) {
+                $bt->delete(); // observer logs
+            }
 
 
             $passengers = collect($request->input('passenger', []))
@@ -886,7 +900,11 @@ class BookingFormController extends Controller
             });
 
             $processedPassengerIds = [];
-            TravelPassenger::where('booking_id', $booking->id)->delete();
+            TravelPassenger::where('booking_id', $booking->id)
+                ->get()
+                ->each
+                ->delete();
+//            TravelPassenger::where('booking_id', $booking->id)->delete();
             foreach ($passengers as $data) {
 
                 $data['booking_id'] = $booking->id;
@@ -898,12 +916,18 @@ class BookingFormController extends Controller
             }
             TravelPassenger::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedPassengerIds)
+                ->get()
+                ->each
                 ->delete();
 
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
-            $check = TravelFlightDetail::where('booking_id', $booking->id)->forceDelete();
+//            $check = TravelFlightDetail::where('booking_id', $booking->id)->forceDelete();
+            $check = TravelFlightDetail::where('booking_id', $booking->id)
+                ->get()
+                ->each
+                ->forceDelete();
             if(in_array('Flight',$newBookingTypes)){
                 foreach ($newFlights as $flightData) {
 
@@ -934,13 +958,15 @@ class BookingFormController extends Controller
 
             TravelFlightDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedFlightIds)
+                ->get()
+                ->each
                 ->delete();
 
             $existingHotelIds = $booking->travelHotel->pluck('id')->toArray();
             $newHotels = $request->input('hotel', []);
             $processedHotelIds = [];
 
-            $delete = TravelHotelDetail::where('booking_id', $booking->id)->delete();
+            $delete = TravelHotelDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Hotel',$newBookingTypes)){
                 foreach ($newHotels as $hotelData) {
                     if ($this->allFieldsEmpty($hotelData)) {
@@ -980,14 +1006,19 @@ class BookingFormController extends Controller
             foreach ($deletedHotels as $deletedId) {
                 $booking->logChange($booking->id, 'TravelHotelDetail', $deletedId, 'deleted', 'exists', null);
             }
+//            TravelHotelDetail::where('booking_id', $booking->id)
+//                ->whereNotIn('id', $processedHotelIds)
+//                ->delete();
             TravelHotelDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedHotelIds)
+                ->whereNotIn('id', $processedHotelIds ?? [])
+                ->get()
+                ->each
                 ->delete();
 
             $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
             $newCruises = $request->input('cruise', []);
             $processedCruiseIds = [];
-            TravelCruiseDetail::where('booking_id', $booking->id)->delete();
+            TravelCruiseDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Cruise',$newBookingTypes)){
                 foreach ($newCruises as $cruiseData) {
                     if ($this->allFieldsEmpty($cruiseData)) {
@@ -1025,13 +1056,18 @@ class BookingFormController extends Controller
             foreach ($deletedCruises as $deletedId) {
                 $booking->logChange($booking->id, 'TravelCruiseDetail', $deletedId, 'deleted', 'exists', null);
             }
+//            TravelCruiseDetail::where('booking_id', $booking->id)
+//                ->whereNotIn('id', $processedCruiseIds)
+//                ->delete();
             TravelCruiseDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedCruiseIds)
+                ->whereNotIn('id', $processedCruiseIds ?? [])
+                ->get()
+                ->each
                 ->delete();
             $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
             $newCars = $request->input('car', []);
             $processedCarIds = [];
-            TravelCarDetail::where('booking_id', $booking->id)->delete();
+            TravelCarDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Car',$newBookingTypes)){
                 foreach ($newCars as $carData) {
                     $carData['booking_id'] = $booking->id;
@@ -1056,13 +1092,17 @@ class BookingFormController extends Controller
                 }
             }
 
+//            TravelCarDetail::where('booking_id', $booking->id)
+//                ->whereNotIn('id', $processedCarIds)
+//                ->delete();
             TravelCarDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedCarIds)
+                ->whereNotIn('id', $processedCarIds ?? [])
+                ->get()
+                ->each
                 ->delete();
 
-
             $newTrains = !empty($request->train)?$request->train:[];
-            TravelTrainDetail::where('booking_id', $booking->id)->delete();
+            TravelTrainDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Train',$newBookingTypes)){
                 foreach ($newTrains as $train) {
                     $trainData = $train;
@@ -1087,7 +1127,7 @@ class BookingFormController extends Controller
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
-            TravelBillingDetail::where('booking_id',$booking->id)->forceDelete();
+            TravelBillingDetail::where('booking_id',$booking->id)->get()->each->forceDelete();
             foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;
                     // Set active only if this is the last card
@@ -1100,6 +1140,8 @@ class BookingFormController extends Controller
 
             TravelBillingDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedBillingIds)
+                ->get()
+                ->each
                 ->delete();
 
 
@@ -1110,7 +1152,7 @@ class BookingFormController extends Controller
           #  dd($newPricings);
 
             $processedPricingIds = [];
-            TravelPricingDetail::where('booking_id',$booking->id)->delete();
+            TravelPricingDetail::where('booking_id',$booking->id)->get()->each->delete();
             foreach ($newPricings as $index => $pricingData) {
                 $pricingData['booking_id'] = $booking->id;
                 $pricing = TravelPricingDetail::create(
@@ -1122,6 +1164,8 @@ class BookingFormController extends Controller
 
             TravelPricingDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedPricingIds)
+                ->get()
+                ->each
                 ->delete();
 
 
