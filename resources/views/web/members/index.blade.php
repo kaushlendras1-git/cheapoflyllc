@@ -4,13 +4,28 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Users</h2>
-
         <div class="breadcrumb">
                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
                 <a class="active" aria-current="page">Users</a>
         </div>
-
     </div>
+
+            
+             @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
     <div class="row g-6 mb-6 mt-1">
         <div class="container mt-4">
@@ -190,7 +205,7 @@
                 <div class="offcanvas-body mx-0 flex-grow-0 h-100">
 
 
-                    <form class="add-new-user pt-0" action="{{ route('masters.members.store') }}" method="post">
+                    <form class="add-new-user pt-0" action="{{ route('members.store') }}" method="post">
                         @csrf
 
                         <div class="form-floating form-floating-outline mb-5 form-control-validation">

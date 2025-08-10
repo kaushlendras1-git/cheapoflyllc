@@ -120,7 +120,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-
 Route::middleware('auth')->group(function () {
     Route::prefix('reports')->group(function () {
         Route::get('marketing', [ReportController::class,'marketing'])->name('marketing');

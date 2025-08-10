@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'pseudo',
         'lob',
+        'address',
         'password',
         'phone',
         'role',
@@ -28,6 +29,8 @@ class User extends Authenticatable
         'status',
         'remember_token',
         'profile_picture',
+        'pan_card',
+        'aadhar_card'
     ];
 
     /**

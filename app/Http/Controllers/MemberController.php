@@ -102,6 +102,7 @@ class MemberController extends Controller
         $id = $this->hashids->decode($hashid)[0] ?? abort(404, 'Invalid member ID');
         $member = User::findOrFail($id);
         $hashid = $this->hashids->encode($member->id);
+        #DD($member);
         return view('web.members.edit', compact('member', 'hashid'));
     }
 
@@ -114,26 +115,53 @@ class MemberController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $id,
             'phone' => 'required|string|max:20',
+            'address' => 'required|string',
+            'pseudo' => 'required|string',
             'password' => 'nullable|string|min:8',
             'departments' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
             'role' => 'required|in:Agent,TLeader,Manager,Admin',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png|max:2048', // Max 2MB
+            'profile_picture' => 'nullable|image|mimes:jpeg,png|max:1048',
+            'aadhar_card' => 'nullable|image|mimes:jpeg,png|max:1048',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png|max:1048',
         ]);
 
         // Handle profile picture upload
-        if ($request->hasFile('profile_picture')) {
-            // Delete old profile picture if it exists
-            if ($member->profile_picture) {
-                Storage::disk('public')->delete($member->profile_picture);
+            if ($request->hasFile('profile_picture')) {
+                // Delete old profile picture if it exists
+                if ($member->profile_picture) {
+                    Storage::disk('public')->delete($member->profile_picture);
+                }
+                // Store new profile picture
+                $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+                $validated['profile_picture'] = $path;
             }
-            // Store new profile picture
-            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
-            $validated['profile_picture'] = $path;
-        }
+
+            // Handle PAN card upload
+            if ($request->hasFile('pan_card')) {
+                // Delete old PAN card if it exists
+                if ($member->pan_card) {
+                    Storage::disk('public')->delete($member->pan_card);
+                }
+                // Store new PAN card
+                $path = $request->file('pan_card')->store('pan_cards', 'public');
+                $validated['pan_card'] = $path;
+            }
+
+            // Handle Aadhar card upload
+            if ($request->hasFile('aadhar_card')) {
+                // Delete old Aadhar card if it exists
+                if ($member->aadhar_card) {
+                    Storage::disk('public')->delete($member->aadhar_card);
+                }
+                // Store new Aadhar card
+                $path = $request->file('aadhar_card')->store('aadhar_cards', 'public');
+                $validated['aadhar_card'] = $path;
+            }
 
         $member->update(array_filter($validated, fn($value) => !is_null($value)));
         return redirect()->route('members.index')->with('success', 'Member updated successfully.');
     }
+
 
     public function destroy(User $member)
     {
