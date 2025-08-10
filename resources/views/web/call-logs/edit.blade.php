@@ -123,6 +123,7 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="col-md-3 position-relative mb-5">
                             <label class="form-label">Call Type <span class="text-danger">*</span></label>
                             <select name="call_type" id="call_type" class="form-control">
@@ -141,9 +142,8 @@
                         </div>
 
 
-                        <div class="col-md-3 position-relative mb-5" id="assign"
-                            style="{{ !$callLog->assign? 'display: none;' : '' }}">
-                            <label for="assign" class="form-label">CallBack Assign For <span
+                        <div class="col-md-3 position-relative mb-5" id="assign">
+                            <label for="assign" class="form-label">Follow Up<span
                                     class="text-danger">*</span></label>
                             <select name="assign" id="assign" class="form-control">
                                 <option value="" {{ old('assign') == '' ? 'selected' : '' }}>Select</option>
@@ -157,6 +157,7 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
 
                         <div class="col-md-3 position-relative mb-5" id="followup_date" style="display: none;">
                             <label for="followup_date_input" class="form-label">Followup Date <span

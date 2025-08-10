@@ -9,7 +9,6 @@ class AdminDashboardController extends Controller
 {
     public function index(){
         $userId = Auth::id();
-
         $flight = CallLog::where('user_id', $userId)->where('chkflight', 1)->count();
         $hotel = CallLog::where('user_id', $userId)->where('chkhotel', 1)->count();
         $cruise = CallLog::where('user_id', $userId)->where('chkcruise', 1)->count();

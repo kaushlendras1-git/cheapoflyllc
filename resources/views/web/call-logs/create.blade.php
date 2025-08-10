@@ -132,6 +132,7 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="col-md-2 position-relative mb-5">
                             <label for="reservation_source" class="form-label">Reservation Source <span
                                     class="text-danger">*</span></label>
@@ -159,10 +160,8 @@
                             @enderror
                         </div>
 
-
-
-                        <div class="col-md-2 position-relative mb-5" id="assign" style="display: none;">
-                            <label for="assign" class="form-label">CallBack Assign For <span
+                        <div class="col-md-2 position-relative mb-5" id="assign">
+                            <label for="assign" class="form-label">Follow Up<span
                                     class="text-danger">*</span></label>
                             <select name="assign" id="assign" class="form-control">
                                 <option value="" {{ old('assign') == '' ? 'selected' : '' }}>Select</option>

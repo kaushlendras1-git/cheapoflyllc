@@ -58,6 +58,7 @@
     </div>
 
 
+
     <div class="card">
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
@@ -142,11 +143,11 @@
                                                 <a href="javascript:void(0)" data-bs-toggle="modal" class="me-2"
                                                     data-bs-target="#assignShiftTeamModal"
                                                     data-url="{{ route('users.assignments', $member->id) }}">
-                                                    <img width="30" src="../../../assets/img/icons/img-icons/shift.png"
+                                                    <img width="30" src="{{asset('assets/img/icons/img-icons/shift.png')}}"
                                                         alt="shift-change">
                                                 </a>
                                                 <a href="{{ route('members.edit', $member->hashid) }}" class="me-2">
-                                                    <img width="20" src="../../../assets/img/icons/img-icons/edit.png"
+                                                    <img width="20" src="{{asset('assets/img/icons/img-icons/edit.png')}}"
                                                         alt="edit-change">
                                                 </a>
                                                 <form action="{{ route('members.destroy', $member) }}" method="POST"
@@ -156,7 +157,7 @@
                                                     <button type="submit" class="no-btn p-0"
                                                         onclick="return confirm('Are you sure you want to delete this call type?')">
                                                         <img width="25"
-                                                            src="../../../assets/img/icons/img-icons/delete.png"
+                                                            src="{{asset('assets/img/icons/img-icons/delete.png')}}"
                                                             alt="shift-change">
                                                     </button>
                                                 </form>
@@ -176,6 +177,8 @@
                 </div>
             </div>
 
+
+
             <!-- Offcanvas to add new user -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser"
                 aria-labelledby="offcanvasAddUserLabel">
@@ -187,7 +190,7 @@
                 <div class="offcanvas-body mx-0 flex-grow-0 h-100">
 
 
-                    <form class="add-new-user pt-0" action="{{ route('members.store') }}" method="post">
+                    <form class="add-new-user pt-0" action="{{ route('masters.members.store') }}" method="post">
                         @csrf
 
                         <div class="form-floating form-floating-outline mb-5 form-control-validation">

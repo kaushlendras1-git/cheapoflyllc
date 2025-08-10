@@ -85,12 +85,11 @@ class MemberController extends Controller
             'role' => 'required|in:Agent,TLeader,Manager,Admin',
             'departments' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
         ]);
-
         $validated['status'] = 1;
         User::create($validated);
-
         return redirect()->route('members.index')->with('success', 'Member added successfully.');
     }
+
 
     public function show(User $member)
     {
