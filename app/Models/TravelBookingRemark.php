@@ -25,8 +25,9 @@ class TravelBookingRemark extends Model
     {
         return $this->belongsTo(TravelBooking::class, 'booking_id');
     }
-
-    public function agentUser(){
+    
+    public function agentUser()
+    {
         return $this->belongsTo(User::class, 'agent');
     }
 

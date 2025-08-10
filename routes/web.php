@@ -52,12 +52,18 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\SignatureController;
+use App\Http\Controllers\FcmController;
+
+Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
+
+Route::get('/mail-sent',[AuthEmailController::class,'index']);
 
 Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('statelist');
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 
 
-Route::get('/signature', [SignatureController::class, 'showForm'])->name('signature.form');
+Route::get('/i_authorized/{id}', [SignatureController::class, 'showForm'])->name('i_authorized');
+
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
 
@@ -81,6 +87,7 @@ Route::get('/travel/bookings/edit/{id}', [BookingFormController::class, 'edit'])
 Route::prefix('booking')->name('booking.')->group(function () {
     Route::resource('online-booking', OnlineBookingController::class);
     Route::post('/billing-details/{id}', [BookingFormController::class, 'billingDetails'])->name('billing-details');
+    Route::get('/billing-details/{id}', [BookingFormController::class, 'getBillingDetails'])->name('billing-details');
     Route::delete('/billing-details/{id}', [BookingFormController::class, 'deletebillingDetails'])->name('billing-details.destroy');
     Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');
     Route::post('/delete-remark/{id}',[BookingFormController::class,'deleteRemark'])->name('delete-remark');
@@ -107,7 +114,7 @@ Route::get('/booking-information-next', function () {return view('web.booking-in
 
 Route::get('/', function () {return view('web.login');});
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('post.login');
+Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -167,7 +174,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
     Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
 
-    
+
+
     // Shift assignment route
     Route::post('/users/{user}/change-shift', [UserShiftController::class, 'changeShift'])->name('users.change-shift');
     // Team assignment route

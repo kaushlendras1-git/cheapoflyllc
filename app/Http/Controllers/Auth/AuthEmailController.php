@@ -9,25 +9,33 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AuthEmail;
 use App\Utils\JsonResponse;
 
+
 class AuthEmailController extends Controller
 {
-    public function index(Request $request, $id)
+    public function index(Request $request)
     {
-        try{
-            $booking = TravelBooking::findOrFail($id);
-            #Mail::to($booking->email)->send(new AuthEmail($booking));
-            return JsonResponse::success('Auth Email sent successfully.', 201,'201');
+        $id = $request->input('id');
+        $emails = $request->input('auth_email', []); // This will be an array
+
+        if (in_array('all', $emails)) {
+            // Optional: Replace with real logic to fetch all authorized emails
+            $emails = [
+                'credentials@cheapoflytravel.com',
+                'other@example.com',
+            ];
         }
-        catch(ValidationException $e){
-            return JsonResponse::error($e->validator->errors()->first(),422,'422');
+
+        $booking = TravelBooking::findOrFail($id);
+
+        try {
+            foreach ($emails as $email) {
+                Mail::to($email)->send(new AuthEmail($booking));
+            }
+
+            return response()->json(['message' => 'Auth Email sent successfully.'], 201);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
-        catch(QueryException $e){
-            return JsonResponse::error('Failed to Query',500,'500');
-        }
-        catch(\Exception $e){
-            return JsonResponse::error('Internal Server Error',500,'500');
-        }    
-        
-        
     }
 }
