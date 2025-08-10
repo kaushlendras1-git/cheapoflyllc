@@ -1,39 +1,53 @@
-import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
 
-// Build config from Vite envs
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    apiKey: "AIzaSyD3KlenxZlDJ-XTLma2XeqknFQ5YitZACM",
+    authDomain: "upboardresult-2021.firebaseapp.com",
+    projectId: "upboardresult-2021",
+    storageBucket: "upboardresult-2021.firebasestorage.app",
+    messagingSenderId: "664248065943",
+    appId: "1:664248065943:web:91bdfc3ae5c90322cd2ed2",
+    measurementId: "G-2PV84M8LZZ"
 };
 
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 const messaging = getMessaging(app);
 
-// Request permission + get token (returns token string)
-export async function requestFirebaseToken() {
-  if (!('Notification' in window)) {
-    throw new Error('This browser does not support notifications.');
-  }
+async function requestPermission() {
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') {
+            console.warn('Notification permission not granted.');
+            return;
+        }
 
-  const permission = await Notification.requestPermission();
-  if (permission !== 'granted') {
-    throw new Error('Notification permission not granted.');
-  }
+        const token = await getToken(messaging, {
+            vapidKey: "BCnieCjmnIlO-rKUW4-TqDE4X76wh6bbT80riWliU_axQW8fTXc1EsB-oCegYH4-l1Tl1x3X56j_VtmfZ1kKgpM"
+        });
+        console.log("FCM Token:", token);
 
-  const vapidKey = import.meta.env.VITE_FIREBASE_VAPID_KEY;
-  // getToken will auto-register / use / expect /firebase-messaging-sw.js at root
-  const token = await getToken(messaging, { vapidKey });
-  return token;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        await fetch('/update-device-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({ device_token: token })
+        });
+
+    } catch (error) {
+        console.error("Error while fetching token:", error);
+    }
 }
 
-// foreground message handler helper
-export function onMessageListener(callback) {
-  onMessage(messaging, (payload) => callback(payload));
-}
+requestPermission();
 
-export default app;
+onMessage(messaging, (payload) => {
+    console.log("Message received:", payload);
+    alert(`Notification: ${payload.notification.title}\n${payload.notification.body}`);
+});

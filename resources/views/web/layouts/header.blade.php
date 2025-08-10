@@ -7,6 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="robots" content="noindex" />
+    <meta name="csrf-token" content="{{csrf_token()}}"/>
     <title>Booking Managment System</title>
     <meta name="description" content="" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
@@ -16,12 +17,52 @@
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <!-- <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script> -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
+    <style>
+        #loader-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .spinner {
+            width: 48px; height: 48px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3dc7ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+        .loading-text {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
     @routes
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('head')
 </head>
 <body>
-
+    <div id="loader-overlay">
+        <div class="loader">
+            <div class="spinner"></div>
+            <span class="loading-text">Loading, please wait...</span>
+        </div>
+    </div>
     <!-- Layout wrapper -->
 
     <!-- <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu"> -->
@@ -74,7 +115,7 @@
                                 </span>
                             </span>
                         </a>
-                        
+
                         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
                             <i class="icon-base ri ri-close-line icon-sm"></i>
                         </a>
@@ -84,7 +125,7 @@
                             <i class="icon-base ri ri-menu-line icon-md"></i>
                         </a>
                     </div>
-                    
+
                     <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
                         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
                            <!-- Masters -->
@@ -139,7 +180,7 @@
                                             <div data-i18n="Quality Feedback">Quality Feedback</div>
                                         </a>
                                     </li>
-                                    
+
                                     <li class="menu-item {{ Route::currentRouteName() == 'lob.index' ? 'active' : '' }}">
                                         <a href="{{ route('lobs.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-phone-line"></i>
@@ -239,8 +280,8 @@
                                     <div>Users</div>
                                 </a>
                             </li>
-                         @endif    
-                           
+                         @endif
+
 
                             <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
                                 <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
@@ -342,7 +383,7 @@
                                                 <span class="align-middle">Settings</span>
                                             </a>
                                         </li>
-                                       
+
                                         <li>
                                             <div class="d-grid">
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
