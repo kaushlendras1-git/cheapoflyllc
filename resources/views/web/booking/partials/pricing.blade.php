@@ -12,11 +12,16 @@
                             <thead>
                                 <tr>
                                     <td colspan="4" style="border: solid 1px;">
-                                        <strong style="text-align: left;">Gross Amount Collected</strong>
-                                        <span style="text-align: left;" id="total_gross_profit">255.00</span>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <strong>Gross Amount Collected</strong>
+                                            <span id="total_gross_profit">0.00</span>
+                                        </div>
                                     </td>
-                                    <td colspan="4"><strong>Net Amount (Paid)</strong>
-                                        <span id="total_net_profit">0.00</span>
+                                    <td colspan="4">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <strong>Net Amount (Paid)</strong>
+                                            <span id="total_net_profit">0.00</span>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -151,16 +156,20 @@
 
 
                             <tfoot>
-                                 
+                                <tr>
+                                    <td class="pb-0" style="border-bottom: 0;">
+                                        <strong>Gross-MCO</strong> = 1465.00 - 145.00
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td colspan="5">
                                         <strong>Gross-MCO =  Gross Amount Collected  - (Flight Ticket Cost +Cruise Ticket Cost+Car Rental Cost+Train Cost+Hotel Cost + company cost )</strong>
-                                    
+
                                         <br>
                                         Net Profit ==  Gross-MCO -  (15% + Merchant fee + Partial Refund + Full Refund + Chargeback Fee + Partial Chargeback Amt. + Chargeback Amt. + FXL Issuance Fees + Issuance Fees - Voyzant )
-                                       
+
                                     </td>
-                                
+
                                     <td></td>
                                     <td></td>
                                 </tr>

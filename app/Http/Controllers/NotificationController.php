@@ -35,9 +35,11 @@ class NotificationController extends Controller
     public function updateDeviceToken(Request $request)
     {
         $request->validate(['device_token' => 'required|string']);
-
-        $user = auth()->user(); // Or fetch the user by ID
-        $user->update(['device_token' => $request->device_token]);
+        User::where('id',auth()->user()->id)->update([
+            'device_token'=>$request->device_token
+        ]);
+//        $user = auth()->user();
+//        $user->update(['device_token' => $request->device_token]);
 
         return response()->json(['message' => 'Device token updated successfully.']);
     }

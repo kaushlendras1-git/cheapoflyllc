@@ -4,13 +4,28 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Users</h2>
-
         <div class="breadcrumb">
                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
                 <a class="active" aria-current="page">Users</a>
         </div>
-
     </div>
+
+            
+             @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
     <div class="row g-6 mb-6 mt-1">
         <div class="container mt-4">
@@ -56,6 +71,7 @@
             </div>
         </div>
     </div>
+
 
 
     <div class="card">
@@ -142,11 +158,11 @@
                                                 <a href="javascript:void(0)" data-bs-toggle="modal" class="me-2"
                                                     data-bs-target="#assignShiftTeamModal"
                                                     data-url="{{ route('users.assignments', $member->id) }}">
-                                                    <img width="30" src="../../../assets/img/icons/img-icons/shift.png"
+                                                    <img width="30" src="{{asset('assets/img/icons/img-icons/shift.png')}}"
                                                         alt="shift-change">
                                                 </a>
                                                 <a href="{{ route('members.edit', $member->hashid) }}" class="me-2">
-                                                    <img width="20" src="../../../assets/img/icons/img-icons/edit.png"
+                                                    <img width="20" src="{{asset('assets/img/icons/img-icons/edit.png')}}"
                                                         alt="edit-change">
                                                 </a>
                                                 <form action="{{ route('members.destroy', $member) }}" method="POST"
@@ -156,7 +172,7 @@
                                                     <button type="submit" class="no-btn p-0"
                                                         onclick="return confirm('Are you sure you want to delete this call type?')">
                                                         <img width="25"
-                                                            src="../../../assets/img/icons/img-icons/delete.png"
+                                                            src="{{asset('assets/img/icons/img-icons/delete.png')}}"
                                                             alt="shift-change">
                                                     </button>
                                                 </form>
@@ -175,6 +191,8 @@
                     </div>
                 </div>
             </div>
+
+
 
             <!-- Offcanvas to add new user -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser"

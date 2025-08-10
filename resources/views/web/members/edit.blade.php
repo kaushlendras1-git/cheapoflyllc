@@ -3,20 +3,22 @@
 
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
+    
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Edit User</h2>
-        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
-            aria-label="breadcrumb">
+        <div class="breadcrumb">
             <ol class="breadcrumb d-flex align-items-center mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('members.index') }}">Users</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
+                <a class="active" href="{{ route('members.index') }}">Users</a>
+                <a >Edit User</a>
             </ol>
-        </nav>
+        </div>
     </div>
+
     <div class="row gy-6">
         <!-- <h4>Team</h4> -->
         <div class="card p-5">
+
             @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -48,27 +50,19 @@
                             @enderror
                         </div>
                     </div>
+
                     <div class="col-md-3">
-                        <div class="form-floating form-floating-outline mb-5">
-                            <input type="file" class="form-control" id="edit-user-profile-picture"
-                                name="profile_picture" accept="image/jpeg,image/png,image/jpg"
-                                aria-label="Profile Picture">
-                            <label for="edit-user-profile-picture">Profile Picture (JPEG/PNG, Max 2MB)</label>
-                            @if ($member->profile_picture)
-                            <div class="mt-2">
-                                <img src="{{ asset('storage/' . $member->profile_picture) }}"
-                                    alt="Current Profile Picture" class="img-thumbnail"
-                                    style="max-width: 150px; max-height: 150px;">
-                                <p class="mt-1">Current Profile Picture</p>
-                            </div>
-                            @else
-                            <p style="font-size: 10px;" class="mt-1 text-muted">No profile picture uploaded</p>
-                            @endif
-                            @error('profile_picture')
-                            <div style="font-size: 10px;" class="text-danger">{{ $message }}</div>
+                        <div class="form-floating form-floating-outline mb-5 form-control-validation">
+                            <input type="text" class="form-control" id="edit-user-fullname" placeholder="John Doe"
+                                name="pseudo" aria-label="John Doe" value="{{ old('pseudo', $member->pseudo) }}" required>
+                            <label for="edit-user-fullname">Pseudo</label>
+                            @error('name')
+                            <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
+
+                   
                     <div class="col-md-3">
                         <div class="form-floating form-floating-outline mb-5 form-control-validation">
                             <input type="email" id="edit-user-email" class="form-control"
@@ -80,6 +74,7 @@
                             @enderror
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="form-floating form-floating-outline mb-5">
                             <input type="text" id="edit-user-contact" class="form-control phone-mask"
@@ -101,6 +96,7 @@
                             @enderror
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="form-floating form-floating-outline mb-5">
                             <select id="edit-user-department" name="departments" class="form-select" required>
@@ -133,6 +129,7 @@
                             @enderror
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="form-floating form-floating-outline mb-5">
                             <select id="edit-user-role" name="role" class="form-select" required>
@@ -155,6 +152,85 @@
                             @enderror
                         </div>
                     </div>
+
+                    
+                    <div class="col-md-3">
+                        <div class="form-floating form-floating-outline mb-5 form-control-validation">
+                            <input type="text" class="form-control" id="edit-user-fullname" placeholder="Address"
+                                name="address" aria-label="John Doe" value="{{ old('address', $member->address) }}" required>
+                            <label for="edit-user-fullname">Address</label>
+                            @error('address')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+
+                     <div class="col-md-3">
+                        <div class="form-floating form-floating-outline mb-5">
+                            <input type="file" class="form-control" id="edit-user-profile-picture"
+                                name="profile_picture" accept="image/jpeg,image/png,image/jpg"
+                                aria-label="Profile Picture">
+                            <label for="edit-user-profile-picture">Profile Picture (JPEG/PNG, Max 1MB)</label>
+                            @if ($member->profile_picture)
+                            <div class="mt-2">
+                                <img src="{{ asset('storage/' . $member->profile_picture) }}"
+                                    alt="Current Profile Picture" class="img-thumbnail"
+                                    style="max-height: 50px;">
+                            </div>
+                            @else
+                            <p style="font-size: 10px;" class="mt-1 text-muted">No profile picture uploaded</p>
+                            @endif
+                            @error('profile_picture')
+                            <div style="font-size: 10px;" class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-floating form-floating-outline mb-5">
+                            <input type="file" class="form-control" id="edit-user-pan-card"
+                                name="pan_card" accept="image/jpeg,image/png,image/jpg,application/pdf"
+                                aria-label="PAN Card">
+                            <label for="edit-user-pan-card">PAN Card (JPEG/PNG/PDF, Max 1MB)</label>
+                            @if ($member->pan_card)
+                                <div class="mt-2">
+                                    <img src="{{ asset('storage/' . $member->pan_card) }}"
+                                        alt="Current PAN Card" class="img-thumbnail"
+                                        style="max-height: 50px;">
+                                </div>
+                            @else
+                                <p style="font-size: 10px;" class="mt-1 text-muted">No PAN card uploaded</p>
+                            @endif
+                            @error('pan_card')
+                                <div style="font-size: 10px;" class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-floating form-floating-outline mb-5">
+                            <input type="file" class="form-control" id="edit-user-aadhar-card"
+                                name="aadhar_card" accept="image/jpeg,image/png,image/jpg,application/pdf"
+                                aria-label="Aadhar Card">
+                            <label for="edit-user-aadhar-card">Aadhar Card (JPEG/PNG/PDF, Max 1MB)</label>
+                            @if ($member->aadhar_card)
+                                <div class="mt-2">
+                                    <img src="{{ asset('storage/' . $member->aadhar_card) }}"
+                                        alt="Current Aadhar Card" class="img-thumbnail"
+                                        style="max-height: 50px;">
+                                </div>
+                            @else
+                                <p style="font-size: 10px;" class="mt-1 text-muted">No Aadhar card uploaded</p>
+                            @endif
+                            @error('aadhar_card')
+                                <div style="font-size: 10px;" class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+
+
                     <div class="forms-button">
                         <button type="submit"
                             class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Update</button>

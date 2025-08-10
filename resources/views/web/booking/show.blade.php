@@ -536,8 +536,6 @@
 }
 </style>
 
-
-
 <!-- Modal -->
 <div class="modal fade bank-details" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
