@@ -139,8 +139,8 @@
                                                 <select id="state-{{$key}}"
                                                     class="form-control state-select w-100" name="billing[{{$key}}][address]">
                                                     <option value="">Select Billing</option>
-                                                    @foreach($billingData as $bi)
-                                                        <option value="{{$bi->id}}" {{$bi->id == $billingDetails['address']?'selected':''}}>{{$bi->street_address}}</option>
+                                                    @foreach($billingData as $biKey=>$bi)
+                                                        <option value="{{$bi->id}}" {{$bi->id == $billingDetails['address']?'selected':''}}>Card No.{{$biKey+1}}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
@@ -149,7 +149,7 @@
                                                     placeholder="" name="billing[{{$key}}][authorized_amt]"
                                                     value="{{$billingDetails['authorized_amt']}}">
                                             </td>
-                                            
+
                                             <td>
                                                 <select class="form-control w-100 currencyField" name="billing[{{$key}}][currency]">
                                                     <option value="">Select</option>

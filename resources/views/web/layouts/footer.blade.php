@@ -6,7 +6,7 @@
       </div>
     </div>
     </div>
-   </div> 
+   </div>
     <div class="crm-copyright text-center">
       <p class="mb-0">© {{date('Y')}}. Copyright Cheapoflyllc. All rights are reserved</p>
     </div>
@@ -22,5 +22,12 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <script src="/assets/js/addMore.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('load', function() {
+                document.getElementById('loader-overlay').style.display = 'none';
+            });
+        });
+    </script>
   </body>
 </html>

@@ -1,5 +1,33 @@
 <?php
 
+if(!function_exists("sendNotificationToAdmin'")){
+    function sendNotificationToAdmin($title, $body)
+    {
+        $admin = \DB::table('users')->where('role', 'admin')->first();
+        if (!$admin || !$admin->device_token) return;
+
+        $serverKey = 'BGcmI_jaeO5ZVoIl71R0T-GMpVhs_nwy0wJiJCior25eUjxFRNAzSfa4PhMAH4qDQpqsfjL_gTzJRuI4M6SnsuU'; // from Firebase console > Project settings > Cloud Messaging
+
+        // FCM payload
+        $payload = [
+            'to' => $admin->device_token,
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+        ];
+
+        // Send HTTP POST to FCM
+        $response = \Http::withHeaders([
+            'Authorization' => 'key=' . $serverKey,
+            'Content-Type' => 'application/json',
+        ])->post('https://fcm.googleapis.com/fcm/send', $payload);
+
+        return $response->json();
+    }
+
+}
+
 if (!function_exists('log_operation')) {
     /**
      * Log an operation into the logs table.

@@ -39,7 +39,7 @@ async function handleInputChange(e) {
         const finalAmount = await convertAndDisplay(amt, selectedCurrency);
         const roundedAmount = finalAmount.toFixed(2);
         if(finalAmountField) finalAmountField.value = roundedAmount;
-        if(textAmountField) textAmountField.innerText = `${selectedCurrency} ${roundedAmount}`;
+        if(textAmountField) textAmountField.innerText = `${roundedAmount}`;
     }
 
     // .currencyField
