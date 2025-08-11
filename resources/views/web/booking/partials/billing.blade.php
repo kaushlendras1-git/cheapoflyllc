@@ -195,7 +195,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="card mt-2 p-1">
+                    <h5 class="card-header border-0 p-0 detail-passanger">Card Details 1</h5>
+                    <div class="details_cards d-flex align-items-center">
+                        <p class="mb-0 me-4"> <span>Card Name:</span> Jack Paul</p>
+                        <p class="mb-0"> <span>Card Number:</span> 4444 4444 4444 4444</p>
+                    </div>
+                </div>
             </div>
+
+            
 
 
 
