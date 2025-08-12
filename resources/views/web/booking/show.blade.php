@@ -295,8 +295,10 @@
                 @include('web.booking.partials.tabs-admin')     
             @elseif(auth()->user()->role === 'quality')
                 @include('web.booking.partials.tabs-quality')     
+            
+            @else    
+                No Data
             @endif
-
 
 
             </div>

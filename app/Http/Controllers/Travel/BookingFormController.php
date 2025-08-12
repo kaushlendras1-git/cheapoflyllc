@@ -1155,6 +1155,7 @@ class BookingFormController extends Controller
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
+            
             TravelBillingDetail::where('booking_id',$booking->id)->get()->each->forceDelete();
             foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;

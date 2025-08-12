@@ -695,8 +695,9 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'GET',
             success: function (res) {
                 let billingOptions = '<option value="">Select Billing</option>';
-                res.data.forEach((booking) => {
-                    billingOptions += `<option value="${booking.id}">${booking.street_address}</option>`;
+                res.data.forEach((booking, index) => {
+                    //billingOptions += `<option value="${booking.id}">Card No. ${booking.street_address}</option>`;
+                    billingOptions += `<option value="${booking.id}">Card No. ${index + 1}</option>`;
                 });
 
                 const newRow = document.createElement('tr');
