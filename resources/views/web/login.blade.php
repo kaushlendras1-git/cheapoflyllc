@@ -76,7 +76,7 @@
                             <h2 class="login-text text-center mb-5">Login</h2>
                             @include('web.layouts.flash')
 
-                            <form id="formAuthentication" class="mb-5" method="POST" action="{{ route('post.login') }}">
+                            <form id="formAuthentication" class="mb-5" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-floating form-floating-outline mb-5 form-control-validation">
                                     <input type="text" class="form-control" id="email" name="email"

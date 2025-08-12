@@ -29474,3 +29474,38 @@ select {
 .details_cards p {
   font-size: 14px;
 }
+.merchant-name {
+  font-size: 15px;
+  color: #149108;
+  font-weight: 600;
+  line-height: 25px;
+}
+.card_bil-head {
+  line-height: 26px;
+}
+.no-card{
+  font-size: 15px;
+  color: #000;
+  font-weight: 600;
+  line-height: 25px;
+}
+.card-partisal {
+  background-color: #ededed;
+  border-radius: 10px;
+  padding: 10px;
+}
+.detail_namer p{
+    font-size: 14px;
+    color: #000;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+.detail_namer p span{
+  font-weight: 600;
+}
+.bill-add {
+    font-size: 15px;
+    color: #055bdb ;
+    font-weight: 600;
+    line-height: 25px;
+}
