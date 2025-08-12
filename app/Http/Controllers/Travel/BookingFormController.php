@@ -873,8 +873,8 @@ class BookingFormController extends Controller
                      return response()->json([
                         'status' => 'error',
                         'errors' => 'This booking was updated by someone else. Please refresh and try again.',
-                        'code' => 500
-                    ], 500);
+                        'code' => 555
+                    ], 555);
              }
 
              

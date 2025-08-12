@@ -202,6 +202,16 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         console.error(e);
         if (e.response?.status === 422 || e.response?.status === 500) {
             showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
+
+        } else if (e.response?.status === 555) {
+            let activeTab = document.querySelector('.nav-tabs .nav-link.active');
+            if (activeTab) {
+                localStorage.setItem("activeTab", activeTab.getAttribute("href"));
+            }
+            showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         } else {
             showToast("Something went wrong2", "error");
         }
@@ -768,3 +778,21 @@ document.addEventListener('DOMContentLoaded', function () {
 //         }
 //     }
 // });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Restore the active tab from localStorage
+    let activeTab = localStorage.getItem("activeTab");
+    if (activeTab) {
+        let tabEl = document.querySelector(`a[href="${activeTab}"]`);
+        if (tabEl) {
+            new bootstrap.Tab(tabEl).show();
+        }
+    }
+
+    // Save the active tab whenever it changes
+    document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function (tab) {
+        tab.addEventListener("shown.bs.tab", function (e) {
+            localStorage.setItem("activeTab", e.target.getAttribute("href"));
+        });
+    });
+});
