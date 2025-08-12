@@ -936,7 +936,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Update total in footer
-    function updateFooterTotals() {
+   function updateFooterTotals() {
         const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
         let grossTotal = 0;
         let netTotal = 0;
@@ -948,6 +948,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
         document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
+
+        const diff = grossTotal - netTotal;
+        const mcqElement = document.getElementById('total_gross_mcq');
+        if (mcqElement) {
+            mcqElement.textContent = diff.toFixed(2);
+        }
     }
 
     // Recalculate row and add new row if needed

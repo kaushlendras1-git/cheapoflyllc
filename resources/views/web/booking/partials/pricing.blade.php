@@ -158,7 +158,7 @@
                             <tfoot>
                                 <tr>
                                     <td class="pb-0" style="border-bottom: 0;">
-                                        <strong>Gross-MCO</strong> = 1465.00 - 145.00
+                                        <strong>Gross-MCO</strong> : <span id="total_gross_mcq">0.00</span>
                                     </td>
                                 </tr>
                                 <tr>

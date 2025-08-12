@@ -1,4 +1,8 @@
+@if(auth()->user()->role === 'billing')
+<div class="tab-pane show active" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+@else    
 <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+@endif
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center add-bank">
                         <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
@@ -44,7 +48,7 @@
                 </div>
                 <div class="card p-4 mt-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-header border-0 p-0 detail-passanger">Card Details $1052</h5>
+                        <h5 class="card-header border-0 p-0 detail-passanger">Card Details </h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="billing-booking-button">
                             <i  class="ri ri-add-circle-fill pointer"></i>
                         </button>

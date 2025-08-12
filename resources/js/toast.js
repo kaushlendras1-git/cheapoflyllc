@@ -54,5 +54,5 @@ export default function showToast(message, type = "success") {
         toast.classList.remove("toast-enter");
         toast.classList.add("toast-exit");
         toast.addEventListener("animationend", () => toast.remove());
-    }, 3500);
+    }, 4500);
 }
