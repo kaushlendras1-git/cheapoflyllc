@@ -390,16 +390,18 @@ class BookingFormController extends Controller
             }
             // ---- HOTEL ----
             if (in_array('Hotel', $bookingTypes)) {
-                $rules['hotel']                         = 'required|array|min:1';
-                $rules['hotel.*.hotel_name']            = 'required|string|max:255';
-                $rules['hotel.*.room_category']         = 'required|string|max:255';
-                $rules['hotel.*.checkin_date']          = 'required|date';
-                $rules['hotel.*.checkout_date']         = 'required|date|after:hotel.*.checkin_date';
-                $rules['hotel.*.no_of_rooms']           = 'required|integer|min:1';
-                $rules['hotel.*.confirmation_number']   = 'required|string|max:100';
-                $rules['hotel.*.hotel_address']         = 'required|string|max:500';
-                $rules['hotel.*.remarks']               = 'required|string|max:1000';
-            }
+                    $rules['hotelbookingimage']           = 'required_without:hotel|array';
+                    $rules['hotel']                       = 'required_without:hotelbookingimage|array|min:1';
+                    $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
+                    $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
+                    $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
+                    $rules['hotel.*.checkout_date']       = 'required_with:hotel|date|after:hotel.*.checkin_date';
+                    $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
+                    $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
+                    $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
+                    $rules['hotel.*.remarks']             = 'required_with:hotel|string|max:1000';
+                }
+
             // ---- CRUISE ----
             if (in_array('Cruise', $bookingTypes)) {
                 $rules['cruise']                        = 'required|array|min:1';
@@ -867,6 +869,17 @@ class BookingFormController extends Controller
             #DB::beginTransaction();
 
             $booking = TravelBooking::findOrFail($id);
+              if ($request->input('last_updated_at') != $booking->updated_at->toDateTimeString()) {
+                     return response()->json([
+                        'status' => 'error',
+                        'errors' => 'This booking was updated by someone else. Please refresh and try again.',
+                        'code' => 500
+                    ], 500);
+             }
+
+             
+
+
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
@@ -984,7 +997,9 @@ class BookingFormController extends Controller
                     if ($this->allFieldsEmpty($hotelData)) {
                         continue;
                     }
+
                     $hotelData['booking_id'] = $booking->id;
+
                     if(!empty($request->hotelbookingimage)){
                         $hotelbookingimage = [];
                         foreach($request->hotelbookingimage as $key => $image){
@@ -1140,6 +1155,7 @@ class BookingFormController extends Controller
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
+            
             TravelBillingDetail::where('booking_id',$booking->id)->get()->each->forceDelete();
             foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;

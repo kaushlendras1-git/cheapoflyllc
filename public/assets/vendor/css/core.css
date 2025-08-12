@@ -29468,3 +29468,9 @@ select {
     margin-top: 5px;
     margin-right: 5px;
 }
+.details_cards span{
+  color: #000;
+}
+.details_cards p {
+  font-size: 14px;
+}

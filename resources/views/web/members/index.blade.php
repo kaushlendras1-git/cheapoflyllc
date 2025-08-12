@@ -16,7 +16,7 @@
                 {{ session('success') }}
             </div>
             @endif
-            
+
             @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -27,50 +27,7 @@
             </div>
             @endif
 
-    <div class="row g-6 mb-6 mt-1">
-        <div class="container mt-4">
-            <div class="row justify-content-start user_anyletics">
-                <div class="col-2">
-                    <div class="card text-white bg-primary mb-3" style="font-size: 0.85rem;">
-                        <div class="card-body p-2">
-                            <h6 class="card-title text-white mb-1">Admin Users</h6>
-                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$admin_count}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="card text-white bg-primary mb-3"
-                        style="font-size: 0.85rem; background-color: #5356d4 !important;">
-                        <div class="card-body p-2">
-                            <h6 class="card-title text-white mb-1">{{$active_agent_count}}</h6>
-                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">14</p>
-                        </div>
-                    </div>
-                </div>
-                @foreach($team_counts as $team => $count)
-                <div class="col-2">
-                    <div class="card text-white bg-warning mb-3" style="font-size: 0.85rem;">
-                        <div class="card-body p-2">
-                            <h6 class="card-title text-white mb-1">{{ $team }} Team</h6>
-                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$count}}</p>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-
-                @foreach($shift_counts as $shift => $count)
-                <div class="col-2">
-                    <div class="card text-white bg-info mb-3" style="font-size: 0.85rem;">
-                        <div class="card-body p-2">
-                            <h6 class="card-title text-white mb-1">{{ $shift }} - Shift</h6>
-                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$count}}</p>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
+   
 
 
 
@@ -89,12 +46,13 @@
                         <table class=" table dataTable dtr-column table-responsive">
                             <thead>
                                 <tr>
-                                    <th><span class="dt-column-title" role="button">Sno</span><span
+                                    <th><span class="dt-column-title" role="button">S.No.</span><span
                                             class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">User</span><span
+                                    <th><span class="dt-column-title" role="button">Name</span><span
                                             class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Email</span><span
-                                            class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Username</span><spanclass="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Deartments</span><spanclass="dt-column-order"></span></th>
+
                                     <th><span class="dt-column-title" role="button">Pseudo</span><span
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Role</span><span
@@ -106,6 +64,8 @@
                                     <th><span class="dt-column-title" role="button">Status</span><span
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title">Actions</span><span
+                                            class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">Documents</span><span
                                             class="dt-column-order"></span></th>
                                 </tr>
                             </thead>
@@ -136,10 +96,10 @@
                                             </div>
                                             <div class="d-flex flex-column">
                                                 <span class="fw-medium">{{ $member->name }}</span>
-                                                <small>@departments</small>
                                             </div>
                                         </div>
                                     </td>
+                                    <td><span>{{ $member->departments }}</span></td>
                                     <td><span>{{ $member->email }}</span></td>
                                     <td><span>{{ $member->pseudo }}</span></td>
                                     <td> {{$member->role }}</td>
@@ -320,6 +280,51 @@
 
     </div>
 
+     <div class="row g-6 mb-6 mt-1">
+        <div class="container mt-4">
+            <div class="row justify-content-start user_anyletics">
+                <div class="col-2">
+                    <div class="card text-white bg-primary mb-3" style="font-size: 0.85rem;">
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-white mb-1">Admin Users</h6>
+                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$admin_count}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card text-white bg-primary mb-3"
+                        style="font-size: 0.85rem; background-color: #5356d4 !important;">
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-white mb-1">{{$active_agent_count}}</h6>
+                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">14</p>
+                        </div>
+                    </div>
+                </div>
+                @foreach($team_counts as $team => $count)
+                <div class="col-2">
+                    <div class="card text-white bg-warning mb-3" style="font-size: 0.85rem;">
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-white mb-1">{{ $team }} Team</h6>
+                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$count}}</p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+                @foreach($shift_counts as $shift => $count)
+                <div class="col-2">
+                    <div class="card text-white bg-info mb-3" style="font-size: 0.85rem;">
+                        <div class="card-body p-2">
+                            <h6 class="card-title text-white mb-1">{{ $shift }} - Shift</h6>
+                            <p class="card-text" style="font-size: 1.5rem; font-weight: bold;">{{$count}}</p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    
 </div>
 
 @if (session('success'))

@@ -1,4 +1,8 @@
+@if(auth()->user()->role === 'billing')
+<div class="tab-pane show active" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+@else    
 <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+@endif
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center add-bank">
                         <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
@@ -44,7 +48,7 @@
                 </div>
                 <div class="card p-4 mt-4 show-booking-card">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="card-header border-0 p-0 detail-passanger">Card Details $1052</h5>
+                        <h5 class="card-header border-0 p-0 detail-passanger">Card Details </h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="billing-booking-button">
                             <i  class="ri ri-add-circle-fill pointer"></i>
                         </button>
@@ -195,7 +199,173 @@
                         </div>
                     </div>
                 </div>
+                <div class="card mt-2 p-1">
+                    <div class="payment-form">
+    <h2>Payment Details</h2>
+
+    <H1>Merchent - flydreamz</H1>
+
+
+    <h2>Card 1</h2>
+
+<h3>    MCO  = $521</h3>
+
+    <div class="form-group">
+        <label>Cardholder Name</label>
+        <input type="text" placeholder="John Doe">
+    </div>
+    <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="1234 5678 9012 3456">
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="text" placeholder="MM/YY">
+        </div>
+        <div class="form-group">
+            <label>CVV</label>
+            <input type="password" placeholder="123">
+        </div>
+    </div>
+
+    <h2>Billing Address</h2>
+    <div class="form-group">
+        <label>Street Address</label>
+        <input type="text" placeholder="123 Main Street">
+    </div>
+    <div class="form-group">
+        <label>City</label>
+        <input type="text" placeholder="New York">
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>State</label>
+            <input type="text" placeholder="NY">
+        </div>
+        <div class="form-group">
+            <label>Zip Code</label>
+            <input type="text" placeholder="10001">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Country</label>
+        <select>
+            <option>United States</option>
+            <option>Canada</option>
+            <option>United Kingdom</option>
+        </select>
+    </div>
+
+</div>
+
+<hr>
+<h2>Card 2</h2>
+<h3>    MCO  = $321</h3>
+
+<div class="form-group">
+        <label>Cardholder Name</label>
+        <input type="text" placeholder="John Doe">
+    </div>
+    <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="1234 5678 9012 3456">
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="text" placeholder="MM/YY">
+        </div>
+        <div class="form-group">
+            <label>CVV</label>
+            <input type="password" placeholder="123">
+        </div>
+    </div>
+
+    <h2>Billing Address</h2>
+    <div class="form-group">
+        <label>Street Address</label>
+        <input type="text" placeholder="123 Main Street">
+    </div>
+    <div class="form-group">
+        <label>City</label>
+        <input type="text" placeholder="New York">
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>State</label>
+            <input type="text" placeholder="NY">
+        </div>
+        <div class="form-group">
+            <label>Zip Code</label>
+            <input type="text" placeholder="10001">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Country</label>
+        <select>
+            <option>United States</option>
+            <option>Canada</option>
+            <option>United Kingdom</option>
+        </select>
+    </div>
+
+
+<hr>
+
+    <h2>Card 3</h2>
+<h3>    MCO  = $921</h3>
+
+<div class="form-group">
+        <label>Cardholder Name</label>
+        <input type="text" placeholder="John Doe">
+    </div>
+    <div class="form-group">
+        <label>Card Number</label>
+        <input type="text" placeholder="1234 5678 9012 3456">
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="text" placeholder="MM/YY">
+        </div>
+        <div class="form-group">
+            <label>CVV</label>
+            <input type="password" placeholder="123">
+        </div>
+    </div>
+
+    <h2>Billing Address</h2>
+    <div class="form-group">
+        <label>Street Address</label>
+        <input type="text" placeholder="123 Main Street">
+    </div>
+    <div class="form-group">
+        <label>City</label>
+        <input type="text" placeholder="New York">
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label>State</label>
+            <input type="text" placeholder="NY">
+        </div>
+        <div class="form-group">
+            <label>Zip Code</label>
+            <input type="text" placeholder="10001">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Country</label>
+        <select>
+            <option>United States</option>
+            <option>Canada</option>
+            <option>United Kingdom</option>
+        </select>
+    </div>
+                </div>
             </div>
+
+            
 
 
 

@@ -99,7 +99,9 @@ Route::prefix('booking')->name('booking.')->group(function () {
     Route::get('/export', [BookingFormController::class, 'export'])->name('export');
     Route::get('/', [BookingFormController::class, 'index'])->name('index');
     Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
-    Route::put('/update/{id}', [BookingFormController::class, 'update'])->name('update');
+    Route::patch('/update/{id}', [BookingFormController::class, 'update'])->name('update');
+
+    
     Route::prefix('auth-email')->name('auth-email.')->group(function () {
         Route::post('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail'); // this is correct
     });

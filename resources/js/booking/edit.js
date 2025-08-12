@@ -193,7 +193,9 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             }
         });
         showToast(response.data.message);
-
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
 
     }
     catch (e) {

@@ -1,4 +1,8 @@
-<div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+@if(auth()->user()->role === 'quality')
+    <div class="tab-pane show active" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+@else
+    <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+@endif    
     <div class="card p-4 show-booking-card" style="font-size: 12px;">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Quality Feedback</h5>
