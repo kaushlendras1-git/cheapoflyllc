@@ -5,11 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TravelBooking;
 use App\Utils\JsonResponse;
+use Hashids\Hashids;
+use App\Models\AuthHistory;
+
 
 class AuthHistoryController extends Controller
-{
+{   
+    protected $hashids;
+    public function __construct()
+    {
+        $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+    }
+
     public function authHistory($id) {
-         return view('web.mail-history.index');
+        $id = $this->hashids->decode($id);
+        $id = $id[0] ?? null;
+        $auth_histories = AuthHistory::where('booking_id', $id)->get();
+        return view('web.mail-history.index',compact('auth_histories'));
     }
 
     public function sendSms($id) {

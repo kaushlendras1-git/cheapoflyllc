@@ -12,14 +12,14 @@
                             <thead>
                                 <tr>
                                     <td colspan="4" style="border: solid 1px;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <strong>Gross Amount Collected</strong>
+                                        <div style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
+                                            <strong>Gross Value</strong>
                                             <span id="total_gross_profit">0.00</span>
                                         </div>
                                     </td>
-                                    <td colspan="4">
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <strong>Net Amount (Paid)</strong>
+                                    <td colspan="4" >
+                                        <div style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
+                                            <strong >Net Value</strong>
                                             <span id="total_net_profit">0.00</span>
                                         </div>
                                     </td>
@@ -157,11 +157,24 @@
 
                             <tfoot>
                                 <tr>
+                                    <td colspan="6" class="pb-0" style="border-bottom: 0;">
+                                        <strong style="color:#055bdb">Gross Profilt</strong> : <span id="total_gross_value">0.00</span>
+                                    </td>
                                     <td class="pb-0" style="border-bottom: 0;">
-                                        <strong>Gross-MCO</strong> : <span id="total_gross_mcq">0.00</span>
+                                        <strong style="color:#055bdb">Net Profilt</strong> : <span id="total_netprofit_value">0.00</span>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                    <td class="pb-0" style="border-bottom: 0;">
+                                        <strong>- 15%  Merchant fee </strong> : <span id="total_gross_mcq">0.00</span>
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td class="pb-0" style="border-bottom: 0;">
+                                        <strong>Total Gross-MCO</strong> : <span id="total_gross_mcq">0.00</span>
+                                    </td>
+                                </tr> -->
+                                <!-- <tr>
                                     <td colspan="5">
                                         <strong>Gross-MCO =  Gross Amount Collected  - (Flight Ticket Cost +Cruise Ticket Cost+Car Rental Cost+Train Cost+Hotel Cost + company cost )</strong>
 
@@ -172,7 +185,7 @@
 
                                     <td></td>
                                     <td></td>
-                                </tr>
+                                </tr> -->
                             </tfoot>
                         </table>
 

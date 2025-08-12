@@ -25,87 +25,34 @@
                     <thead class="bg-dark text-white sticky-top">
                         <tr>
                             <th>ID</th>
+                            <!-- <th>booking_id</th>
+                            <th>billing_details_id</th>
+                            <th>travel_billing_details_id</th> -->
+                            <th>IP</th>
+                            <th>Card last 4 digit </th>
+                            <th>user_id</th>
+                            <th>sent data-time</th>
+                            <th>recvied data-time</th>
+                            <th>action</th>
                             <th>type</th>
-                            <th>Sent by</th>
+                            <th>sent_to</th>
+                            <th>details</th>
                             <th>Created On</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="sorting_1"><button title="View"
-                                    class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
-                                    data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
-                                        class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-                                        <path
-                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-                                        </path>
-                                    </svg></button></td>
-                            <td>under process</td>
-                            <td>William</td>
-                            <td>2025-07-11T16:38:45.957</td>
-                        </tr>
-                        <tr>
-                            <td class="sorting_1"><button title="View"
-                                    class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
-                                    data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
-                                        class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-                                        <path
-                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-                                        </path>
-                                    </svg></button></td>
-                            <td>under process</td>
-                            <td>William</td>
-                            <td>2025-07-11T16:41:10.457</td>
-                        </tr>
-                        <tr>
-                            <td class="sorting_1"><button title="View"
-                                    class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
-                                    data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
-                                        class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-                                        <path
-                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-                                        </path>
-                                    </svg></button></td>
-                            <td>under process</td>
-                            <td>William</td>
-                            <td>2025-07-11T16:47:50.79</td>
-                        </tr>
-                        <tr>
-                            <td class="sorting_1"><button title="View"
-                                    class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
-                                    data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
-                                        class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-                                        <path
-                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-                                        </path>
-                                    </svg></button></td>
-                            <td>under process</td>
-                            <td>William</td>
-                            <td>2025-07-11T16:40:27.69</td>
-                        </tr>
-                        <tr>
-                            <td class="sorting_1"><button title="View"
-                                    class="viewbtn btn btn-icon btn-circle btn-light-warning w-25px h-25px" data-tp="st"
-                                    data-bs-dismiss="modal" data-bs-target="#mailModal" data-bs-toggle="modal"><svg
-                                        xmlns="http://www.w3.org/2000/svg" fill="#055bdb" width="16" height="16" fill="currentColor"
-                                        class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
-                                        <path
-                                            d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z">
-                                        </path>
-                                    </svg></button></td>
-                            <td>under process</td>
-                            <td>Zee</td>
-                            <td>2025-07-11T16:48:17.53</td>
-                        </tr>
+                        @foreach($auth_histories as $auth_history)
+                            <tr>
+                                <td><i class="ri-eye-off-line" style="color: #1e90ff; font-size: 20px;"></i>
+</td>
+                                <td>under process</td>
+                                <td>William</td>
+                                <td>2025-07-11T16:38:45.957</td>
+                            </tr>
+                        @endforeach
+                        
+                        
+                        
                     </tbody>
                 </table>
             </div>

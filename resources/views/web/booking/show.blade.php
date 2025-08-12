@@ -193,10 +193,12 @@
                             <label class="form-label">Train Ref</label>
                             <input type="text" class="form-control" name="train_ref" value="{{ old('train_ref', $booking->train_ref ?? '') }}" placeholder="Train Ref">
                         </div>
+                        
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="name" value="{{ old('name', $booking->name ?? '') }}">
                         </div>
+
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="phone" value="{{ old('phone', $booking->phone ?? '') }}">
@@ -301,51 +303,8 @@
             @endif
 
 
-        </ul>
-
-        <!-- Tab Content -->
-        <div class="tab-content mt-0 p-0 booked-content" id="bookingTabsContent">
-
-            <!-- Passeengers Tab -->
-            @include('web.booking.partials.passeenger')
-
-            <!-- Flight Tab -->
-            @include('web.booking.partials.flight')
-
-             <!-- Car Tab -->
-            @include('web.booking.partials.car')
-
-            <!-- Cruise Tab -->
-            @include('web.booking.partials.cruise')
-
-              <!-- Hotel Tab -->
-            @include('web.booking.partials.hotel')
-
-            <!-- Train Tab -->
-            @include('web.booking.partials.train')
-
-            <!-- Biling Tab -->
-            @include('web.booking.partials.billing')
-
-            <!-- Pricing Tab -->
-            @include('web.booking.partials.pricing')
-
-            <!-- Remarks Tab -->
-            @include('web.booking.partials.remarks', ['remarks' => $booking->remarks])
-
-            <!-- Remarks Tab -->
-            @include('web.booking.partials.quality_feedbacks')
-
-            <!-- Screenshots Tab -->
-            @include('web.booking.partials.screenshots', ['screenshot_images' => $screenshot_images])
-
-            <!-- Conversations Tab -->
-             @include('web.booking.partials.conversations')
-
-
-
-            </div>
-        </div>
+    </div>
+        
       </div>
     </div>
 

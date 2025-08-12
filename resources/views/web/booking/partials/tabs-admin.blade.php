@@ -130,3 +130,7 @@
 
             <!-- Conversations Tab -->
              @include('web.booking.partials.conversations')
+
+
+
+        </div>

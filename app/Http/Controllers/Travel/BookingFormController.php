@@ -352,7 +352,7 @@ class BookingFormController extends Controller
 
                 // Billing
                 'billing'                => 'required|array|min:1',
-                'billing.*.card_type'    => 'required|string|in:VISA,MasterCard,AMEX,Discover',
+                'billing.*.card_type'    => 'required|string|in:VISA,Mastercard,AMEX,DISCOVER',
                 'billing.*.cc_number'    => 'required|string|max:255',
                 'billing.*.cc_holder_name' => ['required','string','max:255','regex:/^[A-Za-z\s]+$/'],
                 'billing.*.exp_month'    => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
@@ -993,14 +993,7 @@ class BookingFormController extends Controller
 
             $delete = TravelHotelDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Hotel',$newBookingTypes)){
-                foreach ($newHotels as $hotelData) {
-                    if ($this->allFieldsEmpty($hotelData)) {
-                        continue;
-                    }
-
-                    $hotelData['booking_id'] = $booking->id;
-
-                    if(!empty($request->hotelbookingimage)){
+                if(!empty($request->hotelbookingimage)){
                         $hotelbookingimage = [];
                         foreach($request->hotelbookingimage as $key => $image){
                             $fileHotel = 'storage/'.$image->store('hotel_booking_image','public');
@@ -1010,9 +1003,13 @@ class BookingFormController extends Controller
                                 'booking_id'=>$booking->id
                             ]);
                         }
+                }
 
+                foreach ($newHotels as $hotelData) {
+                    if ($this->allFieldsEmpty($hotelData)) {
+                        continue;
                     }
-
+                    $hotelData['booking_id'] = $booking->id;
                     $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
                     $hotel = TravelHotelDetail::create(
                         $hotelData

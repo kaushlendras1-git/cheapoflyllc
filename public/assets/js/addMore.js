@@ -881,7 +881,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="infant_on_seat">Infant on Seat</option>
                 </select>
             </td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="1" min="0"></td>
+            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
             <td><input type="number" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
             <td><span class="gross-total">0.00</span></td>
             <td><input type="number" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
@@ -951,10 +951,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
 
         const diff = grossTotal - netTotal;
-        const mcqElement = document.getElementById('total_gross_mcq');
+        const mcqElement = document.getElementById('total_gross_value');
         if (mcqElement) {
             mcqElement.textContent = diff.toFixed(2);
         }
+
+        // Calculate net profit after 15% merchant fee
+        const netProfitAfterFee = diff - (diff * 0.15);
+        const netProfitElement = document.getElementById('total_netprofit_value');
+        if (netProfitElement) {
+            netProfitElement.textContent = netProfitAfterFee.toFixed(2);
+        }
+
     }
 
     // Recalculate row and add new row if needed

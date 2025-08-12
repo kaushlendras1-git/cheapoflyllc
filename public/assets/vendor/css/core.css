@@ -28810,7 +28810,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
       padding: 6px;
 }
 .tabs-booked .nav-item .nav-link.active {
-  background-color: #fff;
+  background-color: #dfecff;
   border-radius: 10px 10px 0px 0px;
   color: #055bdb;
 }

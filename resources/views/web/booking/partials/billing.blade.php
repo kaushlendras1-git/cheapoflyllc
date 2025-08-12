@@ -3,6 +3,8 @@
     @else
     <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
         @endif
+
+       @if(auth()->user()->role != 'billing')
         <div class="card p-4 show-booking-card">
             <div class="d-flex justify-content-between align-items-center add-bank">
                 <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
@@ -201,74 +203,44 @@
                 </div>
             </div>
         </div>
+
+    @endif
+
         <div class="card mt-2 p-1">
             <div class="payment-form">
                 <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Payment Details</h2>
                 <h4 class="merchant-name mb-0">Merchent - flydreamz</h4>
                 <div class="row">
+                  @foreach($booking->billingDetails as $key => $billingDetails)
                     <div class="col-md-3">
                         <div class="card-partisal">
-                            <h5 class="no-card mb-4">Card 1 <span style="color: #ff0000;">(MCO = $521)</span></h5>
+                            <h5 class="no-card mb-4">Card {{$key+1}} <span style="color: #ff0000;">(MCO = ${{$billingDetails['authorized_amt']}})</span></h5>
                             <div class="detail_namer">
-                                <p>Cardholder Name: <span>John Doe</span></p>
-                                <p>Card Number: <span>1234 5678 9012 3456</span></p>
-                                <p>Expiry Date: <span>12/2028</span></p>
-                                <p>CVV: <span>123</span></p>
+                                <p>Card Type: <span>{{$billingDetails['card_type']}}</span></p>
+                                <p>Cardholder Name: <span>{{$billingDetails['cc_holder_name']}}</span></p>
+                                <p>Card Number: <span>{{$billingDetails['cc_number']}}</span></p>
+                                <p>Expiry Date: <span>{{$billingDetails['exp_month']}}/{{$billingDetails['exp_year']}}</span></p>
+                                <p>CVV: <span>{{$billingDetails['cvv']}}</span></p>
                             </div>
                             <h4 class="bill-add mb-4">Billing Address</h4>
                             <div class="detail_namer">
-                                <p>Street Address: <span>123 Main Street</span></p>
-                                <p>City: <span>New York</span></p>
-                                <p>State: <span>NY</span></p>
-                                <p>Zip Code: <span>10001</span></p>
-                                <p>Country <span>UK</span></p>
+                                @php
+                                    $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
+                                @endphp
+
+                                <p>Email: <span>{{$card_billing_data->email}}</span></p>
+                                <p>Mobile: <span>{{$card_billing_data->contact_number}}</span></p>
+                                <p>Street Address: <span>{{$card_billing_data->street_address}}</span></p>
+                                <p>City: <span>{{$card_billing_data->city}}</span></p>
+                                <p>State: <span>{{$card_billing_data->state}}</span></p>
+                                <p>Zip Code: <span>{{$card_billing_data->zip_code}}</span></p>
+                                <p>Country <span>{{$card_billing_data->country}}</span></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card-partisal">
-                            <h5 class="no-card mb-4">Card 1 <span style="color: #ff0000;">(MCO = $521)</span></h5>
-                            <div class="detail_namer">
-                                <p>Email: <span>test@gmail.com</span></p>
-                                <p>Mobile: <span>8510810544</span></p>
-                                <p>Cardholder Name: <span>John Doe</span></p>
-                                <p>Card Number: <span>1234 5678 9012 3456</span></p>
-                                <p>Expiry Date: <span>12/2028</span></p>
-                                <p>CVV: <span>123</span></p>
-                            </div>
-                            <h4 class="bill-add mb-4">Billing Address</h4>
-                            <div class="detail_namer">
-                                <p>Email: <span>test@gmail.com</span></p>
-                                <p>Mobile: <span>8510810544</span></p>
-                                <p>Street Address: <span>123 Main Street</span></p>
-                                <p>City: <span>New York</span></p>
-                                <p>State: <span>NY</span></p>
-                                <p>Zip Code: <span>10001</span></p>
-                                <p>Country <span>UK</span></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card-partisal">
-                            <h5 class="no-card mb-4">Card 1 <span style="color: #ff0000;">(MCO = $521)</span></h5>
-                            <div class="detail_namer">
-                                <p>Cardholder Name: <span>John Doe</span></p>
-                                <p>Card Number: <span>1234 5678 9012 3456</span></p>
-                                <p>Expiry Date: <span>12/2028</span></p>
-                                <p>CVV: <span>123</span></p>
-                            </div>
-                            <h4 class="bill-add mb-4">Billing Address</h4>
-                            <div class="detail_namer">
-                                <p>Email: <span>test@gmail.com</span></p>
-                                <p>Mobile: <span>8510810544</span></p>
-                                <p>Street Address: <span>123 Main Street</span></p>
-                                <p>City: <span>New York</span></p>
-                                <p>State: <span>NY</span></p>
-                                <p>Zip Code: <span>10001</span></p>
-                                <p>Country <span>UK</span></p>
-                            </div>
-                        </div>
-                    </div>
+                @endforeach    
+
+
                 </div>
             </div>
         </div>
