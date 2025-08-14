@@ -170,11 +170,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/pricing-details', function () {return view('web.pricing-details');});
 
-    Route::get('/auth-history/{id}', [AuthHistoryController::class, 'authHistory'])->name('auth-history');
+    Route::get('/auth-history/{id}', [AuthHistoryController::class, 'index'])->name('auth-history');
     Route::post('/sms/{id}', [AuthHistoryController::class, 'sendSms'])->name('sms');
     Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
     Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
-
 
 
     // Shift assignment route

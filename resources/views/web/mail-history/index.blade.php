@@ -1,6 +1,11 @@
 @extends('web.layouts.main')
 @section('content')
-
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -25,36 +30,101 @@
                     <thead class="bg-dark text-white sticky-top">
                         <tr>
                             <th>ID</th>
-                            <!-- <th>booking_id</th>
-                            <th>billing_details_id</th>
-                            <th>travel_billing_details_id</th> -->
+                            <th>Auth</th>
+                            <th>Sent By</th>
+                            <th>Sent To</th>
+                            <th>Details</th>
+                            <th>Card last 4 digit</th>                          
+                            <th>Sent Date-Time</th>
+                            <th>Received Status</th>
                             <th>IP</th>
-                            <th>Card last 4 digit </th>
-                            <th>user_id</th>
-                            <th>sent data-time</th>
-                            <th>recvied data-time</th>
-                            <th>action</th>
-                            <th>type</th>
-                            <th>sent_to</th>
-                            <th>details</th>
+                            <th>Action</th>
+                            <th>Type</th>
                             <th>Created On</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($auth_histories as $auth_history)
+                            @php
+                                // Assume one signature for simplicity; adjust if multiple signatures are needed
+                                $signature = \App\Models\Signature::where('booking_id', $auth_history->booking_id)
+                                    ->where('card_last_digit', $auth_history->card_last_digit)
+                                    ->first();
+                            @endphp
                             <tr>
-                                <td><i class="ri-eye-off-line" style="color: #1e90ff; font-size: 20px;"></i>
-</td>
-                                <td>under process</td>
-                                <td>William</td>
-                                <td>2025-07-11T16:38:45.957</td>
+                                <td>{{ $auth_history->id }}</td>
+                                <td><button class="btn btn-warning btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#signatureModal{{ $auth_history->id }}">
+                                                     <i class="bi bi-eye"></i>
+                                        </button></td>
+
+                                <td>{{ $auth_history->user?->name ?? 'N/A' }}</td>
+                                <td>{{ $auth_history->sent_to ?? 'N/A' }}</td>
+                                <td>{{ $auth_history->details ?? 'N/A' }}</td>
+                                <td>{{ '********'.$auth_history->card_last_digit ?? 'N/A' }}</td>                              
+                                <td>{{ $auth_history->created_at->format('d-m-Y H:i:s') }}</td>
+                                <td>
+                                    @if($signature)
+                                        <span class="badge bg-success">Auth Received</span>
+                                    @else
+                                        <span class="badge bg-danger">No Auth Received</span>
+                                    @endif
+                                </td>
+                                <td>{{ $signature?->ip_address ?? 'N/A' }}</td>
+                                <td>
+                                    @if($signature?->signature)
+                                        {{ ucfirst($signature->signature_type) }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($signature?->signature_data)
+                                     <button class="btn btn-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#signatureModal{{ $auth_history->id }}"
+                                                aria-label="View Signature">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    @else
+                                        <button class="btn btn-secondary btn-sm" disabled><i class="bi bi-x-circle"></i></button>
+                                    @endif
+                                </td>
+                                <td>{{ $signature?->created_at?->format('d-m-Y H:i:s') ?? 'N/A' }}</td>
                             </tr>
+
+                            @if($signature)
+                                <div class="modal fade" id="signatureModal{{ $auth_history->id }}" tabindex="-1" aria-labelledby="signatureModalLabel{{ $auth_history->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="signatureModalLabel{{ $auth_history->id }}">Signature Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                @if(str_starts_with($signature->signature_data, 'data:image'))
+                                                    <img src="{{ $signature->signature_data }}" alt="Signature" class="img-fluid rounded border">
+                                                @else
+                                                    {!! $signature->signature_data !!}
+                                                @endif
+                                                <p class="mt-3">
+                                                    <strong>Signature Type:</strong> {{ ucfirst($signature->signature_type) }} <br>
+                                                    <strong>IP Address:</strong> {{ $signature->ip_address ?? 'N/A' }} <br>
+                                                    <strong>Created On:</strong> {{ $signature->created_at?->format('d-m-Y H:i:s') ?? 'N/A' }}
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
-                        
-                        
-                        
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

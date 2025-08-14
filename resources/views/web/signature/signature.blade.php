@@ -39,6 +39,34 @@
                     for using fareticketsllc for your travel needs. Please take a moment to review the names, date,
                     Flight itinerary, price and other relevant details of your booking.</td>
             </tr>
+
+            <tr>
+                <td colspan="2">
+                    <div class="container">
+                    <div>
+                    {{-- Success message --}}
+                   @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            ✅ Thank you for your authorization! Your signature has been successfully recorded.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    {{-- Validation errors (all in a list) --}}
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    </div>
+                </div>
+                </td>
+            </tr>
+
             <tr>
                 <td colspan="2" style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">Team <a
                         style="color: #c53d3d; text-decoration: none;" href="#">Fareticketsllc</a></td>
@@ -490,6 +518,8 @@
         <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
             @csrf
             <input type="hidden" name="signature" id="signatureData">
+            <input type="hidden" name="signature_type" id="signatureType">
+            <input type="hidden" name="booking_id" id="booking_id" value="{{ request()->segment(2) }}">
             <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>I Authorized</button>
         </form>
     </div>
@@ -593,37 +623,37 @@
 
         // Add Signature Button Logic
         addSignatureButton.addEventListener('click', () => {
-            const activeTab = document.querySelector('.nav-link.active').id;
-            if (activeTab === 'draw-tab') {
-                if (signaturePad.isEmpty()) {
-                    alert('Please draw a signature.');
-                    return;
-                }
-                const signatureData = signaturePad.toDataURL();
-                signatureDataInput.value = signatureData;
-                signaturePreview.innerHTML =
-                    `<img src="${signatureData}" alt="Signature" style="max-width: 100%;">`;
-            } else if (activeTab === 'type-tab') {
-                const name = typedNameInput.value;
-                const font = fontSelect.value;
-                if (!name) {
-                    alert('Please type your name.');
-                    return;
-                }
-                const signatureHTML =
-                    `<span style="font-family: ${font}; font-size: 24px;">${name}</span>`;
-                signatureDataInput.value = signatureHTML; // Save as HTML for backend
-                signaturePreview.innerHTML = signatureHTML;
-            }
+    const activeTab = document.querySelector('.nav-link.active').id;
+    if (activeTab === 'draw-tab') {
+        if (signaturePad.isEmpty()) {
+            alert('Please draw a signature.');
+            return;
+        }
+        const signatureData = signaturePad.toDataURL();
+        signatureDataInput.value = signatureData;
+        document.getElementById('signatureType').value = 'draw'; // set signature type
+        signaturePreview.innerHTML = `<img src="${signatureData}" alt="Signature" style="max-width: 100%;">`;
+    } else if (activeTab === 'type-tab') {
+        const name = typedNameInput.value;
+        const font = fontSelect.value;
+        if (!name) {
+            alert('Please type your name.');
+            return;
+        }
+        const signatureHTML = `<span style="font-family: ${font}; font-size: 24px;">${name}</span>`;
+        signatureDataInput.value = signatureHTML; // Save as HTML for backend
+        document.getElementById('signatureType').value = 'type'; // set signature type
+        signaturePreview.innerHTML = signatureHTML;
+    }
 
-            // Update UI
-            signaturePreview.classList.remove('d-none');
-            authorizeButton.disabled = false;
+    // Update UI
+    signaturePreview.classList.remove('d-none');
+    authorizeButton.disabled = false;
 
-            // Close modal
-            const modal = bootstrap.Modal.getInstance(signatureModal);
-            modal.hide();
-        });
+    // Close modal
+    const modal = bootstrap.Modal.getInstance(signatureModal);
+    modal.hide();
+});
 
         // Reset Modal on Close
         signatureModal.addEventListener('hidden.bs.modal', () => {

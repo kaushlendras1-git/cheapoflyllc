@@ -190,7 +190,7 @@
                                     <!--  -->
                                 </ul>
                             </li>
-
+                        @endif
                             <!-- Reports -->
                             <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
                                 <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
@@ -222,9 +222,12 @@
                                             <div data-i18n="Score">Score</div>
                                         </a>
                                     </li>
+
+                            
+
                                 </ul>
                             </li>
-                        @endif
+                      
 
 
                             <!-- Booking -->

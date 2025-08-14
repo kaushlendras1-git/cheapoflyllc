@@ -32,4 +32,12 @@ class CallLog extends Model
         'user_id',
         'pnr',
     ];
+
+    
+
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class, 'campaign');
+    }
+
 }

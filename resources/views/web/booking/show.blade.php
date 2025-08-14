@@ -251,14 +251,14 @@
                                 <option value="1"
                                     {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>
                                     flydreamz</option>
+                                <option value="2"
+                                    {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}>
+                                    fareticketsllc</option>
                                 <option value="3"
                                     {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>
-                                    fareticketsllc</option>
-                                <option value="5"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '5' ? 'selected' : '' }}>
                                     fareticketsus</option>
-                                <option value="6"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '6' ? 'selected' : '' }}>
+                                <option value="4"
+                                    {{ old('selected_company', $booking->selected_company ?? '') === '4' ? 'selected' : '' }}>
                                     cruiselineservice</option>
                             </select>
                         </div>
@@ -281,7 +281,9 @@
                             <select class="form-control" name="shared_booking">
                                 <option value="">Select</option>
                                 @foreach($users as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                    <option value="{{ $user->id }}" {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

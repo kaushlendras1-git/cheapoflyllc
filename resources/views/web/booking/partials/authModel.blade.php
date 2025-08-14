@@ -105,20 +105,28 @@
       </div>
 
       <div class="modal-body">
-        <form id="sendAuthEmail">
+       <form id="sendAuthEmail">
           @csrf
-          <input type="hidden" name="id" id="auth_id">
-          <input type="hidden" name="email1" id="auth_email1">
-          <input type="hidden" name="email2" id="auth_email2">
-
+          <input type="hidden" name="id" id="auth_id" value="{{$booking->id}}">
           <div class="mb-3">
-            <label><input type="checkbox" name="auth_email[]" value="credentials@cheapoflytravel.com" checked> credentials@cheapoflytravel.com</label><br>
-            <label><input type="checkbox" name="auth_email[]" value="kaushlendras1@gmail.com"> kaushlendras1@gmail.com</label><br>
-            <label><input type="checkbox" class="check-all" name="terms" value="accepted"> All</label>
-        </div>
-
+              @foreach($booking->billingDetails as $key => $billingDetails)
+                  @php
+                      $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
+                      $last4 = substr($billingDetails['cc_number'], -4);
+                  @endphp
+                  <label>
+                      <input type="checkbox" name="auth_email[]" 
+                            value="{{ $card_billing_data->email ?? '' }}" 
+                            data-cards="{{ $last4 }}"
+                            data-billing_details_id="{{ $billingDetails['id'] }}"
+                            data-travel_billing_details_id="{{ $card_billing_data->id ?? '' }}"
+                            >
+                      ********{{ $last4 }} - {{ $card_billing_data->email ?? '' }}
+                  </label><br>
+              @endforeach    
+          </div>
           <button class="btn btn-info send-auth-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
-        </form>
+      </form>
 
         <div id="load_model" class="mt-3">
             <!-- Loaded dynamically -->

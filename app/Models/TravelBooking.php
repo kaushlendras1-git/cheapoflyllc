@@ -125,5 +125,10 @@ class TravelBooking extends Model
         return $this->belongsTo(PaymentStatus::class, 'payment_status_id');
     }
 
+    public function lobs()
+    {
+        return $this->belongsTo(PaymentStatus::class, 'selected_company');
+    }
+
 
 }

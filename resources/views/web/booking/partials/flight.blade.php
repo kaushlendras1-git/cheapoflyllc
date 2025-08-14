@@ -184,7 +184,15 @@
                                     @foreach ($flight_images as $key => $img)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
+                                            <td>
+                                                @if ($img && Storage::disk('public')->exists($img->file_path))
+                                                    <a href="{{ asset($img->file_path) }}" target="_blank">
+                                                        <img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image">
+                                                    </a>
+                                                @else
+                                                    <p>No Image Available</p>
+                                                @endif   
+                                            </td>
                                             <td>{{ $img->get_agent?->name }}</td>
                                             <td>{{ $img->created_at }}</td>
                                         </tr>

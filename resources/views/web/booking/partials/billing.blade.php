@@ -206,10 +206,21 @@
 
     @endif
 
+
         <div class="card mt-2 p-1">
             <div class="payment-form">
                 <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Payment Details</h2>
-                <h4 class="merchant-name mb-0">Merchent - flydreamz</h4>
+                <h4 class="merchant-name mb-0">Merchent - 
+                    @if($booking->selected_company == 1 )
+                            Fly Dreamz
+                    @elseif($booking->selected_company == 2 )
+                        Fare Tickets LLC
+                    @elseif($booking->selected_company == 3 )
+                        Fare Ticketsus
+                    @elseif($booking->selected_company == 4 )
+                        Cruise Line Service
+                    @endif
+                </h4>
                 <div class="row">
                   @foreach($booking->billingDetails as $key => $billingDetails)
                     <div class="col-md-3">
@@ -228,13 +239,13 @@
                                     $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
                                 @endphp
 
-                                <p>Email: <span>{{$card_billing_data->email}}</span></p>
-                                <p>Mobile: <span>{{$card_billing_data->contact_number}}</span></p>
-                                <p>Street Address: <span>{{$card_billing_data->street_address}}</span></p>
-                                <p>City: <span>{{$card_billing_data->city}}</span></p>
-                                <p>State: <span>{{$card_billing_data->state}}</span></p>
-                                <p>Zip Code: <span>{{$card_billing_data->zip_code}}</span></p>
-                                <p>Country <span>{{$card_billing_data->country}}</span></p>
+                                <p>Email: <span>{{$card_billing_data->email ?? ''}}</span></p>
+                                <p>Mobile: <span>{{$card_billing_data->contact_number ?? ''}}</span></p>
+                                <p>Street Address: <span>{{$card_billing_data->street_address ?? ''}}</span></p>
+                                <p>City: <span>{{$card_billing_data->city ?? ''}}</span></p>
+                                <p>State: <span>{{$card_billing_data->state ?? ''}}</span></p>
+                                <p>Zip Code: <span>{{$card_billing_data->zip_code ?? ''}}</span></p>
+                                <p>Country <span>{{$card_billing_data->country ?? ''}}</span></p>
                             </div>
                         </div>
                     </div>

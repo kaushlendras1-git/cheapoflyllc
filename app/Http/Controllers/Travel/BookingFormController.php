@@ -121,6 +121,7 @@ class BookingFormController extends Controller
             'data'=>$data
         ],200);
     }
+    
     public function deletebillingDetails($id){
         try{
             $destroy = BillingDetail::findOrFail($id);
@@ -1277,6 +1278,7 @@ class BookingFormController extends Controller
         $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
+
         $users = User::get();
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();

@@ -73,8 +73,7 @@
                                 <th>Campaign</th>
                                 <!-- <th>Team</th> -->
                                 <th>Type</th>
-                                <th>Query Type</th>
-                                <th>Airline</th>
+                                <th>Reservation Source</th>                             
                                 <th>Converted</th>
                                 <th>Followup Date</th>
                                 <th>Agent</th>
@@ -83,60 +82,49 @@
                         </thead>
                         <tbody>
                             @forelse ($callLogs as $key => $log)
-                            <tr>
-                                @if($log->call_converted)
-                                <!-- <td>{{ $callLogs->firstItem() + $key }}</td>  -->
-                                <td><a href="{{ route('call-logs.edit',$hashids->encode($log->id)) }}">
-                                        {{ $callLogs->firstItem() + $key }}</a></td>
-                                @else
-                                <td><a href="{{ route('call-logs.edit', Hashids::encode($log->id)) }}">
-                                        {{ $callLogs->firstItem() + $key }}</a></td>
-                                @endif
-
-                                <td>{{ $log->pnr }}</td>
-                                <td>{{ $log->name }}</td>
-                                <td>{{ $log->phone }}</td>
-                                <td>{{ $log->campaign }}</td>
-                                <!-- <td>{{ $log->team }}</td> -->
-                                <td>{{ $log->call_type }}</td>
-                                <td>
-                                    <div style="display: flex; justify-content: center; gap: 4px;">
-                                        @if($log->chkflight)
-                                            <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
-                                        @endif
-
-                                        @if($log->chkhotel)
-                                            <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
-                                        @endif
-
-                                        @if($log->chkcruise)
-                                            <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
-                                        @endif
-
-                                        @if($log->chkcar)
-                                            <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td>Airline</td>
-                              <td>
-                                    @if($log->call_converted)
-                                                <i class="ri ri-check-line" style="color: #228b22; font-size: 18px;"></i>
-                                    @else
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('call-logs.edit', $hashids->encode($log->id)) }}">
+                                            {{ $callLogs->firstItem() + $key }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $log->pnr }}</td>
+                                    <td>{{ $log->name }}</td>
+                                    <td>{{ $log->phone }}</td>
+                                    <td>{{ $log->campaign }}</td>
+                                    <td>
+                                        <div style="display: flex; justify-content: center; gap: 4px;">
+                                            @if($log->chkflight)
+                                                <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
+                                            @endif
+                                            @if($log->chkhotel)
+                                                <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
+                                            @endif
+                                            @if($log->chkcruise)
+                                                <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
+                                            @endif
+                                            @if($log->chkcar)
+                                                <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>{{ $log->reservation_source }}</td>
+                                    <td>
+                                        @if($log->call_converted)
+                                            <i class="ri ri-check-line" style="color: #228b22; font-size: 18px;"></i>
+                                        @else
                                             <i class="ri ri-close-line" style="color: red; font-size: 18px;"></i>
-                                    @endif
-                                </td>
-
-                                <td>{{$log->updated_at}}</td>
-                                <td>{{$log->user_name}}</td>
-                                <td>{{$log->created_at}}</td>
-                            </tr>
+                                        @endif
+                                    </td>
+                                    <td>{{ $log->updated_at }}</td>
+                                    <td>{{ $log->user_name }}</td>
+                                    <td>{{ $log->created_at }}</td>
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="13" class="text-center">No call logs available.</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="13" class="text-center">No call logs available.</td>
+                                </tr>
                             @endforelse
-
                         </tbody>
                     </table>
 

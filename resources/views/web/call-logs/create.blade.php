@@ -119,16 +119,16 @@
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Campaign <span class="text-danger">*</span></label>
-                            <select id="selcampaign" data-sh="Campaign" name="campaign" class="form-control">
-                                <option value="" {{ old('selcampaign') == '' ? 'selected' : '' }}>Select</option>
+                            <select id="campaign" data-sh="Campaign" name="campaign" class="form-control">
+                                <option value="" {{ old('campaign') == '' ? 'selected' : '' }}>Select</option>
                                 @foreach($campaigns as $campaign)
-                                <option value="{{ $campaign->name }}"
-                                    {{ old('selcampaign') == $campaign->name ? 'selected' : '' }}>
+                                <option value="{{ $campaign->id }}"
+                                    {{ old('campaign') == $campaign->name ? 'selected' : '' }}>
                                     {{ $campaign->name }}
                                 </option>
                                 @endforeach
                             </select>
-                            @error('selcampaign')
+                            @error('campaign')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>

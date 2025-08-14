@@ -91,7 +91,12 @@ class SignatureController extends Controller
 
 
     public function store(Request $request)
-    {
+    {   
+       
+
+         $id = $this->hashids->decode($request->booking_id);
+         $booking_id = $id[0] ?? null;
+
         $request->validate([
             'signature' => 'required|string',
              'signature_type' => 'required|in:draw,type', 
@@ -99,10 +104,9 @@ class SignatureController extends Controller
 
         // Get Public IP from an external service
         $response = Http::get('https://api.ipify.org?format=json');
-        $publicIP = $response->json('ip'); // Extract the IP address
-
-        // Save signature and public IP in the database
+        $publicIP = $response->json('ip');
         Signature::create([
+            'booking_id' => $booking_id,
             'signature_data' => $request->input('signature'),
             'signature_type' => $request->input('signature_type'),
             'ip_address' => $publicIP,

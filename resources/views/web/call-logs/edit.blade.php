@@ -7,7 +7,7 @@
         <div class="breadcrumb">
                 <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
                 <a class="active" href="{{ route('call-logs.index') }}">Call Logs</a>
-                <a class="active" aria-current="page">Edit Call Logs</a>
+                <a aria-current="page">Edit Call Logs</a>
         </div>
     </div>
     <div class="row gy-6">
@@ -38,26 +38,27 @@
                     <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
                         <div class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="form-check form-check-inline">
-                                <input name="chkflight" class="form-check-input" type="checkbox" id="booking-flight"
-                                    value="1" {{ $callLog->chkflight ? 'checked' : '' }}>
+                                <input name="chkflight" class="form-check-input" type="checkbox" id="booking-flight" value="1" {{ $callLog->chkflight ? 'checked' : '' }}>
                                 <label class="form-check-label" for="booking-flight">Flight</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input name="chkhotel" class="form-check-input" type="checkbox" id="booking-hotel"
-                                    value="1" {{ $callLog->chkhotel ? 'checked' : '' }}>
+                                <input name="chkhotel" class="form-check-input" type="checkbox" id="booking-hotel" value="1" {{ $callLog->chkhotel ? 'checked' : '' }}>
                                 <label class="form-check-label" for="booking-hotel">Hotel</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input name="chkcruise" class="form-check-input" type="checkbox" id="booking-cruise"
-                                    value="1" {{ $callLog->chkcruise ? 'checked' : '' }}>
+                                <input name="chkcruise" class="form-check-input" type="checkbox" id="booking-cruise" value="1" {{ $callLog->chkcruise ? 'checked' : '' }}>
                                 <label class="form-check-label" for="booking-cruise">Cruise</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input name="chkcar" class="form-check-input" type="checkbox" id="booking-car" value="1"
-                                    {{ $callLog->chkcar ? 'checked' : '' }}>
+                                <input name="chkcar" class="form-check-input" type="checkbox" id="booking-car" value="1" {{ $callLog->chkcar ? 'checked' : '' }}>
                                 <label class="form-check-label" for="booking-car">Car</label>
                             </div>
                         </div>
+                        @if ($errors->has('chkflight'))
+                            <div class="text-danger mt-2">
+                                At least one of Flight, Hotel, Cruise, or Car must be selected.
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -80,35 +81,19 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Team <span class="text-danger">*</span></label>
-                            <select id="team" name="team" class="form-control">
-                                <option value="" {{ old('selcompany', $callLog->selcompany) == '' ? 'selected' : '' }}>
-                                    Select</option>
-                                @foreach($teams as $team)
-                                <option value="{{ $team->id }}"
-                                    {{ old('selcompany', $callLog->team) == $team->id ? 'selected' : '' }}>
-                                    {{ $team->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            @error('selcompany')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    
+                        
                         <div class="col-md-3 position-relative mb-5">
                             <label class="form-label">Campaign <span class="text-danger">*</span></label>
-                            <select id="selcampaign" name="campaign" class="form-control">
-                                <option value="" {{ old('selcampaign', $callLog->campaign) == '' ? 'selected' : '' }}>
-                                    Select</option>
+                            <select name="campaign" class="form-control">
                                 @foreach($campaigns as $campaign)
-                                <option value="{{ $campaign->id }}"
-                                    {{ old('selcampaign', $callLog->campaign) == $campaign->id ? 'selected' : '' }}>
-                                    {{ $campaign->name }}
-                                </option>
+                                    <option value="{{ $campaign->id }}"
+                                        {{ (old('campaign', $callLog->campaign ?? '') == $campaign->id) ? 'selected' : '' }}>
+                                        {{ $campaign->name }}
+                                    </option>
                                 @endforeach
                             </select>
-                            @error('selcampaign')
+                            @error('campaign')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>

@@ -17,12 +17,14 @@ class AuthHistoryController extends Controller
         $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
     }
 
-    public function authHistory($id) {
+    public function index($id) {
         $id = $this->hashids->decode($id);
         $id = $id[0] ?? null;
-        $auth_histories = AuthHistory::where('booking_id', $id)->get();
+        
+        $auth_histories = AuthHistory::where('auth_histories.booking_id', $id)->get();
         return view('web.mail-history.index',compact('auth_histories'));
     }
+
 
     public function sendSms($id) {
        try{

@@ -680,16 +680,7 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             const id = button.getAttribute('data-id');
-            const email1 = button.getAttribute('data-email1');
-            const email2 = button.getAttribute('data-email2');
 
-            // Set hidden inputs
-            document.getElementById('auth_id').value = id;
-            document.getElementById('auth_email1').value = email1;
-            document.getElementById('auth_email2').value = email2;
-
-
-            // Load dynamic content
             const loadContainer = document.getElementById('load_model');
             if (loadContainer && id) {
                 loadContainer.innerHTML = 'Loading...';
@@ -705,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         modal.addEventListener('hidden.bs.modal', function () {
-            document.getElementById('load_model').innerHTML = ''; // Clear content
+            document.getElementById('load_model').innerHTML = '';
         });
     }
 
@@ -715,9 +706,15 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
 
             const formData = new FormData(form);
-            const queryString = new URLSearchParams(formData).toString();
+            const params = new URLSearchParams(formData);
 
-            fetch('/mail-sent?' + queryString, {
+            document.querySelectorAll('input[name="auth_email[]"]:checked').forEach((checkbox, index) => {
+                params.append(`cards[${index}]`, checkbox.dataset.cards);
+                params.append(`billing_details_ids[${index}]`, checkbox.dataset.billing_details_id);
+                params.append(`travel_billing_details_ids[${index}]`, checkbox.dataset.travel_billing_details_id);
+            });
+
+            fetch('/mail-sent?' + params.toString(), {
                 method: 'GET',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -735,18 +732,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-
-    const checkAll = document.querySelector('.check-all');
-    const emailCheckboxes = form.querySelectorAll('input[name="auth_email[]"]');
-
-    if (checkAll) {
-        checkAll.addEventListener('change', function () {
-            emailCheckboxes.forEach(cb => {
-                cb.checked = this.checked;
-            });
-        });
-    }
-
 });
 
 // document.getElementById('bookingtableremarktable').addEventListener('click', async function (e) {
