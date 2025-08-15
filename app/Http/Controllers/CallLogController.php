@@ -72,11 +72,9 @@ class CallLogController extends Controller
         return view('web.call-logs.create', compact('campaigns', 'call_types', 'teams', 'users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        // Validate request data
         $validated = $request->validate([
             'chkflight' => 'nullable|boolean',
             'chkhotel' => 'nullable|boolean',
@@ -85,7 +83,6 @@ class CallLogController extends Controller
             'chktrain' => 'nullable|boolean',
             'phone' => 'required|string|max:25',
             'name' => 'required|string|max:255',
-            'selcompany' => 'required|string|max:255',
             'campaign' => 'required|exists:campaigns,id',
             'reservation_source' => 'required|string|max:255',
             'call_type' => 'required|string|max:255',
@@ -94,38 +91,38 @@ class CallLogController extends Controller
             'assign' => 'nullable',
             'notes' => 'nullable|string',
         ]);
-    
-     
 
+        // Prepare data for CallLog creation
         $validated['user_id'] = auth()->id();
         $validated['pnr'] = '';
-        $validated['phone'] = preg_replace('/\D/', '', $request->phone); 
-        $call_log = CallLog::create($validated);
-        
-        if($request->call_converted){
-             $pnr = date('dm') . str_pad(time() % 86400 % 10000, 4, '0', STR_PAD_LEFT) . str_pad(
-                DB::table('travel_bookings')->whereDate('created_at', now()->toDateString())->count() + 1,
-                4,
-                '0',
-                STR_PAD_LEFT);
-            
-             $campaign = Campaign::findOrFail($request->campaign); // Fetch Campaign by ID
-             $campaignPrefix = strtoupper(substr($campaign->name, 0, 3));
-             $pnr = $campaignPrefix . (1000000000 + $callLog->id);
-             $callLog->pnr = $pnr;
-             $call_log->update(['pnr' => $pnr]);
+        $validated['phone'] = preg_replace('/\D/', '', $request->phone);
+        $callLog = CallLog::create($validated);
 
-            $bookingData['name'] = $request->name;
-            $bookingData['phone'] = $request->phone;
-            $bookingData['reservation_source'] = $request->reservation_source;
-            $bookingData['campaign'] = $request->campaign;           
-            $bookingData['pnr'] = $pnr;
-            $bookingData['booking_status_id'] = 1;
-            $bookingData['payment_status_id'] = 1;
-            $bookingData['user_id'] = auth()->id();
+        if ($request->call_converted) {
+            // Fetch Campaign (already validated, so no need to re-validate)
+            $campaign = Campaign::findOrFail($request->campaign);
 
+            // Generate PNR
+            $campaignPrefix = strtoupper(substr($campaign->name, 0, 3));
+            $pnr = $campaignPrefix . (1000000000 + $callLog->id);
+
+            // Update CallLog with PNR
+            $callLog->update(['pnr' => $pnr]);
+
+            // Prepare data for TravelBooking
+            $bookingData = [
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'reservation_source' => $request->reservation_source,
+                'campaign' => $request->campaign,
+                'pnr' => $pnr,
+                'booking_status_id' => 1,
+                'payment_status_id' => 1,
+                'user_id' => auth()->id(),
+            ];
             $booking = TravelBooking::create($bookingData);
 
+            // Handle booking types
             $checkboxes = [
                 'chkflight' => 'Flight',
                 'chkhotel' => 'Hotel',
@@ -135,7 +132,7 @@ class CallLogController extends Controller
             ];
 
             foreach ($checkboxes as $field => $type) {
-                if ($request->has($field)) {
+                if ($request->has($field) && $request->$field) {
                     TravelBookingType::create([
                         'booking_id' => $booking->id,
                         'type' => $type,
@@ -143,14 +140,16 @@ class CallLogController extends Controller
                 }
             }
 
+            // Redirect to booking show page
             $hash = $this->hashids->encode($booking->id);
-            return redirect()->route('booking.show', ['id' => $hash]);            
+            return redirect()->route('booking.show', ['id' => $hash]);
         }
 
-        log_operation('CallLog',$call_log->id , 'created' ,'Call Log created successfully', auth()->id());
+        // Log operation and redirect
+        log_operation('CallLog', $callLog->id, 'created', 'Call Log created successfully', auth()->id());
         return redirect()->route('call-logs.index')->with('success', 'Call Log created successfully!');
-        
     }
+    
     
     public function show(CallLog $callLog)
     {

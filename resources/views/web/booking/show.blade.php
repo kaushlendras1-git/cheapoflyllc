@@ -146,7 +146,7 @@
                     <div class="row booking-form">
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">PNR <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="pnr" value="{{ $booking->pnr }}" readonly>
+                            <input type="text" class="form-control" name="pnr" value="{{ $booking->pnr }}" disabled>
                         </div>
                         <fieldset id="flight-inputs" class="toggle-section col-md-6">
                             <div class="row">
@@ -212,29 +212,8 @@
                             <input type="text" class="form-control" name="descriptor"
                                 value="{{ old('descriptor', $booking->descriptor ?? '') }}">
                         </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Booking Status</label>
-                            <select class="form-control" name="booking_status_id">
-                                @foreach($booking_status as $status)
-                                <option value="{{$status->id}}"
-                                    {{ old('booking_status_id', $booking->booking_status_id ?? '') === $status->is ? 'selected' : '' }}>{{ ucwords($status->name ?? '') }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Payment Status</label>
-                              
-                                <select class="form-control" name="payment_status_id">
-                                    @foreach($payment_status as $payment)
-                                        <option value="{{ $payment->id }}" 
-                                            {{ old('payment_status_id', $booking->payment_status_id ?? '') == $payment->id ? 'selected' : '' }}>
-                                            {{ $payment->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                          
-
-                        </div>
+                        
+                         @include('web.booking.status')
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Booking Type</label>

@@ -316,40 +316,51 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     }
 });
 
-document.getElementById('saveRemark').addEventListener('click',async function (e){
-
+document.getElementById('saveRemark').addEventListener('click', async function(e) {
+    e.preventDefault();
+    
     const remark = document.querySelector('textarea[name="particulars"]');
-    try{
-        const response = await axios.post(route('booking.update-remark',{id:route().params.id}),{
-            remark:remark.value,
-           // agent:agent.value,
-        });
-        let html = '';
-        console.log(response);
-        response.data.data.forEach(function(item,index){
-            html += `<tr id="remark-row-${item.id}">
-                    <td>${index+1}</td>
-                    <td>${item.particulars}</td>
-                    <td>${item.agent}</td>
-                    <td>${item.created_at}</td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input toggle-remark"  data-remarkid="${item.id}" checked>
-                        </div>
-                    </td>
-                </tr>`;
-        });
-        $('#bookingtableremarktable').html(html);
-        document.querySelector('textarea[name="particulars"]').value="";
-        showToast(response.data.message);
+    const remarkValue = remark.value.trim();
+    
+    // Client-side validation
+    if (!remarkValue) {
+        showToast('Please Enter a remark', 'error');
+        return;
     }
-    catch (e){
+    
+    try {
+        const response = await axios.post(route('booking.update-remark', { id: route().params.id }), {
+            remark: remarkValue,
+        });
+        
+        let html = '';
+        response.data.data.forEach(function(item, index) {
+            html += `<tr id="remark-row-${item.id}">
+                <td>${index + 1}</td>
+                <td>${item.particulars}</td>
+                <td>${item.agent}</td>
+                <td>${item.created_at}</td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input type="checkbox" class="form-check-input toggle-remark" data-remarkid="${item.id}" checked>
+                    </div>
+                </td>
+            </tr>`;
+        });
+        
+        $('#bookingtableremarktable').html(html);
+        remark.value = '';
+        showToast(response.data.message, 'success');
+    } catch (e) {
         console.error("AXIOS ERROR", e);
-        if (e.response) {
-            console.error("Server responded with:", e.response.data);
+        let errorMessage = 'Failed to save remark';
+        if (e.response && e.response.data && e.response.data.message) {
+            errorMessage = e.response.data.message;
         }
+        showToast(errorMessage, 'error');
     }
 });
+
 
 $('.country-select').on('change',async function(e){
     try{

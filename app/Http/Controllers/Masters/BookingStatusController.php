@@ -10,7 +10,7 @@ class BookingStatusController extends Controller
 {
     public function index()
     {
-        $bookingStatuses = BookingStatus::paginate(10);
+        $bookingStatuses = BookingStatus::paginate(30);
         return view('masters.booking-statuses.index', compact('bookingStatuses'));
     }
 

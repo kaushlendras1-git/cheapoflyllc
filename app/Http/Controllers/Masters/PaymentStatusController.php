@@ -10,7 +10,7 @@ class PaymentStatusController extends Controller
 {
     public function index()
     {
-        $paymentStatuses = PaymentStatus::paginate(10);
+        $paymentStatuses = PaymentStatus::paginate(30);
         return view('masters.payment-statuses.index', compact('paymentStatuses'));
     }
 

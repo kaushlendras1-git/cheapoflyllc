@@ -235,16 +235,28 @@ class BookingFormController extends Controller
     }
 
 
-    public function updateRemark(Request $request,$id)
+   public function updateRemark(Request $request, $id)
     {
-        TravelBookingRemark::create([
-            'booking_id' => $this->hashids->decode($id)[0],
-            'particulars'=>$request->remark,
-            'agent'=>Auth::id(),
+        // Validation rules
+        $validator = Validator::make($request->all(), [
+            'remark' => 'required|string|min:1|max:1000',
         ]);
-       $data = TravelBookingRemark::with('agentUser:id,name')
-                ->select('id','booking_id','agent','particulars','created_at')
-                ->where('booking_id', $this->hashids->decode($id)[0])
+
+        if ($validator->fails()) {
+            return JsonResponse::error($validator->errors()->first(), 422);
+        }
+
+        try {
+            $decodedId = $this->hashids->decode($id)[0];
+            TravelBookingRemark::create([
+                'booking_id' => $decodedId,
+                'particulars' => nl2br(htmlspecialchars($request->remark, ENT_QUOTES, 'UTF-8')),
+                'agent' => Auth::id(),
+            ]);
+
+            $data = TravelBookingRemark::with('agentUser:id,name')
+                ->select('id', 'booking_id', 'agent', 'particulars', 'created_at')
+                ->where('booking_id', $decodedId)
                 ->where('status', 1)
                 ->get()
                 ->map(function($item) {
@@ -257,7 +269,10 @@ class BookingFormController extends Controller
                     ];
                 });
 
-        return JsonResponse::successWithData('Booking review saved',201,$data,'201');
+            return JsonResponse::successWithData('Booking remark saved successfully', 201, $data, '201');
+        } catch (\Exception $e) {
+            return JsonResponse::error('Failed to save remark: ' . $e->getMessage(), 500);
+        }
     }
 
     public function deleteRemark(Request $request,$id){
@@ -324,7 +339,7 @@ class BookingFormController extends Controller
             $rules = [
                 'booking-type'        => 'required|array|min:1',
                 'booking-type.*'      => 'in:Flight,Hotel,Cruise,Car,Train',
-                'pnr'                 => 'required|string|max:255',
+              #  'pnr'                 => 'required|string|max:255',
                 'hotel_ref'           => 'nullable|string|max:255',
                 'cruise_ref'          => 'nullable|string|max:255',
                 'name'                => 'required|string|max:255',
@@ -339,41 +354,23 @@ class BookingFormController extends Controller
                 'sector_details.*'    => 'required|file|image|max:2048',            
             ];
 
-        if(auth()->user()->departments != 'Billing')  {  
-            $rules['passenger']                              = 'required|array|min:1';
-            $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
-            $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
-            $rules['passenger.*.title']                      = 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss';
-            $rules['passenger.*.first_name']                 = 'required|string';
-            $rules['passenger.*.middle_name']                = 'nullable|string';
-            $rules['passenger.*.last_name']                  = 'required|string';
-            $rules['passenger.*.dob']                        = 'required|date|before:today';
-            $rules['passenger.*.seat_number']                = 'nullable|string';
-            $rules['passenger.*.credit_note']                = 'nullable|numeric';
-            $rules['passenger.*.e_ticket_number']            = 'nullable|string';
-        }    
+        
+            if(auth()->user()->departments != 'Billing')  {  
+                $rules['passenger']                              = 'required|array|min:1';
+                $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
+                $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
+                $rules['passenger.*.title']                      = 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss';
+                $rules['passenger.*.first_name']                 = 'required|string';
+                $rules['passenger.*.middle_name']                = 'nullable|string';
+                $rules['passenger.*.last_name']                  = 'required|string';
+                $rules['passenger.*.dob']                        = 'required|date|before:today';
+                $rules['passenger.*.seat_number']                = 'nullable|string';
+                $rules['passenger.*.credit_note']                = 'nullable|numeric';
+                $rules['passenger.*.e_ticket_number']            = 'nullable|string';
+            }    
 
-            //BILLING
-            $rules['billing']                           = 'required|array|min:1';
-            $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
-            $rules['billing.*.cc_number']               = 'required|string|max:255';
-            $rules['billing.*.cc_holder_name']          = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
-            $rules['billing.*.exp_month']               = 'required|in:01,02,03,04,05,06,07,08,09,10,11,12';
-            $rules['billing.*.exp_year']                = 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10);
-            $rules['billing.*.cvv']                     = 'required|string|max:4';
-            $rules['billing.*.currency']                = 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN';
-            $rules['billing.*.amount']                  = 'required|numeric|min:1';
 
-            //PRICIGN
-
-            $rules['pricing']                          = 'required|array|min:1';
-            $rules['pricing.*.passenger_type']         = 'required|string|in:adult,child,infant_on_lap,infant_on_seat';
-            $rules['pricing.*.num_passengers']         = 'required|integer|min:1';
-            $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
-            $rules['pricing.*.net_price']              = 'required|numeric|min:0';
-            $rules['pricing.*.details']                = 'required|string';
-
-         if(auth()->user()->departments != 'Billing')  {      
+        if(auth()->user()->departments != 'Billing')  {      
             // ---- FLIGHT ----
             if (in_array('Flight', $bookingTypes)) {
                 $rules['flight']                        = 'required|array|min:1';
@@ -451,10 +448,34 @@ class BookingFormController extends Controller
                 $rules['train.*.transit']              = 'required|string';
                 $rules['train.*.arrival_date']         = 'required|date';
             }
-         }    
+        }
+        
+            //BILLING
+            $rules['billing']                           = 'required|array|min:1';
+            $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
+            $rules['billing.*.cc_number']               = 'required|string|max:255';
+            $rules['billing.*.cc_holder_name']          = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
+            $rules['billing.*.exp_month']               = 'required|in:01,02,03,04,05,06,07,08,09,10,11,12';
+            $rules['billing.*.exp_year']                = 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10);
+            $rules['billing.*.cvv']                     = 'required|string|max:4';
+            $rules['billing.*.currency']                = 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN';
+            $rules['billing.*.amount']                  = 'required|numeric|min:1';
 
-            // Optional: Put your custom messages array here (same as you posted)
+            //PRICIGN
+            $rules['pricing']                          = 'required|array|min:1';
+            $rules['pricing.*.passenger_type']         = 'required|string|in:adult,child,infant_on_lap,infant_on_seat';
+            $rules['pricing.*.num_passengers']         = 'required|integer|min:1';
+            $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
+            $rules['pricing.*.net_price']              = 'required|numeric|min:0';
+            $rules['pricing.*.details']                = 'required|string';
+
+        //    $remarkCount = DB::table('travel_booking_remarks')->where('booking_id', $id)->count();
+        //     if ($remarkCount == 0) {
+        //         $rules['remark'] = 'required';
+        //     }
+
             $messages = [
+                'remark.required'     => 'At least one Remark type is required.',
                 // booking-type
                 'booking-type.required'     => 'At least one booking type is required.',
                 'booking-type.array'        => 'Booking types must be provided as an array.',
@@ -829,18 +850,9 @@ class BookingFormController extends Controller
                 'train.*.arrival_date.date'           => 'Train arrival date must be a valid date.',
             ];
 
-
-            // Validation
+           
+            
             $validator = Validator::make($request->all(), $rules, $messages);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => 'error',
-                    'errors' => $validator->errors()->first(),
-                ], 422);
-            }
-
-            $validator = Validator::make($request->all(), $rules, $messages);
-
             $validator->after(function ($validator) use ($request, $bookingTypes) {
                 // Billing card number and CVV validation
                 $billings = $request->input('billing', []);
@@ -880,8 +892,6 @@ class BookingFormController extends Controller
                         'code' => 555
                     ], 555);
              }
-
-             
 
 
             $bookingData = $request->only([
@@ -1275,6 +1285,7 @@ class BookingFormController extends Controller
         $userDepartments = [$userDepartments];       
         $booking_status = BookingStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
         $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
+        
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
@@ -1284,7 +1295,6 @@ class BookingFormController extends Controller
         $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
-
         $users = User::get();
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();

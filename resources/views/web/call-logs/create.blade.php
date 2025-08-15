@@ -101,21 +101,6 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Team <span class="text-danger">*</span></label>
-                            <select id="selcompany" data-sh="Team" name="selcompany" class="form-control">
-                                <option value="" {{ old('selcompany') == '' ? 'selected' : '' }}>Select</option>
-                                @foreach($teams as $team)
-                                <option value="{{ $team->name }}"
-                                    {{ old('selcompany') == $team->name ? 'selected' : '' }}>
-                                    {{ $team->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            @error('selcompany')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Campaign <span class="text-danger">*</span></label>
