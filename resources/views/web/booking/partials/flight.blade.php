@@ -102,6 +102,7 @@
                                                         placeholder="Class of Service" style="width: 37px;" min="0"
                                                         max="1"></td>
                                                 <td><input type="text" class="form-control"
+                                                        style="width: 90px;"
                                                         name="flight[{{ $index }}][departure_airport]"
                                                         value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                         placeholder="Departure Airport"></td>
@@ -138,7 +139,7 @@
                                                         value="{{ old("flight.$index.duration", $flight->duration) }}"
                                                         placeholder="Duration"></td>
 
-                                                <td><input type="text" class="form-control"
+                                                <td><input type="text" class="form-control" style="width: 4.5rem;"
                                                         name="flight[{{ $index }}][transit]"
                                                         value="{{ old("flight.$index.transit", $flight->transit) }}"
                                                         placeholder="Transit"></td>

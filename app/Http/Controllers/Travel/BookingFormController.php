@@ -336,42 +336,44 @@ class BookingFormController extends Controller
                 'reservation_source'  => 'nullable|string|max:255',
                 'descriptor'          => 'nullable|string|max:255',
                 'amadeus_sabre_pnr'   => 'nullable|string|max:255',
-                'sector_details.*'    => 'required|file|image|max:2048',
-
-                // Passenger
-                'passenger'                          => 'required|array|min:1',
-                'passenger.*.passenger_type'         => 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant',
-                'passenger.*.gender'                 => 'required|string|in:Male,Female,Other',
-                'passenger.*.title'                  => 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss',
-                'passenger.*.first_name'             => 'required|string',
-                'passenger.*.middle_name'            => 'nullable|string',
-                'passenger.*.last_name'              => 'required|string',
-                'passenger.*.dob'                    => 'required|date|before:today',
-                'passenger.*.seat_number'            => 'nullable|string',
-                'passenger.*.credit_note'            => 'nullable|numeric',
-                'passenger.*.e_ticket_number'        => 'nullable|string',
-
-                // Billing
-                'billing'                => 'required|array|min:1',
-                'billing.*.card_type'    => 'required|string|in:VISA,Mastercard,AMEX,DISCOVER',
-                'billing.*.cc_number'    => 'required|string|max:255',
-                'billing.*.cc_holder_name' => ['required','string','max:255','regex:/^[A-Za-z\s]+$/'],
-                'billing.*.exp_month'    => 'required|in:01,02,03,04,05,06,07,08,09,10,11,12',
-                'billing.*.exp_year'     => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
-                'billing.*.cvv'          => 'required|string|max:4',
-                'billing.*.currency'     => 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN',
-                'billing.*.amount'       => 'required|numeric|min:1',
-
-                // Pricing
-                'pricing'                    => 'required|array|min:1',
-                'pricing.*.passenger_type'   => 'required|string|in:adult,child,infant_on_lap,infant_on_seat',
-                'pricing.*.num_passengers'   => 'required|integer|min:1',
-                'pricing.*.gross_price'      => 'required|numeric|min:0',
-                'pricing.*.net_price'        => 'required|numeric|min:0',
-                'pricing.*.details'          => 'required|string',
+                'sector_details.*'    => 'required|file|image|max:2048',            
             ];
 
-            // == CONDITIONAL RULES based on booking-type ==
+        if(auth()->user()->departments != 'Billing')  {  
+            $rules['passenger']                              = 'required|array|min:1';
+            $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
+            $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
+            $rules['passenger.*.title']                      = 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss';
+            $rules['passenger.*.first_name']                 = 'required|string';
+            $rules['passenger.*.middle_name']                = 'nullable|string';
+            $rules['passenger.*.last_name']                  = 'required|string';
+            $rules['passenger.*.dob']                        = 'required|date|before:today';
+            $rules['passenger.*.seat_number']                = 'nullable|string';
+            $rules['passenger.*.credit_note']                = 'nullable|numeric';
+            $rules['passenger.*.e_ticket_number']            = 'nullable|string';
+        }    
+
+            //BILLING
+            $rules['billing']                           = 'required|array|min:1';
+            $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
+            $rules['billing.*.cc_number']               = 'required|string|max:255';
+            $rules['billing.*.cc_holder_name']          = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
+            $rules['billing.*.exp_month']               = 'required|in:01,02,03,04,05,06,07,08,09,10,11,12';
+            $rules['billing.*.exp_year']                = 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10);
+            $rules['billing.*.cvv']                     = 'required|string|max:4';
+            $rules['billing.*.currency']                = 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN';
+            $rules['billing.*.amount']                  = 'required|numeric|min:1';
+
+            //PRICIGN
+
+            $rules['pricing']                          = 'required|array|min:1';
+            $rules['pricing.*.passenger_type']         = 'required|string|in:adult,child,infant_on_lap,infant_on_seat';
+            $rules['pricing.*.num_passengers']         = 'required|integer|min:1';
+            $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
+            $rules['pricing.*.net_price']              = 'required|numeric|min:0';
+            $rules['pricing.*.details']                = 'required|string';
+
+         if(auth()->user()->departments != 'Billing')  {      
             // ---- FLIGHT ----
             if (in_array('Flight', $bookingTypes)) {
                 $rules['flight']                        = 'required|array|min:1';
@@ -389,6 +391,7 @@ class BookingFormController extends Controller
                 $rules['flight.*.cabin']                = 'required|string|in:B.Eco,Eco,Pre.Eco,Buss.';
                 $rules['flight.*.class_of_service']     = 'required|string|max:3';
             }
+
             // ---- HOTEL ----
             if (in_array('Hotel', $bookingTypes)) {
                     $rules['hotelbookingimage']           = 'required_without:hotel|array';
@@ -448,7 +451,7 @@ class BookingFormController extends Controller
                 $rules['train.*.transit']              = 'required|string';
                 $rules['train.*.arrival_date']         = 'required|date';
             }
-
+         }    
 
             // Optional: Put your custom messages array here (same as you posted)
             $messages = [
@@ -1267,8 +1270,11 @@ class BookingFormController extends Controller
             'travelCruise',
             'travelHotel',
         ])->findOrFail($id);
-        $booking_status = BookingStatus::where('status',1)->get();
-        $payment_status = PaymentStatus::where('status',1)->get();
+
+        $userDepartments = auth()->user()->departments;
+        $userDepartments = [$userDepartments];       
+        $booking_status = BookingStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
+        $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();

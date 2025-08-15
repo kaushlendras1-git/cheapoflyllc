@@ -140,6 +140,49 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             formdata.append(name, value);
         });
     }
+    
+    /*if (isFlightChecked) {
+            const skipFieldsForFlight = [
+                'airline_code',
+                'flight_number',
+                'class_of_service',
+                'departure_airport',
+                'arrival_airport',
+                'duration',
+                'transit',
+                'departure_date',
+                'arrival_date'
+            ];
+
+            const inputs = document.querySelectorAll('[name^="flight["]');
+            const flightRows = {};
+            let counter = 0;
+
+            inputs.forEach(input => {
+                const match = input.name.match(/\[(\d+)\]\[(\w+)\]/);
+                if (!match) return;
+
+                const fieldName = match[2];
+
+                // Detect a new row by the first field in the group
+                if (fieldName === 'airline_code') counter++;  // increment for each new row
+
+                if (!flightRows[counter]) flightRows[counter] = {};
+                flightRows[counter][fieldName] = input.value.trim();
+            });
+
+            Object.keys(flightRows).forEach(index => {
+                const rowData = flightRows[index];
+                const allBlank = skipFieldsForFlight.every(field => !rowData[field]);
+
+                if (!allBlank) {
+                    Object.keys(rowData).forEach(fieldName => {
+                        formdata.append(`flight[${index}][${fieldName}]`, rowData[fieldName]);
+                    });
+                }
+            });
+        }
+    */
 
     const hotelInputs = document.querySelectorAll('[name^="hotel["]');
     hotelInputs.forEach(input => {
@@ -176,14 +219,69 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         });
     }
 
-    ['passenger', 'billing', 'pricing'].forEach(prefix => {
-        const inputs = document.querySelectorAll(`[name^="${prefix}["], [name^="${prefix}["] *`);
-        inputs.forEach(input => {
-            if (input.name) {
-                formdata.append(input.name, input.value);
+  
+        const skipFieldsForPassenger = [
+        'title',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'dob',
+        'seat_number',
+        'credit_note',
+        'e_ticket_number'
+        ];
+
+        const skipFieldsForBilling = [
+            'card_type',
+            'cc_number',
+            'cc_holder_name',
+            'exp_month',
+            'exp_year',
+            'cvv',
+        ];
+
+        // Define the key fields for pricing rows
+        const skipFieldsForPricing = [
+            'net_price',
+            'details'
+        ];
+
+        ['passenger', 'billing', 'pricing'].forEach(prefix => {
+            const inputs = document.querySelectorAll(`[name^="${prefix}["]`);
+            const rows = {};
+            inputs.forEach(input => {
+                const match = input.name.match(/\[(\d+)\]\[(\w+)\]/);
+                if (!match) return;
+
+                const index = match[1];
+                const fieldName = match[2];
+
+                if (!rows[index]) rows[index] = {};
+                rows[index][fieldName] = input.value.trim();
+            });
+
+            let skipFields = [];
+            if (prefix === 'passenger') {
+                skipFields = skipFieldsForPassenger;
+            } else if (prefix === 'billing') {
+                skipFields = skipFieldsForBilling;
+            } else if (prefix === 'pricing') {
+                skipFields = skipFieldsForPricing;
             }
+
+            Object.keys(rows).forEach(index => {
+                const rowData = rows[index];
+                const allBlank = skipFields.every(field => !rowData[field]);
+
+                if (!allBlank) {
+                    Object.keys(rowData).forEach(fieldName => {
+                        formdata.append(`${prefix}[${index}][${fieldName}]`, rowData[fieldName]);
+                    });
+                }
+            });
         });
-    });
+
+        
 
 
     try{

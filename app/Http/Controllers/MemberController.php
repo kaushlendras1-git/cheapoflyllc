@@ -81,7 +81,7 @@ class MemberController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:25',
-            'password' => 'required|string|max:15',
+            'password' => 'required|string|max:25',
             'role' => 'required|in:Agent,TLeader,Manager,Admin',
             'departments' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
         ]);

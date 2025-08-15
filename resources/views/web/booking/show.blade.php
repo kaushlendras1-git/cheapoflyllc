@@ -51,7 +51,7 @@
                     <strong class="book-upper-tags">Booking :</strong><span
                         class="book-bottom-tags">{{$booking->id}}</span>
                     <strong class="book-upper-tags">Sales:</strong><span
-                      class="book-bottom-tags">{{ $booking->user?->name ?? 'N/A' }} - {{ $booking->user?->role ?? 'N/A' }}</span>
+                      class="book-bottom-tags">{{ $booking->user?->name ?? 'N/A' }} - {{  auth()->user()->departments  }}</span>
 
                     <strong class="book-upper-tags">Issued On:</strong><span
                         class="book-bottom-tags">{{$booking->created_at}}</span>
@@ -137,9 +137,6 @@
                             <button type="submit" style="padding: 5px; font-size: 12px;" class="btn btn-sm btn-primary text-center">
                                 <i style="width: 14px; margin-right: 3px; height: 14px;" class="icon-base ri ri-save-2-fill"></i> Save
                             </button>
-                            <!-- <button type="button" class="btn btn-sm btn-dark text-center">
-                            <i class="icon-base ri ri-mail-send-fill"></i> Send
-                        </button> -->
                         </div>
                     </div>
                 </div>
@@ -156,23 +153,25 @@
                                 <div class="col-md-4 position-relative mb-5">
                                     <label class="form-label">Airline PNR</label>
                                     <input type="text" class="form-control" name="airlinepnr"
-                                        value="{{ $booking->airlinepnr }}" placeholder="Airline PNR">
+                                        value="{{ $booking->airlinepnr }}" placeholder="Airline PNR" 
+                                        @if($booking->airlinepnr) disabled  @endif 
+                                    >
                                 </div>
 
                                 <div class="col-md-4 position-relative mb-5">
                                     <label class="form-label">Amadeus/Sabre PNR</label>
                                     <input type="text" class="form-control" name="amadeus_sabre_pnr"
-                                        value="{{ $booking->amadeus_sabre_pnr }}">
+                                        value="{{ $booking->amadeus_sabre_pnr }}"
+                                         @if($booking->amadeus_sabre_pnr) disabled  @endif 
+                                         >
                                 </div>
 
                                 <div class="col-md-4 position-relative mb-5">
                                     <label class="form-label"> PNR Type</label>
                                     <select class="form-control" name="pnrtype">
                                         <option value="">Select</option>
-                                        <option value="HK" {{$booking->pnrtype == 'HK'?'selected':''}}>
-                                            HK</option>
-                                        <option value="GK" {{$booking->pnrtype == 'GK'?'selected':''}}>
-                                            GK</option>
+                                        <option value="HK" {{$booking->pnrtype == 'HK'?'selected':''}}>HK</option>
+                                        <option value="GK" {{$booking->pnrtype == 'GK'?'selected':''}}>GK</option>
                                     </select>
                                 </div>
                             </div>
@@ -218,20 +217,23 @@
                             <select class="form-control" name="booking_status_id">
                                 @foreach($booking_status as $status)
                                 <option value="{{$status->id}}"
-                                    {{ old('booking_status_id', $booking->booking_status_id ?? '') === $status->is ? 'selected' : '' }}>
-                                    {{ ucwords($status->name ?? '') }}</option>
+                                    {{ old('booking_status_id', $booking->booking_status_id ?? '') === $status->is ? 'selected' : '' }}>{{ ucwords($status->name ?? '') }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Payment Status</label>
-                            <select class="form-control" name="payment_status_id">
-                                @foreach($payment_status as $payment)
-                                <option value="{{$payment->id}}"
-                                    {{ old('payment_status_id', $booking->payment_status_id ?? '') === $payment->is ? 'selected' : '' }}>
-                                    {{$payment->name}}</option>
-                                @endforeach
-                            </select>
+                              
+                                <select class="form-control" name="payment_status_id">
+                                    @foreach($payment_status as $payment)
+                                        <option value="{{ $payment->id }}" 
+                                            {{ old('payment_status_id', $booking->payment_status_id ?? '') == $payment->id ? 'selected' : '' }}>
+                                            {{ $payment->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                          
+
                         </div>
 
                         <div class="col-md-2 position-relative mb-5">
@@ -248,18 +250,10 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">LOB</label>
                             <select id="selected_company" name="selected_company" class="form-control">
-                                <option value="1"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>
-                                    flydreamz</option>
-                                <option value="2"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}>
-                                    fareticketsllc</option>
-                                <option value="3"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>
-                                    fareticketsus</option>
-                                <option value="4"
-                                    {{ old('selected_company', $booking->selected_company ?? '') === '4' ? 'selected' : '' }}>
-                                    cruiselineservice</option>
+                                <option value="1" {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>flydreamz</option>
+                                <option value="2" {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}> fareticketsllc</option>
+                                <option value="3" {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}> fareticketsus</option>
+                                <option value="4" {{ old('selected_company', $booking->selected_company ?? '') === '4' ? 'selected' : '' }}> cruiselineservice</option>
                             </select>
                         </div>
 
@@ -269,9 +263,7 @@
                                 <option value="">Select
                                 </option>
                                 @foreach($campaigns as $campaign)
-                                <option value="{{$campaign->name}}"
-                                    {{$campaign->name == $booking->call_queue?'selected':''}}>
-                                    {{$campaign->name}}</option>
+                                <option value="{{$campaign->name}}" {{$campaign->name == $booking->call_queue?'selected':''}}>{{$campaign->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -281,9 +273,7 @@
                             <select class="form-control" name="shared_booking">
                                 <option value="">Select</option>
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}" {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
+                                    <option value="{{ $user->id }}" {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -291,13 +281,13 @@
                 </div>
         </div>
 
-            @if(auth()->user()->role === 'billing')
+            @if(auth()->user()->departments === 'Billing')
                 @include('web.booking.partials.tabs-billing')
-            @elseif(auth()->user()->role === 'agent')
+            @elseif(auth()->user()->departments === 'Sales')
                 @include('web.booking.partials.tabs-agent')
-            @elseif(auth()->user()->role === 'admin')
+            @elseif(auth()->user()->departments === 'Admin')
                 @include('web.booking.partials.tabs-admin')     
-            @elseif(auth()->user()->role === 'quality')
+            @elseif(auth()->user()->departments === 'Quality')
                 @include('web.booking.partials.tabs-quality')     
             
             @else    
