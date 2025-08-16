@@ -270,7 +270,7 @@
                 @include('web.booking.partials.tabs-quality')     
             
             @else    
-                No Data
+                 @include('web.booking.partials.tabs-admin')     
             @endif
 
 
