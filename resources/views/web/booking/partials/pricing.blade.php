@@ -98,20 +98,22 @@
                                                 on Seat</option>
                                         </select>
                                     </td>
-                                    <td><input type="number" class="form-control"
+                                    <td><input type="number" style="width: 120px" class="form-control"
                                             name="pricing[{{$key}}][num_passengers]"
                                             value="{{$pricingDetails->num_passengers}}" placeholder="No. of Passengers"
                                             min="0"></td>
-                                    <td><input type="number" class="form-control" name="pricing[{{$key}}][gross_price]"
+
+                                    <td><input type="number" style="width: 100px" class="form-control" name="pricing[{{$key}}][gross_price]"
                                             value="{{$pricingDetails->gross_price}}" placeholder="Gross Price" min="0"
                                             step="0.01"></td>
+
                                     <td><span class="gross-total">0.00</span></td>
-                                    <td><input type="number" class="form-control" name="pricing[{{$key}}][net_price]"
+                                    <td><input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
                                             value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
                                             step="0.01"></td>
                                     <td><span class="net-total">0.00</span></td>
                                     <td>
-                                        <select class="form-control" name="pricing[{{$key}}][details]"
+                                        <select class="form-control" style="width: 145px;" name="pricing[{{$key}}][details]"
                                             id="details_{{$key}}">
 
                                             <option value="ticket_cost"

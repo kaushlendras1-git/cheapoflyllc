@@ -353,9 +353,8 @@ class BookingFormController extends Controller
                 'amadeus_sabre_pnr'   => 'nullable|string|max:255',
                 'sector_details.*'    => 'required|file|image|max:2048',            
             ];
-
         
-            if(auth()->user()->departments != 'Billing')  {  
+           if(auth()->user()->departments != 'Billing')  {  
                 $rules['passenger']                              = 'required|array|min:1';
                 $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
                 $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
@@ -373,81 +372,124 @@ class BookingFormController extends Controller
         if(auth()->user()->departments != 'Billing')  {      
             // ---- FLIGHT ----
             if (in_array('Flight', $bookingTypes)) {
-                $rules['flight']                        = 'required|array|min:1';
-                $rules['flight.*.direction']            = 'required|string|in:Inbound,Outbound';
-                $rules['flight.*.departure_date']       = 'required|date';
-                $rules['flight.*.departure_airport']    = 'required|string|max:255';
-                $rules['flight.*.departure_hours']      = 'required|date_format:H:i';
-                $rules['flight.*.arrival_airport']      = 'required|string|max:255';
-                $rules['flight.*.arrival_hours']        = 'required|date_format:H:i';
-                $rules['flight.*.duration']             = 'required';
-                $rules['flight.*.transit']              = 'required';
-                $rules['flight.*.arrival_date']         = 'required';
-                $rules['flight.*.airline_code']         = 'required|string|size:2';
-                $rules['flight.*.flight_number']        = 'required|string|max:10';
-                $rules['flight.*.cabin']                = 'required|string|in:B.Eco,Eco,Pre.Eco,Buss.';
-                $rules['flight.*.class_of_service']     = 'required|string|max:3';
+                $flightImageExists = DB::table('flight_images')->where('booking_id', $id)->exists();
+
+                if ($flightImageExists) {
+                    $rules['flightbookingimage'] = 'array';
+                    $rules['flight'] = 'array';
+                } else {
+                    $rules['flightbookingimage'] = 'required_without:flight|array';
+                    $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
+                }
+                $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
+                $rules['flight.*.departure_date']    = 'required_with:flight|date';
+                $rules['flight.*.departure_airport'] = 'required_with:flight|string|max:255';
+                $rules['flight.*.departure_hours']   = 'required_with:flight|date_format:H:i';
+                $rules['flight.*.arrival_airport']   = 'required_with:flight|string|max:255';
+                $rules['flight.*.arrival_hours']     = 'required_with:flight|date_format:H:i';
+                $rules['flight.*.duration']          = 'required_with:flight';
+                $rules['flight.*.transit']           = 'required_with:flight';
+                $rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
+                $rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
+                $rules['flight.*.flight_number']     = 'required_with:flight|string|max:10';
+                $rules['flight.*.cabin']             = 'required_with:flight|string|in:B.Eco,Eco,Pre.Eco,Buss.';
+                $rules['flight.*.class_of_service']  = 'required_with:flight|string|max:3';
             }
+
 
             // ---- HOTEL ----
             if (in_array('Hotel', $bookingTypes)) {
-                    $rules['hotelbookingimage']           = 'required_without:hotel|array';
-                    $rules['hotel']                       = 'required_without:hotelbookingimage|array|min:1';
-                    $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
-                    $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
-                    $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
-                    $rules['hotel.*.checkout_date']       = 'required_with:hotel|date|after:hotel.*.checkin_date';
-                    $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
-                    $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
-                    $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
-                    $rules['hotel.*.remarks']             = 'required_with:hotel|string|max:1000';
+                $hotelImageExists = DB::table('hotel_images')->where('booking_id', $id)->exists();
+                if ($hotelImageExists) {
+                    $rules['hotelbookingimage'] = 'array';
+                    $rules['hotel'] = 'array'; 
+                } else {
+                     $rules['hotelbookingimage'] = 'required_without:hotel|array';
+                    $rules['hotel'] = 'required_without:hotelbookingimage|array|min:1';
                 }
+                $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
+                $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
+                $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
+                $rules['hotel.*.checkout_date']       = 'required_with:hotel|date|after:hotel.*.checkin_date';
+                $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
+                $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
+                $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
+                $rules['hotel.*.remarks']             = 'required_with:hotel|string|max:1000';
+            }
 
             // ---- CRUISE ----
             if (in_array('Cruise', $bookingTypes)) {
-                $rules['cruise']                        = 'required|array|min:1';
-                $rules['cruise.*.cruise_line']          = 'required|string|max:255';
-                $rules['cruise.*.ship_name']            = 'required|string|max:255';
-                $rules['cruise.*.category']             = 'required|string|max:255';
-                $rules['cruise.*.stateroom']            = 'required|string|max:255';
-                $rules['cruise.*.departure_port']       = 'required|string|max:255';
-                $rules['cruise.*.departure_date']       = 'required|date';
-                $rules['cruise.*.departure_hrs']        = 'required|date_format:H:i';
-                $rules['cruise.*.arrival_port']         = 'required|string|max:255';
-                $rules['cruise.*.arrival_hrs']          = 'required|date_format:H:i';
+                $cruiseImageExists = DB::table('cruise_images')->where('booking_id', $id)->exists();
+
+                if ($cruiseImageExists) {
+                    $rules['cruisebookingimage'] = 'array';
+                    $rules['cruise'] = 'array';
+                } else {
+                    $rules['cruisebookingimage'] = 'required_without:cruise|array';
+                    $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
+                }
+
+                $rules['cruise.*.cruise_line']     = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.ship_name']       = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.category']        = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.stateroom']       = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.departure_date']  = 'required_with:cruise|date';
+                $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
+                $rules['cruise.*.arrival_port']    = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';
             }
+
             // ---- CAR ----
             if (in_array('Car', $bookingTypes)) {
-                $rules['car']                              = 'required|array|min:1';
-                $rules['car.*.car_rental_provider']        = 'required|string|max:255';
-                $rules['car.*.car_type']                   = 'required|string|max:255';
-                $rules['car.*.pickup_location']            = 'required|string|max:255';
-                $rules['car.*.dropoff_location']           = 'required|string|max:255';
-                $rules['car.*.pickup_date']                = 'required|date|after_or_equal:today';
-                $rules['car.*.pickup_time']                = 'required|date_format:H:i';
-                $rules['car.*.dropoff_date']               = 'required|date|after_or_equal:today';
-                $rules['car.*.dropoff_time']               = 'required|date_format:H:i';
-                $rules['car.*.confirmation_number']        = 'nullable|string|max:255';
-                $rules['car.*.remarks']                    = 'nullable|string|max:255';
-                $rules['car.*.rental_provider_address']    = 'required|string|max:255';
+                $carImageExists = DB::table('car_images')->where('booking_id', $id)->exists();
+
+                if ($carImageExists) {
+                    $rules['carbookingimage'] = 'array';
+                    $rules['car'] = 'array';
+                } else {
+                    $rules['carbookingimage'] = 'required_without:car|array';
+                    $rules['car'] = 'required_without:carbookingimage|array|min:1';
+                }
+
+                $rules['car.*.car_rental_provider']     = 'required_with:car|string|max:255';
+                $rules['car.*.car_type']                = 'required_with:car|string|max:255';
+                $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
+                $rules['car.*.dropoff_location']        = 'required_with:car|string|max:255';
+                $rules['car.*.pickup_date']             = 'required_with:car|date|after_or_equal:today';
+                $rules['car.*.pickup_time']             = 'required_with:car|date_format:H:i';
+                $rules['car.*.dropoff_date']            = 'required_with:car|date|after_or_equal:today';
+                $rules['car.*.dropoff_time']            = 'required_with:car|date_format:H:i';
+                $rules['car.*.confirmation_number']     = 'nullable|string|max:255';
+                $rules['car.*.remarks']                 = 'nullable|string|max:255';
+                $rules['car.*.rental_provider_address'] = 'required_with:car|string|max:255';
             }
+
             // ---- TRAIN ----
             if (in_array('Train', $bookingTypes)) {
-                $rules['train']                        = 'required|array|min:1';
-                $rules['train.*.direction']            = 'required|string';
-                $rules['train.*.departure_date']       = 'required|date';
-                $rules['train.*.train_number']         = 'required|string|max:255';
-                $rules['train.*.cabin']                = 'required|string';
-                $rules['train.*.departure_station']    = 'required|string|max:255';
-                $rules['train.*.departure_hours']      = 'required|string';
-               # $rules['train.*.departure_minutes']    = 'required|string';
-                $rules['train.*.arrival_station']      = 'required|string|max:255';
-                $rules['train.*.arrival_hours']        = 'required|string';
-               # $rules['train.*.arrival_minutes']      = 'required|string';
-                $rules['train.*.duration']             = 'required|string';
-                $rules['train.*.transit']              = 'required|string';
-                $rules['train.*.arrival_date']         = 'required|date';
+                $trainImageExists = DB::table('train_images')->where('booking_id', $id)->exists();
+
+                if ($trainImageExists) {
+                    $rules['trainbookingimage'] = 'array';
+                    $rules['train'] = 'array';
+                } else {
+                    $rules['trainbookingimage'] = 'required_without:train|array';
+                    $rules['train'] = 'required_without:trainbookingimage|array|min:1';
+                }
+
+                $rules['train.*.direction']         = 'required_with:train|string';
+                $rules['train.*.departure_date']    = 'required_with:train|date';
+                $rules['train.*.train_number']      = 'required_with:train|string|max:255';
+                $rules['train.*.cabin']             = 'required_with:train|string';
+                $rules['train.*.departure_station'] = 'required_with:train|string|max:255';
+                $rules['train.*.departure_hours']   = 'required_with:train|string';
+                $rules['train.*.arrival_station']   = 'required_with:train|string|max:255';
+                $rules['train.*.arrival_hours']     = 'required_with:train|string';
+                $rules['train.*.duration']          = 'required_with:train|string';
+                $rules['train.*.transit']           = 'required_with:train|string';
+                $rules['train.*.arrival_date']      = 'required_with:train|date';
             }
+            
         }
         
             //BILLING
@@ -968,29 +1010,24 @@ class BookingFormController extends Controller
                 ->each
                 ->forceDelete();
             if(in_array('Flight',$newBookingTypes)){
-                foreach ($newFlights as $flightData) {
 
-                    $flightData['booking_id'] = $booking->id;
-
-                    // Handle flight booking image uploads
-                    if (isset($request->flightbookingimage) && !empty($request->flightbookingimage)) {
-                        $flightbookingimage = [];
-
-                        foreach ($request->flightbookingimage as $key => $image) {
-                            $file =  'storage/' . $image->store('flight_booking_image', 'public');
-                            FlightImages::create([
-                                'booking_id' => $booking->id,
-                                'agent_id' => auth()->user()->id,
-                                'file_path'=>$file
-                            ]);
-                        }
-
+                // Handle flight booking image uploads
+                if (isset($request->flightbookingimage) && !empty($request->flightbookingimage)) {
+                    $flightbookingimage = [];
+                    foreach ($request->flightbookingimage as $key => $image) {
+                        $file =  'storage/' . $image->store('flight_booking_image', 'public');
+                        FlightImages::create([
+                            'booking_id' => $booking->id,
+                            'agent_id' => auth()->user()->id,
+                            'file_path'=>$file
+                        ]);
                     }
-
+                }
+                foreach ($newFlights as $flightData) {
+                    $flightData['booking_id'] = $booking->id;
                     $flight = TravelFlightDetail::create(
                         $flightData
                     );
-
                     $processedFlightIds[] = $flight->id;
                 }
             }
@@ -1058,12 +1095,7 @@ class BookingFormController extends Controller
             $processedCruiseIds = [];
             TravelCruiseDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Cruise',$newBookingTypes)){
-                foreach ($newCruises as $cruiseData) {
-                    if ($this->allFieldsEmpty($cruiseData)) {
-                        continue;
-                    }
-                    $cruiseData['booking_id'] = $booking->id;
-                    if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
+                if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
                         foreach($request->cruisebookingimage as $key => $image){
                             $cruisebookingimage = 'storage/'.$image->store('cruise_booking_image','public');
                             CruiseImages::create([
@@ -1072,8 +1104,12 @@ class BookingFormController extends Controller
                                 'file_path'=>$cruisebookingimage,
                             ]);
                         }
-
                     }
+                foreach ($newCruises as $cruiseData) {
+                    if ($this->allFieldsEmpty($cruiseData)) {
+                        continue;
+                    }
+                    $cruiseData['booking_id'] = $booking->id;
                     $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
                     $cruise = TravelCruiseDetail::create(
                         $cruiseData
@@ -1107,26 +1143,25 @@ class BookingFormController extends Controller
             $newCars = $request->input('car', []);
             $processedCarIds = [];
             TravelCarDetail::where('booking_id', $booking->id)->get()->each->delete();
+
             if(in_array('Car',$newBookingTypes)){
+                // Handle file upload
+                if (isset($request->carbookingimage) && !empty($request->carbookingimage)) {
+                    $carbookingimage = [];
+                    foreach ($request->carbookingimage as $key => $image) {
+                        $carbookingimage = 'storage/' . $image->store('car_booking_image', 'public');
+                        CarImages::create([
+                            'booking_id' => $booking->id,
+                            'agent_id'=>auth()->user()->id,
+                            'file_path'=>$carbookingimage
+                        ]);
+                    }
+                }
                 foreach ($newCars as $carData) {
                     $carData['booking_id'] = $booking->id;
-                    // Handle file upload
-                    if (isset($request->carbookingimage) && !empty($request->carbookingimage)) {
-                        $carbookingimage = [];
-                        foreach ($request->carbookingimage as $key => $image) {
-                            $carbookingimage = 'storage/' . $image->store('car_booking_image', 'public');
-                            CarImages::create([
-                                'booking_id' => $booking->id,
-                                'agent_id'=>auth()->user()->id,
-                                'file_path'=>$carbookingimage
-                            ]);
-                        }
-                    }
-
                     $car = TravelCarDetail::create(
                         $carData
                     );
-
                     $processedCarIds[] = $car->id;
                 }
             }
@@ -1143,10 +1178,7 @@ class BookingFormController extends Controller
             $newTrains = !empty($request->train)?$request->train:[];
             TravelTrainDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Train',$newBookingTypes)){
-                foreach ($newTrains as $train) {
-                    $trainData = $train;
-                    $trainData['booking_id'] = $booking->id;
-                    if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
+                if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
                         foreach($request->trainbookingimage as $key => $image){
                             $trainbookingimage = 'storage/'.$image->store('train_booking_image','public');
                             TrainImages::create([
@@ -1155,8 +1187,11 @@ class BookingFormController extends Controller
                                 'file_path'=>$trainbookingimage,
                             ]);
                         }
+                }
 
-                    }
+                foreach ($newTrains as $train) {
+                    $trainData = $train;
+                    $trainData['booking_id'] = $booking->id;
                     $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
                     $car = TravelTrainDetail::create(
                         $trainData

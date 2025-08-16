@@ -881,13 +881,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="infant_on_seat">Infant on Seat</option>
                 </select>
             </td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
+            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
+            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
             <td><span class="gross-total">0.00</span></td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
             <td><span class="net-total">0.00</span></td>
             <td>
-                <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                <select style="width: 145px;" class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
                     <option>Flight Ticket Cost</option>
                     <option>Hotel Cost</option>

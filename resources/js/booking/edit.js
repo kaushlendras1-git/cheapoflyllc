@@ -281,8 +281,6 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             });
         });
 
-        
-
 
     try{
         const response = await axios.post(action, formdata, {
@@ -298,18 +296,20 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     }
     catch (e) {
         console.error(e);
+        
         if (e.response?.status === 422 || e.response?.status === 500) {
-            showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
-
+           // showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
+            const errorMessage = e.response?.data?.error || e.response?.data?.errors  || 'Validation/server error';
+            showToast(errorMessage, "error");
         } else if (e.response?.status === 555) {
             let activeTab = document.querySelector('.nav-tabs .nav-link.active');
             if (activeTab) {
                 localStorage.setItem("activeTab", activeTab.getAttribute("href"));
             }
             showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 1000);
         } else {
             showToast("Something went wrong2", "error");
         }
