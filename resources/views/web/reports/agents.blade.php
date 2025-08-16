@@ -80,13 +80,31 @@
                     <table class="table table-hover table-sm booking-table w-100 mb-0">
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
+                                <th>ID</th>
+                               	<th>Booking Type</th>
+                                <th>PNR</th>
+                                <th>Booking Date</th>
+                                <th>Booking Status</th>	
+                                <th>Payment Status</th>	
+                                <th>Total</th>	
+                                <th>Agent MCO</th>
                                 <th>Name</th>
+                                <th>Email</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             <tr>
-                                <td>dsds</td>
+                                <th>ID</th>
+                               	<th>Booking Type</th>
+                                <th>PNR</th>
+                                <th>Booking Date</th>
+                                <th>Booking Status</th>	
+                                <th>Payment Status</th>	
+                                <th>Total</th>	
+                                <th>Agent MCO</th>
+                                <th>Name</th>
+                                <th>Email</th>
                             </tr>
 
                         </tbody>

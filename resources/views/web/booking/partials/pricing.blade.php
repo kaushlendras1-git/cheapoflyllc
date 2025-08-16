@@ -82,6 +82,7 @@
                                     <td>
                                         <select class="form-control" name="pricing[{{$key}}][passenger_type]"
                                             id="passenger_type_{{$key}}">
+                                            <option value="">Select</option>
                                             <option value="adult"
                                                 {{$pricingDetails->passenger_type=='adult'?'selected':''}}>Adult
                                             </option>
@@ -116,34 +117,23 @@
                                         <select class="form-control" style="width: 145px;" name="pricing[{{$key}}][details]"
                                             id="details_{{$key}}">
 
-                                            <option value="ticket_cost"
-                                                {{$pricingDetails->details=='ticket_cost'?'selected':''}}>Ticket
-                                                Cost
-                                            </option>
-                                            <option>Flight Ticket Cost</option>
-                                            <option>Hotel Cost</option>
-                                            <option>Car Rental Cost</option>
-                                            <option>Cruise Cost</option>
-                                            <option>Train Cost</option>
-                                            <option>Company card</option>
-                                            <option>Merchant fee</option>
-                                            <option>Partial Refund</option>
-                                            <option>Full Refund</option>
-                                            <option>Chargeback Fee</option>
-                                            <option>Partial Chargeback Amt.</option>
-                                            <option>Chargeback Amt.</option>
-                                            <option>FXL Issuance Fees</option>
-                                            <option>Issuance Fees - Voyzant</option>
+                                            <option {{ $pricingDetails->details == 'Ticket Cost' ? 'selected' : '' }}>Ticket Cost</option>
+                                            <option {{ $pricingDetails->details == 'Flight Ticket Cost' ? 'selected' : '' }}>Flight Ticket Cost</option>
+                                            <option {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
+                                            <option {{ $pricingDetails->details == 'Car Rental Cost' ? 'selected' : '' }}>Car Rental Cost</option>
+                                            <option {{ $pricingDetails->details == 'Cruise Cost' ? 'selected' : '' }}>Cruise Cost</option>
+                                            <option {{ $pricingDetails->details == 'Train Cost' ? 'selected' : '' }}>Train Cost</option>
+                                            <option {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card</option>
+                                            <option {{ $pricingDetails->details == 'Merchant fee' ? 'selected' : '' }}>Merchant fee</option>
+                                            <option {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund</option>
+                                            <option {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund</option>
+                                            <option {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
+                                            <option {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>Partial Chargeback Amt.</option>
+                                            <option {{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback Amt.</option>
+                                            <option {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance Fees</option>
+                                            <option {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
+                                            <option {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
 
-                                            <!-- <option value="merchant_fee"
-                                                {{$pricingDetails->details=='merchant_fee'?'selected':''}}>Merchant
-                                                Fee
-                                            </option> -->
-                                            <option value="company_card_used"
-                                                {{$pricingDetails->details=='company_card_used'?'selected':''}}>
-                                                Company
-                                                Card
-                                                Used</option>
                                         </select>
                                     </td>
                                     <td>

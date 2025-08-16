@@ -141,48 +141,45 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         });
     }
     
-    /*if (isFlightChecked) {
-            const skipFieldsForFlight = [
-                'airline_code',
-                'flight_number',
-                'class_of_service',
-                'departure_airport',
-                'arrival_airport',
-                'duration',
-                'transit',
-                'departure_date',
-                'arrival_date'
-            ];
+    if (isFlightChecked) {
+    const skipFieldsForFlight = ['airline_code', 'flight_number', 'class_of_service'];
+    const inputs = document.querySelectorAll('[name^="flight["]');
+    const rows = {};
+    let dynamicIndex = 0;
 
-            const inputs = document.querySelectorAll('[name^="flight["]');
-            const flightRows = {};
-            let counter = 0;
+    inputs.forEach(input => {
+        const match = input.name.match(/^flight\[\d+\]\[([^\]]+)\]$/); // ignore original index
+        if (!match) return;
 
-            inputs.forEach(input => {
-                const match = input.name.match(/\[(\d+)\]\[(\w+)\]/);
-                if (!match) return;
+        const field = match[1];
+        const value = (input.type === 'checkbox' || input.type === 'radio')
+            ? (input.checked ? input.value : '')
+            : input.value.trim();
 
-                const fieldName = match[2];
+        // Start a new row when direction is Outbound or Inbound
+        if (field === 'direction') {
+            dynamicIndex++;
+            rows[dynamicIndex] = {};
+        }
 
-                // Detect a new row by the first field in the group
-                if (fieldName === 'airline_code') counter++;  // increment for each new row
+        if (!rows[dynamicIndex]) rows[dynamicIndex] = {};
+        rows[dynamicIndex][field] = value;
+    });
 
-                if (!flightRows[counter]) flightRows[counter] = {};
-                flightRows[counter][fieldName] = input.value.trim();
-            });
+    Object.keys(rows).forEach(index => {
+        const rowData = rows[index];
+        const allBlank = skipFieldsForFlight.every(field => !((rowData[field] ?? '').trim()));
 
-            Object.keys(flightRows).forEach(index => {
-                const rowData = flightRows[index];
-                const allBlank = skipFieldsForFlight.every(field => !rowData[field]);
-
-                if (!allBlank) {
-                    Object.keys(rowData).forEach(fieldName => {
-                        formdata.append(`flight[${index}][${fieldName}]`, rowData[fieldName]);
-                    });
+        if (!allBlank) {
+            Object.entries(rowData).forEach(([fieldName, value]) => {
+                if (value) {
+                    formdata.append(`flight[${index}][${fieldName}]`, value);
                 }
             });
         }
-    */
+    });
+}
+ 
 
     const hotelInputs = document.querySelectorAll('[name^="hotel["]');
     hotelInputs.forEach(input => {
@@ -467,17 +464,14 @@ document.querySelector('select[name="pnrtype"]').addEventListener('change',funct
                     <option value="infant_on_seat">Infant on Seat</option>
                 </select>
             </td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][num_passengers]" placeholder="No. of Passengers" min="0"></td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][gross_price]" placeholder="Gross Price" min="0" step="0.01"></td>
-            <td><span class="gross-total">$10</span></td>
-            <td><input type="number" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
+            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
+            <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
+            <td><span class="gross-total">0.00</span></td>
+            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" min="0" step="0.01"></td>
             <td><span class="net-total">$10</span></td>
             <td>
                 <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                    <option value="">Select</option>
-                    <option value="ticket_cost">Ticket Cost</option>
-                    <option value="merchant_fee">Merchant Fee</option>
-                    <option value="company_card_used">Company Card Used</option>
+                    <option selected>Issuance Fees - Voyzant</option>
                 </select>
             </td>
             <td>
@@ -546,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
-                <td>${rowCount + 1}</td>
+                <td>Card No. ${rowCount + 1}</td>
                 <td>${data.email}</td>
                 <td>${data.contact_number}</td>
                 <td>${data.street_address}</td>
@@ -555,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${data.zip_code}</td>
                 <td>${data.country}</td>
                 <td>
-                    <button class="btn btn-danger deleteBillData" data-href="/booking/billing-details/${data.id}">Delete</button>
+                    <button class="btn btn-outline-danger deleteBillData" data-href="/booking/billing-details/${data.id}"><i class="ri ri-delete-bin-line"></i></button>
                 </td>
             `;
             tableBody.appendChild(newRow);

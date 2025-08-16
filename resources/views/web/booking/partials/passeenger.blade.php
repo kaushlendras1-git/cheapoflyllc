@@ -36,7 +36,7 @@
                                     </td>
                                     <input type="hidden" name="passenger[{{$key}}][booking_id]" value="{{$passengers->booking_id}}"/>
                                     <td>
-                                        <select class="form-control w-100" style="width:5.5rem"
+                                        <select class="form-control" style="width:5.5rem"
                                             name="passenger[{{$key}}][passenger_type]">
                                             <option value="">Select</option>
                                             <option value="Adult"
@@ -59,7 +59,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control w-100" style="width: 70px;"
+                                        <select class="form-control" style="width: 70px;"
                                             name="passenger[{{$key}}][gender]">
                                             <option value="">Select</option>
                                             <option value="Male" {{$passengers->gender == 'Male'?'selected':''}}>
@@ -70,7 +70,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control w-100" style="width:70px;"
+                                        <select class="form-control" style="width:70px;"
                                             name="passenger[{{$key}}][title]">
                                             <option value="">Select</option>
                                             <option value="Mr" {{$passengers->title=="Mr"?"selected":''}}>Mr
@@ -93,12 +93,12 @@
                                             placeholder="First Name">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control w-100"
+                                        <input type="text" class="form-control" style="width: 7.5rem"
                                             name="passenger[{{$key}}][middle_name]" value="{{$passengers->middle_name}}"
                                             placeholder="Middle Name">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control w-100"
+                                        <input type="text" class="form-control" style="width: 7.5rem"
                                             name="passenger[{{$key}}][last_name]" value="{{$passengers->last_name}}"
                                             placeholder="Last Name">
                                     </td>
@@ -118,7 +118,7 @@
                                             value="{{$passengers->credit_note_amount}}" placeholder="0" step="0.01">
                                     </td>
                                     <td>
-                                        <input type="text" style="width:80px;" class="form-control"
+                                        <input type="text" class="form-control w-100"
                                             name="passenger[{{$key}}][e_ticket_number]"
                                             value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
                                     </td>

@@ -359,9 +359,9 @@ class BookingFormController extends Controller
                 $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
                 $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
                 $rules['passenger.*.title']                      = 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss';
-                $rules['passenger.*.first_name']                 = 'required|string';
-                $rules['passenger.*.middle_name']                = 'nullable|string';
-                $rules['passenger.*.last_name']                  = 'required|string';
+                $rules['passenger.*.first_name']                 = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
+                $rules['passenger.*.middle_name']                = ['nullable','string','max:255','regex:/^[A-Za-z\s]+$/'];
+                $rules['passenger.*.last_name']                  = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
                 $rules['passenger.*.dob']                        = 'required|date|before:today';
                 $rules['passenger.*.seat_number']                = 'nullable|string';
                 $rules['passenger.*.credit_note']                = 'nullable|numeric';
@@ -407,10 +407,11 @@ class BookingFormController extends Controller
                      $rules['hotelbookingimage'] = 'required_without:hotel|array';
                     $rules['hotel'] = 'required_without:hotelbookingimage|array|min:1';
                 }
+                $rules['hotel_ref']                 = 'required|string';
                 $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
                 $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
                 $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
-                $rules['hotel.*.checkout_date']       = 'required_with:hotel|date|after:hotel.*.checkin_date';
+                $rules['hotel.*.checkout_date'] = 'required_with:hotel|date|after_or_equal:hotel.*.checkin_date';
                 $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
                 $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
                 $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
@@ -428,7 +429,7 @@ class BookingFormController extends Controller
                     $rules['cruisebookingimage'] = 'required_without:cruise|array';
                     $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
                 }
-
+                $rules['cruise_ref']                 = 'required|string';
                 $rules['cruise.*.cruise_line']     = 'required_with:cruise|string|max:255';
                 $rules['cruise.*.ship_name']       = 'required_with:cruise|string|max:255';
                 $rules['cruise.*.category']        = 'required_with:cruise|string|max:255';
@@ -451,7 +452,7 @@ class BookingFormController extends Controller
                     $rules['carbookingimage'] = 'required_without:car|array';
                     $rules['car'] = 'required_without:carbookingimage|array|min:1';
                 }
-
+                $rules['car_ref']                 = 'required|string';
                 $rules['car.*.car_rental_provider']     = 'required_with:car|string|max:255';
                 $rules['car.*.car_type']                = 'required_with:car|string|max:255';
                 $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
@@ -476,7 +477,8 @@ class BookingFormController extends Controller
                     $rules['trainbookingimage'] = 'required_without:train|array';
                     $rules['train'] = 'required_without:trainbookingimage|array|min:1';
                 }
-
+                
+                $rules['train_ref']                 = 'required|string';
                 $rules['train.*.direction']         = 'required_with:train|string';
                 $rules['train.*.departure_date']    = 'required_with:train|date';
                 $rules['train.*.train_number']      = 'required_with:train|string|max:255';
@@ -505,8 +507,13 @@ class BookingFormController extends Controller
 
             //PRICIGN
             $rules['pricing']                          = 'required|array|min:1';
-            $rules['pricing.*.passenger_type']         = 'required|string|in:adult,child,infant_on_lap,infant_on_seat';
-            $rules['pricing.*.num_passengers']         = 'required|integer|min:1';
+            $rules['pricing.*.passenger_type'] = [  'nullable',
+                                                        'string',
+                                                        'in:adult,child,infant_on_lap,infant_on_seat',
+                                                        'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund'
+                                                    ];
+
+            $rules['pricing.*.num_passengers']         = 'required|integer';
             $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
             $rules['pricing.*.net_price']              = 'required|numeric|min:0';
             $rules['pricing.*.details']                = 'required|string';
@@ -594,13 +601,19 @@ class BookingFormController extends Controller
                 'passenger.*.title.string'            => 'Passenger title must be a valid string.',
                 'passenger.*.title.in'                => 'Passenger title must be one of: Mr, Ms, Mrs, Dr, Master, Miss.',
 
-                'passenger.*.first_name.required'    => 'Passenger first name is required.',
-                'passenger.*.first_name.string'      => 'Passenger first name must be a string.',
+               'passenger.*.first_name.required' => 'First name is required.',
+                'passenger.*.first_name.string'   => 'First name must be a valid string.',
+                'passenger.*.first_name.max'      => 'First name cannot exceed 255 characters.',
+                'passenger.*.first_name.regex'    => 'First name can only contain letters and spaces.',
 
-                'passenger.*.middle_name.string'     => 'Passenger middle name must be a string.',
+                'passenger.*.middle_name.string'  => 'Middle name must be a valid string.',
+                'passenger.*.middle_name.max'     => 'Middle name cannot exceed 255 characters.',
+                'passenger.*.middle_name.regex'   => 'Middle name can only contain letters and spaces.',
 
-                'passenger.*.last_name.required'     => 'Passenger last name is required.',
-                'passenger.*.last_name.string'       => 'Passenger last name must be a string.',
+                'passenger.*.last_name.required'  => 'Last name is required.',
+                'passenger.*.last_name.string'    => 'Last name must be a valid string.',
+                'passenger.*.last_name.max'       => 'Last name cannot exceed 255 characters.',
+                'passenger.*.last_name.regex'     => 'Last name can only contain letters and spaces.',
 
                 'passenger.*.dob.required'            => 'Passenger date of birth is required.',
                 'passenger.*.dob.date'                => 'Passenger date of birth must be a valid date.',
@@ -1266,6 +1279,12 @@ class BookingFormController extends Controller
                     ]);
                 }
             }
+
+            if($request->payment_status_id == 7){
+                //dd($request->payment_status_id);
+            }
+
+
            # DB::commit();
             return response()->json([
                 'status' => 'success',
