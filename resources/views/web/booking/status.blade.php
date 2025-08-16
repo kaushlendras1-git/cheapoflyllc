@@ -15,7 +15,7 @@
                     $nextStatuses = DB::table('booking_status_dependencies')
                         ->where('booking_status_id', $booking->booking_status_id ?? $currentStatusId)
                         ->where('department', auth()->user()->departments)
-                        ->where('role', 'User')
+                        ->where('role', auth()->user()->role)
                         ->pluck('dependent_status_id')
                         ->toArray();
                 @endphp
@@ -44,8 +44,8 @@
         @php
             $validPaymentStatusIds = DB::table('booking_payment_statuses')
                 ->where('booking_status_id', $booking->booking_status_id)
-                ->where('department', 'Sales')
-                ->where('role','User')
+                ->where('department', auth()->user()->departments)
+                ->where('role',auth()->user()->role)
                 ->pluck('payment_status_id')
                 ->toArray();
 

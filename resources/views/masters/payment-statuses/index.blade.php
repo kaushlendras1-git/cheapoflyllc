@@ -77,7 +77,7 @@
                             @forelse($paymentStatuses as $paymentStatuse)
                             <tr>
                                 <td>{{ $loop->iteration }}</td> <!-- Serial number -->
-                                <td>{{ $paymentStatuse->name }}</td>
+                                <td>{{ $paymentStatuse->id }} - {{ $paymentStatuse->name }}</td>
                                 <td>
                                     @if( $paymentStatuse->status == '1')
                                     <span class="badge bg-label-success">Active</span>

@@ -77,7 +77,7 @@
                             @forelse($bookingStatuses as $bookingStatuse)
                             <tr>
                                 <td>{{ $loop->iteration }}</td> <!-- Serial number -->
-                                <td>{{ $bookingStatuse->name }}</td>
+                                <td>{{ $bookingStatuse->id }} - {{ $bookingStatuse->name }}</td>
                                 <td>
                                     @if( $bookingStatuse->status == '1')
                                     <span class="badge bg-label-success">Active</span>
