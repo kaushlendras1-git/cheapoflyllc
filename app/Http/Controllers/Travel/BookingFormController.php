@@ -511,10 +511,10 @@ class BookingFormController extends Controller
             $rules['pricing.*.net_price']              = 'required|numeric|min:0';
             $rules['pricing.*.details']                = 'required|string';
 
-        //    $remarkCount = DB::table('travel_booking_remarks')->where('booking_id', $id)->count();
-        //     if ($remarkCount == 0) {
-        //         $rules['remark'] = 'required';
-        //     }
+           $remarkCount = DB::table('travel_booking_remarks')->where('booking_id', $id)->count();
+            if ($remarkCount == 0) {
+                $rules['remark'] = 'required';
+            }
 
             $messages = [
                 'remark.required'     => 'At least one Remark type is required.',

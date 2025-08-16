@@ -12,15 +12,15 @@ class EmailTemplateController extends Controller
     public function index()
     {   
         $email_templates = EmailTemplate::paginate(10); 
-        return view('web.email_template.index', compact('email_templates'));
+        return view('masters.email.index', compact('email_templates'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('web.email_template.create');
+    {   
+        return view('masters.email.create');
     }
 
     public function store(Request $request)
@@ -63,7 +63,7 @@ class EmailTemplateController extends Controller
     {
         // try {
             $emailTemplate = EmailTemplate::findOrFail($id);
-            return view('web.email_template.edit', compact('emailTemplate'));
+            return view('masters.email.edit', compact('emailTemplate'));
         // } catch (\Exception $e) {
         //     return redirect()->route('emails.index')->with('error', 'Email template not found.');
         // }
