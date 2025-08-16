@@ -71,13 +71,13 @@
 
                         </div>
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" style="padding: 5px; font-size: 12px;" class="btn btn-primary">Submit</button>
                             <!-- <button class="btn btn-sm btn-primary text-center">
-               <i class="icon-base ri ri-save-2-fill"></i>
-               </button> -->
-                            <!-- <button class="btn btn-sm btn-dark text-center">
-               <i class="icon-base ri ri-mail-send-fill"></i>
-               </button> -->
+                                <i class="icon-base ri ri-save-2-fill"></i>
+                                </button> -->
+                                <!-- <button class="btn btn-sm btn-dark text-center">
+                                <i class="icon-base ri ri-mail-send-fill"></i>
+                            </button> -->
                         </div>
                     </div>
                 </div>
