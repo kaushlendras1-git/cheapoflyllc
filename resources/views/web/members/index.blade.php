@@ -5,41 +5,50 @@
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Users</h2>
         <div class="breadcrumb">
-               <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" aria-current="page">Users</a>
+            <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
+            <a class="active" aria-current="page">Users</a>
         </div>
     </div>
 
-            
-             @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif
 
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 
-   
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+
 
 
 
     <div class="card">
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
-                <div class="add-user-btn text-end mb-4">
-                    <button class="btn add-new btn-primary button-style" style="font-size: 12px;" tabindex="0"
-                        aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasAddUser"><span>
-                            <i class="icon-base ri ri-add-line icon-sm me-0 me-sm-2 d-sm-none d-inline-block"></i>
-                            <span class="d-none d-sm-inline-block">Add User</span></span></button>
+                <div class="d-flex align-items-center justify-content-between booking-form gen_form mb-2">
+                    <div class="col-md-4">
+                        <div class="position-relative">
+                            <label class="form-label mb-1">Search User</label>
+                            <input type="text" name="keyword" class="form-control w-96 input-style"
+                                placeholder="Search User" value="">
+                        </div>
+                    </div>
+                    <div class="add-user-btn text-end">
+                        <button class="btn add-new btn-primary button-style" style="font-size: 12px;" tabindex="0"
+                            aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasAddUser"><span>
+                                <i class="icon-base ri ri-add-line icon-sm me-0 me-sm-2 d-sm-none d-inline-block"></i>
+                                <span class="d-none d-sm-inline-block">Add User</span></span></button>
+                    </div>
                 </div>
                 <div class="justify-content-between dt-layout-table">
                     <div class="d-md-flex justify-content-between align-items-center dt-layout-full crm-table">
@@ -50,8 +59,12 @@
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Name</span><span
                                             class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Username</span><spanclass="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Deartments</span><spanclass="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Username</span>
+                                        <spanclass="dt-column-order"></span>
+                                    </th>
+                                    <th><span class="dt-column-title" role="button">Deartments</span>
+                                        <spanclass="dt-column-order"></span>
+                                    </th>
 
                                     <th><span class="dt-column-title" role="button">Pseudo</span><span
                                             class="dt-column-order"></span></th>
@@ -118,11 +131,13 @@
                                                 <a href="javascript:void(0)" data-bs-toggle="modal" class="me-2"
                                                     data-bs-target="#assignShiftTeamModal"
                                                     data-url="{{ route('users.assignments', $member->id) }}">
-                                                    <img width="30" src="{{asset('assets/img/icons/img-icons/shift.png')}}"
+                                                    <img width="30"
+                                                        src="{{asset('assets/img/icons/img-icons/shift.png')}}"
                                                         alt="shift-change">
                                                 </a>
                                                 <a href="{{ route('members.edit', $member->hashid) }}" class="me-2">
-                                                    <img width="20" src="{{asset('assets/img/icons/img-icons/edit.png')}}"
+                                                    <img width="20"
+                                                        src="{{asset('assets/img/icons/img-icons/edit.png')}}"
                                                         alt="edit-change">
                                                 </a>
                                                 <form action="{{ route('members.destroy', $member) }}" method="POST"
@@ -244,7 +259,7 @@
 
                         <!-- Submit Button -->
                         <button type="submit"
-                            class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Submit</button>
+                            class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light" style="padding: 5px; font-size: 12px;">Submit</button>
                     </form>
 
 
@@ -280,7 +295,7 @@
 
     </div>
 
-     <div class="row g-6 mb-6 mt-1">
+    <div class="row g-6 mb-6 mt-1">
         <div class="container mt-4">
             <div class="row justify-content-start user_anyletics">
                 <div class="col-2">
@@ -324,7 +339,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 @if (session('success'))
