@@ -91,7 +91,17 @@ class CallLogController extends Controller
             'assign' => 'nullable',
             'notes' => 'nullable|string',
         ]);
-
+        if (
+            !$request->input('chkflight') &&
+            !$request->input('chkhotel') &&
+            !$request->input('chkcruise') &&
+            !$request->input('chkcar') &&
+            !$request->input('chktrain')
+        ) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'chkflight' => ['At least one of Flight, Hotel, Cruise, Car, or Train must be selected.'],
+            ]);
+        }
         // Prepare data for CallLog creation
         $validated['user_id'] = auth()->id();
         $validated['pnr'] = '';
@@ -149,8 +159,8 @@ class CallLogController extends Controller
         log_operation('CallLog', $callLog->id, 'created', 'Call Log created successfully', auth()->id());
         return redirect()->route('call-logs.index')->with('success', 'Call Log created successfully!');
     }
-    
-    
+
+
     public function show(CallLog $callLog)
     {
         return response()->json($callLog);

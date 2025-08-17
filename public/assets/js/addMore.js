@@ -5,8 +5,7 @@
         let hotelIndex = 0;
 
         // Add initial row on page load
-        // addHotelRow();
-
+        addHotelRow();
         // Function to add a new hotel row
         function addHotelRow() {
             const newRow = document.createElement('tr');
@@ -45,7 +44,7 @@
                 const title = row.querySelector('.hotel-title');
                 title.textContent = `${index + 1}`;
                 row.dataset.index = index;
-                const inputs = row.querySelectorAll('input');
+                const inputs = row.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
                     const name = input.name.replace(/hotel\[\d+\]/, `hotel[${index}]`);
                     input.name = name;
@@ -85,7 +84,7 @@
         const cruiseFormsContainer = document.getElementById('cruiseForms');
         let cruiseIndex = 0;
 
-        // addCruiseRow();
+        addCruiseRow();
 
         // Function to add a new cruise row
         function addCruiseRow() {
@@ -128,7 +127,7 @@
                 const title = row.querySelector('.cruise-title');
                 title.textContent = `${index + 1}`;
                 row.dataset.index = index;
-                const inputs = row.querySelectorAll('input');
+                const inputs = row.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
                     const name = input.name.replace(/cruise\[\d+\]/, `cruise[${index}]`);
                     input.name = name;
@@ -171,7 +170,7 @@
         let carIndex = 0;
 
         // Add initial row on page load
-        // addCarRow();
+        addCarRow();
 
         // Function to add a new car rental row
         function addCarRow() {
@@ -214,7 +213,7 @@
                 const title = row.querySelector('.car-title');
                 title.textContent = `${index + 1}`;
                 row.dataset.index = index;
-                const inputs = row.querySelectorAll('input');
+                const inputs = row.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
                     const name = input.name.replace(/car\[\d+\]/, `car[${index}]`);
                     input.name = name;
@@ -256,7 +255,7 @@
         let flightIndex = 0;
 
         // Add initial row on page load
-        // addFlightRow();
+        addFlightRow();
 
         // Function to add a new flight row
         function addFlightRow() {
@@ -317,7 +316,7 @@
                 const title = row.querySelector('.flight-title');
                 title.textContent = `${index + 1}`;
                 row.dataset.index = index;
-                const inputs = row.querySelectorAll('input');
+                const inputs = row.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
                     const name = input.name.replace(/flight\[\d+\]/, `flight[${index}]`);
                     input.name = name;
@@ -360,7 +359,7 @@
     let trainIndex = 0;
 
     // Add initial row on page load
-    // addTrainRow();
+    addTrainRow();
 
     // Function to add a new train row
     function addTrainRow() {
@@ -403,7 +402,7 @@
             const title = row.querySelector('.train-title');
             title.textContent = `${index + 1}`;
             row.dataset.index = index;
-            const inputs = row.querySelectorAll('input');
+            const inputs = row.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
                 const name = input.name.replace(/train\[\d+\]/, `train[${index}]`);
                 input.name = name;
