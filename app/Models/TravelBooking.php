@@ -21,7 +21,7 @@ class TravelBooking extends Model
         'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
         'selected_company', 'booking_status_id', 'payment_status_id', 'reservation_source',
         'descriptor','flightbookingimage','hotelbookingimage','cruisebookingimage','carbookingimage','trainbookingimage',
-        'call_queue','shared_booking','screenshot'
+        'call_queue','shared_booking','screenshot','gross_value','net_value',
     ];
 
     protected $casts = [
@@ -49,7 +49,7 @@ class TravelBooking extends Model
     {
         return $this->hasMany(TravelBillingDetail::class, 'booking_id');
     }
-    
+
     public function trainBookingDetails()
     {
         return $this->hasMany(TravelTrainDetail::class, 'booking_id');

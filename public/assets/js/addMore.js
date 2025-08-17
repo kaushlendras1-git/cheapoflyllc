@@ -252,7 +252,9 @@
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('flight-booking-button').addEventListener('click',addFlightRow)
         const flightFormsContainer = document.getElementById('flightForms');
-        let flightIndex = 0;
+        const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length;
+        console.log(flightRowsCount);
+        let flightIndex = flightRowsCount;
 
         // Add initial row on page load
         addFlightRow();
@@ -947,11 +949,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
+        document.getElementById('gross_value').value = grossTotal.toFixed(2);
         document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
+        document.getElementById('net_value').value = netTotal.toFixed(2);
 
         const diff = grossTotal - netTotal;
         const mcqElement = document.getElementById('total_gross_value');
-        if (mcqElement) {
+        if (mcqElement) {''
             mcqElement.textContent = diff.toFixed(2);
         }
 
