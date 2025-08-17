@@ -140,11 +140,11 @@
                                     </td>
                                     <td>
                                         <select id="state-{{$key}}" class="form-control state-select w-100"
-                                            name="billing[{{$key}}][address]">
+                                            name="billing[{{$key}}][state]">
                                             <option value="">Select Billing</option>
                                             @foreach($billingData as $biKey=>$bi)
                                             <option value="{{$bi->id}}"
-                                                {{$bi->id == $billingDetails['address']?'selected':''}}>Card
+                                                {{$bi->id == $billingDetails['state']?'selected':''}}>Card
                                                 No.{{$biKey+1}}</option>
                                             @endforeach
                                         </select>
@@ -210,7 +210,7 @@
         <div class="card mt-2 p-1">
             <div class="payment-form">
                 <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Payment Details</h2>
-                <h4 class="merchant-name mb-0">Merchent - 
+                <h4 class="merchant-name mb-0">Merchent -
                     @if($booking->selected_company == 1 )
                             Fly Dreamz
                     @elseif($booking->selected_company == 2 )
@@ -249,7 +249,7 @@
                             </div>
                         </div>
                     </div>
-                @endforeach    
+                @endforeach
                 </div>
             </div>
         </div>

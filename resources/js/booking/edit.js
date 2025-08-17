@@ -129,16 +129,134 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     e.preventDefault();
     const action = e.target.action;
     const formdata = new FormData(e.target);
+    const keysToDelete = [];
+    const flightpattern = /^flight\[\d+\]/;
+    const hotelpattern = /^hotel\[\d+\]/;
+    const cruisepattern = /^cruise\[\d+\]/;
+    const carpattern = /^car\[\d+\]/;
+    const trainpattern = /^train\[\d+\]/;
+    for (let key of formdata.keys()) {
+        if (flightpattern.test(key)) {
+            keysToDelete.push(key);
+        }
+        else if(hotelpattern.test(key)) {
+            keysToDelete.push(key);
+        }
+        else if(cruisepattern.test(key)) {
+            keysToDelete.push(key);
+        }
+        else if(carpattern.test(key)) {
+            keysToDelete.push(key);
+        }
+        else if(trainpattern.test(key)) {
+            keysToDelete.push(key);
+        }
+    }
+    keysToDelete.forEach(key => formdata.delete(key));
+
+
 
     const isFlightChecked = document.querySelector('#booking-flight').checked;
+    const isHotelChecked = document.querySelector('#booking-hotel').checked;
+    const isCruiseChecked = document.querySelector('#booking-cruise').checked;
+    const isCarChecked = document.querySelector('#booking-car').checked;
+    const isTrainChecked = document.querySelector('#booking-train').checked;
     if (isFlightChecked) {
         const flightInputs = document.querySelectorAll('[name^="flight["]');
+        const rows = {};
         flightInputs.forEach(input => {
-            const name = input.name;
-            const value = input.value;
-            formdata.append(name, value);
+            const match = input.name.match(/^flight\[(\d+)\]\[.*\]$/);
+            const rowIndex = match[1];
+            if (!rows[rowIndex]) rows[rowIndex] = [];
+            rows[rowIndex].push(input);
+        });
+
+        Object.values(rows).forEach(inputs => {
+            const allEmpty = inputs.every(input => input.value.trim() === '');
+            if (!allEmpty) {
+                inputs.forEach(input => {
+                    formdata.append(input.name, input.value);
+                });
+            }
         });
     }
+    if (isHotelChecked) {
+        const hotelInputs = document.querySelectorAll('[name^="hotel["]');
+        const rows = {};
+        hotelInputs.forEach(input => {
+            const match = input.name.match(/^hotel\[(\d+)\]\[.*\]$/);
+            const rowIndex = match[1];
+            if (!rows[rowIndex]) rows[rowIndex] = [];
+            rows[rowIndex].push(input);
+        });
+
+        Object.values(rows).forEach(inputs => {
+            const allEmpty = inputs.every(input => input.value.trim() === '');
+            if (!allEmpty) {
+                inputs.forEach(input => {
+                    formdata.append(input.name, input.value);
+                });
+            }
+        });
+    }
+    if (isCruiseChecked) {
+        const cruiseInputs = document.querySelectorAll('[name^="cruise["]');
+        const rows = {};
+        cruiseInputs.forEach(input => {
+            const match = input.name.match(/^cruise\[(\d+)\]\[.*\]$/);
+            const rowIndex = match[1];
+            if (!rows[rowIndex]) rows[rowIndex] = [];
+            rows[rowIndex].push(input);
+        });
+
+        Object.values(rows).forEach(inputs => {
+            const allEmpty = inputs.every(input => input.value.trim() === '');
+            if (!allEmpty) {
+                inputs.forEach(input => {
+                    formdata.append(input.name, input.value);
+                });
+            }
+        });
+    }
+    if (isCarChecked) {
+        const carInputs = document.querySelectorAll('[name^="car["]');
+        const rows = {};
+        carInputs.forEach(input => {
+            const match = input.name.match(/^car\[(\d+)\]\[.*\]$/);
+            const rowIndex = match[1];
+            if (!rows[rowIndex]) rows[rowIndex] = [];
+            rows[rowIndex].push(input);
+        });
+
+        Object.values(rows).forEach(inputs => {
+            const allEmpty = inputs.every(input => input.value.trim() === '');
+            if (!allEmpty) {
+                inputs.forEach(input => {
+                    formdata.append(input.name, input.value);
+                });
+            }
+        });
+    }
+    if (isTrainChecked) {
+        const trainInputs = document.querySelectorAll('[name^="train["]');
+        const rows = {};
+        trainInputs.forEach(input => {
+            const match = input.name.match(/^train\[(\d+)\]\[.*\]$/);
+            const rowIndex = match[1];
+            if (!rows[rowIndex]) rows[rowIndex] = [];
+            rows[rowIndex].push(input);
+        });
+
+        Object.values(rows).forEach(inputs => {
+            const allEmpty = inputs.every(input => input.value.trim() === '');
+            if (!allEmpty) {
+                inputs.forEach(input => {
+                    formdata.append(input.name, input.value);
+                });
+            }
+        });
+    }
+
 
     //     if (isFlightChecked) {
     //     const skipFieldsForFlight = ['airline_code', 'flight_number', 'class_of_service'];
@@ -279,6 +397,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
 
 
     try{
+        formdata.append('_method','patch');
         const response = await axios.post(action, formdata, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -513,17 +632,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
                 return el.name.endsWith('][state]');
             });
-            billingElements.forEach(el => {
-                if (el.tagName.toLowerCase() === 'select') {
-                    const option = document.createElement('option');
-                    option.value = response.data.data.id;
-                    option.textContent = response.data.data.street_address;
 
-                    el.appendChild(option);
-                } else {
-                    console.warn('Element is not a select, cannot add option:', el);
-                }
-            });
             showToast(response.data.message);
             document.getElementById('billing-close-modal').click();
             element.reset();
@@ -546,6 +655,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     <button class="btn btn-outline-danger deleteBillData" data-href="/booking/billing-details/${data.id}"><i class="ri ri-delete-bin-line"></i></button>
                 </td>
             `;
+            billingElements.forEach(el => {
+                if (el.tagName.toLowerCase() === 'select') {
+                    const option = document.createElement('option');
+                    option.value = response.data.data.id;
+                    option.textContent = `Card No. ${rowCount + 1}`;
+
+                    el.appendChild(option);
+                } else {
+                    console.warn('Element is not a select, cannot add option:', el);
+                }
+            });
             tableBody.appendChild(newRow);
             attachDeleteHandler(newRow.querySelector('.deleteBillData'));
 

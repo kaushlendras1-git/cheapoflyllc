@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <select class="form-control" style="width: 5.5rem" name="passenger[${passengerIndex}][passenger_type]">
                     <option value="">Select</option>
-                    <option value="Adult" selected>Adult</option>
+                    <option value="Adult">Adult</option>
                     <option value="Child">Child</option>
                     <option value="Infant">Infant</option>
                     <option value="Seat Infant">Seat Infant</option>
@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <select class="form-control" style="width:70px;" name="passenger[${passengerIndex}][gender]">
                     <option value="">Select</option>
-                    <option value="Male" selected>Male</option>
+                    <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select>
             </td>
