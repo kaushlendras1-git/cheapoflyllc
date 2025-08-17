@@ -950,7 +950,7 @@ class BookingFormController extends Controller
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
-                'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue'
+                'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value'
             ]);
             $bookingData['shift_id'] = 2;
             $bookingData['team_id'] = 2;
