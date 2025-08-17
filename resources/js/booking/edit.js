@@ -175,7 +175,9 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             const allEmpty = inputs.every(input => input.value.trim() === '');
             if (!allEmpty) {
                 inputs.forEach(input => {
-                    formdata.append(input.name, input.value);
+                    if (input.value.trim() !== '') {
+                        formdata.append(input.name, input.value);
+                    }
                 });
             }
         });
@@ -194,7 +196,9 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             const allEmpty = inputs.every(input => input.value.trim() === '');
             if (!allEmpty) {
                 inputs.forEach(input => {
-                    formdata.append(input.name, input.value);
+                    if (input.value.trim() !== '') {
+                        formdata.append(input.name, input.value);
+                    }
                 });
             }
         });
@@ -213,7 +217,9 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             const allEmpty = inputs.every(input => input.value.trim() === '');
             if (!allEmpty) {
                 inputs.forEach(input => {
-                    formdata.append(input.name, input.value);
+                    if (input.value.trim() !== '') {
+                        formdata.append(input.name, input.value);
+                    }
                 });
             }
         });
@@ -232,7 +238,9 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             const allEmpty = inputs.every(input => input.value.trim() === '');
             if (!allEmpty) {
                 inputs.forEach(input => {
-                    formdata.append(input.name, input.value);
+                    if (input.value.trim() !== '') {
+                        formdata.append(input.name, input.value);
+                    }
                 });
             }
         });
@@ -251,7 +259,9 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             const allEmpty = inputs.every(input => input.value.trim() === '');
             if (!allEmpty) {
                 inputs.forEach(input => {
-                    formdata.append(input.name, input.value);
+                    if (input.value.trim() !== '') {
+                        formdata.append(input.name, input.value);
+                    }
                 });
             }
         });
@@ -296,34 +306,6 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     //         }
     //     });
     // }
-
-
-    const hotelInputs = document.querySelectorAll('[name^="hotel["]');
-    hotelInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
-    });
-
-    const trainInputs = document.querySelectorAll('[name^="train["]');
-    trainInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
-    });
-
-    const cruiseInputs = document.querySelectorAll('[name^="cruise["]');
-    cruiseInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
-    });
-    const carInputs = document.querySelectorAll('[name^="car["]');
-    carInputs.forEach(input => {
-        const name = input.name;
-        const value = input.value;
-        formdata.append(name, value);
-    });
 
 
     for (const inputName in ponds) {
