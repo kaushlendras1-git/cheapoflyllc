@@ -153,8 +153,8 @@
 
                                     <td><input style="width: 65px; !important;" type="text"
                                             class="form-control usdAmount" placeholder=""
-                                            name="billing[{{$key}}][amount]"
-                                            value="{{$billingDetails['amount']}}">
+                                            name="billing[{{$key}}][authorized_amt]"
+                                            value="{{$billingDetails['authorized_amt']}}">
                                     </td>
 
                                     <td>

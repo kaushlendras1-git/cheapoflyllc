@@ -735,7 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${billingOptions}
                     </select>
                 </td>
-                <td><input type="text" style="width: 65px;" class="form-control usdAmount" placeholder="Amount" name="billing[${billingIndex}][amount]"></td>
+                <td><input type="text" style="width: 65px;" class="form-control usdAmount" placeholder="Amount" name="billing[${billingIndex}][authorized_amt]"></td>
                 <td>
                     <select class="form-control currencyField" name="billing[${billingIndex}][currency]">
                         <option value="">Select</option>
