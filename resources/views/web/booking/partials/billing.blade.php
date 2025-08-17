@@ -27,6 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         @foreach($billingData as $key=>$bill)
                         <tr>
                             <td>Card No. {{$key+1}}</td>
@@ -36,7 +37,7 @@
                             <td>{{$bill->city}}</td>
                             <td>{{$bill->state}}</td>
                             <td>{{$bill->zip_code}}</td>
-                            <td>{{$bill->country}}</td>
+                            <td>{{$bill->get_country->country_name}}</td>
                             <td class="text-center">
                                 <button data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}"
                                     class="btn btn-outline-danger deleteBillData">
@@ -140,11 +141,11 @@
                                     </td>
                                     <td>
                                         <select id="state-{{$key}}" class="form-control state-select w-100"
-                                            name="billing[{{$key}}][address]">
+                                            name="billing[{{$key}}][state]">
                                             <option value="">Select Billing</option>
                                             @foreach($billingData as $biKey=>$bi)
                                             <option value="{{$bi->id}}"
-                                                {{$bi->id == $billingDetails['address']?'selected':''}}>Card
+                                                {{$bi->id == $billingDetails['state']?'selected':''}}>Card
                                                 No.{{$biKey+1}}</option>
                                             @endforeach
                                         </select>
@@ -210,7 +211,7 @@
         <div class="card mt-2 p-1">
             <div class="payment-form">
                 <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Payment Details</h2>
-                <h4 class="merchant-name mb-0">Merchent - 
+                <h4 class="merchant-name mb-0">Merchent -
                     @if($booking->selected_company == 1 )
                             Fly Dreamz
                     @elseif($booking->selected_company == 2 )
@@ -249,7 +250,7 @@
                             </div>
                         </div>
                     </div>
-                @endforeach    
+                @endforeach
                 </div>
             </div>
         </div>

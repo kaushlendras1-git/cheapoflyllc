@@ -83,6 +83,8 @@ class BookingFormController extends Controller
             ]);
             $data['booking_id'] = $id;
             $insert = BillingDetail::create($data);
+            $getBillingdata = BillingDetail::select('country')->with('get_country')->find($insert->id);
+            $insert['country'] = $getBillingdata->get_country->country_name;
             return response()->json([
                 'status'=>'success',
                 'code'=>201,
@@ -1339,7 +1341,7 @@ class BookingFormController extends Controller
         $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
 
         $campaigns = Campaign::where('status',1)->get();
-        $billingData = BillingDetail::where('booking_id',$booking->id)->get();
+        $billingData = BillingDetail::with('get_country')->where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
         $car_images = CarImages::where('booking_id', $booking->id)->get();
         $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
