@@ -121,7 +121,7 @@ class BookingFormController extends Controller
             'data'=>$data
         ],200);
     }
-    
+
     public function deletebillingDetails($id){
         try{
             $destroy = BillingDetail::findOrFail($id);
@@ -333,9 +333,7 @@ class BookingFormController extends Controller
         }
 
         try {
-
             $bookingTypes = $request->input('booking-type', []);
-
             $rules = [
                 'booking-type'        => 'required|array|min:1',
                 'booking-type.*'      => 'in:Flight,Hotel,Cruise,Car,Train',
@@ -351,10 +349,10 @@ class BookingFormController extends Controller
                 'reservation_source'  => 'nullable|string|max:255',
                 'descriptor'          => 'nullable|string|max:255',
                 'amadeus_sabre_pnr'   => 'nullable|string|max:255',
-                'sector_details.*'    => 'required|file|image|max:2048',            
+                'sector_details.*'    => 'required|file|image|max:2048',
             ];
-        
-           if(auth()->user()->departments != 'Billing')  {  
+
+           if(auth()->user()->departments != 'Billing')  {
                 $rules['passenger']                              = 'required|array|min:1';
                 $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
                 $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
@@ -366,10 +364,10 @@ class BookingFormController extends Controller
                 $rules['passenger.*.seat_number']                = 'nullable|string';
                 $rules['passenger.*.credit_note']                = 'nullable|numeric';
                 $rules['passenger.*.e_ticket_number']            = 'nullable|string';
-            }    
+            }
 
 
-        if(auth()->user()->departments != 'Billing')  {      
+            if(auth()->user()->departments != 'Billing')  {
             // ---- FLIGHT ----
             if (in_array('Flight', $bookingTypes)) {
                 $flightImageExists = DB::table('flight_images')->where('booking_id', $id)->exists();
@@ -402,7 +400,7 @@ class BookingFormController extends Controller
                 $hotelImageExists = DB::table('hotel_images')->where('booking_id', $id)->exists();
                 if ($hotelImageExists) {
                     $rules['hotelbookingimage'] = 'array';
-                    $rules['hotel'] = 'array'; 
+                    $rules['hotel'] = 'array';
                 } else {
                      $rules['hotelbookingimage'] = 'required_without:hotel|array';
                     $rules['hotel'] = 'required_without:hotelbookingimage|array|min:1';
@@ -477,7 +475,7 @@ class BookingFormController extends Controller
                     $rules['trainbookingimage'] = 'required_without:train|array';
                     $rules['train'] = 'required_without:trainbookingimage|array|min:1';
                 }
-                
+
                 $rules['train_ref']                 = 'required|string';
                 $rules['train.*.direction']         = 'required_with:train|string';
                 $rules['train.*.departure_date']    = 'required_with:train|date';
@@ -491,9 +489,9 @@ class BookingFormController extends Controller
                 $rules['train.*.transit']           = 'required_with:train|string';
                 $rules['train.*.arrival_date']      = 'required_with:train|date';
             }
-            
+
         }
-        
+
             //BILLING
             $rules['billing']                           = 'required|array|min:1';
             $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
@@ -905,8 +903,8 @@ class BookingFormController extends Controller
                 'train.*.arrival_date.date'           => 'Train arrival date must be a valid date.',
             ];
 
-           
-            
+
+
             $validator = Validator::make($request->all(), $rules, $messages);
             $validator->after(function ($validator) use ($request, $bookingTypes) {
                 // Billing card number and CVV validation
@@ -940,7 +938,7 @@ class BookingFormController extends Controller
             #DB::beginTransaction();
 
             $booking = TravelBooking::findOrFail($id);
-              if ($request->input('last_updated_at') != $booking->updated_at->toDateTimeString()) {
+            if ($request->input('last_updated_at') != $booking->updated_at->toDateTimeString()) {
                      return response()->json([
                         'status' => 'error',
                         'errors' => 'This booking was updated by someone else. Please refresh and try again.',
@@ -997,7 +995,7 @@ class BookingFormController extends Controller
             TravelPassenger::where('booking_id', $booking->id)
                 ->get()
                 ->each
-                ->delete();
+                ->forceDelete();
 //            TravelPassenger::where('booking_id', $booking->id)->delete();
             foreach ($passengers as $data) {
 
@@ -1012,7 +1010,7 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedPassengerIds)
                 ->get()
                 ->each
-                ->delete();
+                ->forceDelete();
 
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
@@ -1049,7 +1047,7 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedFlightIds)
                 ->get()
                 ->each
-                ->delete();
+                ->forceDelete();
 
             $existingHotelIds = $booking->travelHotel->pluck('id')->toArray();
             $newHotels = $request->input('hotel', []);
@@ -1214,7 +1212,7 @@ class BookingFormController extends Controller
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
-            
+
             TravelBillingDetail::where('booking_id',$booking->id)->get()->each->forceDelete();
             foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;
@@ -1230,7 +1228,7 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedBillingIds)
                 ->get()
                 ->each
-                ->delete();
+                ->forceDelete();
 
 
             $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
@@ -1336,10 +1334,10 @@ class BookingFormController extends Controller
         ])->findOrFail($id);
 
         $userDepartments = auth()->user()->departments;
-        $userDepartments = [$userDepartments];       
+        $userDepartments = [$userDepartments];
         $booking_status = BookingStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
         $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
-        
+
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();

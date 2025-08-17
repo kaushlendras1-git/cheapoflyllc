@@ -126,7 +126,6 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
 // });
 
 document.getElementById('bookingForm').addEventListener('submit',async function(e){
-    console.log('hello')
     e.preventDefault();
     const action = e.target.action;
     const formdata = new FormData(e.target);
@@ -140,46 +139,46 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             formdata.append(name, value);
         });
     }
-    
-//     if (isFlightChecked) {
-//     const skipFieldsForFlight = ['airline_code', 'flight_number', 'class_of_service'];
-//     const inputs = document.querySelectorAll('[name^="flight["]');
-//     const rows = {};
-//     let dynamicIndex = 0;
 
-//     inputs.forEach(input => {
-//         const match = input.name.match(/^flight\[\d+\]\[([^\]]+)\]$/); // ignore original index
-//         if (!match) return;
+    //     if (isFlightChecked) {
+    //     const skipFieldsForFlight = ['airline_code', 'flight_number', 'class_of_service'];
+    //     const inputs = document.querySelectorAll('[name^="flight["]');
+    //     const rows = {};
+    //     let dynamicIndex = 0;
 
-//         const field = match[1];
-//         const value = (input.type === 'checkbox' || input.type === 'radio')
-//             ? (input.checked ? input.value : '')
-//             : input.value.trim();
+    //     inputs.forEach(input => {
+    //         const match = input.name.match(/^flight\[\d+\]\[([^\]]+)\]$/); // ignore original index
+    //         if (!match) return;
 
-//         // Start a new row when direction is Outbound or Inbound
-//         if (field === 'direction') {
-//             dynamicIndex++;
-//             rows[dynamicIndex] = {};
-//         }
+    //         const field = match[1];
+    //         const value = (input.type === 'checkbox' || input.type === 'radio')
+    //             ? (input.checked ? input.value : '')
+    //             : input.value.trim();
 
-//         if (!rows[dynamicIndex]) rows[dynamicIndex] = {};
-//         rows[dynamicIndex][field] = value;
-//     });
+    //         // Start a new row when direction is Outbound or Inbound
+    //         if (field === 'direction') {
+    //             dynamicIndex++;
+    //             rows[dynamicIndex] = {};
+    //         }
 
-//     Object.keys(rows).forEach(index => {
-//         const rowData = rows[index];
-//         const allBlank = skipFieldsForFlight.every(field => !((rowData[field] ?? '').trim()));
+    //         if (!rows[dynamicIndex]) rows[dynamicIndex] = {};
+    //         rows[dynamicIndex][field] = value;
+    //     });
 
-//         if (!allBlank) {
-//             Object.entries(rowData).forEach(([fieldName, value]) => {
-//                 if (value) {
-//                     formdata.append(`flight[${index}][${fieldName}]`, value);
-//                 }
-//             });
-//         }
-//     });
-// }
- 
+    //     Object.keys(rows).forEach(index => {
+    //         const rowData = rows[index];
+    //         const allBlank = skipFieldsForFlight.every(field => !((rowData[field] ?? '').trim()));
+
+    //         if (!allBlank) {
+    //             Object.entries(rowData).forEach(([fieldName, value]) => {
+    //                 if (value) {
+    //                     formdata.append(`flight[${index}][${fieldName}]`, value);
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+
 
     const hotelInputs = document.querySelectorAll('[name^="hotel["]');
     hotelInputs.forEach(input => {
@@ -216,7 +215,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         });
     }
 
-  
+
         const skipFieldsForPassenger = [
         'title',
         'first_name',
@@ -293,7 +292,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     }
     catch (e) {
         console.error(e);
-        
+
         if (e.response?.status === 422 || e.response?.status === 500) {
            // showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
             const errorMessage = e.response?.data?.error || e.response?.data?.errors  || 'Validation/server error';
@@ -315,21 +314,21 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
 
 document.getElementById('saveRemark').addEventListener('click', async function(e) {
     e.preventDefault();
-    
+
     const remark = document.querySelector('textarea[name="particulars"]');
     const remarkValue = remark.value.trim();
-    
+
     // Client-side validation
     if (!remarkValue) {
         showToast('Please Enter a remark', 'error');
         return;
     }
-    
+
     try {
         const response = await axios.post(route('booking.update-remark', { id: route().params.id }), {
             remark: remarkValue,
         });
-        
+
         let html = '';
         response.data.data.forEach(function(item, index) {
             html += `<tr id="remark-row-${item.id}">
@@ -344,7 +343,7 @@ document.getElementById('saveRemark').addEventListener('click', async function(e
                 </td>
             </tr>`;
         });
-        
+
         $('#bookingtableremarktable').html(html);
         remark.value = '';
         showToast(response.data.message, 'success');
@@ -364,7 +363,6 @@ $('.country-select').on('change',async function(e){
         const response = await axios.get(route('statelist',e.target.value));
 
         let options = '<option value="">Select State</option>';
-        console.log(response.data.data);
         response.data.data.forEach(function(item){
             options += `
                 <option value="${item.id}">${item.name}</option>
@@ -373,7 +371,6 @@ $('.country-select').on('change',async function(e){
         e.target.parentElement.nextElementSibling.querySelector('select').innerHTML = options;
     }
     catch (e) {
-        console.log(e)
     }
 });
 
@@ -447,7 +444,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.querySelector('select[name="pnrtype"]').addEventListener('change',function(e){
-    console.log(e.target.value);
     if(e.target.value == 'HK'){
         const pricingFormsContainer = document.getElementById('pricingForms');
         let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
@@ -515,11 +511,10 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await axios.post(action, formdata);
             const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
-                return el.name.endsWith('][address]');
+                return el.name.endsWith('][state]');
             });
-
             billingElements.forEach(el => {
-                if (el.tagName.toLowerCase() === 'select') { // Confirm it is a select element
+                if (el.tagName.toLowerCase() === 'select') {
                     const option = document.createElement('option');
                     option.value = response.data.data.id;
                     option.textContent = response.data.data.street_address;
@@ -529,7 +524,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.warn('Element is not a select, cannot add option:', el);
                 }
             });
-            console.log(response);
             showToast(response.data.message);
             document.getElementById('billing-close-modal').click();
             element.reset();
@@ -557,7 +551,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             toggleBillingTableVisibility(); // 👈 After add
         } catch (e) {
-            console.log(e);
             showToast(e?.response?.data?.message || 'Something went wrong', 'error');
         }
     });
@@ -571,7 +564,7 @@ function attachDeleteHandler(el) {
         const confirmed = confirm('Are you sure you want to delete this billing record?');
         if (!confirmed) return;
 
-        const button = e.target;
+        const button = e.target.closest('.deleteBillData');
         const action = button.getAttribute('data-href');
 
         try {
@@ -593,7 +586,7 @@ function attachDeleteHandler(el) {
             const deletedId = response.data.deleted_id;
 
             const billingSelects = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
-                return el.name.endsWith('][address]');
+                return el.name.endsWith('][state]');
             });
 
             billingSelects.forEach(select => {
@@ -676,7 +669,6 @@ document.getElementById('saveFeedback').addEventListener('click', async function
                 <td>${item.created_at}</td>
             </tr>`;
         });
-        console.log(html);
         $('#booking_feed_back_table tbody').html(html);
         showToast(response.data.message);
 
@@ -766,7 +758,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                 }, 1000);
                             }
 
-                        console.log(response.data.message);
                     }
                 } catch (error) {
                     console.error('Failed to toggle remark status:', error);

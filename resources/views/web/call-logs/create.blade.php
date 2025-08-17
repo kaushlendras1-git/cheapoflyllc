@@ -57,7 +57,7 @@
                             </div>
 
                             <div class="form-check form-check-inline position-relative">
-                                <input name="chkcar" class="form-check-input" type="checkbox" id="booking-train"
+                                <input name="chktrain" class="form-check-input" type="checkbox" id="booking-train"
                                     value="1" {{ old('chktrain') ? 'checked' : '' }}>
                                 <label class="form-check-label" for="booking-train">Train</label>
                             </div>
@@ -91,7 +91,7 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Name <span class="text-danger">*</span></label>
