@@ -27,6 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         @foreach($billingData as $key=>$bill)
                         <tr>
                             <td>Card No. {{$key+1}}</td>
@@ -36,7 +37,7 @@
                             <td>{{$bill->city}}</td>
                             <td>{{$bill->state}}</td>
                             <td>{{$bill->zip_code}}</td>
-                            <td>{{$bill->country}}</td>
+                            <td>{{$bill->get_country->country_name}}</td>
                             <td class="text-center">
                                 <button data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}"
                                     class="btn btn-outline-danger deleteBillData">

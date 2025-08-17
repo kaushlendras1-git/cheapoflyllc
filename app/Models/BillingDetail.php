@@ -30,4 +30,8 @@ class BillingDetail extends Model
     {
         return $this->belongsTo(Booking::class);
     }
+
+    public function get_country(){
+        return $this->belongsTo(Country::class,'country');
+    }
 }
