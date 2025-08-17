@@ -12,6 +12,8 @@
     },
     "dependencies": {
         "@everapi/currencyapi-js": "^1.0.6",
+        "datatables.net": "^2.3.2",
+        "datatables.net-bs5": "^2.3.2",
         "filepond": "^4.32.8",
         "filepond-plugin-image-preview": "^4.6.12",
         "firebase": "^12.1.0",
