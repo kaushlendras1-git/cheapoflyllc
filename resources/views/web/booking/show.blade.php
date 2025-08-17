@@ -77,7 +77,7 @@
 
                     <a href="{{ route('auth-history', $hashids) }}"
                         class="btn btn-outline-secondary btn-sm rounded-pill auth-button">
-                        Auth History
+                        Mail History
                     </a>
                 </div>
             </div>
