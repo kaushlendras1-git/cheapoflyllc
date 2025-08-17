@@ -35,13 +35,7 @@
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
                 <div class="d-flex align-items-center justify-content-between booking-form gen_form mb-2">
-                    <div class="col-md-4">
-                        <div class="position-relative">
-                            <label class="form-label mb-1">Search User</label>
-                            <input type="text" name="keyword" class="form-control w-96 input-style"
-                                placeholder="Search User" value="">
-                        </div>
-                    </div>
+                    
                     <div class="add-user-btn text-end">
                         <button class="btn add-new btn-primary button-style" style="font-size: 12px;" tabindex="0"
                             aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
