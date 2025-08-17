@@ -141,44 +141,44 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         });
     }
     
-    if (isFlightChecked) {
-    const skipFieldsForFlight = ['airline_code', 'flight_number', 'class_of_service'];
-    const inputs = document.querySelectorAll('[name^="flight["]');
-    const rows = {};
-    let dynamicIndex = 0;
+//     if (isFlightChecked) {
+//     const skipFieldsForFlight = ['airline_code', 'flight_number', 'class_of_service'];
+//     const inputs = document.querySelectorAll('[name^="flight["]');
+//     const rows = {};
+//     let dynamicIndex = 0;
 
-    inputs.forEach(input => {
-        const match = input.name.match(/^flight\[\d+\]\[([^\]]+)\]$/); // ignore original index
-        if (!match) return;
+//     inputs.forEach(input => {
+//         const match = input.name.match(/^flight\[\d+\]\[([^\]]+)\]$/); // ignore original index
+//         if (!match) return;
 
-        const field = match[1];
-        const value = (input.type === 'checkbox' || input.type === 'radio')
-            ? (input.checked ? input.value : '')
-            : input.value.trim();
+//         const field = match[1];
+//         const value = (input.type === 'checkbox' || input.type === 'radio')
+//             ? (input.checked ? input.value : '')
+//             : input.value.trim();
 
-        // Start a new row when direction is Outbound or Inbound
-        if (field === 'direction') {
-            dynamicIndex++;
-            rows[dynamicIndex] = {};
-        }
+//         // Start a new row when direction is Outbound or Inbound
+//         if (field === 'direction') {
+//             dynamicIndex++;
+//             rows[dynamicIndex] = {};
+//         }
 
-        if (!rows[dynamicIndex]) rows[dynamicIndex] = {};
-        rows[dynamicIndex][field] = value;
-    });
+//         if (!rows[dynamicIndex]) rows[dynamicIndex] = {};
+//         rows[dynamicIndex][field] = value;
+//     });
 
-    Object.keys(rows).forEach(index => {
-        const rowData = rows[index];
-        const allBlank = skipFieldsForFlight.every(field => !((rowData[field] ?? '').trim()));
+//     Object.keys(rows).forEach(index => {
+//         const rowData = rows[index];
+//         const allBlank = skipFieldsForFlight.every(field => !((rowData[field] ?? '').trim()));
 
-        if (!allBlank) {
-            Object.entries(rowData).forEach(([fieldName, value]) => {
-                if (value) {
-                    formdata.append(`flight[${index}][${fieldName}]`, value);
-                }
-            });
-        }
-    });
-}
+//         if (!allBlank) {
+//             Object.entries(rowData).forEach(([fieldName, value]) => {
+//                 if (value) {
+//                     formdata.append(`flight[${index}][${fieldName}]`, value);
+//                 }
+//             });
+//         }
+//     });
+// }
  
 
     const hotelInputs = document.querySelectorAll('[name^="hotel["]');

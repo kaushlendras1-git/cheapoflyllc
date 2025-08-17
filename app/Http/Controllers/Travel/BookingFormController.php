@@ -389,11 +389,11 @@ class BookingFormController extends Controller
                 $rules['flight.*.arrival_hours']     = 'required_with:flight|date_format:H:i';
                 $rules['flight.*.duration']          = 'required_with:flight';
                 $rules['flight.*.transit']           = 'required_with:flight';
-                $rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
-                $rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
+                #$rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
+                #$rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
                 $rules['flight.*.flight_number']     = 'required_with:flight|string|max:10';
                 $rules['flight.*.cabin']             = 'required_with:flight|string|in:B.Eco,Eco,Pre.Eco,Buss.';
-                $rules['flight.*.class_of_service']  = 'required_with:flight|string|max:3';
+              #  $rules['flight.*.class_of_service']  = 'required_with:flight|string|max:3';
             }
 
 
@@ -407,7 +407,7 @@ class BookingFormController extends Controller
                      $rules['hotelbookingimage'] = 'required_without:hotel|array';
                     $rules['hotel'] = 'required_without:hotelbookingimage|array|min:1';
                 }
-                $rules['hotel_ref']                 = 'required|string';
+              #  $rules['hotel_ref']                 = 'required|string';
                 $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
                 $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
                 $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
@@ -429,7 +429,7 @@ class BookingFormController extends Controller
                     $rules['cruisebookingimage'] = 'required_without:cruise|array';
                     $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
                 }
-                $rules['cruise_ref']                 = 'required|string';
+              #  $rules['cruise_ref']                 = 'required|string';
                 $rules['cruise.*.cruise_line']     = 'required_with:cruise|string|max:255';
                 $rules['cruise.*.ship_name']       = 'required_with:cruise|string|max:255';
                 $rules['cruise.*.category']        = 'required_with:cruise|string|max:255';
@@ -452,7 +452,7 @@ class BookingFormController extends Controller
                     $rules['carbookingimage'] = 'required_without:car|array';
                     $rules['car'] = 'required_without:carbookingimage|array|min:1';
                 }
-                $rules['car_ref']                 = 'required|string';
+              #  $rules['car_ref']                 = 'required|string';
                 $rules['car.*.car_rental_provider']     = 'required_with:car|string|max:255';
                 $rules['car.*.car_type']                = 'required_with:car|string|max:255';
                 $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
