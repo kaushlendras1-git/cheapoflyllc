@@ -188,9 +188,7 @@
                 <td><input type="date" class="form-control" style="width:105px"; name="car[${carIndex}][dropoff_date]"></td>
                 <td><input type="time" class="form-control" style="width:105px"; name="car[${carIndex}][dropoff_time]"></td>
                 <td><input type="text" class="form-control" style="width:12rem" name="car[${carIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="car[${carIndex}][remarks]" placeholder="Remarks"></td>
-                <td><input type="text" class="form-control" style="width:13rem" name="car[${carIndex}][rental_provider_address]" placeholder="Rental Provider's Address"></td>
-                <td>
+                 <td>
                     <button type="button" class="btn btn-outline-danger delete-car-btn">
                         <i class="ri ri-delete-bin-line"></i>
                     </button>

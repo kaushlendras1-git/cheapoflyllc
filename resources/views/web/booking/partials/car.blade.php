@@ -28,8 +28,6 @@
                                             <th>Drop-off Date</th>
                                             <th>Drop-off Time</th>
                                             <th>Confirmation Number</th>
-                                            <th>Remarks</th>
-                                            <th>Rental Provider's Address</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -72,13 +70,7 @@
                                                     name="car[{{$key}}][confirmation_number]"
                                                     placeholder="Confirmation Number"
                                                     value="{{$travelCar->confirmation_number}}"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="car[{{$key}}][remarks]" placeholder="Remarks"
-                                                    value="{{$travelCar->remarks}}"></td>
-                                            <td><input type="text" class="form-control" style="width:13rem"
-                                                    name="car[{{$key}}][rental_provider_address]"
-                                                    value="{{$travelCar->rental_provider_address}}"
-                                                    placeholder="Rental Provider's Address"></td>
+                                          
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-car-btn">
                                                     <i class="ri ri-delete-bin-line"></i>

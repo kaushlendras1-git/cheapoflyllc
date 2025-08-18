@@ -83,7 +83,7 @@
                             @enderror
                         </div>
                         <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Name <span class="text-danger">*</span></label>
+                            <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control"
                                 value="{{ old('name', $callLog->name) }}">
                             @error('name')

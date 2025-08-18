@@ -94,7 +94,11 @@
 
 
                         <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Name <span class="text-danger">*</span></label>
+                           
+                       
+
+
+                            <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                             @error('name')
                             <div class="text-danger">{{ $message }}</div>
@@ -146,8 +150,7 @@
                         </div>
 
                         <div class="col-md-2 position-relative mb-5" id="assign">
-                            <label for="assign" class="form-label">Follow Up<span
-                                    class="text-danger">*</span></label>
+                            <label for="assign" class="form-label">Follow Up</label>
                             <select name="assign" id="assign" class="form-control">
                                 <option value="" {{ old('assign') == '' ? 'selected' : '' }}>Select</option>
                                 @foreach($users as $user)

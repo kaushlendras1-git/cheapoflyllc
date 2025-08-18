@@ -166,6 +166,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: right;">
                                     Type</th>
                             </tr>
+                            
                             <tr>
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 0px 10px 20px; text-align: left;">
@@ -174,6 +175,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
                                     Adult </td>
                             </tr>
+
                         </table>
                     </div>
                 </td>
