@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Google\Api\Billing;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -73,5 +74,8 @@ class TravelBillingDetail extends Model
         } catch (DecryptException $e) {
             return $value;
         }
+    }
+    public function getBillingDetail(){
+        return $this->belongsTo(BillingDetail::class, 'state');
     }
 }

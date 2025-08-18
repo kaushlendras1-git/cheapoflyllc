@@ -12,7 +12,7 @@ use Hashids\Hashids;
 use App\Models\AuthHistory;
 
 class AuthEmailController extends Controller
-{   
+{
     protected $hashids;
     public function __construct()
     {
@@ -28,13 +28,18 @@ class AuthEmailController extends Controller
         $billingDetailsIds = $request->input('billing_details_ids', []);
         $travelBillingDetailsIds = $request->input('travel_billing_details_ids', []);
 
+        $booking_id = $request->booking_id;
+        $card_id = $request->card_id;
+        $card_billing_id = $request->card_billing_id;
+        $refund_status = $request->refund_status;
+        $buttonRoute = route('i_authorized',['booking_id'=>$booking_id,'card_id'=>$card_id,'card_billing_id'=>$card_billing_id,'refund_status'=>$refund_status]);
         try {
             foreach ($emails as $index => $email) {
                 $cardLastDigit = $cards[$index] ?? null;
                 $billingDetailsId = $billingDetailsIds[$index] ?? null;
                 $travelBillingDetailsId = $travelBillingDetailsIds[$index] ?? null;
 
-                Mail::to($email)->send(new AuthEmail($booking));
+                Mail::to($email)->send(new AuthEmail($booking,$buttonRoute));
 
                 AuthHistory::create([
                     'booking_id' => $bookingId,

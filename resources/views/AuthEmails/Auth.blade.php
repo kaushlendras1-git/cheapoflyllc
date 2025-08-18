@@ -43,13 +43,13 @@
                 <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 0px 0px 30px;">
                         <span style="display: inline-block; background-color: #fff; padding: 20px; border-radius: 10px; margin-top: 20px;">
                         <span style="display: block; margin-bottom: 10px;"> <img width="40" src="https://people.sau.int/email-templates/sku.png" alt="Number"> </span>
-                        Booking Reference Number 
+                        Booking Reference Number
                         <span style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">{{ $booking->pnr }}Customer Information</span></span>
                 </td>
-                <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 30px 0px 0px;"> 
+                <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 30px 0px 0px;">
                     <span style="display: inline-block; background-color: #fff; padding: 20px 65px; border-radius: 10px; margin-top: 20px;">
                         <span style="display: block; margin-bottom: 10px;"> <img width="40" src="https://people.sau.int/email-templates/event.png" alt="Number"> </span>
-                        Booking Date 
+                        Booking Date
                         <span style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">Monday,
                             Jul 14,2025</span></span> </td>
             </tr>
@@ -391,7 +391,7 @@
                     </div>
                 </td>
             </tr>
-            
+
             <tr>
                 <td colspan="2" style="font-size: 18px; font-weight: 700; padding: 30px 30px 10px 30px;">General Flight Terms and Conditions</td>
             </tr>
@@ -421,16 +421,36 @@
             <tr>
                 <td colspan="2" style="font-size: 14px; font-weight: 400; color: #000; padding: 5px 30px 40px 30px;">fareticketsllc provides its services, products, and contents either through the phone service or website. This is a legal agreement between you and fareticketsllc. You must read all the information carefully as you agree to these terms and conditions while accessing or using any services or products or contents of fareticketsllc.</td>
             </tr>
+            <tr>
+                <td colspan="2" style="text-align: center; padding: 30px 30px 20px 30px;">
+                    <a href="{{ $buttonRoute }}"
+                       style="
+                display: inline-block;
+                background-color: #c53d3d;
+                color: #fff;
+                font-size: 16px;
+                font-weight: 700;
+                text-decoration: none;
+                padding: 12px 32px;
+                border-radius: 6px;
+                margin-top: 15px;
+            "
+                       target="_blank"
+                    >
+                        Complete Authorization
+                    </a>
+                </td>
+            </tr>
         </tbody>
         <tfoot style="background-color: #c53d3d;">
             <tr>
-                <td colspan="2" style="padding: 30px 0px;"> 
+                <td colspan="2" style="padding: 30px 0px;">
                     <span style="display: flex; align-items: center; justify-content: center;">
                         <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/facebook.png" alt="facebook">
                         <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/linkedin.png" alt="linkdin">
                         <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/instagram.png" alt="instagram">
                         <img style="margin-right: 10px;" width="20" src="https://people.sau.int/email-templates/twitter.png" alt="twitter">
-                    </span> 
+                    </span>
                     <span style="font-size: 16px; font-weight: 400; color: #fff; text-align: center; display: block; padding-top: 20px;">© All Rights Reserved.</span>
                 </td>
             </tr>

@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetch(`/i_authorized/${booking_id}/${card_id}/${card_billing_id}`)
                     .then(res => res.text())
                     .then(html => {
+                        console.log('sendmail');
                         loadContainer.innerHTML = html;
                     })
                     .catch(() => {
@@ -31,7 +32,34 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('load_model').innerHTML = '';
         });
     }
-    
+
+    const sendAuthMail = document.getElementsByClassName('sendAuthMail');
+    Array.from(sendAuthMail).forEach((el)=>{
+        el.addEventListener('click',(e)=>{
+            console.log(e);
+            const button = e.target;
+            const booking_id = button.getAttribute('data-booking_id');
+            const card_id = button.getAttribute('data-card_id');
+            const card_billing_id = button.getAttribute('data-card_billing_id');
+            const refund_status = button.getAttribute('data-refund_status');
+            const loadContainer = document.getElementById('load_model');
+            const href=button.getAttribute('data-href');
+            if (loadContainer && booking_id) {
+                loadContainer.innerHTML = 'Loading...';
+                fetch(href)
+                    .then(res => res.text())
+                    .then(html => {
+                        $('#booking_id').val(booking_id);
+                        $('#card_id').val(card_id);
+                        $('#card_billing_id').val(card_billing_id);
+                        loadContainer.innerHTML = html;
+                    })
+                    .catch(() => {
+                        loadContainer.innerHTML = '<p class="text-danger">Failed to load content.</p>';
+                    });
+            }
+        });
+    });
 
     const form = document.getElementById('sendAuthMailModal');
     if (form) {
@@ -71,7 +99,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 $('#sendAuthEmail').submit(async function(e){
     e.preventDefault();
-      const formdata = new FormData(this); 
+    const formdata = new FormData(this);
+    const booking_id = document.getElementById('booking_id').value;
+    const card_id = document.getElementById('card_id').value;
+    const card_billing_id = document.getElementById('card_billing_id').value;
+    formdata.append('booking_id',booking_id);
+    formdata.append('card_id',card_id);
+    formdata.append('card_billing_id',card_billing_id);
     try {
         const response = await axios.post(this.action, formdata);
 
@@ -98,7 +132,7 @@ $('#sendAuthEmail').submit(async function(e){
 
 $('#sendSMS').submit(async function(e) {
     e.preventDefault();
-    const formdata = new FormData(this); 
+    const formdata = new FormData(this);
 
     try {
         const response = await axios.post(this.action, formdata);
@@ -129,12 +163,9 @@ $('#sendSMS').submit(async function(e) {
     }
 });
 
-
-
-
 $('#sendSurvey').submit(async function(e){
     e.preventDefault();
-      const formdata = new FormData(this); 
+      const formdata = new FormData(this);
     try {
         const response = await axios.post(this.action, formdata);
 
@@ -160,7 +191,7 @@ $('#sendSurvey').submit(async function(e){
 
 $('#sendWhatsApp').submit(async function(e){
     e.preventDefault();
-      const formdata = new FormData(this); 
+      const formdata = new FormData(this);
     try {
         const response = await axios.post(this.action, formdata);
 
