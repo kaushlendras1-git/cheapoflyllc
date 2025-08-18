@@ -1,67 +1,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-  <style>
-    .btn-custom {
-      display: none; /* Initially hidden for animation */
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      background-color: #25D366; /* WhatsApp green */
-      color: white;
-      border-radius: 20px;
-      text-align: left;
-      font-size: 16px;
-      transition: background-color 0.2s;
-    }
-    .btn-custom:hover {
-      background-color: #1ebe57; /* Darker green on hover */
-    }
-    .btn-custom i {
-      margin-right: 10px;
-    }
-    .modal-content {
-      border-radius: 15px;
-    }
-    .modal-body {
-      padding: 20px;
-    }
-    .send-btn {
-      background-color: #25D366;
-      color: white;
-      border-radius: 20px;
-      padding: 10px 20px;
-      border: none;
-      font-size: 16px;
-      margin-top: 20px;
-      display: block;
-      margin-left: auto;
-    }
-    .send-btn:hover {
-      background-color: #1ebe57;
-    }
-    .preview-box {
-      background-color: #f0f0f0;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      line-height: 22px;
-    }
-    .sms-preview, .whatsapp-preview, .survey-preview {
-      background-color: #ECE5DD; /* WhatsApp chat background */
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-    .sms-preview p, .whatsapp-preview p, .survey-preview p {
-      background-color: #FFFFFF;
-      border-radius: 10px;
-      padding: 10px;
-      margin: 5px 10px 5px 10px;
-      display: inline-block;
-    }
-  </style>
-</head>
-<body>
+
+
 
 <!-- Button to trigger call logs modal -->
   <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill auth-button" data-bs-toggle="modal" data-bs-target="#callLogsModal">
@@ -70,7 +9,7 @@
 
   <!-- Call Logs Modal without fade -->
   <div class="modal" id="callLogsModal" tabindex="-1" aria-labelledby="callLogsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 470px;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 670px;">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="callLogsModalLabel">Send Auth</h5>
@@ -78,14 +17,31 @@
         </div>
         <div class="modal-body auth-btn-style">
           
-        <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"  
-        
-        data-id="{{ $hashids }}" 
-        data-email1="credentials@cheapoflytravel.com" 
-        data-email2="kaushlendras1@gmail.com"
-        data-bs-dismiss="modal">
-        <i class="ri ri-mail-open-fill"></i>  Send Mail</button>
+        @foreach($booking->billingDetails as $key => $billingDetails)
+             @php
+                  $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
+              @endphp
 
+                  <button class="btn btn-custom d-flex align-items-center" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#sendAuthMailModal"  
+                    data-booking_id="{{ $hashids }}" 
+                    data-card_id="{{ $hashids }}" 
+                    data-card_billing_id="{{ $hashids }}" 
+                    data-email="{{$card_billing_data->email ?? ''}}"
+                    data-cc_number="{{$billingDetails['cc_number']}}"
+                    data-bs-dismiss="modal">
+                    <i class="ri ri-mail-open-fill"></i>  
+                     Send Auth Email (Card {{$key+1}})                     
+                  </button>
+        @endforeach
+
+
+         <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"  
+            data-id="{{ $hashids }}" 
+            data-email="kaushlendras1@gmail.com"
+            data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Mail
+         </button>
 
           <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" data-id="{{ $booking->id }}"  data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> SMS</button>
           <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" data-id="{{ $booking->id }}"  data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> WhatsApp</button>
@@ -95,46 +51,47 @@
     </div>
   </div>
 
+
+
   <!-- Send Mail Modal -->
-<div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered  modal-lg">
-    <div class="modal-content" style="height:700px; overflow-y:auto;">
-      <div class="modal-header">
-        <h5 class="modal-title">Send Mail</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-       <form id="sendAuthEmail">
-          @csrf
-          <input type="hidden" name="id" id="auth_id" value="{{$booking->id}}">
-          <div class="mb-3">
-              @foreach($booking->billingDetails as $key => $billingDetails)
-                  @php
-                      $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
-                      $last4 = substr($billingDetails['cc_number'], -4);
-                  @endphp
-                  <label>
-                      <input type="checkbox" name="auth_email[]" 
-                            value="{{ $card_billing_data->email ?? '' }}" 
-                            data-cards="{{ $last4 }}"
-                            data-billing_details_id="{{ $billingDetails['id'] }}"
-                            data-travel_billing_details_id="{{ $card_billing_data->id ?? '' }}"
-                            >
-                      ********{{ $last4 }} - {{ $card_billing_data->email ?? '' }}
-                  </label><br>
-              @endforeach    
-          </div>
-          <button class="btn btn-info send-auth-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
-      </form>
-
-        <div id="load_model" class="mt-3">
-            <!-- Loaded dynamically -->
+  <div class="modal fade" id="sendAuthMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg">
+      <div class="modal-content" style="height:700px; overflow-y:auto;">
+        <div class="modal-header">
+          <h5 class="modal-title">Send Mail</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+
+        <div class="modal-body">
+            <form id="sendAuthEmail">
+              @csrf
+               <input type="hidden" name="id" id="auth_id" value="{{$booking->id}}">
+                <div class="row">
+                    <div class="col-md-5 position-relative mb-5">
+                      <select name="refund_status" class="form-control">
+                        <option value="">Select Refund Status</option>
+                        <option value="Refundable">Refundable</option>
+                        <option value="Non-Refundable">Non-Refundable</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button class="btn btn-info send-auth-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
+                    </div>
+
+                </div>            
+            </form>
+
+            <div id="load_model" class="mt-3">
+                <!-- Loaded dynamically -->
+            </div>
+
+        </div>
+
       </div>
     </div>
   </div>
-</div>
+
 
 
 
@@ -233,3 +190,65 @@
       });
     });
   </script> -->
+
+    <style>
+    .btn-custom {
+      display: none; /* Initially hidden for animation */
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #25D366; /* WhatsApp green */
+      color: white;
+      border-radius: 20px;
+      text-align: left;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    .btn-custom:hover {
+      background-color: #1ebe57; /* Darker green on hover */
+    }
+    .btn-custom i {
+      margin-right: 10px;
+    }
+    .modal-content {
+      border-radius: 15px;
+    }
+    .modal-body {
+      padding: 20px;
+    }
+    .send-btn {
+      background-color: #25D366;
+      color: white;
+      border-radius: 20px;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      margin-top: 20px;
+      display: block;
+      margin-left: auto;
+    }
+    .send-btn:hover {
+      background-color: #1ebe57;
+    }
+    .preview-box {
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 22px;
+    }
+    .sms-preview, .whatsapp-preview, .survey-preview {
+      background-color: #ECE5DD; /* WhatsApp chat background */
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .sms-preview p, .whatsapp-preview p, .survey-preview p {
+      background-color: #FFFFFF;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 5px 10px 5px 10px;
+      display: inline-block;
+    }
+  </style>

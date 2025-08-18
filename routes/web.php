@@ -44,7 +44,7 @@ Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('sta
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 
 
-Route::get('/i_authorized/{id}', [SignatureController::class, 'showForm'])->name('i_authorized');
+Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}', [SignatureController::class, 'showForm'])->name('i_authorized');
 
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');

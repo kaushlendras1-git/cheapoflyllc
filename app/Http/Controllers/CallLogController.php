@@ -236,6 +236,8 @@ class CallLogController extends Controller
                     'reservation_source' => $request->reservation_source,
                     'campaign' => $request->campaign, // Store campaign ID
                     'pnr' => $pnr,
+                    'booking_status_id' => 1,
+                    'payment_status_id' => 1,
                     'user_id' => auth()->id(),
                 ]);
             }

@@ -50,15 +50,17 @@ class SignatureController extends Controller
         $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
     }
 
-    public function showForm($hash)
+    public function showForm($booking_id, $card_id, $card_billing_id)
     {
-        $id = $this->hashids->decode($hash);
+
+        $id = $this->hashids->decode($booking_id);
         $id = $id[0] ?? null;
+
 
         if (!$id) {
             abort(404);
         }
-        $hashids = $hash;    
+        $hashids = $booking_id;    
         $booking = TravelBooking::with([
             'bookingTypes',
             'sectorDetails',

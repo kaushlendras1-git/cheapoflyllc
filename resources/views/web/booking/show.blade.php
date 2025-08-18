@@ -362,4 +362,5 @@
     let booking_id = "{{$booking->id}}";
 </script>
 @vite('resources/js/booking/edit.js')
+@vite('resources/js/auth/sendAuth.js')
 @endsection

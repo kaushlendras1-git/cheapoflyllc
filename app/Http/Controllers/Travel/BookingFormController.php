@@ -909,6 +909,7 @@ class BookingFormController extends Controller
 
             $validator = Validator::make($request->all(), $rules, $messages);
             $validator->after(function ($validator) use ($request, $bookingTypes) {
+             
                 // Billing card number and CVV validation
                 $billings = $request->input('billing', []);
                 foreach ($billings as $index => $billing) {
@@ -931,6 +932,24 @@ class BookingFormController extends Controller
                             $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
                         }
                     }
+
+                    // ✅ Prefix checks based on card type
+                    if ($cardType === 'VISA' && !preg_match('/^4/', $ccNumber)) {
+                        $validator->errors()->add("billing.$index.cc_number", 'VISA card numbers must start with 4.');
+                    }
+
+                    if ($cardType === 'MASTERCARD' && !preg_match('/^5[1-5]/', $ccNumber)) {
+                        $validator->errors()->add("billing.$index.cc_number", 'Mastercard numbers must start with 51-55.');
+                    }
+
+                    if ($cardType === 'AMEX' && !preg_match('/^3[47]/', $ccNumber)) {
+                        $validator->errors()->add("billing.$index.cc_number", 'AMEX numbers must start with 34 or 37.');
+                    }
+
+                    if ($cardType === 'DISCOVER' && !preg_match('/^6(?:011|5)/', $ccNumber)) {
+                        $validator->errors()->add("billing.$index.cc_number", 'Discover numbers must start with 6011 or 65.');
+                    }
+
                 }
             });
             $validator->validate();

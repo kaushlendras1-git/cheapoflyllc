@@ -869,67 +869,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('sendMailModal');
-
-    if (modal) {
-        modal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const id = button.getAttribute('data-id');
-
-            const loadContainer = document.getElementById('load_model');
-            if (loadContainer && id) {
-                loadContainer.innerHTML = 'Loading...';
-                fetch(`/i_authorized/${id}`)
-                    .then(res => res.text())
-                    .then(html => {
-                        loadContainer.innerHTML = html;
-                    })
-                    .catch(() => {
-                        loadContainer.innerHTML = '<p class="text-danger">Failed to load content.</p>';
-                    });
-            }
-        });
-
-        modal.addEventListener('hidden.bs.modal', function () {
-            document.getElementById('load_model').innerHTML = '';
-        });
-    }
-
-    const form = document.getElementById('sendAuthEmail');
-    if (form) {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const formData = new FormData(form);
-            const params = new URLSearchParams(formData);
-
-            document.querySelectorAll('input[name="auth_email[]"]:checked').forEach((checkbox, index) => {
-                params.append(`cards[${index}]`, checkbox.dataset.cards);
-                params.append(`billing_details_ids[${index}]`, checkbox.dataset.billing_details_id);
-                params.append(`travel_billing_details_ids[${index}]`, checkbox.dataset.travel_billing_details_id);
-            });
-
-            fetch('/mail-sent?' + params.toString(), {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message);
-                const modalInstance = bootstrap.Modal.getInstance(modal);
-                if (modalInstance) modalInstance.hide();
-            })
-            .catch(error => {
-                showToast('Error sending email.', 'error');
-                console.error(error);
-            });
-        });
-    }
-});
-
 // document.getElementById('bookingtableremarktable').addEventListener('click', async function (e) {
 //     if (e.target.classList.contains('deleteRemark')) {
 //         const id = e.target.getAttribute('data-id');
