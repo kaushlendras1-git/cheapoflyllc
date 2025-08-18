@@ -74,6 +74,7 @@
                 <input type="hidden" name="booking_id" id="booking_id"/>
                 <input type="hidden" name="card_id" id="card_id"/>
                 <input type="hidden" name="card_billing_id" id="card_billing_id"/>
+                <input type="hidden" name="email" id="email"/>
                 <div class="row">
                     <div class="col-md-5 position-relative mb-5">
                       <select name="refund_status" class="form-control">
