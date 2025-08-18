@@ -18,7 +18,7 @@
                 <td><input type="date" class="form-control" style="width:114px" name="hotel[${hotelIndex}][checkin_date]"></td>
                 <td><input type="date" class="form-control" style="width:114px" name="hotel[${hotelIndex}][checkout_date]"></td>
                 <td><input type="number" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
-                <td><input type="text" class="form-control" style="width:12rem" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
+                <td><input type="text" class="form-control" style="width:10rem" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][hotel_address]" placeholder="Hotel Address"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[${hotelIndex}][remarks]" placeholder="Remarks"></td>
                 <td>
@@ -375,9 +375,9 @@
             <td><input type="text" class="form-control" style="width: 108px;" name="train[${trainIndex}][train_number]" placeholder="Train No"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][cabin]" placeholder="Cabin"></td>
             <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][departure_station]" placeholder="Departure Station"></td>
-            <td><input type="time" class="form-control" style="width: 50px;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+            <td><input type="time" class="form-control" style="width: 80px;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
             <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station"></td>
-            <td><input type="time" class="form-control" style="width: 50px;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
+            <td><input type="time" class="form-control" style="width: 80px;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][duration]" placeholder="Duration"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][transit]" placeholder="Transit"></td>
             <td><input type="date" class="form-control" style="width: 110px;" name="train[${trainIndex}][arrival_date]"></td>

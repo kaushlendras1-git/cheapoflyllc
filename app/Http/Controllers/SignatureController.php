@@ -50,8 +50,8 @@ class SignatureController extends Controller
         $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
     }
 
-    public function showForm($booking_id, $card_id, $card_billing_id)
-    {
+    public function showForm($booking_id, $card_id, $card_billing_id, $refund_status)
+    {   
 
         $id = $this->hashids->decode($booking_id);
         $id = $id[0] ?? null;
@@ -94,8 +94,6 @@ class SignatureController extends Controller
 
     public function store(Request $request)
     {   
-       
-
          $id = $this->hashids->decode($request->booking_id);
          $booking_id = $id[0] ?? null;
 

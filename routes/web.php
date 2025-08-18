@@ -37,25 +37,14 @@ use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\FcmController;
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
-
-Route::get('/mail-sent',[AuthEmailController::class,'index']);
-
 Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('statelist');
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 
-
-Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}', [SignatureController::class, 'showForm'])->name('i_authorized');
-
+/***** Auth **** */
+Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
-
-
-
-
-Route::get('/send-test-email', function () {
-    Mail::to('recipient@example.com')->send(new TestEmail());
-    return 'Test email sent!';
-});
+Route::get('/mail-sent',[AuthEmailController::class,'index']);
 
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);

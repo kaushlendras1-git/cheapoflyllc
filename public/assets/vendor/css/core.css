@@ -29138,6 +29138,7 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   width: auto;
   padding: 10px 20px;
   margin-bottom: 0px !important;
+  font-size: 12px;
 }
 .auth-btn-style button:focus {
   background-color: #1ebe57 !important;

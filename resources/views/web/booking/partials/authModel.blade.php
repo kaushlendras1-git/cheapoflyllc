@@ -12,14 +12,17 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 670px;">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="callLogsModalLabel">Send Auth</h5>
+          <h6 class="modal-title" id="callLogsModalLabel">Send Mail</h6>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body auth-btn-style">
           
         @foreach($booking->billingDetails as $key => $billingDetails)
              @php
-                  $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
+                     $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
+                     $cc     = $billingDetails['cc_number'];
+                     $digits = preg_replace('/\D+/', '', (string) $cc);
+                     $last4  = strlen($digits) >= 4 ? substr($digits, -4) : null;
               @endphp
 
                   <button class="btn btn-custom d-flex align-items-center" 
@@ -32,13 +35,13 @@
                     data-cc_number="{{$billingDetails['cc_number']}}"
                     data-bs-dismiss="modal">
                     <i class="ri ri-mail-open-fill"></i>  
-                     Send Auth Email (Card {{$key+1}})                     
+                        Send Auth Email{{ $last4 ? " (Card ***{$last4})" : '' }} 
                   </button>
         @endforeach
 
 
          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"  
-            data-id="{{ $hashids }}" 
+            data-booking_id="{{ $hashids }}" 
             data-email="kaushlendras1@gmail.com"
             data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Mail
          </button>

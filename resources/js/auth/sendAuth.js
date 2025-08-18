@@ -6,15 +6,17 @@ import '../../css/toast.css';
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('sendMailModal');
     if (modal) {
-         console.log('ssss');
-        return true;
         modal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            const id = button.getAttribute('data-id');
+            const booking_id = button.getAttribute('data-booking_id');
+            const card_id = button.getAttribute('data-card_id');
+            const card_billing_id = button.getAttribute('data-card_billing_id');
+            const refund_status = button.getAttribute('data-refund_status');
+
             const loadContainer = document.getElementById('load_model');
-            if (loadContainer && id) {
+            if (loadContainer && booking_id) {
                 loadContainer.innerHTML = 'Loading...';
-                fetch(`/i_authorized/${id}`)
+                fetch(`/i_authorized/${booking_id}/${card_id}/${card_billing_id}`)
                     .then(res => res.text())
                     .then(html => {
                         loadContainer.innerHTML = html;
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('load_model').innerHTML = '';
         });
     }
+    
 
     const form = document.getElementById('sendAuthMailModal');
     if (form) {
