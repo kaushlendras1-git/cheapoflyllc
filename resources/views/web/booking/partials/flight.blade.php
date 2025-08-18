@@ -102,7 +102,7 @@
                                                         placeholder="Class of Service" style="width: 37px;" min="0"
                                                         max="1"></td>
                                                 <td><input type="text" class="form-control"
-                                                        style="width: 90px;"
+                                                        style="width: 10rem;"
                                                         name="flight[{{ $index }}][departure_airport]"
                                                         value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                         placeholder="Departure Airport"></td>

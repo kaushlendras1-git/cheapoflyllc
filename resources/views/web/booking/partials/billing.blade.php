@@ -37,7 +37,7 @@
                             <td>{{$bill->city}}</td>
                             <td>{{$bill->state}}</td>
                             <td>{{$bill->zip_code}}</td>
-                            <td>{{$bill->get_country->country_name}}</td>
+                            <td>{{$bill->get_country->country_name ?? ''}}</td>
                             <td class="text-center">
                                 <button data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}"
                                     class="btn btn-outline-danger deleteBillData">
@@ -101,7 +101,7 @@
                                                 DISCOVER</option>
                                         </select>
                                     </td>
-                                    <td><input inputmode="numeric" maxlength="16" class="form-control w-100"
+                                    <td><input inputmode="numeric" maxlength="16" class="form-control" style="width: 140px;"
                                             placeholder="CC Number" name="billing[{{$key}}][cc_number]"
                                             value="{{$billingDetails['cc_number']}}"></td>
 
@@ -140,7 +140,7 @@
                                     </select>
                                     </td>
                                     <td>
-                                        <select id="state-{{$key}}" class="form-control state-select w-100"
+                                        <select id="state-{{$key}}" class="form-control state-select" style="width:7.5rem"
                                             name="billing[{{$key}}][state]">
                                             <option value="">Select Billing</option>
                                             @foreach($billingData as $biKey=>$bi)

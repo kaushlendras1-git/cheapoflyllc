@@ -28710,8 +28710,8 @@ body:not(.modal-open) .layout-content-navbar .layout-navbar {
   border-bottom: 1px solid #ababab !important;
   font-weight: 700 !important;
   text-transform: capitalize !important;
-  /* background-color: #fff !important; */
-  color: #000;
+  background-color: #dfecff !important;
+  color: #055bdb !important;
 }
 .crm-table table tr th, .crm-table table tr td {
   font-size: 12px !important;
