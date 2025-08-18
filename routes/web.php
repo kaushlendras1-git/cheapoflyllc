@@ -44,7 +44,7 @@ Route::get('/countrylist',[CountryStateController::class,'country'])->name('coun
 Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
-Route::get('/mail-sent',[AuthEmailController::class,'index']);
+Route::post('/mail-sent',[AuthEmailController::class,'index'])->name('mail-sent');
 
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);

@@ -14,13 +14,15 @@ class AuthEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $booking;
+    public $buttonRoute;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(TravelBooking $booking)
+    public function __construct(TravelBooking $booking,$buttonRoute)
     {
         $this->booking = $booking;
+        $this->buttonRoute = $buttonRoute;
     }
 
     /**

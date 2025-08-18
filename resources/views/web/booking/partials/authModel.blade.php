@@ -16,7 +16,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body auth-btn-style">
-          
+
         @foreach($booking->billingDetails as $key => $billingDetails)
              @php
                      $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
@@ -25,23 +25,25 @@
                      $last4  = strlen($digits) >= 4 ? substr($digits, -4) : null;
               @endphp
 
-                  <button class="btn btn-custom d-flex align-items-center" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#sendAuthMailModal"  
-                    data-booking_id="{{ $hashids }}" 
-                    data-card_id="{{ $hashids }}" 
-                    data-card_billing_id="{{ $hashids }}" 
-                    data-email="{{$card_billing_data->email ?? ''}}"
-                    data-cc_number="{{$billingDetails['cc_number']}}"
-                    data-bs-dismiss="modal">
-                    <i class="ri ri-mail-open-fill"></i>  
-                        Send Auth Email{{ $last4 ? " (Card ***{$last4})" : '' }} 
+                  <button class="btn btn-custom d-flex align-items-center sendAuthMail"
+                        data-bs-toggle="modal"
+                        data-bs-target="#sendAuthMailModal"
+                        data-booking_id="{{ $billingDetails->booking_id }}"
+                        data-card_id="{{ $billingDetails->state }}"
+                        data-card_billing_id="{{ $billingDetails->id }}"
+                        data-email="{{$billingDetails->getBillingDetail->email ?? ''}}"
+                        data-cc_number="{{$billingDetails['cc_number']}}"
+                        data-bs-dismiss="modal"
+                        data-href="{{route('i_authorized',['booking_id'=>$billingDetails->booking_id,'card_id'=>$billingDetails->state,'card_billing_id'=>$billingDetails->id,'refund_status'=>'refund'])}}"
+                    >
+                    <i class="ri ri-mail-open-fill"></i>
+                        Send Auth Email{{ $last4 ? " (Card ***{$last4})" : '' }}
                   </button>
         @endforeach
 
 
-         <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"  
-            data-booking_id="{{ $hashids }}" 
+         <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
+            data-booking_id="{{ $hashids }}"
             data-email="kaushlendras1@gmail.com"
             data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Mail
          </button>
@@ -66,15 +68,18 @@
         </div>
 
         <div class="modal-body">
-            <form id="sendAuthEmail">
+            <form id="sendAuthEmail" action="{{route('mail-sent')}}">
               @csrf
                <input type="hidden" name="id" id="auth_id" value="{{$booking->id}}">
+                <input type="hidden" name="booking_id" id="booking_id"/>
+                <input type="hidden" name="card_id" id="card_id"/>
+                <input type="hidden" name="card_billing_id" id="card_billing_id"/>
                 <div class="row">
                     <div class="col-md-5 position-relative mb-5">
                       <select name="refund_status" class="form-control">
                         <option value="">Select Refund Status</option>
-                        <option value="Refundable">Refundable</option>
-                        <option value="Non-Refundable">Non-Refundable</option>
+                        <option value="refundable">Refundable</option>
+                        <option value="non-refundable">Non-Refundable</option>
                       </select>
                     </div>
 
@@ -82,7 +87,7 @@
                         <button class="btn btn-info send-auth-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
                     </div>
 
-                </div>            
+                </div>
             </form>
 
             <div id="load_model" class="mt-3">
@@ -114,7 +119,7 @@
           <form id="sendSMS" action="{{ route('sms', $booking->id) }}" method="POST">
             @csrf
             <button class="send-btn">Send SMS</button>
-        </form>        
+        </form>
         </div>
       </div>
     </div>
@@ -134,18 +139,18 @@
           <div class="whatsapp-preview">
             <p>Dear Mary Ann Mcknight, your booking (Ref: INT29060202244) is under process. Your E-ticket will be emailed within 24 hours. For assistance, call +1-844-382-2225. - Faretickets LLC</p>
           </div>
-          
+
            <form id="sendWhatsApp" action="{{ route('whatsup', $booking->id) }}" method="POST">
             @csrf
             <button class="send-btn">Send WhatsApp</button>
-           </form>       
+           </form>
         </div>
       </div>
     </div>
   </div>
 
-  
-  
+
+
   <!-- Survey Modal -->
   <div class="modal fade" id="surveyModal" tabindex="-1" aria-labelledby="surveyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -158,7 +163,7 @@
           <div class="survey-preview">
             <p>How satisfied are you with your booking experience at Faretickets LLC? Please rate from 1 to 5 and share your feedback. Ref: INT29060202244</p>
           </div>
-          
+
           <form id="sendSurvey" action="{{ route('survey', $booking->id) }}" method="POST">
             @csrf
             <button class="send-btn">Send Survey</button>

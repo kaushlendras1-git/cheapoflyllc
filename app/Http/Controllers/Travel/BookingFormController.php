@@ -909,7 +909,7 @@ class BookingFormController extends Controller
 
             $validator = Validator::make($request->all(), $rules, $messages);
             $validator->after(function ($validator) use ($request, $bookingTypes) {
-             
+
                 // Billing card number and CVV validation
                 $billings = $request->input('billing', []);
                 foreach ($billings as $index => $billing) {
@@ -1342,7 +1342,7 @@ class BookingFormController extends Controller
             'bookingTypes',
             'sectorDetails',
             'passengers',
-            'billingDetails',
+            'billingDetails.getBillingDetail',
             'pricingDetails',
             'remarks',
             'qualityFeedback',
