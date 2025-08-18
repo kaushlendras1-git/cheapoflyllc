@@ -288,7 +288,7 @@
 
                 <td><input type="text" class="form-control" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
                 <td><input type="text" class="form-control" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
-                <td><input type="time" class="form-control" style="style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="time" class="form-control" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
                 <td><input type="text" class="form-control" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
                 <td><input type="time" class="form-control" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
 
@@ -718,7 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]"></td>
                 <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]"></td>
                 <td>
-                    <select style="width: 45px; margin: auto;" class="form-control" name="billing[${billingIndex}][exp_month]">
+                    <select class="form-control" name="billing[${billingIndex}][exp_month]">
                         <option value="">MM</option>
                         ${Array.from({ length: 12 }, (_, i) => `<option value="${String(i+1).padStart(2, '0')}">${String(i+1).padStart(2, '0')}</option>`).join('')}
                     </select>
