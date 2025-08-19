@@ -218,6 +218,3 @@ $('#sendWhatsApp').submit(async function(e){
         }
     }
 });
-
-
-

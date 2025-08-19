@@ -36,30 +36,22 @@ use App\Models\Campaign;
 use App\Models\User;
 use App\Models\BookingType;
 use Illuminate\Support\Facades\DB;
-use Hashids\Hashids;
 use Carbon\Carbon;
 
 
 class SignatureController extends Controller
 {   
-    protected $hashids;
+  
     protected $logController;
 
     public function __construct()
     {
-        $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+        
     }
 
     public function showForm($booking_id, $card_id, $card_billing_id, $refund_status)
     {   
-
-        $id = $this->hashids->decode($booking_id);
-        $id = $id[0] ?? null;
-
-
-        if (!$id) {
-            abort(404);
-        }
+        $id = decode($booking_id);
         $hashids = $booking_id;    
         $booking = TravelBooking::with([
             'bookingTypes',
@@ -67,20 +59,28 @@ class SignatureController extends Controller
             'passengers',
             'billingDetails',
             'pricingDetails',
-            'remarks',
-            'qualityFeedback',
             'trainBookingDetails',
             'screenshots',
-            'travelFlight' => fn($query) => $query->withTrashed(), // Include soft-deleted flights
+            'travelFlight' => fn($query) => $query->withTrashed(),
             'travelCar',
             'travelCruise',
             'travelHotel',
         ])->findOrFail($id);
+         
+        $billingPricingData = DB::table('travel_billing_details as b')
+                            ->join('billing_details as p', 'b.state', '=', 'p.id')
+                            ->where('b.booking_id', $booking->id)
+                            ->select(
+                                'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv',
+                                'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'
+                            )
+                            ->first();
+
+
         $booking_status = BookingStatus::where('status',1)->get();
         $payment_status = PaymentStatus::where('status',1)->get();
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
-        $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
         $car_images = CarImages::where('booking_id', $booking->id)->get();
         $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
         $flight_images = flightImages::where('booking_id', $booking->id)->get();
@@ -88,15 +88,13 @@ class SignatureController extends Controller
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
         $users = User::get();
-        return view('web.signature.signature', compact('car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        return view('web.signature.signature', compact('billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
     }
 
 
     public function store(Request $request)
-    {   
-         $id = $this->hashids->decode($request->booking_id);
-         $booking_id = $id[0] ?? null;
-
+    {          
+         $booking_id = decode($request->booking_id);
         $request->validate([
             'signature' => 'required|string',
              'signature_type' => 'required|in:draw,type', 
@@ -113,13 +111,6 @@ class SignatureController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Signature and IP saved successfully!');
-    }
-
-
-     public function list()
-    {
-        $signatures = Signature::all();
-        return view('web.signature.signature-list', compact('signatures'));
     }
 
 
