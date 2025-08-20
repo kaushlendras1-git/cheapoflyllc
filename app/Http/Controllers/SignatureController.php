@@ -40,14 +40,14 @@ use Carbon\Carbon;
 
 
 class SignatureController extends Controller
-{   
- 
+{
+
     protected $logController;
 
     public function showForm($booking_id, $card_id, $card_billing_id, $refund_status)
-    {   
+    {
         $id = decode($booking_id);
-        $hashids = $booking_id;    
+        $hashids = $booking_id;
         $booking = TravelBooking::with([
             'bookingTypes',
             'sectorDetails',
@@ -61,7 +61,7 @@ class SignatureController extends Controller
             'travelCruise',
             'travelHotel',
         ])->findOrFail($id);
-         
+
         $billingPricingData = DB::table('travel_billing_details as b')
                             ->join('billing_details as p', 'b.state', '=', 'p.id')
                             ->where('b.booking_id', $booking->id)
@@ -87,12 +87,12 @@ class SignatureController extends Controller
 
 
     public function store(Request $request)
-    {    
-      
+    {
+
          $booking_id = decode($request->booking_id);
          $request->validate([
             'signature' => 'required|string',
-             'signature_type' => 'required|in:draw,type', 
+             'signature_type' => 'required|in:draw,type',
         ]);
 
         // Get Public IP from an external service
@@ -108,8 +108,12 @@ class SignatureController extends Controller
             'signature_type' => $request->input('signature_type'),
             'ip_address' => $publicIP,
         ]);
-
-        return redirect()->back()->with('success', 'Signature and IP saved successfully!');
+        return response()->json([
+            'message'=>'Signature and IP saved successfully!',
+            'code'=>200,
+            'status'=>true
+        ],200);
+//        return redirect()->back()->with('success', 'Signature and IP saved successfully!');
     }
 
 

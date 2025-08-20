@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const refund_status = button.getAttribute('data-refund_status');
             const loadContainer = document.getElementById('load_model');
             const href=button.getAttribute('data-href');
+            console.log(button);
             if (loadContainer && booking_id) {
                 loadContainer.innerHTML = 'Loading...';
                 fetch(href)
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showToast(data.message);
                 const modalInstance = bootstrap.Modal.getInstance(modal);
                 if (modalInstance) modalInstance.hide();
-                
+
             })
             .catch(error => {
                 showToast('Error sending email.', 'error');
@@ -114,11 +115,8 @@ $('#sendAuthEmail').submit(async function(e){
     try {
         const response = await axios.post(this.action, formdata);
 
-        console.log(response.data);
-
         if (response.status === 200 || response.status === 201) {
             showToast(response.data.message || "Auth has been sent", "success");
-             let booking_id = '9qVkOVOj';   
               const redirectUrl = `/auth-history/${booking_id}`;
               window.location.href = redirectUrl;
         } else {
@@ -222,3 +220,8 @@ $('#sendWhatsApp').submit(async function(e){
         }
     }
 });
+
+$('#sendAuthMailModal').on('hide.bs.modal', function (event) {
+    $('#load_model').html('');
+});
+

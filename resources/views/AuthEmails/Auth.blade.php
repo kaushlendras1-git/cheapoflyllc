@@ -82,7 +82,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
                                     {{encode($billingPricingData->cc_number)}}</td>
                             </tr>
-                            
+
                             <tr>
                                 <th
                                     style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
@@ -191,7 +191,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Price Details (USD)
                                 </th>
                             </tr>
-                            
+
                             <tr>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
                                     Total Price per person including taxes and fees</th>
@@ -372,12 +372,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     {{$travelHotel->hotel_address}}</td>
                             </tr>
                             @endforeach
-                            @foreach ($hotel_images as $key => $img)
-                            <tr>
-                                <td colpan="7"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail"
-                                        style="max-height: 100px;" alt="Flight Image"></td>
-                            </tr>
-                            @endforeach
+{{--                            @foreach ($hotel_images as $key => $img)--}}
+{{--                            <tr>--}}
+{{--                                <td colpan="7"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail"--}}
+{{--                                        style="max-height: 100px;" alt="Flight Image"></td>--}}
+{{--                            </tr>--}}
+{{--                            @endforeach--}}
                             @endif
                         </table>
                     </div>
@@ -456,14 +456,14 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             </tr>
                             @endforeach
 
-                            @if($cruise_images)
-                            @foreach ($cruise_images as $key => $img)
-                            <tr>
-                                <td colspan="10"><img width="50" src="{{ asset($img->file_path) }}"
-                                        class="img-thumbnail"></td>
-                            </tr>
-                            @endforeach
-                            @endif
+{{--                            @if($cruise_images)--}}
+{{--                            @foreach ($cruise_images as $key => $img)--}}
+{{--                            <tr>--}}
+{{--                                <td colspan="10"><img width="50" src="{{ asset($img->file_path) }}"--}}
+{{--                                        class="img-thumbnail"></td>--}}
+{{--                            </tr>--}}
+{{--                            @endforeach--}}
+{{--                            @endif--}}
                         </table>
                     </div>
                 </td>
@@ -541,13 +541,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             </tr>
                             @endforeach
 
-                            @if($car_images)
-                            @foreach ($car_images as $key => $img)
-                            <tr>
-                                <td colspan="10"><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
-                            </tr>
-                            @endforeach
-                            @endif
+{{--                            @if($car_images)--}}
+{{--                            @foreach ($car_images as $key => $img)--}}
+{{--                            <tr>--}}
+{{--                                <td colspan="10"><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>--}}
+{{--                            </tr>--}}
+{{--                            @endforeach--}}
+{{--                            @endif--}}
 
 
                         </table>
@@ -632,13 +632,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             </tr>
                             @endforeach
 
-                            @if($train_images)
-                            @foreach ($train_images as $key => $img)
-                            <tr>
-                                <td><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
-                            </tr>
-                            @endforeach
-                            @endif
+{{--                            @if($train_images)--}}
+{{--                            @foreach ($train_images as $key => $img)--}}
+{{--                            <tr>--}}
+{{--                                <td><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>--}}
+{{--                            </tr>--}}
+{{--                            @endforeach--}}
+{{--                            @endif--}}
 
                         </table>
                     </div>

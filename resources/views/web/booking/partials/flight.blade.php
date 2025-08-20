@@ -67,7 +67,7 @@
                                                         name="flight[{{ $index }}][departure_date]"
                                                         value="{{$flight->departure_date?->format('Y-m-d')}}"></td>
 
-                                                <td><input type="text" class="form-control" style="width: 40px;"
+                                                <td><input type="text" class="form-control airline_code_input" style="width: 40px;"
                                                         name="flight[{{ $index }}][airline_code]"
                                                         value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
                                                         placeholder="Airlines (Code)"></td>

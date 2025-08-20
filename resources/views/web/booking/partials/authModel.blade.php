@@ -20,7 +20,7 @@
         <!---
               1 => Non-Refundable Default
               0 => Refundable
-              
+
         -->
 
         @foreach($booking->billingDetails as $key => $billingDetails)
@@ -30,14 +30,14 @@
                      $digits = preg_replace('/\D+/', '', (string) $cc);
                      $last4  = strlen($digits) >= 4 ? substr($digits, -4) : null;
               @endphp
-            
+
                   <button class="btn btn-custom d-flex align-items-center sendAuthMail"
                         data-bs-toggle="modal"
                         data-bs-target="#sendAuthMailModal"
-                        data-booking_id="{{ $billingDetails->booking_id }}"
-                        data-card_id="{{ $billingDetails->state }}"
-                        data-card_billing_id="{{ $billingDetails->id }}"
-                        data-email="{{$billingDetails->getBillingDetail->email ?? ''}}"
+                        data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                        data-card_id="{{ encode($billingDetails->state) }}"
+                        data-card_billing_id="{{ encode($billingDetails->id) }}"
+                        data-email="{{ $billingDetails->getBillingDetail->email}}"
                         data-cc_number="{{$billingDetails['cc_number']}}"
                         data-bs-dismiss="modal"
                         data-href="{{route('i_authorized',['booking_id'=>encode($billingDetails->booking_id),'card_id'=>encode($billingDetails->state),'card_billing_id'=>encode($billingDetails->id),'refund_status'=>encode(1)])}}"
@@ -82,15 +82,24 @@
                 <input type="hidden" name="card_billing_id" id="card_billing_id"/>
                 <input type="hidden" name="email" id="email"/>
                 <div class="row">
-                    <div class="col-md-5 position-relative mb-5">
-                      <select name="refund_status" class="form-control">
-                        <option value="">Select Refund Status</option>
-                        <option value="refundable">Refundable</option>
-                        <option value="non-refundable">Non-Refundable</option>
-                      </select>
-                    </div>
+                    <div class="col-md-5 position-relative">
+                        <label class="d-block mb-2">Refund Status</label>
 
-                    <div class="col-md-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="refund_status" id="refundable" value="refundable">
+                            <label class="form-check-label" for="refundable">
+                                Refundable
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="refund_status" id="non-refundable" value="non-refundable">
+                            <label class="form-check-label" for="non-refundable">
+                                Non-Refundable
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
                         <button class="btn btn-info send-auth-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
                     </div>
 

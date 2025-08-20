@@ -12,6 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AuthHistoryController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\LOBController;
+use App\Http\Controllers\FlightSearchListController;
 
 
 
@@ -49,6 +50,9 @@ Route::post('/mail-sent',[AuthEmailController::class,'index'])->name('mail-sent'
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
 Route::post('/update-device-token', [NotificationController::class, 'updateDeviceToken']);
+
+// web.php
+Route::get('/search-airline', [FlightSearchListController::class, 'search'])->name('airline.search');
 
 /**Booking **/
 

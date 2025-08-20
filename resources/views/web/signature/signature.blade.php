@@ -124,7 +124,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
                                     {{encode($billingPricingData->cc_number)}}</td>
                             </tr>
-                            
+
                             <tr>
                                 <th
                                     style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
@@ -204,7 +204,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Price Details (USD)
                                 </th>
                             </tr>
-                            
+
                             <tr>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
                                     Total Price per person including taxes and fees</th>
@@ -718,7 +718,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 <td colspan="2" style="text-align:center; padding-bottom: 20px;">
                     <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
                         @csrf
-                        
+
 
                         <input type="hidden" name="card_id" id="card_id" value="{{$card_id}}">
                         <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{$card_billing_id}}">
@@ -784,7 +784,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
     </style>
 
 
-    
+
 
     <!-- Signature Modal -->
     <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
@@ -839,6 +839,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         const canvas = document.getElementById('signatureCanvas');
@@ -924,6 +925,83 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             signaturePad.clear();
             typedNameInput.value = '';
             preview.textContent = 'Preview: ';
+        });
+    });
+    function showToast(message, type = "success") {
+        const toastId = `toast-${Date.now()}`;
+
+        const styleMap = {
+            success: {
+                bgColor: "#28a745",     // Bootstrap green
+                textColor: "#ffffff",
+                icon: "✔",              // Unicode check mark
+                borderColor: "#218838"
+            },
+            error: {
+                bgColor: "#dc3545",     // Bootstrap red
+                textColor: "#ffffff",
+                icon: "⚠",
+                borderColor: "#c82333"
+            }
+        };
+
+        const style = styleMap[type] || styleMap.success;
+
+        const toast = document.createElement("div");
+        toast.id = toastId;
+        toast.className = "toast-container toast-enter";
+        toast.setAttribute("role", "alert");
+
+        toast.style.cssText = `
+        background-color: ${style.bgColor};
+        color: ${style.textColor};
+        border: 1px solid ${style.borderColor};
+        padding: 14px 20px;
+        border-radius: 4px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        max-width: 340px;
+        z-index: 9999;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+    `;
+
+        toast.innerHTML = `
+        <div style="display: flex; align-items: center;">
+            <strong style="font-size: 18px;">${style.icon}</strong>
+            <span style="margin-left: 10px;">${message}</span>
+        </div>
+    `;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.remove("toast-enter");
+            toast.classList.add("toast-exit");
+            toast.addEventListener("animationend", () => toast.remove());
+        }, 4500);
+    }
+    $('#authorizationForm').submit(function(e){
+        e.preventDefault();
+        const formdata = new FormData(e.target);
+        const href = e.target.action;
+        $.ajax({
+            url:href,
+            type:'POST',
+            data:formdata,
+            contentType:false,
+            processData:false,
+            success:function(data){
+                showToast(data.message);
+                $('#authorizeButton').remove();
+            },
+            error:function(data){
+                showToast(data.responseJSON.message);
+            }
         });
     });
     </script>

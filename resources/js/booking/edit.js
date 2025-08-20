@@ -709,7 +709,6 @@ function attachDeleteHandler(el) {
 }
 
 
-
 document.getElementById('saveFeedback').addEventListener('click', async function (e) {
     e.preventDefault();
 
@@ -900,6 +899,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
+
     // Restore the active tab from localStorage
     let activeTab = localStorage.getItem("activeTab");
     if (activeTab) {
@@ -915,4 +915,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("activeTab", e.target.getAttribute("href"));
         });
     });
+
+
 });
+
