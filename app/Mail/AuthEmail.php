@@ -34,7 +34,7 @@ class AuthEmail extends Mailable
     public $billingData;
     public $carImages;
     public $cruiseImages;
-    public $flightImages;
+    public $flight_images;
     public $hotelImages;
     public $screenshotImages;
     public $trainImages;
@@ -81,7 +81,7 @@ class AuthEmail extends Mailable
         $this->billingData = BillingDetail::where('booking_id', $this->booking->id)->get();
         $this->carImages = CarImages::where('booking_id', $this->booking->id)->get();
         $this->cruiseImages = CruiseImages::where('booking_id', $this->booking->id)->get();
-        $this->flightImages = FlightImages::where('booking_id', $this->booking->id)->get();
+        $this->flight_images = FlightImages::where('booking_id', $this->booking->id)->get();
         $this->hotelImages = HotelImages::where('booking_id', $this->booking->id)->get();
         $this->screenshotImages = ScreenshotImages::where('booking_id', $this->booking->id)->get();
         $this->trainImages = TrainImages::where('booking_id', $this->booking->id)->get();

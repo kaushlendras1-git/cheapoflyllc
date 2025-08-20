@@ -7,9 +7,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <title>Invoice</title>
+    <title>Auth</title>
 </head>
-
+@php
+$bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
+@endphp
 <body style="margin: 0px; padding: 0px;">
     <table style="font-family: 'Work Sans', sans-serif; width: 50%; background-color: #fff3f3; margin: auto; border-collapse: collapse;">
         <thead>
@@ -55,28 +57,56 @@
             </tr>
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
                         <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
                             <tr>
                                 <th colspan="2"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                     <span> <img style="margin-bottom: -2px;" width="16" src="https://people.sau.int/email-templates/information.png" alt="info"> </span> Customer Information</th>
+                                    <span> <img style="margin-bottom: -2px;" width="16"
+                                            src="{{asset('email-templates/information.png')}}" alt="info"> </span>
+                                    Customer Information
+                                </th>
                             </tr>
                             <tr>
-                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">Card Holder Name</th>
-                                <td style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">Miker Test</td>
+                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
+                                    Card Holder Name</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
+                                    {{$billingPricingData->cc_holder_name}}</td>
                             </tr>
                             <tr>
-                                <th style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">Email</th>
-                                <td style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;"> <a style="color: #c53d3d; text-decoration: none;" href="mailto:merv.adams21@gmail.com">merv.adams21@gmail.com</a> </td>
+                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
+                                    Card Holder Number</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
+                                    {{encode($billingPricingData->cc_number)}}</td>
+                            </tr>
+                            
+                            <tr>
+                                <th
+                                    style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
+                                    Email</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
+                                    <a style="color: #c53d3d; text-decoration: none;"
+                                        href="mailto:{{$billingPricingData->email}}">{{$billingPricingData->email}}</a> </td>
                             </tr>
                             <tr>
-                                <th style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">Booking Date</th>
-                                <td style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;"> Monday, Jul 14,2025 </td>
+                                <th
+                                    style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
+                                    Booking Date</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
+                                    Monday, Jul 14,2025 </td>
                             </tr>
                             <tr>
-                                <th style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">Airline Ref</th>
-                                <td style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;"> DBD60B </td>
+                                <th
+                                    style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
+                                    Airline Ref</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
+                                    DBD60B </td>
                             </tr>
                         </table>
                     </div>
@@ -96,301 +126,525 @@
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">Passenger Name</th>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: right;">Type</th>
                             </tr>
+                            @foreach($booking->passengers as $key=>$passengers)
                             <tr>
-                                <td style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 0px 10px 20px; text-align: left;"> Merv Testing test </td>
-                                <td style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;"> Adult </td>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 0px 10px 20px; text-align: left;">
+                                   {{$passengers->title}} {{$passengers->first_name}} {{$passengers->middle_name}} {{$passengers->last_name}} </td>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
+                                    {{$passengers->passenger_type}} </td>
                             </tr>
+                            @endforeach
+
                         </table>
                     </div>
                 </td>
             </tr>
+            <!------Passenger -------->
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
                         <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
                             <tr>
                                 <th colspan="2"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="16" src="https://people.sau.int/email-templates/coin.png" alt="dollor"> </span>
-                                    Price Details (USD)</th>
+                                    <span> <img style="margin-bottom: -2px;" width="16"
+                                            src="{{asset('email-templates/detail.png')}}" alt="details"> </span>
+                                    Passenger Details
+                                </th>
                             </tr>
                             <tr>
-                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">Total Price per person including taxes and fees</th>
-                                <td style="font-size: 16px; font-weight: 400; color: #119516; padding: 10px 20px; text-align: right;">2000.00</td>
+                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
+                                    Passenger Name</th>
+                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: right;">
+                                    Type</th>
+                            </tr>
+                              @foreach($booking->passengers as $key=>$passengers)
+                            <tr>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 0px 10px 20px; text-align: left;">
+                                   {{$passengers->title}} {{$passengers->first_name}} {{$passengers->middle_name}} {{$passengers->last_name}} </td>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
+                                    {{$passengers->passenger_type}} </td>
+                            </tr>
+                            @endforeach
+
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <!-------Price ---------->
+
+            <tr>
+                <td colspan="2" style="padding: 30px 30px 0px 30px;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
+                            <tr>
+                                <th colspan="2"
+                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
+                                    <span> <img style="margin-bottom: -2px;" width="16"
+                                            src="{{asset('email-templates/coin.png')}}" alt="dollor"> </span>
+                                    Price Details (USD)
+                                </th>
+                            </tr>
+                            
+                            <tr>
+                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
+                                    Total Price per person including taxes and fees</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #119516; padding: 10px 20px; text-align: right;">
+                                    {{ number_format($billingPricingData->authorized_amt, 2) }}</td>
                             </tr>
                             <tr>
-                                <th style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">Total Price for Entire Itinerary including taxes and fees</th>
-                                <td style="font-size: 16px; font-weight: 400; color: #119516; padding: 0px 20px 10px 0px; text-align: right;"> 2000.00 </td>
+                                <th
+                                    style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
+                                    Total Price for Entire Itinerary including taxes and fees</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #119516; padding: 0px 20px 10px 0px; text-align: right;">
+                                    {{ number_format($billingPricingData->authorized_amt, 2) }}</td>
                             </tr>
                         </table>
                     </div>
                 </td>
             </tr>
+              <!-------------Flight --------------->
+            @if(in_array('Flight', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
                         <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
                             <tr>
                                 <th colspan="13"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25" src="https://people.sau.int/email-templates/plane.png" alt="plain"> </span>
-                                    Flight Booking Details</th>
+                                    <span> <img style="margin-bottom: -2px;" width="25"
+                                            src="{{asset('email-templates/plane.png')}}" alt="plain"> </span>
+                                    Flight Booking Details
+                                </th>
                             </tr>
+                            @if($booking->travelFlight->isNotEmpty())
+
                             <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Direction</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">AL (Code)</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Flight No</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Cabin</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">CL</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Departure Airport</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Airport</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Duration</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Transit</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Direction</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    AL (Code)</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Flight No</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Cabin</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    CL</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Departure Airport</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hrs:MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Arrival Airport</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hrs:MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Duration</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Transit</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Arrival Date</th>
                             </tr>
+
+                            @foreach($booking->travelFlight as $index => $flight)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Outbound</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">0000001</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2314566970</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">ECO</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Business</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">New York</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">04: 15 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Boston</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 15 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2 hrs</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">....</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 0px 20px 10px 0px;"> 08/04/2025 </td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->direction}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->departure_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->airline_code}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->flight_number}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->cabin}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->class_of_service}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->departure_airport}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->departure_hours}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$flight->arrival_airport}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    06: 15 PM</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    2 hrs</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    ....</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 0px 20px 10px 0px;">
+                                    08/04/2025 </td>
                             </tr>
+                            @endforeach
+
+                            @if($flight_images)
+                            @foreach ($flight_images as $key => $img)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Outbound</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">0000001</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2314566970</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">ECO</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Business</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">New York</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">04: 15 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Boston</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 15 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2 hrs</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">....</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 0px 20px 10px 0px;"> 08/04/2025 </td>
-                            </tr>
+                                <td colspan="13">
+                                    <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
+                                </td>
+                                @endforeach
+                                @endif
+                                @endif
                         </table>
                     </div>
                 </td>
             </tr>
+            @endif
+
+            @if(in_array('Hotel', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
                         <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
                             <tr>
                                 <th colspan="8"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="20" src="https://people.sau.int/email-templates/hotel.png" alt="hotel"> </span>
-                                    Hotel Booking Details</th>
+                                    <span> <img style="margin-bottom: -2px;" width="20"
+                                            src="{{asset('email-templates/hotel.png')}}" alt="hotel"> </span>
+                                    Hotel Booking Details
+                                </th>
                             </tr>
+                            @if($booking->travelHotel->isNotEmpty())
                             <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hotel Name</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Room Category</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Check-in Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Check-out Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">No. Of Rooms</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Confirmation Number</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hotel Address</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Remarks</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hotel Name</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Room Category</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Check-in Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Check-out Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    No. Of Rooms</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Confirmation Number</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hotel Address</th>
                             </tr>
+                            @foreach($booking->travelHotel as $key=>$travelHotel)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">EVA Resedency</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Deluxe</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/05/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">EVA/04085588</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Calefornia</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">asdfssdffd</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelHotel->hotel_name}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelHotel->room_category}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelHotel->checkin_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelHotel->checkout_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelHotel->no_of_rooms}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelHotel->confirmation_number}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelHotel->hotel_address}}</td>
                             </tr>
+                            @endforeach
+                            @foreach ($hotel_images as $key => $img)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">EVA Resedency</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Deluxe</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/05/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">2</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">EVA/04085588</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Calefornia</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">asdfssdffd</td>
+                                <td colpan="7"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail"
+                                        style="max-height: 100px;" alt="Flight Image"></td>
                             </tr>
+                            @endforeach
+                            @endif
                         </table>
                     </div>
                 </td>
             </tr>
+            @endif
+
+            @if(in_array('Cruise', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
                         <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
                             <tr>
                                 <th colspan="10"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25" src="https://people.sau.int/email-templates/cruise.png" alt="cruise"> </span>
-                                    Cruise Booking Details</th>
+                                    <span> <img style="margin-bottom: -2px;" width="25"
+                                            src="{{asset('email-templates/cruise.png')}}" alt="cruise"> </span>
+                                    Cruise Booking Details
+                                </th>
                             </tr>
                             <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Cruise Line</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Name of the Ship</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Category</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Stateroom</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Departure Port</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Departure Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Port</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs:MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Cruise Line</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Name of the Ship</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Category</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Stateroom</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Departure Port</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Departure Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hrs:MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Arrival Port</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Arrival Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hrs:MM</th>
                             </tr>
+                            @foreach($booking->travelCruise as $key=>$travelCruise)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Disney Cruise Line</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">SS Bennachie</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">cargo carriers</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">3</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Denmark</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/06/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 00 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Aberdeen</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/08/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 00 PM</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->cruise_line}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->ship_name}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->category}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->stateroom}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->departure_port}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->departure_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->departure_hrs}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->arrival_port}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->arrival_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCruise->arrival_hrs}}</td>
                             </tr>
+                            @endforeach
+
+                            @if($cruise_images)
+                            @foreach ($cruise_images as $key => $img)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Disney Cruise Line</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">SS Bennachie</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">cargo carriers</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">3</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Denmark</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/06/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 00 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Aberdeen</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/08/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">06: 00 PM</td>
+                                <td colspan="10"><img width="50" src="{{ asset($img->file_path) }}"
+                                        class="img-thumbnail"></td>
                             </tr>
+                            @endforeach
+                            @endif
                         </table>
                     </div>
                 </td>
             </tr>
+            @endif
+
+            @if(in_array('Car', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
                         <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
                             <tr>
                                 <th colspan="11"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25" src="https://people.sau.int/email-templates/car.png" alt="car"> </span>
-                                    Car Booking Details</th>
+                                    <span> <img style="margin-bottom: -2px;" width="25"
+                                            src="{{asset('email-templates/car.png')}}" alt="car"> </span>
+                                    Car Booking Details
+                                </th>
                             </tr>
                             <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Car Rental Provider</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Car Type</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Pick-up Location</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Drop-off Location</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Pick-up Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Pick-up Time</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Drop-off Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Drop-off Time</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Confirmation Number</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Remarks</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Rental Provider's Address</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Car Rental Provider</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Car Type</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Pick-up Location</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Drop-off Location</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Pick-up Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Pick-up Time</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Drop-off Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Drop-off Time</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Confirmation Number</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Rental Provider's Address</th>
                             </tr>
+                            @foreach($booking->travelCar as $key=>$travelCar)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">High Car Providers</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">XUV</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Duthie Park</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Aberdeen Maritime Museum</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">04: 02 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">05: 15 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">DEM/5050/2525</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">asdfassfdf</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Footdee (Fittie)</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->car_rental_provider}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->car_type}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->pickup_location}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->dropoff_location}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->pickup_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->pickup_time}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->dropoff_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->dropoff_time}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->confirmation_number}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$travelCar->rental_provider_address}}</td>
                             </tr>
+                            @endforeach
+
+                            @if($car_images)
+                            @foreach ($car_images as $key => $img)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">High Car Providers</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">XUV</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Duthie Park</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Aberdeen Maritime Museum</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">04: 02 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">05: 15 PM</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">DEM/5050/2525</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">asdfassfdf</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Footdee (Fittie)</td>
+                                <td colspan="10"><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
                             </tr>
+                            @endforeach
+                            @endif
+
+
                         </table>
                     </div>
                 </td>
             </tr>
+            @endif
+
+            @if(in_array('Train', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
+                    <div
+                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
                         <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
                             <tr>
                                 <th colspan="13"
                                     style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -3px;" width="13" src="https://people.sau.int/email-templates/train.png" alt="train"> </span>
-                                    Train Booking Details</th>
+                                    <span> <img style="margin-bottom: -3px;" width="13"
+                                            src="{{asset('email-templates/train.png')}}" alt="train"> </span>
+                                    Train Booking Details
+                                </th>
                             </tr>
                             <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Direction</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Train No</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Cabin</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Departure station</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arrival station</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Hrs</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Duration</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Transit</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">Arival Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Direction</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Date</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Train No</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Cabin</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Departure station</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hrs/MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Arrival station</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Hrs/MM</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Duration</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Transit</th>
+                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
+                                    Arival Date</th>
                             </tr>
+                            @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Forward</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">123654</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Deluxe</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Chicago</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">05</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">38</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">New york</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">02</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">30</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">05 hr 38 min</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">......</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->direction}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->departure_date?->format('Y-m-d')}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->train_number}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->cabin}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->departure_station}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->departure_hours}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->arrival_station}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->arrival_hours}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->duration}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->transit}}</td>
+                                <td
+                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
+                                    {{$trainBookingDetails->arrival_date?->format('Y-m-d')}}</td>
                             </tr>
+                            @endforeach
+
+                            @if($train_images)
+                            @foreach ($train_images as $key => $img)
                             <tr>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Forward</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">123654</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Deluxe</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">Chicago</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">05</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">38</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">New york</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">02</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">30</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">05 hr 38 min</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">......</td>
-                                <td style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">08/04/2025</td>
+                                <td><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
                             </tr>
+                            @endforeach
+                            @endif
+
                         </table>
                     </div>
                 </td>
             </tr>
+            @endif
 
             <tr>
                 <td colspan="2" style="font-size: 18px; font-weight: 700; padding: 30px 30px 10px 30px;">General Flight Terms and Conditions</td>

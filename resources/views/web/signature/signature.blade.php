@@ -154,6 +154,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     </div>
                 </td>
             </tr>
+              <!------Passenger -------->
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div
@@ -182,10 +183,14 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
                                     {{$passengers->passenger_type}} </td>
                             </tr>
+                            @endforeach
+
                         </table>
                     </div>
                 </td>
             </tr>
+            <!-------Price ---------->
+
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div
@@ -219,6 +224,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     </div>
                 </td>
             </tr>
+              <!-------------Flight --------------->
             @if(in_array('Flight', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
@@ -712,6 +718,11 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 <td colspan="2" style="text-align:center; padding-bottom: 20px;">
                     <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
                         @csrf
+                        
+
+                        <input type="hidden" name="card_id" id="card_id" value="{{$card_id}}">
+                        <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{$card_billing_id}}">
+                        <input type="hidden" name="refund_status" id="refund_status" value="{{$refund_status}}">
                         <input type="hidden" name="signature" id="signatureData">
                         <input type="hidden" name="signature_type" id="signatureType">
                         <input type="hidden" name="booking_id" id="booking_id" value="{{ request()->segment(2) }}">

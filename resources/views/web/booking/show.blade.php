@@ -153,7 +153,7 @@
                                 <div class="col-md-4 position-relative mb-5">
                                     <label class="form-label">Airline PNR</label>
                                     <input type="text" class="form-control" name="airlinepnr"
-                                        value="{{ $booking->airlinepnr }}" placeholder="Airline PNR" 
+                                        value="{{ $booking->airlinepnr }}"
                                         @if($booking->airlinepnr) disabled  @endif 
                                     >
                                 </div>
@@ -178,19 +178,23 @@
                         </fieldset>
                         <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
                             <label class="form-label">Hotel Ref</label>
-                            <input type="text" class="form-control" name="hotel_ref" value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}" placeholder="Hotel Ref">
+                            <input type="text" class="form-control" name="hotel_ref" 
+                            value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}">
                         </div>
                         <div class="col-md-2 position-relative mb-5" id="cruise-inputs">
                             <label class="form-label">Cruise Ref</label>
-                            <input type="text" class="form-control" name="cruise_ref" value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}" placeholder="Cruise Ref">
+                            <input type="text" class="form-control" name="cruise_ref" 
+                            value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}">
                         </div>
                         <div class="col-md-2 position-relative mb-5" id="car-inputs">
                             <label class="form-label">Car Ref</label>
-                            <input type="text" class="form-control" name="car_ref" value="{{ old('car_ref', $booking->car_ref ?? '') }}" placeholder="Car Ref">
+                            <input type="text" class="form-control" name="car_ref" 
+                            value="{{ old('car_ref', $booking->car_ref ?? '') }}">
                         </div>
                         <div class="col-md-2 position-relative mb-5" id="train-inputs">
                             <label class="form-label">Train Ref</label>
-                            <input type="text" class="form-control" name="train_ref" value="{{ old('train_ref', $booking->train_ref ?? '') }}" placeholder="Train Ref">
+                            <input type="text" class="form-control" name="train_ref" 
+                            value="{{ old('train_ref', $booking->train_ref ?? '') }}">
                         </div>
                         
                         <div class="col-md-2 position-relative mb-5">

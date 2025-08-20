@@ -74,7 +74,7 @@
                                 >
 
                                 <td>
-                                    <a title="{{ $booking->id }}" href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
+                                    <a title="{{ $booking->id }}" href="{{ route('booking.show', ['id' => encode($booking->id)]) }}">
                                         {{ ($bookings->currentPage() - 1) * $bookings->perPage() + $loop->iteration }}
                                     </a>
                                 </td>

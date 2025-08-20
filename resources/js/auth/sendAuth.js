@@ -5,33 +5,33 @@ import '../../css/toast.css';
 
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('sendMailModal');
-    if (modal) {
-        modal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const booking_id = button.getAttribute('data-booking_id');
-            const card_id = button.getAttribute('data-card_id');
-            const card_billing_id = button.getAttribute('data-card_billing_id');
-            const refund_status = button.getAttribute('data-refund_status');
+    // if (modal) {
+    //     modal.addEventListener('show.bs.modal', function (event) {
+    //         const button = event.relatedTarget;
+    //         const booking_id = button.getAttribute('data-booking_id');
+    //         const card_id = button.getAttribute('data-card_id');
+    //         const card_billing_id = button.getAttribute('data-card_billing_id');
+    //         const refund_status = button.getAttribute('data-refund_status');
 
-            const loadContainer = document.getElementById('load_model');
-            if (loadContainer && booking_id) {
-                loadContainer.innerHTML = 'Loading...';
-                fetch(`/i_authorized/${booking_id}/${card_id}/${card_billing_id}`)
-                    .then(res => res.text())
-                    .then(html => {
-                        console.log('sendmail');
-                        loadContainer.innerHTML = html;
-                    })
-                    .catch(() => {
-                        loadContainer.innerHTML = '<p class="text-danger">Failed to load content.</p>';
-                    });
-            }
-        });
+    //         const loadContainer = document.getElementById('load_model');
+    //         if (loadContainer && booking_id) {
+    //             loadContainer.innerHTML = 'Loadings...';
+    //             fetch(`/i_authorized/${booking_id}/${card_id}/${card_billing_id}/${refund_status}`)
+    //                 .then(res => res.text())
+    //                 .then(html => {
+    //                     console.log('sendmail');
+    //                     loadContainer.innerHTML = html;
+    //                 })
+    //                 .catch(() => {
+    //                     loadContainer.innerHTML = '<p class="text-danger">Failed to load content.</p>';
+    //                 });
+    //         }
+    //     });
 
-        modal.addEventListener('hidden.bs.modal', function () {
-            document.getElementById('load_model').innerHTML = '';
-        });
-    }
+    //     modal.addEventListener('hidden.bs.modal', function () {
+    //         document.getElementById('load_model').innerHTML = '';
+    //     });
+    // }
 
     const sendAuthMail = document.getElementsByClassName('sendAuthMail');
     Array.from(sendAuthMail).forEach((el)=>{
@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showToast(data.message);
                 const modalInstance = bootstrap.Modal.getInstance(modal);
                 if (modalInstance) modalInstance.hide();
+                
             })
             .catch(error => {
                 showToast('Error sending email.', 'error');
@@ -117,6 +118,9 @@ $('#sendAuthEmail').submit(async function(e){
 
         if (response.status === 200 || response.status === 201) {
             showToast(response.data.message || "Auth has been sent", "success");
+             let booking_id = '9qVkOVOj';   
+              const redirectUrl = `/auth-history/${booking_id}`;
+              window.location.href = redirectUrl;
         } else {
             showToast("Something went wrong", "error");
         }

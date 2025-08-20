@@ -12,10 +12,6 @@ use App\Models\AuthHistory;
 
 class AuthEmailController extends Controller
 {
-    public function __construct()
-    {
-    }
-
 
    public function index(Request $request)
     {
@@ -24,39 +20,29 @@ class AuthEmailController extends Controller
 
         $bookingId = $request->input('booking_id');
         $booking = TravelBooking::findOrFail($bookingId);
-        $emails = $request->input('auth_email', []);
-        $cards = $request->input('cards', []);
-        $billingDetailsIds = $request->input('billing_details_ids', []);
-        $travelBillingDetailsIds = $request->input('travel_billing_details_ids', []);
-
+      
         $booking_id = $request->booking_id;
         $card_id = $request->card_id;
         $card_billing_id = $request->card_billing_id;
-        $refund_status = $request->refund_status;
-
-        $buttonRoute = route('i_authorized',['booking_id'=>$booking_id,'card_id'=>$card_id,'card_billing_id'=>$card_billing_id,'refund_status'=>$refund_status]);
+        //  $refund_status = $request->refund_status ?? 1;
+        $refund_status = 1;
+        $buttonRoute = route('i_authorized',['booking_id'=>encode($booking_id),'card_id'=>encode($card_id),'card_billing_id'=>encode($card_billing_id),'refund_status'=>encode($refund_status)]);
         $emailSendTo = $request->email;
       
         try {
             Mail::to($emailSendTo)->send(new AuthEmail($bookingId,$buttonRoute));
 
-            //    dd($request->all());
-            //    $cardLastDigit = $cards[$index] ?? null;
-            //    $billingDetailsId = $billingDetailsIds[$index] ?? null;
-            //    $travelBillingDetailsId = $travelBillingDetailsIds[$index] ?? null;
-            //    Mail::to($email)->send(new AuthEmail($booking,$buttonRoute));
-
-            //    AuthHistory::create([
-            //        'booking_id' => $bookingId,
-            //        'billing_details_id' => $billingDetailsId,
-            //        'travel_billing_details_id' => $travelBillingDetailsId,
-            //        'user_id' => auth()->id(),
-            //        'action' => 'Email sent for auth',
-            //        'card_last_digit' => $cardLastDigit,
-            //        'type' => 'Email',
-            //        'sent_to' => $email,
-            //        'details' => 'Booking confirmation email sent to customer.'
-            //    ]);
+               AuthHistory::create([
+                   'booking_id' => $bookingId,
+                   'card_id' => $card_id,
+                   'card_billing_id' => $card_billing_id,
+                   'refund_status' => $refund_status,
+                   'user_id' => auth()->id(),
+                   'action' => 'Email sent for auth',                
+                   'type' => 'Email',
+                   'sent_to' => $emailSendTo,
+                   'details' => 'Booking confirmation email sent to customer.'
+               ]);
 
             return response()->json(['message' => 'Auth Email sent successfully.'], 201);
 

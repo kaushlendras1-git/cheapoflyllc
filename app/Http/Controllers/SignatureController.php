@@ -41,13 +41,8 @@ use Carbon\Carbon;
 
 class SignatureController extends Controller
 {   
-  
+ 
     protected $logController;
-
-    public function __construct()
-    {
-        
-    }
 
     public function showForm($booking_id, $card_id, $card_billing_id, $refund_status)
     {   
@@ -76,7 +71,6 @@ class SignatureController extends Controller
                             )
                             ->first();
 
-
         $booking_status = BookingStatus::where('status',1)->get();
         $payment_status = PaymentStatus::where('status',1)->get();
         $campaigns = Campaign::where('status',1)->get();
@@ -88,14 +82,15 @@ class SignatureController extends Controller
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
         $users = User::get();
-        return view('web.signature.signature', compact('billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
+        return view('web.signature.signature', compact('card_id','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
     }
 
 
     public function store(Request $request)
-    {          
+    {    
+      
          $booking_id = decode($request->booking_id);
-        $request->validate([
+         $request->validate([
             'signature' => 'required|string',
              'signature_type' => 'required|in:draw,type', 
         ]);
@@ -105,6 +100,10 @@ class SignatureController extends Controller
         $publicIP = $response->json('ip');
         Signature::create([
             'booking_id' => $booking_id,
+            'card_id' => $request->input('card_id'),
+            'card_billing_id' => $request->input('card_billing_id'),
+            'refund_status' => $request->input('refund_status'),
+
             'signature_data' => $request->input('signature'),
             'signature_type' => $request->input('signature_type'),
             'ip_address' => $publicIP,

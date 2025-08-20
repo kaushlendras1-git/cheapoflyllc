@@ -13,6 +13,7 @@
         <h2 class="mb-0">Auth History</h2>
         <div class="breadcrumb">
                 <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
+                <a class="active" href="{{ route('booking.show', ['id' => request()->segment(2)]) }}">Booking</a>
                 <a class="active" aria-current="page">Auth History</a>
         </div>
     </div>
@@ -45,24 +46,44 @@
                     </thead>
                     <tbody>
                         @foreach($auth_histories as $auth_history)
+                          
                             @php
-                                // Assume one signature for simplicity; adjust if multiple signatures are needed
+                            
                                 $signature = \App\Models\Signature::where('booking_id', $auth_history->booking_id)
-                                    ->where('card_last_digit', $auth_history->card_last_digit)
-                                    ->first();
+                                    ->where('card_id', $auth_history->card_id)
+                                    ->where('card_billing_id', $auth_history->card_billing_id)
+                                    ->where('refund_status', $auth_history->refund_status)
+                                    ->first();                                
+
+                                $card_deatils =  \App\Models\TravelBillingDetail::
+                                      where('booking_id', 3)
+                                     ->where('state', 30)
+                                     ->where('id', 2)
+                                     ->first();
+
+                                    
+                                
+                                    
                             @endphp
+                            
                             <tr>
-                                <td>{{ $auth_history->id }}</td>
-                                <td><button class="btn btn-warning btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#signatureModal{{ $auth_history->id }}">
-                                                     <i class="bi bi-eye"></i>
-                                        </button></td>
+                                <td><a title="{{ $auth_history->booking_id }}" href="{{ route('booking.show', ['id' => encode($auth_history->booking_id)]) }}">
+                                    {{ $auth_history->id }}</a>
+                                </td>
+                               
+                                <td>
+                                    <button class="btn btn-warning btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#signatureModal"
+                                            data-url="http://127.0.0.1:8000/i_authorized/9qVkOVOj/YW6qQ64y/DJ68kEV5/YBvpr6pl">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </td>
 
                                 <td>{{ $auth_history->user?->name ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->sent_to ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->details ?? 'N/A' }}</td>
-                                <td>{{ '********'.$auth_history->card_last_digit ?? 'N/A' }}</td>                              
+                               <td>{{ '****' . substr($card_deatils->cc_number, -4) }}</td>                         
                                 <td>{{ $auth_history->created_at->format('d-m-Y H:i:s') }}</td>
                                 <td>
                                     @if($signature)
@@ -133,12 +154,55 @@
 <!--/ Content -->
 
 
+<div class="modal fade" id="signatureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Booking Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('signatureModal');
+    const modalContent = modal.querySelector('#modalContent');
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const url = button.getAttribute('data-url');
+        modalContent.innerHTML = 'Loading...';
+
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalContent.innerHTML = html;
+            })
+            .catch(error => {
+                modalContent.innerHTML = 'Error loading content';
+                console.error(error);
+            });
+    });
+
+    modal.addEventListener('hidden.bs.modal', function () {
+        modalContent.innerHTML = '';
+    });
+});
+</script>
 
 
 
 
 <!-- Custom Styles -->
 <style>
+    
 .dark-header {
     background-color: #312d4b;
     color: #fff;
