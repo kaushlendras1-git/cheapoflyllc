@@ -71,7 +71,7 @@ class SignatureController extends Controller
                             ->join('billing_details as p', 'b.state', '=', 'p.id')
                             ->where('b.booking_id', $booking->id)
                             ->select(
-                                'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv',
+                                'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv','b.authorized_amt',
                                 'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'
                             )
                             ->first();
