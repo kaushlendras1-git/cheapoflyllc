@@ -45,14 +45,14 @@ class TravelBooking extends Model
         return $this->hasMany(TravelPassenger::class, 'booking_id');
     }
 
-    public function billingDetails()
-    {
-        return $this->hasMany(TravelBillingDetail::class, 'booking_id');
-    }
-
     public function trainBookingDetails()
     {
         return $this->hasMany(TravelTrainDetail::class, 'booking_id');
+    }
+
+    public function billingDetails()
+    {
+        return $this->hasMany(TravelBillingDetail::class, 'booking_id');
     }
 
     public function pricingDetails()

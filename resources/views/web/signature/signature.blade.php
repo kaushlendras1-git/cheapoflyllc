@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,8 +115,16 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Card Holder Name</th>
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
-                                    Miker Test</td>
+                                    {{$billingPricingData->cc_holder_name}}</td>
                             </tr>
+                            <tr>
+                                <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
+                                    Card Holder Number</th>
+                                <td
+                                    style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
+                                    {{encode($billingPricingData->cc_number)}}</td>
+                            </tr>
+                            
                             <tr>
                                 <th
                                     style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
@@ -125,7 +132,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
                                     <a style="color: #c53d3d; text-decoration: none;"
-                                        href="mailto:merv.adams21@gmail.com">merv.adams21@gmail.com</a> </td>
+                                        href="mailto:{{$billingPricingData->email}}">{{$billingPricingData->email}}</a> </td>
                             </tr>
                             <tr>
                                 <th
@@ -166,16 +173,15 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: right;">
                                     Type</th>
                             </tr>
-                            
+                              @foreach($booking->passengers as $key=>$passengers)
                             <tr>
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 0px 10px 20px; text-align: left;">
-                                    Merv Testing test </td>
+                                   {{$passengers->title}} {{$passengers->first_name}} {{$passengers->middle_name}} {{$passengers->last_name}} </td>
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
-                                    Adult </td>
+                                    {{$passengers->passenger_type}} </td>
                             </tr>
-
                         </table>
                     </div>
                 </td>
@@ -193,12 +199,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Price Details (USD)
                                 </th>
                             </tr>
+                            
                             <tr>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
                                     Total Price per person including taxes and fees</th>
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #119516; padding: 10px 20px; text-align: right;">
-                                    2000.00</td>
+                                    {{ number_format($billingPricingData->authorized_amt, 2) }}</td>
                             </tr>
                             <tr>
                                 <th
@@ -206,7 +213,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Total Price for Entire Itinerary including taxes and fees</th>
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #119516; padding: 0px 20px 10px 0px; text-align: right;">
-                                    2000.00 </td>
+                                    {{ number_format($billingPricingData->authorized_amt, 2) }}</td>
                             </tr>
                         </table>
                     </div>

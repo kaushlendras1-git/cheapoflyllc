@@ -17,6 +17,12 @@
         </div>
         <div class="modal-body auth-btn-style">
 
+        <!---
+              1 => Non-Refundable Default
+              0 => Refundable
+              
+        -->
+
         @foreach($booking->billingDetails as $key => $billingDetails)
              @php
                      $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
@@ -24,7 +30,7 @@
                      $digits = preg_replace('/\D+/', '', (string) $cc);
                      $last4  = strlen($digits) >= 4 ? substr($digits, -4) : null;
               @endphp
-
+            
                   <button class="btn btn-custom d-flex align-items-center sendAuthMail"
                         data-bs-toggle="modal"
                         data-bs-target="#sendAuthMailModal"
@@ -34,7 +40,7 @@
                         data-email="{{$billingDetails->getBillingDetail->email ?? ''}}"
                         data-cc_number="{{$billingDetails['cc_number']}}"
                         data-bs-dismiss="modal"
-                        data-href="{{route('i_authorized',['booking_id'=>$billingDetails->booking_id,'card_id'=>$billingDetails->state,'card_billing_id'=>$billingDetails->id,'refund_status'=>'refund'])}}"
+                        data-href="{{route('i_authorized',['booking_id'=>encode($billingDetails->booking_id),'card_id'=>encode($billingDetails->state),'card_billing_id'=>encode($billingDetails->id),'refund_status'=>encode(1)])}}"
                     >
                     <i class="ri ri-mail-open-fill"></i>
                         Send Auth Email{{ $last4 ? " (Card ***{$last4})" : '' }}
@@ -74,6 +80,7 @@
                 <input type="hidden" name="booking_id" id="booking_id"/>
                 <input type="hidden" name="card_id" id="card_id"/>
                 <input type="hidden" name="card_billing_id" id="card_billing_id"/>
+                <input type="hidden" name="email" id="email"/>
                 <div class="row">
                     <div class="col-md-5 position-relative mb-5">
                       <select name="refund_status" class="form-control">

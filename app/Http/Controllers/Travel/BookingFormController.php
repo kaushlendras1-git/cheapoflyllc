@@ -37,7 +37,6 @@ use App\Models\User;
 use App\Models\BookingType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Hashids\Hashids;
 use Carbon\Carbon;
 use App\Traits\Loggable;
 use Illuminate\Support\Facades\Log;
@@ -50,13 +49,12 @@ use Illuminate\Validation\Rule;
 
 class BookingFormController extends Controller
 {
-    protected $hashids;
+
     protected $logController;
 
     public function __construct()
     {
-        // Initialize Hashids with salt and length from config
-        $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
+       
     }
 
     public function billingDetails(Request $request,$id){
@@ -157,8 +155,10 @@ class BookingFormController extends Controller
             ],500);
         }
     }
+
     public function index(Request $request)
     {
+         
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
         $userId = Auth::id();
 
@@ -182,7 +182,6 @@ class BookingFormController extends Controller
 
         $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
         $bookings->appends($request->only('search'));
-        $hashids = new \Hashids\Hashids(config('hashids.salt'), config('hashids.length', 8));
 
         $flight_booking = TravelBooking::where('user_id', $userId)->where('airlinepnr','!=', NULL)->count();
         $hotel_booking = TravelBooking::where('user_id', $userId)->where('hotel_ref','!=', NULL)->count();
@@ -190,7 +189,7 @@ class BookingFormController extends Controller
         $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
         $train_booking = 0;
         $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
-        return view('web.booking.index', compact('bookings', 'hashids','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
+        return view('web.booking.index', compact('bookings', 'flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
     }
 
     public function search(Request $request)
@@ -205,8 +204,7 @@ class BookingFormController extends Controller
                 ->orWhere('email', 'like', "%{$keyword}%");
             });
             $bookings = TravelBooking::paginate(10);
-            $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-            return view('web.booking.index', compact('bookings','hashids'));
+            return view('web.booking.index', compact('bookings'));
         }
 
 
@@ -228,12 +226,10 @@ class BookingFormController extends Controller
 
         $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
         $bookings->appends($request->all());
-
-        $hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
         $booking_status = BookingStatus::all();
         $payment_status = PaymentStatus::all();
 
-        return view('web.booking.search', compact('bookings', 'hashids', 'booking_status', 'payment_status'));
+        return view('web.booking.search', compact('bookings', 'booking_status', 'payment_status'));
     }
 
 
@@ -249,7 +245,7 @@ class BookingFormController extends Controller
         }
 
         try {
-            $decodedId = $this->hashids->decode($id)[0];
+            $decodedId = decode($id);
             TravelBookingRemark::create([
                 'booking_id' => $decodedId,
                 'particulars' => nl2br(htmlspecialchars($request->remark, ENT_QUOTES, 'UTF-8')),
@@ -280,7 +276,7 @@ class BookingFormController extends Controller
     public function deleteRemark(Request $request,$id){
 
         $delete = TravelBookingRemark::where('id',$id)->delete();
-        $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',$this->hashids->decode($request->booking_id)[0])->get();
+        $data = TravelBookingRemark::select('id','booking_id','particulars')->where('booking_id',decode($request->booking_id))->get();
         return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
     }
 
@@ -296,7 +292,7 @@ class BookingFormController extends Controller
             'parameters.*.quality' => 'nullable|string',
         ]);
 
-        $bookingId = $this->hashids->decode($id)[0];
+        $bookingId = decode($id);
 
         foreach ($request->parameters as $param) {
             if($param['note']){
@@ -320,8 +316,7 @@ class BookingFormController extends Controller
 
 
     public function deleteFeedBack(Request $request,$id){
-        $bookingId = $this->hashids->decode($id)[0];
-
+        $bookingId =decode($id);
         $delete = TravelQualityFeedback::where('booking_id',$bookingId)->where('parameter',$request->parameter)->delete();
         $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')->where('booking_id', $bookingId)->get();
         return JsonResponse::successWithData('Booking review deleted',201,$data,'201');
@@ -1331,9 +1326,7 @@ class BookingFormController extends Controller
 
     public function show($hash)
     {
-        $id = $this->hashids->decode($hash);
-        $id = $id[0] ?? null;
-
+        $id = decode($hash);
         if (!$id) {
             abort(404);
         }

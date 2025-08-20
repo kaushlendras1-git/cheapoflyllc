@@ -35,8 +35,9 @@
     31 => 'Spatie\\Permission\\PermissionServiceProvider',
     32 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
     33 => 'Vinkla\\Hashids\\HashidsServiceProvider',
-    34 => 'App\\Providers\\AppServiceProvider',
-    35 => 'App\\Providers\\FirebaseServiceProvider',
+    34 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    35 => 'App\\Providers\\AppServiceProvider',
+    36 => 'App\\Providers\\FirebaseServiceProvider',
   ),
   'eager' => 
   array (
@@ -59,8 +60,9 @@
     16 => 'Spatie\\Permission\\PermissionServiceProvider',
     17 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
     18 => 'Vinkla\\Hashids\\HashidsServiceProvider',
-    19 => 'App\\Providers\\AppServiceProvider',
-    20 => 'App\\Providers\\FirebaseServiceProvider',
+    19 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    20 => 'App\\Providers\\AppServiceProvider',
+    21 => 'App\\Providers\\FirebaseServiceProvider',
   ),
   'deferred' => 
   array (

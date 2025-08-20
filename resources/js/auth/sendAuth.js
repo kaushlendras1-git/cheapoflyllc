@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const booking_id = button.getAttribute('data-booking_id');
             const card_id = button.getAttribute('data-card_id');
             const card_billing_id = button.getAttribute('data-card_billing_id');
+            const email = button.getAttribute('data-email');
             const refund_status = button.getAttribute('data-refund_status');
             const loadContainer = document.getElementById('load_model');
             const href=button.getAttribute('data-href');
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         $('#booking_id').val(booking_id);
                         $('#card_id').val(card_id);
                         $('#card_billing_id').val(card_billing_id);
+                        $('#email').val(email);
                         loadContainer.innerHTML = html;
                     })
                     .catch(() => {
@@ -103,9 +105,11 @@ $('#sendAuthEmail').submit(async function(e){
     const booking_id = document.getElementById('booking_id').value;
     const card_id = document.getElementById('card_id').value;
     const card_billing_id = document.getElementById('card_billing_id').value;
+    const email = document.getElementById('email').value;
     formdata.append('booking_id',booking_id);
     formdata.append('card_id',card_id);
     formdata.append('card_billing_id',card_billing_id);
+    formdata.append('email',email);
     try {
         const response = await axios.post(this.action, formdata);
 
@@ -214,6 +218,3 @@ $('#sendWhatsApp').submit(async function(e){
         }
     }
 });
-
-
-
