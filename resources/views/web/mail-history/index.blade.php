@@ -83,7 +83,8 @@
                                 <td>{{ $auth_history->user?->name ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->sent_to ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->details ?? 'N/A' }}</td>
-                               <td>{{ '****' . substr($card_deatils->cc_number, -4) }}</td>                         
+                                <td>{{ '****' . substr($card_deatils->cc_number ?? '',  -4) }}</td>            
+                                            
                                 <td>{{ $auth_history->created_at->format('d-m-Y H:i:s') }}</td>
                                 <td>
                                     @if($signature)
