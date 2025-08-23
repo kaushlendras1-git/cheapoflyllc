@@ -356,6 +356,13 @@ class BookingFormController extends Controller
             // '13', '14','18','19','32','33','39','41','43','44', '50', '51'
             //passenger[0][credit_note_amount]
 
+          if (auth()->user()->departments === 'Sales' || auth()->user()->role === 'User') {
+                $rules['payment_status_id'] = 'required|integer';
+                $rules['booking_status_id'] = 'exclude_unless:payment_status_id,24|required|in:18';
+            }
+
+            
+
 
            if(auth()->user()->departments != 'Billing')  {
                 $rules['passenger']                              = 'required|array|min:1';
@@ -527,6 +534,10 @@ class BookingFormController extends Controller
             }
 
             $messages = [
+
+                'booking_status_id.required' => 'Pl. change the Booking status to cancelled',
+                'booking_status_id.in'       => 'Pl. change the Booking status to cancelled',
+
                 'remark.required'     => 'At least one Remark type is required.',
                 // booking-type
                 'booking-type.required'     => 'At least one booking type is required.',
