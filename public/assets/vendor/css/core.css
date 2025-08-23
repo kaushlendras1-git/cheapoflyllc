@@ -29533,3 +29533,6 @@ select {
   padding: 10px !important;
   font-size: 12px;
 }
+.send_auth_mail_popup table {
+  width: 100% !important;
+}

@@ -146,8 +146,18 @@
                                 </tr>
                                 @endforeach
 
-                            </tbody>
+                                  <!-- <tr class="pricing-row hkRow" data-index="1">
+                                    <td>-</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0.00</td>
+                                    <td> 10.00</td>
+                                    <td> $10 </td>
+                                    <td>Issuance Fees - Voyzant</td>
+                                    <td></td>
+                                </tr> -->
 
+                            </tbody>
 
                             <tfoot>
                                 <tr>

@@ -75,7 +75,7 @@
                 <div class="pt-5 ps-0">
                     <div class="row booking-form">
                         <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Phone <span class="text-danger">*</span></label>
+                            <label class="form-label">Calling Phone No.  <span class="text-danger">*</span></label>
                             <input type="text" name="phone" class="form-control"
                                 value="{{ old('phone', $callLog->phone) }}">
                             @error('phone')

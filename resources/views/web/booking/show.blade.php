@@ -198,7 +198,7 @@
                         </div>
 
                         <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Name <span class="text-danger">*</span></label>
+                            <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="name" value="{{ old('name', $booking->name ?? '') }}">
                         </div>
 
@@ -211,22 +211,28 @@
                             <label class="form-label">Reservation Source</label>
                             <input type="text" class="form-control" name="reservation_source" value="{{ old('reservation_source', $booking->reservation_source ?? '') }}">
                         </div>
+
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Campaign <span class="text-danger">*</span></label>
+                            <select id="campaign" data-sh="Campaign" name="campaign" class="form-control">
+                              @foreach($campaigns as $campaign)
+                                    <option value="{{ $campaign->id }}"
+                                            {{ old('campaign', $booking->campaign ?? null) == $campaign->id ? 'selected' : '' }}>
+                                        {{ $campaign->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('campaign')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Descriptor</label>
                             <input type="text" class="form-control" name="descriptor"
                                 value="{{ old('descriptor', $booking->descriptor ?? '') }}">
-                        </div>
-
-                         @include('web.booking.status')
-
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Booking Type</label>
-                            <select id="query_type" class="form-control" name="query_type">
-                                <option>Package Reservation</option>
-                                @foreach($booking_types as $booking_type)
-                                    <option data-type="{{$booking_type->type}}">{{$booking_type->name}}</option>
-                                @endforeach
-                            </select>
                         </div>
 
 
@@ -261,38 +267,19 @@
                             </select>
                         </div>
 
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Campaign <span class="text-danger">*</span></label>
-                            <select id="campaign" data-sh="Campaign" name="campaign" class="form-control">
-                              @foreach($campaigns as $campaign)
-                                    <option value="{{ $campaign->id }}"
-                                            {{ old('campaign', $booking->campaign ?? null) == $campaign->id ? 'selected' : '' }}>
-                                        {{ $campaign->name }}
-                                    </option>
-                                @endforeach
-                            </select>
 
-                            @error('campaign')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
 
                         <div class="col-md-2 position-relative mb-5">
-                            <label for="call_type" class="form-label">Call Type <span
-                                    class="text-danger">*</span></label>
-                            <select name="call_type" id="call_type" class="form-control">
-                                <option value="" {{ old('call_type') == '' ? 'selected' : '' }}>Select</option>
-                                @foreach($call_types as $call_type)
-                                <option value="{{ $call_type->id }}"
-                                    {{ old('call_type') == $call_type->value ? 'selected' : '' }}>
-                                    {{ $call_type->name }}
-                                </option>
+                            <label class="form-label">Booking Type</label>
+                            <select id="query_type" class="form-control" name="query_type">
+                                @foreach($booking_types as $booking_type)
+                                    <option value="{{$booking_type->id}}" data-type="{{$booking_type->type}}" data-id="{{$booking_type->id}}" >{{$booking_type->name}}</option>
                                 @endforeach
                             </select>
-                            @error('call_type')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
                         </div>
+
+
+                        @include('web.booking.status')
 
 
                     </div>

@@ -85,7 +85,7 @@
                 <div class="pt-5 ps-0">
                     <div class="row booking-form">
                         <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Phone <span class="text-danger">*</span></label>
+                            <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
                             <input type="tel" id="phone" name="phone" class="form-control" value="{{ old('phone') }}">
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
@@ -103,18 +103,18 @@
                         </div>
 
 
-                        <div class="col-md-2 position-relative mb-5">
+                       <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Campaign <span class="text-danger">*</span></label>
-                            <select id="campaign" data-sh="Campaign" name="campaign" class="form-control">
-                                <option value="" {{ old('campaign') == '' ? 'selected' : '' }}>Select</option>
+                            <select id="campaign" data-sh="Campaign" name="campaign_id" class="form-control">
+                                <option value="" {{ old('campaign_id') == '' ? 'selected' : '' }}>Select</option>
                                 @foreach($campaigns as $campaign)
                                 <option value="{{ $campaign->id }}"
-                                    {{ old('campaign') == $campaign->id ? 'selected' : '' }}>
+                                    {{ old('campaign_id') == $campaign->id ? 'selected' : '' }}>
                                     {{ $campaign->name }}
                                 </option>
                                 @endforeach
                             </select>
-                            @error('campaign')
+                            @error('campaign_id')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -129,6 +129,8 @@
                             @enderror
                         </div>
 
+
+                        
                         <div class="col-md-2 position-relative mb-5">
                             <label for="call_type" class="form-label">Call Type <span
                                     class="text-danger">*</span></label>

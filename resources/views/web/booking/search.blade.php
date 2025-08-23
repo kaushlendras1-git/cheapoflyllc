@@ -102,7 +102,7 @@
                             @foreach ($bookings as $booking)
                             <tr>
                                 <td>
-                                    <a href="{{ route('booking.show', ['id' => $hashids->encode($booking->id)]) }}">
+                                    <a href="{{ route('booking.show', ['id' => encode($booking->id)]) }}">
                                         {{ $booking->id }}
                                     </a>
                                 </td>

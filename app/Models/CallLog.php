@@ -9,11 +9,6 @@ class CallLog extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'chkflight',
         'chkhotel',
@@ -22,7 +17,7 @@ class CallLog extends Model
         'phone',
         'name',
         'team',
-        'campaign',
+        'campaign_id',
         'reservation_source',
         'call_type',
         'call_converted',
@@ -33,11 +28,9 @@ class CallLog extends Model
         'pnr',
     ];
 
-    
-
     public function campaign()
     {
-        return $this->belongsTo(Campaign::class, 'campaign');
+        return $this->belongsTo(Campaign::class, 'campaign_id');
+                                                  
     }
-
 }

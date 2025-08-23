@@ -25,7 +25,6 @@
                                             <th>No. Of Rooms</th>
                                             <th>Confirmation Number</th>
                                             <th>Hotel Address</th>
-                                            <th>Remarks</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -66,9 +65,7 @@
                                                     name="hotel[{{$key}}][hotel_address]"
                                                     value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address">
                                             </td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="hotel[{{$key}}][remarks]" value="{{$travelHotel->remarks}}"
-                                                    placeholder="Remarks"></td>
+                                          
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-hotel-btn">
                                                     <i class="ri ri-delete-bin-line"></i>

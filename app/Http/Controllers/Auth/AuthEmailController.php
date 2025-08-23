@@ -10,6 +10,7 @@ use App\Mail\AuthEmail;
 use App\Utils\JsonResponse;
 use App\Models\AuthHistory;
 use Illuminate\Validation\ValidationException;
+use Swift_TransportException;
 
 class AuthEmailController extends Controller
 {
@@ -54,18 +55,50 @@ class AuthEmailController extends Controller
         $emailSendTo = $request->email;
 
         try {
-            Mail::to($emailSendTo)->send(new AuthEmail($bookingId,$buttonRoute));
-            AuthHistory::create([
-                'booking_id' => $bookingId,
-                'card_id' => $card_id,
-                'card_billing_id' => $card_billing_id,
-                'refund_status' => $refund_status,
-                'user_id' => auth()->id(),
-                'action' => 'Email sent for auth',
-                'type' => 'Email',
-                'sent_to' => $emailSendTo,
-                'details' => 'Booking confirmation email sent to customer.'
-            ]);
+
+            // Mail Response
+
+            try {
+                    Mail::to($emailSendTo)->send(new AuthEmail($bookingId, $buttonRoute));
+                    AuthHistory::create([
+                        'booking_id' => $bookingId,
+                        'card_id' => $card_id,
+                        'card_billing_id' => $card_billing_id,
+                        'refund_status' => $refund_status,
+                        'user_id' => auth()->id(),
+                        'action' => 'Email sent for auth',
+                        'type' => 'Email',
+                        'sent_to' => $emailSendTo,
+                        'details' => 'Booking confirmation email sent to customer.'
+                    ]);
+                    return response()->json([
+                        'message' => 'Email sent successfully',
+                        'status' => true,
+                        'code' => 200
+                    ], 200);
+                } catch (Swift_TransportException $e) {
+                    $errorMessage = $e->getMessage();
+                    $error = strpos($errorMessage, '554 Message rejected: Email address is not verified') !== false
+                        ? 'The sender email address is not verified in Amazon SES. Please verify it in the AWS SES console.'
+                        : 'Failed to send email: ' . $errorMessage;
+
+                    return response()->json([
+                        'error' => $error,
+                        'status' => false,
+                        'code' => 422
+                    ], 422);
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'error' => 'An unexpected error occurred: ' . $e->getMessage(),
+                        'status' => false,
+                        'code' => 422
+                    ], 422);
+                }
+
+
+//            Mail::to($emailSendTo)->send(new AuthEmail($bookingId,$buttonRoute));
+
+
             return response()->json(['message' => 'Auth Email sent successfully.'], 201);
 
         }
