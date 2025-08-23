@@ -476,73 +476,7 @@ $('.country-select').on('change',async function(e){
 });
 
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Get all checkboxes and the select element
-//     const checkboxes = document.querySelectorAll('.toggle-tab');
-//     const select = document.querySelector('#query_type');
 
-//     // Store all options for later use
-//     const allOptions = Array.from(select.options).map(option => ({
-//         text: option.text,
-//         value: option.value,
-//         dataType: option.getAttribute('data-type') || null,
-//         selected: option.selected
-//     }));
-
-//     // Function to update select options based on checkbox selection
-//     function updateSelectOptions() {
-//         // Get all selected checkboxes
-//         const selectedTypes = Array.from(checkboxes)
-//             .filter(cb => cb.checked)
-//             .map(cb => cb.value);
-
-//         // Clear current options
-//         select.innerHTML = '';
-
-//         if (selectedTypes.length === 0) {
-//             // If no checkboxes are selected, show all options
-//             allOptions.forEach(opt => {
-//                 const option = document.createElement('option');
-//                 option.text = opt.text;
-//                 option.value = opt.value;
-//                 if (opt.dataType) option.setAttribute('data-type', opt.dataType);
-//                 if (opt.selected) option.selected = true;
-//                 select.appendChild(option);
-//             });
-//         } else if (selectedTypes.length === 1) {
-//             // If exactly one checkbox is selected, show options with matching data-type
-//             const selectedType = selectedTypes[0];
-//             allOptions.forEach(opt => {
-//                 if (opt.dataType === selectedType || opt.text === 'Package Reservation') {
-//                     const option = document.createElement('option');
-//                     option.text = opt.text;
-//                     option.value = opt.value;
-//                     if (opt.dataType) option.setAttribute('data-type', opt.dataType);
-//                     if (opt.selected) option.selected = true;
-//                     select.appendChild(option);
-//                 }
-//             });
-//         } else {
-//             // If multiple checkboxes are selected, show only "Package Reservation"
-//             const packageOption = allOptions.find(opt => opt.text === 'Package Reservation');
-//             if (packageOption) {
-//                 const option = document.createElement('option');
-//                 option.text = packageOption.text;
-//                 option.value = packageOption.value;
-//                 if (packageOption.selected) option.selected = true;
-//                 select.appendChild(option);
-//             }
-//         }
-//     }
-
-//     // Add event listeners to checkboxes
-//     checkboxes.forEach(checkbox => {
-//         checkbox.addEventListener('change', updateSelectOptions);
-//     });
-
-//     // Initialize the select options on page load
-//     updateSelectOptions();
-// });
 
 document.querySelector('select[name="pnrtype"]').addEventListener('change',function(e){
     if(e.target.value == 'HK'){
@@ -921,30 +855,84 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
-    function toggleCreditColumn() {
-        const queryType = document.getElementById('query_type');
-        const selectedOption = queryType.options[queryType.selectedIndex];
-        const dataType = selectedOption.getAttribute('data-type');
+    const queryTypeSelect = document.getElementById('query_type');
+    if (!queryTypeSelect) return;
+    
+    // Store all original options
+    const allOptions = [];
+    Array.from(queryTypeSelect.options).forEach(option => {
+        allOptions.push({
+            value: option.value,
+            text: option.text,
+            dataType: option.getAttribute('data-type')
+        });
+    });
+    
+    function updateQueryType() {
+        // Get all checked checkboxes that might be booking types
+        const allChecked = document.querySelectorAll('input[type="checkbox"]:checked');
+        const checkedTypes = [];
         
-        // Get all 10th column elements (th and td)
-        const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(10)');
-        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
+        // Extract booking types from checked boxes
+        allChecked.forEach(checkbox => {
+            const value = checkbox.value;
+            const id = checkbox.id;
+            const name = checkbox.name;
+            
+            // Check if this is a booking type checkbox
+            if (value === 'Flight' || id.includes('flight') || name.includes('flight')) {
+                checkedTypes.push('Flight');
+            } else if (value === 'Cruise' || id.includes('cruise') || name.includes('cruise')) {
+                checkedTypes.push('Cruise');
+            } else if (value === 'Car' || id.includes('car') || name.includes('car')) {
+                checkedTypes.push('Car');
+            } else if (value === 'Hotel' || id.includes('hotel') || name.includes('hotel')) {
+                checkedTypes.push('Hotel');
+            } else if (value === 'Train' || id.includes('train') || name.includes('train')) {
+                checkedTypes.push('Train');
+            }
+        });
         
-        if (dataType === '1') {
-            // Show credit column
-            creditHeaders.forEach(el => el.style.display = '');
-            creditCells.forEach(el => el.style.display = '');
+        // Remove duplicates
+        const uniqueTypes = [...new Set(checkedTypes)];
+        
+        // Clear and rebuild options
+        queryTypeSelect.innerHTML = '';
+        
+        let optionsToShow = [];
+        
+        if (uniqueTypes.length === 0) {
+            optionsToShow = allOptions; // Show all when none selected
+        } else if (uniqueTypes.length === 1) {
+            optionsToShow = allOptions.filter(opt => opt.dataType === uniqueTypes[0]);
         } else {
-            // Hide credit column
-            creditHeaders.forEach(el => el.style.display = 'none');
-            creditCells.forEach(el => el.style.display = 'none');
+            optionsToShow = allOptions.filter(opt => opt.dataType === 'Package');
         }
+        
+        // Add options back
+        optionsToShow.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.textContent = option.text;
+            opt.setAttribute('data-type', option.dataType);
+            opt.setAttribute('data-id', option.value);
+            queryTypeSelect.appendChild(opt);
+        });
     }
     
-    // Run on page load
-    toggleCreditColumn();
+    // Listen to all checkbox changes
+    document.addEventListener('change', function(e) {
+        if (e.target.type === 'checkbox') {
+            updateQueryType();
+        }
+    });
     
-    // Run when query_type changes
-    document.getElementById('query_type').addEventListener('change', toggleCreditColumn);
+    updateQueryType(); // Initial call
 });

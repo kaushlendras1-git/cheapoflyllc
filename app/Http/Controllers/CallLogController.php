@@ -122,6 +122,7 @@ class CallLogController extends Controller
                 'campaign' => $request->campaign_id,
                 'call_type' => $request->call_type,
                 'pnr' => $pnr,
+                'phone'  => $request->call_type,
                 'booking_status_id' => 1,
                 'payment_status_id' => 1,
                 'gross_value' => 0,

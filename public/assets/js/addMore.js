@@ -20,7 +20,7 @@
                 <td><input type="number" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
                 <td><input type="text" class="form-control" style="width:10rem" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][hotel_address]" placeholder="Hotel Address"></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[${hotelIndex}][remarks]" placeholder="Remarks"></td>
+
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-hotel-btn">
                         <i class="ri ri-delete-bin-line"></i>
@@ -448,9 +448,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const passengerFormsContainer = document.getElementById('passengerForms');
     let passengerIndex = passengerFormsContainer.querySelectorAll('.passenger-form').length || 0;
 
+    // Function to toggle credit column visibility
+    function toggleCreditColumn() {
+        const queryType = document.getElementById('query_type');
+        if (!queryType) return; // Exit if element doesn't exist
+        
+        const selectedOption = queryType.options[queryType.selectedIndex];
+        const dataType = selectedOption.getAttribute('data-id');
+        const allowedDataIds = ['13', '14','18','19','32','33','39','41','43','44', '50', '51'];
+        
+        // Get all 10th column elements (th and td)
+        const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(10)');
+        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
+        
+        if (allowedDataIds.includes(dataType)) {
+            // Show credit column
+            creditHeaders.forEach(el => el.style.display = '');
+            creditCells.forEach(el => el.style.display = '');
+        } else {
+            // Hide credit column
+            creditHeaders.forEach(el => el.style.display = 'none');
+            creditCells.forEach(el => el.style.display = 'none');
+        }
+    }
+
     // Add initial row on page load if no rows exist
     if (passengerIndex === 0) {
         addPassengerRow();
+    }
+
+    // Run toggleCreditColumn on page load
+    toggleCreditColumn();
+    
+    // Run when query_type changes
+    const queryTypeElement = document.getElementById('query_type');
+    if (queryTypeElement) {
+        queryTypeElement.addEventListener('change', toggleCreditColumn);
     }
 
     // Function to add a new passenger row
@@ -502,6 +535,11 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         passengerFormsContainer.appendChild(newRow);
         passengerIndex++;
+        
+        // Apply credit column visibility to new row immediately
+        setTimeout(() => {
+            toggleCreditColumn();
+        }, 10);
     }
 
     // Function to check if a row is filled
@@ -526,9 +564,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         passengerIndex = rows.length;
+        
+        // Apply credit column visibility after updating rows
+        toggleCreditColumn();
     }
 
-    document.getElementById('passenger-detail-button').addEventListener('click', addPassengerRow);
+    const addButton = document.getElementById('passenger-detail-button');
+    if (addButton) {
+        addButton.addEventListener('click', addPassengerRow);
+    }
+    
     // Event listener for input and change events to auto-add rows
     function handlePassengerInput(e) {
         const row = e.target.closest('.passenger-form');
@@ -556,7 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
 
 
 // Billing Section

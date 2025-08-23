@@ -341,7 +341,7 @@ class BookingFormController extends Controller
                 'name'                => 'required|string|max:255',
                 'phone'               => 'required|string|max:20',
                 'campaign'               => 'required',
-                'call_type'               => 'required',
+               # 'call_type'               => 'required',
                 'query_type'          => 'nullable|string|max:255',
                 'selected_company'    => 'required|string|max:255',
                 'booking_status_id'   => 'nullable',
@@ -351,6 +351,11 @@ class BookingFormController extends Controller
                 'amadeus_sabre_pnr'   => 'nullable|string|max:255',
                 'sector_details.*'    => 'required|file|image|max:2048',
             ];
+
+            // if(query_type)
+            // '13', '14','18','19','32','33','39','41','43','44', '50', '51'
+            //passenger[0][credit_note_amount]
+
 
            if(auth()->user()->departments != 'Billing')  {
                 $rules['passenger']                              = 'required|array|min:1';
@@ -413,7 +418,7 @@ class BookingFormController extends Controller
                 $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
                 $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
                 $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
-                $rules['hotel.*.remarks']             = 'required_with:hotel|string|max:1000';
+               # $rules['hotel.*.remarks']             = 'required_with:hotel|string|max:1000';
             }
 
             // ---- CRUISE ----
@@ -555,6 +560,7 @@ class BookingFormController extends Controller
                 // query_type
                 'query_type.string'         => 'Query type must be a valid string.',
                 'query_type.max'            => 'Query type cannot exceed 255 characters.',
+
 
                 // selected_company
                 'selected_company.required' => 'Selected company is required.',
@@ -1368,8 +1374,8 @@ class BookingFormController extends Controller
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
         $campaigns = Campaign::all();
-        $call_types = CallType::all();
-        return view('web.booking.show', compact('campaigns','call_types','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+      #  $call_types = CallType::all();
+        return view('web.booking.show', compact('campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
     public function add(){
