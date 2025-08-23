@@ -476,73 +476,73 @@ $('.country-select').on('change',async function(e){
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all checkboxes and the select element
-    const checkboxes = document.querySelectorAll('.toggle-tab');
-    const select = document.querySelector('#query_type');
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Get all checkboxes and the select element
+//     const checkboxes = document.querySelectorAll('.toggle-tab');
+//     const select = document.querySelector('#query_type');
 
-    // Store all options for later use
-    const allOptions = Array.from(select.options).map(option => ({
-        text: option.text,
-        value: option.value,
-        dataType: option.getAttribute('data-type') || null,
-        selected: option.selected
-    }));
+//     // Store all options for later use
+//     const allOptions = Array.from(select.options).map(option => ({
+//         text: option.text,
+//         value: option.value,
+//         dataType: option.getAttribute('data-type') || null,
+//         selected: option.selected
+//     }));
 
-    // Function to update select options based on checkbox selection
-    function updateSelectOptions() {
-        // Get all selected checkboxes
-        const selectedTypes = Array.from(checkboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
+//     // Function to update select options based on checkbox selection
+//     function updateSelectOptions() {
+//         // Get all selected checkboxes
+//         const selectedTypes = Array.from(checkboxes)
+//             .filter(cb => cb.checked)
+//             .map(cb => cb.value);
 
-        // Clear current options
-        select.innerHTML = '';
+//         // Clear current options
+//         select.innerHTML = '';
 
-        if (selectedTypes.length === 0) {
-            // If no checkboxes are selected, show all options
-            allOptions.forEach(opt => {
-                const option = document.createElement('option');
-                option.text = opt.text;
-                option.value = opt.value;
-                if (opt.dataType) option.setAttribute('data-type', opt.dataType);
-                if (opt.selected) option.selected = true;
-                select.appendChild(option);
-            });
-        } else if (selectedTypes.length === 1) {
-            // If exactly one checkbox is selected, show options with matching data-type
-            const selectedType = selectedTypes[0];
-            allOptions.forEach(opt => {
-                if (opt.dataType === selectedType || opt.text === 'Package Reservation') {
-                    const option = document.createElement('option');
-                    option.text = opt.text;
-                    option.value = opt.value;
-                    if (opt.dataType) option.setAttribute('data-type', opt.dataType);
-                    if (opt.selected) option.selected = true;
-                    select.appendChild(option);
-                }
-            });
-        } else {
-            // If multiple checkboxes are selected, show only "Package Reservation"
-            const packageOption = allOptions.find(opt => opt.text === 'Package Reservation');
-            if (packageOption) {
-                const option = document.createElement('option');
-                option.text = packageOption.text;
-                option.value = packageOption.value;
-                if (packageOption.selected) option.selected = true;
-                select.appendChild(option);
-            }
-        }
-    }
+//         if (selectedTypes.length === 0) {
+//             // If no checkboxes are selected, show all options
+//             allOptions.forEach(opt => {
+//                 const option = document.createElement('option');
+//                 option.text = opt.text;
+//                 option.value = opt.value;
+//                 if (opt.dataType) option.setAttribute('data-type', opt.dataType);
+//                 if (opt.selected) option.selected = true;
+//                 select.appendChild(option);
+//             });
+//         } else if (selectedTypes.length === 1) {
+//             // If exactly one checkbox is selected, show options with matching data-type
+//             const selectedType = selectedTypes[0];
+//             allOptions.forEach(opt => {
+//                 if (opt.dataType === selectedType || opt.text === 'Package Reservation') {
+//                     const option = document.createElement('option');
+//                     option.text = opt.text;
+//                     option.value = opt.value;
+//                     if (opt.dataType) option.setAttribute('data-type', opt.dataType);
+//                     if (opt.selected) option.selected = true;
+//                     select.appendChild(option);
+//                 }
+//             });
+//         } else {
+//             // If multiple checkboxes are selected, show only "Package Reservation"
+//             const packageOption = allOptions.find(opt => opt.text === 'Package Reservation');
+//             if (packageOption) {
+//                 const option = document.createElement('option');
+//                 option.text = packageOption.text;
+//                 option.value = packageOption.value;
+//                 if (packageOption.selected) option.selected = true;
+//                 select.appendChild(option);
+//             }
+//         }
+//     }
 
-    // Add event listeners to checkboxes
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateSelectOptions);
-    });
+//     // Add event listeners to checkboxes
+//     checkboxes.forEach(checkbox => {
+//         checkbox.addEventListener('change', updateSelectOptions);
+//     });
 
-    // Initialize the select options on page load
-    updateSelectOptions();
-});
+//     // Initialize the select options on page load
+//     updateSelectOptions();
+// });
 
 document.querySelector('select[name="pnrtype"]').addEventListener('change',function(e){
     if(e.target.value == 'HK'){
@@ -919,3 +919,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    function toggleCreditColumn() {
+        const queryType = document.getElementById('query_type');
+        const selectedOption = queryType.options[queryType.selectedIndex];
+        const dataType = selectedOption.getAttribute('data-type');
+        
+        // Get all 10th column elements (th and td)
+        const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(10)');
+        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
+        
+        if (dataType === '1') {
+            // Show credit column
+            creditHeaders.forEach(el => el.style.display = '');
+            creditCells.forEach(el => el.style.display = '');
+        } else {
+            // Hide credit column
+            creditHeaders.forEach(el => el.style.display = 'none');
+            creditCells.forEach(el => el.style.display = 'none');
+        }
+    }
+    
+    // Run on page load
+    toggleCreditColumn();
+    
+    // Run when query_type changes
+    document.getElementById('query_type').addEventListener('change', toggleCreditColumn);
+});

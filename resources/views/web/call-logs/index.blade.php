@@ -84,14 +84,14 @@
                             @forelse ($callLogs as $key => $log)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('call-logs.edit', $hashids->encode($log->id)) }}">
+                                        <a href="{{ route('call-logs.edit', encode($log->id)) }}">
                                             {{ $callLogs->firstItem() + $key }}
                                         </a>
                                     </td>
                                     <td>{{ $log->pnr }}</td>
                                     <td>{{ $log->name }}</td>
                                     <td>{{ $log->phone }}</td>
-                                    <td>{{ $log->campaign }}</td>
+                                  <td>{{ $log->campaign ? $log->campaign->name : 'No Campaign' }}</td>
                                     <td>
                                         <div style="display: flex; justify-content: center; gap: 4px;">
                                             @if($log->chkflight)

@@ -81,32 +81,32 @@
                 <input type="hidden" name="card_id" id="card_id"/>
                 <input type="hidden" name="card_billing_id" id="card_billing_id"/>
                 <input type="hidden" name="email" id="email"/>
-                <div class="row">
+                <div class="row checkbox-servis">
                     <div class="col-md-5 position-relative">
                         <label class="d-block mb-2">Refund Status</label>
 
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="refund_status" id="refundable" value="refundable">
-                            <label class="form-check-label" for="refundable">
+                            <label style="width: auto !important;" class="form-check-label" for="refundable">
                                 Refundable
                             </label>
                         </div>
 
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="refund_status" id="non-refundable" value="non-refundable">
-                            <label class="form-check-label" for="non-refundable">
+                            <label style="width: auto !important;" class="form-check-label" for="non-refundable">
                                 Non-Refundable
                             </label>
                         </div>
                     </div>
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button class="btn btn-info send-auth-btn" style="font-size: 14px; padding: 5px 10px;">Send Auth</button>
+                    <div class="col-md-7 d-flex align-items-end justify-content-end">
+                        <button class="btn btn-sm btn-primary text-center" style="font-size: 14px;">Send Auth</button>
                     </div>
 
                 </div>
             </form>
 
-            <div id="load_model" class="mt-3">
+            <div id="load_model" class="mt-3 send_auth_mail_popup">
                 <!-- Loaded dynamically -->
             </div>
 

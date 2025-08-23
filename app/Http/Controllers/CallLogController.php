@@ -11,18 +11,12 @@ use App\Models\Log;
 use App\Models\TravelBooking;
 use App\Models\TravelBookingType;
 use Illuminate\Http\Request;
-use Hashids\Hashids;
 use DB;
 use Carbon\Carbon;
 
 class CallLogController extends Controller
 {
-    protected $hashids;
 
-    public function __construct()
-    {
-        $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-    }
 
     public function index(Request $request)
     {
@@ -56,11 +50,10 @@ class CallLogController extends Controller
             $query->whereDate('call_logs.created_at', '<=', $request->end_date);
         }
 
-        // Paginate the results
-        $callLogs = $query->paginate(10)->appends($request->except('page'));
-        $hashids = $this->hashids;
-
-        return view('web.call-logs.index', compact('callLogs', 'hashids'));
+           // Paginate the results
+       $callLogs = $query->with('campaign')->paginate(10)->appends($request->except('page'));
+       # dd($callLogs->first()->campaign); // Should return a Campaign model or null
+        return view('web.call-logs.index', compact('callLogs'));
     }
 
     public function create()
@@ -83,7 +76,7 @@ class CallLogController extends Controller
             'chktrain' => 'nullable|boolean',
             'phone' => 'required|string|max:25',
             'name' => 'required|string|max:255',
-            'campaign' => 'required|exists:campaigns,id',
+            'campaign_id' => 'required|exists:campaigns,id',
             'reservation_source' => 'required|string|max:255',
             'call_type' => 'required|string|max:255',
             'call_converted' => 'nullable|boolean',
@@ -108,9 +101,11 @@ class CallLogController extends Controller
         $validated['phone'] = preg_replace('/\D/', '', $request->phone);
         $callLog = CallLog::create($validated);
 
+          
+
         if ($request->call_converted) {
             // Fetch Campaign (already validated, so no need to re-validate)
-            $campaign = Campaign::findOrFail($request->campaign);
+            $campaign = Campaign::findOrFail($request->campaign_id);
 
             // Generate PNR
             $campaignPrefix = strtoupper(substr($campaign->name, 0, 3));
@@ -124,11 +119,13 @@ class CallLogController extends Controller
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'reservation_source' => $request->reservation_source,
-                'campaign' => $request->campaign,
+                'campaign' => $request->campaign_id,
                 'call_type' => $request->call_type,
                 'pnr' => $pnr,
                 'booking_status_id' => 1,
                 'payment_status_id' => 1,
+                'gross_value' => 0,
+                'net_value' => 0,
                 'user_id' => auth()->id(),
             ];
             $booking = TravelBooking::create($bookingData);
@@ -151,13 +148,11 @@ class CallLogController extends Controller
                 }
             }
 
-            // Redirect to booking show page
-            $hash = $this->hashids->encode($booking->id);
-            return redirect()->route('booking.show', ['id' => $hash]);
+            return redirect()->route('booking.show', ['id' => encode($booking->id)]);
         }
 
         // Log operation and redirect
-        log_operation('CallLog', $callLog->id, 'created', 'Call Log created successfully', auth()->id());
+      #  log_operation('CallLog', $callLog->id, 'created', 'Call Log created successfully', auth()->id());
         return redirect()->route('call-logs.index')->with('success', 'Call Log created successfully!');
     }
 
@@ -169,9 +164,7 @@ class CallLogController extends Controller
 
     public function edit($hash)
     {
-        $id = $this->hashids->decode($hash);
-        $id = $id[0] ?? null;
-
+        $id = ($hash);
         if (!$id) {
             abort(404);
         }
@@ -196,7 +189,7 @@ class CallLogController extends Controller
             'chkcar' => 'nullable|boolean',
             'phone' => 'required|string|max:15',
             'name' => 'required|string|max:255',
-            'campaign' => 'required|exists:campaigns,id', // Validate as Campaign ID
+            'campaign_id' => 'required|exists:campaigns,id', // Validate as Campaign ID
             'reservation_source' => 'required|string|max:255',
             'call_type' => 'required|string|max:255',
             'call_converted' => 'nullable|boolean',

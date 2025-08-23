@@ -557,6 +557,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+
 // Billing Section
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('billing-booking-button').addEventListener('click',addBillingRow);
