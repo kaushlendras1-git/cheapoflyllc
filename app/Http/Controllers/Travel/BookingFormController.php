@@ -45,6 +45,7 @@ use Illuminate\Validation\ValidationException;
 use App\Exports\BookingsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\Rule;
+use App\Models\CallType;
 
 
 class BookingFormController extends Controller
@@ -339,6 +340,8 @@ class BookingFormController extends Controller
                 'cruise_ref'          => 'nullable|string|max:255',
                 'name'                => 'required|string|max:255',
                 'phone'               => 'required|string|max:20',
+                'campaign'               => 'required',
+                'call_type'               => 'required',
                 'query_type'          => 'nullable|string|max:255',
                 'selected_company'    => 'required|string|max:255',
                 'booking_status_id'   => 'nullable',
@@ -1364,7 +1367,9 @@ class BookingFormController extends Controller
         $users = User::get();
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
-        return view('web.booking.show', compact('booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        $campaigns = Campaign::all();
+        $call_types = CallType::all();
+        return view('web.booking.show', compact('campaigns','call_types','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
     public function add(){

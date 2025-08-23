@@ -246,7 +246,7 @@
                                 <option value="">Select
                                 </option>
                                 @foreach($campaigns as $campaign)
-                                <option value="{{$campaign->name}}" {{$campaign->name == $booking->call_queue?'selected':''}}>{{$campaign->name}}</option>
+                                <option value="{{$campaign->name}}" {{$booking->name == $booking->call_queue?'selected':''}}>{{$booking->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -260,6 +260,41 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Campaign <span class="text-danger">*</span></label>
+                            <select id="campaign" data-sh="Campaign" name="campaign" class="form-control">
+                              @foreach($campaigns as $campaign)
+                                    <option value="{{ $campaign->id }}"
+                                            {{ old('campaign', $booking->campaign ?? null) == $campaign->id ? 'selected' : '' }}>
+                                        {{ $campaign->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('campaign')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2 position-relative mb-5">
+                            <label for="call_type" class="form-label">Call Type <span
+                                    class="text-danger">*</span></label>
+                            <select name="call_type" id="call_type" class="form-control">
+                                <option value="" {{ old('call_type') == '' ? 'selected' : '' }}>Select</option>
+                                @foreach($call_types as $call_type)
+                                <option value="{{ $call_type->id }}"
+                                    {{ old('call_type') == $call_type->value ? 'selected' : '' }}>
+                                    {{ $call_type->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('call_type')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
                     </div>
                 </div>
         </div>

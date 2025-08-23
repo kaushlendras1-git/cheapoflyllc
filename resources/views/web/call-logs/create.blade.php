@@ -95,9 +95,6 @@
 
                         <div class="col-md-2 position-relative mb-5">
                            
-                       
-
-
                             <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                             @error('name')
@@ -112,7 +109,7 @@
                                 <option value="" {{ old('campaign') == '' ? 'selected' : '' }}>Select</option>
                                 @foreach($campaigns as $campaign)
                                 <option value="{{ $campaign->id }}"
-                                    {{ old('campaign') == $campaign->name ? 'selected' : '' }}>
+                                    {{ old('campaign') == $campaign->id ? 'selected' : '' }}>
                                     {{ $campaign->name }}
                                 </option>
                                 @endforeach
@@ -139,7 +136,7 @@
                                 <option value="" {{ old('call_type') == '' ? 'selected' : '' }}>Select</option>
                                 @foreach($call_types as $call_type)
                                 <option value="{{ $call_type->id }}"
-                                    {{ old('call_type') == $call_type->value ? 'selected' : '' }}>
+                                    {{ old('call_type') == $call_type->id ? 'selected' : '' }}>
                                     {{ $call_type->name }}
                                 </option>
                                 @endforeach
@@ -202,40 +199,44 @@
     <!--/ Content -->
 
     <script>
-    // JavaScript to toggle visibility of Follow-Up Date and Call Back Assign fields
-    document.getElementById('call_type').addEventListener('change', function() {
-        const followupDateDiv = document.getElementById('followup_date');
-        const assignDiv = document.getElementById('assign');
 
-        if (this.value === 'FollowUp') {
-            followupDateDiv.style.display = 'block';
-            assignDiv.style.display = 'block';
-        } else {
-            followupDateDiv.style.display = 'none';
-            assignDiv.style.display = 'none';
-        }
-    });
+    // document.getElementById('call_type').addEventListener('change', function() {
+    //     const followupDateDiv = document.getElementById('followup_date');
+    //     const assignDiv = document.getElementById('assign');
+
+    //     if (this.value === 'FollowUp') {
+    //         followupDateDiv.style.display = 'block';
+    //         assignDiv.style.display = 'block';
+    //     } else {
+    //         followupDateDiv.style.display = 'none';
+    //         assignDiv.style.display = 'none';
+    //     }
+    // });
     </script>
 
 
-    <script>
-    const phoneInput = document.getElementById("phone");
+<script>
+const phoneInput = document.getElementById("phone");
 
-    phoneInput.addEventListener("input", () => {
-        // Get the current input value and remove non-digit characters
-        let inputValue = phoneInput.value.replace(/\D/g, "");
+phoneInput.addEventListener("input", () => {
+    // Remove non-digit characters
+    let inputValue = phoneInput.value.replace(/\D/g, "");
 
-        // Format the value as XXX XXX XXXX (3-3-4)
-        if (inputValue.length > 3 && inputValue.length <= 6) {
-            inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3)}`;
-        } else if (inputValue.length > 6) {
-            inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 10)}`;
-        }
+    // Format up to 15 digits as 3-3-3-3-3
+    if (inputValue.length > 3 && inputValue.length <= 6) {
+        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3)}`;
+    } else if (inputValue.length > 6 && inputValue.length <= 9) {
+        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6)}`;
+    } else if (inputValue.length > 9 && inputValue.length <= 12) {
+        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 9)} ${inputValue.slice(9)}`;
+    } else if (inputValue.length > 12) {
+        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 9)} ${inputValue.slice(9, 12)} ${inputValue.slice(12, 15)}`;
+    }
 
-        // Update the input's value
-        phoneInput.value = inputValue;
-    });
-    </script>
+    // Update the input value
+    phoneInput.value = inputValue;
+});
+</script>
 
     <!-- @vite('resources/js/callLogs/create.js') -->
 
