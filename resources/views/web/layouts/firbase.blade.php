@@ -2,6 +2,7 @@
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-messaging.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,13 +20,12 @@
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
   const analytics = getAnalytics(app);
-
   async function requestPermission() {
   try {
     await Notification.requestPermission();
     const token = await getToken(messaging, { vapidKey: "BCnieCjmnIlO-rKUW4-TqDE4X76wh6bbT80riWliU_axQW8fTXc1EsB-oCegYH4-l1Tl1x3X56j_VtmfZ1kKgpM" });
-    console.log("FCM Token:", token);
 
     // Send the token to your server
     await fetch('/update-device-token', {

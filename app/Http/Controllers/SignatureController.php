@@ -98,11 +98,19 @@ class SignatureController extends Controller
         // Get Public IP from an external service
         $response = Http::get('https://api.ipify.org?format=json');
         $publicIP = $response->json('ip');
+        $card_id = decode($request->input('card_id'));
+        $card_billing_id = decode($request->input('card_billing_id'));
+        if($request->input('refund_status') == 'non_refundable'){
+            $refund_status = 1;
+        }
+        else{
+            $refund_status = 0;
+        }
         Signature::create([
             'booking_id' => $booking_id,
-            'card_id' => $request->input('card_id'),
-            'card_billing_id' => $request->input('card_billing_id'),
-            'refund_status' => $request->input('refund_status'),
+            'card_id' => $card_id,
+            'card_billing_id' => $card_billing_id,
+            'refund_status' => $refund_status,
 
             'signature_data' => $request->input('signature'),
             'signature_type' => $request->input('signature_type'),

@@ -1,5 +1,4 @@
-
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('hotel-booking-button').addEventListener('click',addHotelRow)
         const hotelFormsContainer = document.getElementById('hotelForms');
         let hotelIndex = 0;
@@ -99,10 +98,10 @@
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][stateroom]" placeholder="Stateroom"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
                 <td><input type="date" class="form-control" style="width: 105px;" name="cruise[${cruiseIndex}][departure_date]"></td>
-                <td><input type="time" class="form-control" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="text" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][arrival_port]" placeholder="Arrival Port"></td>
                 <td><input type="date" class="form-control" style="width:105px;" name="cruise[${cruiseIndex}][arrival_date]"></td>
-                <td><input type="time" class="form-control" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="text" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
 
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-cruise-btn">
@@ -110,7 +109,26 @@
                     </button>
                 </td>
             `;
+            console.log('adding cruise');
             cruiseFormsContainer.appendChild(newRow);
+            const departureInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][departure_hrs]"]');
+            const arrivalInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][arrival_hrs]"]');
+
+            flatpickr(departureInput, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 1,
+            });
+
+            flatpickr(arrivalInput, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 1,
+            });
             cruiseIndex++;
         }
 
@@ -184,9 +202,9 @@
                 <td><input type="text" class="form-control" style="width:9rem" name="car[${carIndex}][pickup_location]" placeholder="Pick-up Location"></td>
                 <td><input type="text" class="form-control" style="width:10rem" name="car[${carIndex}][dropoff_location]" placeholder="Drop-off Location"></td>
                 <td><input type="date" class="form-control" style="width:105px"; name="car[${carIndex}][pickup_date]"></td>
-                <td><input type="time" class="form-control" style="width:105px"; name="car[${carIndex}][pickup_time]"></td>
+                <td><input type="time" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][pickup_time]"></td>
                 <td><input type="date" class="form-control" style="width:105px"; name="car[${carIndex}][dropoff_date]"></td>
-                <td><input type="time" class="form-control" style="width:105px"; name="car[${carIndex}][dropoff_time]"></td>
+                <td><input type="time" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][dropoff_time]"></td>
                 <td><input type="text" class="form-control" style="width:12rem" name="car[${carIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                  <td>
                     <button type="button" class="btn btn-outline-danger delete-car-btn">
@@ -195,6 +213,24 @@
                 </td>
             `;
             carFormsContainer.appendChild(newRow);
+            const departureInput = newRow.querySelector('input[name="car[' + carIndex + '][pickup_time]"]');
+            const arrivalInput = newRow.querySelector('input[name="car[' + carIndex + '][dropoff_time]"]');
+
+            flatpickr(departureInput, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 1,
+            });
+
+            flatpickr(arrivalInput, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 1,
+            });
             carIndex++;
         }
 
@@ -251,7 +287,6 @@
         document.getElementById('flight-booking-button').addEventListener('click',addFlightRow)
         const flightFormsContainer = document.getElementById('flightForms');
         const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length;
-        console.log(flightRowsCount);
         let flightIndex = flightRowsCount;
 
         // Add initial row on page load
@@ -286,9 +321,13 @@
 
                 <td><input type="text" class="form-control" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
                 <td><input type="text" class="form-control" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
-                <td><input type="time" class="form-control" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="text" class="form-control time_24_hrs" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="00:00"
+                                                        max="23:59"
+                                                        step="60"></td>
                 <td><input type="text" class="form-control" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
-                <td><input type="time" class="form-control" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="text" class="form-control time_24_hrs" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="00:00"
+                                                        max="23:59"
+                                                        step="60"></td>
 
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
@@ -300,6 +339,24 @@
                 </td>
             `;
             flightFormsContainer.appendChild(newRow);
+            const departureInput = newRow.querySelector('input[name="flight[' + flightIndex + '][departure_hours]"]');
+            const arrivalInput = newRow.querySelector('input[name="flight[' + flightIndex + '][arrival_hours]"]');
+
+            flatpickr(departureInput, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 1,
+            });
+
+            flatpickr(arrivalInput, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true,
+                minuteIncrement: 1,
+            });
             flightIndex++;
         }
 
@@ -373,9 +430,9 @@
             <td><input type="text" class="form-control" style="width: 108px;" name="train[${trainIndex}][train_number]" placeholder="Train No"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][cabin]" placeholder="Cabin"></td>
             <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][departure_station]" placeholder="Departure Station"></td>
-            <td><input type="time" class="form-control" style="width: 80px;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
+            <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
             <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station"></td>
-            <td><input type="time" class="form-control" style="width: 80px;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
+            <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][duration]" placeholder="Duration"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][transit]" placeholder="Transit"></td>
             <td><input type="date" class="form-control" style="width: 110px;" name="train[${trainIndex}][arrival_date]"></td>
@@ -386,6 +443,24 @@
             </td>
         `;
         trainFormsContainer.appendChild(newRow);
+        const departureInput = newRow.querySelector('input[name="train[' + trainIndex + '][departure_hours]"]');
+        const arrivalInput = newRow.querySelector('input[name="train[' + trainIndex + '][arrival_hours]"]');
+
+        flatpickr(departureInput, {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            minuteIncrement: 1,
+        });
+
+        flatpickr(arrivalInput, {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            minuteIncrement: 1,
+        });
         trainIndex++;
     }
 
@@ -1132,18 +1207,18 @@ function setState(stateID, countryName) {
 /////////////////////// Initialization script (cleaned) //////////////////////////////////
 
           // Register plugins
-FilePond.registerPlugin(
-  FilePondPluginFileValidateType,
-  FilePondPluginImagePreview,
-  FilePondPluginFilePoster
-);
-
-const inputElement = document.querySelector('#filepondFile');
-
-FilePond.create(inputElement, {
-  name: 'sector_details[]', // MUST match the input name exactly
-  allowMultiple: true,
-  maxFiles: 5,
-  acceptedFileTypes: ['image/*'],
-  maxFileSize: '2MB'
-});
+// FilePond.registerPlugin(
+//   FilePondPluginFileValidateType,
+//   FilePondPluginImagePreview,
+//   FilePondPluginFilePoster
+// );
+//
+// const inputElement = document.querySelector('#filepondFile');
+//
+// FilePond.create(inputElement, {
+//   name: 'sector_details[]', // MUST match the input name exactly
+//   allowMultiple: true,
+//   maxFiles: 5,
+//   acceptedFileTypes: ['image/*'],
+//   maxFileSize: '2MB'
+// });

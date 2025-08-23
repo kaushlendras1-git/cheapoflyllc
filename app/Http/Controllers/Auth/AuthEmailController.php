@@ -55,7 +55,6 @@ class AuthEmailController extends Controller
 
         try {
             Mail::to($emailSendTo)->send(new AuthEmail($bookingId,$buttonRoute));
-
             AuthHistory::create([
                 'booking_id' => $bookingId,
                 'card_id' => $card_id,
@@ -67,7 +66,6 @@ class AuthEmailController extends Controller
                 'sent_to' => $emailSendTo,
                 'details' => 'Booking confirmation email sent to customer.'
             ]);
-
             return response()->json(['message' => 'Auth Email sent successfully.'], 201);
 
         }

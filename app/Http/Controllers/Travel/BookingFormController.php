@@ -55,7 +55,7 @@ class BookingFormController extends Controller
 
     public function __construct()
     {
-       
+
     }
 
     public function billingDetails(Request $request,$id){
@@ -159,7 +159,7 @@ class BookingFormController extends Controller
 
     public function index(Request $request)
     {
-         
+
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
         $userId = Auth::id();
 
@@ -461,7 +461,7 @@ class BookingFormController extends Controller
                 $rules['car.*.dropoff_time']            = 'required_with:car|date_format:H:i';
                 $rules['car.*.confirmation_number']     = 'nullable|string|max:255';
                 $rules['car.*.remarks']                 = 'nullable|string|max:255';
-                $rules['car.*.rental_provider_address'] = 'required_with:car|string|max:255';
+//                $rules['car.*.rental_provider_address'] = 'required_with:car|string|max:255';
             }
 
             // ---- TRAIN ----

@@ -9,7 +9,7 @@ use App\Models\AuthHistory;
 
 
 class AuthHistoryController extends Controller
-{   
+{
 
     public function index($id) {
         $id = decode($id);
@@ -32,7 +32,7 @@ class AuthHistoryController extends Controller
         }
         catch(\Exception $e){
             return JsonResponse::error('Internal Server Error',500,'500');
-        }    
+        }
     }
 
 

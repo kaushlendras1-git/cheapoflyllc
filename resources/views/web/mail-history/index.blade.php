@@ -35,7 +35,7 @@
                             <th>Sent By</th>
                             <th>Sent To</th>
                             <th>Details</th>
-                            <th>Card last 4 digit</th>                          
+                            <th>Card last 4 digit</th>
                             <th>Sent Date-Time</th>
                             <th>Received Status</th>
                             <th>IP</th>
@@ -46,14 +46,14 @@
                     </thead>
                     <tbody>
                         @foreach($auth_histories as $auth_history)
-                          
+
                             @php
-                            
+
                                 $signature = \App\Models\Signature::where('booking_id', $auth_history->booking_id)
                                     ->where('card_id', $auth_history->card_id)
                                     ->where('card_billing_id', $auth_history->card_billing_id)
                                     ->where('refund_status', $auth_history->refund_status)
-                                    ->first();                                
+                                    ->first();
 
                                 $card_deatils =  \App\Models\TravelBillingDetail::
                                       where('booking_id', 3)
@@ -61,21 +61,30 @@
                                      ->where('id', 2)
                                      ->first();
 
-                                    
-                                
-                                    
+
+
+
                             @endphp
-                            
+
                             <tr>
                                 <td><a title="{{ $auth_history->booking_id }}" href="{{ route('booking.show', ['id' => encode($auth_history->booking_id)]) }}">
                                     {{ $auth_history->id }}</a>
                                 </td>
-                               
+
                                 <td>
+                                    @php
+
+                                        if($auth_history->refund_status == 1){
+                                            $refund_status = "non_refundable";
+                                        }
+                                        else{
+                                            $refund_status = "refundable";
+                                        }
+                                    @endphp
                                     <button class="btn btn-warning btn-sm"
                                             data-bs-toggle="modal"
                                             data-bs-target="#signatureModal"
-                                            data-url="http://127.0.0.1:8000/i_authorized/9qVkOVOj/YW6qQ64y/DJ68kEV5/YBvpr6pl">
+                                            data-url="http://127.0.0.1:8000/i_authorized/{{encode($auth_history->booking_id)}}/{{encode($auth_history->card_id)}}/{{encode($auth_history->card_billing_id)}}/{{$refund_status}}">
                                         <i class="bi bi-eye"></i>
                                     </button>
                                 </td>
@@ -83,8 +92,8 @@
                                 <td>{{ $auth_history->user?->name ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->sent_to ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->details ?? 'N/A' }}</td>
-                                <td>{{ '****' . substr($card_deatils->cc_number ?? '',  -4) }}</td>            
-                                            
+                                <td>{{ '****' . substr($card_deatils->cc_number ?? '',  -4) }}</td>
+
                                 <td>{{ $auth_history->created_at->format('d-m-Y H:i:s') }}</td>
                                 <td>
                                     @if($signature)
@@ -162,7 +171,7 @@
                 <h5 class="modal-title">Booking Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" id="modalContent">
+            <div class="modal-body" id="modalContent" style="overflow: scroll">
                 Loading...
             </div>
         </div>
@@ -203,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- Custom Styles -->
 <style>
-    
+
 .dark-header {
     background-color: #312d4b;
     color: #fff;

@@ -15,7 +15,9 @@ class AuthHistory extends Model
         'action',
         'type',
         'sent_to',
-        'details'
+        'details',
+        'card_id',
+        'card_billing_id'
     ];
 
 

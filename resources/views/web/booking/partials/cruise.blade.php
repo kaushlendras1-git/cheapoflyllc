@@ -61,7 +61,7 @@
                                                     name="cruise[{{$key}}][departure_date]"
                                                     value="{{$travelCruise->departure_date?->format('Y-m-d')}}">
                                             </td>
-                                            <td><input type="time" class="form-control" style="width:50px"
+                                            <td><input type="text" class="form-control time_24_hrs" style="width:50px"
                                                     name="cruise[{{$key}}][departure_hrs]"
                                                     value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
@@ -74,7 +74,7 @@
                                             <td><input type="date" style="width: 105px;" class="form-control"
                                                     name="cruise[{{$key}}][arrival_date]"
                                                     value="{{$travelCruise->arrival_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="time" class="form-control" style="width:50px;"
+                                            <td><input type="text" class="form-control time_24_hrs" style="width:50px;"
                                                     name="cruise[{{$key}}][arrival_hrs]"
                                                     value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
