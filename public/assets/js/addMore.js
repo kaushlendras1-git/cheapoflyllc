@@ -320,11 +320,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select></td>
 
                 <td><input type="text" class="form-control" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
-                <td><input type="text" class="form-control" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
+                <td><input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
+                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                </td>
                 <td><input type="text" class="form-control time_24_hrs" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="00:00"
                                                         max="23:59"
-                                                        step="60"></td>
-                <td><input type="text" class="form-control" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
+                                                        step="60">
+                </td>
+
+                <td><input type="text" class="form-control arrival-airport" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
+                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                </td>
+
                 <td><input type="text" class="form-control time_24_hrs" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="00:00"
                                                         max="23:59"
                                                         step="60"></td>
@@ -1084,6 +1091,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (netProfitElement) {
             netProfitElement.textContent = netProfitAfterFee.toFixed(2);
         }
+
+
+        
+
 
     }
 

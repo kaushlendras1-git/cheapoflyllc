@@ -13,14 +13,14 @@
                                 <tr>
                                     <td colspan="4" style="border: solid 1px;">
                                         <div style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
-                                            <strong>Gross Value</strong>
+                                            <strong>Gross Amount</strong>
                                             <span id="total_gross_profit">0.00</span>
                                             <input name="gross_value" type="hidden" id="gross_value"/>
                                         </div>
                                     </td>
                                     <td colspan="4" >
                                         <div style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
-                                            <strong >Net Value</strong>
+                                            <strong >Net Amount</strong>
                                             <span id="total_net_profit">0.00</span>
                                             <input name="net_value" type="hidden" id="net_value"/>
                                         </div>
@@ -162,10 +162,10 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="6" class="pb-0" style="border-bottom: 0;">
-                                        <strong style="color:#055bdb">Gross Profilt</strong> : <span id="total_gross_value">0.00</span>
+                                        <strong style="color:#055bdb">Gross MCO</strong> : <span id="total_gross_value">0.00</span>
                                     </td>
                                     <td class="pb-0" style="border-bottom: 0;">
-                                        <strong style="color:#055bdb">Net Profilt</strong> : <span id="total_netprofit_value">0.00</span>
+                                        <strong style="color:#055bdb">Net MCO</strong> : <span id="total_netprofit_value">0.00</span>
                                     </td>
                                 </tr>
                                 <!-- <tr>

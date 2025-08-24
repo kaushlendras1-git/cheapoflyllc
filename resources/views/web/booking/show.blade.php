@@ -170,8 +170,9 @@
                                     <label class="form-label"> PNR Type</label>
                                     <select class="form-control" name="pnrtype">
                                         <option value="">Select</option>
-                                        <option value="HK" {{$booking->pnrtype == 'HK'?'selected':''}}>HK</option>
+                                        <option value="FXL" {{$booking->pnrtype == 'FXL'?'selected':''}}>FXL</option>
                                         <option value="GK" {{$booking->pnrtype == 'GK'?'selected':''}}>GK</option>
+                                        <option value="HK" {{$booking->pnrtype == 'HK'?'selected':''}}>HK</option>
                                     </select>
                                 </div>
                             </div>
@@ -387,5 +388,6 @@
     let booking_id = "{{$booking->id}}";
 </script>
 @vite('resources/js/booking/edit.js')
+@vite('resources/js/booking/flight.js')
 @vite('resources/js/auth/sendAuth.js')
 @endsection

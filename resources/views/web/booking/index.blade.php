@@ -129,8 +129,10 @@
                                     @endif
                                 </td>
 
-                                <td>{{ $booking->pricingDetails->sum('total_amount') }}</td>
-                                <td>{{ $booking->pricingDetails->sum('advisor_mco') }}</td>
+                                <!--td>{{ $booking->pricingDetails->sum('total_amount') }}</td>
+                                <td>{{ $booking->pricingDetails->sum('advisor_mco') }}</td-->
+                                <td>{{ $booking->gross_value }}</td>
+                                <td>{{ $booking->net_value }}</td>
                                 <td>{{ $booking->name }}</td>
                                 <td>{{ $booking->email }}</td>
                             </tr>
