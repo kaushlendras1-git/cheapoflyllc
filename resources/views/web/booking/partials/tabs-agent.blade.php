@@ -68,17 +68,17 @@
                 </a>
             </li>
 
-           
-          
-         
+
+
+
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="screenshots-tab" data-bs-toggle="tab" href="#screenshots" role="tab"
                     aria-controls="screenshots" aria-selected="false">
                     <i class="ri ri-image-line" style="font-size: 20px; color: #ff6347;" title="Screenshots"></i>
                 </a>
             </li>
-        
-              
+
+
         </ul>
 
         <!-- Tab Content -->
@@ -111,9 +111,8 @@
             <!-- Remarks Tab -->
             @include('web.booking.partials.remarks', ['remarks' => $booking->remarks])
 
-          
+
 
             <!-- Screenshots Tab -->
             @include('web.booking.partials.screenshots', ['screenshot_images' => $screenshot_images])
 
-        

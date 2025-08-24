@@ -739,7 +739,7 @@ if (document.documentElement.querySelector('#autocomplete')) {
 
 
 
-// Custom Css Start Here 
+// Custom Css Start Here
 
 $(document).ready(function() {
     $('.user-dropdown').on('click', function() {
@@ -759,22 +759,29 @@ $(document).ready(function() {
     }
   );
 });
-// Search Input Js Start Here 
+// Search Input Js Start Here
 document.addEventListener("DOMContentLoaded", function () {
     const input = document.getElementById("search-table");
     const clearIcon = document.getElementById("clear-search");
 
     function toggleClearIcon() {
-      clearIcon.style.display = input.value ? "block" : "none";
+        if(clearIcon){
+            clearIcon.style.display = input.value ? "block" : "none";
+        }
+
+    }
+    if(input){
+        input.addEventListener("input", toggleClearIcon);
     }
 
-    input.addEventListener("input", toggleClearIcon);
+    if(clearIcon){
+        clearIcon.addEventListener("click", function () {
+            input.value = "";
+            toggleClearIcon();
+            input.focus();
+        });
+    }
 
-    clearIcon.addEventListener("click", function () {
-      input.value = "";
-      toggleClearIcon();
-      input.focus();
-    });
 
     // Show icon if there's already a value (from old request)
     toggleClearIcon();

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use Illuminate\Support\Facades\Log;
+
 use App\Http\Controllers\Controller;
 use App\Models\TravelBooking;
 use Illuminate\Http\Request;
@@ -55,11 +55,22 @@ class AuthEmailController extends Controller
         $emailSendTo = $request->email;
 
         try {
-            
+
             // Mail Response
 
             try {
                     Mail::to($emailSendTo)->send(new AuthEmail($bookingId, $buttonRoute));
+                    AuthHistory::create([
+                        'booking_id' => $bookingId,
+                        'card_id' => $card_id,
+                        'card_billing_id' => $card_billing_id,
+                        'refund_status' => $refund_status,
+                        'user_id' => auth()->id(),
+                        'action' => 'Email sent for auth',
+                        'type' => 'Email',
+                        'sent_to' => $emailSendTo,
+                        'details' => 'Booking confirmation email sent to customer.'
+                    ]);
                     return response()->json([
                         'message' => 'Email sent successfully',
                         'status' => true,
@@ -85,17 +96,8 @@ class AuthEmailController extends Controller
                 }
 
 
-            AuthHistory::create([
-                'booking_id' => $bookingId,
-                'card_id' => $card_id,
-                'card_billing_id' => $card_billing_id,
-                'refund_status' => $refund_status,
-                'user_id' => auth()->id(),
-                'action' => 'Email sent for auth',
-                'type' => 'Email',
-                'sent_to' => $emailSendTo,
-                'details' => 'Booking confirmation email sent to customer.'
-            ]);
+//            Mail::to($emailSendTo)->send(new AuthEmail($bookingId,$buttonRoute));
+
 
             return response()->json(['message' => 'Auth Email sent successfully.'], 201);
 

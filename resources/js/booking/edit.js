@@ -7,7 +7,18 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import {route} from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 
+Array.from(document.querySelectorAll(".time_24_hrs")).forEach((element) => {
+    flatpickr(element, {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        minuteIncrement: 1,
+    });
+});
 
 const currencyApi = new CurrencyAPI('cur_live_hNVrB7FwaBu1B2psLRKf7ALfqrSU5tXfIpFipPhY');
 function convertAndDisplay(usdValue, toCurrency) {
@@ -22,9 +33,6 @@ function convertAndDisplay(usdValue, toCurrency) {
         return converted;
     });
 }
-
-const container = document.getElementById('billingForms');
-
 async function handleInputChange(e) {
     // .usdAmount
     if (e.target.classList.contains('usdAmount')) {
@@ -59,8 +67,43 @@ async function handleInputChange(e) {
     }
 }
 
-// Listen to input events bubbling up from child elements
-container.addEventListener('input', handleInputChange);
+const container = document.getElementById('billingForms');
+
+container.addEventListener('input', async function(e) {
+    if (e.target.classList.contains('usdAmount')) {
+        const row = e.target.closest('tr');
+        const amt = e.target.value;
+        const currencyField = row.querySelector('.currencyField');
+        if (!currencyField) return;
+        const selectedCurrency = currencyField.value;
+        if (!amt || !selectedCurrency) return;
+        const finalAmount = await convertAndDisplay(amt, selectedCurrency);
+        const roundedAmount = finalAmount.toFixed(2);
+        const finalAmountField = row.querySelector('.finalAmount');
+        const textAmountField = row.querySelector('.textAmount');
+        if (finalAmountField) finalAmountField.value = roundedAmount;
+        if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
+    }
+});
+
+container.addEventListener('change', async function(e) {
+    if (e.target.classList.contains('currencyField')) {
+        const row = e.target.closest('tr');
+        const amtField = row.querySelector('.usdAmount');
+        if (!amtField) return;
+        const amt = amtField.value;
+        if (!amt) return;
+        const selectedCurrency = e.target.value;
+        if (!selectedCurrency) return;
+        const finalAmount = await convertAndDisplay(amt, selectedCurrency);
+        const roundedAmount = finalAmount.toFixed(2);
+        const finalAmountField = row.querySelector('.finalAmount');
+        const textAmountField = row.querySelector('.textAmount');
+        if (finalAmountField) finalAmountField.value = roundedAmount;
+        if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
+    }
+});
+
 
 
 
@@ -642,46 +685,47 @@ function attachDeleteHandler(el) {
     });
 }
 
+const saveFeedbackBtn = document.getElementById('saveFeedback');
+if (saveFeedbackBtn) {
+    saveFeedbackBtn.addEventListener('click', async function (e) {
+        e.preventDefault();
 
-document.getElementById('saveFeedback').addEventListener('click', async function (e) {
-    e.preventDefault();
 
+        const parameters = Array.from(document.querySelectorAll('input[name="parameters[]"]:checked')).map(input => {
+            const parentDiv = input.closest('.col-lg-3, .col-md-6, .col-12');
 
-    const parameters = Array.from(document.querySelectorAll('input[name="parameters[]"]:checked')).map(input => {
-        const parentDiv = input.closest('.col-lg-3, .col-md-6, .col-12');
+            const textarea = parentDiv.querySelector(`textarea[data-related="${input.id}"]`);
 
-        const textarea = parentDiv.querySelector(`textarea[data-related="${input.id}"]`);
+            let marks = textarea?.dataset.marksvalue || '';
+            let quality = textarea?.dataset.qualitytype || '';
 
-        let marks = textarea?.dataset.marksvalue || '';
-        let quality = textarea?.dataset.qualitytype || '';
+            if (!marks) {
+                const marksInput = parentDiv.querySelector('input[name="marks_value"]');
+                marks = marksInput ? marksInput.value : '';
+            }
+            if (!quality) {
+                const qualityInput = parentDiv.querySelector('input[name="quality_type"]');
+                quality = qualityInput ? qualityInput.value : '';
+            }
 
-        if (!marks) {
-            const marksInput = parentDiv.querySelector('input[name="marks_value"]');
-            marks = marksInput ? marksInput.value : '';
-        }
-        if (!quality) {
-            const qualityInput = parentDiv.querySelector('input[name="quality_type"]');
-            quality = qualityInput ? qualityInput.value : '';
-        }
+            const note = textarea ? textarea.value : '';
 
-        const note = textarea ? textarea.value : '';
-
-        return {
-            parameter: input.value,
-            note,
-            marks,
-            quality
-        };
-    });
-
-    try {
-        const response = await axios.post(route('booking.update-feedback', { id: route().params.id }), {
-            parameters: parameters
+            return {
+                parameter: input.value,
+                note,
+                marks,
+                quality
+            };
         });
 
-        let html = '';
-        response.data.data.forEach(function (item, index) {
-            const date = new Date(item.created_at).toLocaleDateString('en-GB', {
+        try {
+            const response = await axios.post(route('booking.update-feedback', { id: route().params.id }), {
+                parameters: parameters
+            });
+
+            let html = '';
+            response.data.data.forEach(function (item, index) {
+                const date = new Date(item.created_at).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric'
@@ -703,20 +747,21 @@ document.getElementById('saveFeedback').addEventListener('click', async function
                 <td>${item.user_id}</td>
                 <td>${item.created_at}</td>
             </tr>`;
-        });
-        $('#booking_feed_back_table tbody').html(html);
-        showToast(response.data.message);
+            });
+            $('#booking_feed_back_table tbody').html(html);
+            showToast(response.data.message);
 
-    } catch (e) {
-        console.error("AXIOS ERROR", e);
-        if (e.response) {
-            console.error("Server responded with:", e.response.data);
-            showToast('Error saving feedback: ' + e.response.data.message, 'error');
-        } else {
-            showToast('Error saving feedback', 'error');
+        } catch (e) {
+            console.error("AXIOS ERROR", e);
+            if (e.response) {
+                console.error("Server responded with:", e.response.data);
+                showToast('Error saving feedback: ' + e.response.data.message, 'error');
+            } else {
+                showToast('Error saving feedback', 'error');
+            }
         }
-    }
-});
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.chkqlty').forEach(function (checkbox) {

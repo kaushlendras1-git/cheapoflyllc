@@ -154,7 +154,7 @@
                                     <label class="form-label">Airline PNR</label>
                                     <input type="text" class="form-control" name="airlinepnr"
                                         value="{{ $booking->airlinepnr }}"
-                                        @if($booking->airlinepnr) disabled  @endif 
+                                        @if($booking->airlinepnr) disabled  @endif
                                     >
                                 </div>
 
@@ -162,7 +162,7 @@
                                     <label class="form-label">Amadeus/Sabre PNR</label>
                                     <input type="text" class="form-control" name="amadeus_sabre_pnr"
                                         value="{{ $booking->amadeus_sabre_pnr }}"
-                                         @if($booking->amadeus_sabre_pnr) disabled  @endif 
+                                         @if($booking->amadeus_sabre_pnr) disabled  @endif
                                          >
                                 </div>
 
@@ -178,25 +178,25 @@
                         </fieldset>
                         <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
                             <label class="form-label">Hotel Ref</label>
-                            <input type="text" class="form-control" name="hotel_ref" 
+                            <input type="text" class="form-control" name="hotel_ref"
                             value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}">
                         </div>
                         <div class="col-md-2 position-relative mb-5" id="cruise-inputs">
                             <label class="form-label">Cruise Ref</label>
-                            <input type="text" class="form-control" name="cruise_ref" 
+                            <input type="text" class="form-control" name="cruise_ref"
                             value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}">
                         </div>
                         <div class="col-md-2 position-relative mb-5" id="car-inputs">
                             <label class="form-label">Car Ref</label>
-                            <input type="text" class="form-control" name="car_ref" 
+                            <input type="text" class="form-control" name="car_ref"
                             value="{{ old('car_ref', $booking->car_ref ?? '') }}">
                         </div>
                         <div class="col-md-2 position-relative mb-5" id="train-inputs">
                             <label class="form-label">Train Ref</label>
-                            <input type="text" class="form-control" name="train_ref" 
+                            <input type="text" class="form-control" name="train_ref"
                             value="{{ old('train_ref', $booking->train_ref ?? '') }}">
                         </div>
-                        
+
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="name" value="{{ old('name', $booking->name ?? '') }}">
@@ -234,8 +234,8 @@
                             <input type="text" class="form-control" name="descriptor"
                                 value="{{ old('descriptor', $booking->descriptor ?? '') }}">
                         </div>
-                        
-                        
+
+
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">LOB</label>
                             <select id="selected_company" name="selected_company" class="form-control">
@@ -252,7 +252,7 @@
                                 <option value="">Select
                                 </option>
                                 @foreach($campaigns as $campaign)
-                                <option value="{{$campaign->id}}" {{$booking->name == $booking->call_queue?'selected':''}}>{{$campaign->name}}</option>
+                                <option value="{{$campaign->name}}" {{$campaign->name == $booking->call_queue?'selected':''}}>{{$campaign->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -267,7 +267,7 @@
                             </select>
                         </div>
 
- 
+
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Booking Type</label>
@@ -291,17 +291,16 @@
             @elseif(auth()->user()->departments === 'Sales')
                 @include('web.booking.partials.tabs-agent')
             @elseif(auth()->user()->departments === 'Admin')
-                @include('web.booking.partials.tabs-admin')     
+                @include('web.booking.partials.tabs-admin')
             @elseif(auth()->user()->departments === 'Quality')
-                @include('web.booking.partials.tabs-quality')     
-            
-            @else    
+                @include('web.booking.partials.tabs-quality')
+            @else
                 No Data
             @endif
 
 
     </div>
-        
+
       </div>
     </div>
 

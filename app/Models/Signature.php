@@ -9,7 +9,16 @@ class Signature extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['booking_id','signature_data', 'card_last_digit','ip_address','signature_type'];
+    protected $fillable = [
+        'booking_id',
+        'signature_data',
+        'card_last_digit',
+        'ip_address',
+        'signature_type',
+        'card_id',
+        'card_billing_id',
+        'refund_status'
+    ];
 }
 
 

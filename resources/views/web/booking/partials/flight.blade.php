@@ -107,10 +107,14 @@
                                                         value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                         placeholder="Departure Airport"></td>
 
-                                                <td><input type="time" class="form-control"
+                                                <td><input type="text" class="form-control time_24_hrs"
                                                         name="flight[{{ $index }}][departure_hours]" style="width: 86px"
                                                         value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
-                                                        placeholder="Hrs" min="0" max="2"></td>
+                                                        placeholder="Hrs"
+                                                        min="00:00"
+                                                        max="23:59"
+                                                        step="60"
+                                                    /></td>
 
                                                 <!-- <td><input type="text" class="form-control" style="width: 36px;"
                                                         name="flight[{{ $index }}][departure_minutes]"
@@ -124,10 +128,12 @@
                                                         placeholder="Arrival Airport"></td>
 
 
-                                                <td><input type="time" class="form-control" style="width: 86px;"
+                                                <td><input type="text" class="form-control time_24_hrs" style="width: 86px;"
                                                         name="flight[{{ $index }}][arrival_hours]"
                                                         value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}"
-                                                        placeholder="Hrs" min="0" max="2"></td>
+                                                        placeholder="Hrs" min="00:00"
+                                                        max="23:59"
+                                                        step="60"></td>
 
                                                 <!-- <td><input type="text" class="form-control" style="width: 36px;"
                                                         name="flight[{{ $index }}][arrival_minutes]"
