@@ -556,7 +556,6 @@ document.querySelector('select[name="pnrtype"]').addEventListener('change', func
         const newRow = document.createElement('tr');
         newRow.className = 'pricing-row fxlRow';
         newRow.dataset.index = pricingIndex;
-       // alert(updatePassengerCounts());
         newRow.innerHTML = `
              <td>
                 <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
@@ -589,30 +588,7 @@ document.querySelector('select[name="pnrtype"]').addEventListener('change', func
     }
 
 
-    function updatePassengerCounts() {
-        const rows = document.querySelectorAll('#passengerForms .passenger-form');
-        let adults = 0, children = 0, infants = 0, seatInfants = 0, lapInfants = 0;
-
-        rows.forEach(row => {
-            const typeSelect = row.querySelector('select[name*="[passenger_type]"]');
-            if (typeSelect) {
-                const value = typeSelect.value.trim();
-                if (value === 'Adult') adults++;
-                else if (value === 'Child') children++;
-                else if (value === 'Infant') infants++;
-                else if (value === 'Seat Infant') seatInfants++;
-                else if (value === 'Lap Infant') lapInfants++;
-            }
-        });
-
-        // Update totals in the display element
-        const totalsDiv = document.getElementById('fxlTotals');
-        totalsDiv.innerHTML = `
-            <strong>Passenger Totals:</strong><br>
-            Adults: ${adults} | Children: ${children} | Infants: ${infants} | Seat Infants: ${seatInfants} | Lap Infants: ${lapInfants}
-        `;
-        totalsDiv.style.display = 'block';
-    }
+    
 
 });
 
