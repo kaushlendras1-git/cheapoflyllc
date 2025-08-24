@@ -93,6 +93,10 @@
                                                         <option value="Buss."
                                                             {{ old("flight.$index.cabin", $flight->cabin) == 'Buss.' ? 'selected' : '' }}>
                                                             Buss.</option>
+                                                        <option value="First Class"
+                                                            {{ old("flight.$index.cabin", $flight->cabin) == 'First Class' ? 'selected' : '' }}>
+                                                            First Class</option>
+                                                            
                                                     </select>
                                                 </td>
 

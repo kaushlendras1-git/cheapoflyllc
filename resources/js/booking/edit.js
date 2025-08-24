@@ -519,78 +519,6 @@ $('.country-select').on('change',async function(e){
 });
 
 
-document.querySelector('select[name="pnrtype"]').addEventListener('change', function (e) {
-    const pricingFormsContainer = document.getElementById('pricingForms');
-    let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
-
-    if (e.target.value === 'HK') {
-        const newRow = document.createElement('tr');
-        newRow.className = 'pricing-row hkRow';
-        newRow.dataset.index = pricingIndex;
-        newRow.innerHTML = `
-            <td>
-                <select readonly class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
-                    <option value="">Select</option>
-                </select>
-            </td>
-            <td><input readonly type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
-            <td><input readonly type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
-            <td><span class="gross-total">0.00</span></td>
-            <td><input readonly type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" min="0" step="0.01"></td>
-            <td><span class="net-total">$10</span></td>
-            <td>
-                <select readonly class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                    <option selected>Issuance Fees - Voyzant</option>
-                </select>
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                    <i class="ri ri-delete-bin-line"></i>
-                </button>
-            </td>
-        `;
-        pricingFormsContainer.appendChild(newRow);
-        pricingIndex++;
-    }
-    else if (e.target.value === 'FXL') {
-        const newRow = document.createElement('tr');
-        newRow.className = 'pricing-row fxlRow';
-        newRow.dataset.index = pricingIndex;
-        newRow.innerHTML = `
-             <td>
-                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
-                    <option value="">Select</option>
-                </select>
-            </td>
-            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0" readonly ></td>
-            <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="100.00" min="0" step="0.01" readonly></td>
-            <td><span class="gross-total">100.00</span></td>
-            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" min="0" step="0.01" readonly></td>
-            <td><span class="net-total">$10</span></td>
-            <td>
-                <select style="width: 145px;" class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                    <option selected>FXL Issuance Fees</option>
-                </select>
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                    <i class="ri ri-delete-bin-line"></i>
-                </button>
-            </td>
-        `;
-        pricingFormsContainer.appendChild(newRow);
-        pricingIndex++;
-    }
-    else {
-        // Remove rows if the value is changed to something else
-        Array.from(document.querySelectorAll('.hkRow')).forEach(row => row.remove());
-        Array.from(document.querySelectorAll('.fxlRow')).forEach(row => row.remove());
-    }
-
-
-    
-
-});
 
 function toggleBillingTableVisibility() {
     const tableBody = document.querySelector('#billing-table tbody');
@@ -1089,3 +1017,131 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     observer.observe(flightFormsContainer, { childList: true, subtree: true });
 });
+
+
+
+
+
+
+document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
+    radio.addEventListener('change', function (e) {
+        const pricingFormsContainer = document.getElementById('pricingForms');
+        let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
+
+        // Remove previous rows and totals
+        document.querySelectorAll('.hkRow, .fxlRow').forEach(row => row.remove());
+        const totalsDiv = document.getElementById('fxlTotals');
+        if (totalsDiv) totalsDiv.style.display = 'none';
+
+        if (e.target.value === 'HK') {
+
+            const totalPassengers = countPassengers();
+            const grossTotal = totalPassengers * 10;
+            const netTotal = grossTotal;
+
+            const newRow = document.createElement('tr');
+            newRow.className = 'pricing-row hkRow';
+            newRow.dataset.index = pricingIndex;
+            newRow.innerHTML = `
+               <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                        <option value="">Select</option>
+                    </select>
+                </td>
+                <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
+                <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
+                <td><span class="gross-total">0.00</span></td>
+                <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" readonly></td>
+                <td><span class="net-total">${netTotal}</span></td>
+                <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                        <option selected>Issuance Fees - Voyzant</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                        <i class="ri ri-delete-bin-line"></i>
+                    </button>
+                </td>
+            `;
+            pricingFormsContainer.appendChild(newRow);
+        }
+
+        else if (e.target.value === 'FXL') {
+            const totalPassengers = countPassengers();
+            const grossTotal = totalPassengers * 100;
+            const netTotal = grossTotal;
+
+            const newRow = document.createElement('tr');
+            newRow.className = 'pricing-row fxlRow';
+            newRow.dataset.index = pricingIndex;
+            newRow.innerHTML = `
+                <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                        <option value="">Select</option>
+                    </select>
+                </td>
+                <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
+                <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
+                <td><span class="gross-total">0.00</span></td>
+                <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="100.00" readonly></td>
+                <td><span class="net-total">${netTotal}</span></td>
+                <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                        <option selected>FXL Issuance Fees</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                        <i class="ri ri-delete-bin-line"></i>
+                    </button>
+                </td>
+            `;
+            pricingFormsContainer.appendChild(newRow);
+        }
+    });
+});
+
+// ✅ Count passengers
+function countPassengers() {
+    const rows = document.querySelectorAll('#passengerForms .passenger-form');
+    let total = 0;
+    rows.forEach(row => {
+        const typeSelect = row.querySelector('select[name*="[passenger_type]"]');
+        if (typeSelect && typeSelect.value.trim() !== '') {
+            total++;
+        }
+    });
+    return total;
+}
+
+// ✅ Update existing FXL row dynamically when passengers change
+document.addEventListener('change', function (e) {
+    const pnrType = document.querySelector('input[name="pnr_type"]:checked')?.value;
+    if (pnrType === 'FXL' && e.target.name.includes('[passenger_type]')) {
+        const totalPassengers = countPassengers();
+        const grossTotal = totalPassengers * 100;
+        const netTotal = grossTotal;
+
+        const fxlRow = document.querySelector('.fxlRow');
+        if (fxlRow) {
+            fxlRow.querySelector('input[name*="[num_passengers]"]').value = totalPassengers;
+            fxlRow.querySelector('.gross-total').textContent = grossTotal.toFixed(2);
+            fxlRow.querySelector('.net-total').textContent = netTotal.toFixed(2);
+        }
+    }
+    else if (pnrType === 'HK' && e.target.name.includes('[passenger_type]')) {
+        const totalPassengers = countPassengers();
+        const grossTotal = totalPassengers * 10;
+        const netTotal = grossTotal;
+
+        const fxlRow = document.querySelector('.hkRow');
+        if (fxlRow) {
+            fxlRow.querySelector('input[name*="[num_passengers]"]').value = totalPassengers;
+            fxlRow.querySelector('.gross-total').textContent = grossTotal.toFixed(2);
+            fxlRow.querySelector('.net-total').textContent = netTotal.toFixed(2);
+        }
+    }
+
+});
+

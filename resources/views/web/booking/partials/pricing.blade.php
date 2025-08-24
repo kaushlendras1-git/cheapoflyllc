@@ -1,6 +1,35 @@
 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
 
                 <div class="col-md-12">
+
+
+                <div class="col-md-5 position-relative checkbox-servis">
+                        <!-- <label class="d-block mb-2">PNR Type</label> -->
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pnr_type" id="FXL" value="FXL">
+                            <label style="width: auto !important;" class="form-check-label" for="FXL">
+                                FXL
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pnr_type" id="GK" value="GK">
+                            <label style="width: auto !important;" class="form-check-label" for="GK">
+                               GK
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pnr_type" id="HK" value="HK">
+                            <label style="width: auto !important;" class="form-check-label" for="HK">
+                               HK
+                            </label>
+                        </div>
+                    </div>
+
+
+
                     <div class="card p-4 details-table-wrappper show-booking-card">
                         <div class="d-flex justify-content-end mb-2">
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
@@ -132,7 +161,6 @@
                                             <option {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
                                             <option {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>Partial Chargeback Amt.</option>
                                             <option {{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback Amt.</option>
-                                            <option {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance Fees</option>
                                             <option {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
                                             <option {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
 
