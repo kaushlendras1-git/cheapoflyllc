@@ -174,6 +174,27 @@
                                 </tr>
                                 @endforeach
 
+                                 <td>
+                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                    <option value="">Select</option>
+                </select>
+            </td>
+            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
+            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
+            <td><span class="gross-total">0.00</span></td>
+            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder=".015*Gross MCO" min="0" step="0.01"></td>
+            <td><span class="net-total">0.00</span></td>
+            <td>
+                <select style="width: 145px;" class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                    <option>Merchant fee</option>                  
+                </select>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                    <i class="ri ri-delete-bin-line"></i>
+                </button>
+            </td>
+
                                   <!-- <tr class="pricing-row hkRow" data-index="1">
                                     <td>-</td>
                                     <td>0</td>
