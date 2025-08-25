@@ -527,15 +527,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleCreditColumn() {
         const queryType = document.getElementById('query_type');
         if (!queryType) return; // Exit if element doesn't exist
-        
+
         const selectedOption = queryType.options[queryType.selectedIndex];
         const dataType = selectedOption.getAttribute('data-id');
         const allowedDataIds = ['13', '14','18','19','32','33','39','41','43','44', '50', '51'];
-        
+
         // Get all 10th column elements (th and td)
         const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(10)');
         const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
-        
+
         if (allowedDataIds.includes(dataType)) {
             // Show credit column
             creditHeaders.forEach(el => el.style.display = '');
@@ -554,7 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run toggleCreditColumn on page load
     toggleCreditColumn();
-    
+
     // Run when query_type changes
     const queryTypeElement = document.getElementById('query_type');
     if (queryTypeElement) {
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         passengerFormsContainer.appendChild(newRow);
         passengerIndex++;
-        
+
         // Apply credit column visibility to new row immediately
         setTimeout(() => {
             toggleCreditColumn();
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         passengerIndex = rows.length;
-        
+
         // Apply credit column visibility after updating rows
         toggleCreditColumn();
     }
@@ -648,7 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addButton) {
         addButton.addEventListener('click', addPassengerRow);
     }
-    
+
     // Event listener for input and change events to auto-add rows
     function handlePassengerInput(e) {
         const row = e.target.closest('.passenger-form');
