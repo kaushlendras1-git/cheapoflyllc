@@ -9,13 +9,12 @@ class FlightSearchListController extends Controller
 {
     public function search(Request $request)
     {
-        dd('hello');
         $keyword = $request->get('keyword');
         $searchAt =  $request->get('searchAt');
 
         $airlines = FlightSearchList::where('airport_code', 'LIKE', "%{$keyword}%")
             ->limit(10)
-            ->get(['id', 'code', 'name']);
+            ->get(['id', 'city_code', 'autosuggest']);
 
         return response()->json($airlines);
     }

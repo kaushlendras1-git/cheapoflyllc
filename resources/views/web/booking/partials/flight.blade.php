@@ -93,6 +93,10 @@
                                                         <option value="Buss."
                                                             {{ old("flight.$index.cabin", $flight->cabin) == 'Buss.' ? 'selected' : '' }}>
                                                             Buss.</option>
+                                                        <option value="First Class"
+                                                            {{ old("flight.$index.cabin", $flight->cabin) == 'First Class' ? 'selected' : '' }}>
+                                                            First Class</option>
+                                                            
                                                     </select>
                                                 </td>
 
@@ -100,12 +104,18 @@
                                                         name="flight[{{ $index }}][class_of_service]"
                                                         value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}"
                                                         placeholder="Class of Service" style="width: 37px;" min="0"
-                                                        max="1"></td>
-                                                <td><input type="text" class="form-control"
+                                                        max="1">
+                                                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                                                </td>
+                                                
+                                                <td><input type="text" class="form-control departure-airport"
                                                         style="width: 10rem;"
                                                         name="flight[{{ $index }}][departure_airport]"
                                                         value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
-                                                        placeholder="Departure Airport"></td>
+                                                        placeholder="Departure Airport">
+                                                         <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                                                    </td>
+                                                        
 
                                                 <td><input type="text" class="form-control time_24_hrs"
                                                         name="flight[{{ $index }}][departure_hours]" style="width: 86px"
@@ -121,11 +131,13 @@
                                                         value="{{ old("flight.$index.departure_mm", $flight->departure_minutes) }}"
                                                         placeholder="mm" min="0" max="2"></td> -->
 
-                                                <td><input type="text" class="form-control"
+                                                <td><input type="text" class="form-control arrival-airport"
                                                         name="flight[{{ $index }}][arrival_airport]"
                                                         style="width: 90px;"
                                                         value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}"
-                                                        placeholder="Arrival Airport"></td>
+                                                        placeholder="Arrival Airport">
+                                                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                                                </td>
 
 
                                                 <td><input type="text" class="form-control time_24_hrs" style="width: 86px;"
