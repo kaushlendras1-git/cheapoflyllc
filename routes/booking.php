@@ -9,7 +9,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('online-booking', OnlineBookingController::class);
         
         Route::post('/billing-details/{id}', [BookingFormController::class, 'billingDetails'])->name('billing-details');
-        Route::get('/billing-details/{id}', [BookingFormController::class, 'getBillingDetails'])->name('billing-details');
+        Route::get('/billing-details/{id}', [BookingFormController::class, 'getBillingDetails'])->name('get-billing-details');
 
         Route::delete('/billing-details/{id}', [BookingFormController::class, 'deletebillingDetails'])->name('billing-details.destroy');
         Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');

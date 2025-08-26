@@ -1,9 +1,117 @@
 <?php return array (
-  2 => 'broadcasting',
-  4 => 'concurrency',
-  5 => 'cors',
-  8 => 'hashing',
-  14 => 'view',
+  'broadcasting' => 
+  array (
+    'default' => 'log',
+    'connections' => 
+    array (
+      'reverb' => 
+      array (
+        'driver' => 'reverb',
+        'key' => NULL,
+        'secret' => NULL,
+        'app_id' => NULL,
+        'options' => 
+        array (
+          'host' => NULL,
+          'port' => 443,
+          'scheme' => 'https',
+          'useTLS' => true,
+        ),
+        'client_options' => 
+        array (
+        ),
+      ),
+      'pusher' => 
+      array (
+        'driver' => 'pusher',
+        'key' => NULL,
+        'secret' => NULL,
+        'app_id' => NULL,
+        'options' => 
+        array (
+          'cluster' => NULL,
+          'host' => 'api-mt1.pusher.com',
+          'port' => 443,
+          'scheme' => 'https',
+          'encrypted' => true,
+          'useTLS' => true,
+        ),
+        'client_options' => 
+        array (
+        ),
+      ),
+      'ably' => 
+      array (
+        'driver' => 'ably',
+        'key' => NULL,
+      ),
+      'log' => 
+      array (
+        'driver' => 'log',
+      ),
+      'null' => 
+      array (
+        'driver' => 'null',
+      ),
+    ),
+  ),
+  'concurrency' => 
+  array (
+    'default' => 'process',
+  ),
+  'cors' => 
+  array (
+    'paths' => 
+    array (
+      0 => 'api/*',
+      1 => 'sanctum/csrf-cookie',
+    ),
+    'allowed_methods' => 
+    array (
+      0 => '*',
+    ),
+    'allowed_origins' => 
+    array (
+      0 => '*',
+    ),
+    'allowed_origins_patterns' => 
+    array (
+    ),
+    'allowed_headers' => 
+    array (
+      0 => '*',
+    ),
+    'exposed_headers' => 
+    array (
+    ),
+    'max_age' => 0,
+    'supports_credentials' => false,
+  ),
+  'hashing' => 
+  array (
+    'driver' => 'bcrypt',
+    'bcrypt' => 
+    array (
+      'rounds' => '12',
+      'verify' => true,
+    ),
+    'argon' => 
+    array (
+      'memory' => 65536,
+      'threads' => 1,
+      'time' => 4,
+      'verify' => true,
+    ),
+    'rehash_on_login' => true,
+  ),
+  'view' => 
+  array (
+    'paths' => 
+    array (
+      0 => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\resources\\views',
+    ),
+    'compiled' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\framework\\views',
+  ),
   'app' => 
   array (
     'name' => 'Laravel',
@@ -17,7 +125,7 @@
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:3Ku1THdG+RToUi2lMIjlDOcqjILs/HFSiCoXV08Uzv0=',
+    'key' => 'base64:XshqP012plqDENM2pucq8LWA2tzuxurycVwhhKXzGWI=',
     'previous_keys' => 
     array (
     ),
@@ -158,8 +266,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -203,7 +311,7 @@
         'driver' => 'octane',
       ),
     ),
-    'prefix' => 'laravel_cache_',
+    'prefix' => '',
   ),
   'database' => 
   array (
@@ -226,7 +334,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -246,7 +354,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_uca1400_ai_ci',
@@ -266,7 +374,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -281,7 +389,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -328,13 +436,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app',
+        'root' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
+        'root' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -354,7 +462,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
+      'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\app/public',
     ),
   ),
   'firebase' => 
@@ -364,7 +472,7 @@
     array (
       'app' => 
       array (
-        'credentials' => 'storage/app/firebase.json',
+        'credentials' => '${BASE_PATH}/storage/app/firebase/firebase_credentials.json',
         'auth' => 
         array (
           'tenant_id' => NULL,
@@ -374,7 +482,7 @@
         ),
         'database' => 
         array (
-          'url' => NULL,
+          'url' => 'https://your-project-id.firebaseio.com',
         ),
         'dynamic_links' => 
         array (
@@ -417,7 +525,7 @@
         'length' => 'your-length-integer',
       ),
     ),
-    'salt' => 'default-salt-string',
+    'salt' => 'kaushlendra',
     'length' => 8,
     'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
   ),
@@ -426,7 +534,7 @@
     'default' => 'stack',
     'deprecations' => 
     array (
-      'channel' => 'null',
+      'channel' => NULL,
       'trace' => false,
     ),
     'channels' => 
@@ -443,14 +551,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -515,7 +623,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -591,13 +699,13 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
       ),
     ),
   ),
   'queue' => 
   array (
-    'default' => 'sync',
+    'default' => 'database',
     'connections' => 
     array (
       'sync' => 
@@ -682,11 +790,11 @@
   ),
   'session' => 
   array (
-    'driver' => 'file',
+    'driver' => 'database',
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -702,119 +810,6 @@
     'http_only' => true,
     'same_site' => 'lax',
     'partitioned' => false,
-  ),
-  'broadcasting' => 
-  array (
-    'default' => 'null',
-    'connections' => 
-    array (
-      'reverb' => 
-      array (
-        'driver' => 'reverb',
-        'key' => NULL,
-        'secret' => NULL,
-        'app_id' => NULL,
-        'options' => 
-        array (
-          'host' => NULL,
-          'port' => 443,
-          'scheme' => 'https',
-          'useTLS' => true,
-        ),
-        'client_options' => 
-        array (
-        ),
-      ),
-      'pusher' => 
-      array (
-        'driver' => 'pusher',
-        'key' => '',
-        'secret' => '',
-        'app_id' => '',
-        'options' => 
-        array (
-          'cluster' => NULL,
-          'host' => 'api-mt1.pusher.com',
-          'port' => '443',
-          'scheme' => 'https',
-          'encrypted' => true,
-          'useTLS' => true,
-        ),
-        'client_options' => 
-        array (
-        ),
-      ),
-      'ably' => 
-      array (
-        'driver' => 'ably',
-        'key' => NULL,
-      ),
-      'log' => 
-      array (
-        'driver' => 'log',
-      ),
-      'null' => 
-      array (
-        'driver' => 'null',
-      ),
-    ),
-  ),
-  'concurrency' => 
-  array (
-    'default' => 'process',
-  ),
-  'cors' => 
-  array (
-    'paths' => 
-    array (
-      0 => 'api/*',
-      1 => 'sanctum/csrf-cookie',
-    ),
-    'allowed_methods' => 
-    array (
-      0 => '*',
-    ),
-    'allowed_origins' => 
-    array (
-      0 => '*',
-    ),
-    'allowed_origins_patterns' => 
-    array (
-    ),
-    'allowed_headers' => 
-    array (
-      0 => '*',
-    ),
-    'exposed_headers' => 
-    array (
-    ),
-    'max_age' => 0,
-    'supports_credentials' => false,
-  ),
-  'hashing' => 
-  array (
-    'driver' => 'bcrypt',
-    'bcrypt' => 
-    array (
-      'rounds' => 12,
-      'verify' => true,
-    ),
-    'argon' => 
-    array (
-      'memory' => 65536,
-      'threads' => 1,
-      'time' => 4,
-      'verify' => true,
-    ),
-    'rehash_on_login' => true,
-  ),
-  'view' => 
-  array (
-    'paths' => 
-    array (
-      0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views',
-    ),
-    'compiled' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework\\views',
   ),
   'excel' => 
   array (
@@ -929,7 +924,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -1022,7 +1017,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc',
+    'remote_sites_path' => 'C:\\Users\\kaushlendra\\Desktop\\cheapoflyllc',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',

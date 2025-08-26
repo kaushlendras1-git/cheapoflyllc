@@ -1021,7 +1021,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
+/***************Pricing***************** */
 
 document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
     radio.addEventListener('change', function (e) {
