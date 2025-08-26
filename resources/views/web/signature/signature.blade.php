@@ -31,8 +31,19 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         </thead>
         <tbody>
             <tr>
-                <td colspan="2" style="padding: 0px;"> <img style="height: 300px; width: 100%; object-fit: cover;"
-                        src="{{asset('email-templates/flight-banner.png')}}" alt="Banner"> </td>
+                <td colspan="2" style="padding: 0px;"> 
+                    @if($bookingTypes[0] == 'Flight')
+                        <img style="height: 300px; width: 100%; object-fit: cover;" src="{{asset('email-templates/flight-banner.png')}}" alt="flight">
+                    @elseif($bookingTypes[0] == 'Cruise')
+                         <img style="height: 300px; width: 100%; object-fit: cover;" src="{{asset('email-templates/cruise.jpeg')}}" alt="cruise">
+                    @elseif($bookingTypes[0] == 'Train')
+                         <img style="height: 300px; width: 100%; object-fit: cover;" src="{{asset('email-templates/amtrak.jpeg')}}" alt="amtrak">     
+                    @elseif($bookingTypes[0] == 'Car')
+                         <img style="height: 300px; width: 100%; object-fit: cover;" src="{{asset('email-templates/car.jpeg')}}" alt="car">     
+                     @elseif($bookingTypes[0] == 'Hotel')
+                         <img style="height: 300px; width: 100%; object-fit: cover;" src="{{asset('email-templates/hotel.jpeg')}}" alt="hotel">     
+                    @endif
+                </td>
             </tr>
             <tr>
                 <td colspan="2" style="font-size: 16px; font-weight: 600; padding: 10px 30px 0px 30px;">Dear Zee,</td>
