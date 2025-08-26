@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="number" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][no_of_rooms]" placeholder="No. Of Rooms" min="1"></td>
                 <td><input type="text" class="form-control" style="width:10rem" name="hotel[${hotelIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][hotel_address]" placeholder="Hotel Address"></td>
+                <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][special_notes]" placeholder="Refundable"></td>
 
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-hotel-btn">
@@ -317,14 +318,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="Eco">Eco</option>
                     <option value="Pre.Eco">Pre.Eco</option>
                     <option value="Buss.">Buss.</option>
+                    <option value="First Class">First Class</option>
                 </select></td>
 
                 <td><input type="text" class="form-control" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
-                <td><input type="text" class="form-control" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport"></td>
+                <td><input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
+                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                </td>
                 <td><input type="text" class="form-control time_24_hrs" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="00:00"
                                                         max="23:59"
-                                                        step="60"></td>
-                <td><input type="text" class="form-control" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport"></td>
+                                                        step="60">
+                </td>
+
+                <td><input type="text" class="form-control arrival-airport" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
+                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                </td>
+
                 <td><input type="text" class="form-control time_24_hrs" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="00:00"
                                                         max="23:59"
                                                         step="60"></td>
@@ -1021,8 +1030,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option>Chargeback Fee</option>
                     <option>Partial Chargeback Amt.</option>
                     <option>Chargeback Amt.</option>
-                    <option>FXL Issuance Fees</option>
-                    <option>Issuance Fees - Voyzant</option>
                 </select>
             </td>
             <td>
@@ -1084,6 +1091,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (netProfitElement) {
             netProfitElement.textContent = netProfitAfterFee.toFixed(2);
         }
+
+
+
+
 
     }
 

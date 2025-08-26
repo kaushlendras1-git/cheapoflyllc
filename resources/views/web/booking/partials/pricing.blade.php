@@ -1,6 +1,35 @@
 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
 
                 <div class="col-md-12">
+
+
+                <div class="col-md-5 position-relative checkbox-servis">
+                        <!-- <label class="d-block mb-2">PNR Type</label> -->
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pnr_type" id="FXL" value="FXL">
+                            <label style="width: auto !important;" class="form-check-label" for="FXL">
+                                FXL
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pnr_type" id="GK" value="GK">
+                            <label style="width: auto !important;" class="form-check-label" for="GK">
+                               GK
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pnr_type" id="HK" value="HK">
+                            <label style="width: auto !important;" class="form-check-label" for="HK">
+                               HK
+                            </label>
+                        </div>
+                    </div>
+
+
+
                     <div class="card p-4 details-table-wrappper show-booking-card">
                         <div class="d-flex justify-content-end mb-2">
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
@@ -13,14 +42,14 @@
                                 <tr>
                                     <td colspan="4" style="border: solid 1px;">
                                         <div style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
-                                            <strong>Gross Value</strong>
+                                            <strong>Gross Amount</strong>
                                             <span id="total_gross_profit">0.00</span>
                                             <input name="gross_value" type="hidden" id="gross_value"/>
                                         </div>
                                     </td>
                                     <td colspan="4" >
                                         <div style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
-                                            <strong >Net Value</strong>
+                                            <strong >Net Amount</strong>
                                             <span id="total_net_profit">0.00</span>
                                             <input name="net_value" type="hidden" id="net_value"/>
                                         </div>
@@ -132,7 +161,6 @@
                                             <option {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
                                             <option {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>Partial Chargeback Amt.</option>
                                             <option {{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback Amt.</option>
-                                            <option {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance Fees</option>
                                             <option {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
                                             <option {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
 
@@ -145,6 +173,27 @@
                                     </td>
                                 </tr>
                                 @endforeach
+
+                                 <td>
+                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                    <option value="">Select</option>
+                </select>
+            </td>
+            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
+            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
+            <td><span class="gross-total">0.00</span></td>
+            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder=".015*Gross MCO" min="0" step="0.01"></td>
+            <td><span class="net-total">0.00</span></td>
+            <td>
+                <select style="width: 145px;" class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                    <option>Merchant fee</option>                  
+                </select>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                    <i class="ri ri-delete-bin-line"></i>
+                </button>
+            </td>
 
                                   <!-- <tr class="pricing-row hkRow" data-index="1">
                                     <td>-</td>
@@ -162,10 +211,10 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="6" class="pb-0" style="border-bottom: 0;">
-                                        <strong style="color:#055bdb">Gross Profilt</strong> : <span id="total_gross_value">0.00</span>
+                                        <strong style="color:#055bdb">Gross MCO</strong> : <span id="total_gross_value">0.00</span>
                                     </td>
                                     <td class="pb-0" style="border-bottom: 0;">
-                                        <strong style="color:#055bdb">Net Profilt</strong> : <span id="total_netprofit_value">0.00</span>
+                                        <strong style="color:#055bdb">Net MCO</strong> : <span id="total_netprofit_value">0.00</span>
                                     </td>
                                 </tr>
                                 <!-- <tr>

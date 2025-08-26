@@ -520,50 +520,6 @@ $('.country-select').on('change',async function(e){
 
 
 
-
-document.querySelector('select[name="pnrtype"]').addEventListener('change',function(e){
-    if(e.target.value == 'HK'){
-        const pricingFormsContainer = document.getElementById('pricingForms');
-        let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
-        const newRow = document.createElement('tr');
-        newRow.className = 'pricing-row hkRow';
-        newRow.dataset.index = pricingIndex;
-        newRow.innerHTML = `
-            <td>
-                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
-                    <option value="">Select</option>
-                    <option value="adult">Adult</option>
-                    <option value="child">Child</option>
-                    <option value="infant_on_lap">Infant on Lap</option>
-                    <option value="infant_on_seat">Infant on Seat</option>
-                </select>
-            </td>
-            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
-            <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
-            <td><span class="gross-total">0.00</span></td>
-            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" min="0" step="0.01"></td>
-            <td><span class="net-total">$10</span></td>
-            <td>
-                <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                    <option selected>Issuance Fees - Voyzant</option>
-                </select>
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                    <i class="ri ri-delete-bin-line"></i>
-                </button>
-            </td>
-        `;
-        pricingFormsContainer.appendChild(newRow);
-        pricingIndex++;
-    }
-    else{
-        Array.from(document.querySelectorAll('.hkRow')).forEach(e => {
-            e.remove();
-        });
-    }
-})
-
 function toggleBillingTableVisibility() {
     const tableBody = document.querySelector('#billing-table tbody');
     const tableContainer = document.getElementById('billing-table-container');
@@ -981,3 +937,211 @@ document.addEventListener('DOMContentLoaded', function() {
     
     updateQueryType(); // Initial call
 });
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Apply autocomplete for both departure and arrival inputs
+    function initAutocomplete(input, searchAt) {
+        const suggestionsBox = input.nextElementSibling;
+
+        input.addEventListener("input", async (e) => {
+            const keyword = e.target.value.trim();
+            if (keyword.length < 2) {
+                suggestionsBox.style.display = "none";
+                return;
+            }
+
+            try {
+                const response = await axios.get(route("airline.search", {}, Ziggy), {
+                    params: {
+                        keyword: keyword,
+                        searchAt: searchAt // 'departure' or 'arrival'
+                    }
+                });
+
+                const data = response.data;
+
+                if (data.length > 0) {
+                    suggestionsBox.innerHTML = data.map(item => `
+                        <div class="suggestion-item" style="padding:5px; cursor:pointer;">
+                           ${item.autosuggest}
+                        </div>
+                    `).join("");
+                    suggestionsBox.style.display = "block";
+                } else {
+                    suggestionsBox.style.display = "none";
+                }
+            } catch (error) {
+                console.error("Error fetching data", error);
+            }
+        });
+
+        suggestionsBox.addEventListener("click", (e) => {
+            if (e.target.classList.contains("suggestion-item")) {
+                input.value = e.target.textContent.trim();
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        input.addEventListener("blur", () => {
+            setTimeout(() => {
+                suggestionsBox.style.display = "none";
+            }, 150);
+        });
+    }
+
+    // Initialize for existing inputs
+    document.querySelectorAll(".departure-airport").forEach(input => {
+        initAutocomplete(input, 'departure');
+    });
+    document.querySelectorAll(".arrival-airport").forEach(input => {
+        initAutocomplete(input, 'arrival');
+    });
+
+    // When adding a new row dynamically, reinitialize for new inputs
+    const flightFormsContainer = document.getElementById('flightForms');
+    const observer = new MutationObserver(() => {
+        document.querySelectorAll(".departure-airport").forEach(input => {
+            if (!input.dataset.autocomplete) {
+                initAutocomplete(input, 'departure');
+                input.dataset.autocomplete = true;
+            }
+        });
+        document.querySelectorAll(".arrival-airport").forEach(input => {
+            if (!input.dataset.autocomplete) {
+                initAutocomplete(input, 'arrival');
+                input.dataset.autocomplete = true;
+            }
+        });
+    });
+    observer.observe(flightFormsContainer, { childList: true, subtree: true });
+});
+
+
+
+
+/***************Pricing***************** */
+
+document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
+    radio.addEventListener('change', function (e) {
+        const pricingFormsContainer = document.getElementById('pricingForms');
+        let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
+
+        // Remove previous rows and totals
+        document.querySelectorAll('.hkRow, .fxlRow').forEach(row => row.remove());
+        const totalsDiv = document.getElementById('fxlTotals');
+        if (totalsDiv) totalsDiv.style.display = 'none';
+
+        if (e.target.value === 'HK') {
+
+            const totalPassengers = countPassengers();
+            const grossTotal = totalPassengers * 10;
+            const netTotal = grossTotal;
+
+            const newRow = document.createElement('tr');
+            newRow.className = 'pricing-row hkRow';
+            newRow.dataset.index = pricingIndex;
+            newRow.innerHTML = `
+               <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                        <option value="">Select</option>
+                    </select>
+                </td>
+                <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
+                <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
+                <td><span class="gross-total">0.00</span></td>
+                <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" readonly></td>
+                <td><span class="net-total">${netTotal}</span></td>
+                <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                        <option selected>Issuance Fees - Voyzant</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                        <i class="ri ri-delete-bin-line"></i>
+                    </button>
+                </td>
+            `;
+            pricingFormsContainer.appendChild(newRow);
+        }
+
+        else if (e.target.value === 'FXL') {
+            const totalPassengers = countPassengers();
+            const grossTotal = totalPassengers * 100;
+            const netTotal = grossTotal;
+
+            const newRow = document.createElement('tr');
+            newRow.className = 'pricing-row fxlRow';
+            newRow.dataset.index = pricingIndex;
+            newRow.innerHTML = `
+                <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                        <option value="">Select</option>
+                    </select>
+                </td>
+                <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
+                <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
+                <td><span class="gross-total">0.00</span></td>
+                <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="100.00" readonly></td>
+                <td><span class="net-total">${netTotal}</span></td>
+                <td>
+                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                        <option selected>FXL Issuance Fees</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                        <i class="ri ri-delete-bin-line"></i>
+                    </button>
+                </td>
+            `;
+            pricingFormsContainer.appendChild(newRow);
+        }
+    });
+});
+
+// ✅ Count passengers
+function countPassengers() {
+    const rows = document.querySelectorAll('#passengerForms .passenger-form');
+    let total = 0;
+    rows.forEach(row => {
+        const typeSelect = row.querySelector('select[name*="[passenger_type]"]');
+        if (typeSelect && typeSelect.value.trim() !== '') {
+            total++;
+        }
+    });
+    return total;
+}
+
+// ✅ Update existing FXL row dynamically when passengers change
+document.addEventListener('change', function (e) {
+    const pnrType = document.querySelector('input[name="pnr_type"]:checked')?.value;
+    if (pnrType === 'FXL' && e.target.name.includes('[passenger_type]')) {
+        const totalPassengers = countPassengers();
+        const grossTotal = totalPassengers * 100;
+        const netTotal = grossTotal;
+
+        const fxlRow = document.querySelector('.fxlRow');
+        if (fxlRow) {
+            fxlRow.querySelector('input[name*="[num_passengers]"]').value = totalPassengers;
+            fxlRow.querySelector('.gross-total').textContent = grossTotal.toFixed(2);
+            fxlRow.querySelector('.net-total').textContent = netTotal.toFixed(2);
+        }
+    }
+    else if (pnrType === 'HK' && e.target.name.includes('[passenger_type]')) {
+        const totalPassengers = countPassengers();
+        const grossTotal = totalPassengers * 10;
+        const netTotal = grossTotal;
+
+        const fxlRow = document.querySelector('.hkRow');
+        if (fxlRow) {
+            fxlRow.querySelector('input[name*="[num_passengers]"]').value = totalPassengers;
+            fxlRow.querySelector('.gross-total').textContent = grossTotal.toFixed(2);
+            fxlRow.querySelector('.net-total').textContent = netTotal.toFixed(2);
+        }
+    }
+
+});
+

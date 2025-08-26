@@ -168,10 +168,11 @@
 
                                 <div class="col-md-4 position-relative mb-5">
                                     <label class="form-label"> PNR Type</label>
-                                    <select class="form-control" name="pnrtype">
+                                    <select class="form-control" name="pnrtype22">
                                         <option value="">Select</option>
-                                        <option value="HK" {{$booking->pnrtype == 'HK'?'selected':''}}>HK</option>
+                                        <option value="FXL" {{$booking->pnrtype == 'FXL'?'selected':''}}>FXL</option>
                                         <option value="GK" {{$booking->pnrtype == 'GK'?'selected':''}}>GK</option>
+                                        <option value="HK" {{$booking->pnrtype == 'HK'?'selected':''}}>HK</option>
                                     </select>
                                 </div>
                             </div>
@@ -246,16 +247,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label"> Call Queue</label>
-                            <select class="form-control" name="call_queue">
-                                <option value="">Select
-                                </option>
-                                @foreach($campaigns as $campaign)
-                                <option value="{{$campaign->name}}" {{$campaign->name == $booking->call_queue?'selected':''}}>{{$campaign->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label"> Is Shared Booking</label>
@@ -387,5 +379,6 @@
     let booking_id = "{{$booking->id}}";
 </script>
 @vite('resources/js/booking/edit.js')
+@vite('resources/js/booking/flight.js')
 @vite('resources/js/auth/sendAuth.js')
 @endsection

@@ -25,6 +25,7 @@
                                             <th>No. Of Rooms</th>
                                             <th>Confirmation Number</th>
                                             <th>Hotel Address</th>
+                                            <th>Special Notes</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -64,6 +65,11 @@
                                             <td><input type="text" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][hotel_address]"
                                                     value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address">
+                                            </td>
+
+                                            <td><input type="text" class="form-control" style="width:8rem"
+                                                    name="hotel[{{$key}}][special_notes]"
+                                                    value="{{$travelHotel->special_notes}}" placeholder="Refundable">
                                             </td>
                                           
                                             <td>
