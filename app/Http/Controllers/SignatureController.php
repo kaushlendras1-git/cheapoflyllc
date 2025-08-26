@@ -116,8 +116,9 @@ class SignatureController extends Controller
             'signature_type' => $request->input('signature_type'),
             'ip_address' => $publicIP,
         ]);
+        TravelBooking::where('id', $booking_id)->update(['booking_status_id' => 23]);
         return response()->json([
-            'message'=>'Signature and IP saved successfully!',
+            'message'=>'Thanks for Authorization!',
             'code'=>200,
             'status'=>true
         ],200);

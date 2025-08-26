@@ -117,7 +117,7 @@
                                                     </td>
                                                         
 
-                                                <td><input type="text" class="form-control time_24_hrs"
+                                                <td><input type="time" class="form-control"
                                                         name="flight[{{ $index }}][departure_hours]" style="width: 86px"
                                                         value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
                                                         placeholder="Hrs"

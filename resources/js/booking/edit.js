@@ -10,15 +10,6 @@ import CurrencyAPI from '@everapi/currencyapi-js';
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
-Array.from(document.querySelectorAll(".time_24_hrs")).forEach((element) => {
-    flatpickr(element, {
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        minuteIncrement: 1,
-    });
-});
 
 const currencyApi = new CurrencyAPI('cur_live_hNVrB7FwaBu1B2psLRKf7ALfqrSU5tXfIpFipPhY');
 function convertAndDisplay(usdValue, toCurrency) {
@@ -965,7 +956,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (data.length > 0) {
                     suggestionsBox.innerHTML = data.map(item => `
                         <div class="suggestion-item" style="padding:5px; cursor:pointer;">
-                           ${item.autosuggest}
+                           ${item.airport_name}, ${item.city}, ${item.country}
                         </div>
                     `).join("");
                     suggestionsBox.style.display = "block";

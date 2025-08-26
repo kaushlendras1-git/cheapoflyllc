@@ -12,9 +12,9 @@ class FlightSearchListController extends Controller
         $keyword = $request->get('keyword');
         $searchAt =  $request->get('searchAt');
 
-        $airlines = FlightSearchList::where('airport_code', 'LIKE', "%{$keyword}%")
+        $airlines = FlightSearchList::where('airport_name', 'LIKE', "%{$keyword}%")
             ->limit(10)
-            ->get(['id', 'city_code', 'autosuggest']);
+            ->get(['id', 'airport_name', 'city','country']);
 
         return response()->json($airlines);
     }
