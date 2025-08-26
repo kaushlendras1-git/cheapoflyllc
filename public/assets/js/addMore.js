@@ -997,12 +997,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to add a blank row
     function addPricingRow() {
+        const checkMerchantRow = document.getElementById('merchant-row');
+
         const newRow = document.createElement('tr');
         newRow.className = 'pricing-row';
         newRow.dataset.index = pricingIndex;
         newRow.innerHTML = `
             <td>
-                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                <select class="form-control passenger_type" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
                     <option value="">Select</option>
                     <option value="adult">Adult</option>
                     <option value="child">Child</option>
@@ -1010,26 +1012,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="infant_on_seat">Infant on Seat</option>
                 </select>
             </td>
-            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
+            <td><input type="number" style="width: 120px" class="form-control num_passengers" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
             <td><span class="gross-total">0.00</span></td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
             <td><span class="net-total">0.00</span></td>
             <td>
-                <select style="width: 145px;" class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                <select style="width: 145px;" class="form-control detailDropdown" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
-                    <option>Flight Ticket Cost</option>
-                    <option>Hotel Cost</option>
-                    <option>Car Rental Cost</option>
-                    <option>Cruise Cost</option>
-                    <option>Train Cost</option>
-                    <option>Company card</option>
-                    <option>Merchant fee</option>
-                    <option>Partial Refund</option>
-                    <option>Full Refund</option>
-                    <option>Chargeback Fee</option>
-                    <option>Partial Chargeback Amt.</option>
-                    <option>Chargeback Amt.</option>
+                    <option value="Flight Ticket Cost">Flight Ticket Cost</option>
+                    <option value="Hotel Cost">Hotel Cost</option>
+                    <option value="Car Rental Cost">Car Rental Cost</option>
+                    <option value="Cruise Cost">Cruise Cost</option>
+                    <option value="Train Cost">Train Cost</option>
+                    <option value="Company card">Company card</option>
+                    <option value="Merchant fee">Merchant fee</option>
+                    <option value="Partial Refund">Partial Refund</option>
+                    <option value="Full Refund">Full Refund</option>
+                    <option value="Chargeback Fee">Chargeback Fee</option>
+                    <option value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
+                    <option value="Chargeback Amt.">Chargeback Amt.</option>
+                    <option value="Issuance Fees - Voyzant">Issuance Fees - Voyzant</option>
+                    <option value="company_card_used">Company Card Used</option>
                 </select>
             </td>
             <td>
@@ -1038,7 +1042,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </button>
             </td>
         `;
-        pricingFormsContainer.appendChild(newRow);
+        if(checkMerchantRow){
+            checkMerchantRow.before(newRow);
+        }
+        else{
+            pricingFormsContainer.appendChild(newRow);
+        }
         pricingIndex++;
     }
 
@@ -1057,7 +1066,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const grossTotal = (numPassengers * grossPrice).toFixed(2);
         const netTotal = (numPassengers * netPrice).toFixed(2);
 
-        row.querySelector('.gross-total').textContent = grossTotal;
+        if(row.querySelector('.gross-total')){
+            row.querySelector('.gross-total').textContent = grossTotal;
+        }
         row.querySelector('.net-total').textContent = netTotal;
 
         updateFooterTotals();
@@ -1068,8 +1079,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
         let grossTotal = 0;
         let netTotal = 0;
+        let companyCard = 0;
+        let totalPassengers = 0;
 
+       $('.num_passengers').each(function() {
+           let val = parseInt($(this).val(), 10);
+           if (!isNaN(val)) {
+               totalPassengers += val;
+           }
+       });
         rows.forEach(row => {
+            console.log(row.querySelector('.net-total')?.textContent || 0);
             grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
             netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
         });
@@ -1078,20 +1098,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('gross_value').value = grossTotal.toFixed(2);
         document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
         document.getElementById('net_value').value = netTotal.toFixed(2);
-
         const diff = grossTotal - netTotal;
         const mcqElement = document.getElementById('total_gross_value');
-        if (mcqElement) {''
+        if (mcqElement) {
             mcqElement.textContent = diff.toFixed(2);
         }
 
-        // Calculate net profit after 15% merchant fee
         const netProfitAfterFee = diff - (diff * 0.15);
+        let merhcantfee = diff * 0.15;
         const netProfitElement = document.getElementById('total_netprofit_value');
         if (netProfitElement) {
             netProfitElement.textContent = netProfitAfterFee.toFixed(2);
         }
-
+        document.getElementById('net-total-merchant').textContent = merhcantfee.toFixed(2);
+        document.getElementById('merchant-net-price').value = merhcantfee.toFixed(2);
+        if(document.getElementById('net-total-company-card')){
+            document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
+        }
 
 
 

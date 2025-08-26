@@ -364,7 +364,7 @@ class BookingFormController extends Controller
                 $rules['passenger.*.title']                      = 'nullable|string|in:Mr,Ms,Mrs,Dr,Master,Miss';
                 $rules['passenger.*.first_name']                 = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
                 $rules['passenger.*.middle_name']                = ['nullable','string','max:255','regex:/^[A-Za-z\s]+$/'];
-                $rules['passenger.*.last_name']                  = ['required','string','max:255','regex:/^[A-Za-z\s]+$/']; 
+                $rules['passenger.*.last_name']                  = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
                 $rules['passenger.*.dob']                        = 'required|date';
                 $rules['passenger.*.seat_number']                = 'nullable|string';
                 $rules['passenger.*.credit_note']                = 'nullable|numeric';
@@ -513,7 +513,7 @@ class BookingFormController extends Controller
             $rules['pricing.*.passenger_type'] = [  'nullable',
                                                         'string',
                                                         'in:adult,child,infant_on_lap,infant_on_seat',
-                                                        'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund'
+                                                        'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund,FXL Issuance Fees'
                                                     ];
 
             $rules['pricing.*.num_passengers']         = 'required|integer';
@@ -1263,6 +1263,17 @@ class BookingFormController extends Controller
           #  dd($newPricings);
 
             $processedPricingIds = [];
+            if($request->has('merchant_net_price') && !empty($request->merchant_net_price) &&
+                $request->has('merchant_details') &&  !empty($request->merchant_details)
+            ){
+                $newPricings[] = [
+                    "passenger_type" => null,
+                    "num_passengers" => null,
+                    "gross_price" => null,
+                    "net_price" => $request->merchant_net_price,
+                    "details" => $request->merchant_details,
+                ];
+            }
             TravelPricingDetail::where('booking_id',$booking->id)->get()->each->delete();
             foreach ($newPricings as $index => $pricingData) {
                 $pricingData['booking_id'] = $booking->id;

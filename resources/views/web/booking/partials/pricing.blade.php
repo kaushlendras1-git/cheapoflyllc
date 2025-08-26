@@ -68,144 +68,216 @@
                             </thead>
                             <tbody id="pricingForms" class="pricing-rows">
                                 @if($booking->pricingDetails->isEmpty())
-                                <tr class="pricing-row" data-index="0">
-                                    <td>
-                                        <select name="pricing[0][passenger_type]" class="form-select form-control"
-                                            id="passenger_type_0">
-                                            <option value="">Select</option>
-                                            <option value="adult">Adult</option>
-                                            <option value="child">Child</option>
-                                            <option value="infant_on_lap">Infant on Lap</option>
-                                            <option value="infant_on_seat">Infant on Seat</option>
-                                            <option value="Senior">Senior</option>
-                                        </select>
-                                    </td>
-                                    <td><input style="width: 120px" type="number" class="form-control"
-                                            name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0">
-                                    </td>
-                                    <td><input type="number" class="form-control" name="pricing[0][gross_price]"
-                                            placeholder="Gross Price" min="0" step="0.01" style="width: 110px;"></td>
+                                    <tr class="pricing-row" data-index="0">
+                                        <td>
+                                            <select name="pricing[0][passenger_type]" class="form-select form-control passenger_type"
+                                                id="passenger_type_0">
+                                                <option value="">Select</option>
+                                                <option value="adult">Adult</option>
+                                                <option value="child">Child</option>
+                                                <option value="infant_on_lap">Infant on Lap</option>
+                                                <option value="infant_on_seat">Infant on Seat</option>
+                                                <option value="Senior">Senior</option>
+                                            </select>
+                                        </td>
+                                        <td><input style="width: 120px" type="number" class="form-control num_passengers"
+                                                name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0">
+                                        </td>
+                                        <td><input type="number" class="form-control" name="pricing[0][gross_price]"
+                                                placeholder="Gross Price" min="0" step="0.01" style="width: 110px;"></td>
 
-                                    <td><span class="gross-total">0.00</span></td>
-                                    <td><input type="number" style="width: 110px;" class="form-control"
-                                            name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01">
-                                    </td>
-                                    <td><span class="net-total">0.00</span></td>
-                                    <td>
-                                        <select style="width: 145px;" name="pricing[0][details]"
-                                            class="form-select form-control" id="details_0">
-                                            <option value="">Select</option>
-                                            <option value="ticket_cost">Ticket Cost</option>
-                                            <option value="merchant_fee">Merchant Fee</option>
-                                            <option value="company_card_used">Company Card Used</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                            <i class="ri ri-delete-bin-line"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                        <td><span class="gross-total">0.00</span></td>
+                                        <td><input type="number" style="width: 110px;" class="form-control"
+                                                name="pricing[0][net_price]" placeholder="Net Price" min="0" step="0.01">
+                                        </td>
+                                        <td><span class="net-total">0.00</span></td>
+                                        <td>
+                                            <select style="width: 145px;" name="pricing[0][details]"
+                                                class="form-select form-control" id="details_0">
+                                                <option value="">Select</option>
+                                                <option value="ticket_cost">Ticket Cost</option>
+                                                <option value="merchant_fee">Merchant Fee</option>
+                                                <option value="company_card_used">Company Card Used</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                <i class="ri ri-delete-bin-line"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 @endif
-
+                                @php
+                                 $mechantfee = 0.00;
+                                @endphp
                                 @foreach($booking->pricingDetails as $key=>$pricingDetails)
-                                <tr class="pricing-row" data-index="{{$key}}">
+                                    @if($pricingDetails->details === 'FXL Issuance Fees')
+                                        <tr class="pricing-row" data-index="{{$key}}">
+                                            <td>
+                                                <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
+                                                        id="passenger_type_{{$key}}">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 120px" class="form-control num_passengers"
+                                                       name="pricing[{{$key}}][num_passengers]"
+                                                       value="{{$pricingDetails->num_passengers}}" placeholder="No. of Passengers"
+                                                       min="0"></td>
+
+                                            <td><input type="number" style="width: 100px" class="form-control" name="pricing[{{$key}}][gross_price]"
+                                                       value="{{$pricingDetails->gross_price}}" placeholder="Gross Price" min="0"
+                                                       step="0.01"></td>
+
+                                            <td>
+                                                <span class="gross-total">0.00</span>
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
+                                                       value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
+                                                       step="0.01"></td>
+                                            <td><span class="net-total">0.00</span></td>
+                                            <td>
+                                                <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
+                                                        id="details_{{$key}}">
+                                                    <option value="FXL Issuance Fees" {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance Fees</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @elseif($pricingDetails->details === 'Issuance Fees - Voyzant')
+                                        <tr class="pricing-row" data-index="{{$key}}">
+                                            <td>
+                                                <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
+                                                        id="passenger_type_{{$key}}">
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 120px" class="form-control num_passengers"
+                                                       name="pricing[{{$key}}][num_passengers]"
+                                                       value="{{$pricingDetails->num_passengers}}" placeholder="No. of Passengers"
+                                                       min="0"></td>
+
+                                            <td><input type="number" style="width: 100px" class="form-control" name="pricing[{{$key}}][gross_price]"
+                                                       value="{{$pricingDetails->gross_price}}" placeholder="Gross Price" min="0"
+                                                       step="0.01"></td>
+
+                                            <td>
+                                                <span class="gross-total">0.00</span>
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
+                                                       value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
+                                                       step="0.01"></td>
+                                            <td><span class="net-total">0.00</span></td>
+                                            <td>
+                                                <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
+                                                        id="details_{{$key}}">
+                                                    <option value="Issuance Fees - Voyzant" {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @elseif($pricingDetails->details === 'Merchant fees')
+                                        @php
+                                            $mechantfee = $pricingDetails->net_price;
+                                        @endphp
+                                    @else
+                                        <tr class="pricing-row" data-index="{{$key}}">
+                                            <td>
+                                                <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
+                                                        id="passenger_type_{{$key}}">
+                                                    <option value="">Select</option>
+                                                    <option value="adult"
+                                                        {{$pricingDetails->passenger_type=='adult'?'selected':''}}>Adult
+                                                    </option>
+                                                    <option value="child"
+                                                        {{$pricingDetails->passenger_type=='child'?'selected':''}}>Child
+                                                    </option>
+                                                    <option value="infant_on_lap"
+                                                        {{$pricingDetails->passenger_type=='infant_on_lap'?'selected':''}}>
+                                                        Infant on
+                                                        Lap</option>
+                                                    <option value="infant_on_seat"
+                                                        {{$pricingDetails->passenger_type=='infant_on_seat'?'selected':''}}>
+                                                        Infant
+                                                        on Seat</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 120px" class="form-control num_passengers"
+                                                       name="pricing[{{$key}}][num_passengers]"
+                                                       value="{{$pricingDetails->num_passengers}}" placeholder="No. of Passengers"
+                                                       min="0"></td>
+
+                                            <td><input type="number" style="width: 100px" class="form-control" name="pricing[{{$key}}][gross_price]"
+                                                       value="{{$pricingDetails->gross_price}}" placeholder="Gross Price" min="0"
+                                                       step="0.01"></td>
+
+                                            <td>
+                                                <span class="gross-total">0.00</span>
+                                            </td>
+                                            <td>
+                                                <input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
+                                                       value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
+                                                       step="0.01"></td>
+                                            <td><span class="net-total">0.00</span></td>
+                                            <td>
+                                                <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
+                                                        id="details_{{$key}}">
+                                                    <option value="Flight Ticket Cost" {{ $pricingDetails->details == 'Flight Ticket Cost' ? 'selected' : '' }}>Flight Ticket Cost</option>
+                                                    <option value="Hotel Cost" {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
+                                                    <option value="Car Rental Cost" {{ $pricingDetails->details == 'Car Rental Cost' ? 'selected' : '' }}>Car Rental Cost</option>
+                                                    <option value="Cruise Cost" {{ $pricingDetails->details == 'Cruise Cost' ? 'selected' : '' }}>Cruise Cost</option>
+                                                    <option value="Train Cost" {{ $pricingDetails->details == 'Train Cost' ? 'selected' : '' }}>Train Cost</option>
+                                                    <option value="Company card" {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card</option>
+                                                    <option value="Merchant fee" {{ $pricingDetails->details == 'Merchant fee' ? 'selected' : '' }}>Merchant fee</option>
+                                                    <option value="Partial Refund" {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund</option>
+                                                    <option value="Full Refund" {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund</option>
+                                                    <option value="Chargeback Fee" {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
+                                                    <option value="Partial Chargeback Amt." {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>Partial Chargeback Amt.</option>
+                                                    <option value="Chargeback Amt."{{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback Amt.</option>
+                                                    <option value="Issuance Fees - Voyzant" {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
+                                                    <option value="company_card_used" {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endif
+
+                                @endforeach
+                                <tr id="merchant-row" class="pricing-row">
                                     <td>
-                                        <select class="form-control" name="pricing[{{$key}}][passenger_type]"
-                                            id="passenger_type_{{$key}}">
+                                        <select class="form-control" disabled name="merchant_passenger_type" id="merchant_passenger_type">
                                             <option value="">Select</option>
-                                            <option value="adult"
-                                                {{$pricingDetails->passenger_type=='adult'?'selected':''}}>Adult
-                                            </option>
-                                            <option value="child"
-                                                {{$pricingDetails->passenger_type=='child'?'selected':''}}>Child
-                                            </option>
-                                            <option value="infant_on_lap"
-                                                {{$pricingDetails->passenger_type=='infant_on_lap'?'selected':''}}>
-                                                Infant on
-                                                Lap</option>
-                                            <option value="infant_on_seat"
-                                                {{$pricingDetails->passenger_type=='infant_on_seat'?'selected':''}}>
-                                                Infant
-                                                on Seat</option>
                                         </select>
                                     </td>
-                                    <td><input type="number" style="width: 120px" class="form-control"
-                                            name="pricing[{{$key}}][num_passengers]"
-                                            value="{{$pricingDetails->num_passengers}}" placeholder="No. of Passengers"
-                                            min="0"></td>
-
-                                    <td><input type="number" style="width: 100px" class="form-control" name="pricing[{{$key}}][gross_price]"
-                                            value="{{$pricingDetails->gross_price}}" placeholder="Gross Price" min="0"
-                                            step="0.01"></td>
-
-                                    <td><span class="gross-total">0.00</span></td>
-                                    <td><input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
-                                            value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
-                                            step="0.01"></td>
-                                    <td><span class="net-total">0.00</span></td>
+                                    <td><input type="number" disabled style="width: 120px" class="form-control num_passengers" name="merchant_num_passengers" value="0" min="0"></td>
+                                    <td><input type="number" disabled style="width: 110px;" class="form-control" name="merchant_gross_price" value="0.00" min="0" step="0.01"></td>
+                                    <td><span class="gross-total-merchant">0.00</span></td>
+                                    <td><input type="number" readonly id="merchant-net-price" value="{{$mechantfee}}" style="width: 110px;" class="form-control" name="merchant_net_price" placeholder=".015*Gross MCO" min="0" step="0.01"></td>
+                                    <td><span id="net-total-merchant" class="net-total">{{$mechantfee}}</span></td>
                                     <td>
-                                        <select class="form-control" style="width: 145px;" name="pricing[{{$key}}][details]"
-                                            id="details_{{$key}}">
-
-                                            <option {{ $pricingDetails->details == 'Ticket Cost' ? 'selected' : '' }}>Ticket Cost</option>
-                                            <option {{ $pricingDetails->details == 'Flight Ticket Cost' ? 'selected' : '' }}>Flight Ticket Cost</option>
-                                            <option {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
-                                            <option {{ $pricingDetails->details == 'Car Rental Cost' ? 'selected' : '' }}>Car Rental Cost</option>
-                                            <option {{ $pricingDetails->details == 'Cruise Cost' ? 'selected' : '' }}>Cruise Cost</option>
-                                            <option {{ $pricingDetails->details == 'Train Cost' ? 'selected' : '' }}>Train Cost</option>
-                                            <option {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card</option>
-                                            <option {{ $pricingDetails->details == 'Merchant fee' ? 'selected' : '' }}>Merchant fee</option>
-                                            <option {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund</option>
-                                            <option {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund</option>
-                                            <option {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
-                                            <option {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>Partial Chargeback Amt.</option>
-                                            <option {{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback Amt.</option>
-                                            <option {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
-                                            <option {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
-
+                                        <select style="width: 145px;" class="form-control" name="merchant_details" id="merchant_details">
+                                            <option>Merchant fees</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                            <i class="ri ri-delete-bin-line"></i>
-                                        </button>
                                     </td>
                                 </tr>
-                                @endforeach
-
-                                 <td>
-                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
-                    <option value="">Select</option>
-                </select>
-            </td>
-            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
-            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
-            <td><span class="gross-total">0.00</span></td>
-            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder=".015*Gross MCO" min="0" step="0.01"></td>
-            <td><span class="net-total">0.00</span></td>
-            <td>
-                <select style="width: 145px;" class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                    <option>Merchant fee</option>                  
-                </select>
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                    <i class="ri ri-delete-bin-line"></i>
-                </button>
-            </td>
-
-                                  <!-- <tr class="pricing-row hkRow" data-index="1">
-                                    <td>-</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0.00</td>
-                                    <td> 10.00</td>
-                                    <td> $10 </td>
-                                    <td>Issuance Fees - Voyzant</td>
-                                    <td></td>
-                                </tr> -->
-
                             </tbody>
 
                             <tfoot>

@@ -865,7 +865,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', function() {
     const queryTypeSelect = document.getElementById('query_type');
     if (!queryTypeSelect) return;
-    
+
     // Store all original options
     const allOptions = [];
     Array.from(queryTypeSelect.options).forEach(option => {
@@ -875,18 +875,18 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: option.getAttribute('data-type')
         });
     });
-    
+
     function updateQueryType() {
         // Get all checked checkboxes that might be booking types
         const allChecked = document.querySelectorAll('input[type="checkbox"]:checked');
         const checkedTypes = [];
-        
+
         // Extract booking types from checked boxes
         allChecked.forEach(checkbox => {
             const value = checkbox.value;
             const id = checkbox.id;
             const name = checkbox.name;
-            
+
             // Check if this is a booking type checkbox
             if (value === 'Flight' || id.includes('flight') || name.includes('flight')) {
                 checkedTypes.push('Flight');
@@ -900,15 +900,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 checkedTypes.push('Train');
             }
         });
-        
+
         // Remove duplicates
         const uniqueTypes = [...new Set(checkedTypes)];
-        
+
         // Clear and rebuild options
         queryTypeSelect.innerHTML = '';
-        
+
         let optionsToShow = [];
-        
+
         if (uniqueTypes.length === 0) {
             optionsToShow = allOptions; // Show all when none selected
         } else if (uniqueTypes.length === 1) {
@@ -916,7 +916,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             optionsToShow = allOptions.filter(opt => opt.dataType === 'Package');
         }
-        
+
         // Add options back
         optionsToShow.forEach(option => {
             const opt = document.createElement('option');
@@ -927,14 +927,14 @@ document.addEventListener('DOMContentLoaded', function() {
             queryTypeSelect.appendChild(opt);
         });
     }
-    
+
     // Listen to all checkbox changes
     document.addEventListener('change', function(e) {
         if (e.target.type === 'checkbox') {
             updateQueryType();
         }
     });
-    
+
     updateQueryType(); // Initial call
 });
 
@@ -1114,8 +1114,51 @@ function countPassengers() {
     });
     return total;
 }
+function updateFooterTotals() {
+    const pricingFormsContainer = document.getElementById('pricingForms');
+    const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
+    let grossTotal = 0;
+    let netTotal = 0;
+    let companyCard = 0;
+    let totalPassengers = 0;
 
-// ✅ Update existing FXL row dynamically when passengers change
+    $('.num_passengers').each(function() {
+        let val = parseInt($(this).val(), 10);
+        if (!isNaN(val)) {
+            totalPassengers += val;
+        }
+    });
+    rows.forEach(row => {
+        grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
+        netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
+    });
+
+    document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
+    document.getElementById('gross_value').value = grossTotal.toFixed(2);
+    document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
+    document.getElementById('net_value').value = netTotal.toFixed(2);
+    const diff = grossTotal - netTotal;
+    const mcqElement = document.getElementById('total_gross_value');
+    if (mcqElement) {
+        mcqElement.textContent = diff.toFixed(2);
+    }
+
+    const netProfitAfterFee = diff - (diff * 0.15);
+    let merhcantfee = diff * 0.15;
+    const netProfitElement = document.getElementById('total_netprofit_value');
+    if (netProfitElement) {
+        netProfitElement.textContent = netProfitAfterFee.toFixed(2);
+    }
+    document.getElementById('net-total-merchant').textContent = merhcantfee.toFixed(2);
+    document.getElementById('merchant-net-price').value = merhcantfee.toFixed(2);
+    if(document.getElementById('net-total-company-card')){
+        document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
+    }
+
+
+
+
+}
 document.addEventListener('change', function (e) {
     const pnrType = document.querySelector('input[name="pnr_type"]:checked')?.value;
     if (pnrType === 'FXL' && e.target.name.includes('[passenger_type]')) {
@@ -1142,6 +1185,7 @@ document.addEventListener('change', function (e) {
             fxlRow.querySelector('.net-total').textContent = netTotal.toFixed(2);
         }
     }
-
+    updateFooterTotals();
 });
+
 
