@@ -598,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
             <td><input type="date" class="form-control" style="width: 105px;" name="passenger[${passengerIndex}][dob]"></td>
-            <td><input type="text" class="form-control" style="width:50px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+            <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
             <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
             <td><input type="text" class="form-control w-100" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
             <td>
@@ -998,11 +998,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="">Select</option>
                     <option value="adult">Adult</option>
                     <option value="child">Child</option>
+                    <option value="infant">Infant</option>
                     <option value="infant_on_lap">Infant on Lap</option>
                     <option value="infant_on_seat">Infant on Seat</option>
                 </select>
             </td>
-            <td><input type="number" style="width: 120px" class="form-control num_passengers" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
+            <td><input type="number" style="width: 120px" class="form-control num_passengers" name="pricing[${pricingIndex}][num_passengers]" value="1" min="0"></td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
             <td><span class="gross-total">0.00</span></td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
@@ -1010,20 +1011,17 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <select style="width: 145px;" class="form-control detailDropdown" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
-                    <option value="Flight Ticket Cost">Flight Ticket Cost</option>
-                    <option value="Hotel Cost">Hotel Cost</option>
-                    <option value="Car Rental Cost">Car Rental Cost</option>
-                    <option value="Cruise Cost">Cruise Cost</option>
-                    <option value="Train Cost">Train Cost</option>
-                    <option value="Company card">Company card</option>
-                    <option value="Merchant fee">Merchant fee</option>
-                    <option value="Partial Refund">Partial Refund</option>
-                    <option value="Full Refund">Full Refund</option>
-                    <option value="Chargeback Fee">Chargeback Fee</option>
-                    <option value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
-                    <option value="Chargeback Amt.">Chargeback Amt.</option>
-                    <option value="Issuance Fees - Voyzant">Issuance Fees - Voyzant</option>
-                    <option value="company_card_used">Company Card Used</option>
+                    <option data-grossmco="1" value="Flight Ticket Cost">Flight Ticket Cost</option>
+                    <option data-grossmco="1" value="Hotel Cost">Hotel Cost</option>
+                    <option data-grossmco="1" value="Car Rental Cost">Car Rental Cost</option>
+                    <option data-grossmco="1" value="Cruise Cost">Cruise Cost</option>
+                    <option data-grossmco="1" value="Train Cost">Train Cost</option>
+                    <option data-grossmco="1" value="Company card">Company card</option>                  
+                    <option data-grossmco="0" value="Partial Refund">Partial Refund</option>
+                    <option data-grossmco="0" value="Full Refund">Full Refund</option>
+                    <option data-grossmco="0" value="Chargeback Fee">Chargeback Fee</option>
+                    <option data-grossmco="0" value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
+                    <option data-grossmco="0" value="Chargeback Amt.">Chargeback Amt.</option>
                 </select>
             </td>
             <td>
@@ -1064,6 +1062,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFooterTotals();
     }
 
+
     // Update total in footer
    function updateFooterTotals() {
         const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
@@ -1078,6 +1077,7 @@ document.addEventListener('DOMContentLoaded', () => {
                totalPassengers += val;
            }
        });
+
         rows.forEach(row => {
             console.log(row.querySelector('.net-total')?.textContent || 0);
             grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
@@ -1106,10 +1106,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
         }
 
+        
 
-
+        document.getElementById('gross_mco').value = diff.toFixed(2);
+        document.getElementById('net_mco').value = netProfitAfterFee.toFixed(2);
 
     }
+
+
 
     // Recalculate row and add new row if needed
     function handleRowChange(row) {
@@ -1155,6 +1159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateRowTotals(row);
     });
 });
+
 
 
 ///////////////////////////Show And Hode Tabs////////////////////

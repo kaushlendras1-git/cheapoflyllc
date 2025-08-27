@@ -528,11 +528,11 @@
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => 'email-smtp.us-east-1.amazonaws.com',
+        'host' => 'smtp.gmail.com',
         'port' => '587',
         'encryption' => 'tls',
-        'username' => 'AKIAZCE6QHQL5GOELHWC',
-        'password' => 'BGEKwh5AsGFYJ9ts1tDoBPXnMne5iU+5npk/nDDEUBWN',
+        'username' => 'noreply-admission@sau.int',
+        'password' => 'ugollhqvsruzyvdk',
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -583,7 +583,7 @@
     ),
     'from' => 
     array (
-      'address' => 'credentials@cheapoflytravel.com',
+      'address' => 'noreply-admission@sau.int',
       'name' => 'SAU Admissions 2025-26',
     ),
     'markdown' => 

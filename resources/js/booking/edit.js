@@ -1014,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /***************Pricing***************** */
 
-document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
+document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
     radio.addEventListener('change', function (e) {
         const pricingFormsContainer = document.getElementById('pricingForms');
         let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
@@ -1034,8 +1034,8 @@ document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
             newRow.className = 'pricing-row hkRow';
             newRow.dataset.index = pricingIndex;
             newRow.innerHTML = `
-               <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+               <td style="background-color: #f2f2f3;">
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}" disabled >
                         <option value="">Select</option>
                     </select>
                 </td>
@@ -1045,15 +1045,11 @@ document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
                 <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" readonly></td>
                 <td><span class="net-total">${netTotal}</span></td>
                 <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                        <option selected>Issuance Fees - Voyzant</option>
+                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}" style=" appearance: none; -webkit-appearance: none;-moz-appearance: none;">
+                        <option data-grossmco="1" selected>Issuance Fees - Voyzant</option>
                     </select>
                 </td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                        <i class="ri ri-delete-bin-line"></i>
-                    </button>
-                </td>
+                <td></td>
             `;
             pricingFormsContainer.appendChild(newRow);
         }
@@ -1067,8 +1063,8 @@ document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
             newRow.className = 'pricing-row fxlRow';
             newRow.dataset.index = pricingIndex;
             newRow.innerHTML = `
-                <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
+                 <td style="background-color: #f2f2f3;">
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}" disabled>
                         <option value="">Select</option>
                     </select>
                 </td>
@@ -1079,14 +1075,10 @@ document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
                 <td><span class="net-total">${netTotal}</span></td>
                 <td>
                     <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                        <option selected>FXL Issuance Fees</option>
+                        <option data-grossmco="1" selected>FXL Issuance Fees</option>
                     </select>
                 </td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                        <i class="ri ri-delete-bin-line"></i>
-                    </button>
-                </td>
+                <td></td>
             `;
             pricingFormsContainer.appendChild(newRow);
         }
@@ -1105,6 +1097,8 @@ function countPassengers() {
     });
     return total;
 }
+
+
 function updateFooterTotals() {
     const pricingFormsContainer = document.getElementById('pricingForms');
     const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
@@ -1119,6 +1113,7 @@ function updateFooterTotals() {
             totalPassengers += val;
         }
     });
+
     rows.forEach(row => {
         grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
         netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
@@ -1128,8 +1123,10 @@ function updateFooterTotals() {
     document.getElementById('gross_value').value = grossTotal.toFixed(2);
     document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
     document.getElementById('net_value').value = netTotal.toFixed(2);
+
     const diff = grossTotal - netTotal;
     const mcqElement = document.getElementById('total_gross_value');
+
     if (mcqElement) {
         mcqElement.textContent = diff.toFixed(2);
     }
@@ -1140,18 +1137,18 @@ function updateFooterTotals() {
     if (netProfitElement) {
         netProfitElement.textContent = netProfitAfterFee.toFixed(2);
     }
+
     document.getElementById('net-total-merchant').textContent = merhcantfee.toFixed(2);
     document.getElementById('merchant-net-price').value = merhcantfee.toFixed(2);
+   
     if(document.getElementById('net-total-company-card')){
         document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
     }
-
-
-
-
 }
+
+
 document.addEventListener('change', function (e) {
-    const pnrType = document.querySelector('input[name="pnr_type"]:checked')?.value;
+    const pnrType = document.querySelector('input[name="pnrtype"]:checked')?.value;
     if (pnrType === 'FXL' && e.target.name.includes('[passenger_type]')) {
         const totalPassengers = countPassengers();
         const grossTotal = totalPassengers * 100;
@@ -1178,5 +1175,3 @@ document.addEventListener('change', function (e) {
     }
     updateFooterTotals();
 });
-
-

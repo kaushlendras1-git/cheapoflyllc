@@ -187,6 +187,10 @@
                             <input type="text" class="form-control" name="cruise_ref"
                             value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}">
                         </div>
+
+                       
+
+
                         <div class="col-md-2 position-relative mb-5" id="car-inputs">
                             <label class="form-label">Car Ref</label>
                             <input type="text" class="form-control" name="car_ref"

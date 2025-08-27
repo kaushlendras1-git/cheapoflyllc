@@ -21,7 +21,7 @@ class TravelBooking extends Model
         'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
         'selected_company', 'booking_status_id', 'payment_status_id', 'reservation_source',
         'descriptor','flightbookingimage','hotelbookingimage','cruisebookingimage','carbookingimage','trainbookingimage',
-        'call_queue','shared_booking','screenshot','gross_value','net_value',
+        'call_queue','shared_booking','screenshot','gross_value','net_value','gross_mco','net_mco',
     ];
 
     protected $casts = [
@@ -128,6 +128,18 @@ class TravelBooking extends Model
     public function lobs()
     {
         return $this->belongsTo(PaymentStatus::class, 'selected_company');
+    }
+
+    public function getSelectedCompanyNameAttribute()
+    {
+        $companies = [
+            1 => 'flydreamz',
+            2 => 'fareticketsllc',
+            3 => 'fareticketsus',
+            4 => 'cruiselineservice'
+        ];
+
+        return $companies[$this->selected_company] ?? null;
     }
 
 

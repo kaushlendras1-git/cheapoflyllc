@@ -1,9 +1,53 @@
 
             <!------------------------ Cruise Booking Details ------------------------------>
             <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
+                
+              <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
+
+              				
+
+  <!-- <div class="row g-2">
+    <div class="col-md">
+      <input type="text" class="form-control" placeholder="Cruise Trip Name">
+    </div>
+
+     <div class="col-md">
+      <input type="text" class="form-control" placeholder="Name of the Ship	">
+    </div>
+
+
+    <div class="col-md">
+      <input type="text" class="form-control" placeholder="Lenght">
+    </div>
+    <div class="col-md">
+      <input type="text" class="form-control" placeholder="Departure Port">
+    </div>
+    <div class="col-md">
+      <input type="text" class="form-control" placeholder="Arival Port">
+    </div>
+
+     <div class="col-md">
+      <input type="text" class="form-control" placeholder=" Cruise Line">
+    </div>
+
+     <div class="col-md">
+      <input type="text" class="form-control" placeholder="Category">
+    </div>
+
+     <div class="col-md">
+      <input type="text" class="form-control" placeholder="Stateroom">
+    </div> -->
+
+    
+
+             
+
+            
+            
+            
                 <div class="card p-4 show-booking-card">
                     <div class="mb-0 d-flex align-items-center justify-content-between">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Itinerary </h5>
                         <div class="d-flex gap-2">
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="cruise-booking-button">
                                 <i class="ri ri-add-circle-fill pointer"></i>
@@ -19,10 +63,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Cruise Line</th>
-                                            <th>Name of the Ship</th>
-                                            <th>Category</th>
-                                            <th>Stateroom</th>
+                                            <th>Type</th>
+                                         
                                             <th>Departure Port</th>
                                             <th>Departure Date</th>
                                             <th>Hrs:MM</th>
@@ -38,21 +80,21 @@
                                         <tr class="cruise-row" data-index="{{$key}}">
                                             <td><span class="cruise-title">{{$key+1}}</span></td>
 
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="cruise[{{$key}}][cruise_line]"
-                                                    value="{{$travelCruise->cruise_line}}" placeholder="Cruise Line">
+                                            <td>
+                                                
+                                          
+                                            
+  <!-- <input class="form-check-input" type="radio" name="cruise_type" id="dayAtSea" value="day_at_sea">
+  <label class="form-check-label" for="dayAtSea">Day at Sea</label>
+
+  
+  <input class="form-check-input" type="radio" name="cruise_type" id="trip" value="trip">
+  <label class="form-check-label" for="trip">Trip</label> -->
+
+  
                                             </td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="cruise[{{$key}}][ship_name]"
-                                                    value="{{$travelCruise->ship_name}}" placeholder="Name of the Ship">
-                                            </td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="cruise[{{$key}}][category]"
-                                                    value="{{$travelCruise->category}}" placeholder="Category"></td>
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="cruise[{{$key}}][stateroom]"
-                                                    value="{{$travelCruise->stateroom}}" placeholder="Stateroom">
-                                            </td>
+                                            
+                                            
                                             <td><input type="text" class="form-control" style="width:7.5rem"
                                                     name="cruise[{{$key}}][departure_port]"
                                                     value="{{$travelCruise->departure_port}}"

@@ -46,7 +46,7 @@ Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_statu
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
 Route::post('/mail-sent',[AuthEmailController::class,'index'])->name('mail-sent');
-
+Route::get('/terms-and-conditions', function () {return view('web.terms-and-conditions');})->name('terms-and-conditions');
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
 Route::post('/update-device-token', [NotificationController::class, 'updateDeviceToken']);

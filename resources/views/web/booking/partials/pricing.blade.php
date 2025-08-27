@@ -5,27 +5,24 @@
 
                 <div class="col-md-5 position-relative checkbox-servis">
                         <!-- <label class="d-block mb-2">PNR Type</label> -->
-
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="pnr_type" id="FXL" value="FXL">
-                            <label style="width: auto !important;" class="form-check-label" for="FXL">
-                                FXL
-                            </label>
+                            <input class="form-check-input" type="radio" name="pnrtype" id="FXL" value="FXL"
+                                {{ $booking->pnrtype == 'FXL' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="FXL">FXL</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="pnr_type" id="GK" value="GK">
-                            <label style="width: auto !important;" class="form-check-label" for="GK">
-                               GK
-                            </label>
+                            <input class="form-check-input" type="radio" name="pnrtype" id="GK" value="GK"
+                                {{ $booking->pnrtype == 'GK' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="GK">GK</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="pnr_type" id="HK" value="HK">
-                            <label style="width: auto !important;" class="form-check-label" for="HK">
-                               HK
-                            </label>
+                            <input class="form-check-input" type="radio" name="pnrtype" id="HK" value="HK"
+                                {{ $booking->pnrtype == 'HK' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="HK">HK</label>
                         </div>
+                        
                     </div>
 
 
@@ -81,7 +78,7 @@
                                             </select>
                                         </td>
                                         <td><input style="width: 120px" type="number" class="form-control num_passengers"
-                                                name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0">
+                                                name="pricing[0][num_passengers]" placeholder="No. of Passengers" min="0" value="1">
                                         </td>
                                         <td><input type="number" class="form-control" name="pricing[0][gross_price]"
                                                 placeholder="Gross Price" min="0" step="0.01" style="width: 110px;"></td>
@@ -95,9 +92,21 @@
                                             <select style="width: 145px;" name="pricing[0][details]"
                                                 class="form-select form-control" id="details_0">
                                                 <option value="">Select</option>
-                                                <option value="ticket_cost">Ticket Cost</option>
-                                                <option value="merchant_fee">Merchant Fee</option>
-                                                <option value="company_card_used">Company Card Used</option>
+
+                                                <option data-grossmco="1" value="Flight Ticket Cost">Flight Ticket Cost</option>
+                                                <option data-grossmco="1" value="Hotel Cost">Hotel Cost</option>
+                                                <option data-grossmco="1" value="Car Rental Cost">Car Rental Cost</option>
+                                                <option data-grossmco="1" value="Cruise Cost">Cruise Cost</option>
+                                                <option data-grossmco="1" value="Train Cost">Train Cost</option>
+                                                <option data-grossmco="1" value="Company card">Company card</option>
+
+                                                <option data-grossmco="0" value="Partial Refund">Partial Refund</option>
+                                                <option data-grossmco="0" value="Full Refund">Full Refund</option>
+                                                <option data-grossmco="0" value="Chargeback Fee">Chargeback Fee</option>
+                                                <option data-grossmco="0" value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
+                                                <option data-grossmco="0" value="Chargeback Amt.">Chargeback Amt.</option>
+
+                                                
                                             </select>
                                         </td>
                                         <td>
@@ -107,6 +116,7 @@
                                         </td>
                                     </tr>
                                 @endif
+
                                 @php
                                  $mechantfee = 0.00;
                                 @endphp
@@ -140,7 +150,7 @@
                                             <td>
                                                 <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
                                                         id="details_{{$key}}">
-                                                    <option value="FXL Issuance Fees" {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance Fees</option>
+                                                    <option data-grossmco="1" value="FXL Issuance Fees" {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance Fees</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -178,7 +188,7 @@
                                             <td>
                                                 <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
                                                         id="details_{{$key}}">
-                                                    <option value="Issuance Fees - Voyzant" {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
+                                                    <option data-grossmco="1" value="Issuance Fees - Voyzant" {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -203,10 +213,15 @@
                                                     <option value="child"
                                                         {{$pricingDetails->passenger_type=='child'?'selected':''}}>Child
                                                     </option>
+
+                                                    <option value="infant"
+                                                        {{$pricingDetails->passenger_type=='infant'?'selected':''}}>Infant
+                                                    </option>
+
                                                     <option value="infant_on_lap"
                                                         {{$pricingDetails->passenger_type=='infant_on_lap'?'selected':''}}>
-                                                        Infant on
-                                                        Lap</option>
+                                                        Infant on Lap</option>
+
                                                     <option value="infant_on_seat"
                                                         {{$pricingDetails->passenger_type=='infant_on_seat'?'selected':''}}>
                                                         Infant
@@ -234,20 +249,21 @@
                                             <td>
                                                 <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
                                                         id="details_{{$key}}">
-                                                    <option value="Flight Ticket Cost" {{ $pricingDetails->details == 'Flight Ticket Cost' ? 'selected' : '' }}>Flight Ticket Cost</option>
-                                                    <option value="Hotel Cost" {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
-                                                    <option value="Car Rental Cost" {{ $pricingDetails->details == 'Car Rental Cost' ? 'selected' : '' }}>Car Rental Cost</option>
-                                                    <option value="Cruise Cost" {{ $pricingDetails->details == 'Cruise Cost' ? 'selected' : '' }}>Cruise Cost</option>
-                                                    <option value="Train Cost" {{ $pricingDetails->details == 'Train Cost' ? 'selected' : '' }}>Train Cost</option>
-                                                    <option value="Company card" {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card</option>
-                                                    <option value="Merchant fee" {{ $pricingDetails->details == 'Merchant fee' ? 'selected' : '' }}>Merchant fee</option>
-                                                    <option value="Partial Refund" {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund</option>
-                                                    <option value="Full Refund" {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund</option>
-                                                    <option value="Chargeback Fee" {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
-                                                    <option value="Partial Chargeback Amt." {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>Partial Chargeback Amt.</option>
-                                                    <option value="Chargeback Amt."{{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback Amt.</option>
-                                                    <option value="Issuance Fees - Voyzant" {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>Issuance Fees - Voyzant</option>
-                                                    <option value="company_card_used" {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
+                                                    <option data-grossmco="1" value="Flight Ticket Cost" {{ $pricingDetails->details == 'Flight Ticket Cost' ? 'selected' : '' }}>Flight Ticket Cost</option>
+                                                    <option data-grossmco="1" value="Hotel Cost" {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
+                                                    <option data-grossmco="1" value="Car Rental Cost" {{ $pricingDetails->details == 'Car Rental Cost' ? 'selected' : '' }}>Car Rental Cost</option>
+                                                    <option data-grossmco="1" value="Cruise Cost" {{ $pricingDetails->details == 'Cruise Cost' ? 'selected' : '' }}>Cruise Cost</option>
+                                                    <option data-grossmco="1" value="Train Cost" {{ $pricingDetails->details == 'Train Cost' ? 'selected' : '' }}>Train Cost</option>
+                                                    <option data-grossmco="1" value="Company card" {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card</option>
+                                                    <option data-grossmco="1" value="company_card_used" {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
+
+                                                    <option data-grossmco="0" value="Merchant fee" {{ $pricingDetails->details == 'Merchant fee' ? 'selected' : '' }}>Merchant fee</option>
+                                                    <option data-grossmco="0" value="Partial Refund" {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund</option>
+                                                    <option data-grossmco="0" value="Full Refund" {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund</option>
+                                                    <option data-grossmco="0" value="Chargeback Fee" {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
+                                                    <option data-grossmco="0" value="Partial Chargeback Amt." {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>Partial Chargeback Amt.</option>
+                                                    <option data-grossmco="0" value="Chargeback Amt."{{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback Amt.</option>
+
                                                 </select>
                                             </td>
                                             <td>
@@ -259,6 +275,7 @@
                                     @endif
 
                                 @endforeach
+
                                 <tr id="merchant-row" class="pricing-row">
                                     <td>
                                         <select class="form-control" disabled name="merchant_passenger_type" id="merchant_passenger_type">
@@ -272,45 +289,29 @@
                                     <td><span id="net-total-merchant" class="net-total">{{$mechantfee}}</span></td>
                                     <td>
                                         <select style="width: 145px;" class="form-control" name="merchant_details" id="merchant_details">
-                                            <option>Merchant fees</option>
+                                            <option data-grossmco="0" >Merchant fees</option>
                                         </select>
                                     </td>
                                     <td>
+                                         <button type="button" class="btn btn-outline-danger delete-pricing-btn">
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
                                     </td>
                                 </tr>
+
                             </tbody>
 
                             <tfoot>
                                 <tr>
                                     <td colspan="6" class="pb-0" style="border-bottom: 0;">
                                         <strong style="color:#055bdb">Gross MCO</strong> : <span id="total_gross_value">0.00</span>
+                                         <input name="gross_mco" type="hidden" id="gross_mco"/>
                                     </td>
                                     <td class="pb-0" style="border-bottom: 0;">
                                         <strong style="color:#055bdb">Net MCO</strong> : <span id="total_netprofit_value">0.00</span>
+                                         <input name="net_mco" type="hidden" id="net_mco"/>
                                     </td>
                                 </tr>
-                                <!-- <tr>
-                                    <td class="pb-0" style="border-bottom: 0;">
-                                        <strong>- 15%  Merchant fee </strong> : <span id="total_gross_mcq">0.00</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="pb-0" style="border-bottom: 0;">
-                                        <strong>Total Gross-MCO</strong> : <span id="total_gross_mcq">0.00</span>
-                                    </td>
-                                </tr> -->
-                                <!-- <tr>
-                                    <td colspan="5">
-                                        <strong>Gross-MCO =  Gross Amount Collected  - (Flight Ticket Cost +Cruise Ticket Cost+Car Rental Cost+Train Cost+Hotel Cost + company cost )</strong>
-
-                                        <br>
-                                        Net Profit ==  Gross-MCO -  (15% + Merchant fee + Partial Refund + Full Refund + Chargeback Fee + Partial Chargeback Amt. + Chargeback Amt. + FXL Issuance Fees + Issuance Fees - Voyzant )
-
-                                    </td>
-
-                                    <td></td>
-                                    <td></td>
-                                </tr> -->
                             </tfoot>
                         </table>
 
