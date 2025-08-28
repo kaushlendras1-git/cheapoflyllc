@@ -22,7 +22,7 @@
                                 {{ $booking->pnrtype == 'HK' ? 'checked' : '' }}>
                             <label class="form-check-label" for="HK">HK</label>
                         </div>
-                        
+
                     </div>
 
 
@@ -106,7 +106,7 @@
                                                 <option data-grossmco="0" value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
                                                 <option data-grossmco="0" value="Chargeback Amt.">Chargeback Amt.</option>
 
-                                                
+
                                             </select>
                                         </td>
                                         <td>
@@ -122,7 +122,7 @@
                                 @endphp
                                 @foreach($booking->pricingDetails as $key=>$pricingDetails)
                                     @if($pricingDetails->details === 'FXL Issuance Fees')
-                                        <tr class="pricing-row" data-index="{{$key}}">
+                                        <tr class="pricing-row fxlRow" data-index="{{$key}}">
                                             <td>
                                                 <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
                                                         id="passenger_type_{{$key}}">
@@ -154,13 +154,10 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                                    <i class="ri ri-delete-bin-line"></i>
-                                                </button>
                                             </td>
                                         </tr>
                                     @elseif($pricingDetails->details === 'Issuance Fees - Voyzant')
-                                        <tr class="pricing-row" data-index="{{$key}}">
+                                        <tr class="pricing-row hkRow" data-index="{{$key}}">
                                             <td>
                                                 <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
                                                         id="passenger_type_{{$key}}">
@@ -192,9 +189,6 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                                    <i class="ri ri-delete-bin-line"></i>
-                                                </button>
                                             </td>
                                         </tr>
                                     @elseif($pricingDetails->details === 'Merchant fees')

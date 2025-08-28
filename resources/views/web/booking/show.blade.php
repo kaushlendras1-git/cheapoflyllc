@@ -188,7 +188,7 @@
                             value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}">
                         </div>
 
-                       
+
 
 
                         <div class="col-md-2 position-relative mb-5" id="car-inputs">
@@ -251,7 +251,7 @@
                             </select>
                         </div>
 
-                        
+
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label"> Is Shared Booking</label>
@@ -385,4 +385,5 @@
 @vite('resources/js/booking/edit.js')
 @vite('resources/js/booking/flight.js')
 @vite('resources/js/auth/sendAuth.js')
+@vite('resources/js/booking/pricing.js')
 @endsection

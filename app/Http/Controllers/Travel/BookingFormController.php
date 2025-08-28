@@ -384,7 +384,7 @@ class BookingFormController extends Controller
                     $rules['flightbookingimage'] = 'required_without:flight|array';
                     $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
                 }
-                
+
                 $rules['pnrtype']                   = 'required';
                 $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
                 $rules['flight.*.departure_date']    = 'required_with:flight|date';
@@ -515,7 +515,7 @@ class BookingFormController extends Controller
             $rules['pricing.*.passenger_type'] = [  'nullable',
                                                         'string',
                                                         'in:adult,child,infant,infant_on_lap,infant_on_seat',
-                                                        'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund,FXL Issuance Fees'
+                                                        'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund,FXL Issuance Fees,Company card'
                                                     ];
 
             $rules['pricing.*.num_passengers']         = 'required|integer';
