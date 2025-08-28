@@ -110,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </td>
             `;
-            console.log('adding cruise');
             cruiseFormsContainer.appendChild(newRow);
             const departureInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][departure_hrs]"]');
             const arrivalInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][arrival_hrs]"]');
@@ -528,7 +527,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!queryType) return; // Exit if element doesn't exist
 
         const selectedOption = queryType.options[queryType.selectedIndex];
-        const dataType = selectedOption.getAttribute('data-id');
+        let dataType = null;
+
+        if (selectedOption) {
+            dataType = selectedOption.getAttribute('data-id');
+        }
         const allowedDataIds = ['13', '14','18','19','32','33','39','41','43','44', '50', '51'];
 
         // Get all 10th column elements (th and td)
@@ -617,11 +620,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to check if a row is filled
+    // function isRowFilled(row) {
+    //     const inputs = row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])');
+    //     const selects = row.querySelectorAll('select');
+    //     return Array.from(inputs).every(input => input.value.trim() !== '') &&
+    //            Array.from(selects).every(select => select.value.trim() !== '');
+    // }
     function isRowFilled(row) {
-        const inputs = row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])');
-        const selects = row.querySelectorAll('select');
-        return Array.from(inputs).every(input => input.value.trim() !== '') &&
-               Array.from(selects).every(select => select.value.trim() !== '');
+        // Select inputs excluding certain names
+        const inputs = Array.from(row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])'));
+
+        // Filter out inputs with name matching passenger[x][credit_note] whose parent td is hidden
+        const filteredInputs = inputs.filter(input => {
+            const name = input.getAttribute('name') || '';
+            const isCreditNote = /\bpassenger\[\d+\]\[credit_note\]$/.test(name);
+
+            if (isCreditNote) {
+                const parentTd = input.closest('td');
+                if (parentTd && window.getComputedStyle(parentTd).display === 'none') {
+                    return false; // exclude this input
+                }
+            }
+            return true; // include
+        });
+
+        // Select all selects
+        const selects = Array.from(row.querySelectorAll('select'));
+
+        // Check all filtered inputs and selects have non-empty trimmed values
+        return filteredInputs.every(input => input.value.trim() !== '') &&
+            selects.every(select => select.value.trim() !== '');
     }
 
     // Update passenger titles and indices after deletion
@@ -643,10 +671,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleCreditColumn();
     }
 
-    const addButton = document.getElementById('passenger-detail-button');
-    if (addButton) {
-        addButton.addEventListener('click', addPassengerRow);
-    }
+    // const addButton = document.getElementById('passenger-detail-button');
+    // if (addButton) {
+    //     addButton.addEventListener('click', addPassengerRow);
+    // }
+    document.getElementById('passenger-detail-button').addEventListener('click', addPassengerRow);
+
 
     // Event listener for input and change events to auto-add rows
     function handlePassengerInput(e) {
@@ -655,7 +685,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const rows = passengerFormsContainer.querySelectorAll('.passenger-form');
         const lastRow = rows[rows.length - 1];
-
         if (row === lastRow && isRowFilled(lastRow)) {
             addPassengerRow();
         }
@@ -880,7 +909,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 billingIndex++;
             },
             error: function (res) {
-                console.log(res);
             }
         });
     }
@@ -1076,7 +1104,7 @@ $.ajax({
         });
     },
     error:function (res){
-        console.log(res)
+        // console.log(res)
     }
 });
 /////////////////////////////////////////////////////////////////////////////////////////

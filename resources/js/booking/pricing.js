@@ -65,8 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculate row totals
     function calculateRowTotals(row) {
-        const numPassengers = parseFloat(row.querySelector('input[name$="[num_passengers]"]').value) || 0;
-        const grossPrice = parseFloat(row.querySelector('input[name$="[gross_price]"]').value) || 0;
+        const inputElement = row.querySelector('input[name$="[num_passengers]"]');
+        let numPassengers = 0;
+
+        if (inputElement && inputElement.value) {
+            numPassengers = parseFloat(inputElement.value) || 0;
+        }
+        const inputElement2 = row.querySelector('input[name$="[gross_price]"]');
+        let grossPrice = 0;
+
+        if (inputElement2 && inputElement2.value) {
+            grossPrice = parseFloat(inputElement2.value) || 0;
+        }
         const netPrice = parseFloat(row.querySelector('input[name$="[net_price]"]').value) || 0;
 
         const grossTotal = (numPassengers * grossPrice).toFixed(2);
