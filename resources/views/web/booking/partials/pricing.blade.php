@@ -90,7 +90,7 @@
                                         <td><span class="net-total">0.00</span></td>
                                         <td>
                                             <select style="width: 145px;" name="pricing[0][details]"
-                                                class="form-select form-control" id="details_0">
+                                                class="form-select form-control detailDropdown" id="details_0">
                                                 <option value="">Select</option>
 
                                                 <option data-grossmco="1" value="Flight Ticket Cost">Flight Ticket Cost</option>
@@ -146,7 +146,7 @@
                                                 <input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
                                                        value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
                                                        step="0.01"></td>
-                                            <td><span class="net-total">0.00</span></td>
+                                            <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
                                             <td>
                                                 <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
                                                         id="details_{{$key}}">
@@ -181,7 +181,7 @@
                                                 <input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
                                                        value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
                                                        step="0.01"></td>
-                                            <td><span class="net-total">0.00</span></td>
+                                            <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
                                             <td>
                                                 <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
                                                         id="details_{{$key}}">
@@ -191,10 +191,6 @@
                                             <td>
                                             </td>
                                         </tr>
-                                    @elseif($pricingDetails->details === 'Merchant fees')
-                                        @php
-                                            $mechantfee = $pricingDetails->net_price;
-                                        @endphp
                                     @else
                                         <tr class="pricing-row" data-index="{{$key}}">
                                             <td>
@@ -233,13 +229,13 @@
                                                        step="0.01"></td>
 
                                             <td>
-                                                <span class="gross-total">0.00</span>
+                                                <span class="gross-total">{{$pricingDetails->gross_price??'0.00'}}</span>
                                             </td>
                                             <td>
                                                 <input type="number" style="width: 110px;" class="form-control" name="pricing[{{$key}}][net_price]"
                                                        value="{{$pricingDetails->net_price}}" placeholder="Net Price" min="0"
                                                        step="0.01"></td>
-                                            <td><span class="net-total">0.00</span></td>
+                                            <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
                                             <td>
                                                 <select class="form-control detailDropdown" style="width: 145px;" name="pricing[{{$key}}][details]"
                                                         id="details_{{$key}}">
@@ -269,30 +265,6 @@
                                     @endif
 
                                 @endforeach
-
-                                <tr id="merchant-row" class="pricing-row">
-                                    <td>
-                                        <select class="form-control" disabled name="merchant_passenger_type" id="merchant_passenger_type">
-                                            <option value="">Select</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="number" disabled style="width: 120px" class="form-control num_passengers" name="merchant_num_passengers" value="0" min="0"></td>
-                                    <td><input type="number" disabled style="width: 110px;" class="form-control" name="merchant_gross_price" value="0.00" min="0" step="0.01"></td>
-                                    <td><span class="gross-total-merchant">0.00</span></td>
-                                    <td><input type="number" readonly id="merchant-net-price" value="{{$mechantfee}}" style="width: 110px;" class="form-control" name="merchant_net_price" placeholder=".015*Gross MCO" min="0" step="0.01"></td>
-                                    <td><span id="net-total-merchant" class="net-total">{{$mechantfee}}</span></td>
-                                    <td>
-                                        <select style="width: 145px;" class="form-control" name="merchant_details" id="merchant_details">
-                                            <option data-grossmco="0" >Merchant fees</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                         <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                                    <i class="ri ri-delete-bin-line"></i>
-                                                </button>
-                                    </td>
-                                </tr>
-
                             </tbody>
 
                             <tfoot>
@@ -306,6 +278,12 @@
                                          <input name="net_mco" type="hidden" id="net_mco"/>
                                     </td>
                                 </tr>
+                            <tr>
+                                <td colspan="6" class="pb-0" style="border-bottom: 0;">
+                                    <strong style="color:#055bdb">Merchant Fee</strong> : <span id="merchant_fee_text">0.00</span>
+                                    <input name="merchant_fee" type="hidden" id="merchant_fee"/>
+                                </td>
+                            </tr>
                             </tfoot>
                         </table>
 

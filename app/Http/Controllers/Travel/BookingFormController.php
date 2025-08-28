@@ -977,8 +977,9 @@ class BookingFormController extends Controller
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
-                'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco'
+                'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee'
             ]);
+//            dd($request->all());
             $bookingData['shift_id'] = 2;
             $bookingData['team_id'] = 2;
             $bookingData['user_id'] = $user_id;
@@ -1265,17 +1266,8 @@ class BookingFormController extends Controller
           #  dd($newPricings);
 
             $processedPricingIds = [];
-            if($request->has('merchant_net_price') && !empty($request->merchant_net_price) &&
-                $request->has('merchant_details') &&  !empty($request->merchant_details)
-            ){
-                $newPricings[] = [
-                    "passenger_type" => null,
-                    "num_passengers" => null,
-                    "gross_price" => null,
-                    "net_price" => $request->merchant_net_price,
-                    "details" => $request->merchant_details,
-                ];
-            }
+
+
             TravelPricingDetail::where('booking_id',$booking->id)->get()->each->delete();
             foreach ($newPricings as $index => $pricingData) {
                 $pricingData['booking_id'] = $booking->id;

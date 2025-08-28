@@ -21,7 +21,7 @@ class TravelBooking extends Model
         'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
         'selected_company', 'booking_status_id', 'payment_status_id', 'reservation_source',
         'descriptor','flightbookingimage','hotelbookingimage','cruisebookingimage','carbookingimage','trainbookingimage',
-        'call_queue','shared_booking','screenshot','gross_value','net_value','gross_mco','net_mco',
+        'call_queue','shared_booking','screenshot','gross_value','net_value','gross_mco','net_mco','merchant_fee'
     ];
 
     protected $casts = [

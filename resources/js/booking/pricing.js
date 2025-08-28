@@ -218,7 +218,7 @@ document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
                 <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" readonly></td>
                 <td><span class="net-total">${netTotal}</span></td>
                 <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}" style=" appearance: none; -webkit-appearance: none;-moz-appearance: none;">
+                    <select class="form-control detailDropdown" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}" style=" appearance: none; -webkit-appearance: none;-moz-appearance: none;">
                         <option data-grossmco="1" selected>Issuance Fees - Voyzant</option>
                     </select>
                 </td>
@@ -248,7 +248,7 @@ document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
                 <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="100.00" readonly></td>
                 <td><span class="net-total">${netTotal}</span></td>
                 <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
+                    <select class="form-control detailDropdown" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                         <option data-grossmco="1" selected>FXL Issuance Fees</option>
                     </select>
                 </td>
@@ -296,10 +296,11 @@ function updateFooterTotals() {
 
             if (selectedOption && selectedOption.getAttribute('data-grossmco')) {
                 grossmcoBool = selectedOption.getAttribute('data-grossmco');
+                console.log(selectedOption,selectedOption.getAttribute('data-grossmco'));
             }
         }
 
-        if (grossmcoBool) {
+        if (grossmcoBool === '1') {
             const netTotalText = row.querySelector('.net-total')?.textContent || '0';
             grossMco += parseFloat(netTotalText);
         }
@@ -315,19 +316,21 @@ function updateFooterTotals() {
     const mcqElement = document.getElementById('total_gross_value');
 
     if (mcqElement) {
-        mcqElement.textContent = grossMco;
-
+        let merchantFeefinal = grossMco * 0.15;
+        document.getElementById('merchant_fee_text').textContent = merchantFeefinal;
+        document.getElementById('merchant_fee').value = merchantFeefinal;
+        mcqElement.textContent = grossMco+merchantFeefinal;
     }
 
-    const netProfitAfterFee = diff - (diff * 0.15);
-    let merhcantfee = diff * 0.15;
+    const netProfitAfterFee = grossTotal - netTotal;
     const netProfitElement = document.getElementById('total_netprofit_value');
+    const netMCOInput = document.getElementById('net_mco');
     if (netProfitElement) {
         netProfitElement.textContent = netProfitAfterFee.toFixed(2);
+        netMCOInput.value = netProfitAfterFee.toFixed(2);
     }
 
-    document.getElementById('net-total-merchant').textContent = merhcantfee.toFixed(2);
-    document.getElementById('merchant-net-price').value = merhcantfee.toFixed(2);
+    const element3 = document.getElementById('net-total-merchant');
 
     if(document.getElementById('net-total-company-card')){
         document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
