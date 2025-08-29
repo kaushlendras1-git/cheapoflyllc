@@ -1196,6 +1196,18 @@ class BookingFormController extends Controller
                         ]);
                     }
                 }
+                if (isset($request->car_main_image) && !empty($request->car_main_image)) {
+                    $carbookingimage1 = [];
+                    foreach ($request->car_main_image as $key => $image) {
+                        $carbookingimage1 = 'storage/' . $image->store('car_booking_image', 'public');
+                        CarImages::create([
+                            'booking_id' => $booking->id,
+                            'agent_id'=>auth()->user()->id,
+                            'file_path'=>$carbookingimage1,
+                            'isMainFiles'=>1
+                        ]);
+                    }
+                }
                 foreach ($newCars as $carData) {
                     $carData['booking_id'] = $booking->id;
                     $car = TravelCarDetail::create(
@@ -1267,7 +1279,6 @@ class BookingFormController extends Controller
 
             $processedPricingIds = [];
 
-
             TravelPricingDetail::where('booking_id',$booking->id)->get()->each->delete();
             foreach ($newPricings as $index => $pricingData) {
                 $pricingData['booking_id'] = $booking->id;
@@ -1276,7 +1287,6 @@ class BookingFormController extends Controller
                 );
                 $processedPricingIds[] = $pricing->id;
             }
-
 
             TravelPricingDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedPricingIds)

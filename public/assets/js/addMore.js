@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('hotel-booking-button').addEventListener('click',addHotelRow)
         const hotelFormsContainer = document.getElementById('hotelForms');
-        let hotelIndex = 0;
+        let hotelIndex = document.querySelectorAll('.hotel-row').length ?? 0;
 
         // Add initial row on page load
         addHotelRow();
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('cruise-booking-button').addEventListener('click',addCruiseRow )
         const cruiseFormsContainer = document.getElementById('cruiseForms');
-        let cruiseIndex = 0;
+        let cruiseIndex = document.querySelectorAll('.cruise-row').length ?? 0;
 
         addCruiseRow();
 
@@ -114,21 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const departureInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][departure_hrs]"]');
             const arrivalInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][arrival_hrs]"]');
 
-            flatpickr(departureInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
-
-            flatpickr(arrivalInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
             cruiseIndex++;
         }
 
@@ -181,11 +166,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+function attach24HourTimeListener(input) {
+    input.addEventListener('input', () => {
+        let value = input.value;
 
+        // Allow only digits and colon
+        value = value.replace(/[^\d:]/g, '');
+
+        // Auto-insert colon after 2 digits for hours if missing
+        if (value.length === 2 && !value.includes(':')) {
+            value += ':';
+        }
+        // Limit to 5 chars like HH:mm
+        if (value.length > 5) {
+            value = value.slice(0, 5);
+        }
+
+        input.value = value;
+
+        // Regex validation for 24hr HH:mm
+        const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!regex.test(value)) {
+            input.setCustomValidity('Please enter a valid time in 24-hour format HH:mm');
+        } else {
+            input.setCustomValidity('');
+        }
+    });
+}
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('car-booking-button').addEventListener('click', addCarRow)
         const carFormsContainer = document.getElementById('carForms');
-        let carIndex = 0;
+        let carIndex = document.querySelectorAll('.car-row').length ?? 0;
 
         // Add initial row on page load
         addCarRow();
@@ -202,9 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" class="form-control" style="width:9rem" name="car[${carIndex}][pickup_location]" placeholder="Pick-up Location"></td>
                 <td><input type="text" class="form-control" style="width:10rem" name="car[${carIndex}][dropoff_location]" placeholder="Drop-off Location"></td>
                 <td><input type="date" class="form-control" style="width:105px"; name="car[${carIndex}][pickup_date]"></td>
-                <td><input type="time" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][pickup_time]"></td>
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][pickup_time]"></td>
                 <td><input type="date" class="form-control" style="width:105px"; name="car[${carIndex}][dropoff_date]"></td>
-                <td><input type="time" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][dropoff_time]"></td>
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][dropoff_time]"></td>
                 <td><input type="text" class="form-control" style="width:12rem" name="car[${carIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                  <td>
                     <button type="button" class="btn btn-outline-danger delete-car-btn">
@@ -213,24 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             `;
             carFormsContainer.appendChild(newRow);
-            const departureInput = newRow.querySelector('input[name="car[' + carIndex + '][pickup_time]"]');
-            const arrivalInput = newRow.querySelector('input[name="car[' + carIndex + '][dropoff_time]"]');
-
-            flatpickr(departureInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
-
-            flatpickr(arrivalInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
+            const pickupTimeInput = newRow.querySelector(`input[name="car[${carIndex}][pickup_time]"]`);
+            const dropoffTimeInput = newRow.querySelector(`input[name="car[${carIndex}][dropoff_time]"]`);
+            if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+            if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
             carIndex++;
         }
 
@@ -286,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('flight-booking-button').addEventListener('click',addFlightRow)
         const flightFormsContainer = document.getElementById('flightForms');
-        const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length;
+        const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length??0;
         let flightIndex = flightRowsCount;
 
         // Add initial row on page load
@@ -324,21 +321,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
                     <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                 </td>
-                <td><input type="time" class="form-control " style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="00:00"
-                                                        max="23:59"
-                                                        step="60">
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" />
                 </td>
 
                 <td><input type="text" class="form-control arrival-airport" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
                     <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                 </td>
 
-                <td><input type="time" class="form-control" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs"
-                                                        min="00:00"
-                                                        max="23:59"
-                                                        step="60"
-                                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
-                                                        title="Enter time in HH:MM format (e.g., 14:30)"
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs"
+
                                                         ></td>
 
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
@@ -351,9 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             `;
             flightFormsContainer.appendChild(newRow);
-            const departureInput = newRow.querySelector('input[name="flight[' + flightIndex + '][departure_hours]"]');
-            const arrivalInput = newRow.querySelector('input[name="flight[' + flightIndex + '][arrival_hours]"]');
-
+            const pickupTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][arrival_hours]"]`);
+            const dropoffTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][departure_hours]"]`);
+            if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+            if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
 
             flightIndex++;
         }
@@ -411,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('train-booking-button').addEventListener('click',addTrainRow)
     const trainFormsContainer = document.getElementById('trainForms');
-    let trainIndex = 0;
+    let trainIndex = document.querySelectorAll('.train-row').length ?? 0;
 
     // Add initial row on page load
     addTrainRow();
@@ -441,24 +433,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </td>
         `;
         trainFormsContainer.appendChild(newRow);
-        const departureInput = newRow.querySelector('input[name="train[' + trainIndex + '][departure_hours]"]');
-        const arrivalInput = newRow.querySelector('input[name="train[' + trainIndex + '][arrival_hours]"]');
+        const pickupTimeInput = newRow.querySelector(`input[name="train[${trainIndex}][departure_hours]"]`);
+        const dropoffTimeInput = newRow.querySelector(`input[name="train[${trainIndex}][arrival_hours]"]`);
+        if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+        if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
 
-        flatpickr(departureInput, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            minuteIncrement: 1,
-        });
-
-        flatpickr(arrivalInput, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            minuteIncrement: 1,
-        });
         trainIndex++;
     }
 

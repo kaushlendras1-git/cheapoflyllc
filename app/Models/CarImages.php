@@ -10,6 +10,7 @@ class CarImages extends Model
         'booking_id',
         'agent_id',
         'file_path',
+        'isMainFiles'
     ];
 
     public function get_agent(){

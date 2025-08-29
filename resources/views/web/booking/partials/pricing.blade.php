@@ -278,7 +278,7 @@
                                     <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"><span id="merchant_fee_text2">0.00</span></td>
                                     <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;">Merchant Fee</td>
                                     <td class="pb-0" style="border-bottom: 1;"></td>
-                            </tr>        
+                            </tr>
 
                             <tr>
                                 <td colspan="6" class="pb-0" style="border-bottom: 0;">
@@ -293,7 +293,6 @@
 
                             <tr>
                                 <td colspan="6" class="pb-0" style="border-bottom: 0;">
-                                    <strong style="color:#055bdb">Merchant Fee</strong> : <span id="merchant_fee_text">0.00</span>
                                     <input name="merchant_fee" type="hidden" id="merchant_fee"/>
                                 </td>
                             </tr>

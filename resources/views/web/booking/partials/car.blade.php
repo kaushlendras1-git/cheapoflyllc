@@ -1,10 +1,37 @@
+<style>
+    /* Hide only the input with class 'custom-file-input' */
+    .custom-file-input {
+        display: none;
+    }
 
+    /* Style the specific label linked to that input as a plus button */
+    .custom-file-label {
+        display: inline-block;
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #333;
+        border-radius: 8px;
+        font-size: 32px;
+        line-height: 36px;
+        text-align: center;
+        font-weight: bold;
+        user-select: none;
+    }
+</style>
 
             <!------------------------ Car Booking Details ------------------------------>
             <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
                 <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between mb-0">
-                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Car Booking Details</h5>
+                        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">
+                            Car Booking Details
+                            <input id="fileInput" type="file" multiple class="custom-file-input destroy_filepond" accept="image/*" name="car_main_image[]" />
+                            <label for="fileInput" class="custom-file-label" style="border:none">
+                                <i style="font-size: 20px;color:#055bdb" class="ri ri-add-circle-fill pointer"></i>
+                            </label>
+                            <div id="imagePreviewContainer" class="mb-3" style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;"></div>
+                        </h5>
                         <div>
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="car-booking-button">
                                 <i class="ri ri-add-circle-fill pointer"></i>
@@ -50,19 +77,19 @@
                                                     name="car[{{$key}}][dropoff_location]"
                                                     value="{{$travelCar->dropoff_location}}"
                                                     placeholder="Drop-off Location"></td>
-                                            
+
                                             <td><input style="width: 110px;" type="date" class="form-control"
                                                     name="car[{{$key}}][pickup_date]"
                                                     value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
 
-                                            <td><input type="time" class="form-control" style="width: 105px;"
+                                            <td><input type="text" pattern="^([01]\d|2[0-3]):([0-5]\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 105px;"
                                                     name="car[{{$key}}][pickup_time]"
                                                     value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}">
                                             </td>
                                             <td><input style="width: 105px;" type="date" class="form-control"
                                                     name="car[{{$key}}][dropoff_date]"
                                                     value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="time" class="form-control" style="width: 100px;"
+                                            <td><input type="text" pattern="^([01]\d|2[0-3]):([0-5]\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 100px;"
                                                     name="car[{{$key}}][dropoff_time]"
                                                     value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}">
                                             </td>
@@ -70,7 +97,7 @@
                                                     name="car[{{$key}}][confirmation_number]"
                                                     placeholder="Confirmation Number"
                                                     value="{{$travelCar->confirmation_number}}"></td>
-                                          
+
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-car-btn">
                                                     <i class="ri ri-delete-bin-line"></i>

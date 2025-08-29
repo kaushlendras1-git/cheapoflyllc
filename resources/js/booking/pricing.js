@@ -296,7 +296,6 @@ function updateFooterTotals() {
 
             if (selectedOption && selectedOption.getAttribute('data-grossmco')) {
                 grossmcoBool = selectedOption.getAttribute('data-grossmco');
-                console.log(selectedOption,selectedOption.getAttribute('data-grossmco'));
             }
         }
 
@@ -308,7 +307,6 @@ function updateFooterTotals() {
         netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
     });
 
-    
 
     document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
     document.getElementById('gross_value').value = grossTotal.toFixed(2);
@@ -318,18 +316,23 @@ function updateFooterTotals() {
 
     document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
     document.getElementById('net_value').value = netTotal.toFixed(2);
-    document.getElementById('gross_mco').value=grossMco;
+
     const diff = grossTotal - netTotal;
     const mcqElement = document.getElementById('total_gross_value');
 
-    
+
     if (mcqElement) {
         let merchantFeefinal = grossMco * 0.15;
-        document.getElementById('merchant_fee_text').textContent = merchantFeefinal;
+        // document.getElementById('merchant_fee_text').textContent = merchantFeefinal;
         document.getElementById('merchant_fee_text1').textContent = merchantFeefinal;
         document.getElementById('merchant_fee_text2').textContent = merchantFeefinal;
         document.getElementById('merchant_fee').value = merchantFeefinal;
+        let fetchNetAmount = document.getElementById('total_net_profit').textContent;
+        let finalNetAmount = parseFloat(fetchNetAmount) + merchantFeefinal;
+        document.getElementById('total_net_profit').textContent = finalNetAmount;
+        document.getElementById('net_value').value = finalNetAmount;
         mcqElement.textContent = grossMco - merchantFeefinal;
+        document.getElementById('gross_mco').value=grossMco - merchantFeefinal;
     }
 
     const netProfitAfterFee = grossTotal - netTotal;
@@ -342,11 +345,16 @@ function updateFooterTotals() {
 
     const element3 = document.getElementById('net-total-merchant');
 
-    
+
 
     if(document.getElementById('net-total-company-card')){
         document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
     }
+    const fetchgrossAmount = document.getElementById('total_gross_profit').textContent;
+    const fetchnetAmount = document.getElementById('total_net_profit').textContent;
+    const finalnetMCOs = fetchgrossAmount - fetchnetAmount;
+    document.getElementById('total_netprofit_value').textContent = finalnetMCOs;
+    document.getElementById('net_mco').value = finalnetMCOs;
 }
 
 
