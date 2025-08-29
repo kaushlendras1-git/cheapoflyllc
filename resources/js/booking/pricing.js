@@ -319,7 +319,7 @@ function updateFooterTotals() {
         let merchantFeefinal = grossMco * 0.15;
         document.getElementById('merchant_fee_text').textContent = merchantFeefinal;
         document.getElementById('merchant_fee').value = merchantFeefinal;
-        mcqElement.textContent = grossMco+merchantFeefinal;
+        mcqElement.textContent = grossMco - merchantFeefinal;
     }
 
     const netProfitAfterFee = grossTotal - netTotal;
