@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/history', function () {return view('web.history');})->name('history');
         Route::get('/pricing-details', function () {return view('web.pricing-details');});
         Route::get('/auth-history/{id}', [AuthHistoryController::class, 'index'])->name('auth-history');
+        Route::get('/download-auth-pdf/{id}', [AuthHistoryController::class, 'downloadAuthPdf'])->name('download-auth-pdf');
         Route::post('/sms/{id}', [AuthHistoryController::class, 'sendSms'])->name('sms');
         Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
         Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
