@@ -307,17 +307,27 @@ function updateFooterTotals() {
         grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
         netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
     });
+
+    
+
     document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
     document.getElementById('gross_value').value = grossTotal.toFixed(2);
+
+
+
+
     document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
     document.getElementById('net_value').value = netTotal.toFixed(2);
     document.getElementById('gross_mco').value=grossMco;
     const diff = grossTotal - netTotal;
     const mcqElement = document.getElementById('total_gross_value');
 
+    
     if (mcqElement) {
         let merchantFeefinal = grossMco * 0.15;
         document.getElementById('merchant_fee_text').textContent = merchantFeefinal;
+        document.getElementById('merchant_fee_text1').textContent = merchantFeefinal;
+        document.getElementById('merchant_fee_text2').textContent = merchantFeefinal;
         document.getElementById('merchant_fee').value = merchantFeefinal;
         mcqElement.textContent = grossMco - merchantFeefinal;
     }
@@ -332,10 +342,13 @@ function updateFooterTotals() {
 
     const element3 = document.getElementById('net-total-merchant');
 
+    
+
     if(document.getElementById('net-total-company-card')){
         document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
     }
 }
+
 
 
 document.addEventListener('change', function (e) {

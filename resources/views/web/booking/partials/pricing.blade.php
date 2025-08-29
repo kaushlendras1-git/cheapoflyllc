@@ -247,7 +247,7 @@
                                                     <option data-grossmco="1" value="Company card" {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card</option>
                                                     <option data-grossmco="1" value="company_card_used" {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card Used</option>
 
-                                                    <option data-grossmco="0" value="Merchant fee" {{ $pricingDetails->details == 'Merchant fee' ? 'selected' : '' }}>Merchant fee</option>
+
                                                     <option data-grossmco="0" value="Partial Refund" {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund</option>
                                                     <option data-grossmco="0" value="Full Refund" {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund</option>
                                                     <option data-grossmco="0" value="Chargeback Fee" {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee</option>
@@ -268,16 +268,29 @@
                             </tbody>
 
                             <tfoot>
-                                <tr>
-                                    <td colspan="6" class="pb-0" style="border-bottom: 0;">
-                                        <strong style="color:#055bdb">Gross MCO</strong> : <span id="total_gross_value">0.00</span>
-                                         <input name="gross_mco" type="hidden" id="gross_mco"/>
-                                    </td>
-                                    <td class="pb-0" style="border-bottom: 0;">
-                                        <strong style="color:#055bdb">Net MCO</strong> : <span id="total_netprofit_value">0.00</span>
-                                         <input name="net_mco" type="hidden" id="net_mco"/>
-                                    </td>
-                                </tr>
+
+                            <tr>
+                                    <td  class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
+                                    <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
+                                    <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
+                                    <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
+                                    <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"><span id="merchant_fee_text1">0.00</span></td>
+                                    <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"><span id="merchant_fee_text2">0.00</span></td>
+                                    <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;">Merchant Fee</td>
+                                    <td class="pb-0" style="border-bottom: 1;"></td>
+                            </tr>        
+
+                            <tr>
+                                <td colspan="6" class="pb-0" style="border-bottom: 0;">
+                                    <strong style="color:#055bdb">Gross MCO</strong> : <span id="total_gross_value">0.00</span>
+                                        <input name="gross_mco" type="hidden" id="gross_mco"/>
+                                </td>
+                                <td class="pb-0" style="border-bottom: 0;">
+                                    <strong style="color:#055bdb">Net MCO</strong> : <span id="total_netprofit_value">0.00</span>
+                                        <input name="net_mco" type="hidden" id="net_mco"/>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td colspan="6" class="pb-0" style="border-bottom: 0;">
                                     <strong style="color:#055bdb">Merchant Fee</strong> : <span id="merchant_fee_text">0.00</span>
