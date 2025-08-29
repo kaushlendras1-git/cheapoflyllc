@@ -842,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </td>
                 <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]"></td>
-                <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]"></td>
+                <td><input type="text" class="form-control cc_holder_name" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]"></td>
                 <td>
                     <select class="form-control" name="billing[${billingIndex}][exp_month]">
                         <option value="">MM</option>

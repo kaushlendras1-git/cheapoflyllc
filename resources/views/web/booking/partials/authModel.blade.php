@@ -23,32 +23,44 @@
 
         -->
 
-        @foreach($booking->billingDetails as $key => $billingDetails)
-             @php
-                     $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
-                     $cc     = $billingDetails['cc_number'];
-                     $digits = preg_replace('/\D+/', '', (string) $cc);
-                     $last4  = strlen($digits) >= 4 ? substr($digits, -4) : null;
-              @endphp
+            @php
+                $lastCcHolderName = null;
+            @endphp
 
-                  <button class="btn btn-custom d-flex align-items-center sendAuthMail"
-                        data-bs-toggle="modal"
-                        data-bs-target="#sendAuthMailModal"
-                        data-booking_id="{{ encode($billingDetails->booking_id) }}"
-                        data-card_id="{{ encode($billingDetails->state) }}"
-                        data-card_billing_id="{{ encode($billingDetails->id) }}"
-                        data-email="{{ $billingDetails->getBillingDetail->email}}"
-                        data-cc_number="{{$billingDetails['cc_number']}}"
-                        data-bs-dismiss="modal"
-                        data-href="{{route('i_authorized',['booking_id'=>encode($billingDetails->booking_id),'card_id'=>encode($billingDetails->state),'card_billing_id'=>encode($billingDetails->id),'refund_status'=>encode(1)])}}"
+            @foreach($booking->billingDetails as $key => $billingDetails)
+                @php
+                    $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
+                    $cc     = $billingDetails['cc_number'];
+                    $digits = preg_replace('/\D+/', '', (string) $cc);
+                    $last4  = strlen($digits) >= 4 ? substr($digits, -4) : null;
+                    $currentCcHolderName = $billingDetails['cc_holder_name'] ?? null;
+                @endphp
+
+                @if($currentCcHolderName !== $lastCcHolderName)
+                    <button class="btn btn-custom d-flex align-items-center sendAuthMail"
+                            data-bs-toggle="modal"
+                            data-bs-target="#sendAuthMailModal"
+                            data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                            data-card_id="{{ encode($billingDetails->state) }}"
+                            data-card_billing_id="{{ encode($billingDetails->id) }}"
+                            data-email="{{ $billingDetails->getBillingDetail->email }}"
+                            data-cc_number="{{ $billingDetails['cc_number'] }}"
+                            data-bs-dismiss="modal"
+                            data-href="{{ route('i_authorized', ['booking_id' => encode($billingDetails->booking_id), 'card_id' => encode($billingDetails->state), 'card_billing_id' => encode($billingDetails->id), 'refund_status' => encode(1)]) }}"
                     >
-                    <i class="ri ri-mail-open-fill"></i>
+                        <i class="ri ri-mail-open-fill"></i>
                         Send Auth Email{{ $last4 ? " (Card ***{$last4})" : '' }}
-                  </button>
-        @endforeach
+                    </button>
+
+                    @php
+                        $lastCcHolderName = $currentCcHolderName;
+                    @endphp
+                @endif
+            @endforeach
 
 
-         <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
+
+            <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
             data-booking_id="{{ $hashids }}"
             data-email="kaushlendras1@gmail.com"
             data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Mail
@@ -155,7 +167,7 @@
 
             <button class="send-btn">Send SMS</button>
         </form>
-        
+
       </div>
       </div>
     </div>

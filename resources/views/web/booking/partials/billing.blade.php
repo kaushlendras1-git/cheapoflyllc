@@ -106,7 +106,7 @@
                                             value="{{$billingDetails['cc_number']}}"></td>
 
 
-                                    <td><input type="text" class="form-control w-100" placeholder="CC Holder Name"
+                                    <td><input type="text" class="form-control w-100 cc_holder_name" placeholder="CC Holder Name"
                                             name="billing[{{$key}}][cc_holder_name]"
                                             value="{{$billingDetails['cc_holder_name']}}"></td>
                                     <td>
@@ -224,6 +224,7 @@
                 </h4>
                 <div class="row">
                   @foreach($booking->billingDetails as $key => $billingDetails)
+{{--                      @dd($billingDetails)--}}
                     <div class="col-md-3">
                         <div class="card-partisal">
                             <h5 class="no-card mb-4">Card {{$key+1}} <span style="color: #ff0000;">(MCO = ${{$billingDetails['authorized_amt']}})</span></h5>
@@ -237,7 +238,7 @@
                             <h4 class="bill-add mb-4">Billing Address</h4>
                             <div class="detail_namer">
                                 @php
-                                    $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
+                                    $card_billing_data = \App\Models\BillingDetail::with('get_country:id,country_name')->find($billingDetails['state']);
                                 @endphp
 
                                 <p>Email: <span>{{$card_billing_data->email ?? ''}}</span></p>
@@ -246,7 +247,7 @@
                                 <p>City: <span>{{$card_billing_data->city ?? ''}}</span></p>
                                 <p>State: <span>{{$card_billing_data->state ?? ''}}</span></p>
                                 <p>Zip Code: <span>{{$card_billing_data->zip_code ?? ''}}</span></p>
-                                <p>Country <span>{{$card_billing_data->country ?? ''}}</span></p>
+                                <p>Country <span>{{$card_billing_data->get_country->country_name ?? ''}}</span></p>
                             </div>
                         </div>
                     </div>
