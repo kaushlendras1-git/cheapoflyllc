@@ -142,6 +142,27 @@
   </div>
 
 
+  <div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sendMailModalLabel">Send Mail</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="sendSMS" action="{{ route('sms', $booking->id) }}" method="POST">
+            @csrf
+
+            <button class="send-btn">Send SMS</button>
+        </form>
+        
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+
 
   <!-- WhatsApp Modal -->
   <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
@@ -177,7 +198,11 @@
         </div>
         <div class="modal-body">
           <div class="survey-preview">
-            <p>How satisfied are you with your booking experience at Faretickets LLC? Please rate from 1 to 5 and share your feedback. Ref: INT29060202244</p>
+            <p>Hello (Customer Name),</p>
+            <p>It’s been a pleasure working with you. We’re always looking to improve, and your feedback would be incredibly valuable to us.</p>
+            <p>Would you be open to writing a short review or testimonial?</p>
+            <p>➤ [Review Link]</p>
+            <p>Thank you again for trusting Faretickets LLC.</p>
           </div>
 
           <form id="sendSurvey" action="{{ route('survey', $booking->id) }}" method="POST">

@@ -7,6 +7,7 @@ use App\Models\BookingStatus;
 use App\Models\PaymentStatus;
 use App\Models\Campaign;
 use App\Models\BillingDetail;
+use App\Models\BookingType;
 use App\Models\CarImages;
 use App\Models\CruiseImages;
 use App\Models\FlightImages;
@@ -86,6 +87,7 @@ class AuthEmail extends Mailable
         $this->screenshotImages = ScreenshotImages::where('booking_id', $this->booking->id)->get();
         $this->trainImages = TrainImages::where('booking_id', $this->booking->id)->get();
         $this->users = User::get();
+        $this->bookingType = BookingType::where('id',$this->booking->query_type)->first();
     }
 
     /**
@@ -94,7 +96,7 @@ class AuthEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking Acknowledgement',
+            subject: 'Credit Card Authorization - '.$this->bookingType->name,
         );
     }
 

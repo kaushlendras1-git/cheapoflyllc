@@ -67,7 +67,6 @@ class CallLogController extends Controller
 
     public function store(Request $request)
     {
-        // Validate request data
         $validated = $request->validate([
             'chkflight' => 'nullable|boolean',
             'chkhotel' => 'nullable|boolean',
@@ -79,10 +78,10 @@ class CallLogController extends Controller
             'campaign_id' => 'required|exists:campaigns,id',
             'reservation_source' => 'required|string|max:255',
             'call_type' => 'required|string|max:255',
-            'call_converted' => 'nullable|boolean',
+            'call_converted' => 'required|boolean',
             'followup_date' => 'nullable|date',
             'assign' => 'nullable',
-            'notes' => 'nullable|string',
+            'notes' => 'required_if:call_converted,0|string|nullable',
         ]);
         if (
             !$request->input('chkflight') &&
@@ -122,7 +121,7 @@ class CallLogController extends Controller
                 'campaign' => $request->campaign_id,
                 'call_type' => $request->call_type,
                 'pnr' => $pnr,
-                'phone'  => $request->call_type,
+                'phone'  =>  preg_replace('/\s+/', '', $request->phone),
                 'booking_status_id' => 1,
                 'payment_status_id' => 1,
                 'gross_value' => 0,

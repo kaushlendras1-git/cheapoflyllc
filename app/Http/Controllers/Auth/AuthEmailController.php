@@ -76,6 +76,9 @@ class AuthEmailController extends Controller
                         'status' => true,
                         'code' => 200
                     ], 200);
+
+                    TravelBooking::where('id', $bookingId)->update(['booking_status_id' => 2]);
+
                 } catch (Swift_TransportException $e) {
                     $errorMessage = $e->getMessage();
                     $error = strpos($errorMessage, '554 Message rejected: Email address is not verified') !== false

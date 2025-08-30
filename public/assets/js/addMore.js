@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
                     <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                 </td>
-                <td><input type="text" class="form-control time_24_hrs" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="00:00"
+                <td><input type="time" class="form-control " style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="00:00"
                                                         max="23:59"
                                                         step="60">
                 </td>
@@ -334,9 +334,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                 </td>
 
-                <td><input type="text" class="form-control time_24_hrs" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" min="00:00"
-                                                        max="23:59"
-                                                        step="60"></td>
+                <td><input type="time" class="form-control" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" 
+                                                        min="00:00" 
+                                                        max="23:59" 
+                                                        step="60" 
+                                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                                                        title="Enter time in HH:MM format (e.g., 14:30)"
+                                                        ></td>
 
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
@@ -351,21 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const departureInput = newRow.querySelector('input[name="flight[' + flightIndex + '][departure_hours]"]');
             const arrivalInput = newRow.querySelector('input[name="flight[' + flightIndex + '][arrival_hours]"]');
 
-            flatpickr(departureInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
 
-            flatpickr(arrivalInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
             flightIndex++;
         }
 
