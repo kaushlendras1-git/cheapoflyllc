@@ -93,15 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
             newRow.dataset.index = cruiseIndex;
             newRow.innerHTML = `
                 <td><span class="cruise-title">${cruiseIndex + 1}</span></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][cruise_line]" placeholder="Cruise Line"></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][ship_name]" placeholder="Name of the Ship"></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][category]" placeholder="Category"></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][stateroom]" placeholder="Stateroom"></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
-                <td><input type="date" class="form-control" style="width: 105px;" name="cruise[${cruiseIndex}][departure_date]"></td>
+                <td><input type="date" class="form-control" style="width: 125px;" name="cruise[${cruiseIndex}][departure_date]"></td>             
+                <td><input type="text" class="form-control" style="width:39.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
+          
                 <td><input type="text" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="text" class="form-control" style="width:7.5rem" name="cruise[${cruiseIndex}][arrival_port]" placeholder="Arrival Port"></td>
-                <td><input type="date" class="form-control" style="width:105px;" name="cruise[${cruiseIndex}][arrival_date]"></td>
                 <td><input type="text" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
 
                 <td>
@@ -514,8 +509,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const allowedDataIds = ['13', '14','18','19','32','33','39','41','43','44', '50', '51'];
 
         // Get all 10th column elements (th and td)
-        const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(10)');
-        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
+        const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(9)');
+        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(9)');
 
         if (allowedDataIds.includes(dataType)) {
             // Show credit column
@@ -577,12 +572,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td><input type="text" class="form-control" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
-            <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
+           
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
             <td><input type="date" class="form-control" style="width: 105px;" name="passenger[${passengerIndex}][dob]"></td>
             <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
             <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
             <td><input type="text" class="form-control w-100" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
+            <td><input type="text" class="form-control w-100" name="passenger[${passengerIndex}][room_category]" placeholder="Room Category"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                     <i class="icon-base ri ri-delete-bin-2-line"></i>

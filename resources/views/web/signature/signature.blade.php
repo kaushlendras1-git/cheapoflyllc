@@ -494,37 +494,41 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     </tr>
                                     <tr>
                                         <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Ship: </td>
-                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">MSC Divina
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">{{$travel_cruise_data->cruise_name}}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Lenght:
                                         </td>
-                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">10 Nights
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">{{$travel_cruise_data->length}}
                                         </td>
                                     </tr>
                                    
                                     
                                     <tr>
-                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Departure
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Departure Post
                                             Port: </td>
-                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Miami</td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">{{$travel_cruise_data->departure_port}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Departure
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Arrival Port
                                             Date: </td>
-                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Jan 15 2026
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">{{$travel_cruise_data->arrival_port}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Arival
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Cruise Line
                                             Port: </td>
-                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Miami</td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">{{$travel_cruise_data->cruise_line}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Arival
-                                            Date: </td>
-                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Jan 25 2026
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Category</td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">{{$travel_cruise_data->category}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Stateroom</td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">{{$travel_cruise_data->stateroom}}
                                         </td>
                                     </tr>
                                 </table>
@@ -537,6 +541,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <table border="1" cellspacing="0" cellpadding="10"
                         style="border-collapse:collapse; font-family: 'Work Sans', sans-serif; width: 100%; background-color: #f8f8f8; margin: auto; font-size:14px; text-align:left;">
                         <tr style="background-color:#a8c9f0; font-weight:bold;">
+                            <td style="width:25%;">Day</td>
                             <td style="width:25%;">DATE</td>
                             <td style="width:35%;">PORT OF CALL</td>
                             <td style="width:20%;">ARRIVE</td>
@@ -546,6 +551,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                        
                         <!------------cruise----------------->
                         <tr>
+                            <td style="padding:8px;">{{$travelCruise->day}}</td>
                             <td style="padding:8px;">
                                 Monday<br>
                                 Jul/28/2025
@@ -868,36 +874,34 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         Signature</button></td>
             </tr>
             <tr>
-                <td colspan="2" style="padding: 20px 0px;"><div id="signaturePreview" class="signature-preview d-none">No signature added.</div></td>
+                <td colspan="2" ><div id="signaturePreview" class="signature-preview d-none">No signature added.</div></td>
             </tr>
             
             <tr>
-    <td colspan="2" style="text-align:center; padding-bottom: 20px;">
-        <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
-            @csrf
+                <td colspan="2" style="text-align:center; padding-bottom: 20px;">
+                    <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
+                        @csrf
 
-            <input type="hidden" name="card_id" id="card_id" value="{{ $card_id }}">
-            <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{ $card_billing_id }}">
-            <input type="hidden" name="refund_status" id="refund_status" value="{{ $refund_status }}">
-            <input type="hidden" name="signature" id="signatureData">
-            <input type="hidden" name="signature_type" id="signatureType">
-            <input type="hidden" name="booking_id" id="booking_id" value="{{ request()->segment(2) }}">
+                        <input type="hidden" name="card_id" id="card_id" value="{{ $card_id }}">
+                        <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{ $card_billing_id }}">
+                        <input type="hidden" name="refund_status" id="refund_status" value="{{ $refund_status }}">
+                        <input type="hidden" name="signature" id="signatureData">
+                        <input type="hidden" name="signature_type" id="signatureType">
+                        <input type="hidden" name="booking_id" id="booking_id" value="{{ request()->segment(2) }}">    
+                        
+                        <div style="margin-top: 10px;">
+                            <label>
+                                <input type="checkbox" id="termsCheckbox" required > 
+                                <a style="text-decoration: none;" href="{{ route('terms-and-conditions') }}" target="_blank"> I have read and agree to the Terms and Conditions </a>
+                            </label>
+                        </div>
 
-     
-            
-            <div style="margin-top: 10px;">
-                <label>
-                    <input type="checkbox" id="termsCheckbox" required > 
-                    <a style="text-decoration: none;" href="{{ route('terms-and-conditions') }}" target="_blank"> I have read and agree to the Terms and Conditions </a>
-                </label>
-            </div>
-
-            <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>
-                I Authorized
-            </button>
-        </form>
-    </td>
-</tr>
+                        <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>
+                            I Authorized
+                        </button>
+                    </form>
+                </td>
+            </tr>
 
             
             

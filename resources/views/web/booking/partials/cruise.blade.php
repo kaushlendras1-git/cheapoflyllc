@@ -1,37 +1,47 @@
 
             <!------------------------ Cruise Booking Details ------------------------------>
             <div class="tab-pane fade" id="cruisebooking" role="tabpanel" aria-labelledby="cruisebooking-tab">
-                
-              <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
 
+            <div class=" position-relative checkbox-servis mb-2 mt-2">    
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="payment_type" id="fullPayment" value="full_payment" checked>
+                            <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
+                        </div>
+                    
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="payment_type" id="deposit" value="deposit">
+                            <label class="form-check-label" for="deposit">Deposit</label>
+                        </div>
+            </div>
+
+              <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
+ 
                 <div class="row">
-                <div class="col-md-12 table-responsive details-table-wrappper">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Cruise Trip Name</th>
-                            <th>Name of the Ship</th>
-                            <th>Lenght</th>
-                            <th>Departure Port</th>
-                            <th>Arival Port</th>
-                            <th>Cruise Line</th>
-                            <th>Category</th>
-                            <th>Stateroom</th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td><input type="text" class="form-control" placeholder="Cruise Trip Name"> </td>
-                        <td><input type="text" class="form-control" placeholder="Name of the Ship">    </td>
-                        <td> <input type="text" class="form-control" placeholder="Lenght"></td>
-                        <td><input type="text" class="form-control" placeholder="Departure Port">   </td>
-                        <td> <input type="text" class="form-control" placeholder="Arival Port"> </td>
-                        <td> <input type="text" class="form-control" placeholder="Cruise Line">    </td>
-                        <td><input type="text" class="form-control" placeholder="Category"></td>
-                        <td><input type="text" class="form-control" placeholder="Stateroom"></td>
-                    </tr>
-                </table>
-                </div>             				
-                </div>
+                    <div class="col-md-12 table-responsive details-table-wrappper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                      <th>Cruise Line</th>
+                                      <th>Name of the Ship</th>
+                                    <th>Cruise Trip Name</th>
+                                    <th>Length</th>
+                                    <th>Departure Port</th>
+                                    <th>Arrival Port</th>
+                                  <th>No. of Rooms</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                            <td> <input type="text" class="form-control" placeholder="Cruise Line" name="cruise_line" value="{{$travel_cruise_data->cruise_line}}"></td>    
+                            <td><input type="text" class="form-control"  placeholder="Name of the Ship" placeholder="Name of the Ship" name="ship_name" value="{{$travel_cruise_data->ship_name}}"></td>
+                            <td><input type="text" class="form-control"  placeholder="Cruise Trip Name" name="cruise_name" value="{{$travel_cruise_data->cruise_name}}"></td>
+                                <td> <input type="text" class="form-control" placeholder="Length" placeholder="length" name="length" value="{{$travel_cruise_data->length}}"></td>
+                                <td><input type="text" class="form-control"  placeholder="Departure Port" name="departure_port" value="{{$travel_cruise_data->departure_port}}"></td>
+                                <td> <input type="text" class="form-control" placeholder="Arival Port" name="arrival_port" value="{{$travel_cruise_data->arrival_port}}"></td>
+                                <td><input type="text" class="form-control"  placeholder="Stateroom" name="stateroom" value="{{$travel_cruise_data->stateroom}}"></td>
+                            </tr>
+                        </table>
+                    </div>             				
+            </div>
 
        
                 <div class="card p-4 show-booking-card">
@@ -52,14 +62,11 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Type</th>
-                                         
-                                            <th>Departure Port</th>
-                                            <th>Departure Date</th>
-                                            <th>Hrs:MM</th>
-                                            <th>Arrival Port</th>
-                                            <th>Arrival Date</th>
-                                            <th>Hrs:MM</th>
+                                            <th>Date</th>
+                                            <th> Port</th>
+                                            <th>Depart Time<br>Hrs:MM</th>
+                                            
+                                            <th>Arrival Time<br>Hrs:MM</th>
                                             <!-- <th>Remarks</th> -->
                                             <th>Action</th>
                                         </tr>
@@ -69,42 +76,22 @@
                                         <tr class="cruise-row" data-index="{{$key}}">
                                             <td><span class="cruise-title">{{$key+1}}</span></td>
 
-                                            <td>
-                                                
-                                          
-                                            
-  <!-- <input class="form-check-input" type="radio" name="cruise_type" id="dayAtSea" value="day_at_sea">
-  <label class="form-check-label" for="dayAtSea">Day at Sea</label>
-
-  
-  <input class="form-check-input" type="radio" name="cruise_type" id="trip" value="trip">
-  <label class="form-check-label" for="trip">Trip</label> -->
-
-  
-                                            </td>
-                                            
-                                            
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="cruise[{{$key}}][departure_port]"
-                                                    value="{{$travelCruise->departure_port}}"
-                                                    placeholder="Departure Port"></td>
-                                            <td><input style="width: 105px;" type="date" class="form-control"
+                                         <td><input style="width: 125px;" type="date" class="form-control"
                                                     name="cruise[{{$key}}][departure_date]"
                                                     value="{{$travelCruise->departure_date?->format('Y-m-d')}}">
                                             </td>
+                                            <td><input type="text" class="form-control" style="width:39.5rem"
+                                                    name="cruise[{{$key}}][departure_port]"
+                                                    value="{{$travelCruise->departure_port}}"
+                                                    placeholder="Port"></td>
+                                           
                                             <td><input type="text" class="form-control time_24_hrs" style="width:50px"
                                                     name="cruise[{{$key}}][departure_hrs]"
                                                     value="{{$travelCruise->departure_hrs}}" placeholder="Hrs" min="0"
                                                     max="23"></td>
 
 
-                                            <td><input type="text" class="form-control" style="width:7.5rem"
-                                                    name="cruise[{{$key}}][arrival_port]"
-                                                    value="{{$travelCruise->arrival_port}}" placeholder="Arrival Port">
-                                            </td>
-                                            <td><input type="date" style="width: 105px;" class="form-control"
-                                                    name="cruise[{{$key}}][arrival_date]"
-                                                    value="{{$travelCruise->arrival_date?->format('Y-m-d')}}"></td>
+                                           
                                             <td><input type="text" class="form-control time_24_hrs" style="width:50px;"
                                                     name="cruise[{{$key}}][arrival_hrs]"
                                                     value="{{$travelCruise->arrival_hrs}}" placeholder="Hrs" min="0"
@@ -125,6 +112,50 @@
                         </div>
                     </div>
                 </div>
+
+
+
+                
+              <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Addons</h5>
+             
+
+                <div class="row">
+                    <div class="col-md-12 table-responsive details-table-wrappper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Services</th>
+                                    <th>Name of Service</th>
+                                    <th>Image</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    <select class="form-control" name="services">
+                                        <option value="">Select</option>
+                                        <option>Excursions</option>
+                                        <option>WiFi Packages</option>
+                                        <option>Crew Appreciation Fees/Gratuities</option>
+                                        <option>Shuttle Services</option>
+                                        <option>Speciality Dining</option>
+                                        <option>Drink Packages</option>
+                                        <option>Trip Insurance</option>
+                                        <option>Check-in Proces (Luggage Tags & Sailing Pass)</option>
+                                        <option>Special Occasion Package</option>
+                                        <option>Water Bottle or Distiled Water Package</option>
+                                        <option>Old Itinerary</option>
+                                        <option>Changed Itinerary</option>
+                                    </select>   
+                                </td>
+                                <td><textarea type="text" class="form-control"  placeholder="Name of Service" placeholder="Name of the Ship" name="service" cols="30" rows="6"></textarea></td>
+                                <td> <!--input type="file" class="form-control" name="image"--></td>
+                            </tr>
+                        </table>
+                    </div>             				
+                </div>
+
+
+                
 
                 <div style="margin-top:20px">
                     <input type="file" id="screenshots-upload" name="cruisebookingimage[]" multiple>

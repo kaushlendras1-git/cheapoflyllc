@@ -29,7 +29,7 @@
                                                 <th title="Airline (Code)">AL<br>(Code)</th>
                                                 <th>Flight<br> No</th>
                                                 <th>Cabin</th>
-                                                <th title="Class of Service">CL</th>
+                                                <th title="Class of Service">Operating<br>Airline</th>
                                                 <th>Departure Airport</th>
                                                 <th>Hrs:MM</th>
                                                 <th>Arrival Airport</th>

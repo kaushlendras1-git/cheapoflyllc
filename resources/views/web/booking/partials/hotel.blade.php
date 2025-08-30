@@ -85,9 +85,36 @@
                             </div>
                         </div>
                     </div>
+
+
+                     <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Details</h5>
+                    <div class="row">
+                        <div class="col-md-12 table-responsive details-table-wrappper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Hotel Description</th>
+                                        <th>Image</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td><textarea class="form-control" name="hotel_description" placeholder="Hotel Description" cols="30" rows="6"></textarea></td>
+                                    <td> image</td>
+                                </tr>
+                            </table>
+                        </div>             				
+                </div>
+
+
+                
+
                     <div style="margin:20px">
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
+
+
+                   
+
 
                     <div class="" style="margin-top:20px">
                         @if($hotel_images)

@@ -101,6 +101,27 @@
                         </div>
                     </div>
 
+
+                <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Train Details</h5>
+                <div class="row">
+                    <div class="col-md-12 table-responsive details-table-wrappper">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Train Description</th>
+                                    <th>Image</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td><textarea class="form-control" name="train_description" placeholder="Train Description" cols="30" rows="6"></textarea></td>
+                                <td> image</td>
+                            </tr>
+                        </table>
+                    </div>             				
+             </div>
+
+
+
                     <div style="margin-top:20px">
                         <input type="file" id="screenshots-upload" name="trainbookingimage[]" multiple>
                     </div>

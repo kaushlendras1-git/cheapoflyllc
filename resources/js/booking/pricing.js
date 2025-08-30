@@ -331,7 +331,8 @@ function updateFooterTotals() {
         let finalNetAmount = parseFloat(fetchNetAmount) + merchantFeefinal;
         document.getElementById('total_net_profit').textContent = finalNetAmount;
         document.getElementById('net_value').value = finalNetAmount;
-        mcqElement.textContent = grossMco - merchantFeefinal;
+        //mcqElement.textContent = grossMco - merchantFeefinal;
+        mcqElement.textContent = grossMco;
         document.getElementById('gross_mco').value=grossMco - merchantFeefinal;
     }
 

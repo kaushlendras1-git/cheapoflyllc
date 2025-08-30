@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Travel;
 
 use App\Http\Controllers\Controller;
 use App\Models\BillingDetail;
+use App\Models\TravelCruise;
 use App\Models\CarImages;
 use App\Models\CruiseImages;
 use App\Models\flightImages;
@@ -326,6 +327,8 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
+
+
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -425,6 +428,16 @@ class BookingFormController extends Controller
 
             // ---- CRUISE ----
             if (in_array('Cruise', $bookingTypes)) {
+                //Sonu
+                 $rules['cruise_name']                              = 'required';
+                 $rules['ship_name']                              = 'required';
+                 $rules['length']                              = 'required';
+                 $rules['departure_port']                              = 'required';
+                 $rules['arrival_port']                              = 'required';
+                 $rules['cruise_line']                              = 'required';
+               #  $rules['category']                              = 'required';
+                 $rules['stateroom']                              = 'required';
+
                 $cruiseImageExists = DB::table('cruise_images')->where('booking_id', $id)->exists();
 
                 if ($cruiseImageExists) {
@@ -435,10 +448,10 @@ class BookingFormController extends Controller
                     $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
                 }
               #  $rules['cruise_ref']                 = 'required|string';
-                $rules['cruise.*.cruise_line']     = 'required_with:cruise|string|max:255';
-                $rules['cruise.*.ship_name']       = 'required_with:cruise|string|max:255';
-                $rules['cruise.*.category']        = 'required_with:cruise|string|max:255';
-                $rules['cruise.*.stateroom']       = 'required_with:cruise|string|max:255';
+
+                $rules['cruise.*.type']        = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.day']       = 'required_with:cruise|string|max:255';
+                $rules['cruise.*.type']       = 'required_with:cruise|string|max:255';
                 $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
                 $rules['cruise.*.departure_date']  = 'required_with:cruise|date';
                 $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
@@ -780,22 +793,6 @@ class BookingFormController extends Controller
                 'cruise.array'                    => 'Cruise booking details must be an array.',
                 'cruise.min'                      => 'At least one cruise booking is required.',
 
-                'cruise.*.cruise_line.required'  => 'Cruise line is required.',
-                'cruise.*.cruise_line.string'    => 'Cruise line must be a string.',
-                'cruise.*.cruise_line.max'       => 'Cruise line cannot exceed 255 characters.',
-
-                'cruise.*.ship_name.required'    => 'Ship name is required.',
-                'cruise.*.ship_name.string'      => 'Ship name must be a string.',
-                'cruise.*.ship_name.max'         => 'Ship name cannot exceed 255 characters.',
-
-                'cruise.*.category.required'     => 'Cruise category is required.',
-                'cruise.*.category.string'       => 'Cruise category must be a string.',
-                'cruise.*.category.max'          => 'Cruise category cannot exceed 255 characters.',
-
-                'cruise.*.stateroom.required'    => 'Cruise stateroom is required.',
-                'cruise.*.stateroom.string'      => 'Cruise stateroom must be a string.',
-                'cruise.*.stateroom.max'         => 'Cruise stateroom cannot exceed 255 characters.',
-
                 'cruise.*.departure_port.required' => 'Cruise departure port is required.',
                 'cruise.*.departure_port.string' => 'Cruise departure port must be a string.',
                 'cruise.*.departure_port.max'    => 'Cruise departure port cannot exceed 255 characters.',
@@ -965,13 +962,14 @@ class BookingFormController extends Controller
             #DB::beginTransaction();
 
             $booking = TravelBooking::findOrFail($id);
-            if ($request->input('last_updated_at') != $booking->updated_at->toDateTimeString()) {
-                     return response()->json([
-                        'status' => 'error',
-                        'errors' => 'This booking was updated by someone else. Please refresh and try again.',
-                        'code' => 555
-                    ], 555);
-             }
+
+            // if ($request->input('last_updated_at') != $booking->updated_at->toDateTimeString()) {
+            //          return response()->json([
+            //             'status' => 'error',
+            //             'errors' => 'This booking was updated by someone else. Please refresh and try again.',
+            //             'code' => 555
+            //         ], 555);
+            //  }
 
 
             $bookingData = $request->only([
@@ -1128,6 +1126,18 @@ class BookingFormController extends Controller
                 ->get()
                 ->each
                 ->delete();
+
+                //Kaushlendra
+
+                $cruiseData = $request->only(['cruise_name', 'ship_name','length', 'departure_port', 'arrival_port','cruise_line','category','stateroom','day', 'type']);
+                if (!empty($cruiseData)) {
+                    $cruiseData['booking_id'] = $booking->id;
+                    TravelCruise::updateOrCreate(
+                        ['booking_id' => $booking->id],
+                        $cruiseData
+                    );
+                }
+            
 
             $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
             $newCruises = $request->input('cruise', []);
@@ -1385,12 +1395,13 @@ class BookingFormController extends Controller
         $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
+        $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first(); 
         $users = User::get();
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
         $campaigns = Campaign::all();
       #  $call_types = CallType::all();
-        return view('web.booking.show', compact('campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        return view('web.booking.show', compact('travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
     public function add(){

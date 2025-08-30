@@ -242,6 +242,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             }
         });
     }
+    
     if (isCruiseChecked) {
         const cruiseInputs = document.querySelectorAll('[name^="cruise["]');
         const rows = {};
