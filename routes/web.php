@@ -46,7 +46,7 @@ Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_statu
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
 Route::post('/mail-sent',[AuthEmailController::class,'index'])->name('mail-sent');
-
+Route::get('/terms-and-conditions', function () {return view('web.terms-and-conditions');})->name('terms-and-conditions');
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
 Route::post('/update-device-token', [NotificationController::class, 'updateDeviceToken']);
@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/history', function () {return view('web.history');})->name('history');
         Route::get('/pricing-details', function () {return view('web.pricing-details');});
         Route::get('/auth-history/{id}', [AuthHistoryController::class, 'index'])->name('auth-history');
+        Route::get('/download-auth-pdf/{id}', [AuthHistoryController::class, 'downloadAuthPdf'])->name('download-auth-pdf');
         Route::post('/sms/{id}', [AuthHistoryController::class, 'sendSms'])->name('sms');
         Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
         Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');

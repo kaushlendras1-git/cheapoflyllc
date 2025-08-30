@@ -26,4 +26,7 @@ class AuthHistory extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function travel_billing_details(){
+       return $this->belongsTo(TravelBillingDetail::class, 'card_billing_id', 'id');
+    }
 }

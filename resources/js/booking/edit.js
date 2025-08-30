@@ -105,6 +105,7 @@ if (sessionStorage.getItem("successMessage")) {
 FilePond.registerPlugin(FilePondPluginImagePreview);
 let ponds = {};
 
+
 const bookingTypes = [
     { key: 'flight', inputName: 'flightbookingimage[]' },
     { key: 'hotel', inputName: 'hotelbookingimage[]' },
@@ -124,6 +125,10 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
         labelMaxTotalFileSize: 'Maximum total size is {filesize}',
         labelMaxFileCountExceeded: 'You can only upload up to 10 files',
     });
+});
+
+document.querySelectorAll('.destroy_filepond').forEach(input => {
+    FilePond.destroy(input);
 });
 
 // const bookingTypes = [
@@ -411,7 +416,12 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             });
         });
 
-
+        const carMainImageInput = document.querySelector('input[name="car_main_image[]"]');
+        if (carMainImageInput && carMainImageInput.files.length > 0) {
+            for (const file of carMainImageInput.files) {
+                formdata.append('car_main_image[]', file);
+            }
+        }
     try{
         formdata.append('_method','patch');
         const response = await axios.post(action, formdata, {
@@ -856,7 +866,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener('DOMContentLoaded', function() {
     const queryTypeSelect = document.getElementById('query_type');
     if (!queryTypeSelect) return;
-    
+
     // Store all original options
     const allOptions = [];
     Array.from(queryTypeSelect.options).forEach(option => {
@@ -866,18 +876,18 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: option.getAttribute('data-type')
         });
     });
-    
+
     function updateQueryType() {
         // Get all checked checkboxes that might be booking types
         const allChecked = document.querySelectorAll('input[type="checkbox"]:checked');
         const checkedTypes = [];
-        
+
         // Extract booking types from checked boxes
         allChecked.forEach(checkbox => {
             const value = checkbox.value;
             const id = checkbox.id;
             const name = checkbox.name;
-            
+
             // Check if this is a booking type checkbox
             if (value === 'Flight' || id.includes('flight') || name.includes('flight')) {
                 checkedTypes.push('Flight');
@@ -891,15 +901,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 checkedTypes.push('Train');
             }
         });
-        
+
         // Remove duplicates
         const uniqueTypes = [...new Set(checkedTypes)];
-        
+
         // Clear and rebuild options
         queryTypeSelect.innerHTML = '';
-        
+
         let optionsToShow = [];
-        
+
         if (uniqueTypes.length === 0) {
             optionsToShow = allOptions; // Show all when none selected
         } else if (uniqueTypes.length === 1) {
@@ -907,7 +917,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             optionsToShow = allOptions.filter(opt => opt.dataType === 'Package');
         }
-        
+
         // Add options back
         optionsToShow.forEach(option => {
             const opt = document.createElement('option');
@@ -918,14 +928,14 @@ document.addEventListener('DOMContentLoaded', function() {
             queryTypeSelect.appendChild(opt);
         });
     }
-    
+
     // Listen to all checkbox changes
     document.addEventListener('change', function(e) {
         if (e.target.type === 'checkbox') {
             updateQueryType();
         }
     });
-    
+
     updateQueryType(); // Initial call
 });
 
@@ -1010,129 +1020,62 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+const input = document.getElementById('fileInput');
+const previewContainer = document.getElementById('imagePreviewContainer');
 
+input.addEventListener('change', () => {
+    previewContainer.innerHTML = ''; // Clear previous previews
+
+    const files = input.files;
+    if (files.length === 0) return;
+
+    for (const file of files) {
+        if (!file.type.startsWith('image/')) continue; // Ignore non-images
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '80px';
+            img.style.height = '80px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '6px';
+            img.style.border = '1px solid #ccc';
+            previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+const timeInputs = document.querySelectorAll('.time_24_hrs');
+timeInputs.forEach(input => {
+    input.addEventListener('input', (e) => {
+        let value = input.value;
+
+        // Remove any non-digit and non-colon characters
+        value = value.replace(/[^\d:]/g, '');
+
+        // Auto-insert colon after two digits (hours) if not present
+        if (value.length === 2 && !value.includes(':')) {
+            value += ':';
+        }
+
+        // Limit length to 5 characters (HH:mm)
+        if (value.length > 5) {
+            value = value.slice(0,5);
+        }
+
+        input.value = value;
+
+        // Validate 24-hour time format
+        const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!regex.test(value)) {
+            input.setCustomValidity('Please enter a valid time in 24-hour format HH:mm');
+        } else {
+            input.setCustomValidity('');
+        }
+    });
+});
 
 /***************Pricing***************** */
-
-document.querySelectorAll('input[name="pnr_type"]').forEach(radio => {
-    radio.addEventListener('change', function (e) {
-        const pricingFormsContainer = document.getElementById('pricingForms');
-        let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
-
-        // Remove previous rows and totals
-        document.querySelectorAll('.hkRow, .fxlRow').forEach(row => row.remove());
-        const totalsDiv = document.getElementById('fxlTotals');
-        if (totalsDiv) totalsDiv.style.display = 'none';
-
-        if (e.target.value === 'HK') {
-
-            const totalPassengers = countPassengers();
-            const grossTotal = totalPassengers * 10;
-            const netTotal = grossTotal;
-
-            const newRow = document.createElement('tr');
-            newRow.className = 'pricing-row hkRow';
-            newRow.dataset.index = pricingIndex;
-            newRow.innerHTML = `
-               <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
-                        <option value="">Select</option>
-                    </select>
-                </td>
-                <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
-                <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
-                <td><span class="gross-total">0.00</span></td>
-                <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" readonly></td>
-                <td><span class="net-total">${netTotal}</span></td>
-                <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                        <option selected>Issuance Fees - Voyzant</option>
-                    </select>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                        <i class="ri ri-delete-bin-line"></i>
-                    </button>
-                </td>
-            `;
-            pricingFormsContainer.appendChild(newRow);
-        }
-
-        else if (e.target.value === 'FXL') {
-            const totalPassengers = countPassengers();
-            const grossTotal = totalPassengers * 100;
-            const netTotal = grossTotal;
-
-            const newRow = document.createElement('tr');
-            newRow.className = 'pricing-row fxlRow';
-            newRow.dataset.index = pricingIndex;
-            newRow.innerHTML = `
-                <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
-                        <option value="">Select</option>
-                    </select>
-                </td>
-                <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
-                <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
-                <td><span class="gross-total">0.00</span></td>
-                <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="100.00" readonly></td>
-                <td><span class="net-total">${netTotal}</span></td>
-                <td>
-                    <select class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                        <option selected>FXL Issuance Fees</option>
-                    </select>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                        <i class="ri ri-delete-bin-line"></i>
-                    </button>
-                </td>
-            `;
-            pricingFormsContainer.appendChild(newRow);
-        }
-    });
-});
-
-// ✅ Count passengers
-function countPassengers() {
-    const rows = document.querySelectorAll('#passengerForms .passenger-form');
-    let total = 0;
-    rows.forEach(row => {
-        const typeSelect = row.querySelector('select[name*="[passenger_type]"]');
-        if (typeSelect && typeSelect.value.trim() !== '') {
-            total++;
-        }
-    });
-    return total;
-}
-
-// ✅ Update existing FXL row dynamically when passengers change
-document.addEventListener('change', function (e) {
-    const pnrType = document.querySelector('input[name="pnr_type"]:checked')?.value;
-    if (pnrType === 'FXL' && e.target.name.includes('[passenger_type]')) {
-        const totalPassengers = countPassengers();
-        const grossTotal = totalPassengers * 100;
-        const netTotal = grossTotal;
-
-        const fxlRow = document.querySelector('.fxlRow');
-        if (fxlRow) {
-            fxlRow.querySelector('input[name*="[num_passengers]"]').value = totalPassengers;
-            fxlRow.querySelector('.gross-total').textContent = grossTotal.toFixed(2);
-            fxlRow.querySelector('.net-total').textContent = netTotal.toFixed(2);
-        }
-    }
-    else if (pnrType === 'HK' && e.target.name.includes('[passenger_type]')) {
-        const totalPassengers = countPassengers();
-        const grossTotal = totalPassengers * 10;
-        const netTotal = grossTotal;
-
-        const fxlRow = document.querySelector('.hkRow');
-        if (fxlRow) {
-            fxlRow.querySelector('input[name*="[num_passengers]"]').value = totalPassengers;
-            fxlRow.querySelector('.gross-total').textContent = grossTotal.toFixed(2);
-            fxlRow.querySelector('.net-total').textContent = netTotal.toFixed(2);
-        }
-    }
-
-});
 

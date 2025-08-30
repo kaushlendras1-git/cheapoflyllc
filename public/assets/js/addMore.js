@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('hotel-booking-button').addEventListener('click',addHotelRow)
         const hotelFormsContainer = document.getElementById('hotelForms');
-        let hotelIndex = 0;
+        let hotelIndex = document.querySelectorAll('.hotel-row').length ?? 0;
 
         // Add initial row on page load
         addHotelRow();
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('cruise-booking-button').addEventListener('click',addCruiseRow )
         const cruiseFormsContainer = document.getElementById('cruiseForms');
-        let cruiseIndex = 0;
+        let cruiseIndex = document.querySelectorAll('.cruise-row').length ?? 0;
 
         addCruiseRow();
 
@@ -110,26 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </td>
             `;
-            console.log('adding cruise');
             cruiseFormsContainer.appendChild(newRow);
             const departureInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][departure_hrs]"]');
             const arrivalInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][arrival_hrs]"]');
 
-            flatpickr(departureInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
-
-            flatpickr(arrivalInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
             cruiseIndex++;
         }
 
@@ -182,11 +166,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+function attach24HourTimeListener(input) {
+    input.addEventListener('input', () => {
+        let value = input.value;
 
+        // Allow only digits and colon
+        value = value.replace(/[^\d:]/g, '');
+
+        // Auto-insert colon after 2 digits for hours if missing
+        if (value.length === 2 && !value.includes(':')) {
+            value += ':';
+        }
+        // Limit to 5 chars like HH:mm
+        if (value.length > 5) {
+            value = value.slice(0, 5);
+        }
+
+        input.value = value;
+
+        // Regex validation for 24hr HH:mm
+        const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!regex.test(value)) {
+            input.setCustomValidity('Please enter a valid time in 24-hour format HH:mm');
+        } else {
+            input.setCustomValidity('');
+        }
+    });
+}
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('car-booking-button').addEventListener('click', addCarRow)
         const carFormsContainer = document.getElementById('carForms');
-        let carIndex = 0;
+        let carIndex = document.querySelectorAll('.car-row').length ?? 0;
 
         // Add initial row on page load
         addCarRow();
@@ -203,9 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" class="form-control" style="width:9rem" name="car[${carIndex}][pickup_location]" placeholder="Pick-up Location"></td>
                 <td><input type="text" class="form-control" style="width:10rem" name="car[${carIndex}][dropoff_location]" placeholder="Drop-off Location"></td>
                 <td><input type="date" class="form-control" style="width:105px"; name="car[${carIndex}][pickup_date]"></td>
-                <td><input type="time" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][pickup_time]"></td>
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][pickup_time]"></td>
                 <td><input type="date" class="form-control" style="width:105px"; name="car[${carIndex}][dropoff_date]"></td>
-                <td><input type="time" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][dropoff_time]"></td>
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" placeholder="Hrs" style="width:105px"; name="car[${carIndex}][dropoff_time]"></td>
                 <td><input type="text" class="form-control" style="width:12rem" name="car[${carIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                  <td>
                     <button type="button" class="btn btn-outline-danger delete-car-btn">
@@ -214,24 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             `;
             carFormsContainer.appendChild(newRow);
-            const departureInput = newRow.querySelector('input[name="car[' + carIndex + '][pickup_time]"]');
-            const arrivalInput = newRow.querySelector('input[name="car[' + carIndex + '][dropoff_time]"]');
-
-            flatpickr(departureInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
-
-            flatpickr(arrivalInput, {
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true,
-                minuteIncrement: 1,
-            });
+            const pickupTimeInput = newRow.querySelector(`input[name="car[${carIndex}][pickup_time]"]`);
+            const dropoffTimeInput = newRow.querySelector(`input[name="car[${carIndex}][dropoff_time]"]`);
+            if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+            if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
             carIndex++;
         }
 
@@ -287,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('flight-booking-button').addEventListener('click',addFlightRow)
         const flightFormsContainer = document.getElementById('flightForms');
-        const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length;
+        const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length??0;
         let flightIndex = flightRowsCount;
 
         // Add initial row on page load
@@ -325,21 +321,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
                     <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                 </td>
-                <td><input type="time" class="form-control " style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" min="00:00"
-                                                        max="23:59"
-                                                        step="60">
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" />
                 </td>
 
                 <td><input type="text" class="form-control arrival-airport" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
                     <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                 </td>
 
-                <td><input type="time" class="form-control" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs" 
-                                                        min="00:00" 
-                                                        max="23:59" 
-                                                        step="60" 
-                                                        pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
-                                                        title="Enter time in HH:MM format (e.g., 14:30)"
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs"
+
                                                         ></td>
 
                 <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
@@ -352,9 +342,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             `;
             flightFormsContainer.appendChild(newRow);
-            const departureInput = newRow.querySelector('input[name="flight[' + flightIndex + '][departure_hours]"]');
-            const arrivalInput = newRow.querySelector('input[name="flight[' + flightIndex + '][arrival_hours]"]');
-
+            const pickupTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][arrival_hours]"]`);
+            const dropoffTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][departure_hours]"]`);
+            if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+            if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
 
             flightIndex++;
         }
@@ -412,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('train-booking-button').addEventListener('click',addTrainRow)
     const trainFormsContainer = document.getElementById('trainForms');
-    let trainIndex = 0;
+    let trainIndex = document.querySelectorAll('.train-row').length ?? 0;
 
     // Add initial row on page load
     addTrainRow();
@@ -442,24 +433,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </td>
         `;
         trainFormsContainer.appendChild(newRow);
-        const departureInput = newRow.querySelector('input[name="train[' + trainIndex + '][departure_hours]"]');
-        const arrivalInput = newRow.querySelector('input[name="train[' + trainIndex + '][arrival_hours]"]');
+        const pickupTimeInput = newRow.querySelector(`input[name="train[${trainIndex}][departure_hours]"]`);
+        const dropoffTimeInput = newRow.querySelector(`input[name="train[${trainIndex}][arrival_hours]"]`);
+        if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+        if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
 
-        flatpickr(departureInput, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            minuteIncrement: 1,
-        });
-
-        flatpickr(arrivalInput, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            minuteIncrement: 1,
-        });
         trainIndex++;
     }
 
@@ -526,15 +504,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleCreditColumn() {
         const queryType = document.getElementById('query_type');
         if (!queryType) return; // Exit if element doesn't exist
-        
+
         const selectedOption = queryType.options[queryType.selectedIndex];
-        const dataType = selectedOption.getAttribute('data-id');
+        let dataType = null;
+
+        if (selectedOption) {
+            dataType = selectedOption.getAttribute('data-id');
+        }
         const allowedDataIds = ['13', '14','18','19','32','33','39','41','43','44', '50', '51'];
-        
+
         // Get all 10th column elements (th and td)
         const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(10)');
         const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
-        
+
         if (allowedDataIds.includes(dataType)) {
             // Show credit column
             creditHeaders.forEach(el => el.style.display = '');
@@ -553,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run toggleCreditColumn on page load
     toggleCreditColumn();
-    
+
     // Run when query_type changes
     const queryTypeElement = document.getElementById('query_type');
     if (queryTypeElement) {
@@ -598,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][middle_name]" placeholder="Middle Name"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
             <td><input type="date" class="form-control" style="width: 105px;" name="passenger[${passengerIndex}][dob]"></td>
-            <td><input type="text" class="form-control" style="width:50px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
+            <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
             <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
             <td><input type="text" class="form-control w-100" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
             <td>
@@ -609,7 +591,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         passengerFormsContainer.appendChild(newRow);
         passengerIndex++;
-        
+
         // Apply credit column visibility to new row immediately
         setTimeout(() => {
             toggleCreditColumn();
@@ -617,11 +599,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to check if a row is filled
+    // function isRowFilled(row) {
+    //     const inputs = row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])');
+    //     const selects = row.querySelectorAll('select');
+    //     return Array.from(inputs).every(input => input.value.trim() !== '') &&
+    //            Array.from(selects).every(select => select.value.trim() !== '');
+    // }
     function isRowFilled(row) {
-        const inputs = row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])');
-        const selects = row.querySelectorAll('select');
-        return Array.from(inputs).every(input => input.value.trim() !== '') &&
-               Array.from(selects).every(select => select.value.trim() !== '');
+        // Select inputs excluding certain names
+        const inputs = Array.from(row.querySelectorAll('input:not([name$="[middle_name]"]):not([name$="[seat_number]"]):not([name$="[e_ticket_number]"])'));
+
+        // Filter out inputs with name matching passenger[x][credit_note] whose parent td is hidden
+        const filteredInputs = inputs.filter(input => {
+            const name = input.getAttribute('name') || '';
+            const isCreditNote = /\bpassenger\[\d+\]\[credit_note\]$/.test(name);
+
+            if (isCreditNote) {
+                const parentTd = input.closest('td');
+                if (parentTd && window.getComputedStyle(parentTd).display === 'none') {
+                    return false; // exclude this input
+                }
+            }
+            return true; // include
+        });
+
+        // Select all selects
+        const selects = Array.from(row.querySelectorAll('select'));
+
+        // Check all filtered inputs and selects have non-empty trimmed values
+        return filteredInputs.every(input => input.value.trim() !== '') &&
+            selects.every(select => select.value.trim() !== '');
     }
 
     // Update passenger titles and indices after deletion
@@ -638,16 +645,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         passengerIndex = rows.length;
-        
+
         // Apply credit column visibility after updating rows
         toggleCreditColumn();
     }
 
-    const addButton = document.getElementById('passenger-detail-button');
-    if (addButton) {
-        addButton.addEventListener('click', addPassengerRow);
-    }
-    
+    // const addButton = document.getElementById('passenger-detail-button');
+    // if (addButton) {
+    //     addButton.addEventListener('click', addPassengerRow);
+    // }
+    document.getElementById('passenger-detail-button').addEventListener('click', addPassengerRow);
+
+
     // Event listener for input and change events to auto-add rows
     function handlePassengerInput(e) {
         const row = e.target.closest('.passenger-form');
@@ -655,7 +664,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const rows = passengerFormsContainer.querySelectorAll('.passenger-form');
         const lastRow = rows[rows.length - 1];
-
         if (row === lastRow && isRowFilled(lastRow)) {
             addPassengerRow();
         }
@@ -834,7 +842,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </select>
                 </td>
                 <td><input type="text" style="width: 140px;" class="form-control" placeholder="CC Number" name="billing[${billingIndex}][cc_number]"></td>
-                <td><input type="text" class="form-control" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]"></td>
+                <td><input type="text" class="form-control cc_holder_name" placeholder="CC Holder Name" name="billing[${billingIndex}][cc_holder_name]"></td>
                 <td>
                     <select class="form-control" name="billing[${billingIndex}][exp_month]">
                         <option value="">MM</option>
@@ -880,7 +888,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 billingIndex++;
             },
             error: function (res) {
-                console.log(res);
             }
         });
     }
@@ -980,158 +987,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /************************Pricing********************* */
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('pricing-booking-button').addEventListener('click',addPricingRow)
-    const pricingFormsContainer = document.getElementById('pricingForms');
-    let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
-
-    // Function to add a blank row
-    function addPricingRow() {
-        const newRow = document.createElement('tr');
-        newRow.className = 'pricing-row';
-        newRow.dataset.index = pricingIndex;
-        newRow.innerHTML = `
-            <td>
-                <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}">
-                    <option value="">Select</option>
-                    <option value="adult">Adult</option>
-                    <option value="child">Child</option>
-                    <option value="infant_on_lap">Infant on Lap</option>
-                    <option value="infant_on_seat">Infant on Seat</option>
-                </select>
-            </td>
-            <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="0" min="0"></td>
-            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
-            <td><span class="gross-total">0.00</span></td>
-            <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
-            <td><span class="net-total">0.00</span></td>
-            <td>
-                <select style="width: 145px;" class="form-control" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
-                    <option value="">Select</option>
-                    <option>Flight Ticket Cost</option>
-                    <option>Hotel Cost</option>
-                    <option>Car Rental Cost</option>
-                    <option>Cruise Cost</option>
-                    <option>Train Cost</option>
-                    <option>Company card</option>
-                    <option>Merchant fee</option>
-                    <option>Partial Refund</option>
-                    <option>Full Refund</option>
-                    <option>Chargeback Fee</option>
-                    <option>Partial Chargeback Amt.</option>
-                    <option>Chargeback Amt.</option>
-                </select>
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                    <i class="ri ri-delete-bin-line"></i>
-                </button>
-            </td>
-        `;
-        pricingFormsContainer.appendChild(newRow);
-        pricingIndex++;
-    }
-
-    // Check if all inputs/selects in a row are filled
-    function isRowFilled(row) {
-        const requiredInputs = row.querySelectorAll('input, select');
-        return Array.from(requiredInputs).every(el => el.value.trim() !== '');
-    }
-
-    // Calculate row totals
-    function calculateRowTotals(row) {
-        const numPassengers = parseFloat(row.querySelector('input[name$="[num_passengers]"]').value) || 0;
-        const grossPrice = parseFloat(row.querySelector('input[name$="[gross_price]"]').value) || 0;
-        const netPrice = parseFloat(row.querySelector('input[name$="[net_price]"]').value) || 0;
-
-        const grossTotal = (numPassengers * grossPrice).toFixed(2);
-        const netTotal = (numPassengers * netPrice).toFixed(2);
-
-        row.querySelector('.gross-total').textContent = grossTotal;
-        row.querySelector('.net-total').textContent = netTotal;
-
-        updateFooterTotals();
-    }
-
-    // Update total in footer
-   function updateFooterTotals() {
-        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
-        let grossTotal = 0;
-        let netTotal = 0;
-
-        rows.forEach(row => {
-            grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
-            netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
-        });
-
-        document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
-        document.getElementById('gross_value').value = grossTotal.toFixed(2);
-        document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
-        document.getElementById('net_value').value = netTotal.toFixed(2);
-
-        const diff = grossTotal - netTotal;
-        const mcqElement = document.getElementById('total_gross_value');
-        if (mcqElement) {''
-            mcqElement.textContent = diff.toFixed(2);
-        }
-
-        // Calculate net profit after 15% merchant fee
-        const netProfitAfterFee = diff - (diff * 0.15);
-        const netProfitElement = document.getElementById('total_netprofit_value');
-        if (netProfitElement) {
-            netProfitElement.textContent = netProfitAfterFee.toFixed(2);
-        }
 
 
-
-
-
-    }
-
-    // Recalculate row and add new row if needed
-    function handleRowChange(row) {
-        calculateRowTotals(row);
-
-        const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
-        const lastRow = rows[rows.length - 1];
-
-        if (row === lastRow && isRowFilled(lastRow)) {
-            addPricingRow();
-        }
-    }
-
-    // Input change handler
-    pricingFormsContainer.addEventListener('input', (e) => {
-        const row = e.target.closest('.pricing-row');
-        if (row) {
-            handleRowChange(row);
-        }
-    });
-
-    // Select change handler
-    pricingFormsContainer.addEventListener('change', (e) => {
-        const row = e.target.closest('.pricing-row');
-        if (row) {
-            handleRowChange(row);
-        }
-    });
-
-    // Delete row handler
-    pricingFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-pricing-btn')) {
-            const row = e.target.closest('.pricing-row');
-            if (row) {
-                row.remove();
-                updateFooterTotals();
-            }
-        }
-    });
-
-    // Init: recalculate all existing rows on page load
-    pricingFormsContainer.querySelectorAll('.pricing-row').forEach(row => {
-        calculateRowTotals(row);
-    });
-});
 
 
 ///////////////////////////Show And Hode Tabs////////////////////
@@ -1226,7 +1083,7 @@ $.ajax({
         });
     },
     error:function (res){
-        console.log(res)
+        // console.log(res)
     }
 });
 /////////////////////////////////////////////////////////////////////////////////////////

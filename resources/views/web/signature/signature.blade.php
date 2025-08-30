@@ -51,7 +51,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <tr>
                 <td colspan="2" style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">
                     Thank you
-                    for using fareticketsllc for your travel needs. Please take a moment to review the names, date,
+                    for using {{ $booking->selected_company_name }} for your travel needs. Please take a moment to review the names, date,
                     Flight itinerary, price and other relevant details of your booking.</td>
             </tr>
 
@@ -85,7 +85,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <tr>
                 <td colspan="2" style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">
-                    Team <a style="color: #c53d3d; text-decoration: none;" href="#">Fareticketsllc</a></td>
+                    Team <a style="color: #c53d3d; text-decoration: none;" href="#">{{ $booking->selected_company_name }}</a></td>
             </tr>
             <tr>
                 <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 0px 0px 30px;">
@@ -130,10 +130,18 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             </tr>
                             <tr>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
-                                    Card Holder Number</th>
+                                    Card Number</th>
                                 <td
                                     style="font-size: 16px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
-                                    {{encode($billingPricingData->cc_number)}}</td>
+                                
+                                        @php
+                                            $ccNumber = decode($billingPricingData->cc_number);
+                                            $maskedCC = str_repeat('*', max(0, strlen($ccNumber) - 4));
+                                            $formatted = chunk_split($maskedCC . substr($ccNumber, -4), 4, ' ');
+                                        @endphp
+                                        {{ trim($formatted) }}
+
+                                </td>
                             </tr>
 
                             <tr>
@@ -237,486 +245,626 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             </tr>
               <!-------------Flight --------------->
             @if(in_array('Flight', $bookingTypes))
-            <tr>
-                <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
-                            <tr>
-                                <th colspan="13"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25"
-                                            src="{{asset('email-templates/plane.png')}}" alt="plain"> </span>
-                                    Flight Booking Details
-                                </th>
-                            </tr>
+            
                             @if($booking->travelFlight->isNotEmpty())
 
-                            <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Direction</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    AL (Code)</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Flight No</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Cabin</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    CL</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Departure Airport</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hrs:MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Arrival Airport</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hrs:MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Duration</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Transit</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Arrival Date</th>
-                            </tr>
+                            
 
                             @foreach($booking->travelFlight as $index => $flight)
-                            <tr>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->direction}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->departure_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->airline_code}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->flight_number}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->cabin}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->class_of_service}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->departure_airport}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->departure_hours}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$flight->arrival_airport}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    06: 15 PM</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    2 hrs</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    ....</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 0px 20px 10px 0px;">
-                                    08/04/2025 </td>
-                            </tr>
+                               
+
+                                <!-------Flight-------------->
+                                <tr>
+                                    <td colspan="2" style="padding: 30px 30px 0px 30px;">
+
+                                        <table
+                                            style="font-family: 'Work Sans', sans-serif; width: 100%; background-color: #f8f8f8; margin: auto; margin-top: 20px;">
+                                            <tr>
+                                                <td>
+                                                    <table style="width: 100%; padding: 20px;">
+                                                        <tr>
+                                                            <td style="vertical-align: text-top;"> <span><img width="30"
+                                                                        src="{{asset('email-templates/flight-icon.png')}}" alt="icon-flight"></span> </td>
+                                                            <td>
+                                                                <p
+                                                                    style="font-size: 20px; font-weight: 600; color: #000; margin-bottom: 20px; margin-top: 0px; margin-left: 34px;">
+                                                                        @if($flight->direction == 'Outbound') Departing flight @endif
+                                                                         @if($flight->direction == 'Inbound') Return flight @endif
+                                                                     . {{ $flight->departure_date?->format('D, M j') }}</p>
+                                                                <div style="display: flex; align-items: self-start;">
+                                                                    <div>
+                                                                        <!-- Vertical dots with large circles at ends -->
+                                                                        <svg width="26" height="87" viewBox="0 0 26 87"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <defs>
+                                                                                <style>
+                                                                                    .dot {
+                                                                                        fill: #d9d9d9;
+                                                                                    }
+
+                                                                                    .ring {
+                                                                                        fill: none;
+                                                                                        stroke: #d9d9d9;
+                                                                                        stroke-width: 2;
+                                                                                    }
+                                                                                </style>
+                                                                            </defs>
+                                                                            <circle class="ring" cx="13" cy="16" r="6" />
+                                                                            <circle class="dot" cx="13" cy="28" r="2" />
+                                                                            <circle class="dot" cx="13" cy="37" r="2" />
+                                                                            <circle class="dot" cx="13" cy="46" r="2" />
+                                                                            <circle class="dot" cx="13" cy="54" r="2" />
+                                                                            <circle class="dot" cx="13" cy="63" r="2" />
+                                                                            <circle class="ring" cx="13" cy="75" r="6" />
+                                                                        </svg>
+                                                                    </div>
+                                                                    <div style="padding-left: 10px;">
+                                                                        <p
+                                                                            style="font-size: 16px; font-weight: 600; color: #000; margin-bottom: 5px; margin-top: 0px;">
+                                                                            {{$flight->departure_hours}} . {{$flight->departure_airport}}</p>
+                                                                        <p
+                                                                            style="font-size: 14px; font-weight: 400; margin-top: 0px; color: #70757a;">
+                                                                            Travel time: {{$flight->duration}}</p>
+                                                                        <p
+                                                                            style="font-size: 16px; font-weight: 600; color: #000; margin-bottom: 5px; margin-top: 0px;">
+                                                                            {{$flight->arrival_hours}} . {{$flight->arrival_airport}}</p>
+                                                                        <p
+                                                                            style="font-size: 14px; font-weight: 400; margin-top: 0px; color: #70757a;">
+                                                                            {{$flight->airline_code}} {{$flight->cabin}}  {{$flight->flight_number}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            
+                                                           
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>
+                                               @php
+                                                    if($flight->transit){
+                                                        $time = $flight->transit ?? '00:00'; // Default to 00:00 if null
+                                                        $parts = explode(':', $time, 2);
+
+                                                        $hours = isset($parts[0]) ? (int)$parts[0] : 0;
+                                                        $minutes = isset($parts[1]) ? (int)$parts[1] : 0;
+
+                                                        echo ($hours > 0 ? $hours . ' hr ' : '') . ($minutes > 0 ? $minutes . ' min' : '') . ' Layover';
+                                                    }
+                                                @endphp
+
+                                                 </td>
+                                            </tr>
+
+                                        
+                                        @if($index > 0)    
+                                            <tr>
+                                                <td style="border-top: 1px dashed #e2e2e2">
+                                                </td>
+                                            </tr>
+                                        @endif    
+
+                                        </table>
+                                    </td>
+                                </tr>
                             @endforeach
+
+
 
                             @if($flight_images)
-                            @foreach ($flight_images as $key => $img)
-                            <tr>
-                                <td colspan="13">
-                                    <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
-                                </td>
-                                @endforeach
-                                @endif
-                                @endif
-                        </table>
-                    </div>
-                </td>
-            </tr>
+                                @foreach ($flight_images as $key => $img)
+                                    <tr>
+                                        <td colspan="13">
+                                            <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
+                                        </td>
+                                    </tr>    
+                                    @endforeach
+                            @endif
+                        @endif
             @endif
+
 
             @if(in_array('Hotel', $bookingTypes))
-            <tr>
-                <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
+
+                    @if($booking->travelHotel->isNotEmpty())
+                    
+                    
+                    @foreach($booking->travelHotel as $key=>$travelHotel)
+                       
+                       
+                        <!-- {{$travelHotel->confirmation_number}}
+                        {{$travelHotel->hotel_address}} -->
+
+                         <!-- Start Hotel Details -->
+                                <tr>
+                                    <td colspan="2" style="padding: 30px 30px 0px 30px;">
+                                
+                        <table border="0" cellspacing="0" cellpadding="0"
+                            style=" font-family: 'Work Sans', sans-serif; width: 100%; background-color: #f8f8f8; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
                             <tr>
-                                <th colspan="8"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="20"
-                                            src="{{asset('email-templates/hotel.png')}}" alt="hotel"> </span>
-                                    Hotel Booking Details
-                                </th>
+                                <!-- Hotel Image -->
+                                <td style="width:200px; padding:0; vertical-align:top;">
+                                    <img src="{{asset('email-templates/bedroom.jpg')}}" alt="Hotel"
+                                        style="width:200px; height:150px; border-top-left-radius:12px; border-bottom-left-radius:12px;">
+                                </td>
+
+                                <td style="padding:12px; padding-left: 30px; vertical-align:top;">
+                                    <h2 style="margin:0; font-size:18px; color:#333;"> {{$travelHotel->hotel_name}}</h2>
+                                    <p style="margin:4px 0; font-size:13px; color:#555;"> {{$travelHotel->room_category}}</p>
+
+                                    <table cellspacing="0" cellpadding="4" style="margin:6px 0; font-size:13px;">
+                                        <tr>
+                                            <td
+                                                style="background:#f15b2a; color:#fff; font-weight:bold; border-radius:4px; padding:2px 8px;">
+                                                8.9</td>
+                                            <td style="font-weight:bold; color:#333;">VERY GOOD</td>
+                                            <td style="color:#333;">| 4-STAR HOTEL</td>
+                                        </tr>
+                                    </table>
+
+                                    <p style="margin:6px 0; font-size:13px; color:#28a745; font-weight:bold;">
+                                        ✓ Fully Refundable
+                                        <span style="font-weight:normal; color:#333;">until 11:59PM (property local time) on Sep 20</span>
+                                    </p>
+                                </td>
                             </tr>
-                            @if($booking->travelHotel->isNotEmpty())
+
+                            <!-- Booking Info Row -->
                             <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hotel Name</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Room Category</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Check-in Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Check-out Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    No. Of Rooms</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Confirmation Number</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hotel Address</th>
+                                <td colspan="2"
+                                    style="background:#ebebeb; padding:12px; text-align:center; border-top:1px solid #eee; border-bottom:1px solid #eee;">
+                                    <table cellspacing="0" cellpadding="6" style="width:100%; font-size:14px; text-align:center;">
+                                        <tr>
+                                            <td>
+                                                <div style="font-size:12px; color:#888; font-weight:bold;">CHECK-IN</div>
+                                                <div style="font-weight:bold;">{{ $travelHotel->checkin_date ? $travelHotel->checkin_date->format('l, F d, Y') : '' }}</div>
+                                            </td>
+                                            <td>
+                                                <div style="font-size:12px; color:#888; font-weight:bold;">CHECK-OUT</div>
+                                                <div style="font-weight:bold;">{{ $travelHotel->checkout_date ? $travelHotel->checkin_date->format('l, F d, Y') : '' }}</div>
+                                            </td>
+                                            <td>
+                                                <div style="font-size:12px; color:#888; font-weight:bold;">NIGHTS</div>
+                                                <div style="font-weight:bold;">2</div>
+                                            </td>
+                                            <td>
+                                                <div style="font-size:12px; color:#888; font-weight:bold;">ROOMS</div>
+                                                <div style="font-weight:bold;"> {{$travelHotel->no_of_rooms}}</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
                             </tr>
-                            @foreach($booking->travelHotel as $key=>$travelHotel)
+
+                            <!-- Room Info -->
                             <tr>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelHotel->hotel_name}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelHotel->room_category}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelHotel->checkin_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelHotel->checkout_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelHotel->no_of_rooms}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelHotel->confirmation_number}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelHotel->hotel_address}}</td>
+                                <td colspan="2" style="padding:12px;">
+                                    <div style="font-weight:bold; margin-bottom:6px;">King Room</div>
+                                    <table cellspacing="0" cellpadding="4" style="font-size:13px; color:#333;">
+                                        <tr>
+                                            <td>🛏️</td>
+                                            <td>1 King Bed</td>
+                                        </tr>
+                                        <tr>
+                                            <td>🧊</td>
+                                            <td>Fridge</td>
+                                        </tr>
+                                        <tr>
+                                            <td>📶</td>
+                                            <td>Free Wifi</td>
+                                        </tr>
+                                    </table>
+                                </td>
                             </tr>
-                            @endforeach
-                            @foreach ($hotel_images as $key => $img)
-                            <tr>
-                                <td colpan="7"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail"
-                                        style="max-height: 100px;" alt="Flight Image"></td>
-                            </tr>
-                            @endforeach
-                            @endif
                         </table>
-                    </div>
-                </td>
-            </tr>
-            @endif
+                                    </td>
+                                </tr>
 
-            @if(in_array('Cruise', $bookingTypes))
-            <tr>
-                <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
-                            <tr>
-                                <th colspan="10"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25"
-                                            src="{{asset('email-templates/cruise.png')}}" alt="cruise"> </span>
-                                    Cruise Booking Details
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Cruise Line</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Name of the Ship</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Category</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Stateroom</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Departure Port</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Departure Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hrs:MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Arrival Port</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Arrival Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hrs:MM</th>
-                            </tr>
-                            @foreach($booking->travelCruise as $key=>$travelCruise)
-                            <tr>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->cruise_line}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->ship_name}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->category}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->stateroom}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->departure_port}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->departure_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->departure_hrs}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->arrival_port}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->arrival_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCruise->arrival_hrs}}</td>
-                            </tr>
-                            @endforeach
+                        
+                    @endforeach
 
-                            @if($cruise_images)
-                            @foreach ($cruise_images as $key => $img)
-                            <tr>
-                                <td colspan="10"><img width="50" src="{{ asset($img->file_path) }}"
-                                        class="img-thumbnail"></td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            @endif
-
-            @if(in_array('Car', $bookingTypes))
-            <tr>
-                <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
-                            <tr>
-                                <th colspan="11"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="25"
-                                            src="{{asset('email-templates/car.png')}}" alt="car"> </span>
-                                    Car Booking Details
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Car Rental Provider</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Car Type</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Pick-up Location</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Drop-off Location</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Pick-up Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Pick-up Time</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Drop-off Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Drop-off Time</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Confirmation Number</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Rental Provider's Address</th>
-                            </tr>
-                            @foreach($booking->travelCar as $key=>$travelCar)
-                            <tr>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->car_rental_provider}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->car_type}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->pickup_location}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->dropoff_location}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->pickup_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->pickup_time}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->dropoff_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->dropoff_time}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->confirmation_number}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$travelCar->rental_provider_address}}</td>
-                            </tr>
-                            @endforeach
-
-                            @if($car_images)
-                            @foreach ($car_images as $key => $img)
-                            <tr>
-                                <td colspan="10"><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
-                            </tr>
-                            @endforeach
-                            @endif
-
-
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            @endif
-
-            @if(in_array('Train', $bookingTypes))
-            <tr>
-                <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
-                            <tr>
-                                <th colspan="13"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -3px;" width="13"
-                                            src="{{asset('email-templates/train.png')}}" alt="train"> </span>
-                                    Train Booking Details
-                                </th>
-                            </tr>
-                            <tr>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Direction</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Date</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Train No</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Cabin</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Departure station</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hrs/MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Arrival station</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Hrs/MM</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Duration</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Transit</th>
-                                <th style="font-size: 12px; font-weight: 600; text-align: center; padding: 10px 10px;">
-                                    Arival Date</th>
-                            </tr>
-                            @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
-                            <tr>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->direction}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->departure_date?->format('Y-m-d')}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->train_number}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->cabin}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->departure_station}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->departure_hours}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->arrival_station}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->arrival_hours}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->duration}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->transit}}</td>
-                                <td
-                                    style="font-size: 12px; font-weight: 400; text-align: center; color: #000; padding: 10px 10px;">
-                                    {{$trainBookingDetails->arrival_date?->format('Y-m-d')}}</td>
-                            </tr>
-                            @endforeach
-
-                            @if($train_images)
-                            @foreach ($train_images as $key => $img)
-                            <tr>
-                                <td><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
-                            </tr>
-                            @endforeach
-                            @endif
-
-                        </table>
-                    </div>
-                </td>
-            </tr>
+                    @foreach ($hotel_images as $key => $img)
+                    <tr>
+                        <td colpan="7"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail"
+                                style="max-height: 100px;" alt="Flight Image"></td>
+                    </tr>
+                    @endforeach
+                    @endif
             @endif
 
 
+
+    @if(in_array('Cruise', $bookingTypes))
+            
             <tr>
-                <td colspan="2" style="font-size: 18px; font-weight: 700; padding: 30px 30px 10px 30px;">General Flight
-                    Terms and Conditions</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #000; padding: 5px 30px 0px 30px;">
-                    Thank you
-                    for using fareticketsllc for your travel needs. Please take a moment to review the names, date,
-                    Flight itinerary, price and other relevant details of your booking.</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="font-size: 16px; font-weight: 600; padding: 10px 30px 0px 30px;">General
-                    Conditions</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #c53d3d; padding: 5px 30px 0px 30px;">
-                    Important Note : Tickets are Non-Refundable/Non-Transferable and name changes are not permitted.
+                <td colspan="2" style="padding: 30px 30px 0px 30px;">                  
+                    <table
+                        style="font-family: 'Work Sans', sans-serif; width: 100%; background-color: #f8f8f8; margin: auto; margin-top: 20px;">
+                        <tr>
+                            <td style="width: 50%;">
+                                <img style="width: 100%; border-radius: 10px;" src="{{asset('email-templates/cruise-auth.jpg')}}" alt="cruise-img">
+                            </td>
+                            <td style="width: 50%; vertical-align: top;">
+                                <table style="width: 100%; padding: 0px 30px;">
+                                    <tr>
+                                        <td colspan="2" style="padding-left: 30px; padding-bottom: 20px;"><img
+                                                width="100" src="{{asset('email-templates/msc-cruise.png')}}" alt="cruise-logo"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Ship: </td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">MSC Divina
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Lenght:
+                                        </td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">10 Nights
+                                        </td>
+                                    </tr>
+                                   
+                                    
+                                    <tr>
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Departure
+                                            Port: </td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Miami</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Departure
+                                            Date: </td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Jan 15 2026
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Arival
+                                            Port: </td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Miami</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-size: 16px; font-weight: 500; padding-bottom: 10px;">Arival
+                                            Date: </td>
+                                        <td style="font-size: 16px; font-weight: 400; padding-bottom: 10px;">Jan 25 2026
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <table border="1" cellspacing="0" cellpadding="10"
+                        style="border-collapse:collapse; font-family: 'Work Sans', sans-serif; width: 100%; background-color: #f8f8f8; margin: auto; font-size:14px; text-align:left;">
+                        <tr style="background-color:#a8c9f0; font-weight:bold;">
+                            <td style="width:25%;">DATE</td>
+                            <td style="width:35%;">PORT OF CALL</td>
+                            <td style="width:20%;">ARRIVE</td>
+                            <td style="width:20%;">DEPART</td>
+                        </tr>
+                         @foreach($booking->travelCruise as $key=>$travelCruise)
+                       
+                        <!------------cruise----------------->
+                        <tr>
+                            <td style="padding:8px;">
+                                Monday<br>
+                                Jul/28/2025
+                            </td>
+                            <td style="padding:8px;">Long Beach (Los Angeles), CA</td>
+                            <td style="padding:8px;"></td>
+                            <td style="padding:8px;">4:00 PM</td>
+                        </tr>
+                         @endforeach
+                    </table>
+
                 </td>
             </tr>
+            <!------------End cruise----------------->
+                      
+
+                    @if($cruise_images)
+                        @foreach ($cruise_images as $key => $img)
+                        <tr>
+                            <td colspan="10"><img width="50" src="{{ asset($img->file_path) }}"
+                                    class="img-thumbnail"></td>
+                        </tr>
+                        @endforeach
+                    @endif
+    @endif
+
+    <!------------ Start Car -------------->   
+        @if(in_array('Car', $bookingTypes))
+             @foreach($booking->travelCar as $key=>$travelCar)
+                    
+                    <!-- {{$travelCar->car_rental_provider}}
+                    {{$travelCar->car_type}}
+                    {{$travelCar->pickup_location}}
+                    {{$travelCar->dropoff_location}}
+                    {{$travelCar->pickup_date?->format('Y-m-d')}}
+                    {{$travelCar->pickup_time}}
+                    {{$travelCar->dropoff_date?->format('Y-m-d')}}
+                    {{$travelCar->dropoff_time}}
+                    {{$travelCar->confirmation_number}}
+                    {{$travelCar->rental_provider_address}} -->
+
             <tr>
-                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #000; padding: 5px 30px 0px 30px;">
-                    <span style="font-weight: 600;">NOTE :</span> Date and routing changes will be subject to Airline
-                    Penalty and Fare Difference if any</td>
+                <td colspan="2">
+                    <table border="0" cellpadding="0" cellspacing="0" align="center" width="700"
+                            style="font-family: 'Work Sans', sans-serif; width: 75%; background-color: #f8f8f8; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+                            <tr>
+                                <!-- LEFT SIDE -->
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <!-- Car image -->
+                                            <td style="padding-bottom:0px; padding-left: 20px;">
+                                                <img src="{{asset('email-templates/car_book.png')}}" width="200" style="display:block; border:0;" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="420" valign="top" style="padding:15px; border-right:1px solid #ddd;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <!-- Top Pick Badge -->
+                                            <td style="padding-bottom:8px;">
+                                                <span
+                                                    style="background:#1675f2; color:#fff; font-size:12px; padding:4px 8px; border-radius:3px; font-weight:bold;">Top
+                                                    Pick</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <!-- Title -->
+                                            <td style="font-size:18px; font-weight:bold; color:#000; padding-bottom:8px;">
+                                                Toyota RAV4 <span style="font-size:13px; font-weight:normal; color:#555;">or similar
+                                                    SUV</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <!-- Features -->
+                                            <td style="font-size:13px; color:#333; line-height:22px; padding-bottom:8px;">
+                                                <span style="margin-right:20px;">🚗 5 seats</span>
+                                                <span style="margin-right:20px;">⚙️ Automatic</span><br />
+                                                <span style="margin-right:20px;">🧳 3 Large bags</span>
+                                                <span>🌍 Unlimited mileage</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <!-- Location -->
+                                            <td style="font-size:14px; color:#000; line-height:20px;">
+                                                Chicago O'Hare International Airport<br />
+                                                <span style="font-size:12px; color:#777;">Shuttle Bus</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!-- RIGHT SIDE -->
+                                <td width="280" valign="top" style="padding:15px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td style="font-size:16px; font-weight:bold; color:#000; padding-bottom:20px;">
+                                                Pick-up and drop-off
+                                            </td>
+                                        </tr>
+                                        <!-- Pick-up -->
+                                        <tr>
+                                            <td style="font-size:13px; color:#333; line-height:20px; padding-bottom:20px;">
+                                                <span style="font-size:14px;">⭕ Sat, Sep 6 - 10:00 AM</span><br />
+                                                <b style="padding-left: 25px;">Chicago O'Hare International Airport</b><br />
+                                                <a href="#" style="color:#1675f2; text-decoration:none; padding-left: 25px;">View pick-up
+                                                    instructions</a>
+                                            </td>
+                                        </tr>
+                                        <!-- Drop-off -->
+                                        <tr>
+                                            <td style="font-size:13px; color:#333; line-height:20px;">
+                                                <span style="font-size:14px;">⭕ Sat, Sep 13 - 10:00 AM</span><br />
+                                                <b style="padding-left: 25px;">Chicago O'Hare International Airport</b><br />
+                                                <a href="#" style="color:#1675f2; text-decoration:none; padding-left: 25px;">View drop-off
+                                                    instructions</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                </td>
             </tr>
+          @endforeach
+
+            @if($car_images)
+                        @foreach ($car_images as $key => $img)
+                        <tr>
+                            <td colspan="10"><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                        </tr>
+                        @endforeach
+            @endif
+
+    @endif                                                    
+         <!---------- End Car ----------------->   
+           
+           
+            
+        <!-------- Start Train  ------>
+    @if(in_array('Train', $bookingTypes))
+
+        @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
+              
+                <!-- {{$trainBookingDetails->direction}}
+                {{$trainBookingDetails->departure_hours}}
+                {{$trainBookingDetails->arrival_hours}}
+                {{$trainBookingDetails->duration}}
+                {{$trainBookingDetails->transit}}
+                {{$trainBookingDetails->arrival_date?->format('Y-m-d')}} -->
+                
             <tr>
-                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #000; padding: 5px 30px 0px 30px;">For
-                    any modification or changes please contact our Travel Consultant on +1-844-382-2225</td>
+                <td colspan="2">
+                    <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
+                            style="font-family: 'Work Sans', sans-serif; width: 75%; background-color: #f8f8f8; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+                            <!-- Title -->
+                            <tr>
+                                <td colspan="2"
+                                    style="font-size:20px; font-weight:bold; color:#003366; padding:15px; border-bottom:1px solid #ddd;">
+                                    Trip Summary
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <!-- Departure -->
+                                <td width="50%" valign="top" style="padding:15px; border-right:1px solid #ddd;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:bold; color:#003366; padding-bottom:5px;">
+                                                Departure |   {{ $trainBookingDetails->departure_date ? $trainBookingDetails->departure_date->format('D, M d, Y') : '' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px; color:#333; line-height:18px; padding-bottom:10px;">
+                                                  {{$trainBookingDetails->departure_station}}<br />
+                                                to<br />
+                                                  {{$trainBookingDetails->arrival_station}}
+                                            </td>
+                                        </tr>
+                                        <!-- Route Codes -->
+                                        <tr>
+                                            <td style="background:#003366; color:#fff; padding:6px 10px; font-size:13px; font-weight:bold;">
+                                                NYP &nbsp;⇀&nbsp; PHL
+                                            </td>
+                                        </tr>
+                                        <!-- Train + Times -->
+                                        <tr>
+                                            <td style="padding:15px 0; font-size:13px; color:#333;">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <!-- Train -->
+                                                        <td width="30%" valign="top" style="text-align:center; font-size:12px; color:#666;">
+                                                            🚆<br />
+                                                             {{$trainBookingDetails->train_number}}<br />
+                                                            Northeast Regional
+                                                        </td>
+                                                        <!-- Depart -->
+                                                        <td width="30%" valign="top" style="text-align:center;">
+                                                            <div style="font-size:20px; font-weight:bold;">12:11a</div>
+                                                            <div style="font-size:11px; color:#666;">DEPARTS</div>
+                                                        </td>
+                                                        <!-- Duration -->
+                                                        <td width="10%" valign="middle"
+                                                            style="text-align:center; font-size:12px; color:#333;">
+                                                            →
+                                                            <div style="font-size:11px; color:#666;">1h 28m</div>
+                                                        </td>
+                                                        <!-- Arrives -->
+                                                        <td width="30%" valign="top" style="text-align:center;">
+                                                            <div style="font-size:20px; font-weight:bold;">1:39a</div>
+                                                            <div style="font-size:11px; color:#666;">ARRIVES</div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- Details Link -->
+                                        <tr>
+                                            <td style="font-size:12px; color:#1675f2; padding-bottom:10px; text-align: right; padding-right: 45px;">
+                                                <a href="#" style="color:#1675f2; text-decoration:none;">Details</a>
+                                            </td>
+                                        </tr>
+                                        <!-- Seat Info -->
+                                        <tr>
+                                            <td style="background:#f0f6fc; padding:10px; font-size:13px; color:#003366; font-weight:bold;">
+                                                1 {{$trainBookingDetails->cabin}} Class Seat
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <!-- Return -->
+                                <td width="50%" valign="top" style="padding:15px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td style="font-size:14px; font-weight:bold; color:#003366; padding-bottom:5px;">
+                                                Return | Thu, Sep 18
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px; color:#333; line-height:18px; padding-bottom:10px;">
+                                                Philadelphia, PA - William H Gray III 30th St. Sta<br />
+                                                to<br />
+                                                New York, NY - Moynihan Train Hall at Penn Sta
+                                            </td>
+                                        </tr>
+                                        <!-- Route Codes -->
+                                        <tr>
+                                            <td style="background:#003366; color:#fff; padding:6px 10px; font-size:13px; font-weight:bold;">
+                                                PHL &nbsp;⇀&nbsp; NYP
+                                            </td>
+                                        </tr>
+                                        <!-- Train + Times -->
+                                        <tr>
+                                            <td style="padding:15px 0; font-size:13px; color:#333;">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <!-- Train -->
+                                                        <td width="30%" valign="top" style="text-align:center; font-size:12px; color:#666;">
+                                                            🚆<br />
+                                                            66<br />
+                                                            Northeast Regional
+                                                        </td>
+                                                        <!-- Depart -->
+                                                        <td width="30%" valign="top" style="text-align:center;">
+                                                            <div style="font-size:20px; font-weight:bold;">3:25a</div>
+                                                            <div style="font-size:11px; color:#666;">DEPARTS</div>
+                                                        </td>
+                                                        <!-- Duration -->
+                                                        <td width="10%" valign="middle"
+                                                            style="text-align:center; font-size:12px; color:#333;">
+                                                            →
+                                                            <div style="font-size:11px; color:#666;">1h 46m</div>
+                                                        </td>
+                                                        <!-- Arrives -->
+                                                        <td width="30%" valign="top" style="text-align:center;">
+                                                            <div style="font-size:20px; font-weight:bold;">5:11a</div>
+                                                            <div style="font-size:11px; color:#666;">ARRIVES</div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- Details Link -->
+                                        <tr>
+                                            <td style="font-size:12px; color:#1675f2; padding-bottom:10px; text-align: right; padding-right: 45px;">
+                                                <a href="#" style="color:#1675f2; text-decoration:none;">Details</a>
+                                            </td>
+                                        </tr>
+                                        <!-- Seat Info -->
+                                        <tr>
+                                            <td style="background:#f0f6fc; padding:10px; font-size:13px; color:#003366; font-weight:bold;">
+                                                1 Business Class Seat
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                </td>
             </tr>
-            <tr>
-                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #000; padding: 5px 30px 0px 30px;">All
-                    customers are advised to verify travel documents (transit visa/entry visa) for the country through
-                    which they are transiting and/or entering. fareticketsllc will not be responsible if proper travel
-                    documents are not available and you are denied entry or transit into a Country. We request you to
-                    consult the embassy of the country(s) you are visiting or transiting through.</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #000; padding: 5px 30px 0px 30px;">For
-                    any modification or any other query please contact our Travel Consultant on +1-844-382-2225.</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #000; padding: 5px 30px 40px 30px;">
-                    fareticketsllc provides its services, products, and contents either through the phone service or
-                    website. This is a legal agreement between you and fareticketsllc. You must read all the information
-                    carefully as you agree to these terms and conditions while accessing or using any services or
-                    products or contents of fareticketsllc.</td>
-            </tr>
+        @endforeach
+
+            @if($train_images)
+                @foreach ($train_images as $key => $img)
+                <tr>
+                    <td><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                </tr>
+                @endforeach
+            @endif
+    @endif
+        <!-----   End Train ------------>                                            
+
+
+            
+            
+            
             <tr>
                 <td colspan="2" style="text-align:center; padding-bottom: 20px;"><button class="btn btn-primary"
                         data-bs-toggle="modal" data-bs-target="#signatureModal">Add
@@ -725,23 +873,37 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <tr>
                 <td colspan="2" style="padding: 20px 0px;"><div id="signaturePreview" class="signature-preview d-none">No signature added.</div></td>
             </tr>
+            
             <tr>
-                <td colspan="2" style="text-align:center; padding-bottom: 20px;">
-                    <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
-                        @csrf
+    <td colspan="2" style="text-align:center; padding-bottom: 20px;">
+        <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
+            @csrf
 
+            <input type="hidden" name="card_id" id="card_id" value="{{ $card_id }}">
+            <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{ $card_billing_id }}">
+            <input type="hidden" name="refund_status" id="refund_status" value="{{ $refund_status }}">
+            <input type="hidden" name="signature" id="signatureData">
+            <input type="hidden" name="signature_type" id="signatureType">
+            <input type="hidden" name="booking_id" id="booking_id" value="{{ request()->segment(2) }}">
 
-                        <input type="hidden" name="card_id" id="card_id" value="{{$card_id}}">
-                        <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{$card_billing_id}}">
-                        <input type="hidden" name="refund_status" id="refund_status" value="{{$refund_status}}">
-                        <input type="hidden" name="signature" id="signatureData">
-                        <input type="hidden" name="signature_type" id="signatureType">
-                        <input type="hidden" name="booking_id" id="booking_id" value="{{ request()->segment(2) }}">
-                        <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>I
-                            Authorized</button>
-                    </form>
-                </td>
-            </tr>
+     
+            
+            <div style="margin-top: 10px;">
+                <label>
+                    <input type="checkbox" id="termsCheckbox" required > 
+                    <a href="{{ route('terms-and-conditions') }}" target="_blank"> I have read and agree to the Terms and Conditions </a>
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>
+                I Authorized
+            </button>
+        </form>
+    </td>
+</tr>
+
+            
+            
         </tbody>
         <tfoot style="background-color: #c53d3d;">
             <tr>

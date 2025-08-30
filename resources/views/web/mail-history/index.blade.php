@@ -32,6 +32,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Auth</th>
+                            <th>Auth</th>
                             <th>Sent By</th>
                             <th>Sent To</th>
                             <th>Details</th>
@@ -41,12 +42,12 @@
                             <th>IP</th>
                             <th>Action</th>
                             <th>Type</th>
+                            <th>PDF</th>
                             <th>Created On</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($auth_histories as $auth_history)
-
+                        @foreach($auth_histories as $key=>$auth_history)
                             @php
 
                                 $signature = \App\Models\Signature::where('booking_id', $auth_history->booking_id)
@@ -92,7 +93,8 @@
                                 <td>{{ $auth_history->user?->name ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->sent_to ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->details ?? 'N/A' }}</td>
-                                <td>{{ '****' . substr($card_deatils->cc_number ?? '',  -4) }}</td>
+{{--                                <td>{{ '****' . substr($card_deatils->cc_number ?? '',  -4) }}</td>--}}
+                                <td>{{ !empty($auth_history->travel_billing_details)?'****'.substr($auth_history->travel_billing_details->cc_number,-4):'****' }}</td>
 
                                 <td>{{ $auth_history->created_at->format('d-m-Y H:i:s') }}</td>
                                 <td>
@@ -121,6 +123,11 @@
                                     @else
                                         <button class="btn btn-secondary btn-sm" disabled><i class="bi bi-x-circle"></i></button>
                                     @endif
+                                </td>
+                                <td>
+                                    <a target="_blank" href="{{route('download-auth-pdf',['id'=>$auth_history->booking_id])}}" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                 </td>
                                 <td>{{ $signature?->created_at?->format('d-m-Y H:i:s') ?? 'N/A' }}</td>
                             </tr>

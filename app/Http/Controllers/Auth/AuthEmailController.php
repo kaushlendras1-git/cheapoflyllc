@@ -92,10 +92,10 @@ class AuthEmailController extends Controller
                     ], 422);
                 } catch (\Exception $e) {
                     return response()->json([
-                        'error' => 'An unexpected error occurred: ' . $e->getMessage(),
+                        'error' => 'An unexpected error occurred: ' . $e,
                         'status' => false,
-                        'code' => 422
-                    ], 422);
+                        'code' => 500
+                    ], 500);
                 }
 
 
