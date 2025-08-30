@@ -4,47 +4,36 @@
                 
               <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Details</h5>
 
-              				
+                <div class="row">
+                <div class="col-md-12 table-responsive details-table-wrappper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Cruise Trip Name</th>
+                            <th>Name of the Ship</th>
+                            <th>Lenght</th>
+                            <th>Departure Port</th>
+                            <th>Arival Port</th>
+                            <th>Cruise Line</th>
+                            <th>Category</th>
+                            <th>Stateroom</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="Cruise Trip Name"> </td>
+                        <td><input type="text" class="form-control" placeholder="Name of the Ship">    </td>
+                        <td> <input type="text" class="form-control" placeholder="Lenght"></td>
+                        <td><input type="text" class="form-control" placeholder="Departure Port">   </td>
+                        <td> <input type="text" class="form-control" placeholder="Arival Port"> </td>
+                        <td> <input type="text" class="form-control" placeholder="Cruise Line">    </td>
+                        <td><input type="text" class="form-control" placeholder="Category"></td>
+                        <td><input type="text" class="form-control" placeholder="Stateroom"></td>
+                    </tr>
+                </table>
+                </div>             				
+                </div>
 
-  <!-- <div class="row g-2">
-    <div class="col-md">
-      <input type="text" class="form-control" placeholder="Cruise Trip Name">
-    </div>
-
-     <div class="col-md">
-      <input type="text" class="form-control" placeholder="Name of the Ship	">
-    </div>
-
-
-    <div class="col-md">
-      <input type="text" class="form-control" placeholder="Lenght">
-    </div>
-    <div class="col-md">
-      <input type="text" class="form-control" placeholder="Departure Port">
-    </div>
-    <div class="col-md">
-      <input type="text" class="form-control" placeholder="Arival Port">
-    </div>
-
-     <div class="col-md">
-      <input type="text" class="form-control" placeholder=" Cruise Line">
-    </div>
-
-     <div class="col-md">
-      <input type="text" class="form-control" placeholder="Category">
-    </div>
-
-     <div class="col-md">
-      <input type="text" class="form-control" placeholder="Stateroom">
-    </div> -->
-
-    
-
-             
-
-            
-            
-            
+       
                 <div class="card p-4 show-booking-card">
                     <div class="mb-0 d-flex align-items-center justify-content-between">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Booking Itinerary </h5>

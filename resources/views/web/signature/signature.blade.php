@@ -476,7 +476,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             @endif
 
 
-
     @if(in_array('Cruise', $bookingTypes))
             
             <tr>
@@ -560,17 +559,18 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
                 </td>
             </tr>
-            <!------------End cruise----------------->
-                      
-
-                    @if($cruise_images)
+            @if($cruise_images)
                         @foreach ($cruise_images as $key => $img)
                         <tr>
-                            <td colspan="10"><img width="50" src="{{ asset($img->file_path) }}"
+                            <td colspan="10" style="padding: 30px 30px 0px 30px;"><img width="100%" src="{{ asset($img->file_path) }}"
                                     class="img-thumbnail"></td>
                         </tr>
                         @endforeach
                     @endif
+            <!------------End cruise----------------->
+                      
+
+                    
     @endif
 
     <!------------ Start Car -------------->   
@@ -589,22 +589,22 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     {{$travelCar->rental_provider_address}} -->
 
             <tr>
-                <td colspan="2">
+                <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <table border="0" cellpadding="0" cellspacing="0" align="center" width="700"
-                            style="font-family: 'Work Sans', sans-serif; width: 75%; background-color: #f8f8f8; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+                            style="font-family: 'Work Sans', sans-serif; background-color: #f8f8f8; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
                             <tr>
                                 <!-- LEFT SIDE -->
-                                <td>
+                                <td style="width: 20%;">
                                     <table>
                                         <tr>
                                             <!-- Car image -->
                                             <td style="padding-bottom:0px; padding-left: 20px;">
-                                                <img src="{{asset('email-templates/car_book.png')}}" width="200" style="display:block; border:0;" />
+                                                <img src="{{asset('email-templates/car_book.png')}}" width="150" style="display:block; border:0;" />
                                             </td>
                                         </tr>
                                     </table>
                                 </td>
-                                <td width="420" valign="top" style="padding:15px; border-right:1px solid #ddd;">
+                                <td width="420" valign="top" style="padding:15px; border-right:1px solid #ddd; width: 40%;">
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tr>
                                             <!-- Top Pick Badge -->
@@ -624,10 +624,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <tr>
                                             <!-- Features -->
                                             <td style="font-size:13px; color:#333; line-height:22px; padding-bottom:8px;">
-                                                <span style="margin-right:20px;">🚗 5 seats</span>
-                                                <span style="margin-right:20px;">⚙️ Automatic</span><br />
-                                                <span style="margin-right:20px;">🧳 3 Large bags</span>
-                                                <span>🌍 Unlimited mileage</span>
+                                                <span style="margin-right:20px; display: block;">🚗 5 seats</span>
+                                                <span style="margin-right:20px; display: block;">⚙️ Automatic</span><br />
+                                                <span style="margin-right:20px; display: block;">🧳 3 Large bags</span>
+                                                <span style="display: block;">🌍 Unlimited mileage</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -641,7 +641,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 </td>
 
                                 <!-- RIGHT SIDE -->
-                                <td width="280" valign="top" style="padding:15px;">
+                                <td width="280" valign="top" style="padding:15px; width: 40%;">
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tr>
                                             <td style="font-size:16px; font-weight:bold; color:#000; padding-bottom:20px;">
@@ -651,19 +651,15 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <!-- Pick-up -->
                                         <tr>
                                             <td style="font-size:13px; color:#333; line-height:20px; padding-bottom:20px;">
-                                                <span style="font-size:14px;">⭕ Sat, Sep 6 - 10:00 AM</span><br />
-                                                <b style="padding-left: 25px;">Chicago O'Hare International Airport</b><br />
-                                                <a href="#" style="color:#1675f2; text-decoration:none; padding-left: 25px;">View pick-up
-                                                    instructions</a>
+                                                <span style="font-size:14px; display: block;">⭕ Sat, Sep 6 - 10:00 AM</span>
+                                                <span style="padding-left: 25px; display: block;"> <b>Chicago O'Hare International Airport</b> </span>
                                             </td>
                                         </tr>
                                         <!-- Drop-off -->
                                         <tr>
                                             <td style="font-size:13px; color:#333; line-height:20px;">
-                                                <span style="font-size:14px;">⭕ Sat, Sep 13 - 10:00 AM</span><br />
-                                                <b style="padding-left: 25px;">Chicago O'Hare International Airport</b><br />
-                                                <a href="#" style="color:#1675f2; text-decoration:none; padding-left: 25px;">View drop-off
-                                                    instructions</a>
+                                                <span style="font-size:14px; display: block;">⭕ Sat, Sep 6 - 10:00 AM</span>
+                                                <span style="padding-left: 25px; display: block;"> <b>Chicago O'Hare International Airport</b> </span>
                                             </td>
                                         </tr>
                                     </table>
@@ -677,7 +673,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             @if($car_images)
                         @foreach ($car_images as $key => $img)
                         <tr>
-                            <td colspan="10"><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                            <td colspan="10" style="padding: 30px 30px 0px 30px;"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
                         </tr>
                         @endforeach
             @endif
@@ -702,7 +698,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <tr>
                 <td colspan="2">
                     <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
-                            style="font-family: 'Work Sans', sans-serif; width: 75%; background-color: #f8f8f8; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+                            style="font-family: 'Work Sans', sans-serif; background-color: #f8f8f8; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
                             <!-- Title -->
                             <tr>
                                 <td colspan="2"
@@ -854,8 +850,9 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             @if($train_images)
                 @foreach ($train_images as $key => $img)
                 <tr>
-                    <td><img src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                    <td colspan="10" style="padding: 30px 30px 0px 30px;"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
                 </tr>
+
                 @endforeach
             @endif
     @endif
@@ -891,7 +888,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <div style="margin-top: 10px;">
                 <label>
                     <input type="checkbox" id="termsCheckbox" required > 
-                    <a href="{{ route('terms-and-conditions') }}" target="_blank"> I have read and agree to the Terms and Conditions </a>
+                    <a style="text-decoration: none;" href="{{ route('terms-and-conditions') }}" target="_blank"> I have read and agree to the Terms and Conditions </a>
                 </label>
             </div>
 
@@ -907,7 +904,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         </tbody>
         <tfoot style="background-color: #c53d3d;">
             <tr>
-                <td colspan="2" style="padding: 30px 0px;">
+                <td colspan="2" style="padding: 10px 0px;">
                     <span style="display: flex; align-items: center; justify-content: center;">
                         <img style="margin-right: 10px;" width="20" src="{{asset('email-templates/facebook.png')}}"
                             alt="facebook">
@@ -919,7 +916,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             alt="twitter">
                     </span>
                     <span
-                        style="font-size: 16px; font-weight: 400; color: #fff; text-align: center; display: block; padding-top: 20px;">©
+                        style="font-size: 16px; font-weight: 400; color: #fff; text-align: center; display: block; padding-top: 6px;">©
                         All Rights Reserved.</span>
                 </td>
             </tr>
