@@ -386,4 +386,7 @@
 @vite('resources/js/booking/flight.js')
 @vite('resources/js/auth/sendAuth.js')
 @vite('resources/js/booking/pricing.js')
+
+
+
 @endsection

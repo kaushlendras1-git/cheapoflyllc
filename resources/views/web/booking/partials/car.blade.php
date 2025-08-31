@@ -24,14 +24,14 @@
             <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
 
 
-            <div class=" position-relative checkbox-servis mb-1 mt-1">    
+                <div class=" position-relative checkbox-servis mb-1 mt-1">    
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="payment_type" id="fullPayment" value="full_payment" checked>
+                            <input class="form-check-input" type="radio" name="payment_type" id="car_full_payment" value="full_payment" checked>
                             <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
                         </div>
                     
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="payment_type" id="deposit" value="deposit">
+                            <input class="form-check-input" type="radio" name="payment_type" id="car_deposit" value="deposit">
                             <label class="form-check-label" for="deposit">Deposit</label>
                         </div>
                 </div>
@@ -135,7 +135,7 @@
                                 </tr>
                             </thead>
                             <tr>
-                                <td><textarea class="form-control" name="car_description" placeholder="Car Description" cols="30" rows="6"></textarea></td>
+                                <td><textarea class="form-control" name="car_description" placeholder="Car Description" cols="30" rows="6">{{$booking->car_description}}</textarea></td>
                                 <td>  <input id="fileInput" type="file" multiple class="custom-file-input destroy_filepond" accept="image/*" name="car_main_image[]" />
                             <label for="fileInput" class="custom-file-label" style="border:none">
                                 <i style="font-size: 20px;color:#055bdb" class="ri ri-add-circle-fill pointer"></i>

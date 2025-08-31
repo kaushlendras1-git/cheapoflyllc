@@ -4,12 +4,12 @@
 
             <div class=" position-relative checkbox-servis mb-2 mt-2">    
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="payment_type" id="fullPayment" value="full_payment" checked>
+                            <input class="form-check-input" type="radio" name="payment_type" id="fullPayment" value="cruise_full_payment" checked>
                             <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
                         </div>
                     
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="payment_type" id="deposit" value="deposit">
+                            <input class="form-check-input" type="radio" name="payment_type" id="cruise_deposit" value="deposit">
                             <label class="form-check-label" for="deposit">Deposit</label>
                         </div>
             </div>
@@ -116,9 +116,8 @@
 
 
                 
-              <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Addons</h5>
+              <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Addons</h5>
              
-
                 <div class="row">
                     <div class="col-md-12 table-responsive details-table-wrappper">
                         <table class="table">
@@ -127,8 +126,32 @@
                                     <th>Services</th>
                                     <th>Name of Service</th>
                                     <th>Image</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
+                            @foreach($travel_cruise_addon as $key=>$addon)
+                            <tr>
+                                <td>
+                                    <select class="form-control" name="addon_cruise[{{$key}}][services]">
+                                        <option value="Excursions" {{ $addon->services == 'Excursions' ? 'selected' : '' }}>Excursions</option>
+                                        <option value="WiFi Packages" {{ $addon->services == 'WiFi Packages' ? 'selected' : '' }}>WiFi Packages</option>
+                                        <option value="Crew Appreciation Fees/Gratuities" {{ $addon->services == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }}>Crew Appreciation Fees/Gratuities</option>
+                                        <option value="Shuttle Services" {{ $addon->services == 'Shuttle Services' ? 'selected' : '' }}>Shuttle Services</option>
+                                        <option value="Speciality Dining" {{ $addon->services == 'Speciality Dining' ? 'selected' : '' }}>Speciality Dining</option>
+                                        <option value="Drink Packages" {{ $addon->services == 'Drink Packages' ? 'selected' : '' }}>Drink Packages</option>
+                                        <option value="Trip Insurance" {{ $addon->services == 'Trip Insurance' ? 'selected' : '' }}>Trip Insurance</option>
+                                        <option value="Check-in Proces (Luggage Tags & Sailing Pass)" {{ $addon->services == 'Check-in Proces (Luggage Tags & Sailing Pass)' ? 'selected' : '' }}>Check-in Proces (Luggage Tags & Sailing Pass)</option>
+                                        <option value="Special Occasion Package" {{ $addon->services == 'Special Occasion Package' ? 'selected' : '' }}>Special Occasion Package</option>
+                                        <option value="Water Bottle or Distiled Water Package" {{ $addon->services == 'Water Bottle or Distiled Water Package' ? 'selected' : '' }}>Water Bottle or Distiled Water Package</option>
+                                        <option value="Old Itinerary" {{ $addon->services == 'Old Itinerary' ? 'selected' : '' }}>Old Itinerary</option>
+                                        <option value="Changed Itinerary" {{ $addon->services == 'Changed Itinerary' ? 'selected' : '' }}>Changed Itinerary</option>
+                                    </select>
+                                </td>
+                                <td><textarea type="text" class="form-control"  placeholder="Name of Service" placeholder="Name of Service" name="addon_cruise[{{$key}}][service_name]" cols="30" rows="6">{{$addon->service_name}}</textarea></td>
+                                <td> <!--input type="file" class="form-control" name="image"--></td>
+                                <td><button type="button" class="btn btn-outline-danger delete-addon-cruise-btn"><i class="ri ri-delete-bin-line"></i></button></td>
+                            </tr>
+                            @endforeach
                             <tr>
                                 <td>
                                     <select class="form-control" name="services">
@@ -147,9 +170,11 @@
                                         <option>Changed Itinerary</option>
                                     </select>   
                                 </td>
-                                <td><textarea type="text" class="form-control"  placeholder="Name of Service" placeholder="Name of the Ship" name="service" cols="30" rows="6"></textarea></td>
+                                <td><textarea type="text" class="form-control"  placeholder="Name of Service" placeholder="Name of Service" name="service_name" cols="30" rows="6"></textarea></td>
                                 <td> <!--input type="file" class="form-control" name="image"--></td>
+                                <td></td>
                             </tr>
+
                         </table>
                     </div>             				
                 </div>

@@ -512,15 +512,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(9)');
         const creditCells = document.querySelectorAll('.passenger-table td:nth-child(9)');
 
-        if (allowedDataIds.includes(dataType)) {
-            // Show credit column
-            creditHeaders.forEach(el => el.style.display = '');
-            creditCells.forEach(el => el.style.display = '');
-        } else {
-            // Hide credit column
-            creditHeaders.forEach(el => el.style.display = 'none');
-            creditCells.forEach(el => el.style.display = 'none');
-        }
+        // if (allowedDataIds.includes(dataType)) {
+        //     // Show credit column
+        //     creditHeaders.forEach(el => el.style.display = '');
+        //     creditCells.forEach(el => el.style.display = '');
+        // } else {
+        //     // Hide credit column
+        //     creditHeaders.forEach(el => el.style.display = 'none');
+        //     creditCells.forEach(el => el.style.display = 'none');
+        // }
     }
 
     // Add initial row on page load if no rows exist

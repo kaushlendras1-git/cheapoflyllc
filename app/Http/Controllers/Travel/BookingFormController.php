@@ -7,6 +7,7 @@ use App\Models\BillingDetail;
 use App\Models\TravelCruise;
 use App\Models\CarImages;
 use App\Models\CruiseImages;
+use App\Models\TravelCruiseAddon;
 use App\Models\flightImages;
 use App\Models\HotelImages;
 use App\Models\ScreenshotImages;
@@ -328,7 +329,6 @@ class BookingFormController extends Controller
     public function update(Request $request, $id)
     {
 
-
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -396,7 +396,7 @@ class BookingFormController extends Controller
                 $rules['flight.*.arrival_airport']   = 'required_with:flight|string|max:255';
                 $rules['flight.*.arrival_hours']     = 'required_with:flight|date_format:H:i';
                 $rules['flight.*.duration']          = 'required_with:flight';
-                $rules['flight.*.transit']           = 'required_with:flight';
+                #$rules['flight.*.transit']           = 'required_with:flight';
                 #$rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
                 #$rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
                 $rules['flight.*.flight_number']     = 'required_with:flight|string|max:10';
@@ -428,7 +428,7 @@ class BookingFormController extends Controller
 
             // ---- CRUISE ----
             if (in_array('Cruise', $bookingTypes)) {
-                //Sonu
+
                  $rules['cruise_name']                              = 'required';
                  $rules['ship_name']                              = 'required';
                  $rules['length']                              = 'required';
@@ -448,21 +448,16 @@ class BookingFormController extends Controller
                     $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
                 }
               #  $rules['cruise_ref']                 = 'required|string';
-
-                $rules['cruise.*.type']        = 'required_with:cruise|string|max:255';
-                $rules['cruise.*.day']       = 'required_with:cruise|string|max:255';
-                $rules['cruise.*.type']       = 'required_with:cruise|string|max:255';
-                $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
                 $rules['cruise.*.departure_date']  = 'required_with:cruise|date';
-                $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
-                $rules['cruise.*.arrival_port']    = 'required_with:cruise|string|max:255';
-                $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';
+                 $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
+                 $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
+                 $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';                
             }
 
             // ---- CAR ----
             if (in_array('Car', $bookingTypes)) {
                 $carImageExists = DB::table('car_images')->where('booking_id', $id)->exists();
-
+                 $rules['car_description'] = 'required_without:car';     
                 if ($carImageExists) {
                     $rules['carbookingimage'] = 'array';
                     $rules['car'] = 'array';
@@ -802,11 +797,7 @@ class BookingFormController extends Controller
 
                 'cruise.*.departure_hrs.required'  => 'Cruise departure time is required.',
                 'cruise.*.departure_hrs.date_format'=> 'Cruise departure time must be in format HH:MM.',
-
-                'cruise.*.arrival_port.required'   => 'Cruise arrival port is required.',
-                'cruise.*.arrival_port.string'     => 'Cruise arrival port must be a string.',
-                'cruise.*.arrival_port.max'        => 'Cruise arrival port cannot exceed 255 characters.',
-
+                
                 'cruise.*.arrival_hrs.required'    => 'Cruise arrival time is required.',
                 'cruise.*.arrival_hrs.date_format' => 'Cruise arrival time must be in format HH:MM.',
 
@@ -1081,6 +1072,10 @@ class BookingFormController extends Controller
 
             $delete = TravelHotelDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Hotel',$newBookingTypes)){
+
+                 $hotelData['hotel_description'] = $request->hotel_description;
+                 $booking->update($hotelData);
+
                 if(!empty($request->hotelbookingimage)){
                         $hotelbookingimage = [];
                         foreach($request->hotelbookingimage as $key => $image){
@@ -1127,7 +1122,11 @@ class BookingFormController extends Controller
                 ->each
                 ->delete();
 
-                //Kaushlendra
+            $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
+            $newCruises = $request->input('cruise', []);
+            $processedCruiseIds = [];
+            TravelCruiseDetail::where('booking_id', $booking->id)->get()->each->delete();
+            if(in_array('Cruise',$newBookingTypes)){
 
                 $cruiseData = $request->only(['cruise_name', 'ship_name','length', 'departure_port', 'arrival_port','cruise_line','category','stateroom','day', 'type']);
                 if (!empty($cruiseData)) {
@@ -1137,13 +1136,22 @@ class BookingFormController extends Controller
                         $cruiseData
                     );
                 }
-            
 
-            $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
-            $newCruises = $request->input('cruise', []);
-            $processedCruiseIds = [];
-            TravelCruiseDetail::where('booking_id', $booking->id)->get()->each->delete();
-            if(in_array('Cruise',$newBookingTypes)){
+               if ($request->has('addon_cruise')) {
+                    foreach ($request->addon_cruise as $addon) {
+                        if (!empty($addon['services']) || !empty($addon['service_name'])) {
+                            TravelCruiseAddon::create([
+                                'services'     => $addon['services'] ?? '',
+                                'service_name' => $addon['service_name'] ?? '',
+                                'booking_id'   => $booking->id,
+                                'image'        => 'spa.jpg', // Replace with file upload if needed
+                            ]);
+                        }
+                    }
+                }
+                
+                
+                
                 if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
                         foreach($request->cruisebookingimage as $key => $image){
                             $cruisebookingimage = 'storage/'.$image->store('cruise_booking_image','public');
@@ -1194,6 +1202,10 @@ class BookingFormController extends Controller
             TravelCarDetail::where('booking_id', $booking->id)->get()->each->delete();
 
             if(in_array('Car',$newBookingTypes)){
+                
+                 $carData['car_description'] = $request->car_description;
+                 $booking->update($carData);
+
                 // Handle file upload
                 if (isset($request->carbookingimage) && !empty($request->carbookingimage)) {
                     $carbookingimage = [];
@@ -1239,6 +1251,10 @@ class BookingFormController extends Controller
             $newTrains = !empty($request->train)?$request->train:[];
             TravelTrainDetail::where('booking_id', $booking->id)->get()->each->delete();
             if(in_array('Train',$newBookingTypes)){
+
+                 $trainData['train_description'] = $request->train_description;
+                 $booking->update($trainData);
+
                 if(isset($request->trainbookingimage) && !empty($request->trainbookingimage)){
                         foreach($request->trainbookingimage as $key => $image){
                             $trainbookingimage = 'storage/'.$image->store('train_booking_image','public');
@@ -1357,7 +1373,6 @@ class BookingFormController extends Controller
         }
     }
 
-
     public function show($hash)
     {
         $id = decode($hash);
@@ -1385,7 +1400,6 @@ class BookingFormController extends Controller
         $userDepartments = [$userDepartments];
         $booking_status = BookingStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
         $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
-
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::with('get_country')->where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
@@ -1395,13 +1409,14 @@ class BookingFormController extends Controller
         $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
-        $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first(); 
+        $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
+        $travel_cruise_addon = TravelCruiseAddon::where('booking_id', $booking->id)->get();
         $users = User::get();
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
         $campaigns = Campaign::all();
       #  $call_types = CallType::all();
-        return view('web.booking.show', compact('travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        return view('web.booking.show', compact('travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
     public function add(){

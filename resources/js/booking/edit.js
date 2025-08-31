@@ -9,6 +9,9 @@ import {route} from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import tinymce from 'tinymce';
+import 'tinymce/themes/silver';
+import 'tinymce/icons/default';
 
 
 const currencyApi = new CurrencyAPI('cur_live_hNVrB7FwaBu1B2psLRKf7ALfqrSU5tXfIpFipPhY');

@@ -216,31 +216,30 @@
                                         <th>Type</th>
                                         <th>Total Amount</th>
                                         <th>Deposit Amount</th>
-                                        <th> Cruise - Pending Amount
-                                        </th>
+                                        <th>Cruise - Pending Amount</th>
                                         <th>Due Date</th>
                                     </tr>
                                </thead>
                                   <tr data-payment="car">
                                     <td>Car</td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="date" class="form-control"></td>
+                                    <td><input type="text" name="total_amount" class="form-control"></td>
+                                    <td><input type="text" name="deposit_amount" class="form-control"></td>
+                                    <td><input type="text" name="pending_amount" class="form-control"></td>
+                                    <td><input type="date" name="due_date" class="form-control"></td>
                                 </tr>
                                  <tr data-payment="cruise">
                                      <td>Cruise</td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="date" class="form-control"></td>
+                                    <td><input type="text" name="total_amount" class="form-control"></td>
+                                    <td><input type="text" name="deposit_amount" class="form-control"></td>
+                                    <td><input type="text" name="pending_amount" class="form-control"></td>
+                                    <td><input type="date" name="due_date" class="form-control"></td>
                                 </tr>
                                  <tr data-payment="hotel">
                                      <td>Hotel</td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="text" class="form-control"></td>
-                                    <td><input type="date" class="form-control"></td>
+                                    <td><input type="text" name="total_amount" class="form-control"></td>
+                                    <td><input type="text" name="deposit_amount" class="form-control"></td>
+                                    <td><input type="text" name="pending_amount" class="form-control"></td>
+                                    <td><input type="date" name="due_date" class="form-control"></td>
                                 </tr>
                             </table>
                         </div>    
