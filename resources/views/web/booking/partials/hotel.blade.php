@@ -4,7 +4,11 @@
 
             <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
 
-                <div class="position-relative checkbox-servis mb-1 mt-1">    
+                
+
+
+                <div class="card p-4 show-booking-card">
+                    <div class="position-relative checkbox-servis mb-1 mt-1">    
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="payment_type" id="hotel_full_payment" value="full_payment" checked>
                             <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
@@ -15,9 +19,6 @@
                             <label class="form-check-label" for="deposit">Deposit</label>
                         </div>
                 </div>
-
-
-                <div class="card p-4 show-booking-card">
                     <div class="d-flex justify-content-between mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Booking Details</h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="hotel-booking-button">
