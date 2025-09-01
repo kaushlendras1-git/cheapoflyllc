@@ -4,16 +4,16 @@
 
             <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
 
-                
+
 
 
                 <div class="card p-4 show-booking-card">
-                    <div class="position-relative checkbox-servis mb-1 mt-1">    
+                    <div class="position-relative checkbox-servis mb-1 mt-1">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="payment_type" id="hotel_full_payment" value="full_payment" checked>
                             <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
                         </div>
-                    
+
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="payment_type" id="hotel_deposit" value="deposit">
                             <label class="form-check-label" for="deposit">Deposit</label>
@@ -86,7 +86,7 @@
                                                     name="hotel[{{$key}}][special_notes]"
                                                     value="{{$travelHotel->special_notes}}" placeholder="Refundable">
                                             </td>
-                                          
+
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-hotel-btn">
                                                     <i class="ri ri-delete-bin-line"></i>
@@ -114,21 +114,21 @@
                                 </thead>
                                 <tr>
                                     <td><textarea class="form-control" name="hotel_description" placeholder="Hotel Description" cols="30" rows="6">{{$booking->hotel_description}}</textarea></td>
-                                    <td> image</td>
+                                    <td> <input type="file" class="form-control customFilepond" multiple name="hotel_detail_image"></td>
                                 </tr>
                             </table>
-                        </div>             				
+                        </div>
                 </div>
 
 
-                
+
 
                     <div style="margin:20px">
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
 
 
-                   
+
 
 
                     <div class="" style="margin-top:20px">

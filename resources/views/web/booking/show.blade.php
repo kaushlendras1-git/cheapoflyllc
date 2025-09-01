@@ -1,31 +1,41 @@
 @extends('web.layouts.main')
 @section('content')
 <style>
-/* Ensure FilePond container doesn't shrink weirdly */
-.filepond--root {
-    width: 100% !important;
-    max-width: 100%;
-    box-sizing: border-box;
-}
+    /* Ensure FilePond container doesn't shrink weirdly */
+    .filepond--root {
+        width: 100% !important;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
 
-/* Optional: give a min-height if it's collapsing */
-.filepond--drop-label {
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+    /* Optional: give a min-height if it's collapsing */
+    .filepond--drop-label {
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 
-/* Prevent vertical stacking of drag message */
-.filepond--drop-label label {
-    white-space: nowrap;
-    text-align: center;
-}
+    /* Prevent vertical stacking of drag message */
+    .filepond--drop-label label {
+        white-space: nowrap;
+        text-align: center;
+    }
 
-.filepond--item {
-    width: calc(50% - 0.5em);
-}
+    .filepond--item {
+        width: calc(50% - 0.5em);
+    }
+    .ck-balloon-panel_visible{
+        display: none !important;
+    }
+    .ck {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    .filepond--credits{
+        display: none !important;
+    }
 </style>
 
 <span id="flight_uploaded_files" data-baseUrl="{{asset('')}}" data-images="{{$booking->flightbookingimage}}"></span>
@@ -72,8 +82,7 @@
                         style="color: #055bdb;">Approved</span>
                 </div>
                 <div class="d-flex gap-2">
-                      <!-- authModel -->
-                     @include('web.booking.partials.authModel')
+                    @include('web.booking.partials.authModel')
 
                     <a href="{{ route('auth-history', $hashids) }}"
                         class="btn btn-outline-secondary btn-sm rounded-pill auth-button">

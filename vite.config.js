@@ -2,6 +2,9 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
+    optimizeDeps: {
+        include: ['@ckeditor/ckeditor5-build-classic']
+    },
     plugins: [
         laravel({
             input: [
@@ -14,10 +17,10 @@ export default defineConfig({
 
                 //callLogs
                 'resources/js/callLogs/create.js',
-                
-                //AuthEmail                
+
+                //AuthEmail
                 'resources/js/auth/sendAuth.js',
-                
+
             ],
             refresh: true,
         }),

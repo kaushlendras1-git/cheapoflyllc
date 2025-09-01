@@ -7,11 +7,7 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import {route} from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
-import tinymce from 'tinymce';
-import 'tinymce/themes/silver';
-import 'tinymce/icons/default';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 const currencyApi = new CurrencyAPI('cur_live_hNVrB7FwaBu1B2psLRKf7ALfqrSU5tXfIpFipPhY');
@@ -97,9 +93,6 @@ container.addEventListener('change', async function(e) {
         if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
     }
 });
-
-
-
 
 if (sessionStorage.getItem("successMessage")) {
     showToast(sessionStorage.getItem("successMessage"));
@@ -245,7 +238,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
             }
         });
     }
-    
+
     if (isCruiseChecked) {
         const cruiseInputs = document.querySelectorAll('[name^="cruise["]');
         const rows = {};
@@ -506,7 +499,6 @@ document.getElementById('saveRemark').addEventListener('click', async function(e
     }
 });
 
-
 $('.country-select').on('change',async function(e){
     try{
         const response = await axios.get(route('statelist',e.target.value));
@@ -739,8 +731,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-    // Optional: Handle delete button clicks
 document.addEventListener('DOMContentLoaded', function () {
     const bookingId = route().params.id; // This works if you're on a route like /booking/{id}/...
 
@@ -780,7 +770,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-
 
 document.addEventListener('DOMContentLoaded', function () {
     const toggles = document.querySelectorAll('.toggle-remark');
@@ -858,14 +847,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
-
-
-
-
-
-
-
-
 
 document.addEventListener('DOMContentLoaded', function() {
     const queryTypeSelect = document.getElementById('query_type');
@@ -1021,6 +1002,109 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
     observer.observe(flightFormsContainer, { childList: true, subtree: true });
+
+    const editors = document.querySelectorAll('textarea.ckeditor');
+    editors.forEach(textarea => {
+        ClassicEditor
+            .create(textarea, {
+                toolbar: ['bold']
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+    const container = document.getElementById('cruise-addon-container');
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('#cruise-addon-button')) {
+            // Add new row
+            const rows = container.querySelectorAll('.cruise-addon-row');
+            const index = rows.length + 1; // 1-based index
+
+            const html = `
+      <tr class="cruise-addon-row">
+        <td style="width: 200px">
+          <select class="form-control" name="cruiseaddon[${index}][services]">
+            <option value="">Select</option>
+            <option>Excursions</option>
+            <option>WiFi Packages</option>
+            <option>Crew Appreciation Fees/Gratuities</option>
+            <option>Shuttle Services</option>
+            <option>Speciality Dining</option>
+            <option>Drink Packages</option>
+            <option>Trip Insurance</option>
+            <option>Check-in Proces (Luggage Tags & Sailing Pass)</option>
+            <option>Special Occasion Package</option>
+            <option>Water Bottle or Distiled Water Package</option>
+            <option>Old Itinerary</option>
+            <option>Changed Itinerary</option>
+          </select>
+        </td>
+        <td style="width: 400px">
+          <textarea class="form-control ckeditor" name="cruiseaddon[${index}][service_name]" cols="30" rows="6"></textarea>
+        </td>
+        <td>
+          <input type="file" class="form-control filepond" name="cruiseaddon[${index}][image]" />
+        </td>
+        <td style="width: 100px">
+          <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn">
+            <i class="ri ri-delete-bin-line"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+
+            container.insertAdjacentHTML('beforeend', html);
+
+            // Initialize CKEditor on last textarea
+            const lastTextarea = container.querySelector('textarea.ckeditor:last-of-type');
+            if(lastTextarea) {
+                ClassicEditor
+                    .create(lastTextarea, {
+                        toolbar: ['bold']
+                    })
+                    .catch(err => console.error(err));
+            }
+
+            // Initialize FilePond on last file input
+            const lastFileInput = container.querySelector('input.filepond:last-of-type');
+            if(lastFileInput) {
+                FilePond.create(lastFileInput, {
+                    allowMultiple: true,
+                    maxFiles: 10,
+                    labelIdle: 'Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                });
+            }
+        }
+
+        if(e.target.closest('.delete-addon-cruise-btn')) {
+            // Delete row
+            const row = e.target.closest('.cruise-addon-row');
+            if(row) {
+                // Optional: destroy CKEditor/FilePond instances to free resources here if relevant
+
+                row.remove();
+
+                // Re-index rows and reset names
+                updateCruiseAddonIndexes();
+            }
+        }
+    });
+
+    function updateCruiseAddonIndexes() {
+        const rows = container.querySelectorAll('.cruise-addon-row');
+        rows.forEach((row, index) => {
+            const currentIndex = index;
+            const select = row.querySelector('select');
+            if(select) select.name = `cruiseaddon[${currentIndex}][services]`;
+
+            const textarea = row.querySelector('textarea.ckeditor');
+            if(textarea) textarea.name = `cruiseaddon[${currentIndex}][service_name]`;
+
+            const fileInput = row.querySelector('input.filepond');
+            if(fileInput) fileInput.name = `cruiseaddon[${currentIndex}][image]`;
+        });
+    }
 });
 
 
@@ -1080,6 +1164,4 @@ timeInputs.forEach(input => {
         }
     });
 });
-
-/***************Pricing***************** */
 
