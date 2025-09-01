@@ -414,9 +414,17 @@ function attach24HourTimeListener(input) {
             <td><input type="date" class="form-control" style="width: 105px;" name="train[${trainIndex}][departure_date]"></td>
             <td><input type="text" class="form-control" style="width: 108px;" name="train[${trainIndex}][train_number]" placeholder="Train No"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][cabin]" placeholder="Cabin"></td>
-            <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][departure_station]" placeholder="Departure Station"></td>
+
+            <td><input type="text" class="form-control train_departure_station" style="width: 9rem;" name="train[${trainIndex}][departure_station]" placeholder="Departure Station">
+                <div class="train-suggestions-box" style="position:absolute; background:#fff;  z-index: 19999;border:1px solid #ccc; display:none;"></div>
+            </td>
+            
             <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
-            <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station"></td>
+            
+            <td><input type="text" class="form-control train_arrival_station" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station">
+                    <div class="train-suggestions-box" style="position:absolute; background:#fff;  z-index: 19999;border:1px solid #ccc; display:none;"></div>
+            </td>
+            
             <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][duration]" placeholder="Duration"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][transit]" placeholder="Transit"></td>

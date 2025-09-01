@@ -32,7 +32,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Auth</th>
-                            <th>Auth</th>
                             <th>Sent By</th>
                             <th>Sent To</th>
                             <th>Details</th>

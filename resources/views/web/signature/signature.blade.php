@@ -154,15 +154,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         {{$flight->duration}}
                                     </p>
                                     <p style="font-size: 16px; margin-bottom: 2px; margin-top: 0px; margin-left: 5px;">
-                                        <span style="font-weight: 400; color: #000;">Departing:</span>
                                         <span
-                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">{{$flight->departure_hours}}
+                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">Departing: {{ date('h:i A', strtotime($flight->departure_hours)) }}
                                             from {{$flight->departure_airport}}</span>
                                     </p>
                                     <p style="font-size: 16px; margin-bottom: 5px; margin-top: 0px; margin-left: 5px;">
-                                        <span style="font-weight: 400; color: #000;">Arriving:</span>
                                         <span
-                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">{{$flight->arrival_hours}}
+                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">Arriving: {{ date('h:i A', strtotime($flight->arrival_hours)) }}
                                             into {{$flight->arrival_airport}}</span>
                                     </p>
                                     <p style="margin-top: 5px;">@if($flight->transit)</p>
@@ -351,52 +349,52 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                 alt="cruise-logo"></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 10px;">Ship: </td>
-                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 10px;">
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Ship: </td>
+                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->cruise_name}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 10px;">Lenght:
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Lenght:
                                         </td>
-                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 10px;">
+                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->length}}
                                         </td>
                                     </tr>
 
 
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 10px;">Departure
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Departure
                                             Post
                                             Port: </td>
-                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 10px;">
+                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->departure_port}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 10px;">Arrival
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Arrival
                                             Port
                                             Date: </td>
-                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 10px;">
+                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->arrival_port}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 10px;">Cruise Line
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Cruise Line
                                             Port: </td>
-                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 10px;">
+                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->cruise_line}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 10px;">Category
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Category
                                         </td>
-                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 10px;">
+                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->category}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 10px;">Stateroom
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Stateroom
                                         </td>
-                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 10px;">
+                                        <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->stateroom}}
                                         </td>
                                     </tr>
@@ -420,13 +418,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     <!------------cruise----------------->
                                     <tr>
                                         <td style="padding:8px;">
-                                            <b> {{ \Carbon\Carbon::parse($travelCruise->departure_date)->format('l') }}
-                                            </b><br>
-                                            {{ \Carbon\Carbon::parse($travelCruise->departure_date)->format('d-m-Y') }}
+                                            <b>{{ date('l', strtotime($travelCruise->departure_date)) }}</b><br>
+                                            {{ date('d-m-Y', strtotime($travelCruise->departure_date)) }}
                                         </td>
                                         <td style="padding:8px;">{{$travelCruise->departure_port}}</td>
-                                        <td style="padding:8px;">{{$travelCruise->departure_hrs}}</td>
-                                        <td style="padding:8px;">{{$travelCruise->arrival_hrs}}</td>
+                                        <td style="padding:8px;">{{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}</td>
+                                        <td style="padding:8px;">{{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}</td>
                                     </tr>
                                     @endforeach
                                 </table>
@@ -542,21 +539,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         {{$travelCar->rental_provider_address}}</p>
                                     @endif
 
-                                    <!-- {{$travelCar->car_rental_provider}}
-                                            {{$travelCar->car_type}}
-                                            {{$travelCar->pickup_location}}
-                                            {{$travelCar->dropoff_location}}
-                                            {{$travelCar->pickup_date?->format('Y-m-d')}}
-                                            {{$travelCar->pickup_time}}
-                                            {{$travelCar->dropoff_date?->format('Y-m-d')}}
-                                            {{$travelCar->dropoff_time}}
-                                            {{$travelCar->confirmation_number}}
-                                            {{$travelCar->rental_provider_address}} -->
                                     <tr>
                                         <td style="font-size:13px; color:#333; line-height:20px; padding-bottom:20px;">
                                             <span style="font-size:14px; display: block;">⭕
                                                 {{ $travelCar->pickup_date?->format('D, M j') }} -
-                                                {{$travelCar->pickup_time}}</span>
+                                                {{$travelCar->pickup_time}}
+                                            </span>
                                             <span style="padding-left: 25px; display: block;">
                                                 <b>{{$travelCar->pickup_location}}</b> </span>
                                         </td>
@@ -663,7 +651,8 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                     <!-- Depart -->
                                                     <td width="30%" valign="top" style="text-align:center;">
                                                         <div style="font-size:20px; font-weight:bold;">
-                                                            {{$trainBookingDetails->departure_hours}}</div>
+                                                           {{ date('h:i A', strtotime($trainBookingDetails->departure_hours)) }}
+                                                    </div>
                                                         <div style="font-size:11px; color:#666;">DEPARTS</div>
                                                     </td>
                                                     <!-- Duration -->
@@ -676,7 +665,9 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                     <!-- Arrives -->
                                                     <td width="30%" valign="top" style="text-align:center;">
                                                         <div style="font-size:20px; font-weight:bold;">
-                                                            {{$trainBookingDetails->arrival_hours}}</div>
+                                                            {{ date('h:i A', strtotime($trainBookingDetails->arrival_hours)) }}
+
+                                                        </div>
                                                         <div style="font-size:11px; color:#666;">ARRIVES</div>
                                                     </td>
                                                 </tr>
@@ -717,14 +708,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
+                    <div>
+                       <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
+                        style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
                             <tr>
                                 <th colspan="2"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="16"
-                                            src="{{asset('email-templates/information.png')}}" alt="info"> </span>
+                                    style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
                                     Customer Information
                                 </th>
                             </tr>
@@ -769,14 +758,16 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
                                     Monday, Jul 14,2025 </td>
                             </tr>
+                            
                             <tr>
                                 <th
                                     style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
                                     Airline Ref</th>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
-                                    DBD60B </td>
+                                    {{ $booking->airlinepnr }} </td>
                             </tr>
+
                         </table>
                     </div>
                 </td>
@@ -784,14 +775,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <!------Passenger -------->
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
+                    <div>
+                         <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
+                        style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+			
                             <tr>
-                                <th colspan="4"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="16"
-                                            src="{{asset('email-templates/detail.png')}}" alt="details"> </span>
+                                <th colspan="2"
+                                    style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
                                     Passenger Details
                                 </th>
                             </tr>

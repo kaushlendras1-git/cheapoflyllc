@@ -929,7 +929,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener("DOMContentLoaded", () => {
     // Apply autocomplete for both departure and arrival inputs
     function initAutocomplete(input, searchAt) {
-        const suggestionsBox = input.nextElementSibling;
+        const suggestionsBox = input.parentElement.querySelector('.suggestions-box');
 
         input.addEventListener("input", async (e) => {
             const keyword = e.target.value.trim();
@@ -1163,5 +1163,117 @@ timeInputs.forEach(input => {
             input.setCustomValidity('');
         }
     });
+});
+
+/***************Pricing***************** */
+
+
+/***************Train Search***************** */
+
+document.addEventListener("DOMContentLoaded", () => {
+  function initTrainAutocomplete(input, searchAt) {
+    const td = input.closest('td') || input.parentElement;
+    const suggestionsBox = td.querySelector('.train-suggestions-box');
+
+    if (!suggestionsBox) {
+      console.warn('train-suggestions-box not found for input:', input);
+      return; // don't proceed if there's no box in markup
+    }
+
+    const positionBox = () => {
+      // since we use top:100% and left:0 in CSS this is optional, but kept for safety
+      suggestionsBox.style.width = input.offsetWidth + 'px';
+    };
+    positionBox();
+    window.addEventListener('resize', positionBox);
+
+    let inflight = 0;
+
+    const render = (arr) => {
+      if (!Array.isArray(arr) || arr.length === 0) {
+        suggestionsBox.style.display = 'none';
+        suggestionsBox.innerHTML = '';
+        return;
+      }
+      suggestionsBox.innerHTML = arr.map(item => `
+        <div class="suggestion-item">${item.name}</div>
+      `).join('');
+      suggestionsBox.style.display = 'block';
+    };
+
+    input.addEventListener("input", async (e) => {
+      const keyword = e.target.value.trim();
+      if (keyword.length < 2) {
+        suggestionsBox.style.display = "none";
+        suggestionsBox.innerHTML = '';
+        return;
+      }
+
+      const seq = ++inflight;
+      try {
+        const resp = await axios.get(route("train.search", {}, Ziggy), {
+          params: { keyword, searchAt }
+        });
+        const data = Array.isArray(resp.data) ? resp.data : (resp.data?.data || []);
+        // ignore stale responses
+        if (seq !== inflight) return;
+        render(data);
+      } catch (err) {
+        console.error("train.search error", err);
+        suggestionsBox.style.display = "none";
+      }
+    });
+
+    // use mousedown so click registers before blur hides it
+    suggestionsBox.addEventListener("mousedown", (e) => {
+      const item = e.target.closest('.suggestion-item');
+      if (!item) return;
+      e.preventDefault();
+      input.value = item.textContent.trim();
+      suggestionsBox.style.display = 'none';
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    input.addEventListener("blur", () => {
+      setTimeout(() => { suggestionsBox.style.display = 'none'; }, 120);
+    });
+    input.addEventListener("focus", () => {
+      if (suggestionsBox.innerHTML.trim()) suggestionsBox.style.display = 'block';
+    });
+  }
+
+  // init existing fields
+  document.querySelectorAll(".train_departure_station").forEach(input => {
+    if (!input.dataset.autocompleteTrain) {
+      initTrainAutocomplete(input, 'departure');
+      input.dataset.autocompleteTrain = '1';
+    }
+  });
+  document.querySelectorAll(".train_arrival_station").forEach(input => {
+    if (!input.dataset.autocompleteTrain) {
+      initTrainAutocomplete(input, 'arrival');
+      input.dataset.autocompleteTrain = '1';
+    }
+  });
+
+  // observe dynamic rows
+  const trainFormsContainer = document.getElementById('trainForms');
+  if (trainFormsContainer) {
+    const observer = new MutationObserver(() => {
+      document.querySelectorAll(".train_departure_station").forEach(input => {
+        if (!input.dataset.autocompleteTrain) {
+          initTrainAutocomplete(input, 'departure');
+          input.dataset.autocompleteTrain = '1';
+        }
+      });
+      document.querySelectorAll(".train_arrival_station").forEach(input => {
+        if (!input.dataset.autocompleteTrain) {
+          initTrainAutocomplete(input, 'arrival');
+          input.dataset.autocompleteTrain = '1';
+        }
+      });
+    });
+    observer.observe(trainFormsContainer, { childList: true, subtree: true });
+  }
 });
 

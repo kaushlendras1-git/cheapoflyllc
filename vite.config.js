@@ -20,6 +20,8 @@ export default defineConfig({
 
                 //AuthEmail
                 'resources/js/auth/sendAuth.js',
+                //pricing
+                'resources/js/booking/pricing.js',
 
             ],
             refresh: true,
