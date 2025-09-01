@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthHistoryController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\LOBController;
 use App\Http\Controllers\FlightSearchListController;
+use App\Http\Controllers\TrainSearchListController;
 
 
 
@@ -53,6 +54,7 @@ Route::post('/update-device-token', [NotificationController::class, 'updateDevic
 
 // web.php
 Route::get('/search-airline', [FlightSearchListController::class, 'search'])->name('airline.search');
+Route::get('/search-train', [TrainSearchListController::class, 'search'])->name('train.search');
 
 /**Booking **/
 
