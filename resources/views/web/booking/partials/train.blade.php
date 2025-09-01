@@ -56,7 +56,7 @@
                                                     name="train[{{$key}}][cabin]"
                                                     value="{{$trainBookingDetails->cabin}}" placeholder="Cabin">
                                             </td>
-                                            <td><input type="text" class="form-control" style="width: 9rem;"
+                                            <td><input type="text" class="form-control train_departure_station" style="width: 9rem;"
                                                     name="train[{{$key}}][departure_station]"
                                                     value="{{$trainBookingDetails->departure_station}}"
                                                     placeholder="Departure Station"></td>
@@ -66,7 +66,7 @@
                                                     value="{{$trainBookingDetails->departure_hours}}" placeholder="Hrs"
                                                     min="0" max="23"></td>
                                            
-                                            <td><input type="text" class="form-control" style="width: 9rem;"
+                                            <td><input type="text" class="form-control train_arrival_station" style="width: 9rem;"
                                                     name="train[{{$key}}][arrival_station]"
                                                     value="{{$trainBookingDetails->arrival_station}}"
                                                     placeholder="Arrival Station"></td>

@@ -13,6 +13,7 @@ use App\Models\HotelImages;
 use App\Models\ScreenshotImages;
 use App\Models\TrainImages;
 use App\Models\TravelTrainDetail;
+use App\Models\TrainStation;
 use App\Utils\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
