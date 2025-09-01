@@ -99,6 +99,9 @@ if (sessionStorage.getItem("successMessage")) {
     sessionStorage.removeItem("successMessage");
 }
 FilePond.registerPlugin(FilePondPluginImagePreview);
+FilePond.setOptions({
+    allowPaste: false
+});
 let ponds = {};
 
 
