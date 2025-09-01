@@ -18,6 +18,7 @@
         "filepond-plugin-image-preview": "^4.6.12",
         "firebase": "^12.1.0",
         "flatpickr": "^4.6.13",
+        "tinymce": "^8.0.2",
         "ziggy-js": "^2.5.3"
     }
 }
