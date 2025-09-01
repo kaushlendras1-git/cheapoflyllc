@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FlightSearchList;
+use App\Models\TrainStation;
 use Illuminate\Http\Request;
 
 class TrainSearchListController extends Controller
 {
     public function search(Request $request)
     {
-        $keyword = $request->get('keyword');
-        $searchAt =  $request->get('searchAt');
+        $k = trim((string)$request->keyword);
+        if ($k === '') return response()->json([]);
 
-        $airlines = FlightSearchList::where('airport_name', 'LIKE', "%{$keyword}%")
+        $stations = TrainStation::query()
+            ->where('name', 'like', "%{$k}%")
+            ->orderBy('name')
             ->limit(10)
-            ->get(['id', 'airport_name', 'city','country']);
+            ->get(['id','name']);
 
-        return response()->json($airlines);
+        return response()->json($stations);
     }
 }

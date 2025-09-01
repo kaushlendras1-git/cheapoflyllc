@@ -113,7 +113,6 @@
                                                         name="flight[{{ $index }}][departure_airport]"
                                                         value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                         placeholder="Departure Airport">
-                                                         <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                                                     </td>
                                                         
 
