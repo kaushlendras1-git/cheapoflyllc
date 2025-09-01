@@ -13,10 +13,8 @@ class TravelCruiseDetail extends Model
 
     protected $fillable = [
         'booking_id',
-        'cruise_line',
-        'ship_name',
-        'category',
-        'stateroom',
+        'day',
+        'type',
         'departure_port',
         'departure_date',
         'departure_hrs',
@@ -25,7 +23,6 @@ class TravelCruiseDetail extends Model
         'arrival_date',
         'arrival_hrs',
         'arrival_mm',
-        'remarks',
         'date',
         'files'
     ];

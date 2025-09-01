@@ -385,4 +385,7 @@
 @vite('resources/js/booking/edit.js')
 @vite('resources/js/auth/sendAuth.js')
 @vite('resources/js/booking/pricing.js')
+
+
+
 @endsection

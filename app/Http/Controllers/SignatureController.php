@@ -29,11 +29,13 @@ use App\Models\TravelCarDetail;
 use App\Models\BookingStatus;
 use App\Models\PaymentStatus;
 use App\Models\TravelCruiseDetail;
+use App\Models\TravelCruise;
 use App\Models\TravelHotelDetail;
 use App\Models\UserShiftAssignment;
 use App\Models\ChangeLog;
 use App\Models\Campaign;
 use App\Models\User;
+use App\Models\TravelCruiseAddon;
 use App\Models\BookingType;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -81,8 +83,11 @@ class SignatureController extends Controller
         $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
+        $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
+        $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
+        $travel_cruise_addon = TravelCruiseAddon::where('booking_id',$booking->id)->get();
         $users = User::get();
-        return view('web.signature.signature', compact('card_id','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
+        return view('web.signature.signature', compact('travel_cruise_addon','travel_cruise_data','card_id','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
     }
 
 

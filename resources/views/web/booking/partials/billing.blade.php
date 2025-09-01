@@ -207,10 +207,54 @@
 
     @endif
 
+                <div class="card p-1 mt-4">    
+					<div class="row g-3 align-items-center">
+                        <div class="col-md-12 table-responsive details-table-wrappper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Total Amount</th>
+                                        <th>Deposit Amount</th>
+                                        <th>Cruise - Pending Amount</th>
+                                        <th>Due Date</th>
+                                    </tr>
+                               </thead>
+                                  <tr data-payment="car">
+                                    <td>Car</td>
+                                    <td><input type="text" name="total_amount" class="form-control"></td>
+                                    <td><input type="text" name="deposit_amount" class="form-control"></td>
+                                    <td><input type="text" name="pending_amount" class="form-control"></td>
+                                    <td><input type="date" name="due_date" class="form-control"></td>
+                                </tr>
+                                 <tr data-payment="cruise">
+                                     <td>Cruise</td>
+                                    <td><input type="text" name="total_amount" class="form-control"></td>
+                                    <td><input type="text" name="deposit_amount" class="form-control"></td>
+                                    <td><input type="text" name="pending_amount" class="form-control"></td>
+                                    <td><input type="date" name="due_date" class="form-control"></td>
+                                </tr>
+                                 <tr data-payment="hotel">
+                                     <td>Hotel</td>
+                                    <td><input type="text" name="total_amount" class="form-control"></td>
+                                    <td><input type="text" name="deposit_amount" class="form-control"></td>
+                                    <td><input type="text" name="pending_amount" class="form-control"></td>
+                                    <td><input type="date" name="due_date" class="form-control"></td>
+                                </tr>
+                            </table>
+                        </div>    
+                    </div>    
+                </div>
+                
+                
 
-        <div class="card mt-2 p-1">
+
+
+
+        <div class="card mt-2">
             <div class="payment-form">
-                <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Payment Details</h2>
+                <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Transation Details</h2> 
+               
                 <h4 class="merchant-name mb-0">Merchent -
                     @if($booking->selected_company == 1 )
                             Fly Dreamz
@@ -228,6 +272,9 @@
                     <div class="col-md-3">
                         <div class="card-partisal">
                             <h5 class="no-card mb-4">Card {{$key+1}} <span style="color: #ff0000;">(MCO = ${{$billingDetails['authorized_amt']}})</span></h5>
+                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="car-booking-button">
+                                <i class="ri ri-add-circle-fill pointer"></i>
+                            </button>
                             <div class="detail_namer">
                                 <p>Card Type: <span>{{$billingDetails['card_type']}}</span></p>
                                 <p>Cardholder Name: <span>{{$billingDetails['cc_holder_name']}}</span></p>

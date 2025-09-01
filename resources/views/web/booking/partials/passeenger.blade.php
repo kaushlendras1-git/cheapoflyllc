@@ -16,15 +16,14 @@
                                     <th>Type</th>
                                     <th>Gender</th>
                                     <th>Title</th>
-                                    <th>First Name</th>
-                                    <th>Middle Name</th>
+                                    <th>First & Middle  Name</th>
                                     <th>Last Name</th>
                                     <th>DOB</th>
                                     <th>Seat</th>
-                                    <th>Cr. OR <br>
-                                        Ref. Amt.
+                                    <th>Credit/Refund Amt.
                                     </th>
                                     <th>E-Ticket</th>
+                                    <th>Room Category</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -92,11 +91,7 @@
                                             name="passenger[{{$key}}][first_name]" value="{{$passengers->first_name}}"
                                             placeholder="First Name">
                                     </td>
-                                    <td>
-                                        <input type="text" class="form-control" style="width: 7.5rem"
-                                            name="passenger[{{$key}}][middle_name]" value="{{$passengers->middle_name}}"
-                                            placeholder="Middle Name">
-                                    </td>
+                                   
                                     <td>
                                         <input type="text" class="form-control" style="width: 7.5rem"
                                             name="passenger[{{$key}}][last_name]" value="{{$passengers->last_name}}"
@@ -121,6 +116,11 @@
                                         <input type="text" class="form-control w-100"
                                             name="passenger[{{$key}}][e_ticket_number]"
                                             value="{{$passengers->e_ticket_number}}" placeholder="E Ticket">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control w-100"
+                                            name="passenger[{{$key}}][room_category]"
+                                            value="{{$passengers->room_category}}" placeholder="Room Category">
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">

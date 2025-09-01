@@ -3,7 +3,22 @@
             <!------------------------ Hotel Booking Details ------------------------------>
 
             <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
+
+                
+
+
                 <div class="card p-4 show-booking-card">
+                    <div class="position-relative checkbox-servis mb-1 mt-1">    
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="payment_type" id="hotel_full_payment" value="full_payment" checked>
+                            <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
+                        </div>
+                    
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="payment_type" id="hotel_deposit" value="deposit">
+                            <label class="form-check-label" for="deposit">Deposit</label>
+                        </div>
+                </div>
                     <div class="d-flex justify-content-between mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Booking Details</h5>
                         <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="hotel-booking-button">
@@ -85,9 +100,36 @@
                             </div>
                         </div>
                     </div>
+
+
+                     <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Hotel Details</h5>
+                    <div class="row">
+                        <div class="col-md-12 table-responsive details-table-wrappper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Hotel Description</th>
+                                        <th>Image</th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td><textarea class="form-control" name="hotel_description" placeholder="Hotel Description" cols="30" rows="6">{{$booking->hotel_description}}</textarea></td>
+                                    <td> image</td>
+                                </tr>
+                            </table>
+                        </div>             				
+                </div>
+
+
+                
+
                     <div style="margin:20px">
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
+
+
+                   
+
 
                     <div class="" style="margin-top:20px">
                         @if($hotel_images)
