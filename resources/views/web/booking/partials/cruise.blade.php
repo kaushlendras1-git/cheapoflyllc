@@ -114,8 +114,15 @@
                 </div>
             </div>
         </div>
-        <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Addons</h5>
+        <div class="mb-0 d-flex align-items-center justify-content-between">
+            <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Cruise Addons </h5>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="cruise-addon-button">
+                    <i class="ri ri-add-circle-fill pointer"></i>
+                </button>
+            </div>
 
+        </div>
         <div class="row">
             <div class="col-md-12 table-responsive details-table-wrappper">
                 <table class="table">
@@ -127,84 +134,93 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    @foreach($travel_cruise_addon as $key=>$addon)
-                    <tr>
-                        <td>
-                            <select class="form-control" name="addon_cruise[{{$key}}][services]">
-                                <option value="Excursions" {{ $addon->services == 'Excursions' ? 'selected' : '' }}>
-                                    Excursions</option>
-                                <option value="WiFi Packages"
-                                    {{ $addon->services == 'WiFi Packages' ? 'selected' : '' }}>
-                                    WiFi Packages</option>
-                                <option value="Crew Appreciation Fees/Gratuities"
-                                    {{ $addon->services == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }}>Crew
-                                    Appreciation Fees/Gratuities</option>
-                                <option value="Shuttle Services"
-                                    {{ $addon->services == 'Shuttle Services' ? 'selected' : '' }}>Shuttle Services
-                                </option>
-                                <option value="Speciality Dining"
-                                    {{ $addon->services == 'Speciality Dining' ? 'selected' : '' }}>Speciality Dining
-                                </option>
-                                <option value="Drink Packages"
-                                    {{ $addon->services == 'Drink Packages' ? 'selected' : '' }}>
-                                    Drink Packages</option>
-                                <option value="Trip Insurance"
-                                    {{ $addon->services == 'Trip Insurance' ? 'selected' : '' }}>
-                                    Trip Insurance</option>
-                                <option value="Check-in Proces (Luggage Tags & Sailing Pass)"
-                                    {{ $addon->services == 'Check-in Proces (Luggage Tags & Sailing Pass)' ? 'selected' : '' }}>
-                                    Check-in Proces (Luggage Tags & Sailing Pass)</option>
-                                <option value="Special Occasion Package"
-                                    {{ $addon->services == 'Special Occasion Package' ? 'selected' : '' }}>Special
-                                    Occasion
-                                    Package</option>
-                                <option value="Water Bottle or Distiled Water Package"
-                                    {{ $addon->services == 'Water Bottle or Distiled Water Package' ? 'selected' : '' }}>
-                                    Water Bottle or Distiled Water Package</option>
-                                <option value="Old Itinerary"
-                                    {{ $addon->services == 'Old Itinerary' ? 'selected' : '' }}>
-                                    Old Itinerary</option>
-                                <option value="Changed Itinerary"
-                                    {{ $addon->services == 'Changed Itinerary' ? 'selected' : '' }}>Changed Itinerary
-                                </option>
-                            </select>
-                        </td>
-                        <td><textarea type="text" class="form-control" placeholder="Name of Service"
-                                placeholder="Name of Service" name="addon_cruise[{{$key}}][service_name]" cols="30"
-                                rows="6">{{$addon->service_name}}</textarea></td>
-                        <td>
-                            <!--input type="file" class="form-control" name="image"-->
-                        </td>
-                        <td><button type="button" class="btn btn-outline-danger delete-addon-cruise-btn"><i
-                                    class="ri ri-delete-bin-line"></i></button></td>
-                    </tr>
-                    @endforeach
-                    <tr>
-                        <td>
-                            <select class="form-control" name="services">
-                                <option value="">Select</option>
-                                <option>Excursions</option>
-                                <option>WiFi Packages</option>
-                                <option>Crew Appreciation Fees/Gratuities</option>
-                                <option>Shuttle Services</option>
-                                <option>Speciality Dining</option>
-                                <option>Drink Packages</option>
-                                <option>Trip Insurance</option>
-                                <option>Check-in Proces (Luggage Tags & Sailing Pass)</option>
-                                <option>Special Occasion Package</option>
-                                <option>Water Bottle or Distiled Water Package</option>
-                                <option>Old Itinerary</option>
-                                <option>Changed Itinerary</option>
-                            </select>
-                        </td>
-                        <td><textarea type="text" class="form-control" placeholder="Name of Service"
-                                placeholder="Name of Service" name="service_name" cols="30" rows="6"></textarea></td>
-                        <td>
-                            <!--input type="file" class="form-control" name="image"-->
-                        </td>
-                        <td></td>
-                    </tr>
-
+                    <tbody id="cruise-addon-container">
+                        @foreach($travel_cruise_addon as $key=>$addon)
+                            <tr class="cruise-addon-row">
+                                <td style="width: 200px">
+                                    <select class="form-control" name="cruiseaddon[{{$key+1}}][services]">
+                                        <option value="Excursions" {{ $addon->services == 'Excursions' ? 'selected' : '' }}>
+                                            Excursions</option>
+                                        <option value="WiFi Packages"
+                                            {{ $addon->services == 'WiFi Packages' ? 'selected' : '' }}>
+                                            WiFi Packages</option>
+                                        <option value="Crew Appreciation Fees/Gratuities"
+                                            {{ $addon->services == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }}>Crew
+                                            Appreciation Fees/Gratuities</option>
+                                        <option value="Shuttle Services"
+                                            {{ $addon->services == 'Shuttle Services' ? 'selected' : '' }}>Shuttle Services
+                                        </option>
+                                        <option value="Speciality Dining"
+                                            {{ $addon->services == 'Speciality Dining' ? 'selected' : '' }}>Speciality Dining
+                                        </option>
+                                        <option value="Drink Packages"
+                                            {{ $addon->services == 'Drink Packages' ? 'selected' : '' }}>
+                                            Drink Packages</option>
+                                        <option value="Trip Insurance"
+                                            {{ $addon->services == 'Trip Insurance' ? 'selected' : '' }}>
+                                            Trip Insurance</option>
+                                        <option value="Check-in Proces (Luggage Tags & Sailing Pass)"
+                                            {{ $addon->services == 'Check-in Proces (Luggage Tags & Sailing Pass)' ? 'selected' : '' }}>
+                                            Check-in Proces (Luggage Tags & Sailing Pass)</option>
+                                        <option value="Special Occasion Package"
+                                            {{ $addon->services == 'Special Occasion Package' ? 'selected' : '' }}>Special
+                                            Occasion
+                                            Package</option>
+                                        <option value="Water Bottle or Distiled Water Package"
+                                            {{ $addon->services == 'Water Bottle or Distiled Water Package' ? 'selected' : '' }}>
+                                            Water Bottle or Distiled Water Package</option>
+                                        <option value="Old Itinerary"
+                                            {{ $addon->services == 'Old Itinerary' ? 'selected' : '' }}>
+                                            Old Itinerary</option>
+                                        <option value="Changed Itinerary"
+                                            {{ $addon->services == 'Changed Itinerary' ? 'selected' : '' }}>Changed Itinerary
+                                        </option>
+                                    </select>
+                                </td>
+                                <td style="width:400px">
+                                <textarea type="text" class="form-control ckeditor" placeholder="Name of Service"
+                                          placeholder="Name of Service" name="cruiseaddon[{{$key+1}}][service_name]" cols="30"
+                                          rows="6">{{$addon->service_name}}</textarea>
+                                </td>
+                                <td>
+                                    <input type="file" multiple class="form-control customFilepond" name="cruiseaddon[{{$key+1}}][image]">
+                                </td>
+                                <td style="width: 100px">
+                                    <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn"><i
+                                            class="ri ri-delete-bin-line"></i></button>
+                                </td>
+                            </tr>
+                        @endforeach
+                        <tr class="cruise-addon-row">
+                            <td style="width: 200px">
+                                <select class="form-control" name="cruiseaddon[{{$key+1}}][services]">
+                                    <option value="">Select</option>
+                                    <option>Excursions</option>
+                                    <option>WiFi Packages</option>
+                                    <option>Crew Appreciation Fees/Gratuities</option>
+                                    <option>Shuttle Services</option>
+                                    <option>Speciality Dining</option>
+                                    <option>Drink Packages</option>
+                                    <option>Trip Insurance</option>
+                                    <option>Check-in Proces (Luggage Tags & Sailing Pass)</option>
+                                    <option>Special Occasion Package</option>
+                                    <option>Water Bottle or Distiled Water Package</option>
+                                    <option>Old Itinerary</option>
+                                    <option>Changed Itinerary</option>
+                                </select>
+                            </td>
+                            <td style="width:400px"><textarea type="text" class="form-control ckeditor" placeholder="Name of Service"
+                                                              placeholder="Name of Service" name="cruiseaddon[{{$key+1}}][service_name]" cols="30" rows="6"></textarea></td>
+                            <td>
+                                <input type="file" multiple class="form-control" name="cruiseaddon[{{$key+1}}][image]" />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn">
+                                    <i class="ri ri-delete-bin-line"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>

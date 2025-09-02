@@ -24,16 +24,16 @@
             <div class="tab-pane fade" id="carbooking" role="tabpanel" aria-labelledby="carbooking-tab">
 
 
-                
+
 
 
                 <div class="card p-4 show-booking-card">
-                    <div class=" position-relative checkbox-servis mb-1 mt-1">    
+                    <div class=" position-relative checkbox-servis mb-1 mt-1">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="payment_type" id="car_full_payment" value="full_payment" checked>
                             <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
                         </div>
-                    
+
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="payment_type" id="car_deposit" value="deposit">
                             <label class="form-check-label" for="deposit">Deposit</label>
@@ -42,7 +42,7 @@
                     <div class="d-flex justify-content-between mb-0">
                         <h5 class="card-header border-0 p-0 mb-0 detail-passanger">
                             Car Booking Itinerary
-                           
+
                         </h5>
                         <div>
                             <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="car-booking-button">
@@ -52,7 +52,7 @@
 
                     </div>
 
-                    
+
                     <div class="card-body pt-0 ps-0 pe-0">
                         <div class="g-3 align-items-center">
                             <div class="col-md-12 table-responsive details-table-wrappper">
@@ -137,18 +137,14 @@
                             </thead>
                             <tr>
                                 <td><textarea class="form-control" name="car_description" placeholder="Car Description" cols="30" rows="6">{{$booking->car_description}}</textarea></td>
-                                <td>  <input id="fileInput" type="file" multiple class="custom-file-input destroy_filepond" accept="image/*" name="car_main_image[]" />
-                            <label for="fileInput" class="custom-file-label" style="border:none">
-                                <i style="font-size: 20px;color:#055bdb" class="ri ri-add-circle-fill pointer"></i>
-                            </label>
-                            <div id="imagePreviewContainer" class="mb-3" style="margin-top: 10px; display:flex; gap: 10px; flex-wrap: wrap;"></div></td>
+                                <td> <input type="file" class="form-control customFilepond" multiple name="car_main_image[]"></td>
                             </tr>
                         </table>
-                    </div>             				
+                    </div>
              </div>
 
 
-                  
+
                     <div style="margin-top:20px">
                         <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
                     </div>
