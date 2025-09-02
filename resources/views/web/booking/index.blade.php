@@ -79,6 +79,7 @@
                                     </a>
                                 </td>
                                 <td> 
+                                    <a title="{{ $booking->id }}" href="{{ route('booking.show', ['id' => encode($booking->id)]) }}">
                                        @php
                                             $types = collect($booking->bookingTypes)->pluck('type')->map(fn($t) => strtolower($t))->toArray();
                                         @endphp
@@ -102,6 +103,13 @@
                                         @if(in_array('car', $types))
                                             <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
                                         @endif
+
+                                         {{-- Train Icon --}}
+                                        @if(in_array('train', $types))
+                                            <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 18px;"></i>
+                                        @endif
+                                    </a>
+
                                 </td>
                                 <td>{{ $booking->pnr }}</td>
                                 <td>{{ $booking->created_at }}</td>

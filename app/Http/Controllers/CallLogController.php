@@ -32,6 +32,7 @@ class CallLogController extends Controller
                 $subQuery->where('call_logs.pnr', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('call_logs.phone', 'LIKE', '%' . $keyword . '%')
                         ->orWhere('call_logs.name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('call_logs.reservation_source', 'LIKE', '%' . $keyword . '%')
                         ->orWhereHas('campaign', function ($q) use ($keyword) {
                             $q->where('name', 'LIKE', '%' . $keyword . '%');
                         })

@@ -358,18 +358,7 @@
                             <label class="form-label">Street Address <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="street_address">
                         </div>
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">City <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="city">
-                        </div>
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label">State <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="state">
-                        </div>
-                        <div class="col-md-3 position-relative">
-                            <label class="form-label">Zip Code <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="zip_code">
-                        </div>
+                        
                         <div class="col-md-3 position-relative">
                             <label class="form-label">Country <span class="text-danger">*</span></label>
                             <select class="form-control" name="country">
@@ -379,6 +368,23 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label">State <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="state">
+                        </div>
+                        
+                        <div class="col-md-3 position-relative mb-5">
+                            <label class="form-label">City <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="city">
+                        </div>
+
+                        
+                        <div class="col-md-3 position-relative">
+                            <label class="form-label">Zip Code <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="zip_code">
+                        </div>
+                        
                     </div>
                 </form>
             </div>
@@ -394,6 +400,7 @@
 @vite('resources/js/booking/edit.js')
 @vite('resources/js/auth/sendAuth.js')
 @vite('resources/js/booking/pricing.js')
+@vite('resources/js/booking/cruise.js')
 
 
 

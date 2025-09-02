@@ -478,9 +478,9 @@ class BookingFormController extends Controller
                 $rules['car.*.car_type']                = 'required_with:car|string|max:255';
                 $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
                 $rules['car.*.dropoff_location']        = 'required_with:car|string|max:255';
-                $rules['car.*.pickup_date']             = 'required_with:car|date|after_or_equal:today';
+                $rules['car.*.pickup_date']             = 'required_with:car|date';
                 $rules['car.*.pickup_time']             = 'required_with:car|date_format:H:i';
-                $rules['car.*.dropoff_date']            = 'required_with:car|date|after_or_equal:today';
+                $rules['car.*.dropoff_date']            = 'required_with:car|date|after_or_equal:car.*.pickup_date';
                 $rules['car.*.dropoff_time']            = 'required_with:car|date_format:H:i';
                 $rules['car.*.confirmation_number']     = 'nullable|string|max:255';
                 $rules['car.*.remarks']                 = 'nullable|string|max:255';
@@ -837,6 +837,8 @@ class BookingFormController extends Controller
                 'car.*.pickup_date.required'       => 'Pickup date is required.',
                 'car.*.pickup_date.date'           => 'Pickup date must be a valid date.',
                 'car.*.pickup_date.after_or_equal' => 'Pickup date cannot be before today.',
+                'car.*.dropoff_date.after_or_equal' => "Drop-off date must be the same or after the pickup date.",
+
 
                 'car.*.pickup_time.required'       => 'Pickup time is required.',
                 'car.*.pickup_time.date_format'    => 'Pickup time must be in format HH:MM.',
@@ -1149,21 +1151,36 @@ class BookingFormController extends Controller
                     );
                 }
 
-               if ($request->has('addon_cruise')) {
-                    foreach ($request->addon_cruise as $addon) {
-                        if (!empty($addon['services']) || !empty($addon['service_name'])) {
-                            TravelCruiseAddon::create([
-                                'services'     => $addon['services'] ?? '',
-                                'service_name' => $addon['service_name'] ?? '',
-                                'booking_id'   => $booking->id,
-                                'image'        => 'spa.jpg', // Replace with file upload if needed
-                            ]);
+               if ($request->has('cruiseaddon')) {
+
+               # dd($request->cruiseaddon);
+                
+                TravelCruiseAddon::where('booking_id', $booking->id)->delete();
+                foreach ($request->cruiseaddon as $index => $addon) {
+                    if (!empty($addon['services']) || !empty($addon['service_name'])) {
+
+                        $imagePaths = [];
+
+                        if (!empty($addon['image']) && is_array($addon['image'])) {
+                            foreach ($addon['image'] as $file) {
+                                if ($file instanceof \Illuminate\Http\UploadedFile) {
+                                    $imagePaths[] = $file->store('uploads/cruise_addons', 'public');
+                                }
+                            }
                         }
+
+                        TravelCruiseAddon::create([
+                            'services'     => $addon['services'] ?? '',
+                            'service_name' => $addon['service_name'] ?? '',
+                            'booking_id'   => $booking->id,
+                            'image'        => json_encode($imagePaths),
+                        ]);
                     }
                 }
+            }
+
                 
-                
-                
+                                
                 if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
                         foreach($request->cruisebookingimage as $key => $image){
                             $cruisebookingimage = 'storage/'.$image->store('cruise_booking_image','public');

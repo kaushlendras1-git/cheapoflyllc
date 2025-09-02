@@ -242,76 +242,27 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         });
     }
 
-
     if (isCruiseChecked) {
-
-        // ✅ Handle Cruise (Main Cruise Fields)
         const cruiseInputs = document.querySelectorAll('[name^="cruise["]');
-        const cruiseRows = {};
-
+        const rows = {};
         cruiseInputs.forEach(input => {
-            const match = input.name.match(/^cruise\[(\d+)\]\[(.*?)\]$/);
-            if (match) {
-                const rowIndex = match[1];
-                const fieldName = match[2];
-
-                if (!cruiseRows[rowIndex]) cruiseRows[rowIndex] = {};
-                cruiseRows[rowIndex][fieldName] = input.value.trim();
-            }
+            const match = input.name.match(/^cruise\[(\d+)\]\[.*\]$/);
+            const rowIndex = match[1];
+            if (!rows[rowIndex]) rows[rowIndex] = [];
+            rows[rowIndex].push(input);
         });
 
-        Object.entries(cruiseRows).forEach(([index, row]) => {
-            const allEmpty = Object.values(row).every(val => val === '');
+        Object.values(rows).forEach(inputs => {
+            const allEmpty = inputs.every(input => input.value.trim() === '');
             if (!allEmpty) {
-                Object.entries(row).forEach(([key, val]) => {
-                    if (val !== '') {
-                        formdata.append(`cruise[${index}][${key}]`, val);
-                    }
-                });
-            }
-        });
-
-        // ✅ Handle Cruise Add-ons (With File Uploads)
-        const cruiseAddonInputs = document.querySelectorAll('[name^="cruiseaddon["]');
-        const addonRows = {};
-
-        cruiseAddonInputs.forEach(input => {
-            const match = input.name.match(/^cruiseaddon\[(\d+)\]\[(.*?)\]/);
-            if (match) {
-                const rowIndex = match[1];
-                const fieldName = match[2];
-
-                if (!addonRows[rowIndex]) addonRows[rowIndex] = {};
-                if (fieldName === 'image') {
-                    // Handle multiple files for image
-                    addonRows[rowIndex][fieldName] = input.files;
-                } else {
-                    addonRows[rowIndex][fieldName] = input.value.trim();
-                }
-            }
-        });
-
-        Object.entries(addonRows).forEach(([index, row]) => {
-            const allEmpty = Object.entries(row).every(([key, val]) => {
-                return key === 'image' ? val.length === 0 : val === '';
-            });
-
-            if (!allEmpty) {
-                Object.entries(row).forEach(([key, val]) => {
-                    if (key === 'image' && val.length > 0) {
-                        for (let i = 0; i < val.length; i++) {
-                            formdata.append(`cruiseaddon[${index}][image][]`, val[i]);
-                        }
-                    } else if (val !== '') {
-                        formdata.append(`cruiseaddon[${index}][${key}]`, val);
+                inputs.forEach(input => {
+                    if (input.value.trim() !== '') {
+                        formdata.append(input.name, input.value);
                     }
                 });
             }
         });
     }
-
-
-
     if (isCarChecked) {
         const carInputs = document.querySelectorAll('[name^="car["]');
         const rows = {};
@@ -1122,7 +1073,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     observer.observe(flightFormsContainer, { childList: true, subtree: true });
 
-
     const editors = document.querySelectorAll('textarea.ckeditor');
     editors.forEach(textarea => {
         ClassicEditor
@@ -1133,8 +1083,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error(error);
             });
     });
-
-
     const container = document.getElementById('cruise-addon-container');
 
     document.addEventListener('click', (e) => {
@@ -1228,6 +1176,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+
 /***************Train Search***************** */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1336,4 +1286,3 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(trainFormsContainer, { childList: true, subtree: true });
   }
 });
-

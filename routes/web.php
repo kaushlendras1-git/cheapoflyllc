@@ -14,8 +14,11 @@ use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\LOBController;
 use App\Http\Controllers\FlightSearchListController;
 use App\Http\Controllers\TrainSearchListController;
+use App\Http\Controllers\PostController;
 
 
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
 
 // use App\Http\Controllers\Travel\TravelBookingController;

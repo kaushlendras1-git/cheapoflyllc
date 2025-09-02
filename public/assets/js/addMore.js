@@ -510,17 +510,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Get all 10th column elements (th and td)
         const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(9)');
-        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(9)');
+        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
 
-        // if (allowedDataIds.includes(dataType)) {
-        //     // Show credit column
-        //     creditHeaders.forEach(el => el.style.display = '');
-        //     creditCells.forEach(el => el.style.display = '');
-        // } else {
-        //     // Hide credit column
-        //     creditHeaders.forEach(el => el.style.display = 'none');
-        //     creditCells.forEach(el => el.style.display = 'none');
-        // }
+        if (allowedDataIds.includes(dataType)) {
+            // Show credit column
+            creditHeaders.forEach(el => el.style.display = '');
+            creditCells.forEach(el => el.style.display = '');
+        } else {
+            // Hide credit column
+            creditHeaders.forEach(el => el.style.display = 'none');
+            creditCells.forEach(el => el.style.display = 'none');
+        }
+
+        const booking_hotel = document.getElementById('booking-hotel');
+
+
     }
 
     // Add initial row on page load if no rows exist
@@ -812,6 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     billingFormsContainer.appendChild(newRow);
     //     billingIndex++;
     // }
+
     function addBillingRow() {
         $.ajax({
             url: `/booking/billing-details/${booking_id}`,
@@ -819,8 +824,8 @@ document.addEventListener('DOMContentLoaded', () => {
             success: function (res) {
                 let billingOptions = '<option value="">Select Billing</option>';
                 res.data.forEach((booking, index) => {
-                    //billingOptions += `<option value="${booking.id}">Card No. ${booking.street_address}</option>`;
-                    billingOptions += `<option value="${booking.id}">Card No. ${index + 1}</option>`;
+                    //billingOptions += `<option value="${booking.id}">Billing No. ${booking.street_address}</option>`;
+                    billingOptions += `<option value="${booking.id}">Billing No. ${index + 1}</option>`;
                 });
 
                 const newRow = document.createElement('tr');

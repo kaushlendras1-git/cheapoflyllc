@@ -117,7 +117,7 @@
                                 </tr>
                             </thead>
                             <tr>
-                                <td><textarea class="form-control" name="train_description" placeholder="Train Description" cols="30" rows="6">{{$booking->train_description}}</textarea></td>
+                                <td><textarea class="form-control ckeditor" name="train_description" placeholder="Train Description" cols="30" rows="6">{{$booking->train_description}}</textarea></td>
                                 <td> <input type="file" class="form-control customFilepond" multiple name="train_main_image[]"></td>
                             </tr>
                         </table>

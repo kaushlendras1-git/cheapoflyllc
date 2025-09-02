@@ -12,6 +12,7 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "~3.1.0",
+        "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-permission": "^6.20",
         "tightenco/ziggy": "^2.5",
         "vinkla/hashids": "^12.0",

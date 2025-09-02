@@ -30,7 +30,7 @@
 
                         @foreach($billingData as $key=>$bill)
                         <tr>
-                            <td>Card No. {{$key+1}}</td>
+                            <td>Billing No. {{$key+1}}</td>
                             <td>{{$bill->email}}</td>
                             <td>{{$bill->contact_number}}</td>
                             <td>{{$bill->street_address}}</td>
@@ -207,7 +207,7 @@
 
     @endif
 
-                <div class="card p-1 mt-4">    
+                <div class="card p-4 mt-4">    
 					<div class="row g-3 align-items-center">
                         <div class="col-md-12 table-responsive details-table-wrappper">
                             <table class="table">

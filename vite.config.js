@@ -14,6 +14,7 @@ export default defineConfig({
                 //booking
                 'resources/js/booking/create.js',
                 'resources/js/booking/edit.js',
+                 //'resources/js/booking/cruise.js',
 
                 //callLogs
                 'resources/js/callLogs/create.js',
@@ -22,6 +23,7 @@ export default defineConfig({
                 'resources/js/auth/sendAuth.js',
                 //pricing
                 'resources/js/booking/pricing.js',
+               
 
             ],
             refresh: true,

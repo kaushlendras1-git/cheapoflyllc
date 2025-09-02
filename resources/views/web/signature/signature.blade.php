@@ -117,7 +117,8 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <!-------------Flight --------------->
             @if(in_array('Flight', $bookingTypes))
-            @if($booking->travelFlight->isNotEmpty())
+            
+           
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <table
@@ -128,6 +129,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 Flight Details
                             </td>
                         </tr>
+                     @if($booking->travelFlight->isNotEmpty())    
                         @foreach($booking->travelFlight as $index => $flight)
                         <tr style="display:flex; flex-direction:column; margin-bottom:5px;">
                             <td style="display:flex; align-items:center; text-align:left; padding: 10px 20px;">
@@ -168,19 +170,21 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             </td>
                         </tr>
                         @endforeach
+                    @endif
+
                         @if($flight_images)
-                        @foreach ($flight_images as $key => $img)
-                        <!-- <tr>
-                                <td colspan="13" style="padding: 10px 20px;">
-                                    <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
-                                </td>
-                            </tr> -->
-                        @endforeach
+                            @foreach ($flight_images as $key => $img)
+                                <tr>
+                                    <td colspan="13" style="padding: 10px 20px;">
+                                        <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endif
                     </table>
                 </td>
             </tr>
-            @endif
+          
             @endif
 
             @if(in_array('Hotel', $bookingTypes))
@@ -198,20 +202,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         </tr>
                         <tr>
                             <!-- Hotel Image -->
-                            <td style="width:200px; padding:0; vertical-align:top; padding: 10px 20px;">
+                            <td style="padding:0; vertical-align:top; padding: 10px 20px;">
                                 <img src="{{asset('email-templates/bedroom.jpg')}}" alt="Hotel"
-                                    style="width:200px; height:150px; border-radius:12px;margin-bottom:10px">
-                                <img src="{{asset('email-templates/bedroom.jpg')}}" alt="Hotel"
-                                    style="width:200px; height:150px; border-radius:12px;">
-                            </td>
-
-                            <td style="padding:12px; padding-left: 30px; vertical-align:top;">
-                                <p style="margin:4px 0; font-size:13px; color:#555;">
-                                <div style="white-space: pre-line; font-size: 14px;">{{ $booking->hotel_description }}
-                                </div>
-                                </p>
+                                    style="width:660px; height:300px; border-radius:12px;margin-bottom:10px">
                             </td>
                         </tr>
+                        
 
                         <!-- Booking Info Row -->
                         <tr>
@@ -271,6 +267,14 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     </tr>
                                     @endforeach
                                 </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:12px; padding-left: 30px; vertical-align:top;">
+                                <p style="margin:4px 0; font-size:13px; color:#555;">
+                                <div style="white-space: pre-line; font-size: 14px;">{{ $booking->hotel_description }}
+                                </div>
+                                </p>
                             </td>
                         </tr>
                         @if($hotel_images)
@@ -517,95 +521,97 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         </tr>
 
                         @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
-                        <tr>
-                            <!-- Departure -->
-                            <td width="100%" valign="top" style="padding:15px; border-right:1px solid #ddd;">
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                    <!-- Route Codes -->
-                                    <tr>
-                                        <td
-                                            style="background:#c53d3d; color:#fff; padding:6px 10px; font-size:16px; font-weight:bold; text-align: center;">
-                                            {{$trainBookingDetails->departure_station}} &nbsp;⇀&nbsp;
-                                            {{$trainBookingDetails->arrival_station}}
-                                        </td>
-                                    </tr>
+                            <tr>
+                                <!-- Departure -->
+                                <td width="100%" valign="top" style="padding:15px; border-right:1px solid #ddd;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <!-- Route Codes -->
+                                        <tr>
+                                            <td
+                                                style="background:#c53d3d; color:#fff; padding:6px 10px; font-size:16px; font-weight:bold; text-align: center;">
+                                                {{$trainBookingDetails->departure_station}} &nbsp;⇀&nbsp;
+                                                {{$trainBookingDetails->arrival_station}}
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td
-                                            style="font-size:14px; font-weight:bold; color:#c53d3d; padding-bottom:5px;">
-                                            Departure :
-                                            {{ $trainBookingDetails->departure_date ? $trainBookingDetails->departure_date->format('D, M d, Y') : '' }}
-                                            | Arrival :
-                                            {{ $trainBookingDetails->departure_date ? $trainBookingDetails->arrival_date->format('D, M d, Y') : '' }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-size:13px; color:#333; line-height:18px; padding-bottom:10px;">
-                                            <b>Direction</b> : {{$trainBookingDetails->departure_station}} |
-                                            <b>Cabin</b> : {{$trainBookingDetails->cabin}}
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td
+                                                style="font-size:14px; font-weight:bold; color:#c53d3d; padding-bottom:5px;">
+                                                Departure :
+                                                {{ $trainBookingDetails->departure_date ? $trainBookingDetails->departure_date->format('D, M d, Y') : '' }}
+                                                | Arrival :
+                                                {{ $trainBookingDetails->departure_date ? $trainBookingDetails->arrival_date->format('D, M d, Y') : '' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:13px; color:#333; line-height:18px; padding-bottom:10px;">
+                                                <b>Direction</b> : {{$trainBookingDetails->departure_station}} |
+                                                <b>Cabin</b> : {{$trainBookingDetails->cabin}} |
+                                                <b>Train Ref</b> : {{$booking->train_ref}}
+                                            </td>
+                                        </tr>
 
-                                    <!-- Train + Times -->
-                                    <tr>
-                                        <td style="padding:15px 0; font-size:13px; color:#333;">
-                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                <tr>
-                                                    <!-- Train -->
-                                                    <td width="30%" valign="top"
-                                                        style="text-align:center; font-size:14px; color:#666;">
-                                                        🚆 <b>Train No</b>
-                                                        <br />{{$trainBookingDetails->train_number}}<br />
-                                                    </td>
-                                                    <!-- Depart -->
-                                                    <td width="30%" valign="top" style="text-align:center;">
-                                                        <div style="font-size:20px; font-weight:bold;">
-                                                            {{ date('h:i A', strtotime($trainBookingDetails->departure_hours)) }}
-                                                        </div>
-                                                        <div style="font-size:11px; color:#666;">DEPARTS</div>
-                                                    </td>
-                                                    <!-- Duration -->
-                                                    <td width="10%" valign="middle"
-                                                        style="text-align:center; font-size:12px; color:#333;">
-                                                        →
-                                                        <div style="font-size:11px; color:#666;">
-                                                            {{$trainBookingDetails->transit}}</div>
-                                                    </td>
-                                                    <!-- Arrives -->
-                                                    <td width="30%" valign="top" style="text-align:center;">
-                                                        <div style="font-size:20px; font-weight:bold;">
-                                                            {{ date('h:i A', strtotime($trainBookingDetails->arrival_hours)) }}
-                                                        </div>
-                                                        <div style="font-size:11px; color:#666;">ARRIVES</div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
+                                        <!-- Train + Times -->
+                                        <tr>
+                                            <td style="padding:15px 0; font-size:13px; color:#333;">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <!-- Train -->
+                                                        <td width="30%" valign="top"
+                                                            style="text-align:center; font-size:14px; color:#666;">
+                                                            🚆 <b>Train No</b>
+                                                            <br />{{$trainBookingDetails->train_number}}<br />
+                                                        </td>
+                                                        <!-- Depart -->
+                                                        <td width="30%" valign="top" style="text-align:center;">
+                                                            <div style="font-size:20px; font-weight:bold;">
+                                                                {{ date('h:i A', strtotime($trainBookingDetails->departure_hours)) }}
+                                                            </div>
+                                                            <div style="font-size:11px; color:#666;">DEPARTS</div>
+                                                        </td>
+                                                        <!-- Duration -->
+                                                        <td width="10%" valign="middle"
+                                                            style="text-align:center; font-size:12px; color:#333;">
+                                                            →
+                                                            <div style="font-size:11px; color:#666;">
+                                                                {{$trainBookingDetails->transit}}</div>
+                                                        </td>
+                                                        <!-- Arrives -->
+                                                        <td width="30%" valign="top" style="text-align:center;">
+                                                            <div style="font-size:20px; font-weight:bold;">
+                                                                {{ date('h:i A', strtotime($trainBookingDetails->arrival_hours)) }}
+                                                            </div>
+                                                            <div style="font-size:11px; color:#666;">ARRIVES</div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
 
-                                    <!-- Seat Info -->
-                                    <tr>
-                                        <td
-                                            style="background:#ffe0e0; padding:10px; font-size:14px; color:#c53d3d; font-weight:normal;">
-                                            <div style="white-space: pre-line;">{{ $booking->train_description }}</div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
+                                        <!-- Seat Info -->
+                                        <tr>
+                                            <td
+                                                style="background:#ffe0e0; padding:10px; font-size:14px; color:#c53d3d; font-weight:normal;">
+                                                <div style="white-space: pre-line;">{{ $booking->train_description }}</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
                         @endforeach
 
                         @if($train_images)
-                        @foreach ($train_images as $key => $img)
-                        <!-- <tr>
-                            <td colspan="2" style="padding: 10px 20px"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
-                        </tr> -->
-                        @endforeach
+                            @foreach ($train_images as $key => $img)
+                            <tr>
+                                <td colspan="2" style="padding: 10px 20px"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                            </tr> 
+                            @endforeach
                         @endif
                     </table>
                 </td>
             </tr>
             @endif
+
 
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
