@@ -63,7 +63,7 @@
                                                 <div class="train-suggestions-box" style="position:absolute;width:100%; background:#fff; z-index: 19999; border:1px solid #ccc; display:none;"></div>
                                             </td>
 
-                                            <td><input type="text" class="form-control time_24_hrs" style="width: 80px;"
+                                            <td><input type="text" class="form-control time_24_hrs" style="width: 70px;"
                                                     name="train[{{$key}}][departure_hours]"
                                                     value="{{$trainBookingDetails->departure_hours}}" placeholder="Hrs"
                                                     min="0" max="23"></td>
@@ -75,7 +75,7 @@
                                                   <div class="train-suggestions-box" style="position:absolute; background:#fff;  z-index: 19999;border:1px solid #ccc; display:none;"></div>
                                             </td>
                                                     
-                                            <td><input type="text" class="form-control time_24_hrs" style="width: 80px;"
+                                            <td><input type="text" class="form-control time_24_hrs" style="width: 70px;"
                                                     name="train[{{$key}}][arrival_hours]"
                                                     value="{{$trainBookingDetails->arrival_hours}}" placeholder="Hrs"
                                                     min="0" max="23"></td>

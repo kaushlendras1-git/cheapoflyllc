@@ -945,10 +945,77 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+const input = document.getElementById('fileInput');
+const previewContainer = document.getElementById('imagePreviewContainer');
+
+input.addEventListener('change', () => {
+    previewContainer.innerHTML = ''; // Clear previous previews
+
+    const files = input.files;
+    if (files.length === 0) return;
+
+    for (const file of files) {
+        if (!file.type.startsWith('image/')) continue; // Ignore non-images
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '80px';
+            img.style.height = '80px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '6px';
+            img.style.border = '1px solid #ccc';
+            previewContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+const timeInputs = document.querySelectorAll('.time_24_hrs');
+timeInputs.forEach(input => {
+    input.addEventListener('input', (e) => {
+        let value = input.value;
+
+        // Remove any non-digit and non-colon characters
+        value = value.replace(/[^\d:]/g, '');
+
+        // Auto-insert colon after two digits (hours) if not present
+        if (value.length === 2 && !value.includes(':')) {
+            value += ':';
+        }
+
+        // Limit length to 5 characters (HH:mm)
+        if (value.length > 5) {
+            value = value.slice(0,5);
+        }
+
+        input.value = value;
+
+        // Validate 24-hour time format
+        const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+        if (!regex.test(value)) {
+            input.setCustomValidity('Please enter a valid time in 24-hour format HH:mm');
+        } else {
+            input.setCustomValidity('');
+        }
+    });
+});
+
+/***************Pricing***************** */
+
+
+/***************Flight Search***************** */
+
 document.addEventListener("DOMContentLoaded", () => {
     // Apply autocomplete for both departure and arrival inputs
     function initAutocomplete(input, searchAt) {
-        const suggestionsBox = input.parentElement.querySelector('.suggestions-box');
+
+        const td = input.closest('td') || input.parentElement;
+        const suggestionsBox = td.querySelector('.train-suggestions-box');
 
         input.addEventListener("input", async (e) => {
             const keyword = e.target.value.trim();
@@ -1022,68 +1089,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     observer.observe(flightFormsContainer, { childList: true, subtree: true });
 });
-
-
-const input = document.getElementById('fileInput');
-const previewContainer = document.getElementById('imagePreviewContainer');
-
-input.addEventListener('change', () => {
-    previewContainer.innerHTML = ''; // Clear previous previews
-
-    const files = input.files;
-    if (files.length === 0) return;
-
-    for (const file of files) {
-        if (!file.type.startsWith('image/')) continue; // Ignore non-images
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.width = '80px';
-            img.style.height = '80px';
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '6px';
-            img.style.border = '1px solid #ccc';
-            previewContainer.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-const timeInputs = document.querySelectorAll('.time_24_hrs');
-timeInputs.forEach(input => {
-    input.addEventListener('input', (e) => {
-        let value = input.value;
-
-        // Remove any non-digit and non-colon characters
-        value = value.replace(/[^\d:]/g, '');
-
-        // Auto-insert colon after two digits (hours) if not present
-        if (value.length === 2 && !value.includes(':')) {
-            value += ':';
-        }
-
-        // Limit length to 5 characters (HH:mm)
-        if (value.length > 5) {
-            value = value.slice(0,5);
-        }
-
-        input.value = value;
-
-        // Validate 24-hour time format
-        const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-        if (!regex.test(value)) {
-            input.setCustomValidity('Please enter a valid time in 24-hour format HH:mm');
-        } else {
-            input.setCustomValidity('');
-        }
-    });
-});
-
-/***************Pricing***************** */
-
-
 /***************Train Search***************** */
 
 document.addEventListener("DOMContentLoaded", () => {

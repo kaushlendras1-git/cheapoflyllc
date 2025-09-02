@@ -613,6 +613,15 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             <!-- Departure -->
                             <td width="100%" valign="top" style="padding:15px; border-right:1px solid #ddd;">
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                     <!-- Route Codes -->
+                                    <tr>
+                                        <td
+                                            style="background:#c53d3d; color:#fff; padding:6px 10px; font-size:16px; font-weight:bold; text-align: center;">
+                                            {{$trainBookingDetails->departure_station}} &nbsp;⇀&nbsp;
+                                            {{$trainBookingDetails->arrival_station}}
+                                        </td>
+                                    </tr>
+
                                     <tr>
                                         <td
                                             style="font-size:14px; font-weight:bold; color:#c53d3d; padding-bottom:5px;">
@@ -628,14 +637,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                             <b>Cabin</b> : {{$trainBookingDetails->cabin}}
                                         </td>
                                     </tr>
-                                    <!-- Route Codes -->
-                                    <tr>
-                                        <td
-                                            style="background:#c53d3d; color:#fff; padding:6px 10px; font-size:16px; font-weight:bold; text-align: center;">
-                                            {{$trainBookingDetails->departure_station}} &nbsp;⇀&nbsp;
-                                            {{$trainBookingDetails->arrival_station}}
-                                        </td>
-                                    </tr>
+                                   
                                     <!-- Train + Times -->
                                     <tr>
                                         <td style="padding:15px 0; font-size:13px; color:#333;">

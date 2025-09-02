@@ -105,7 +105,7 @@
                                                         value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}"
                                                         placeholder="Class of Service" style="width: 37px;" min="0"
                                                         max="1">
-                                                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                                                    <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                                                 </td>
                                                 
                                                 <td><input type="text" class="form-control departure-airport"
@@ -135,7 +135,7 @@
                                                         style="width: 90px;"
                                                         value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}"
                                                         placeholder="Arrival Airport">
-                                                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                                                    <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                                                 </td>
 
 
