@@ -19,7 +19,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         style="font-family: 'Work Sans', sans-serif; width: 50%; background-color: #fff3f3; margin: auto; border-collapse: collapse;">
         <thead>
             <tr>
-
                 <th style="padding: 10px 30px 10px 30px;">Speak to a travel Expert</th>
                 <th style="padding: 10px 30px 10px 0px;">
                     <span style="display: flex; align-items: center; justify-content: end;">
@@ -58,10 +57,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             </tr>
             <tr>
                 <td colspan="2" style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">
-                    Thank you
-                    for using {{ $booking->selected_company_name }} for your travel needs. Please take a moment to
-                    review the names, date,
-                    Flight itinerary, price and other relevant details of your booking.</td>
+                    Thank you for using {{ $booking->selected_company_name }} for your travel needs. Please take a
+                    moment to review the names, date, Flight itinerary, price and other relevant details of your
+                    booking.
+                </td>
             </tr>
 
             <tr>
@@ -92,7 +91,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 </td>
             </tr>
 
-
             <tr>
                 <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 0px 0px 30px;">
                     <span
@@ -101,7 +99,8 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 src="{{asset('email-templates/sku.png')}}" alt="Number"> </span>
                         Booking Reference Number
                         <span
-                            style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">{{ $booking->pnr }}</span></span>
+                            style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">{{ $booking->pnr }}</span>
+                    </span>
                 </td>
                 <td style="font-size: 16px; font-weight: 600; text-align: center; padding: 0px 30px 0px 0px;">
                     <span
@@ -111,25 +110,16 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         Booking Date
                         <span
                             style="font-size: 14px; font-weight: 400; display: block; color: #000; padding-top: 10px;">Monday,
-                            Jul 14,2025</span></span>
+                            Jul 14,2025</span>
+                    </span>
                 </td>
             </tr>
 
             <!-------------Flight --------------->
             @if(in_array('Flight', $bookingTypes))
-
             @if($booking->travelFlight->isNotEmpty())
-
-
-
-
-
-            <!-------Flight-------------->
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-
-
-
                     <table
                         style="width:100%;margin:0 auto;border-collapse:collapse;background-color: #fff;border-radius: 10px;">
                         <tr>
@@ -155,64 +145,49 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     </p>
                                     <p style="font-size: 16px; margin-bottom: 2px; margin-top: 0px; margin-left: 5px;">
                                         <span
-                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">Departing: {{ date('h:i A', strtotime($flight->departure_hours)) }}
-                                            from {{$flight->departure_airport}}</span>
+                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">Departing:
+                                            {{ date('h:i A', strtotime($flight->departure_hours)) }} from
+                                            {{$flight->departure_airport}}</span>
                                     </p>
                                     <p style="font-size: 16px; margin-bottom: 5px; margin-top: 0px; margin-left: 5px;">
                                         <span
-                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">Arriving: {{ date('h:i A', strtotime($flight->arrival_hours)) }}
-                                            into {{$flight->arrival_airport}}</span>
+                                            style="font-size: 14px; font-weight: 400; padding-left: 10px; display: inline-block;">Arriving:
+                                            {{ date('h:i A', strtotime($flight->arrival_hours)) }} into
+                                            {{$flight->arrival_airport}}</span>
                                     </p>
-                                    <p style="margin-top: 5px;">@if($flight->transit)</p>
+                                    <p style="margin-top: 5px;">
+                                        @if($flight->transit)
                                     <div
                                         style="color:rgb(136, 136, 136); font-size:12px; line-height:16px; margin-bottom:5px; margin-top:5px; text-align:left;">
-                                        <div>
-                                            --------<span style="color:red; font-weight:600;"></span>--Transit Time:
-                                            {{$flight->transit }} --------
-                                        </div>
+                                        <div>--------<span style="color:red; font-weight:600;"></span>--Transit Time:
+                                            {{$flight->transit }} --------</div>
                                     </div>
                                     @endif
-
+                                    </p>
                                 </div>
-
                             </td>
                         </tr>
                         @endforeach
                         @if($flight_images)
                         @foreach ($flight_images as $key => $img)
                         <!-- <tr>
-                            <td colspan="13" style="padding: 10px 20px;">
-                                <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
-                            </td>
-                        </tr> -->
+                                <td colspan="13" style="padding: 10px 20px;">
+                                    <img src="{{ asset($img->file_path) }}" class="img-thumbnail">
+                                </td>
+                            </tr> -->
                         @endforeach
                         @endif
-                        @endif
-                        @endif
-
                     </table>
-
-
-
-
                 </td>
             </tr>
-
-
-
-
-
+            @endif
+            @endif
 
             @if(in_array('Hotel', $bookingTypes))
-
             @if($booking->travelHotel->isNotEmpty())
-
-
-
             <!-- Start Hotel Details -->
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-
                     <table border="0" cellspacing="0" cellpadding="0"
                         style="width:100%;margin:0 auto;border-collapse:collapse;background-color: #fff;border-radius: 10px; overflow: hidden;">
                         <tr>
@@ -235,7 +210,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <div style="white-space: pre-line; font-size: 14px;">{{ $booking->hotel_description }}
                                 </div>
                                 </p>
-
                             </td>
                         </tr>
 
@@ -246,7 +220,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <table cellspacing="0" cellpadding="6"
                                     style="width:100%; font-size:14px; text-align:center;">
                                     @foreach($booking->travelHotel as $key=>$travelHotel)
-
                                     <tr>
                                         <td>
                                             <div style="display: flex; gap: 30px; flex-wrap: wrap;">
@@ -257,22 +230,19 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                 </div>
                                                 <div style="text-align: left;">
                                                     <div style="font-size:12px; color:#000; font-weight:bold;">Room
-                                                        Category
-                                                    </div>
+                                                        Category</div>
                                                     <div style="font-weight:normal;">{{$travelHotel->room_category}}
                                                     </div>
                                                 </div>
                                                 <div style="text-align: left;">
                                                     <div style="font-size:12px; color:#000; font-weight:bold;">
-                                                        Confirmation
-                                                        Number</div>
+                                                        Confirmation Number</div>
                                                     <div style="font-weight:normal;">
                                                         {{$travelHotel->confirmation_number}}</div>
                                                 </div>
                                                 <div style="text-align: left;">
                                                     <div style="font-size:12px; color:#000; font-weight:bold;">Hotel
-                                                        Address
-                                                    </div>
+                                                        Address</div>
                                                     <div style="font-weight:normal;">{{$travelHotel->hotel_address}}
                                                     </div>
                                                 </div>
@@ -300,32 +270,23 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         </td>
                                     </tr>
                                     @endforeach
-                                    @foreach ($hotel_images as $key => $img)
-                                    <!-- <tr>
-                                        <td colspan="10" style="padding: 30px 30px 0px 30px;"><img width="100%"
-                                                src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
-                                    </tr> -->
-                                    @endforeach
-                                    @endif
-                                    @endif
-
                                 </table>
                             </td>
                         </tr>
-
-
+                        @if($hotel_images)
+                        @foreach ($hotel_images as $key => $img)
+                        <!-- <tr>
+                                <td colspan="10" style="padding: 30px 30px 0px 30px;"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                            </tr> -->
+                        @endforeach
+                        @endif
                     </table>
                 </td>
             </tr>
-
-
-
-
-
-
+            @endif
+            @endif
 
             @if(in_array('Cruise', $bookingTypes))
-
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <table
@@ -351,32 +312,24 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     <tr>
                                         <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Ship: </td>
                                         <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
-                                            {{$travel_cruise_data->cruise_name}}
-                                        </td>
+                                            {{$travel_cruise_data->cruise_name}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Lenght:
-                                        </td>
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Lenght:</td>
                                         <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
-                                            {{$travel_cruise_data->length}}
-                                        </td>
+                                            {{$travel_cruise_data->length}}</td>
                                     </tr>
-
-
                                     <tr>
                                         <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Departure
-                                            Post
-                                            Port: </td>
+                                            Post Port: </td>
                                         <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
                                             {{$travel_cruise_data->departure_port}}</td>
                                     </tr>
                                     <tr>
-                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Arrival
-                                            Port
+                                        <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Arrival Port
                                             Date: </td>
                                         <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
-                                            {{$travel_cruise_data->arrival_port}}
-                                        </td>
+                                            {{$travel_cruise_data->arrival_port}}</td>
                                     </tr>
                                     <tr>
                                         <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Cruise Line
@@ -388,18 +341,15 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Category
                                         </td>
                                         <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
-                                            {{$travel_cruise_data->category}}
-                                        </td>
+                                            {{$travel_cruise_data->category}}</td>
                                     </tr>
                                     <tr>
                                         <td style="font-size: 14px; font-weight: 600; padding-bottom: 5px;">Stateroom
                                         </td>
                                         <td style="font-size: 14px; font-weight: 400; padding-bottom: 5px;">
-                                            {{$travel_cruise_data->stateroom}}
-                                        </td>
+                                            {{$travel_cruise_data->stateroom}}</td>
                                     </tr>
                                 </table>
-
                             </td>
                         </tr>
                         <tr>
@@ -407,23 +357,22 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <table border="1" cellspacing="0" cellpadding="10"
                                     style="border-collapse:collapse; font-family: 'Work Sans', sans-serif; width: 100%; background-color: #f8f8f8; margin: auto; font-size:14px; text-align:left;">
                                     <tr style="background-color: #ffe0e0; font-weight:bold;">
-
                                         <td style="width:25%;">DATE</td>
                                         <td style="width:35%;">PORT OF CALL</td>
                                         <td style="width:20%;">ARRIVE</td>
                                         <td style="width:20%;">DEPART</td>
                                     </tr>
                                     @foreach($booking->travelCruise as $key=>$travelCruise)
-
-                                    <!------------cruise----------------->
                                     <tr>
                                         <td style="padding:8px;">
                                             <b>{{ date('l', strtotime($travelCruise->departure_date)) }}</b><br>
                                             {{ date('d-m-Y', strtotime($travelCruise->departure_date)) }}
                                         </td>
                                         <td style="padding:8px;">{{$travelCruise->departure_port}}</td>
-                                        <td style="padding:8px;">{{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}</td>
-                                        <td style="padding:8px;">{{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}</td>
+                                        <td style="padding:8px;">
+                                            {{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}</td>
+                                        <td style="padding:8px;">
+                                            {{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}</td>
                                     </tr>
                                     @endforeach
                                 </table>
@@ -437,41 +386,31 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <td style="padding-top: 10px;">
                                             <p style="margin-bottom: 0px;"><b>{{$addon->services}}</b></p>
                                             <p style="margin-bottom: 10px; font-size: 14px;">{!!
-                                                nl2br(e($addon->service_name)) !!}
-                                            </p>
+                                                nl2br(e($addon->service_name)) !!}</p>
                                         </td>
                                     </tr>
                                     @endforeach
-
                                 </table>
                             </td>
                         </tr>
                         @if($cruise_images)
                         @foreach ($cruise_images as $key => $img)
                         <!-- <tr>
-                            <td colspan="2" style="padding: 10px 20px;"><img width="100%"
-                                    src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                            <td colspan="2" style="padding: 10px 20px;"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
                         </tr> -->
                         @endforeach
                         @endif
                     </table>
                 </td>
             </tr>
-
-            <!------------End cruise----------------->
-
-
-
             @endif
 
             <!------------ Start Car -------------->
             @if(in_array('Car', $bookingTypes))
-
-
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <table border="0" cellpadding="0" cellspacing="0" align="center" width="700"
-                        style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+                        style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
                         <tr>
                             <td colspan="2"
                                 style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
@@ -480,16 +419,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         </tr>
                         <tr>
                             <!-- LEFT SIDE -->
-                            <!-- <td style="width: 20%;">
-                                <table>
-                                    <tr>
-                                        <td style="padding-bottom:0px; padding-left: 20px;">
-                                            <img src="{{asset('email-templates/car_book.png')}}" width="150"
-                                                style="display:block; border:0;" />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td> -->
                             <td width="420" valign="top" style="padding:15px; border-right:1px solid #ddd; width: 40%;">
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
@@ -506,7 +435,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                 {{ $booking->car_description }}</div>
                                         </td>
                                     </tr>
-
                                 </table>
                             </td>
 
@@ -515,8 +443,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td style="font-size:14px; font-weight:bold; color:#000; padding-bottom:20px;">
-                                            Pick-up and drop-off
-                                        </td>
+                                            Pick-up and drop-off</td>
                                     </tr>
                                     @foreach($booking->travelCar as $key=>$travelCar)
                                     @if($travelCar->car_rental_provider)
@@ -543,10 +470,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <td style="font-size:13px; color:#333; line-height:20px; padding-bottom:20px;">
                                             <span style="font-size:14px; display: block;">⭕
                                                 {{ $travelCar->pickup_date?->format('D, M j') }} -
-                                                {{$travelCar->pickup_time}}
+                                                {{$travelCar->pickup_time}}</span>
+                                            <span
+                                                style="padding-left: 25px; display: block;"><b>{{$travelCar->pickup_location}}</b>
                                             </span>
-                                            <span style="padding-left: 25px; display: block;">
-                                                <b>{{$travelCar->pickup_location}}</b> </span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -554,40 +481,29 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                             <span style="font-size:14px; display: block;">⭕
                                                 {{ $travelCar->dropoff_date?->format('D, M j') }} -
                                                 {{$travelCar->dropoff_time}}</span>
-                                            <span style="padding-left: 25px; display: block;">
-                                                <b>{{$travelCar->dropoff_location}}</b> </span>
+                                            <span
+                                                style="padding-left: 25px; display: block;"><b>{{$travelCar->dropoff_location}}</b>
+                                            </span>
                                         </td>
                                     </tr>
                                     @endforeach
-
                                 </table>
                             </td>
                         </tr>
                         @if($car_images)
                         @foreach ($car_images as $key => $img)
                         <!-- <tr>
-                            <td colspan="10" style="padding: 10px 20px;"><img width="100%"
-                                    src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                            <td colspan="10" style="padding: 10px 20px;"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
                         </tr> -->
                         @endforeach
-                        @endif
-
                         @endif
                     </table>
                 </td>
             </tr>
-
-
-
-            <!---------- End Car ----------------->
-
-
+            @endif
 
             <!-------- Start Train  ------>
             @if(in_array('Train', $bookingTypes))
-
-
-
             <tr>
                 <td colspan="2">
                     <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
@@ -601,19 +517,11 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         </tr>
 
                         @foreach($booking->trainBookingDetails as $key=>$trainBookingDetails)
-
-                        <!-- {{$trainBookingDetails->direction}}
-                {{$trainBookingDetails->departure_hours}}
-                {{$trainBookingDetails->arrival_hours}}
-                {{$trainBookingDetails->duration}}
-                {{$trainBookingDetails->transit}}
-                {{$trainBookingDetails->arrival_date?->format('Y-m-d')}} -->
-
                         <tr>
                             <!-- Departure -->
                             <td width="100%" valign="top" style="padding:15px; border-right:1px solid #ddd;">
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                     <!-- Route Codes -->
+                                    <!-- Route Codes -->
                                     <tr>
                                         <td
                                             style="background:#c53d3d; color:#fff; padding:6px 10px; font-size:16px; font-weight:bold; text-align: center;">
@@ -637,7 +545,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                             <b>Cabin</b> : {{$trainBookingDetails->cabin}}
                                         </td>
                                     </tr>
-                                   
+
                                     <!-- Train + Times -->
                                     <tr>
                                         <td style="padding:15px 0; font-size:13px; color:#333;">
@@ -646,15 +554,14 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                     <!-- Train -->
                                                     <td width="30%" valign="top"
                                                         style="text-align:center; font-size:14px; color:#666;">
-                                                        🚆 <b>Train No</b> <br />
-                                                        {{$trainBookingDetails->train_number}}<br />
-
+                                                        🚆 <b>Train No</b>
+                                                        <br />{{$trainBookingDetails->train_number}}<br />
                                                     </td>
                                                     <!-- Depart -->
                                                     <td width="30%" valign="top" style="text-align:center;">
                                                         <div style="font-size:20px; font-weight:bold;">
-                                                           {{ date('h:i A', strtotime($trainBookingDetails->departure_hours)) }}
-                                                    </div>
+                                                            {{ date('h:i A', strtotime($trainBookingDetails->departure_hours)) }}
+                                                        </div>
                                                         <div style="font-size:11px; color:#666;">DEPARTS</div>
                                                     </td>
                                                     <!-- Duration -->
@@ -668,7 +575,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                     <td width="30%" valign="top" style="text-align:center;">
                                                         <div style="font-size:20px; font-weight:bold;">
                                                             {{ date('h:i A', strtotime($trainBookingDetails->arrival_hours)) }}
-
                                                         </div>
                                                         <div style="font-size:11px; color:#666;">ARRIVES</div>
                                                     </td>
@@ -692,27 +598,20 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         @if($train_images)
                         @foreach ($train_images as $key => $img)
                         <!-- <tr>
-                            <td colspan="2" style="padding: 10px 20px"><img width="100%"
-                                    src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
+                            <td colspan="2" style="padding: 10px 20px"><img width="100%" src="{{ asset($img->file_path) }}" class="img-thumbnail"></td>
                         </tr> -->
-
                         @endforeach
-                        @endif
                         @endif
                     </table>
                 </td>
             </tr>
-
-
-
-            <!-----   End Train ------------>
-
+            @endif
 
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div>
-                       <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
-                        style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
+                            style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
                             <tr>
                                 <th colspan="2"
                                     style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
@@ -731,14 +630,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Card Number</th>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
-
                                     @php
                                     $ccNumber = decode($billingPricingData->cc_number);
                                     $maskedCC = str_repeat('*', max(0, strlen($ccNumber) - 4));
                                     $formatted = chunk_split($maskedCC . substr($ccNumber, -4), 4, ' ');
                                     @endphp
                                     {{ trim($formatted) }}
-
                                 </td>
                             </tr>
 
@@ -758,31 +655,30 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Booking Date</th>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
-                                    Monday, Jul 14,2025 </td>
+                                    Monday, Jul 14,2025</td>
                             </tr>
-                            
+
                             <tr>
                                 <th
                                     style="font-size: 14px; font-weight: 600; padding: 0px 0px 10px 20px; text-align: left;">
                                     Airline Ref</th>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 20px 10px 0px; text-align: right;">
-                                    {{ $booking->airlinepnr }} </td>
+                                    {{ $booking->airlinepnr }}</td>
                             </tr>
-
                         </table>
                     </div>
                 </td>
             </tr>
+
             <!------Passenger -------->
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
                     <div>
-                         <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
-                        style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top: 20px;">
-			
+                        <table border="0" cellpadding="0" cellspacing="0" width="700" align="center"
+                            style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
                             <tr>
-                                <th colspan="2"
+                                <th colspan="4"
                                     style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
                                     Passenger Details
                                 </th>
@@ -796,46 +692,39 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     Seat</th>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
                                     E-Ticket</th>
-
                             </tr>
                             @foreach($booking->passengers as $key=>$passengers)
                             <tr>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 20px 10px 20px; text-align: left;">
-                                    {{$passengers->passenger_type}} </td>
+                                    {{$passengers->passenger_type}}</td>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 0px 10px 20px; text-align: left;">
                                     {{$passengers->title}} {{$passengers->first_name}} {{$passengers->middle_name}}
-                                    {{$passengers->last_name}} </td>
+                                    {{$passengers->last_name}}</td>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 20px 10px 20px; text-align: left;">
-                                    {{$passengers->seat_number}} </td>
+                                    {{$passengers->seat_number}}</td>
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 0px 20px 10px 20px; text-align: left;">
-                                    {{$passengers->e_ticket_number}} </td>
+                                    {{$passengers->e_ticket_number}}</td>
                             </tr>
                             @endforeach
-
                         </table>
                     </div>
                 </td>
             </tr>
-            <!-------Price ---------->
 
+            <!-------Price ---------->
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
-                            <tr>
-                                <th colspan="2"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: -2px;" width="16"
-                                            src="{{asset('email-templates/coin.png')}}" alt="dollor"> </span>
-                                    Price Details (USD)
-                                </th>
-                            </tr>
-
+                    <div>
+                        <table
+                            style="font-family: 'Work Sans', sans-serif; background-color: #fff; width: 100%; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+                            <th colspan="4"
+                                style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
+                                Price Details (USD)
+                            </th>
                             <tr>
                                 <th style="font-size: 14px; font-weight: 600; padding: 10px 20px; text-align: left;">
                                     Total Price per person including taxes and fees</th>
@@ -855,20 +744,16 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     </div>
                 </td>
             </tr>
+
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
-                    <div
-                        style="border: 2px solid #c53d3d; border-radius: 10px; border-collapse: collapse; overflow: hidden;">
-                        <table style="width: 100%; border-radius: 10px; border-collapse: collapse;">
-                            <tr>
-                                <th colspan="2"
-                                    style="font-size: 16px; font-weight: 600; color: #fff; background-color: #c53d3d; padding: 12px 10px;">
-                                    <span> <img style="margin-bottom: 0px;" width="16"
-                                            src="{{asset('email-templates/information.png')}}" alt="info"> </span>
-                                    Please Note:
-                                </th>
-                            </tr>
-
+                    <div>
+                        <table
+                            style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+                            <th colspan="4"
+                                style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
+                                Please Note:
+                            </th>
                             <tr>
                                 <td colspan="2">
                                     <ol style="padding-left: 30px; padding-top: 10px;">
@@ -886,8 +771,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     </ol>
                                     <p style="font-size: 12px; font-weight: 400; color: #000; padding-left: 20px;">
                                         <strong>Prices are not guaranteed</strong> until the ticket number(s) are
-                                        issued.
-                                        Prices may change based on airline inventory availability.
+                                        issued. Prices may change based on airline inventory availability.
                                     </p>
                                 </td>
                             </tr>
@@ -896,13 +780,11 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 </td>
             </tr>
 
-
-
-
             <tr>
-                <td colspan="2" style="text-align:center; padding-bottom: 20px; padding-top: 10px;"><button
-                        class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signatureModal">Add
-                        Signature</button></td>
+                <td colspan="2" style="text-align:center; padding-bottom: 20px; padding-top: 10px;">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signatureModal">Add
+                        Signature</button>
+                </td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -914,7 +796,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 <td colspan="2" style="text-align:center; padding-bottom: 20px;">
                     <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
                         @csrf
-
                         <input type="hidden" name="card_id" id="card_id" value="{{ $card_id }}">
                         <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{ $card_billing_id }}">
                         <input type="hidden" name="refund_status" id="refund_status" value="{{ $refund_status }}">
@@ -930,15 +811,11 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             </label>
                         </div>
 
-                        <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>
-                            I Authorized
-                        </button>
+                        <button type="submit" class="btn btn-success mt-3" id="authorizeButton" disabled>I
+                            Authorized</button>
                     </form>
                 </td>
             </tr>
-
-
-
         </tbody>
         <tfoot style="background-color: #c53d3d;">
             <tr>
