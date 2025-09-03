@@ -5,7 +5,7 @@ import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import {route} from "ziggy-js";
+import { route } from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ClassicEditor.create(textarea, {
             toolbar: [],
         })
-       
-        .catch(error => {
-            console.error(error);
-        });
+
+            .catch(error => {
+                console.error(error);
+            });
     });
 });
 
@@ -50,8 +50,8 @@ async function handleInputChange(e) {
         const selectedCurrency = currencyField.value;
         const finalAmount = await convertAndDisplay(amt, selectedCurrency);
         const roundedAmount = finalAmount.toFixed(2);
-        if(finalAmountField) finalAmountField.value = roundedAmount;
-        if(textAmountField) textAmountField.innerText = `${roundedAmount}`;
+        if (finalAmountField) finalAmountField.value = roundedAmount;
+        if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
     }
 
     // .currencyField
@@ -66,14 +66,14 @@ async function handleInputChange(e) {
         const selectedCurrency = e.target.value;
         const finalAmount = await convertAndDisplay(amt, selectedCurrency);
         const roundedAmount = finalAmount.toFixed(2);
-        if(finalAmountField) finalAmountField.value = roundedAmount;
-        if(textAmountField) textAmountField.innerText = ` ${roundedAmount}`;
+        if (finalAmountField) finalAmountField.value = roundedAmount;
+        if (textAmountField) textAmountField.innerText = ` ${roundedAmount}`;
     }
 }
 
 const container = document.getElementById('billingForms');
 
-container.addEventListener('input', async function(e) {
+container.addEventListener('input', async function (e) {
     if (e.target.classList.contains('usdAmount')) {
         const row = e.target.closest('tr');
         const amt = e.target.value;
@@ -90,7 +90,7 @@ container.addEventListener('input', async function(e) {
     }
 });
 
-container.addEventListener('change', async function(e) {
+container.addEventListener('change', async function (e) {
     if (e.target.classList.contains('currencyField')) {
         const row = e.target.closest('tr');
         const amtField = row.querySelector('.usdAmount');
@@ -175,7 +175,7 @@ document.querySelectorAll('.destroy_filepond').forEach(input => {
 //     }
 // });
 
-document.getElementById('bookingForm').addEventListener('submit',async function(e){
+document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const action = e.target.action;
     const formdata = new FormData(e.target);
@@ -189,16 +189,16 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         if (flightpattern.test(key)) {
             keysToDelete.push(key);
         }
-        else if(hotelpattern.test(key)) {
+        else if (hotelpattern.test(key)) {
             keysToDelete.push(key);
         }
-        else if(cruisepattern.test(key)) {
+        else if (cruisepattern.test(key)) {
             keysToDelete.push(key);
         }
-        else if(carpattern.test(key)) {
+        else if (carpattern.test(key)) {
             keysToDelete.push(key);
         }
-        else if(trainpattern.test(key)) {
+        else if (trainpattern.test(key)) {
             keysToDelete.push(key);
         }
     }
@@ -416,7 +416,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     }
 
 
-        const skipFieldsForPassenger = [
+    const skipFieldsForPassenger = [
         'title',
         'first_name',
         'middle_name',
@@ -425,66 +425,66 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         'seat_number',
         'credit_note',
         'e_ticket_number'
-        ];
+    ];
 
-        const skipFieldsForBilling = [
-            'card_type',
-            'cc_number',
-            'cc_holder_name',
-            'exp_month',
-            'exp_year',
-            'cvv',
-        ];
+    const skipFieldsForBilling = [
+        'card_type',
+        'cc_number',
+        'cc_holder_name',
+        'exp_month',
+        'exp_year',
+        'cvv',
+    ];
 
-        // Define the key fields for pricing rows
-        const skipFieldsForPricing = [
-            'net_price',
-            'details'
-        ];
+    // Define the key fields for pricing rows
+    const skipFieldsForPricing = [
+        'net_price',
+        'details'
+    ];
 
-        ['passenger', 'billing', 'pricing'].forEach(prefix => {
-            const inputs = document.querySelectorAll(`[name^="${prefix}["]`);
-            const rows = {};
-            inputs.forEach(input => {
-                const match = input.name.match(/\[(\d+)\]\[(\w+)\]/);
-                if (!match) return;
+    ['passenger', 'billing', 'pricing'].forEach(prefix => {
+        const inputs = document.querySelectorAll(`[name^="${prefix}["]`);
+        const rows = {};
+        inputs.forEach(input => {
+            const match = input.name.match(/\[(\d+)\]\[(\w+)\]/);
+            if (!match) return;
 
-                const index = match[1];
-                const fieldName = match[2];
+            const index = match[1];
+            const fieldName = match[2];
 
-                if (!rows[index]) rows[index] = {};
-                rows[index][fieldName] = input.value.trim();
-            });
-
-            let skipFields = [];
-            if (prefix === 'passenger') {
-                skipFields = skipFieldsForPassenger;
-            } else if (prefix === 'billing') {
-                skipFields = skipFieldsForBilling;
-            } else if (prefix === 'pricing') {
-                skipFields = skipFieldsForPricing;
-            }
-
-            Object.keys(rows).forEach(index => {
-                const rowData = rows[index];
-                const allBlank = skipFields.every(field => !rowData[field]);
-
-                if (!allBlank) {
-                    Object.keys(rowData).forEach(fieldName => {
-                        formdata.append(`${prefix}[${index}][${fieldName}]`, rowData[fieldName]);
-                    });
-                }
-            });
+            if (!rows[index]) rows[index] = {};
+            rows[index][fieldName] = input.value.trim();
         });
 
-        const carMainImageInput = document.querySelector('input[name="car_main_image[]"]');
-        if (carMainImageInput && carMainImageInput.files.length > 0) {
-            for (const file of carMainImageInput.files) {
-                formdata.append('car_main_image[]', file);
-            }
+        let skipFields = [];
+        if (prefix === 'passenger') {
+            skipFields = skipFieldsForPassenger;
+        } else if (prefix === 'billing') {
+            skipFields = skipFieldsForBilling;
+        } else if (prefix === 'pricing') {
+            skipFields = skipFieldsForPricing;
         }
-    try{
-        formdata.append('_method','patch');
+
+        Object.keys(rows).forEach(index => {
+            const rowData = rows[index];
+            const allBlank = skipFields.every(field => !rowData[field]);
+
+            if (!allBlank) {
+                Object.keys(rowData).forEach(fieldName => {
+                    formdata.append(`${prefix}[${index}][${fieldName}]`, rowData[fieldName]);
+                });
+            }
+        });
+    });
+
+    const carMainImageInput = document.querySelector('input[name="car_main_image[]"]');
+    if (carMainImageInput && carMainImageInput.files.length > 0) {
+        for (const file of carMainImageInput.files) {
+            formdata.append('car_main_image[]', file);
+        }
+    }
+    try {
+        formdata.append('_method', 'patch');
         const response = await axios.post(action, formdata, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -500,8 +500,8 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
         console.error(e);
 
         if (e.response?.status === 422 || e.response?.status === 500) {
-           // showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
-            const errorMessage = e.response?.data?.error || e.response?.data?.errors  || 'Validation/server error';
+            // showToast(e.response?.data?.errors ?? 'Validation/server error', "error");
+            const errorMessage = e.response?.data?.error || e.response?.data?.errors || 'Validation/server error';
             showToast(errorMessage, "error");
         } else if (e.response?.status === 555) {
             let activeTab = document.querySelector('.nav-tabs .nav-link.active');
@@ -518,7 +518,7 @@ document.getElementById('bookingForm').addEventListener('submit',async function(
     }
 });
 
-document.getElementById('saveRemark').addEventListener('click', async function(e) {
+document.getElementById('saveRemark').addEventListener('click', async function (e) {
     e.preventDefault();
 
     const remark = document.querySelector('textarea[name="particulars"]');
@@ -536,7 +536,7 @@ document.getElementById('saveRemark').addEventListener('click', async function(e
         });
 
         let html = '';
-        response.data.data.forEach(function(item, index) {
+        response.data.data.forEach(function (item, index) {
             html += `<tr id="remark-row-${item.id}">
                 <td>${index + 1}</td>
                 <td>${item.particulars}</td>
@@ -563,12 +563,12 @@ document.getElementById('saveRemark').addEventListener('click', async function(e
     }
 });
 
-$('.country-select').on('change',async function(e){
-    try{
-        const response = await axios.get(route('statelist',e.target.value));
+$('.country-select').on('change', async function (e) {
+    try {
+        const response = await axios.get(route('statelist', e.target.value));
 
         let options = '<option value="">Select State</option>';
-        response.data.data.forEach(function(item){
+        response.data.data.forEach(function (item) {
             options += `
                 <option value="${item.id}">${item.name}</option>
             `;
@@ -781,19 +781,19 @@ if (saveFeedbackBtn) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.chkqlty').forEach(function (checkbox) {
-            checkbox.addEventListener('change', function () {
-                const relatedId = this.id;
-                const textarea = document.querySelector('textarea[data-related="' + relatedId + '"]');
-                if (this.checked) {
-                    textarea.classList.remove('d-none');
-                } else {
-                    textarea.classList.add('d-none');
-                    textarea.value = '';
-                }
-            });
+    document.querySelectorAll('.chkqlty').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            const relatedId = this.id;
+            const textarea = document.querySelector('textarea[data-related="' + relatedId + '"]');
+            if (this.checked) {
+                textarea.classList.remove('d-none');
+            } else {
+                textarea.classList.add('d-none');
+                textarea.value = '';
+            }
         });
     });
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const bookingId = route().params.id; // This works if you're on a route like /booking/{id}/...
@@ -817,7 +817,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             parameter: paramName
                         });
 
-                            showToast(response.data.message);
+                        showToast(response.data.message);
                     } catch (e) {
                         console.error("Delete error", e);
                         showToast('Error deleting feedback.', 'error');
@@ -840,22 +840,22 @@ document.addEventListener('DOMContentLoaded', function () {
     toggles.forEach(function (checkbox) {
         checkbox.addEventListener('change', async function () {
             const id = this.dataset.remarkid;
-                try {
-                    const response = await axios.post(route('booking.status-remark', { id }));
+            try {
+                const response = await axios.post(route('booking.status-remark', { id }));
 
-                    if (response.data.success) {
+                if (response.data.success) {
 
-                            const row = document.getElementById(`remark-row-${id}`);
-                            if (row) {
-                                setTimeout(() => {
-                                    row.style.display = 'none';
-                                }, 1000);
-                            }
-
+                    const row = document.getElementById(`remark-row-${id}`);
+                    if (row) {
+                        setTimeout(() => {
+                            row.style.display = 'none';
+                        }, 1000);
                     }
-                } catch (error) {
-                    console.error('Failed to toggle remark status:', error);
+
                 }
+            } catch (error) {
+                console.error('Failed to toggle remark status:', error);
+            }
         });
     });
 });
@@ -912,7 +912,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const queryTypeSelect = document.getElementById('query_type');
     if (!queryTypeSelect) return;
 
@@ -979,7 +979,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Listen to all checkbox changes
-    document.addEventListener('change', function(e) {
+    document.addEventListener('change', function (e) {
         if (e.target.type === 'checkbox') {
             updateQueryType();
         }
@@ -996,29 +996,32 @@ document.addEventListener('DOMContentLoaded', function() {
 const input = document.getElementById('fileInput');
 const previewContainer = document.getElementById('imagePreviewContainer');
 
-input.addEventListener('change', () => {
-    previewContainer.innerHTML = ''; // Clear previous previews
+if (previewContainer) {
+    input.addEventListener('change', () => {
+        previewContainer.innerHTML = ''; // Clear previous previews
 
-    const files = input.files;
-    if (files.length === 0) return;
+        const files = input.files;
+        if (files.length === 0) return;
 
-    for (const file of files) {
-        if (!file.type.startsWith('image/')) continue; // Ignore non-images
+        for (const file of files) {
+            if (!file.type.startsWith('image/')) continue; // Ignore non-images
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.width = '80px';
-            img.style.height = '80px';
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '6px';
-            img.style.border = '1px solid #ccc';
-            previewContainer.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    }
-});
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '80px';
+                img.style.height = '80px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '6px';
+                img.style.border = '1px solid #ccc';
+                previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
 
 const timeInputs = document.querySelectorAll('.time_24_hrs');
 timeInputs.forEach(input => {
@@ -1035,7 +1038,7 @@ timeInputs.forEach(input => {
 
         // Limit length to 5 characters (HH:mm)
         if (value.length > 5) {
-            value = value.slice(0,5);
+            value = value.slice(0, 5);
         }
 
         input.value = value;
@@ -1058,49 +1061,50 @@ timeInputs.forEach(input => {
 document.addEventListener("DOMContentLoaded", () => {
     // Apply autocomplete for both departure and arrival inputs
     function initAutocomplete(input, searchAt) {
-
         const td = input.closest('td') || input.parentElement;
         const suggestionsBox = td.querySelector('.train-suggestions-box');
+        if (input) {
+            input.addEventListener("input", async (e) => {
+                const keyword = e.target.value.trim();
+                if (keyword.length < 2) {
+                    suggestionsBox.style.display = "none";
+                    return;
+                }
 
-        input.addEventListener("input", async (e) => {
-            const keyword = e.target.value.trim();
-            if (keyword.length < 2) {
-                suggestionsBox.style.display = "none";
-                return;
-            }
+                try {
+                    const response = await axios.get(route("airline.search", {}, Ziggy), {
+                        params: {
+                            keyword: keyword,
+                            searchAt: searchAt // 'departure' or 'arrival'
+                        }
+                    });
 
-            try {
-                const response = await axios.get(route("airline.search", {}, Ziggy), {
-                    params: {
-                        keyword: keyword,
-                        searchAt: searchAt // 'departure' or 'arrival'
-                    }
-                });
+                    const data = response.data;
 
-                const data = response.data;
-
-                if (data.length > 0) {
-                    suggestionsBox.innerHTML = data.map(item => `
+                    if (data.length > 0) {
+                        suggestionsBox.innerHTML = data.map(item => `
                         <div class="suggestion-item" style="padding:5px; cursor:pointer;">
                            ${item.airport_name}, ${item.city}, ${item.country}
                         </div>
                     `).join("");
-                    suggestionsBox.style.display = "block";
-                } else {
+                        suggestionsBox.style.display = "block";
+                    } else {
+                        suggestionsBox.style.display = "none";
+                    }
+                } catch (error) {
+                    console.error("Error fetching data", error);
+                }
+            });
+        }
+
+        if (suggestionsBox) {
+            suggestionsBox.addEventListener("click", (e) => {
+                if (e.target.classList.contains("suggestion-item")) {
+                    input.value = e.target.textContent.trim();
                     suggestionsBox.style.display = "none";
                 }
-            } catch (error) {
-                console.error("Error fetching data", error);
-            }
-        });
-
-        suggestionsBox.addEventListener("click", (e) => {
-            if (e.target.classList.contains("suggestion-item")) {
-                input.value = e.target.textContent.trim();
-                suggestionsBox.style.display = "none";
-            }
-        });
-
+            });
+        }
         input.addEventListener("blur", () => {
             setTimeout(() => {
                 suggestionsBox.style.display = "none";
@@ -1108,13 +1112,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Initialize for existing inputs
+
     document.querySelectorAll(".departure-airport").forEach(input => {
         initAutocomplete(input, 'departure');
     });
     document.querySelectorAll(".arrival-airport").forEach(input => {
         initAutocomplete(input, 'arrival');
     });
+
 
     // When adding a new row dynamically, reinitialize for new inputs
     const flightFormsContainer = document.getElementById('flightForms');
@@ -1134,201 +1139,110 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     observer.observe(flightFormsContainer, { childList: true, subtree: true });
 
-
-
-
-
-    const container = document.getElementById('cruise-addon-container');
-
-    document.addEventListener('click', (e) => {
-        if (e.target.closest('#cruise-addon-button')) {
-            // Add new row
-            const rows = container.querySelectorAll('.cruise-addon-row');
-            const index = rows.length + 1; // 1-based index
-
-            const html = `
-      <tr class="cruise-addon-row">
-        <td style="width: 200px">
-          <select class="form-control" name="cruiseaddon[${index}][services]">
-            <option value="">Select</option>
-            <option>Excursions</option>
-            <option>WiFi Packages</option>
-            <option>Crew Appreciation Fees/Gratuities</option>
-            <option>Shuttle Services</option>
-            <option>Speciality Dining</option>
-            <option>Drink Packages</option>
-            <option>Trip Insurance</option>
-            <option>Check-in Proces (Luggage Tags & Sailing Pass)</option>
-            <option>Special Occasion Package</option>
-            <option>Water Bottle or Distiled Water Package</option>
-            <option>Old Itinerary</option>
-            <option>Changed Itinerary</option>
-          </select>
-        </td>
-        <td style="width: 400px">
-          <textarea class="form-control ckeditor" name="cruiseaddon[${index}][service_name]" cols="30" rows="6"></textarea>
-        </td>
-        <td>
-          <input type="file" class="form-control filepond" name="cruiseaddon[${index}][image]" />
-        </td>
-        <td style="width: 100px">
-          <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn">
-            <i class="ri ri-delete-bin-line"></i>
-          </button>
-        </td>
-      </tr>
-    `;
-
-            container.insertAdjacentHTML('beforeend', html);
-
-            
-
-            // Initialize FilePond on last file input
-            const lastFileInput = container.querySelector('input.filepond:last-of-type');
-            if(lastFileInput) {
-                FilePond.create(lastFileInput, {
-                    allowMultiple: true,
-                    maxFiles: 10,
-                    labelIdle: 'Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                });
-            }
-        }
-
-        if(e.target.closest('.delete-addon-cruise-btn')) {
-            // Delete row
-            const row = e.target.closest('.cruise-addon-row');
-            if(row) {
-                // Optional: destroy CKEditor/FilePond instances to free resources here if relevant
-
-                row.remove();
-
-                // Re-index rows and reset names
-                updateCruiseAddonIndexes();
-            }
-        }
-    });
-
-    function updateCruiseAddonIndexes() {
-        const rows = container.querySelectorAll('.cruise-addon-row');
-        rows.forEach((row, index) => {
-            const currentIndex = index;
-            const select = row.querySelector('select');
-            if(select) select.name = `cruiseaddon[${currentIndex}][services]`;
-
-            const textarea = row.querySelector('textarea.ckeditor');
-            if(textarea) textarea.name = `cruiseaddon[${currentIndex}][service_name]`;
-
-            const fileInput = row.querySelector('input.filepond');
-            if(fileInput) fileInput.name = `cruiseaddon[${currentIndex}][image]`;
-        });
-    }
 });
 /***************Train Search***************** */
 
 document.addEventListener("DOMContentLoaded", () => {
-  function initTrainAutocomplete(input, searchAt) {
-    const td = input.closest('td') || input.parentElement;
-    const suggestionsBox = td.querySelector('.train-suggestions-box');
+    function initTrainAutocomplete(input, searchAt) {
+        const td = input.closest('td') || input.parentElement;
+        const suggestionsBox = td.querySelector('.train-suggestions-box');
+        if (!suggestionsBox) {
+            console.warn('train-suggestions-box not found for input:', input);
+            return;
+        }
 
-    if (!suggestionsBox) {
-      console.warn('train-suggestions-box not found for input:', input);
-      return; // don't proceed if there's no box in markup
-    }
+        const positionBox = () => {
+            // since we use top:100% and left:0 in CSS this is optional, but kept for safety
+            suggestionsBox.style.width = input.offsetWidth + 'px';
+        };
+        positionBox();
+        window.addEventListener('resize', positionBox);
 
-    const positionBox = () => {
-      // since we use top:100% and left:0 in CSS this is optional, but kept for safety
-      suggestionsBox.style.width = input.offsetWidth + 'px';
-    };
-    positionBox();
-    window.addEventListener('resize', positionBox);
+        let inflight = 0;
 
-    let inflight = 0;
+        const render = (arr) => {
+            if (!Array.isArray(arr) || arr.length === 0) {
+                suggestionsBox.style.display = 'none';
+                suggestionsBox.innerHTML = '';
+                return;
+            }
+            suggestionsBox.innerHTML = arr.map(item => `
+                <div class="suggestion-item">${item.name}</div>
+            `).join('');
+            suggestionsBox.style.display = 'block';
+        };
+        input.addEventListener("input", async (e) => {
+            const keyword = e.target.value.trim();
+            if (keyword.length < 2) {
+                suggestionsBox.style.display = "none";
+                suggestionsBox.innerHTML = '';
+                return;
+            }
 
-    const render = (arr) => {
-      if (!Array.isArray(arr) || arr.length === 0) {
-        suggestionsBox.style.display = 'none';
-        suggestionsBox.innerHTML = '';
-        return;
-      }
-      suggestionsBox.innerHTML = arr.map(item => `
-        <div class="suggestion-item">${item.name}</div>
-      `).join('');
-      suggestionsBox.style.display = 'block';
-    };
-
-    input.addEventListener("input", async (e) => {
-      const keyword = e.target.value.trim();
-      if (keyword.length < 2) {
-        suggestionsBox.style.display = "none";
-        suggestionsBox.innerHTML = '';
-        return;
-      }
-
-      const seq = ++inflight;
-      try {
-        const resp = await axios.get(route("train.search", {}, Ziggy), {
-          params: { keyword, searchAt }
+            const seq = ++inflight;
+            try {
+                const resp = await axios.get(route("train.search", {}, Ziggy), {
+                    params: { keyword, searchAt }
+                });
+                const data = Array.isArray(resp.data) ? resp.data : (resp.data?.data || []);
+                // ignore stale responses
+                if (seq !== inflight) return;
+                render(data);
+            } catch (err) {
+                console.error("train.search error", err);
+                suggestionsBox.style.display = "none";
+            }
         });
-        const data = Array.isArray(resp.data) ? resp.data : (resp.data?.data || []);
-        // ignore stale responses
-        if (seq !== inflight) return;
-        render(data);
-      } catch (err) {
-        console.error("train.search error", err);
-        suggestionsBox.style.display = "none";
-      }
-    });
 
-    // use mousedown so click registers before blur hides it
-    suggestionsBox.addEventListener("mousedown", (e) => {
-      const item = e.target.closest('.suggestion-item');
-      if (!item) return;
-      e.preventDefault();
-      input.value = item.textContent.trim();
-      suggestionsBox.style.display = 'none';
-      input.dispatchEvent(new Event('change', { bubbles: true }));
-    });
+        // use mousedown so click registers before blur hides it
+        suggestionsBox.addEventListener("mousedown", (e) => {
+            const item = e.target.closest('.suggestion-item');
+            if (!item) return;
+            e.preventDefault();
+            input.value = item.textContent.trim();
+            suggestionsBox.style.display = 'none';
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
 
-    input.addEventListener("blur", () => {
-      setTimeout(() => { suggestionsBox.style.display = 'none'; }, 120);
-    });
-    input.addEventListener("focus", () => {
-      if (suggestionsBox.innerHTML.trim()) suggestionsBox.style.display = 'block';
-    });
-  }
-
-  // init existing fields
-  document.querySelectorAll(".train_departure_station").forEach(input => {
-    if (!input.dataset.autocompleteTrain) {
-      initTrainAutocomplete(input, 'departure');
-      input.dataset.autocompleteTrain = '1';
+        input.addEventListener("blur", () => {
+            setTimeout(() => { suggestionsBox.style.display = 'none'; }, 120);
+        });
+        input.addEventListener("focus", () => {
+            if (suggestionsBox.innerHTML.trim()) suggestionsBox.style.display = 'block';
+        });
     }
-  });
-  document.querySelectorAll(".train_arrival_station").forEach(input => {
-    if (!input.dataset.autocompleteTrain) {
-      initTrainAutocomplete(input, 'arrival');
-      input.dataset.autocompleteTrain = '1';
-    }
-  });
 
-  // observe dynamic rows
-  const trainFormsContainer = document.getElementById('trainForms');
-  if (trainFormsContainer) {
-    const observer = new MutationObserver(() => {
-      document.querySelectorAll(".train_departure_station").forEach(input => {
+    document.querySelectorAll(".train_departure_station").forEach(input => {
         if (!input.dataset.autocompleteTrain) {
-          initTrainAutocomplete(input, 'departure');
-          input.dataset.autocompleteTrain = '1';
+            initTrainAutocomplete(input, 'departure');
+            input.dataset.autocompleteTrain = '1';
         }
-      });
-      document.querySelectorAll(".train_arrival_station").forEach(input => {
-        if (!input.dataset.autocompleteTrain) {
-          initTrainAutocomplete(input, 'arrival');
-          input.dataset.autocompleteTrain = '1';
-        }
-      });
     });
-    observer.observe(trainFormsContainer, { childList: true, subtree: true });
-  }
+    document.querySelectorAll(".train_arrival_station").forEach(input => {
+        if (!input.dataset.autocompleteTrain) {
+            initTrainAutocomplete(input, 'arrival');
+            input.dataset.autocompleteTrain = '1';
+        }
+    });
+
+    // observe dynamic rows
+    const trainFormsContainer = document.getElementById('trainForms');
+    if (trainFormsContainer) {
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll(".train_departure_station").forEach(input => {
+                if (!input.dataset.autocompleteTrain) {
+                    initTrainAutocomplete(input, 'departure');
+                    input.dataset.autocompleteTrain = '1';
+                }
+            });
+            document.querySelectorAll(".train_arrival_station").forEach(input => {
+                if (!input.dataset.autocompleteTrain) {
+                    initTrainAutocomplete(input, 'arrival');
+                    input.dataset.autocompleteTrain = '1';
+                }
+            });
+        });
+        observer.observe(trainFormsContainer, { childList: true, subtree: true });
+    }
 });
 
