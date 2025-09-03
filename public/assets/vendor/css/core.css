@@ -29572,3 +29572,15 @@ input[type=number] {
 .suggestion-item:hover {
     background-color: #f0f0f0;
 }
+
+/* make editor and editable area full-width */
+.ck-editor,
+.ck-editor__main,
+.ck-editor__editable,
+.ck-editor__editable_inline {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+  display: block;
+  min-height: 200px; /* your min height */
+}

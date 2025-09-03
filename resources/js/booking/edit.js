@@ -9,6 +9,20 @@ import {route} from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+document.addEventListener('DOMContentLoaded', () => {
+    const editors = document.querySelectorAll('textarea.ckeditor');
+
+    editors.forEach(textarea => {
+        ClassicEditor.create(textarea, {
+            toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+        })
+       
+        .catch(error => {
+            console.error(error);
+        });
+    });
+});
+
 
 const currencyApi = new CurrencyAPI('cur_live_hNVrB7FwaBu1B2psLRKf7ALfqrSU5tXfIpFipPhY');
 function convertAndDisplay(usdValue, toCurrency) {
@@ -1123,16 +1137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(flightFormsContainer, { childList: true, subtree: true });
 
 
-    const editors = document.querySelectorAll('textarea.ckeditor');
-    editors.forEach(textarea => {
-        ClassicEditor
-            .create(textarea, {
-                toolbar: ['bold']
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    });
+
 
 
     const container = document.getElementById('cruise-addon-container');
@@ -1178,15 +1183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             container.insertAdjacentHTML('beforeend', html);
 
-            // Initialize CKEditor on last textarea
-            const lastTextarea = container.querySelector('textarea.ckeditor:last-of-type');
-            if(lastTextarea) {
-                ClassicEditor
-                    .create(lastTextarea, {
-                        toolbar: ['bold']
-                    })
-                    .catch(err => console.error(err));
-            }
+            
 
             // Initialize FilePond on last file input
             const lastFileInput = container.querySelector('input.filepond:last-of-type');

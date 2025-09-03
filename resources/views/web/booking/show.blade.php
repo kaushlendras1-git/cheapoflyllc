@@ -304,17 +304,67 @@
             @endif
 
 
+
+            
+
+
+
+
     </div>
 
       </div>
-    </div>
 
+
+
+      <div class="d-flex justify-content-between gap-2 mt-2">
+    <a id="prev-tab-btn" class="btn btn-sm btn-danger text-center" style="padding: 5px; font-size: 12px;color:#fff" >Previous</a>
+    <a id="next-tab-btn" class="btn btn-sm btn-primary text-center" style="padding: 5px; font-size: 12px;color:#fff">Next</a>
+</div>
+
+
+                 
+
+
+    </div>
 </form>
+
 
 <!-- Button trigger modal -->
 
 
+<script>
+    function getVisibleTabs() {
+        // Select all nav-link elements but only those inside visible li (not display:none)
+        return Array.from(document.querySelectorAll('#bookingTabs .nav-item'))
+            .filter(li => window.getComputedStyle(li).display !== 'none')
+            .map(li => li.querySelector('.nav-link'));
+    }
 
+    function goToNextTab() {
+        let visibleTabs = getVisibleTabs();
+        let activeIndex = visibleTabs.findIndex(tab => tab.classList.contains('active'));
+
+        if (activeIndex !== -1 && activeIndex < visibleTabs.length - 1) {
+            let nextTab = visibleTabs[activeIndex + 1];
+            let tab = new bootstrap.Tab(nextTab);
+            tab.show();
+        }
+    }
+
+    function goToPrevTab() {
+        let visibleTabs = getVisibleTabs();
+        let activeIndex = visibleTabs.findIndex(tab => tab.classList.contains('active'));
+
+        if (activeIndex > 0) {
+            let prevTab = visibleTabs[activeIndex - 1];
+            let tab = new bootstrap.Tab(prevTab);
+            tab.show();
+        }
+    }
+
+    document.getElementById('next-tab-btn').addEventListener('click', goToNextTab);
+    document.getElementById('prev-tab-btn').addEventListener('click', goToPrevTab);
+</script>
 
 
 <style>

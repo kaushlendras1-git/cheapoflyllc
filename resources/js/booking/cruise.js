@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <option>Changed Itinerary</option>
                     </select>
                 </td>
-                <td style="width:400px"><textarea class="form-control" name="cruiseaddon[${index}][service_name]" rows="6"></textarea></td>
-                <td><input type="file" multiple class="form-control" name="cruiseaddon[${index}][image][]" /></td>
+                <td style="width:400px"><textarea class="form-control cruiseaddon ckeditor" name="cruiseaddon[${index}][service_name]" rows="6"></textarea></td>
                 <td><button type="button" class="btn btn-outline-danger delete-addon-cruise-btn"><i class="ri ri-delete-bin-line"></i></button></td>
             </tr>
         `;

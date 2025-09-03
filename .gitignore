@@ -45,6 +45,6 @@ Homestead.yaml
 
 # Cache and IDE helper files
 .phpunit.result.cache
-.env.*
+.env
 .env
 .env.*.php
