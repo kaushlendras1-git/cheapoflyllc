@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     editors.forEach(textarea => {
         ClassicEditor.create(textarea, {
-            toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+            toolbar: [],
         })
        
         .catch(error => {
@@ -113,9 +113,7 @@ if (sessionStorage.getItem("successMessage")) {
     sessionStorage.removeItem("successMessage");
 }
 FilePond.registerPlugin(FilePondPluginImagePreview);
-FilePond.setOptions({
-    allowPaste: false
-});
+
 let ponds = {};
 
 

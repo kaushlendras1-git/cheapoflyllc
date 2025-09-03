@@ -109,13 +109,12 @@
                                 <thead>
                                     <tr>
                                         <th>Hotel Description</th>
-                                        <th>Image</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tr>
                                     <td><textarea class="form-control ckeditor" name="hotel_description" placeholder="Hotel Description" >{{$booking->hotel_description}}</textarea></td>
-                                    <td> <input type="file" class="form-control customFilepond" multiple name="hotel_detail_image"></td>
-                                </tr>
+                                                                  </tr>
                             </table>
                         </div>
                 </div>
