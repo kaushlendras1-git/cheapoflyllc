@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ClassicEditor.create(textarea, {
             toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
         })
-
             .catch(error => {
                 console.error(error);
             });
@@ -1062,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Apply autocomplete for both departure and arrival inputs
     function initAutocomplete(input, searchAt) {
         const td = input.closest('td') || input.parentElement;
-        const suggestionsBox = td.querySelector('.train-suggestions-box');
+        const suggestionsBox = td.querySelector('.flight-suggestions-list');
         if (input) {
             input.addEventListener("input", async (e) => {
                 const keyword = e.target.value.trim();
@@ -1152,7 +1151,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const positionBox = () => {
-            // since we use top:100% and left:0 in CSS this is optional, but kept for safety
             suggestionsBox.style.width = input.offsetWidth + 'px';
         };
         positionBox();

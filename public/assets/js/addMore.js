@@ -313,14 +313,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select></td>
 
                 <td><input type="text" class="form-control" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
-                <td><input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
-                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                <td>
+                    <input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
+                    <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
+                    </div>
                 </td>
                 <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 86px" name="flight[${flightIndex}][departure_hours]" placeholder="Hrs" />
                 </td>
 
-                <td><input type="text" class="form-control arrival-airport" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
-                    <div class="suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
+                <td>
+                    <input type="text" class="form-control arrival-airport" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
+                    <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
+                    </div>
                 </td>
 
                 <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="Hrs"
@@ -420,7 +424,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </td>
             <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
-            <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station"></td>
+            <td>
+                <input type="text" class="form-control train_arrival_station" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station">
+                <div class="train-suggestions-box" style="position:absolute; background:#fff;  z-index: 19999;border:1px solid #ccc; display:none;">
+                </div>
+            </td>
             <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][duration]" placeholder="Duration"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][transit]" placeholder="Transit"></td>
