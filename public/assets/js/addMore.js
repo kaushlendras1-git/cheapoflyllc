@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('hotel-booking-button').addEventListener('click',addHotelRow)
-        const hotelFormsContainer = document.getElementById('hotelForms');
-        let hotelIndex = document.querySelectorAll('.hotel-row').length ?? 0;
+    document.getElementById('hotel-booking-button').addEventListener('click', addHotelRow)
+    const hotelFormsContainer = document.getElementById('hotelForms');
+    let hotelIndex = document.querySelectorAll('.hotel-row').length ?? 0;
 
-        // Add initial row on page load
-        addHotelRow();
-        // Function to add a new hotel row
-        function addHotelRow() {
-            const newRow = document.createElement('tr');
-            newRow.className = 'hotel-row';
-            newRow.dataset.index = hotelIndex;
-            newRow.innerHTML = `
+    // Add initial row on page load
+    addHotelRow();
+    // Function to add a new hotel row
+    function addHotelRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'hotel-row';
+        newRow.dataset.index = hotelIndex;
+        newRow.innerHTML = `
                 <td><span class="hotel-title">${hotelIndex + 1}</span></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="hotel[${hotelIndex}][hotel_name]" placeholder="Hotel Name"></td>
                 <td><input type="text" class="form-control" style="width:8rem" name="hotel[${hotelIndex}][room_category]" placeholder="Room Category"></td>
@@ -27,71 +27,71 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </td>
             `;
-            hotelFormsContainer.appendChild(newRow);
-            hotelIndex++;
-        }
+        hotelFormsContainer.appendChild(newRow);
+        hotelIndex++;
+    }
 
-        // Function to check if a row is filled
-        function isRowFilled(row) {
-            const inputs = row.querySelectorAll('input');
-            return Array.from(inputs).every(input => input.value.trim() !== '');
-        }
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input');
+        return Array.from(inputs).every(input => input.value.trim() !== '');
+    }
 
-        // Update hotel titles and indices after deletion
-        function updateHotelTitles() {
-            const rows = hotelFormsContainer.querySelectorAll('.hotel-row');
-            rows.forEach((row, index) => {
-                const title = row.querySelector('.hotel-title');
-                title.textContent = `${index + 1}`;
-                row.dataset.index = index;
-                const inputs = row.querySelectorAll('input, select, textarea');
-                inputs.forEach(input => {
-                    const name = input.name.replace(/hotel\[\d+\]/, `hotel[${index}]`);
-                    input.name = name;
-                });
+    // Update hotel titles and indices after deletion
+    function updateHotelTitles() {
+        const rows = hotelFormsContainer.querySelectorAll('.hotel-row');
+        rows.forEach((row, index) => {
+            const title = row.querySelector('.hotel-title');
+            title.textContent = `${index + 1}`;
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                const name = input.name.replace(/hotel\[\d+\]/, `hotel[${index}]`);
+                input.name = name;
             });
-            hotelIndex = rows.length;
+        });
+        hotelIndex = rows.length;
+    }
+
+    // Event listener for input changes to auto-add rows
+    hotelFormsContainer.addEventListener('input', (e) => {
+        const row = e.target.closest('.hotel-row');
+        if (!row) return;
+
+        const rows = hotelFormsContainer.querySelectorAll('.hotel-row');
+        const lastRow = rows[rows.length - 1];
+
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addHotelRow();
         }
-
-        // Event listener for input changes to auto-add rows
-        hotelFormsContainer.addEventListener('input', (e) => {
-            const row = e.target.closest('.hotel-row');
-            if (!row) return;
-
-            const rows = hotelFormsContainer.querySelectorAll('.hotel-row');
-            const lastRow = rows[rows.length - 1];
-
-            if (row === lastRow && isRowFilled(lastRow)) {
-                addHotelRow();
-            }
-        });
-
-        // Delete hotel row
-        hotelFormsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.delete-hotel-btn')) {
-                const row = e.target.closest('.hotel-row');
-                if (hotelFormsContainer.children.length > 1) {
-                    row.remove();
-                    updateHotelTitles();
-                }
-            }
-        });
     });
 
+    // Delete hotel row
+    hotelFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-hotel-btn')) {
+            const row = e.target.closest('.hotel-row');
+            if (hotelFormsContainer.children.length > 1) {
+                row.remove();
+                updateHotelTitles();
+            }
+        }
+    });
+});
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('cruise-booking-button').addEventListener('click',addCruiseRow )
-        const cruiseFormsContainer = document.getElementById('cruiseForms');
-        let cruiseIndex = document.querySelectorAll('.cruise-row').length ?? 0;
 
-        addCruiseRow();
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('cruise-booking-button').addEventListener('click', addCruiseRow)
+    const cruiseFormsContainer = document.getElementById('cruiseForms');
+    let cruiseIndex = document.querySelectorAll('.cruise-row').length ?? 0;
 
-        // Function to add a new cruise row
-        function addCruiseRow() {
-            const newRow = document.createElement('tr');
-            newRow.className = 'cruise-row';
-            newRow.dataset.index = cruiseIndex;
-            newRow.innerHTML = `
+    addCruiseRow();
+
+    // Function to add a new cruise row
+    function addCruiseRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'cruise-row';
+        newRow.dataset.index = cruiseIndex;
+        newRow.innerHTML = `
                 <td><span class="cruise-title">${cruiseIndex + 1}</span></td>
                 <td><input type="date" class="form-control" style="width: 125px;" name="cruise[${cruiseIndex}][departure_date]"></td>             
                 <td><input type="text" class="form-control" style="width:39.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
@@ -105,61 +105,61 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </td>
             `;
-            cruiseFormsContainer.appendChild(newRow);
-            const departureInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][departure_hrs]"]');
-            const arrivalInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][arrival_hrs]"]');
+        cruiseFormsContainer.appendChild(newRow);
+        const departureInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][departure_hrs]"]');
+        const arrivalInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][arrival_hrs]"]');
 
-            cruiseIndex++;
-        }
+        cruiseIndex++;
+    }
 
-        // Function to check if a row is filled
-        function isRowFilled(row) {
-            const inputs = row.querySelectorAll('input');
-            return Array.from(inputs).every(input => input.value.trim() !== '');
-        }
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input');
+        return Array.from(inputs).every(input => input.value.trim() !== '');
+    }
 
-        // Update cruise titles and indices after deletion
-        function updateCruiseTitles() {
-            const rows = cruiseFormsContainer.querySelectorAll('.cruise-row');
-            rows.forEach((row, index) => {
-                const title = row.querySelector('.cruise-title');
-                title.textContent = `${index + 1}`;
-                row.dataset.index = index;
-                const inputs = row.querySelectorAll('input, select, textarea');
-                inputs.forEach(input => {
-                    const name = input.name.replace(/cruise\[\d+\]/, `cruise[${index}]`);
-                    input.name = name;
-                });
+    // Update cruise titles and indices after deletion
+    function updateCruiseTitles() {
+        const rows = cruiseFormsContainer.querySelectorAll('.cruise-row');
+        rows.forEach((row, index) => {
+            const title = row.querySelector('.cruise-title');
+            title.textContent = `${index + 1}`;
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                const name = input.name.replace(/cruise\[\d+\]/, `cruise[${index}]`);
+                input.name = name;
             });
-            cruiseIndex = rows.length;
+        });
+        cruiseIndex = rows.length;
+    }
+
+    // Event listener for input changes to auto-add rows
+    cruiseFormsContainer.addEventListener('input', (e) => {
+        const row = e.target.closest('.cruise-row');
+        if (!row) return;
+
+        const rows = cruiseFormsContainer.querySelectorAll('.cruise-row');
+        const lastRow = rows[rows.length - 1];
+
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addCruiseRow();
         }
-
-        // Event listener for input changes to auto-add rows
-        cruiseFormsContainer.addEventListener('input', (e) => {
-            const row = e.target.closest('.cruise-row');
-            if (!row) return;
-
-            const rows = cruiseFormsContainer.querySelectorAll('.cruise-row');
-            const lastRow = rows[rows.length - 1];
-
-            if (row === lastRow && isRowFilled(lastRow)) {
-                addCruiseRow();
-            }
-        });
-
-        // Delete cruise row
-        cruiseFormsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.delete-cruise-btn')) {
-                const row = e.target.closest('.cruise-row');
-                row.remove();
-                updateCruiseTitles();
-                // if (cruiseFormsContainer.children.length > 1) {
-                //     row.remove();
-                //     updateCruiseTitles();
-                // }
-            }
-        });
     });
+
+    // Delete cruise row
+    cruiseFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-cruise-btn')) {
+            const row = e.target.closest('.cruise-row');
+            row.remove();
+            updateCruiseTitles();
+            // if (cruiseFormsContainer.children.length > 1) {
+            //     row.remove();
+            //     updateCruiseTitles();
+            // }
+        }
+    });
+});
 
 function attach24HourTimeListener(input) {
     input.addEventListener('input', () => {
@@ -188,20 +188,20 @@ function attach24HourTimeListener(input) {
         }
     });
 }
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('car-booking-button').addEventListener('click', addCarRow)
-        const carFormsContainer = document.getElementById('carForms');
-        let carIndex = document.querySelectorAll('.car-row').length ?? 0;
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('car-booking-button').addEventListener('click', addCarRow)
+    const carFormsContainer = document.getElementById('carForms');
+    let carIndex = document.querySelectorAll('.car-row').length ?? 0;
 
-        // Add initial row on page load
-        addCarRow();
+    // Add initial row on page load
+    addCarRow();
 
-        // Function to add a new car rental row
-        function addCarRow() {
-            const newRow = document.createElement('tr');
-            newRow.className = 'car-row';
-            newRow.dataset.index = carIndex;
-            newRow.innerHTML = `
+    // Function to add a new car rental row
+    function addCarRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'car-row';
+        newRow.dataset.index = carIndex;
+        newRow.innerHTML = `
                 <td><span class="car-title">${carIndex + 1}</span></td>
                 <td><input type="text" class="form-control" style="width:10rem" name="car[${carIndex}][car_rental_provider]" placeholder="Car Rental Provider"></td>
                 <td><input type="text" class="form-control" style="width:7.5rem" name="car[${carIndex}][car_type]" placeholder="Car Type"></td>
@@ -218,78 +218,78 @@ function attach24HourTimeListener(input) {
                     </button>
                 </td>
             `;
-            carFormsContainer.appendChild(newRow);
-            const pickupTimeInput = newRow.querySelector(`input[name="car[${carIndex}][pickup_time]"]`);
-            const dropoffTimeInput = newRow.querySelector(`input[name="car[${carIndex}][dropoff_time]"]`);
-            if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
-            if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
-            carIndex++;
-        }
+        carFormsContainer.appendChild(newRow);
+        const pickupTimeInput = newRow.querySelector(`input[name="car[${carIndex}][pickup_time]"]`);
+        const dropoffTimeInput = newRow.querySelector(`input[name="car[${carIndex}][dropoff_time]"]`);
+        if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+        if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
+        carIndex++;
+    }
 
-        // Function to check if a row is filled
-        function isRowFilled(row) {
-            const inputs = row.querySelectorAll('input');
-            return Array.from(inputs).every(input => input.value.trim() !== '');
-        }
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input');
+        return Array.from(inputs).every(input => input.value.trim() !== '');
+    }
 
-        // Update car titles and indices after deletion
-        function updateCarTitles() {
-            const rows = carFormsContainer.querySelectorAll('.car-row');
-            rows.forEach((row, index) => {
-                const title = row.querySelector('.car-title');
-                title.textContent = `${index + 1}`;
-                row.dataset.index = index;
-                const inputs = row.querySelectorAll('input, select, textarea');
-                inputs.forEach(input => {
-                    const name = input.name.replace(/car\[\d+\]/, `car[${index}]`);
-                    input.name = name;
-                });
+    // Update car titles and indices after deletion
+    function updateCarTitles() {
+        const rows = carFormsContainer.querySelectorAll('.car-row');
+        rows.forEach((row, index) => {
+            const title = row.querySelector('.car-title');
+            title.textContent = `${index + 1}`;
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                const name = input.name.replace(/car\[\d+\]/, `car[${index}]`);
+                input.name = name;
             });
-            carIndex = rows.length;
+        });
+        carIndex = rows.length;
+    }
+
+    // Event listener for input changes to auto-add rows
+    carFormsContainer.addEventListener('input', (e) => {
+        const row = e.target.closest('.car-row');
+        if (!row) return;
+
+        const rows = carFormsContainer.querySelectorAll('.car-row');
+        const lastRow = rows[rows.length - 1];
+
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addCarRow();
         }
-
-        // Event listener for input changes to auto-add rows
-        carFormsContainer.addEventListener('input', (e) => {
-            const row = e.target.closest('.car-row');
-            if (!row) return;
-
-            const rows = carFormsContainer.querySelectorAll('.car-row');
-            const lastRow = rows[rows.length - 1];
-
-            if (row === lastRow && isRowFilled(lastRow)) {
-                addCarRow();
-            }
-        });
-
-        // Delete car row
-        carFormsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.delete-car-btn')) {
-                const row = e.target.closest('.car-row');
-                row.remove();
-                updateCarTitles();
-                // if (carFormsContainer.children.length > 1) {
-                //     row.remove();
-                //     updateCarTitles();
-                // }
-            }
-        });
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('flight-booking-button').addEventListener('click',addFlightRow)
-        const flightFormsContainer = document.getElementById('flightForms');
-        const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length??0;
-        let flightIndex = flightRowsCount;
+    // Delete car row
+    carFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-car-btn')) {
+            const row = e.target.closest('.car-row');
+            row.remove();
+            updateCarTitles();
+            // if (carFormsContainer.children.length > 1) {
+            //     row.remove();
+            //     updateCarTitles();
+            // }
+        }
+    });
+});
 
-        // Add initial row on page load
-        addFlightRow();
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('flight-booking-button').addEventListener('click', addFlightRow)
+    const flightFormsContainer = document.getElementById('flightForms');
+    const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length ?? 0;
+    let flightIndex = flightRowsCount;
 
-        // Function to add a new flight row
-        function addFlightRow() {
-            const newRow = document.createElement('tr');
-            newRow.className = 'flight-row';
-            newRow.dataset.index = flightIndex;
-            newRow.innerHTML = `
+    // Add initial row on page load
+    addFlightRow();
+
+    // Function to add a new flight row
+    function addFlightRow() {
+        const newRow = document.createElement('tr');
+        newRow.className = 'flight-row';
+        newRow.dataset.index = flightIndex;
+        newRow.innerHTML = `
                 <td><span class="flight-title">${flightIndex + 1}</span></td>
 
                 <td><select class="form-control" style="width: 80px;" name="flight[${flightIndex}][direction]">
@@ -336,67 +336,67 @@ function attach24HourTimeListener(input) {
                     </button>
                 </td>
             `;
-            flightFormsContainer.appendChild(newRow);
-            const pickupTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][arrival_hours]"]`);
-            const dropoffTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][departure_hours]"]`);
-            if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
-            if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
+        flightFormsContainer.appendChild(newRow);
+        const pickupTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][arrival_hours]"]`);
+        const dropoffTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][departure_hours]"]`);
+        if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
+        if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
 
-            flightIndex++;
-        }
+        flightIndex++;
+    }
 
-        // Function to check if a row is filled
-        function isRowFilled(row) {
-            const inputs = row.querySelectorAll('input');
-            return Array.from(inputs).every(input => input.value.trim() !== '');
-        }
+    // Function to check if a row is filled
+    function isRowFilled(row) {
+        const inputs = row.querySelectorAll('input');
+        return Array.from(inputs).every(input => input.value.trim() !== '');
+    }
 
-        // Update flight titles and indices after deletion
-        function updateFlightTitles() {
-            const rows = flightFormsContainer.querySelectorAll('.flight-row');
-            rows.forEach((row, index) => {
-                const title = row.querySelector('.flight-title');
-                title.textContent = `${index + 1}`;
-                row.dataset.index = index;
-                const inputs = row.querySelectorAll('input, select, textarea');
-                inputs.forEach(input => {
-                    const name = input.name.replace(/flight\[\d+\]/, `flight[${index}]`);
-                    input.name = name;
-                });
+    // Update flight titles and indices after deletion
+    function updateFlightTitles() {
+        const rows = flightFormsContainer.querySelectorAll('.flight-row');
+        rows.forEach((row, index) => {
+            const title = row.querySelector('.flight-title');
+            title.textContent = `${index + 1}`;
+            row.dataset.index = index;
+            const inputs = row.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                const name = input.name.replace(/flight\[\d+\]/, `flight[${index}]`);
+                input.name = name;
             });
-            flightIndex = rows.length;
+        });
+        flightIndex = rows.length;
+    }
+
+    // Event listener for input changes to auto-add rows
+    flightFormsContainer.addEventListener('input', (e) => {
+        const row = e.target.closest('.flight-row');
+        if (!row) return;
+
+        const rows = flightFormsContainer.querySelectorAll('.flight-row');
+        const lastRow = rows[rows.length - 1];
+
+        if (row === lastRow && isRowFilled(lastRow)) {
+            addFlightRow();
         }
-
-        // Event listener for input changes to auto-add rows
-        flightFormsContainer.addEventListener('input', (e) => {
-            const row = e.target.closest('.flight-row');
-            if (!row) return;
-
-            const rows = flightFormsContainer.querySelectorAll('.flight-row');
-            const lastRow = rows[rows.length - 1];
-
-            if (row === lastRow && isRowFilled(lastRow)) {
-                addFlightRow();
-            }
-        });
-
-        // Delete flight row
-        flightFormsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.delete-flight-btn')) {
-                const row = e.target.closest('.flight-row');
-                if (flightFormsContainer.children.length > 1) {
-                    row.remove();
-                    updateFlightTitles();
-                }
-            }
-        });
     });
 
+    // Delete flight row
+    flightFormsContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-flight-btn')) {
+            const row = e.target.closest('.flight-row');
+            if (flightFormsContainer.children.length > 1) {
+                row.remove();
+                updateFlightTitles();
+            }
+        }
+    });
+});
 
-    /**************************** ************** Start Train*********************** */
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('train-booking-button').addEventListener('click',addTrainRow)
+/**************************** ************** Start Train*********************** */
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('train-booking-button').addEventListener('click', addTrainRow)
     const trainFormsContainer = document.getElementById('trainForms');
     let trainIndex = document.querySelectorAll('.train-row').length ?? 0;
 
@@ -414,7 +414,11 @@ function attach24HourTimeListener(input) {
             <td><input type="date" class="form-control" style="width: 105px;" name="train[${trainIndex}][departure_date]"></td>
             <td><input type="text" class="form-control" style="width: 108px;" name="train[${trainIndex}][train_number]" placeholder="Train No"></td>
             <td><input type="text" class="form-control" style="width: 7.5rem;" name="train[${trainIndex}][cabin]" placeholder="Cabin"></td>
-            <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][departure_station]" placeholder="Departure Station"></td>
+            <td>
+                <input type="text" class="form-control train_departure_station" style="width: 9rem;" name="train[${trainIndex}][departure_station]" placeholder="Departure Station">
+                <div class="train-suggestions-box" style="position:absolute;width:100%; background:#fff; z-index: 19999; border:1px solid #ccc; display:none;">
+                </div>
+            </td>
             <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][departure_hours]" placeholder="Hrs" min="0" max="23"></td>
             <td><input type="text" class="form-control" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station"></td>
             <td><input type="text" class="form-control time_24_hrs" style="width: 80px;" name="train[${trainIndex}][arrival_hours]" placeholder="Hrs" min="0" max="23"></td>
@@ -485,12 +489,12 @@ function attach24HourTimeListener(input) {
     });
 });
 
-    /**************************** ************** End Train*********************** */
+/**************************** ************** End Train*********************** */
 
 
 
 
-    // Passenger Section
+// Passenger Section
 document.addEventListener('DOMContentLoaded', () => {
     const passengerFormsContainer = document.getElementById('passengerForms');
     let passengerIndex = passengerFormsContainer.querySelectorAll('.passenger-form').length || 0;
@@ -506,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedOption) {
             dataType = selectedOption.getAttribute('data-id');
         }
-        const allowedDataIds = ['13', '14','18','19','32','33','39','41','43','44', '50', '51'];
+        const allowedDataIds = ['13', '14', '18', '19', '32', '33', '39', '41', '43', '44', '50', '51'];
 
         // Get all 10th column elements (th and td)
         const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(9)');
@@ -687,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Billing Section
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('billing-booking-button').addEventListener('click',addBillingRow);
+    document.getElementById('billing-booking-button').addEventListener('click', addBillingRow);
     const billingFormsContainer = document.getElementById('billingForms');
     let billingIndex = billingFormsContainer.querySelectorAll('.billing-card').length || 0;
     let cntrystr2 = '';
@@ -847,13 +851,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>
                     <select class="form-control" name="billing[${billingIndex}][exp_month]">
                         <option value="">MM</option>
-                        ${Array.from({ length: 12 }, (_, i) => `<option value="${String(i+1).padStart(2, '0')}">${String(i+1).padStart(2, '0')}</option>`).join('')}
+                        ${Array.from({ length: 12 }, (_, i) => `<option value="${String(i + 1).padStart(2, '0')}">${String(i + 1).padStart(2, '0')}</option>`).join('')}
                     </select>
                 </td>
                 <td>
                     <select class="form-control" name="billing[${billingIndex}][exp_year]">
                         <option value="">YYYY</option>
-                        ${Array.from({ length: 11 }, (_, i) => `<option value="${2024+i}">${2024+i}</option>`).join('')}
+                        ${Array.from({ length: 11 }, (_, i) => `<option value="${2024 + i}">${2024 + i}</option>`).join('')}
                     </select>
                 </td>
                 <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]"></td>
@@ -898,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputs = row.querySelectorAll('input:not([type="radio"])');
         const selects = row.querySelectorAll('select');
         return Array.from(inputs).every(input => input.value.trim() !== '') &&
-               Array.from(selects).every(select => select.value.trim() !== '');
+            Array.from(selects).every(select => select.value.trim() !== '');
     }
 
     // Update billing titles and indices after deletion
@@ -987,14 +991,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    /************************Pricing********************* */
+/************************Pricing********************* */
 
 
 
 
 ///////////////////////////Show And Hode Tabs////////////////////
 
- document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const toggleSections = {
         "Flight": "#flight-inputs",
         "Hotel": "#hotel-inputs",
@@ -1070,9 +1074,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 $.ajax({
-    url:'/countrylist',
-    method:'GET',
-    success:function (res){
+    url: '/countrylist',
+    method: 'GET',
+    success: function (res) {
         let cntrylst = res.data;
         var _cntrystr = '<option value="">Select Country</option>';
         $.each(cntrylst, function () {
@@ -1083,12 +1087,12 @@ $.ajax({
             $(this).html(_cntrystr);
         });
     },
-    error:function (res){
+    error: function (res) {
         // console.log(res)
     }
 });
 /////////////////////////////////////////////////////////////////////////////////////////
-  // Generate country options
+// Generate country options
 
 
 // Handle country change event
@@ -1111,7 +1115,7 @@ function setState(stateID, countryName) {
 
 /////////////////////// Initialization script (cleaned) //////////////////////////////////
 
-          // Register plugins
+// Register plugins
 // FilePond.registerPlugin(
 //   FilePondPluginFileValidateType,
 //   FilePondPluginImagePreview,
