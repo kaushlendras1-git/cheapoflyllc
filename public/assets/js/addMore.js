@@ -556,6 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to add a new passenger row
     function addPassengerRow() {
         const newRow = document.createElement('tr');
+        const isCruise = document.querySelector('.cruiseType').checked;
         newRow.className = 'passenger-form';
         newRow.dataset.index = passengerIndex;
         newRow.innerHTML = `
@@ -594,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
             <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
             <td><input type="text" class="form-control w-100" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket"></td>
-            <td><input type="text" class="form-control w-100" name="passenger[${passengerIndex}][room_category]" placeholder="Room Category"></td>
+            <td style="${!isCruise ? 'display:none' : ''}"><input type="text" class="form-control w-100 room_category" name="passenger[${passengerIndex}][room_category]" placeholder="Room Category"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                     <i class="icon-base ri ri-delete-bin-2-line"></i>

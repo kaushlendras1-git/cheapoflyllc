@@ -1119,8 +1119,6 @@ document.addEventListener("DOMContentLoaded", () => {
         initAutocomplete(input, 'arrival');
     });
 
-
-    // When adding a new row dynamically, reinitialize for new inputs
     const flightFormsContainer = document.getElementById('flightForms');
     const observer = new MutationObserver(() => {
         document.querySelectorAll(".departure-airport").forEach(input => {
@@ -1183,7 +1181,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     params: { keyword, searchAt }
                 });
                 const data = Array.isArray(resp.data) ? resp.data : (resp.data?.data || []);
-                // ignore stale responses
                 if (seq !== inflight) return;
                 render(data);
             } catch (err) {
@@ -1243,4 +1240,45 @@ document.addEventListener("DOMContentLoaded", () => {
         observer.observe(trainFormsContainer, { childList: true, subtree: true });
     }
 });
+
+Array.from(document.querySelectorAll('.cruiseType')).forEach(item => {
+    item.addEventListener('click', function () {
+        if (item.checked) {
+            Array.from(document.querySelectorAll('.room_category')).forEach(ele => {
+                ele.closest('td').style.display = 'block';
+                const td = ele.closest('td');
+                td.style.setProperty('border-bottom', '1px solid black', 'important');
+            });
+            const roomCategoryColumn = document.getElementById('room-category-column');
+            roomCategoryColumn.style.display = 'block';
+            roomCategoryColumn.style.setProperty('border', 'none', 'important');
+            roomCategoryColumn.style.setProperty('border-bottom', '1px solid black', 'important');
+        }
+        else {
+            Array.from(document.querySelectorAll('.room_category')).forEach(ele => {
+                ele.closest('td').style.display = 'none';
+            });
+            document.getElementById('room-category-column').style.display = 'none';
+        }
+    });
+});
+
+Array.from(document.querySelectorAll('.toggle-tab')).forEach(item => {
+    item.addEventListener('click', function () {
+        Array.from(document.querySelectorAll('.toggle-tab')).forEach(toggler => {
+            const type = toggler.value;
+            const isChecked = toggler.checked;
+            const rowId = type.toLowerCase() + "-deposit-billing";
+            const row = document.getElementById(rowId);
+            if (row) {
+                if (isChecked) {
+                    row.classList.remove('d-none');
+                } else {
+                    row.classList.add('d-none');
+                }
+            }
+        });
+    });
+});
+
 

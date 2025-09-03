@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Exports\BookingsExport;
+use App\Models\BillingDeposit;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\Rule;
 use App\Models\CallType;
@@ -329,7 +330,6 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
-
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -1377,7 +1377,21 @@ class BookingFormController extends Controller
                 //dd($request->payment_status_id);
             }
 
-
+            
+            if(!empty($request->deposit_type)){
+                BillingDeposit::where('booking_id',$booking->id)->delete();
+                foreach($request->deposit_type as $key=>$deposits){
+                    BillingDeposit::create([
+                        'booking_id'=>$booking->id,
+                        'deposit_type'=>$deposits,
+                        'total_amount'=>$request->total_amount[$key],
+                        'deposit_amount'=>$request->deposit_amount[$key],
+                        'pending_amount'=>$request->pending_amount[$key],
+                        'due_date'=>$request->due_date[$key],
+                    ]);
+                }
+            }
+            
            # DB::commit();
             return response()->json([
                 'status' => 'success',
@@ -1444,8 +1458,9 @@ class BookingFormController extends Controller
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
         $campaigns = Campaign::all();
+        $billingDeposits = BillingDeposit::where('booking_id',$booking->id)->get();
       #  $call_types = CallType::all();
-        return view('web.booking.show', compact('travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
     }
 
     public function add(){
