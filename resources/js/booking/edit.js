@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     editors.forEach(textarea => {
         ClassicEditor.create(textarea, {
-            toolbar: [],
+            toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
         })
        
         .catch(error => {
@@ -1226,6 +1226,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /***************Train Search***************** */
 
 document.addEventListener("DOMContentLoaded", () => {
+
   function initTrainAutocomplete(input, searchAt) {
     const td = input.closest('td') || input.parentElement;
     const suggestionsBox = td.querySelector('.train-suggestions-box');
@@ -1304,6 +1305,7 @@ document.addEventListener("DOMContentLoaded", () => {
       input.dataset.autocompleteTrain = '1';
     }
   });
+
   document.querySelectorAll(".train_arrival_station").forEach(input => {
     if (!input.dataset.autocompleteTrain) {
       initTrainAutocomplete(input, 'arrival');
