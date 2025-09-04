@@ -63,7 +63,7 @@
                                 <th>Total</th>
                                 <th>Agent MCO</th>
                                 <th>Name</th>
-                                <th>Email</th>
+                                <!-- <th>Email</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -142,7 +142,7 @@
                                 <td>{{ $booking->gross_value }}</td>
                                 <td>{{ $booking->net_value }}</td>
                                 <td>{{ $booking->name }}</td>
-                                <td>{{ $booking->email }}</td>
+                                <!-- <td>{{ $booking->email }}</td> -->
                             </tr>
                             @endforeach
 

@@ -50,6 +50,7 @@ use App\Models\BillingDeposit;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\Rule;
 use App\Models\CallType;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 
 class BookingFormController extends Controller
@@ -185,7 +186,11 @@ class BookingFormController extends Controller
             });
         }
 
-        $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
+        $bookings = $query->where('user_id', $userId)
+                  ->orderBy('created_at', 'desc')
+                  ->paginate(10);
+
+
         $bookings->appends($request->only('search'));
 
         $flight_booking = TravelBooking::where('user_id', $userId)->where('airlinepnr','!=', NULL)->count();
@@ -197,9 +202,12 @@ class BookingFormController extends Controller
         return view('web.booking.index', compact('bookings', 'flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
     }
 
+
     public function search(Request $request)
     {
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
+
+        $hasFilter = false;
 
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;
@@ -208,34 +216,59 @@ class BookingFormController extends Controller
                 ->orWhere('name', 'like', "%{$keyword}%")
                 ->orWhere('email', 'like', "%{$keyword}%");
             });
-            $bookings = TravelBooking::paginate(10);
-            return view('web.booking.index', compact('bookings'));
+            $hasFilter = true;
         }
-
 
         if ($request->filled('start_date')) {
             $query->whereDate('created_at', '>=', $request->start_date);
+            $hasFilter = true;
         }
 
         if ($request->filled('end_date')) {
             $query->whereDate('created_at', '<=', $request->end_date);
+            $hasFilter = true;
         }
 
         if ($request->filled('booking_status')) {
             $query->where('booking_status_id', $request->booking_status);
+            $hasFilter = true;
         }
 
         if ($request->filled('payment_status')) {
             $query->where('payment_status_id', $request->payment_status);
+            $hasFilter = true;
         }
 
-        $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
-        $bookings->appends($request->all());
+        if ($hasFilter) {
+            $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
+            $bookings->appends($request->all());
+        } else {
+            // return empty result when no search/filter applied
+            $bookings = collect(); 
+        }
+
+
+        if ($hasFilter) {
+            $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
+            $bookings->appends($request->all());
+        } else {
+            // Return empty paginator so ->links() works
+            $bookings = new LengthAwarePaginator(
+                [], // empty data
+                0,  // total records
+                10, // per page
+                $request->input('page', 1), // current page
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
+        }
+
+
         $booking_status = BookingStatus::all();
         $payment_status = PaymentStatus::all();
 
         return view('web.booking.search', compact('bookings', 'booking_status', 'payment_status'));
     }
+
 
 
    public function updateRemark(Request $request, $id)

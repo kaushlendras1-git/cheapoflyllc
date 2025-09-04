@@ -35,7 +35,7 @@
             </div>
             @endif
 
-            <form class="edit-user pt-0" action="{{ route('members.update', $hashid) }}" method="post"
+            <form class="edit-user pt-0" action="{{ route('members.update', encode($member->id)) }}" method="post"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')

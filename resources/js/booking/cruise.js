@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         container.insertAdjacentHTML('beforeend', newRow);
         const textarea = document.querySelector(`textarea[name="cruiseaddon[${index}][service_name]"]`);
         ClassicEditor.create(textarea, {
-            toolbar: [],
+            toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
         })
             .catch(error => {
                 console.error(error);

@@ -81,7 +81,7 @@
                 </form>
                 <!-- Table -->
                 <div class="booking-table-wrapper py-2 crm-table">
-                    @if($bookings)
+                 
                     <table class="table table-hover table-sm booking-table w-100 mb-0">
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
@@ -98,7 +98,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Example Row -->
+                           @if($bookings->isEmpty())
+                            <tr>
+                                <td colspan="10" class="text-center">No results found. Please apply a search/filter.</td>
+                            </tr>
+                        @else
                             @foreach ($bookings as $booking)
                             <tr>
                                 <td>
@@ -138,15 +142,16 @@
                                 <td>{{ $booking->email }}</td>
                             </tr>
                             @endforeach
-
+                        @endif
 
                             <!-- Add more rows as needed -->
                             <!-- Render pagination links -->
                         </tbody>
                     </table>
 
-                    {{ $bookings->links('vendor.pagination.bootstrap-5') }}
-                    @endif
+                     {{ $bookings->links('vendor.pagination.bootstrap-5') }}
+
+                 
 
                 </div>
             </div>

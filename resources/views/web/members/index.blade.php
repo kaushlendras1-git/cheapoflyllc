@@ -53,7 +53,7 @@
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Name</span><span
                                             class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Username</span>
+                                    <th><span class="dt-column-title" role="button">Email</span>
                                         <spanclass="dt-column-order"></span>
                                     </th>
                                     <th><span class="dt-column-title" role="button">Deartments</span>
@@ -77,38 +77,33 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($members as $member)
-                                @php
-                                $name = $member->name ? $member->name : '';
-                                $initials = collect(explode(' ', $name))->map(fn($word) => strtoupper(substr($word, 0,
-                                2)))->join('');
-                                @endphp
-
+                                @foreach($members as $key => $member)
+                               
                                 <tr>
                                     <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
                                     <td class="dt-select">
-                                        {{ $member->id }}
+                                        {{ $key+1 }}
                                     </td>
-                                    <td class="sorting_1">
-                                        <div class="d-flex justify-content-start align-items-center user-name">
-                                            <div class="avatar-wrapper">
-                                                <div class="avatar avatar-sm me-4">
-                                                    <div class="rounded-circle   @if($member->role == 'admin') bg-danger  @else bg-primary @endif text-white d-flex justify-content-center align-items-center"
-                                                        style="width: 30px; height: 30px;">
-                                                        <span
-                                                            style="font-size: 14px; font-weight: bold;">{{ $initials }}</span>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-column">
-                                                <span class="fw-medium">{{ $member->name }}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><span>{{ $member->departments }}</span></td>
-                                    <td><span>{{ $member->email }}</span></td>
-                                    <td><span>{{ $member->pseudo }}</span></td>
+                                    
+                                 <td class="sorting_1">{{ $member->name }}</td>
+                                 <td class="sorting_1">{{ $member->email }}</td>
+                                  <td>
+                                    @foreach(explode(',', $member->departments) as $department)
+                                        @php
+                                            $dept = trim($department);
+                                            $badgeColors = [
+                                                'Quality' => 'bg-success',   // green
+                                                'Billing' => 'bg-primary',   // blue
+                                                'Sales'   => 'bg-warning text-dark', // yellow with dark text
+                                                'CCV'     => 'bg-info text-dark',    // light blue
+                                                'Admin'   => 'bg-danger',    // red
+                                            ];
+                                            $color = $badgeColors[$dept] ?? 'bg-secondary'; // default gray
+                                        @endphp
+                                        <span class="badge {{ $color }} me-1">{{ $dept }}</span>
+                                    @endforeach
+                                </td>
+                                    <td>{{ $member->pseudo }}</td>
                                     <td> {{$member->role }}</td>
                                     <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                                     <td>{{ $member->currentTeam?->team->name ?? 'No Team Assigned' }}</td>
@@ -129,7 +124,7 @@
                                                         src="{{asset('assets/img/icons/img-icons/shift.png')}}"
                                                         alt="shift-change">
                                                 </a>
-                                                <a href="{{ route('members.edit', $member->hashid) }}" class="me-2">
+                                                <a href="{{ route('members.edit', encode($member->id)) }}" class="me-2">
                                                     <img width="20"
                                                         src="{{asset('assets/img/icons/img-icons/edit.png')}}"
                                                         alt="edit-change">

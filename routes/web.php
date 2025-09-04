@@ -17,6 +17,7 @@ use App\Http\Controllers\TrainSearchListController;
 use App\Http\Controllers\PostController;
 
 
+
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 

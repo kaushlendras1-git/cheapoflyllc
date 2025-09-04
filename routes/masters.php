@@ -10,6 +10,7 @@ use App\Http\Controllers\Masters\QueryTypeController;
 use App\Http\Controllers\Masters\BookingStatusController;
 use App\Http\Controllers\Masters\PaymentStatusController;
 use App\Http\Controllers\Masters\CompaniesController;
+use App\Http\Controllers\MemberController;
 
 Route::middleware('auth')->group(function () {
  Route::prefix('masters')->group(function () {

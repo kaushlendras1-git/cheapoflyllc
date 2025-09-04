@@ -3,26 +3,20 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Hashids\Hashids;
 use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
-    protected $hashids;
+  
 
-    public function __construct()
-    {
-        // Initialize Hashids with salt and length from config
-        $this->hashids = new Hashids(config('hashids.salt'), config('hashids.length', 8));
-    }
 
     public function index()
     {
         // Fetch all users with their current shift and team
-        $members = User::with(['currentShift.shift', 'currentTeam.team'])->get()->map(function ($member) {
-            $member->hashid = $this->hashids->encode($member->id);
-            return $member;
-        });
+        $members = User::with(['currentShift.shift', 'currentTeam.team'])->orderby(
+            'created_at',
+            'desc'
+        )->get();
 
         // Count admins and agents
         $admin_count = User::where('role', 'Admin')->count();
@@ -81,6 +75,7 @@ class MemberController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:25',
+            'pseudo' => 'required|string|max:25|unique:users,pseudo',
             'password' => 'required|string|max:25',
             'role' => 'required|in:Agent,TLeader,Manager,Admin',
             'departments' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
@@ -99,16 +94,14 @@ class MemberController extends Controller
 
     public function edit($hashid)
     {
-        $id = $this->hashids->decode($hashid)[0] ?? abort(404, 'Invalid member ID');
+        $id = decode($hashid) ?? abort(404, 'Invalid member ID');
         $member = User::findOrFail($id);
-        $hashid = $this->hashids->encode($member->id);
-        #DD($member);
-        return view('web.members.edit', compact('member', 'hashid'));
+        return view('web.members.edit', compact('member'));
     }
 
     public function update(Request $request, $hashid)
     {
-        $id = $this->hashids->decode($hashid)[0] ?? abort(404, 'Invalid member ID');
+        $id = decode($hashid) ?? abort(404, 'Invalid member ID');
         $member = User::findOrFail($id);
 
         $validated = $request->validate([
