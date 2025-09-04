@@ -64,3 +64,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cruiseCheckbox = document.querySelector('#booking-cruise');
+    const cruiseRoomCategory = document.querySelectorAll('#cruise_room_category');
+
+    function toggleCruiseField() {
+        cruiseRoomCategory.forEach(el => {
+            el.style.display = cruiseCheckbox.checked ? "" : "none";
+        });
+    }
+
+    // Run on load
+    toggleCruiseField();
+
+    // Run on change
+    cruiseCheckbox.addEventListener('change', toggleCruiseField);
+});

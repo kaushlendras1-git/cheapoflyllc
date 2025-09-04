@@ -369,7 +369,7 @@
                 <div class="col-sm-6 text-white">
                     <div class="card h-100 text-white">
                         <div class="card-header pb-0">
-                            <h4 class="mb-0">$258900/<span class="text-primary mb-0">12</span></h4>
+                            <h4 class="mb-0">{{$charge_back_total}}/<span class="text-primary mb-0">{{$charge_back_count}}</span></h4>
                         </div>
                         <div class="card-body">
                             <div id="totalProfitLineChart" class="mb-3"></div>
@@ -393,7 +393,7 @@
                         <div class="card-body ">
                             <h6 class="mb-1">Total Booking</h6>
                             <div class="d-flex flex-wrap mb-1 align-items-center ">
-                                <h4 class="mb-0 me-2">$25.6k / 1589</h4>
+                                <h4 class="mb-0 me-2">{{$total_booking_total}} / {{$total_booking_count}}</h4>
                             </div>
                             <small>Weekly Project</small>
                         </div>
@@ -414,7 +414,7 @@
                         <div class="card-body">
                             <h6 class="mb-1">Refund</h6>
                             <div class="d-flex flex-wrap mb-1 align-items-center">
-                                <h4 class="mb-0 me-2">$862 / 7</h4>
+                                <h4 class="mb-0 me-2">{{$refund_total}} / {{$refund_count}}</h4>
                             </div>
                             <small>Yearly Project</small>
                         </div>

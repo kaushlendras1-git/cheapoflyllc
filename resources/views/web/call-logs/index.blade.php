@@ -67,17 +67,18 @@
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
                                 <th>ID</th>
+                                <th>Booking Type</th>
                                 <th>PNR</th>
+                                <th>Created On</th>
                                 <th>Pax Name</th>
                                 <th>Contact</th>
-                                <th>Campaign</th>
-                                <!-- <th>Team</th> -->
-                                <th>Type</th>
+                                <th>Campaign</th>                              
                                 <th>Reservation Source</th>                             
                                 <th>Converted</th>
-                                <th>Followup Date</th>
-                                <th>Agent</th>
-                                <th>Created On</th>
+                                <th>Followup Date</th>                          
+                                @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
+                                    <th>Agent</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -88,10 +89,7 @@
                                             {{ $callLogs->firstItem() + $key }}
                                         </a>
                                     </td>
-                                    <td>{{ $log->pnr }}</td>
-                                    <td>{{ $log->name }}</td>
-                                    <td>{{ $log->phone }}</td>
-                                  <td>{{ $log->campaign ? $log->campaign->name : 'No Campaign' }}</td>
+
                                     <td>
                                         <div style="display: flex; justify-content: center; gap: 4px;">
                                             @if($log->chkflight)
@@ -106,8 +104,19 @@
                                             @if($log->chkcar)
                                                 <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
                                             @endif
+                                            @if($log->chktrain)
+                                                <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 18px;"></i>
+                                            @endif
                                         </div>
                                     </td>
+
+
+                                    <td>{{ $log->pnr }}</td>
+                                     <td>{{ $log->created_at }}</td>
+                                    <td>{{ $log->name }}</td>
+                                    <td>{{ $log->phone }}</td>
+                                  <td>{{ $log->campaign ? $log->campaign->name : 'No Campaign' }}</td>
+                                    
                                     <td>{{ $log->reservation_source }}</td>
                                     <td>
                                         @if($log->call_converted)
@@ -117,8 +126,10 @@
                                         @endif
                                     </td>
                                     <td>{{ $log->updated_at }}</td>
-                                    <td>{{ $log->user_name }}</td>
-                                    <td>{{ $log->created_at }}</td>
+                                     @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
+                                        <td>{{ $log->user_name }}</td>
+                                     @endif   
+                                   
                                 </tr>
                             @empty
                                 <tr>

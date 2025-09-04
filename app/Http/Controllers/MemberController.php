@@ -9,14 +9,60 @@ class MemberController extends Controller
 {
   
 
-
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch all users with their current shift and team
-        $members = User::with(['currentShift.shift', 'currentTeam.team'])->orderby(
-            'created_at',
-            'desc'
-        )->get();
+        // Build query with search filters
+        $query = User::with(['currentShift.shift', 'currentTeam.team']);
+
+        // Search by keyword (name, email, pseudo)
+        if ($request->filled('keyword')) {
+            $keyword = $request->keyword;
+            $query->where(function($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%")
+                  ->orWhere('email', 'like', "%{$keyword}%")
+                  ->orWhere('pseudo', 'like', "%{$keyword}%");
+            });
+        }
+
+        // Filter by department
+        if ($request->filled('department')) {
+            $query->where('departments', 'like', "%{$request->department}%");
+        }
+
+        // Filter by role
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        // Filter by LOB
+        if ($request->filled('lob')) {
+            $query->where('lob', $request->lob);
+        }
+
+        // Handle AJAX requests
+        if ($request->ajax || $request->has('ajax')) {
+            $members = $query->orderBy('created_at', 'desc')->get();
+            $data = $members->map(function($member) {
+                return [
+                    'name' => $member->name,
+                    'email' => $member->email,
+                    'departments_badges' => $this->getDepartmentBadges($member->departments),
+                    'pseudo' => $member->pseudo,
+                    'role_badge' => $this->getRoleBadge($member->role),
+                    'shift_name' => $member->currentShift?->shift->name ?? 'No Shift Assigned',
+                    'team_name' => $member->currentTeam?->team->name ?? 'No Team Assigned',
+                    'status_badge' => '<button class="btn btn-sm status-toggle ' . ($member->status == 1 ? 'btn-success' : 'btn-warning') . '" onclick="toggleStatus(' . $member->id . ', \'' . ($member->status == 1 ? 'Deactivate' : 'Activate') . '\')">' . ($member->status == 1 ? 'Active' : 'Inactive') . '</button>',
+                    'actions' => $this->getActionButtons($member),
+                    'profile_picture' => $member->profile_picture ? '<img src="' . asset('storage/' . $member->profile_picture) . '" alt="Profile" class="img-thumbnail" style="width: 30px; height: 30px; object-fit: cover;">' : '<span class="text-muted">-</span>',
+                    'pan_card' => $member->pan_card ? '<a href="' . asset('storage/' . $member->pan_card) . '" target="_blank" class="btn btn-sm btn-outline-success"><i class="ri ri-file-text-line"></i></a>' : '<span class="text-muted">-</span>',
+                    'aadhar_card' => $member->aadhar_card ? '<a href="' . asset('storage/' . $member->aadhar_card) . '" target="_blank" class="btn btn-sm btn-outline-info"><i class="ri ri-file-text-line"></i></a>' : '<span class="text-muted">-</span>'
+                ];
+            });
+            return response()->json(['data' => $data]);
+        }
+
+        // Fetch all users for regular page load
+        $members = $query->orderBy('created_at', 'desc')->get();
 
         // Count admins and agents
         $admin_count = User::where('role', 'Admin')->count();
@@ -56,6 +102,9 @@ class MemberController extends Controller
         // Total users with a team or shift
         $total_team_users = $team_counts->sum('total');
         $total_shift_users = $shift_counts->sum('total');
+
+        
+        
 
         return view('web.members.index', compact(
             'members',
@@ -110,6 +159,7 @@ class MemberController extends Controller
             'phone' => 'required|string|max:20',
             'address' => 'required|string',
             'pseudo' => 'required|string',
+            'status' => 'required|string',
             'password' => 'nullable|string|min:8',
             'departments' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
             'role' => 'required|in:Agent,TLeader,Manager,Admin',
@@ -166,12 +216,47 @@ class MemberController extends Controller
         return redirect()->route('members.index')->with('success', 'Member deleted successfully.');
     }
 
-    public function updateStatus(User $member)
+    public function updateStatus($id)
     {
-        \Log::info('Member Status Update:', ['id' => $member->id, 'status' => $member->status]);
+        $member = User::findOrFail($id);
         $member->status = $member->status === '1' ? '0' : '1';
         $member->save();
 
-        return redirect()->route('members.index')->with('success', 'Member status updated successfully!');
+        return response()->json(['success' => true, 'status' => $member->status]);
+    }
+
+    private function getDepartmentBadges($departments)
+    {
+        $badges = '';
+        foreach(explode(',', $departments) as $department) {
+            $dept = trim($department);
+            $badgeColors = [
+                'Quality' => 'bg-success',
+                'Billing' => 'bg-primary', 
+                'Sales' => 'bg-warning text-dark',
+                'CCV' => 'bg-info text-dark',
+                'Admin' => 'bg-danger',
+            ];
+            $color = $badgeColors[$dept] ?? 'bg-secondary';
+            $badges .= '<span class="badge ' . $color . ' me-1">' . $dept . '</span>';
+        }
+        return $badges;
+    }
+
+    private function getRoleBadge($role)
+    {
+        $roleColors = [
+            'Admin' => 'bg-danger',
+            'Manager' => 'bg-primary',
+            'TLeader' => 'bg-success', 
+            'User' => 'bg-secondary',
+        ];
+        $color = $roleColors[trim($role)] ?? 'bg-dark';
+        return '<span class="badge ' . $color . '">' . $role . '</span>';
+    }
+
+    private function getActionButtons($member)
+    {
+        return '<div class="d-flex align-items-center"><div class="action-icons d-flex align-items-center"><a href="javascript:void(0)" data-bs-toggle="modal" class="me-2" data-bs-target="#assignShiftTeamModal" data-url="' . route('users.assignments', $member->id) . '"><img width="30" src="' . asset('assets/img/icons/img-icons/shift.png') . '" alt="shift-change"></a><a href="' . route('members.edit', encode($member->id)) . '" class="me-2"><img width="20" src="' . asset('assets/img/icons/img-icons/edit.png') . '" alt="edit-change"></a><form action="' . route('members.destroy', $member) . '" method="POST" style="display:inline;">' . csrf_field() . method_field('DELETE') . '<button type="submit" class="no-btn p-0" onclick="return confirm(\'Are you sure you want to delete this user?\');"><img width="25" src="' . asset('assets/img/icons/img-icons/delete.png') . '" alt="delete"></button></form></div></div>';
     }
 }

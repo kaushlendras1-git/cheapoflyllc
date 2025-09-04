@@ -63,6 +63,7 @@
             <h2 class="mb-0">Edit Booking</h2>
             <div class="breadcrumb">
                 <a href="{{ route('user.dashboard') }}" class="active">Dashboard</a>
+                <a href="{{ route('booking.index') }}" class="active">Booking</a>
                 <a href="javascript:void(0);">Edit Booking</a>
             </div>
         </div>
@@ -76,18 +77,18 @@
                             class="book-bottom-tags">{{ $booking->user?->name ?? 'N/A' }} -
                             {{ auth()->user()->departments }}</span>
 
-                        <strong class="book-upper-tags">Issued On:</strong><span
-                            class="book-bottom-tags">{{ $booking->created_at }}</span>
-
+                        <!-- <strong class="book-upper-tags">Issued On:</strong><span class="book-bottom-tags">{{ $booking->created_at }}</span>
                         <strong class="book-upper-tags">Changes:</strong><span class="book-bottom-tags">Zee</span>
                         <strong class="book-upper-tags">Billing:</strong><span class="book-bottom-tags">Mark</span>
                         <strong class="book-upper-tags">Quality:</strong><span class="book-bottom-tags">Smith</span>
-
                         <strong class="book-upper-tags">Shared :</strong><span class="book-bottom-tags">Agent</span>
-
                         <strong class="book-upper-tags">Qc Score :</strong><span class="book-bottom-tags">78%</span>
-                        <strong class="book-upper-tags">Qc Status :</strong><span style="color: #055bdb;">Approved</span>
+                        <strong class="book-upper-tags">Qc Status :</strong><span style="color: #055bdb;">Approved</span> -->
+
                     </div>
+                    
+
+                 @if($booking->pricingDetails && count($booking->pricingDetails) > 0)
                     <div class="d-flex gap-2">
                         @include('web.booking.partials.authModel')
 
@@ -96,6 +97,8 @@
                             Mail History
                         </a>
                     </div>
+                @endif
+
                 </div>
 
                 <form id="bookingForm" action="{{ route('booking.update', $booking->id) }}" method="POST"

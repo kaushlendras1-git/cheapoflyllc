@@ -29,24 +29,59 @@
 
 
 
-
-
     <div class="card">
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
-                <div class="d-flex align-items-center justify-content-between booking-form gen_form mb-2">
-                    
-                    <div class="add-user-btn text-end">
-                        <button class="btn add-new btn-primary button-style" style="font-size: 12px;" tabindex="0"
-                            aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasAddUser"><span>
-                                <i class="icon-base ri ri-add-line icon-sm me-0 me-sm-2 d-sm-none d-inline-block"></i>
-                                <span class="d-none d-sm-inline-block">Add User</span></span></button>
+                <div class="row align-items-end w-100 booking-form gen_form mb-4">
+                    <div class="col-md-3">
+                        <input type="text" id="searchKeyword" class="form-control input-style" placeholder="Search Name / Email / Pseudo">
+                    </div>
+                    <div class="col-md-2">
+                        <select id="searchDepartment" class="form-control input-style">
+                            <option value="">All Departments</option>
+                            <option value="Quality">Quality</option>
+                            <option value="Billing">Billing</option>
+                            <option value="Sales">Sales</option>
+                            <option value="CCV">CCV</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="searchRole" class="form-control input-style">
+                            <option value="">All Roles</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="TLeader">Team Leader</option>
+                            <option value="User">User</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="searchLob" class="form-control input-style">
+                            <option value="">All LOB</option>
+                            <option value="1">Jacob Bethell</option>
+                            <option value="2">Joe Root</option>
+                            <option value="3">Ollie Pope</option>
+                            <option value="4">Ben Duckett</option>
+                            <option value="5">Zak Crawley</option>
+                            <option value="6">Harry Brook</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end gap-2">
+                        <a href="{{ route('attendance.index') }}" class="btn btn-success button-style">
+                            <i class="ri ri-calendar-check-line me-1"></i>
+                            <span class="d-none d-sm-inline-block">Attendance</span>
+                        </a>
+                        <button class="btn btn-primary button-style float-right" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
+                            <i class="ri ri-add-line me-1"></i>
+                            <span class="d-none d-sm-inline-block">Add User</span>
+                        </button>
                     </div>
                 </div>
+
+
                 <div class="justify-content-between dt-layout-table">
-                    <div class="d-md-flex justify-content-between align-items-center dt-layout-full crm-table">
-                        <table class=" table dataTable dtr-column table-responsive">
+                    <div class="justify-content-between align-items-center dt-layout-full crm-table">
+                        <table id="membersTable" class="table dataTable dtr-column table-responsive">
                             <thead>
                                 <tr>
                                     <th><span class="dt-column-title" role="button">S.No.</span><span
@@ -68,19 +103,22 @@
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Team</span><span
                                             class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">Profile</span><span
+                                            class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">PAN Card</span><span
+                                            class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">Aadhar Card</span><span
+                                            class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Status</span><span
                                             class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title">Actions</span><span
                                             class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title">Documents</span><span
-                                            class="dt-column-order"></span></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="membersTableBody">
                                 @foreach($members as $key => $member)
                                
                                 <tr>
-                                    <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
                                     <td class="dt-select">
                                         {{ $key+1 }}
                                     </td>
@@ -120,11 +158,36 @@
                                     <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                                     <td>{{ $member->currentTeam?->team->name ?? 'No Team Assigned' }}</td>
                                     <td>
-                                        @if($member->status == 1)
-                                        <span class="badge bg-label-success">Active</span>
+                                        @if($member->profile_picture)
+                                        <img src="{{ asset('storage/' . $member->profile_picture) }}" alt="Profile" class="img-thumbnail" style="width: 30px; height: 30px; object-fit: cover;">
                                         @else
-                                        <span class="badge bg-label-warning">Inactive</span>
+                                        <span class="text-muted">-</span>
                                         @endif
+                                    </td>
+                                    <td>
+                                        @if($member->pan_card)
+                                        <a href="{{ asset('storage/' . $member->pan_card) }}" target="_blank" class="btn btn-sm btn-outline-success">
+                                            <i class="ri ri-file-text-line"></i>
+                                        </a>
+                                        @else
+                                        <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($member->aadhar_card)
+                                        <a href="{{ asset('storage/' . $member->aadhar_card) }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                            <i class="ri ri-file-text-line"></i>
+                                        </a>
+                                        @else
+                                        <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <td> 
+                                        <span class="status-toggle" 
+                                              onclick="toggleStatus({{ $member->id }}, '{{ $member->status == 1 ? 'Deactivate' : 'Activate' }}')" 
+                                              style="cursor: pointer; font-size: 18px;">
+                                            {{ $member->status == 1 ? '✅' : '❌' }}
+                                        </span>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -146,10 +209,10 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="no-btn p-0"
-                                                        onclick="return confirm('Are you sure you want to delete this call type?')">
+                                                        onclick="return confirm('Are you sure you want to delete this user?')">
                                                         <img width="25"
                                                             src="{{asset('assets/img/icons/img-icons/delete.png')}}"
-                                                            alt="shift-change">
+                                                            alt="delete">
                                                     </button>
                                                 </form>
                                             </div>
@@ -161,11 +224,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="row mx-3 justify-content-between">
-                    <div
-                        class="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-md-0 mt-5">
-                    </div>
-                </div>
+
             </div>
 
 
@@ -369,6 +428,111 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize DataTable with AJAX
+    let table = $('#membersTable').DataTable({
+        "pageLength": 10,
+        "searching": false,
+        "paging": true,
+        "info": true,
+        "lengthChange": false,
+        "order": [[ 0, "asc" ]],
+        "columnDefs": [
+            { "orderable": false, "targets": [9, 10, 11, 12, 13] }
+        ]
+    });
+
+    // AJAX search functionality
+    function performSearch() {
+        let keyword = $('#searchKeyword').val();
+        let department = $('#searchDepartment').val();
+        let role = $('#searchRole').val();
+        let lob = $('#searchLob').val();
+
+        $.ajax({
+            url: '{{ route("members.index") }}',
+            type: 'GET',
+            data: {
+                keyword: keyword,
+                department: department,
+                role: role,
+                lob: lob,
+                ajax: 1
+            },
+            success: function(response) {
+                table.clear();
+                if(response.data && response.data.length > 0) {
+                    response.data.forEach(function(member, index) {
+                        table.row.add([
+                            index + 1,
+                            member.name,
+                            member.email,
+                            member.departments_badges,
+                            member.pseudo,
+                            member.role_badge,
+                            member.shift_name,
+                            member.team_name,
+                            member.profile_picture,
+                            member.pan_card,
+                            member.aadhar_card,
+                            member.status_badge,
+                            member.actions
+                        ]);
+                    });
+                }
+                table.draw();
+            }
+        });
+    }
+
+    // Bind search events
+    $('#searchKeyword').on('keyup', function() {
+        clearTimeout(window.searchTimeout);
+        window.searchTimeout = setTimeout(performSearch, 300);
+    });
+
+    $('#searchDepartment, #searchRole, #searchLob').on('change', performSearch);
+    
+    // Initialize search on page load
+    performSearch();
+});
+
+// Status toggle function
+function toggleStatus(userId, action) {
+    if (confirm(`Are you sure you want to ${action.toLowerCase()} this user?`)) {
+        fetch(`/members/${userId}/status`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show toast notification
+                showToast(`User status ${action.toLowerCase()}d successfully!`, 'success');
+                // Reload the page or update the table
+                location.reload();
+            } else {
+                showToast('Failed to update user status', 'error');
+            }
+        })
+        .catch(error => {
+            showToast('An error occurred', 'error');
+        });
+    }
+}
+
+// Toast notification function
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `${message} <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
     const modal = document.getElementById('assignShiftTeamModal');
 
     modal.addEventListener('show.bs.modal', function(event) {
@@ -376,7 +540,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const url = button.getAttribute('data-url');
         const modalBody = modal.querySelector('#assignModalBody');
 
-        // Load the content via AJAX
         fetch(url)
             .then(response => response.text())
             .then(html => {

@@ -4,9 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CallLogController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailTemplateController;
-
 use App\Http\Controllers\CountryStateController;
-#use App\Http\Controllers\CallBackController;
 use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AuthHistoryController;
@@ -16,24 +14,6 @@ use App\Http\Controllers\FlightSearchListController;
 use App\Http\Controllers\TrainSearchListController;
 use App\Http\Controllers\PostController;
 
-
-
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-
-
-// use App\Http\Controllers\Travel\TravelBookingController;
-// use App\Http\Controllers\Travel\TravelBookingTypeController;
-// use App\Http\Controllers\Travel\TravelSectorDetailController;
-// use App\Http\Controllers\Travel\TravelPassengerController;
-// use App\Http\Controllers\Travel\TravelBillingDetailController;
-// use App\Http\Controllers\Travel\TravelPricingDetailController;
-// use App\Http\Controllers\Travel\TravelBookingRemarkController;
-// use App\Http\Controllers\Travel\TravelQualityFeedbackController;
-// use App\Http\Controllers\Travel\TravelScreenshotController;
-
-
-use App\Http\Controllers\Auth\AuthEmailController;
 use App\Http\Controllers\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
@@ -41,6 +21,14 @@ use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\FcmController;
+use App\Http\Controllers\SettingsController;
+
+
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('statelist');
@@ -50,7 +38,7 @@ Route::get('/countrylist',[CountryStateController::class,'country'])->name('coun
 Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
-Route::post('/mail-sent',[AuthEmailController::class,'index'])->name('mail-sent');
+Route::post('/mail-sent',[\App\Http\Controllers\Auth\AuthEmailController::class,'index'])->name('mail-sent');
 Route::get('/terms-and-conditions', function () {return view('web.terms-and-conditions');})->name('terms-and-conditions');
 
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
@@ -72,13 +60,15 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Settings route
+Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings');
 
 Route::middleware('auth')->group(function () {
 
 
     Route::prefix('booking')->name('booking.')->group(function () {
         Route::prefix('auth-email')->name('auth-email.')->group(function () {
-            Route::post('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail'); // this is correct
+            Route::post('index/{id}', [\App\Http\Controllers\Auth\AuthEmailController::class, 'index'])->name('sendmail'); // this is correct
         });
         Route::prefix('mail')->name('mail.')->group(function () {
             Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
@@ -100,7 +90,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('call-types', CallTypeController::class);
         Route::resource('campaign', CampaignController::class);
         Route::resource('quality-feedback', QualityFeedbackController::class);
-        Route::resource('lobs', LOBController::class);
+        Route::resource('lobs', \App\Http\Controllers\LOBController::class);
         Route::resource('teams', TeamController::class);
         Route::resource('status', StatusController::class);
         Route::resource('supplier', SupplierController::class);
@@ -131,6 +121,20 @@ Route::middleware('auth')->group(function () {
         Route::post('/sms/{id}', [AuthHistoryController::class, 'sendSms'])->name('sms');
         Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
         Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
+        
+        // Settings routes (moved outside)
+        Route::put('/settings/profile', [\App\Http\Controllers\SettingsController::class, 'updateProfile'])->name('settings.profile.update');
+        Route::put('/settings/password', [\App\Http\Controllers\SettingsController::class, 'updatePassword'])->name('settings.password.update');
+        Route::put('/settings/documents', [\App\Http\Controllers\SettingsController::class, 'updateDocuments'])->name('settings.documents.update');
+        
+        // Profile route
+        Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+        
+        // Attendance routes
+        Route::get('/attendance', [\App\Http\Controllers\AttendanceController::class, 'index'])->name('attendance.index');
+        Route::post('/attendance', [\App\Http\Controllers\AttendanceController::class, 'store'])->name('attendance.store');
+        Route::put('/attendance/{id}', [\App\Http\Controllers\AttendanceController::class, 'update'])->name('attendance.update');
+        Route::get('/attendance/export', [\App\Http\Controllers\AttendanceController::class, 'export'])->name('attendance.export');
     });
 
 require __DIR__ . '/booking.php';

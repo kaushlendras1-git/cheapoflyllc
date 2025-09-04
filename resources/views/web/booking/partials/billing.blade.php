@@ -103,7 +103,7 @@
                                                 DISCOVER</option>
                                         </select>
                                     </td>
-                                    <td><input inputmode="numeric" maxlength="16" class="form-control"
+                                    <td><input type="text" maxlength="16" pattern="[0-9]*" inputmode="numeric" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control"
                                             style="width: 140px;" placeholder="CC Number"
                                             name="billing[{{ $key }}][cc_number]"
                                             value="{{ $billingDetails['cc_number'] }}"></td>
@@ -226,7 +226,7 @@
                         <th>Type</th>
                         <th>Total Amount</th>
                         <th>Deposit Amount</th>
-                        <th>Cruise - Pending Amount</th>
+                        <th>Pending Amount</th>
                         <th>Due Date</th>
                     </tr>
                 </thead>

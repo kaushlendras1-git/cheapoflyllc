@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
             return view('web.members.assignments', compact('user', 'shifts', 'teams'));
         })->name('users.assignments');
     
-     Route::get('/profile', [MyProfileController::class, 'index'])->name('profile');
-    Route::get('/settings', [SettingController::class, 'index'])->name('settings');
+     // Profile and settings routes moved to web.php
 
 });

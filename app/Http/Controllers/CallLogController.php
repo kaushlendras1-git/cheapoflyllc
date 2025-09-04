@@ -20,10 +20,17 @@ class CallLogController extends Controller
 
     public function index(Request $request)
     {
+        
         $query = CallLog::query()
             ->join('users', 'call_logs.user_id', '=', 'users.id')
             ->select('call_logs.*', 'users.name as user_name')
-            ->with('campaign') // Eager load the campaign relationship
+            ->with('campaign')
+            ->when(
+                        auth()->user()->role == 'User' && auth()->user()->departments == 'Sales',
+                        function ($q) {
+                            $q->where('call_logs.user_id', auth()->user()->id);
+                        }
+                   )
             ->orderBy('call_logs.created_at', 'desc');
 
         if ($request->filled('keyword')) {
@@ -51,9 +58,7 @@ class CallLogController extends Controller
             $query->whereDate('call_logs.created_at', '<=', $request->end_date);
         }
 
-           // Paginate the results
-       $callLogs = $query->with('campaign')->paginate(10)->appends($request->except('page'));
-       # dd($callLogs->first()->campaign); // Should return a Campaign model or null
+        $callLogs = $query->with('campaign')->paginate(10)->appends($request->except('page'));
         return view('web.call-logs.index', compact('callLogs'));
     }
 

@@ -26,10 +26,10 @@ Route::middleware('auth')->group(function () {
 
         
         Route::prefix('auth-email')->name('auth-email.')->group(function () {
-            Route::post('index/{id}', [AuthEmailController::class, 'index'])->name('sendmail');
+            Route::post('index/{id}', [\App\Http\Controllers\Auth\AuthEmailController::class, 'index'])->name('sendmail');
         });
         Route::prefix('mail')->name('mail.')->group(function () {
-            Route::get('/history/index/{id}', [MailHistoryController::class, 'index'])->name('history.index');
+            Route::get('/history/index/{id}', [\App\Http\Controllers\MailHistoryController::class, 'index'])->name('history.index');
         });
     });
 

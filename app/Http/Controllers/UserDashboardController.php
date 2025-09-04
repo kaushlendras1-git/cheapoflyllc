@@ -9,13 +9,14 @@ use App\Models\Attendance;
 use App\Models\ShortBreak;
 use App\Models\TravelBooking;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
 
 
 class UserDashboardController extends Controller
 {
     public function index(){
         $userId = Auth::id();
-
         $flight = CallLog::where('user_id', $userId)->where('chkflight', 1)->count();
         $hotel = CallLog::where('user_id', $userId)->where('chkhotel', 1)->count();
         $cruise = CallLog::where('user_id', $userId)->where('chkcruise', 1)->count();
@@ -23,15 +24,50 @@ class UserDashboardController extends Controller
         $train = CallLog::where('user_id', $userId)->where('chktrain', 1)->count();
         $pending = CallLog::where('user_id', $userId)->where('call_converted','!=1', 1)->count();
 
-        $flight_booking = TravelBooking::where('user_id', $userId)->where('airlinepnr','!=', NULL)->count();
-        $hotel_booking = TravelBooking::where('user_id', $userId)->where('hotel_ref','!=', NULL)->count();
-        $cruise_booking = TravelBooking::where('user_id', $userId)->where('cruise_ref','!=', NULL)->count();
-        $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
-        $train_booking = 0;
+        $booking_type_count = DB::table('travel_bookings as b')
+                    ->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')
+                    ->selectRaw("
+                        SUM(CASE WHEN t.type = 'Flight' THEN 1 ELSE 0 END) as flight_booking,
+                        SUM(CASE WHEN t.type = 'Hotel' THEN 1 ELSE 0 END) as hotel_booking,
+                        SUM(CASE WHEN t.type = 'Cruise' THEN 1 ELSE 0 END) as cruise_booking,
+                        SUM(CASE WHEN t.type = 'Car' THEN 1 ELSE 0 END) as car_booking,
+                        SUM(CASE WHEN t.type = 'Train' THEN 1 ELSE 0 END) as train_booking
+                    ")
+                    ->where('b.user_id', Auth::id())
+                    #->whereMonth('b.created_at', now()->month)
+                    #->whereYear('b.created_at', now()->year)
+                    ->first();                           
+        $flight_booking = $booking_type_count->flight_booking;
+        $hotel_booking = $booking_type_count->flight_booking;
+        $cruise_booking = $booking_type_count->flight_booking;
+        $car_booking = $booking_type_count->flight_booking;
+        $train_booking = $booking_type_count->flight_booking;
+
         $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
-        $today_score = 350;
-        $weekly_score= 1200;
-        $monthly_score= 8002;
+
+        $scores = DB::table('travel_bookings')
+                    ->selectRaw("
+                        SUM(CASE WHEN DATE(created_at) = CURDATE() THEN net_value ELSE 0 END) as today_score,
+                        SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN net_value ELSE 0 END) as weekly_score,
+                        SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN net_value ELSE 0 END) as monthly_score
+                    ")
+                    ->where('user_id', Auth::id())
+                    ->first();
+
+        $today_score   = $scores->today_score;
+        $weekly_score  = $scores->weekly_score;
+        $monthly_score = $scores->monthly_score;
+
+
+        $charge_back_total = 22;
+        $charge_back_count = 22;
+
+        $total_booking_total = 0;
+        $total_booking_count = 0;
+        
+        $refund_total = 16;
+        $refund_count = 0;
+
         
         $attendances = Attendance::where('user_id', $userId)
              ->whereMonth('attendance_date', date('m'))  // June
@@ -67,6 +103,8 @@ class UserDashboardController extends Controller
             $calendar[$day] = $attendances[$date] ?? '';
         }
 
-        return view('web.user-dashboard', compact('calendar','flight', 'hotel', 'cruise', 'car','train','today_score','weekly_score','monthly_score','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking'));
+        return view('web.user-dashboard', 
+        compact('calendar','charge_back_total','charge_back_count','total_booking_total','total_booking_count','refund_total','refund_count',
+                'flight', 'hotel', 'cruise', 'car','train','today_score','weekly_score','monthly_score','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking'));
     }
 }

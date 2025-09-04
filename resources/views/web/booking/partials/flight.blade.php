@@ -189,7 +189,7 @@
         </div>
 
         <div style="margin-top:20px">
-            <input type="file" id="screenshots-upload" name="flightbookingimage[]" multiple>
+            <input type="file" id="flight-screenshots-upload" name="flightbookingimage[]" multiple>
         </div>
 
         <div class="" style="margin-top:20px">

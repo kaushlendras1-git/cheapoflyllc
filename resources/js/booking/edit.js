@@ -5,6 +5,7 @@ import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
 import { route } from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';

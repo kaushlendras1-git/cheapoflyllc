@@ -59,66 +59,81 @@
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
                                 <th>ID</th>
-                                <th>Followup Date</th>
+                                <th>Booking Type</th>
+                                <th>PNR</th>
+                                <th>Created On</th>
                                 <th>Pax Name</th>
                                 <th>Contact</th>
-                                <th>Campaign</th>
-                                <th>Type</th>
-                                <th>Query Type</th>
-                                <th>Airline</th>
+                                <th>Campaign</th>                              
+                                <th>Reservation Source</th>                             
                                 <th>Converted</th>
-                                <th>Agent</th>
-                                <th>Assign</th>
-                                <th>Created On</th>
+                                <th>Followup Date</th>
+                                 @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
+                                    <th>Agent</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($callLogs as $key => $log)
-                            <tr>
-                                @if($log->call_converted)
-                                <td>{{ $callLogs->firstItem() + $key }}</td>
-                                @else
-                                <td><a href="{{ route('call-logs.edit', Hashids::encode($log->id)) }}">
-                                        {{ $callLogs->firstItem() + $key }}</a></td>
-                                @endif
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('call-logs.edit', encode($log->id)) }}">
+                                            {{ $callLogs->firstItem() + $key }}
+                                        </a>
+                                    </td>
 
-                                <td>{{ $log->pnr }}</td>
-                                <td>{{ $log->name }}</td>
-                                <td>{{ $log->phone }}</td>
-                                <td>{{ $log->campaign }}</td>
-                                <!-- <td>{{ $log->team }}</td> -->
-                                <td>{{ $log->call_type }}</td>
-                                <td>
-                                    <div>
-                                        <span class="badge bg-label-primary rounded-pill float-start me-1">Flight</span>
-                                        <span class="badge bg-label-warning rounded-pill float-start me-1">Hotel</span>
-                                        <span
-                                            class="badge bg-label-secondary rounded-pill float-start me-1">Cruise</span>
-                                        <span class="badge bg-label-success rounded-pill float-start">Car</span>
-                                    </div>
-                                </td>
-                                <td>Airline</td>
-                                <td>
-                                    @if($log->call_converted)
-                                    <span class="badge bg-label-success">Close</span>
-                                    @else
-                                    <span class="badge bg-label-warning">Open</span>
-                                    @endif
-                                </td>
-                                <td>{{$log->user_name}}</td>
-                                <td>{{$log->assign_name}}</td>
-                                <td>{{$log->created_at}}</td>
-                            </tr>
+                                    <td>
+                                        <div style="display: flex; justify-content: center; gap: 4px;">
+                                            @if($log->chkflight)
+                                                <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
+                                            @endif
+                                            @if($log->chkhotel)
+                                                <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
+                                            @endif
+                                            @if($log->chkcruise)
+                                                <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
+                                            @endif
+                                            @if($log->chkcar)
+                                                <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
+                                            @endif
+                                            @if($log->chktrain)
+                                                <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 18px;"></i>
+                                            @endif
+                                        </div>
+                                    </td>
+
+
+                                    <td>{{ $log->pnr }}</td>
+                                     <td>{{ $log->created_at }}</td>
+                                    <td>{{ $log->name }}</td>
+                                    <td>{{ $log->phone }}</td>
+                                  <td>{{ $log->campaign ? $log->campaign->name : 'No Campaign' }}</td>
+                                    
+                                    <td>{{ $log->reservation_source }}</td>
+                                    <td>
+                                        @if($log->call_converted)
+                                            <i class="ri ri-check-line" style="color: #228b22; font-size: 18px;"></i>
+                                        @else
+                                            <i class="ri ri-close-line" style="color: red; font-size: 18px;"></i>
+                                        @endif
+                                    </td>
+                                    <td>{{ $log->updated_at }}</td>
+                                    @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
+                                        <td>{{ $log->user_name }}</td>
+                                     @endif   
+                                   
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="13" class="text-center">No call logs available.</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="13" class="text-center">No call logs available.</td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
+
                     <!-- Pagination links -->
                     <div class="mt-3">
-                        {{ $callLogs->links('pagination::bootstrap-4') }}
+                        {{ $callLogs->links('vendor.pagination.bootstrap-5') }}
                     </div>
                 </div>
             </div>

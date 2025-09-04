@@ -186,9 +186,15 @@ class BookingFormController extends Controller
             });
         }
 
-        $bookings = $query->where('user_id', $userId)
-                  ->orderBy('created_at', 'desc')
-                  ->paginate(10);
+        $bookings = $query
+                            ->when(
+                                auth()->user()->role == 'User' && auth()->user()->departments == 'Sales',
+                                function ($q) use ($userId) {
+                                    $q->where('user_id', $userId);
+                                }
+                            )
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(10);
 
 
         $bookings->appends($request->only('search'));

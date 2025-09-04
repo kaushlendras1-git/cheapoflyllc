@@ -15,6 +15,8 @@ use App\Models\TravelTrainDetail;
 use App\Models\TravelBillingDetail;
 use App\Models\TravelPricingDetail;
 use App\Models\TravelSectorDetail;
+use App\Models\User;
+use App\Observers\UserObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,5 +50,7 @@ class AppServiceProvider extends ServiceProvider
         foreach ($models as $model) {
             $model::observe(GenericChangeObserver::class);
         }
+        
+        User::observe(UserObserver::class);
     }
 }

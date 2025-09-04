@@ -57,13 +57,15 @@
                                 <th>Booking Type</th>
                                 <th>PNR</th>
                                 <th>Booking Date</th>
-                                <th>Agent</th>
+                                
                                 <th>Booking Status</th>
                                 <th>Payment Status</th>
                                 <th>Total</th>
                                 <th>Agent MCO</th>
-                                <th>Name</th>
-                                <!-- <th>Email</th> -->
+                                <th>Pax Name</th>
+                                  @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
+                                    <th>Agent</th>
+                                  @endif  
                             </tr>
                         </thead>
                         <tbody>
@@ -113,8 +115,6 @@
                                 </td>
                                 <td>{{ $booking->pnr }}</td>
                                 <td>{{ $booking->created_at }}</td>
-                                <td>{{ $booking->user->name ?? 'N/A' }}</td>
-
                                 <!-- Booking Status -->
                                 <td>
                                     @if($booking->bookingStatus)
@@ -143,6 +143,9 @@
                                 <td>{{ $booking->net_value }}</td>
                                 <td>{{ $booking->name }}</td>
                                 <!-- <td>{{ $booking->email }}</td> -->
+                                  @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
+                                      <td>{{ $booking->user->name ?? 'N/A' }}</td>
+                                   @endif   
                             </tr>
                             @endforeach
 

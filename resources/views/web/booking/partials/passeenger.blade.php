@@ -20,10 +20,9 @@
                         <th>Last Name</th>
                         <th>DOB</th>
                         <th>Seat</th>
-                        <th>Credit/Refund Amt.
-                        </th>
+                        <th>Credit/Refund Amt.</th>
                         <th>E-Ticket</th>
-                        <th id="room-category-column">Room Category</th>
+                        <th id="room-category-column" style="display:none">Room Category</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -121,11 +120,16 @@
                                     name="passenger[{{ $key }}][e_ticket_number]"
                                     value="{{ $passengers->e_ticket_number }}" placeholder="E Ticket">
                             </td>
-                            <td>
-                                <input type="text" class="form-control w-100 room_category"
-                                    name="passenger[{{ $key }}][room_category]"
-                                    value="{{ $passengers->room_category }}" placeholder="Room Category">
-                            </td>
+                            
+                         
+                                <td id="cruise_room_category" style="display: none;">
+                                    <input type="text" class="form-control w-100 room_category"
+                                        name="passenger[{{ $key }}][room_category]"
+                                        value="{{ $passengers->room_category }}"
+                                        placeholder="Room Category">
+                                </td>
+                         
+
                             <td>
                                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                                     <i class="icon-base ri ri-delete-bin-2-line"></i>
