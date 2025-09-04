@@ -104,7 +104,19 @@
                                     @endforeach
                                 </td>
                                     <td>{{ $member->pseudo }}</td>
-                                    <td> {{$member->role }}</td>
+                                  <td>
+                                        @php
+                                            $role = trim($member->role);
+                                            $roleColors = [
+                                                'Admin'   => 'bg-danger',           // red
+                                                'Manager' => 'bg-primary',          // blue
+                                                'TLeader' => 'bg-success',          // green
+                                                'User'    => 'bg-secondary',        // gray
+                                            ];
+                                            $color = $roleColors[$role] ?? 'bg-dark'; // fallback
+                                        @endphp
+                                        <span class="badge {{ $color }}">{{ $role }}</span>
+                                    </td>
                                     <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                                     <td>{{ $member->currentTeam?->team->name ?? 'No Team Assigned' }}</td>
                                     <td>
