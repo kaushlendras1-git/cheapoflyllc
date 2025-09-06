@@ -24,6 +24,8 @@ class PaymentStatusController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'departments' => 'required|array',
+            'roles' => 'required|array'
         ]);
 
         PaymentStatus::create($request->all());
@@ -42,6 +44,8 @@ class PaymentStatusController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'departments' => 'required|array',
+            'roles' => 'required|array'
         ]);
 
         $paymentStatus->update($request->all());

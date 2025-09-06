@@ -54,6 +54,11 @@
     </style>
     @routes
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        // Set user role and department for admin notifications
+        window.userRole = '{{ Auth::user()->role ?? "" }}';
+        window.userDepartment = '{{ Auth::user()->departments ?? "" }}';
+    </script>
     @yield('head')
 </head>
 <body>
@@ -185,6 +190,13 @@
                                         <a href="{{ route('lobs.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-phone-line"></i>
                                             <div data-i18n="LOB">LOB</div>
+                                        </a>
+                                    </li>
+                                    
+                                    <li class="menu-item {{ Route::currentRouteName() == 'status-management.index' ? 'active' : '' }}">
+                                        <a href="{{ route('status-management.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-settings-3-line"></i>
+                                            <div data-i18n="Status Management">Status Management</div>
                                         </a>
                                     </li>
                                     <!--  -->

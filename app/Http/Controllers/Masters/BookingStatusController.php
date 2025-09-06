@@ -24,6 +24,8 @@ class BookingStatusController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'departments' => 'required|array',
+            'roles' => 'required|array'
         ]);
 
         BookingStatus::create($request->all());
@@ -42,6 +44,8 @@ class BookingStatusController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'departments' => 'required|array',
+            'roles' => 'required|array'
         ]);
 
         $bookingStatus->update($request->all());

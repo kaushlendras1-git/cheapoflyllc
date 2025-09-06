@@ -23,6 +23,7 @@ export default defineConfig({
                 'resources/js/auth/sendAuth.js',
                 //pricing
                 'resources/js/booking/pricing.js',
+                'resources/js/booking/status-manager.js',
                
 
             ],

@@ -36,7 +36,12 @@
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
                 <div class="d-flex align-items-center justify-content-between booking-form gen_form mb-2">
                     
-                    <div class="add-user-btn text-end">
+                    <div class="add-user-btn text-end d-flex gap-2">
+                        <button class="btn btn-warning button-style" style="font-size: 12px;" tabindex="0"
+                            type="button" data-bs-toggle="modal" data-bs-target="#loginRequestsModal">
+                            <span class="d-none d-sm-inline-block">Login Approvals</span>
+                            <span class="badge bg-danger ms-1" id="pendingCount">0</span>
+                        </button>
                         <button class="btn add-new btn-primary button-style" style="font-size: 12px;" tabindex="0"
                             aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasAddUser"><span>
@@ -296,6 +301,15 @@
 
     </div>
 
+    <!-- Login Requests Button -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#loginRequestsModal">
+                <i class="ri-notification-line"></i> Login Requests (<span id="pendingCount">0</span>)
+            </button>
+        </div>
+    </div>
+
     <div class="row g-6 mb-6 mt-1">
         <div class="container mt-4">
             <div class="row justify-content-start user_anyletics">
@@ -341,6 +355,23 @@
         </div>
     </div>
 
+    <!-- Login Requests Modal -->
+    <div class="modal fade" id="loginRequestsModal" tabindex="-1" aria-labelledby="loginRequestsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginRequestsModalLabel">Pending Login Requests</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="loginRequestsList">
+                        <div class="text-center text-muted">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @if (session('success'))
@@ -376,17 +407,47 @@ document.addEventListener('DOMContentLoaded', function() {
         const url = button.getAttribute('data-url');
         const modalBody = modal.querySelector('#assignModalBody');
 
-        // Load the content via AJAX
         fetch(url)
             .then(response => response.text())
             .then(html => {
                 modalBody.innerHTML = html;
             })
             .catch(error => {
-                modalBody.innerHTML =
-                    '<div class="alert alert-danger">Failed to load form.</div>';
+                modalBody.innerHTML = '<div class="alert alert-danger">Failed to load form.</div>';
             });
     });
+    
+    let lastCount = 0;
+    
+    function updatePendingCount() {
+        fetch('/agent/pending-requests')
+            .then(response => response.json())
+            .then(data => {
+                const countElement = document.getElementById('pendingCount');
+                if (countElement) {
+                    const newCount = data.length;
+                    
+                    if (newCount > lastCount) {
+                        // Show toast notification
+                        if (typeof showToast === 'function') {
+                            showToast(`New login request! (${newCount} pending)`, 'warning');
+                        } else {
+                            alert(`New login request! (${newCount} pending)`);
+                        }
+                        console.log('Toast shown for new request');
+                    }
+                    
+                    lastCount = newCount;
+                    countElement.textContent = newCount;
+                    console.log('Updated count to:', newCount);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    
+    // Update count every 3 seconds
+    setInterval(updatePendingCount, 3000);
+    updatePendingCount(); // Initial load
 });
 </script>
 @endsection

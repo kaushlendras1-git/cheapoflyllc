@@ -12,6 +12,7 @@
     <title>Cheapoflyllc</title>
 
     <meta name="description" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
@@ -110,8 +111,13 @@
                                 <div class="mb-5">
                                     <button class="btn btn-primary d-grid w-100" type="submit">login</button>
                                 </div>
+                                
+                                <div class="mb-3 text-center">
+                                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#agentLoginModal">
+                                        Request Agent Login
+                                    </button>
+                                </div>
                             </form>
-
 
                         </div>
                     </div>
@@ -120,6 +126,41 @@
         </div>
     </div>
     <!-- / Content -->
+
+    <!-- Agent Login Request Modal -->
+    <div class="modal fade" id="agentLoginModal" tabindex="-1" aria-labelledby="agentLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agentLoginModalLabel">Agent Login Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="agentLoginForm">
+                        <p>Enter your email to request agent login access:</p>
+                        <form id="agentRequestForm">
+                            <div class="mb-3">
+                                <label for="agentEmail" class="form-label">Email or Username</label>
+                                <input type="text" class="form-control" id="agentEmail" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit Request</button>
+                        </form>
+                    </div>
+                    <div id="agentLoginStatus" style="display: none;">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary mb-3" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <h6>Request Submitted</h6>
+                            <p>Waiting for admin approval...</p>
+                            <p class="text-muted">Request expires in: <span id="countdown"></span></p>
+                            <button type="button" class="btn btn-secondary" onclick="cancelRequest()">Cancel Request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/theme.js -->
@@ -144,6 +185,7 @@
 
     <!-- Page JS -->
     <script src="{{ asset('assets/js/pages-auth.js') }}"></script>
+    @vite(['resources/js/agent-login.js'])
 
 </body>
 
