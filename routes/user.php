@@ -14,9 +14,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/users/change-status', [MemberController::class, 'changeStatus'])->name('users.change-status');
     Route::get('/users', [MemberController::class, 'index'])->name('users');
 
-   # Route::get('members/{hashid}/edit', [MemberController::class, 'edit'])->name('members.edit');
-   # Route::put('members/{hashid}', [MemberController::class, 'update'])->name('members.update');
-
    // Shift assignment route
     Route::post('/users/{user}/change-shift', [UserShiftController::class, 'changeShift'])->name('users.change-shift');
     // Team assignment route

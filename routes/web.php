@@ -21,18 +21,39 @@ use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\FcmController;
-use App\Http\Controllers\SettingsController;
-
-
-
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-
-
+use App\Http\Controllers\AgentLoginController;
+use App\Http\Controllers\StatusManagementController;
+use App\Http\Controllers\Masters\BookingStatusController;
+use App\Http\Controllers\Masters\PaymentStatusController;
+use App\Http\Controllers\Masters\TeamController;
+use App\Http\Controllers\Masters\StatusController;
+use App\Http\Controllers\Masters\SupplierController;
+use App\Http\Controllers\Masters\QualityController;
+use App\Http\Controllers\Masters\QueryTypeController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\Masters\CompaniesController;
+use App\Http\Controllers\ReportController;
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
+
+// Agent Login Request Routes (no auth required)
+Route::post('/agent/request-login', [AgentLoginController::class, 'requestLogin'])->name('agent.request-login');
+Route::get('/agent/check-request-status/{email}', [AgentLoginController::class, 'checkRequestStatus'])->name('agent.check-request-status');
+
+// Agent Login Request Routes (auth required)
+Route::middleware('auth')->prefix('agent')->group(function () {
+    Route::post('/login-approval/{id}', [AgentLoginController::class, 'approveRequest'])->name('agent.login-approval');
+    Route::get('/pending-requests', [AgentLoginController::class, 'getPendingRequests'])->name('agent.pending-requests');
+    Route::get('/admin-notifications', [AgentLoginController::class, 'getAdminNotifications'])->name('agent.admin-notifications');
+    Route::post('/cleanup-expired', [AgentLoginController::class, 'cleanupExpiredRequests'])->name('agent.cleanup-expired');
+    Route::get('/test-notifications', [AgentLoginController::class, 'testNotifications'])->name('agent.test-notifications');
+});
+Route::get('/agent/auto-login/{id}', [AgentLoginController::class, 'autoLogin'])->name('agent.auto-login');
 Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('statelist');
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
+
+// API Routes
+Route::middleware('auth')->get('/api/payment-statuses-by-booking', [App\Http\Controllers\Api\StatusController::class, 'getPaymentStatusesByBooking']);
 
 /***** Auth **** */
 Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');
@@ -98,6 +119,24 @@ Route::middleware('auth')->group(function () {
         Route::resource('query-type', QueryTypeController::class);
         Route::resource('members', MemberController::class);
         Route::resource('companies', CompaniesController::class);
+    });
+
+    // Status Management Routes
+    Route::prefix('status-management')->name('status-management.')->group(function () {
+        Route::get('/', [StatusManagementController::class, 'index'])->name('index');
+        
+        // Booking-Payment Status Mappings
+        Route::post('/booking-payment-mapping', [StatusManagementController::class, 'storeBookingPaymentMapping'])->name('booking-payment-mapping.store');
+        Route::delete('/booking-payment-mapping/{id}', [StatusManagementController::class, 'deleteBookingPaymentMapping'])->name('booking-payment-mapping.delete');
+        
+        // Status Dependencies
+        Route::post('/status-dependency', [StatusManagementController::class, 'storeStatusDependency'])->name('status-dependency.store');
+        Route::delete('/status-dependency/{id}', [StatusManagementController::class, 'deleteStatusDependency'])->name('status-dependency.delete');
+        
+        // Payment Status Management
+        Route::post('/payment-status', [StatusManagementController::class, 'storePaymentStatus'])->name('payment-status.store');
+        Route::put('/payment-status/{id}', [StatusManagementController::class, 'updatePaymentStatus'])->name('payment-status.update');
+        Route::delete('/payment-status/{id}', [StatusManagementController::class, 'deletePaymentStatus'])->name('payment-status.delete');
     });
 
     Route::resource('emails', EmailTemplateController::class);

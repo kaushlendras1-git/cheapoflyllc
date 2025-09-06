@@ -68,28 +68,28 @@
            <div class="col-mb-12">
                 <label class="form-label">Department</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="sales" name="department[]" value="Sales">
+                    <input class="form-check-input" type="checkbox" id="sales" name="departments[]" value="Sales">
                     <label class="form-check-label" for="sales">Sales</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="ccv" name="department[]" value="CCV">
+                    <input class="form-check-input" type="checkbox" id="ccv" name="departments[]" value="CCV">
                     <label class="form-check-label" for="ccv">CCV</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="billings" name="department[]" value="Billings">
-                    <label class="form-check-label" for="billings">Billings</label>
+                    <input class="form-check-input" type="checkbox" id="billings" name="departments[]" value="Billing">
+                    <label class="form-check-label" for="billings">Billing</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="changes" name="department[]" value="Changes">
+                    <input class="form-check-input" type="checkbox" id="changes" name="departments[]" value="Changes">
                     <label class="form-check-label" for="changes">Changes</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="quality" name="department[]" value="Quality">
+                    <input class="form-check-input" type="checkbox" id="quality" name="departments[]" value="Quality">
                     <label class="form-check-label" for="quality">Quality</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="ChargeBack" name="department[]" value="ChargeBack">
-                    <label class="form-check-label" for="ChargeBack">ChargeBack</label>
+                    <input class="form-check-input" type="checkbox" id="ChargeBack" name="departments[]" value="Charge Back">
+                    <label class="form-check-label" for="ChargeBack">Charge Back</label>
                 </div>
             </div>
      

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentStatus extends Model
 {
     protected $table = 'payment_statuses';
-    protected $fillable = ['name', 'color'];
-    #public $timestamps = true;
+    protected $fillable = ['name', 'color', 'status', 'departments', 'roles', 'updated_by'];
+    
+    protected $casts = [
+        'departments' => 'array',
+        'roles' => 'array'
+    ];
 }

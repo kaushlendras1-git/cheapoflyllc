@@ -1,5 +1,6 @@
 import './bootstrap';
 import '../js/firebase.js';
+import './admin-notifications.js';
 // import { requestFirebaseToken, onMessageListener } from '@/firebase';
 // if ('serviceWorker' in navigator) {
 //   navigator.serviceWorker.register('/firebase-messaging-sw.js')

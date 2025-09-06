@@ -4,6 +4,22 @@
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row gy-6">
+                <!-- Agent Login Requests -->
+                <div class="col-md-12 col-lg-4">
+                  <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="card-title mb-0">Agent Login Requests</h5>
+                      <span class="badge bg-warning" id="pendingCount">0</span>
+                    </div>
+                    <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                      <div id="loginRequests">
+                        <p class="text-muted text-center">No pending requests</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Agent Login Requests -->
+
                 <!-- Congratulations card -->
                 <div class="col-md-12 col-lg-4">
                   <div class="card">
@@ -943,4 +959,131 @@
             </div>
             <!--/ Content -->
 
+@endsection
+
+@section('footer')
+<script>
+    let requestsInterval;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPendingRequests();
+        requestsInterval = setInterval(loadPendingRequests, 3000); // Check every 3 seconds
+    });
+
+    async function loadPendingRequests() {
+        try {
+            const response = await fetch('/agent/pending-requests', {
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            
+            const requests = await response.json();
+            displayRequests(requests);
+        } catch (error) {
+            console.error('Error loading requests:', error);
+        }
+    }
+
+    function displayRequests(requests) {
+        const container = document.getElementById('loginRequests');
+        const countBadge = document.getElementById('pendingCount');
+        
+        countBadge.textContent = requests.length;
+        
+        if (requests.length === 0) {
+            container.innerHTML = '<p class="text-muted text-center">No pending requests</p>';
+            return;
+        }
+        
+        let html = '';
+        requests.forEach(request => {
+            const timeLeft = getTimeLeft(request.expired_at);
+            html += `
+                <div class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded">
+                    <div>
+                        <h6 class="mb-1">${request.user.name || request.user.email}</h6>
+                        <small class="text-muted">Expires in: ${timeLeft}</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-success me-1" onclick="approveRequest(${request.id}, 'approve')">
+                            <i class="ri-check-line"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="approveRequest(${request.id}, 'reject')">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function getTimeLeft(expiredAt) {
+        const now = new Date();
+        const expiry = new Date(expiredAt);
+        const timeLeft = expiry - now;
+        
+        if (timeLeft <= 0) return 'Expired';
+        
+        const minutes = Math.floor(timeLeft / 60000);
+        const seconds = Math.floor((timeLeft % 60000) / 1000);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    async function approveRequest(requestId, action) {
+        try {
+            const response = await fetch(`/agent/login-approval/${requestId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ action })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                loadPendingRequests(); // Refresh the list
+                
+                // Show notification
+                const message = action === 'approve' ? 'Request approved successfully' : 'Request rejected';
+                showNotification(message, 'success');
+            } else {
+                showNotification(result.error || 'Failed to process request', 'error');
+            }
+        } catch (error) {
+            showNotification('Error processing request', 'error');
+        }
+    }
+
+    function showNotification(message, type) {
+        // Simple notification - you can replace with your preferred notification system
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const alertHtml = `
+            <div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
+                 style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', alertHtml);
+        
+        // Auto remove after 3 seconds
+        setTimeout(() => {
+            const alert = document.querySelector('.alert');
+            if (alert) alert.remove();
+        }, 3000);
+    }
+
+    // Clean up interval when page unloads
+    window.addEventListener('beforeunload', function() {
+        if (requestsInterval) {
+            clearInterval(requestsInterval);
+        }
+    });
+</script>
 @endsection
