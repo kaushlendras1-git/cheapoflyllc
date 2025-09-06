@@ -1007,13 +1007,15 @@ class BookingFormController extends Controller
 
             $booking = TravelBooking::findOrFail($id);
 
-            // if ($request->input('last_updated_at') != $booking->updated_at->toDateTimeString()) {
-            //          return response()->json([
-            //             'status' => 'error',
-            //             'errors' => 'This booking was updated by someone else. Please refresh and try again.',
-            //             'code' => 555
-            //         ], 555);
-            //  }
+            if ($request->input('last_updated_at') != $booking->updated_at->toDateTimeString()) {
+                return response()->json([
+                    'status' => 'error',
+                    'error' => 'This booking was updated by someone else. Please refresh and try again.',
+                    'code' => 422,
+                    'reload' => true,
+                    'delay_reload' => 3000
+                ], 422);
+            }
 
 
             $bookingData = $request->only([
@@ -1024,7 +1026,7 @@ class BookingFormController extends Controller
 //            dd($request->all());
             $bookingData['shift_id'] = 2;
             $bookingData['team_id'] = 2;
-            $bookingData['user_id'] = $user_id;
+           # $bookingData['user_id'] = $user_id;
             $booking->update($bookingData);
 
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();

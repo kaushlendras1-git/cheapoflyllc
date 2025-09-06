@@ -637,12 +637,15 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <td
                                     style="font-size: 14px; font-weight: 400; color: #000; padding: 10px 20px; text-align: right;">
                                     @php
-                                    $ccNumber = decode($billingPricingData->cc_number);
-                                    $maskedCC = str_repeat('*', max(0, strlen($ccNumber) - 4));
-                                    $formatted = chunk_split($maskedCC . substr($ccNumber, -4), 4, ' ');
-                                    @endphp
-                                    {{ trim($formatted) }}
-                                </td>
+                                    if(!empty($billingPricingData->cc_number)) {
+                                        $ccNumber = decrypt($billingPricingData->cc_number);
+                                        $maskedCC = str_repeat('*', max(0, strlen($ccNumber) - 4));
+                                        $formatted = chunk_split($maskedCC . substr($ccNumber, -4), 4, ' ');
+                                        echo trim($formatted);
+                                    } else {
+                                        echo 'N/A';
+                                    }
+                                @endphp    
                             </tr>
 
                             <tr>
@@ -786,7 +789,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 </td>
             </tr>
 
-            <tr>
+            <tr id="signaturetd">
                 <td colspan="2" style="text-align:center; padding-bottom: 20px; padding-top: 10px;">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signatureModal">Add
                         Signature</button>
@@ -1092,9 +1095,10 @@ $('#authorizationForm').submit(function(e) {
         success: function(data) {
             showToast(data.message);
             $('#authorizeButton').remove();
+             $('#signaturetd').hide();
         },
         error: function(data) {
-            showToast(data.responseJSON.message);
+            showToast(data.responseJSON.message, 'error');
         }
     });
 });

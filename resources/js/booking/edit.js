@@ -135,7 +135,48 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
         labelMaxTotalFileSizeExceeded: 'Maximum total size exceeded',
         labelMaxTotalFileSize: 'Maximum total size is {filesize}',
         labelMaxFileCountExceeded: 'You can only upload up to 10 files',
+        allowPaste: false, // Disable global paste
     });
+});
+
+// Enable paste only for the active tab's filepond
+document.addEventListener('paste', function(e) {
+    const activeTab = document.querySelector('.tab-pane.active');
+    if (!activeTab) return;
+    
+    const activeFilePond = activeTab.querySelector('.filepond--root');
+    if (!activeFilePond) return;
+    
+    // Find the corresponding pond instance
+    const fileInput = activeTab.querySelector('input[type="file"]');
+    if (fileInput && ponds[fileInput.name]) {
+        // Temporarily enable paste for active pond
+        ponds[fileInput.name].allowPaste = true;
+        
+        // Disable paste for all other ponds
+        Object.keys(ponds).forEach(key => {
+            if (key !== fileInput.name) {
+                ponds[key].allowPaste = false;
+            }
+        });
+    }
+});
+
+// Reset paste settings when tab changes
+document.addEventListener('shown.bs.tab', function(e) {
+    // Disable paste for all ponds first
+    Object.keys(ponds).forEach(key => {
+        ponds[key].allowPaste = false;
+    });
+    
+    // Enable paste for the newly active tab
+    const newActiveTab = document.querySelector(e.target.getAttribute('href'));
+    if (newActiveTab) {
+        const fileInput = newActiveTab.querySelector('input[type="file"]');
+        if (fileInput && ponds[fileInput.name]) {
+            ponds[fileInput.name].allowPaste = true;
+        }
+    }
 });
 
 document.querySelectorAll('.destroy_filepond').forEach(input => {
@@ -490,6 +531,10 @@ document.getElementById('bookingForm').addEventListener('submit', async function
                 'Content-Type': 'multipart/form-data'
             }
         });
+        if (response.data.reload) {
+            location.reload();
+            return;
+        }
         showToast(response.data.message);
         setTimeout(() => {
             window.location.reload();
@@ -498,6 +543,16 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     }
     catch (e) {
         console.error(e);
+        
+        if (e.response?.data?.reload) {
+            const errorMessage = e.response?.data?.error || e.response?.data?.errors || 'Page will reload';
+            showToast(errorMessage, "error");
+            const delay = e.response?.data?.delay_reload || 2000;
+            setTimeout(() => {
+                location.reload();
+            }, delay);
+            return;
+        }
 
         if (e.response?.status === 422 || e.response?.status === 500) {
             // showToast(e.response?.data?.errors ?? 'Validation/server error', "error");

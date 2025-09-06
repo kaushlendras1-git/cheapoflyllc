@@ -107,4 +107,93 @@ class UserDashboardController extends Controller
         compact('calendar','charge_back_total','charge_back_count','total_booking_total','total_booking_count','refund_total','refund_count',
                 'flight', 'hotel', 'cruise', 'car','train','today_score','weekly_score','monthly_score','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking'));
     }
+
+    public function scoreDetails(Request $request)
+    {
+        $userId = Auth::id();
+        
+        $query = TravelBooking::where('user_id', $userId);
+        
+        // Apply filters
+        if ($request->period) {
+            switch ($request->period) {
+                case 'today':
+                    $query->whereDate('created_at', today());
+                    break;
+                case 'weekly':
+                    $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'monthly':
+                    $query->whereMonth('created_at', now()->month)
+                          ->whereYear('created_at', now()->year);
+                    break;
+            }
+        }
+        
+        if ($request->date_from) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        
+        if ($request->date_to) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+        
+        if ($request->booking_type) {
+            $query->whereHas('bookingTypes', function($q) use ($request) {
+                $q->where('type', $request->booking_type);
+            });
+        }
+        
+        // Handle filter types from cards
+        if ($request->filter_type) {
+            switch ($request->filter_type) {
+                case 'chargeback':
+                    $query->where('booking_status_id', 13);
+                    break;
+                case 'refund':
+                    $query->where('payment_status_id', 16);
+                    break;
+                case 'total':
+                    // No additional filter for total bookings
+                    break;
+            }
+        }
+        
+        $bookings = $query->with(['bookingTypes', 'paymentStatus', 'bookingStatus'])
+                          ->orderBy('created_at', 'desc')
+                          ->paginate(20);
+        
+        // Calculate scores for cards
+        $scores = DB::table('travel_bookings')
+                    ->selectRaw("
+                        SUM(CASE WHEN DATE(created_at) = CURDATE() THEN net_value ELSE 0 END) as today_score,
+                        SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN net_value ELSE 0 END) as weekly_score,
+                        SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN net_value ELSE 0 END) as monthly_score
+                    ")
+                    ->where('user_id', $userId)
+                    ->first();
+        
+        // Calculate real data from travel_bookings
+        $charge_back_data = TravelBooking::where('user_id', $userId)
+                                        ->where('booking_status_id', 13)
+                                        ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                        ->first();
+        $charge_back_total = $charge_back_data->total ?? 0;
+        $charge_back_count = $charge_back_data->count ?? 0;
+        
+        $refund_data = TravelBooking::where('user_id', $userId)
+                                   ->where('payment_status_id', 16)
+                                   ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                   ->first();
+        $refund_total = $refund_data->total ?? 0;
+        $refund_count = $refund_data->count ?? 0;
+        
+        $total_booking_data = TravelBooking::where('user_id', $userId)
+                                          ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                          ->first();
+        $total_booking_total = $total_booking_data->total ?? 0;
+        $total_booking_count = $total_booking_data->count ?? 0;
+        
+        return view('web.score-details', compact('bookings', 'scores', 'charge_back_total', 'charge_back_count', 'total_booking_total', 'total_booking_count', 'refund_total', 'refund_count'));
+    }
 }

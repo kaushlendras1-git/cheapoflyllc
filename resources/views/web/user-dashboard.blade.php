@@ -92,6 +92,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Congratulations card -->
         <div class="col-md-12 col-lg-4">
             <div class="card">
@@ -100,7 +101,7 @@
                     <p class="mb-2">Best seller of the month</p>
                     <h4 class="text-primary mb-0">${{$today_score}}</h4>
                     <p class="mb-2">78% of target 🚀</p>
-                    <a href="javascript:;" class="btn btn-sm btn-primary">View Sales</a>
+                    <a href="{{ route('score.details') }}" class="btn btn-sm btn-primary">View Details</a>
                 </div>
                 <img src="./assets/img/illustrations/trophy.png" class="position-absolute bottom-0 end-0 me-5 mb-5"
                     width="83" alt="view sales" />
@@ -108,116 +109,6 @@
         </div>
         <!--/ Congratulations card -->
 
-        <!-- Transactions -->
-        <!-- <div class="col-lg-8">
-            <div class="card h-100">
-                <div class="card-header">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="card-title m-0 me-2">Customer Touchpoints: Calls Logs / <span
-                                class="fs-3 text-primary">Bookings</span></h5>
-                        <div class="dropdown">
-                            <button class="btn text-body-secondary p-0" type="button" id="transactionID"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <p class="small mb-0"><span class="h6 mb-0">Total 48.5% Growth</span> 😎 this month</p>
-                </div>
-                <div class="card-body pt-lg-10">
-                    <div class="row g-6">
-                        <div class="col-md-2 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-primary rounded shadow-xs">
-                                        <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
-                                    </div>
-                                </div>
-                                <div class="ms-3">
-                                    <p class="mb-0">Flight</p>
-                                    <h5 class="mb-0">{{$flight}} / <span
-                                            class="fs-3 text-primary">{{ $flight_booking }}</span> </h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-success rounded shadow-xs">
-                                        <i class="icon-base ri ri-group-line icon-24px"></i>
-                                    </div>
-                                </div>
-                                <div class="ms-3">
-                                    <p class="mb-0">Hotel</p>
-                                    <h5 class="mb-0"><a href="{{route('call-logs.index')}}">{{$hotel}}</a> / <span
-                                            class="fs-3 text-primary"> <a
-                                                href="{{route('booking.index')}}">{{ $hotel_booking }}</a> </span> </h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-warning rounded shadow-xs">
-                                        <i class="icon-base ri ri-macbook-line icon-24px"></i>
-                                    </div>
-                                </div>
-                                <div class="ms-3">
-                                    <p class="mb-0">Cruise</p>
-                                    <h5 class="mb-0">{{$cruise}} / <span
-                                            class="fs-3 text-primary">{{ $cruise_booking }}</span> </h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-info rounded shadow-xs">
-                                        <i class="icon-base ri ri-money-dollar-circle-line icon-24px"></i>
-                                    </div>
-                                </div>
-                                <div class="ms-3">
-                                    <p class="mb-0">Car</p>
-                                    <h5 class="mb-0">{{$car}} / <span
-                                            class="fs-3 text-primary">{{ $car_booking }}</span> </h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 col-6">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-info rounded shadow-xs">
-                                        <i class="icon-base ri ri-money-dollar-circle-line icon-24px"></i>
-                                    </div>
-                                </div>
-                                <div class="ms-3">
-                                    <p class="mb-0">Train</p>
-                                    <h5 class="mb-0">{{$train}} / <span
-                                            class="fs-3 text-primary">{{ $train_booking }}</span> </h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-2 col-6">
-                            <div class="d-flex align-items-center blinker">
-                                <div class="avatar">
-                                    <div class="avatar-initial bg-danger rounded shadow-xs">
-                                        <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
-                                    </div>
-                                </div>
-                                <div class="ms-3">
-                                    <p class="mb-0">Pending</p>
-                                    <h5 class="mb-0">{{$pending}} / <span
-                                            class="fs-3 text-danger">{{ $pending_booking }}</span> </h5>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!--/ Transactions -->
 
         <!-- Weekly Overview Chart -->
         <div class="col-xl-4 col-md-6">
@@ -234,7 +125,9 @@
                         <div class="d-flex align-items-center gap-4">
                             <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
                         </div>
-
+                        <div class="d-grid mt-3 mt-md-4">
+                            <a href="{{ route('score.details') }}" class="btn btn-primary">View Details</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -254,7 +147,7 @@
                             <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
                         </div>
                         <div class="d-grid mt-3 mt-md-4">
-                            <button class="btn btn-primary" type="button">Details</button>
+                            <a href="{{ route('score.details') }}" class="btn btn-primary">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -262,7 +155,63 @@
         </div>
         <!--/ Weekly Overview Chart -->
 
+
+
+
         <!-- Total Earnings -->
+               
+
+        <div class="col-xl-4 col-md-6">
+                    <div class="card h-100 text-white">
+                        <div class="card-header pb-0">
+                            <h4 class="mb-0">${{number_format($charge_back_total, 2)}}/<span class="text-primary mb-0">{{$charge_back_count}}</span></h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="totalProfitLineChart" class="mb-3"></div>
+                            <h6 class="text-center mb-0">ChargeBack</h6>
+                            <div class="d-grid mt-3">
+                                <a href="{{ route('score.details', ['filter_type' => 'chargeback']) }}" class="btn btn-sm btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Total Profit line chart -->
+
+                
+                <!-- Refund -->
+                 <div class="col-xl-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header pb-0">
+                            <h4 class="mb-0">${{number_format($refund_total, 2)}}/<span class="text-primary mb-0">{{$refund_count}}</span></h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3"></div>
+                            <h6 class="text-center mb-0">Refund</h6>
+                            <div class="d-grid mt-3">
+                                <a href="{{ route('score.details', ['filter_type' => 'refund']) }}" class="btn btn-sm btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Booking -->
+               <div class="col-xl-4 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header pb-0">
+                            <h4 class="mb-0">${{number_format($total_booking_total, 2)}}/<span class="text-primary mb-0">{{$total_booking_count}}</span></h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3"></div>
+                            <h6 class="text-center mb-0">Total Booking</h6>
+                            <div class="d-grid mt-3">
+                                <a href="{{ route('score.details', ['filter_type' => 'total']) }}" class="btn btn-sm btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Total Booking -->
+        <!--/ Total Earnings -->
+
         <div class="col-xl-4 col-md-6">
             <div class="card card-space h-100">
                 <div class="card-header d-flex align-items-center justify-content-between p-0">
@@ -338,6 +287,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-xl-4 col-md-6">
             <div class="card-group h-100">
                 <div class="card mb-0 card-space">
@@ -360,91 +310,13 @@
                 </div>
             </div>
         </div>
-        <!--/ Total Earnings -->
-
-        <!-- Four Cards -->
+       
         <div class="col-xl-4 col-md-6">
-            <div class="row gy-6">
-                <!-- Total Profit line chart -->
-                <div class="col-sm-6 text-white">
-                    <div class="card h-100 text-white">
-                        <div class="card-header pb-0">
-                            <h4 class="mb-0">{{$charge_back_total}}/<span class="text-primary mb-0">{{$charge_back_count}}</span></h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="totalProfitLineChart" class="mb-3"></div>
-                            <h6 class="text-center mb-0">ChargeBack</h6>
-                        </div>
-                    </div>
-                </div>
-                <!--/ Total Profit line chart -->
-
-                <!-- Total Profit Weekly Project -->
-                <div class="col-sm-6">
-                    <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <div class="avatar">
-                                <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
-                                    <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="card-body ">
-                            <h6 class="mb-1">Total Booking</h6>
-                            <div class="d-flex flex-wrap mb-1 align-items-center ">
-                                <h4 class="mb-0 me-2">{{$total_booking_total}} / {{$total_booking_count}}</h4>
-                            </div>
-                            <small>Weekly Project</small>
-                        </div>
-                    </div>
-                </div>
-                <!--/ Total Profit Weekly Project -->
-                <!-- New Yearly Project -->
-                <div class="col-sm-6">
-                    <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <div class="avatar">
-                                <div class="avatar-initial bg-primary rounded-circle shadow-xs">
-                                    <i class="icon-base ri ri-file-word-2-line icon-24px"></i>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="card-body">
-                            <h6 class="mb-1">Refund</h6>
-                            <div class="d-flex flex-wrap mb-1 align-items-center">
-                                <h4 class="mb-0 me-2">{{$refund_total}} / {{$refund_count}}</h4>
-                            </div>
-                            <small>Yearly Project</small>
-                        </div>
-                    </div>
-                </div>
-                <!--/ New Yearly Project -->
-                <!-- Sessions chart -->
-                <div class="col-sm-6">
-                    <div class="card h-100">
-                        <div class="card-header pb-0">
-                            <button type="button" class="break-btn" data-bs-toggle="modal"
-                                data-bs-target="#breakRequestModal">
-                                <img width="15" src="./assets/img/icons/img-icons/request-break.png" alt="">
-                            </button>
-                            <!-- Break Request Modal -->
-                            <div class="modal fade" id="breakRequestModal" tabindex="-1"
-                                aria-labelledby="breakRequestModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="breakRequestModalLabel">Request for Break</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="POST" action="#">
-                                                @csrf
-                                                <!-- Hidden user ID or other info -->
-                                                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                                                <button type="submit" name="break_type" value="short"
+            <div class="card-group h-100">
+                <div class="card mb-0 card-space">
+                    <div class="card-body p-0">
+               
+                <button type="submit" name="break_type" value="short"
                                                     class="btn btn-warning">
                                                     Short Break
                                                 </button>
@@ -452,79 +324,11 @@
                                                     class="btn btn-info">
                                                     Dinner Break
                                                 </button>
-                                                <button type="submit" name="break_type" value="end"
-                                                    class="btn btn-success">
-                                                    Submit
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div id="sessionsColumnChart" class="mb-3"></div>
-                            <h6 class="mb-1 modal-title" id="breakRequestModalLabel">Pending</h6>
-                            <h4 class="mb-0 me-2">2</h4>
-                            <small>Break</small>
-                        </div>
+                         </div>
+                      </div>
                     </div>
-                </div>
-                <!--/ Sessions chart -->
-            </div>
         </div>
         <!--/ four cards -->
-
-
-
-
-
-        <!-- Deposit / Withdraw -->
-        <div class="col-xl-12">
-            <div class="card-group">
-                <div class="card mb-0">
-                    <div class="card-body card-separator attendance-card">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-0">
-                            <h5 class="m-0 me-2">Attendance</h5>
-                            <!-- <a class="fw-medium" href="javascript:void(0);">View all</a> -->
-                        </div>
-                        <div class="deposit-content pt-2 attendance-table crm-table">
-                            @if (!empty($calendar))
-                            <table class="table table-bordered text-center">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        @for ($day = 1; $day <= 30; $day++) <th>{{ $day }}</th>
-                                        @endfor
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>{{date('M')}}</th>
-                                        @for ($day = 1; $day <= 30; $day++) @php $status=$calendar[$day] ?? '' ;
-                                            $bg=match($status) { 'Y'=> '#90EE90',
-                                            'N' => '#FF6347',
-                                            'P' => '#0ab200',
-                                            'H' => '#FFFF99',
-                                            default => '#ffffff'
-                                            };
-                                            @endphp
-                                                <td style="background-color: {{ $bg }}"> {{ $status }} </td>
-                                            @endfor
-                                    </tr>
-                                </tbody>
-                            </table>
-                            @else
-                            <p>No attendance records found for June 2025.</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-        <!-- Deposit / Withdraw -->
 
     </div>
 </div>

@@ -32,21 +32,61 @@
     <div class="card">
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
-                <div class="d-flex align-items-center justify-content-between booking-form gen_form mb-2">
-                    
-                    <div class="add-user-btn text-end d-flex gap-2">
-                        <button class="btn btn-warning button-style" style="font-size: 12px;" tabindex="0"
+                <div class="row align-items-end w-100 booking-form gen_form mb-4">
+                    <div class="col-md-2 ">
+                        <input type="text" id="searchKeyword" class="form-control input-style" placeholder="Search Name / Email / Pseudo">
+                    </div>
+                    <div class="col-md-2">
+                        <select id="searchDepartment" class="form-control input-style">
+                            <option value="">All Departments</option>
+                            <option value="Quality">Quality</option>
+                            <option value="Billing">Billing</option>
+                            <option value="Sales">Sales</option>
+                            <option value="CCV">CCV</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="searchRole" class="form-control input-style">
+                            <option value="">All Roles</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="TLeader">Team Leader</option>
+                            <option value="User">User</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select id="searchLob" class="form-control input-style">
+                            <option value="">All LOB</option>
+                            <option value="1">Jacob Bethell</option>
+                            <option value="2">Joe Root</option>
+                            <option value="3">Ollie Pope</option>
+                            <option value="4">Ben Duckett</option>
+                            <option value="5">Zak Crawley</option>
+                            <option value="6">Harry Brook</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 d-flex justify-content-end gap-2">
+                        <a href="{{ route('attendance.index') }}" class="btn btn-success button-style">
+                            <i class="ri ri-calendar-check-line me-1"></i>
+                            <span class="d-none d-sm-inline-block">Attendance</span>
+                        </a>
+
+                         <button class="btn btn-warning button-style" style="font-size: 12px;" tabindex="0"
                             type="button" data-bs-toggle="modal" data-bs-target="#loginRequestsModal">
                             <span class="d-none d-sm-inline-block">Login Approvals</span>
                             <span class="badge bg-danger ms-1" id="pendingCount">0</span>
                         </button>
-                        <button class="btn add-new btn-primary button-style" style="font-size: 12px;" tabindex="0"
-                            aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasAddUser"><span>
-                                <i class="icon-base ri ri-add-line icon-sm me-0 me-sm-2 d-sm-none d-inline-block"></i>
-                                <span class="d-none d-sm-inline-block">Add User</span></span></button>
-                    </div>
-                </div>
+
+                        <button class="btn btn-primary button-style float-right" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
+                            <i class="ri ri-add-line me-1"></i>
+                            <span class="d-none d-sm-inline-block">Add User</span>
+                        </button>
+                    </div>    
+                    
+                </div>    
+                
 
 
                 <div class="justify-content-between dt-layout-table">

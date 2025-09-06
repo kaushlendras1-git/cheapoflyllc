@@ -105,12 +105,14 @@ class SignatureController extends Controller
         $publicIP = $response->json('ip');
         $card_id = decode($request->input('card_id'));
         $card_billing_id = decode($request->input('card_billing_id'));
-        if($request->input('refund_status') == 'non_refundable'){
+
+        if($request->input('refund_status') == 'refundable'){
             $refund_status = 1;
         }
         else{
             $refund_status = 0;
         }
+
         Signature::create([
             'booking_id' => $booking_id,
             'card_id' => $card_id,
@@ -127,7 +129,6 @@ class SignatureController extends Controller
             'code'=>200,
             'status'=>true
         ],200);
-//        return redirect()->back()->with('success', 'Signature and IP saved successfully!');
     }
 
 

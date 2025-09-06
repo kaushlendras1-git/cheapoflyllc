@@ -346,17 +346,15 @@
 
 
     <div class="d-flex justify-content-between gap-2 mt-2">
-<a id="prev-tab-btn" class="btn btn-sm btn-danger text-center"
-    style="padding: 5px; font-size: 12px; color:#fff">
-    <i class="fas fa-arrow-left"></i> Previous
+        <a id="prev-tab-btn" class="btn btn-outline-secondary text-center" 
+   style="padding: 5px; font-size: 12px;">
+    <i class="fas fa-arrow-left"></i>
 </a>
 
-<a id="next-tab-btn" class="btn btn-sm btn-primary text-center"
-    style="padding: 5px; font-size: 12px; color:#fff">
-    Next <i class="fas fa-arrow-right"></i>
+<a id="next-tab-btn" class="btn btn-outline-secondary text-center"
+   style="padding: 5px; font-size: 12px;">
+    <i class="fas fa-arrow-right"></i>
 </a>
-    </div>
-
 
 
 

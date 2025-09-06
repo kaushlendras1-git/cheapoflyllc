@@ -146,6 +146,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
 
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/score-details', [UserDashboardController::class, 'scoreDetails'])->name('score.details');
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 
