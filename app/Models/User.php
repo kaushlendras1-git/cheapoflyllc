@@ -21,11 +21,12 @@ class User extends Authenticatable
         'email',
         'pseudo',
         'lob',
+        'team',
         'address',
         'password',
         'phone',
-        'role',
-        'departments',
+        'role_id',
+        'department_id',
         'status',
         'remember_token',
         'profile_picture',
@@ -87,5 +88,25 @@ class User extends Authenticatable
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function lobRelation()
+    {
+        return $this->belongsTo(LOB::class, 'lob');
+    }
+
+    public function teamRelation()
+    {
+        return $this->belongsTo(Team::class, 'team');
+    }
+
+    public function departmentRelation()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function roleRelation()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

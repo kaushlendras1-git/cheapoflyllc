@@ -40,7 +40,7 @@
                             <tr>
                                 <th>Serial No.</th> <!-- Serial number column -->
                                  <th>Name</th>
-                                <th>Reference (User)</th>
+                               
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -49,7 +49,7 @@
                             <tr>
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $lob->name }}</td>
-                                <td>{{ $lob->user->name ?? 'N/A' }}</td>
+                             
                                 <td>
                                          <a href="{{ route('lobs.edit', $lob->id) }}"
                                         class="">

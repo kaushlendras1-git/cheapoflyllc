@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Masters;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Team;
+use App\Models\LOB;
 
 class TeamController extends Controller
 {
@@ -27,14 +28,15 @@ class TeamController extends Controller
             $teams->whereDate('created_at', '<=', $end_date);
         }
     
-        $teams = $teams->paginate(10);   
+        $teams = $teams->with('lob')->paginate(10);   
         return view('masters.teams.index', compact('teams'));
     }
     
 
     public function create()
     {
-        return view('masters.teams.create');
+        $lobs = LOB::all();
+        return view('masters.teams.create', compact('lobs'));
     }
 
     public function store(Request $request)
@@ -42,6 +44,7 @@ class TeamController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'lob_id' => 'required|exists:lobs,id',
         ]);
 
         Team::create($validated);
@@ -56,7 +59,8 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
-        return view('masters.teams.edit', compact('team'));
+        $lobs = LOB::all();
+        return view('masters.teams.edit', compact('team', 'lobs'));
     }
 
     public function update(Request $request, Team $team)
@@ -64,6 +68,7 @@ class TeamController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|boolean',
+            'lob_id' => 'required|exists:lobs,id',
         ]);
 
         $team->update($validated);
@@ -76,5 +81,11 @@ class TeamController extends Controller
         $team->delete();
 
         return redirect()->route('teams.index')->with('success', 'Team deleted successfully!');
+    }
+
+    public function getTeamsByLob($lobId)
+    {
+        $teams = Team::where('lob_id', $lobId)->where('status', 1)->get(['id', 'name']);
+        return response()->json($teams);
     }
 }

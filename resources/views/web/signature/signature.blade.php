@@ -749,10 +749,30 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     style="font-size: 16px; font-weight: 400; color: #119516; padding: 0px 20px 10px 0px; text-align: right;">
                                     {{ number_format($billingPricingData->authorized_amt, 2) }}</td>
                             </tr>
+
+                            <tr>
+                                <td style="">
+                                   
+                                        <li style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">
+                                            <strong>All transactions</strong> will be processed in US Dollars (USD). If
+                                            your card was issued in a country other than the USA, your card issuer may
+                                            charge a currency conversion fee of up to 4% of the total amount charged.
+                                            Kindly check with your financial institution for more information.
+                                        </li>
+                    
+                                    
+                                     <li style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">
+                                        <strong>Prices are not guaranteed</strong> until the ticket number(s) are
+                                        issued. Prices may change based on airline inventory availability.
+                                    </li>
+                                </td>
+                            </tr>
+
                         </table>
                     </div>
                 </td>
             </tr>
+
 
             <tr>
                 <td colspan="2" style="padding: 30px 30px 0px 30px;">
@@ -761,27 +781,25 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             style="font-family: 'Work Sans', sans-serif; background-color: #fff; margin: auto; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
                             <th colspan="4"
                                 style="font-size:20px; font-weight:bold; color:#c53d3d; padding:15px; border-bottom:1px solid #ddd;">
-                                Please Note:
+                                Disclaimer:
                             </th>
                             <tr>
-                                <td colspan="2">
-                                    <ol style="padding-left: 30px; padding-top: 10px;">
-                                        <li style="font-size: 12px; font-weight: 400; color: #000;">
-                                            <strong>All transactions</strong> will be processed in US Dollars (USD). If
-                                            your card was issued in a country other than the USA, your card issuer may
-                                            charge a currency conversion fee of up to 4% of the total amount charged.
-                                            Kindly check with your financial institution for more information.
-                                        </li>
-                                        <li style="font-size: 12px; font-weight: 400; color: #000;">
-                                            Please be informed that your card may be billed with a single authorization
-                                            of <strong>$0.00 USD</strong>, which may appear on your card statement as
-                                            <em>Flydreams</em>, <em>FareTicketsLLC</em>, or <em>Cruiseline Service</em>.
-                                        </li>
-                                    </ol>
-                                    <p style="font-size: 12px; font-weight: 400; color: #000; padding-left: 20px;">
-                                        <strong>Prices are not guaranteed</strong> until the ticket number(s) are
-                                        issued. Prices may change based on airline inventory availability.
-                                    </p>
+                                <td colspan="2" style="font-size: 14px; font-weight: 400; color: #787878; padding: 5px 30px 0px 30px;">
+                                  
+                                        <p>I,&nbsp;<strong>{{$billingPricingData->cc_holder_name}} </strong>, hereby acknowledge receipt of this communication outlining the associated charges. I have thoroughly reviewed and confirmed the accuracy of the itinerary, including all passenger names, flight schedules, dates, and times.</p>
+                                        <p>I acknowledge and accept that the total cost of the booking is <strong>USD                                         {{ number_format($booking->gross_mco, 2) }}   </strong>, which will be processed through <strong>single or multiple transactions</strong>. I understand that, regardless of the number of transactions, the <strong>total amount charged will not exceed USD  {{ number_format($booking->gross_mco, 2) }}  </strong>.</p>
+                                        <p>I further acknowledge that the charges may appear on my credit card statements under one or more of the following descriptors:<br>
+                                        <strong>{{ $booking->selected_company_name }}</strong>, or <strong>{{$booking->reservation_source}}</strong>.</p>
+                                        <p>By this statement, I hereby authorize <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service providers to charge the following amounts to my cards for the related travel services:</p>
+                                        <ul>
+
+                                      <li>USD 150.00 to my Visa card ending in 2656</li>
+                                      <li>USD 150.00 to my Mastercard ending in 5646</li>
+                                                  
+                                               
+                                        </ul>
+                                        <p>I confirm that I am the authorized cardholder for the above payment methods and consent to the processing of these charges as outlined.</p>
+                                   
                                 </td>
                             </tr>
                         </table>

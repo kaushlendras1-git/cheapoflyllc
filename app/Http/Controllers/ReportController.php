@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\BookingStatus;
 use App\Models\PaymentStatus;
+use App\Models\LOB;
 
 class ReportController extends Controller
 {
@@ -22,6 +23,7 @@ class ReportController extends Controller
         $payment_status = PaymentStatus::all();
         return view('web.reports.call_queue',compact('booking_status','payment_status'));
     }
+    
     public function agents()
     {   
         $booking_status = BookingStatus::all();
@@ -33,7 +35,8 @@ class ReportController extends Controller
     {
         $booking_status = BookingStatus::all();
         $payment_status = PaymentStatus::all();
-        return view('web.reports.score',compact('booking_status','payment_status'));
+        $lobs = LOB::all();
+        return view('web.reports.score',compact('booking_status','payment_status','lobs'));
     }
 
 }

@@ -141,18 +141,47 @@
                                     <div data-i18n="Masters">Masters</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item {{ Route::currentRouteName() == 'emails.index' ? 'active' : '' }}">
-                                        <a href="{{ route('emails.index') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-mail-line"></i>
-                                            <div data-i18n="Emails">Emails</div>
+
+                                  <li class="menu-item {{ Route::currentRouteName() == 'lob.index' ? 'active' : '' }}">
+                                        <a href="{{ route('lobs.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
+                                            <div data-i18n="LOB">LOB</div>
                                         </a>
-                                    </li>
-                                    <li class="menu-item {{ Route::currentRouteName() == 'teams.index' ? 'active' : '' }}">
+                                   </li>
+
+                                  <li class="menu-item {{ Route::currentRouteName() == 'teams.index' ? 'active' : '' }}">
                                         <a href="{{ route('teams.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-team-line"></i>
                                             <div data-i18n="Teams">Teams</div>
                                         </a>
                                     </li>
+
+                                     <!--li class="menu-item {{ Route::currentRouteName() == 'units.index' ? 'active' : '' }}">
+                                        <a href="{{ route('units.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-team-line"></i>
+                                            <div data-i18n="Unit">Unit</div>
+                                        </a>
+                                    </li-->
+
+                                    
+                                    <li class="menu-item {{ Route::currentRouteName() == 'departments.index' ? 'active' : '' }}">
+                                        <a href="{{ route('departments.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-mail-line"></i>
+                                            <div data-i18n="Departments">Departments</div>
+                                        </a>
+                                    </li>
+
+                                      <li class="menu-item {{ Route::currentRouteName() == 'roles.index' ? 'active' : '' }}">
+                                        <a href="{{ route('roles.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-mail-line"></i>
+                                            <div data-i18n="Roles">Roles</div>
+                                        </a>
+                                    </li>
+
+                                      
+                                   
+
+                                  
                                     <li class="menu-item {{ Route::currentRouteName() == 'campaign.index' ? 'active' : '' }}">
                                         <a href="{{ route('campaign.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-megaphone-line"></i>
@@ -186,12 +215,7 @@
                                         </a>
                                     </li>
 
-                                    <li class="menu-item {{ Route::currentRouteName() == 'lob.index' ? 'active' : '' }}">
-                                        <a href="{{ route('lobs.index') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
-                                            <div data-i18n="LOB">LOB</div>
-                                        </a>
-                                    </li>
+                                  
                                     
                                     <li class="menu-item {{ Route::currentRouteName() == 'status-management.index' ? 'active' : '' }}">
                                         <a href="{{ route('status-management.index') }}" class="menu-link">
@@ -199,6 +223,16 @@
                                             <div data-i18n="Status Management">Status Management</div>
                                         </a>
                                     </li>
+
+                                     <li class="menu-item {{ Route::currentRouteName() == 'emails.index' ? 'active' : '' }}">
+                                        <a href="{{ route('emails.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-mail-line"></i>
+                                            <div data-i18n="Emails">Emails</div>
+                                        </a>
+                                    </li>
+
+
+
                                     <!--  -->
                                 </ul>
                             </li>
@@ -222,20 +256,21 @@
                                             <div data-i18n="Call Queue">Call Queue</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item {{ Route::currentRouteName() == 'agents' ? 'active' : '' }}">
-                                        <a href="{{ route('agents') }}" class="menu-link">
+                                    <li class="menu-item {{ Route::currentRouteName() == 'score.details' ? 'active' : '' }}">
+                                        <a href="{{ route('score.details') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-user-2-line"></i>
-                                            <div data-i18n="Agent">Agents</div>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item {{ Route::currentRouteName() == 'score' ? 'active' : '' }}">
-                                        <a href="{{ route('score') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-star-line ri-2x"></i>
-                                            <div data-i18n="Score">Score</div>
+                                            <div data-i18n="My Score">My Score</div>
                                         </a>
                                     </li>
 
-                            
+                                    <li class="menu-item {{ Route::currentRouteName() == 'score' ? 'active' : '' }}">
+                                        <a href="{{ route('score') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-star-line ri-2x"></i>
+                                            <div data-i18n="Team Score">Team Score</div>
+                                        </a>
+                                    </li>
+
+                                  
 
                                 </ul>
                             </li>

@@ -37,18 +37,7 @@
                         <input type="text" name="name" value="{{ old('name', $lob->name ?? '') }}" required>
                     </div>
 
-                    <div class="col-md-3 position-relative">
-                        <label>User (Reference)</label>
-                        <select name="user_id" required class="form-control">
-                            <option value="">-- Select User --</option>
-                            @foreach($users as $user)
-                            <option value="{{ $user->id }}"
-                                {{ isset($lob) && $lob->user_id == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    
 
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary">Submit</button>

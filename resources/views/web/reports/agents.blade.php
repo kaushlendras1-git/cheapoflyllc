@@ -80,31 +80,33 @@
                     <table class="table table-hover table-sm booking-table w-100 mb-0">
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
-                                <th>ID</th>
-                               	<th>Booking Type</th>
+                                 <th>ID</th>
+                                <th>Booking Type</th>
                                 <th>PNR</th>
                                 <th>Booking Date</th>
-                                <th>Booking Status</th>	
-                                <th>Payment Status</th>	
-                                <th>Total</th>	
-                                <th>Agent MCO</th>
-                                <th>Name</th>
-                                <th>Email</th>
+                                <th>Booking Status</th>
+                                <th>Payment Status</th>
+                               <th> Gross MCO</th>
+                               <th> Net MCO</th>
+                               <th> Quality Score</th>
+                               <th> Email Status</th>
+                               <th> Auth Status</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             <tr>
-                                <th>ID</th>
-                               	<th>Booking Type</th>
+                                  <th>ID</th>
+                                <th>Booking Type</th>
                                 <th>PNR</th>
                                 <th>Booking Date</th>
-                                <th>Booking Status</th>	
-                                <th>Payment Status</th>	
-                                <th>Total</th>	
-                                <th>Agent MCO</th>
-                                <th>Name</th>
-                                <th>Email</th>
+                                <th>Booking Status</th>
+                                <th>Payment Status</th>
+                               <th> Gross MCO</th>
+                               <th> Net MCO</th>
+                               <th> Quality Score</th>
+                               <th> Email Status</th>
+                               <th> Auth Status</th>
                             </tr>
 
                         </tbody>

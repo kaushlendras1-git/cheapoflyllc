@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('call-types', CallTypeController::class);
         Route::resource('campaign', CampaignController::class);
         Route::resource('quality-feedback', QualityFeedbackController::class);
-        Route::resource('lobs', \App\Http\Controllers\LOBController::class);
+        Route::resource('lobs', \App\Http\Controllers\Masters\LOBController::class);
         Route::resource('teams', TeamController::class);
         Route::resource('status', StatusController::class);
         Route::resource('supplier', SupplierController::class);
@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('query-type', QueryTypeController::class);
         Route::resource('members', MemberController::class);
         Route::resource('companies', CompaniesController::class);
+        Route::resource('units', \App\Http\Controllers\UnitController::class);
     });
     
 });

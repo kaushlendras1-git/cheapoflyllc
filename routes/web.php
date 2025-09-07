@@ -9,7 +9,7 @@ use App\Http\Controllers\FollowUpController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AuthHistoryController;
 use App\Http\Controllers\SurveyController;
-use App\Http\Controllers\LOBController;
+
 use App\Http\Controllers\FlightSearchListController;
 use App\Http\Controllers\TrainSearchListController;
 use App\Http\Controllers\PostController;
@@ -33,6 +33,10 @@ use App\Http\Controllers\Masters\QueryTypeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\Masters\CompaniesController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Masters\DepartmentController;
+use App\Http\Controllers\Masters\RoleController;
+use App\Http\Controllers\Masters\LOBController;
+use App\Http\Controllers\Masters\UnitController;
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 
@@ -111,7 +115,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('call-types', CallTypeController::class);
         Route::resource('campaign', CampaignController::class);
         Route::resource('quality-feedback', QualityFeedbackController::class);
-        Route::resource('lobs', \App\Http\Controllers\LOBController::class);
+        Route::resource('lobs', LOBController::class);
         Route::resource('teams', TeamController::class);
         Route::resource('status', StatusController::class);
         Route::resource('supplier', SupplierController::class);
@@ -119,6 +123,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('query-type', QueryTypeController::class);
         Route::resource('members', MemberController::class);
         Route::resource('companies', CompaniesController::class);
+        Route::resource('departments', DepartmentController::class);
+        Route::resource('roles', RoleController::class);
+        Route::resource('units', UnitController::class);
     });
 
     // Status Management Routes
@@ -176,6 +183,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/attendance/{id}', [\App\Http\Controllers\AttendanceController::class, 'update'])->name('attendance.update');
         Route::get('/attendance/export', [\App\Http\Controllers\AttendanceController::class, 'export'])->name('attendance.export');
     });
+
+// API route for teams by LOB
+Route::get('/api/teams/{lobId}', [\App\Http\Controllers\Masters\TeamController::class, 'getTeamsByLob']);
 
 require __DIR__ . '/booking.php';
 require __DIR__ . '/masters.php';

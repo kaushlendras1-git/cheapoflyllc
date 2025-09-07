@@ -33,40 +33,65 @@
         <div class="card-datatable p-4">
             <div id="DataTables_Table_0_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
                 <div class="row align-items-end w-100 booking-form gen_form mb-4">
-                    <div class="col-md-2 ">
-                        <input type="text" id="searchKeyword" class="form-control input-style" placeholder="Search Name / Email / Pseudo">
-                    </div>
-                    <div class="col-md-2">
-                        <select id="searchDepartment" class="form-control input-style">
-                            <option value="">All Departments</option>
-                            <option value="Quality">Quality</option>
-                            <option value="Billing">Billing</option>
-                            <option value="Sales">Sales</option>
-                            <option value="CCV">CCV</option>
-                            <option value="Admin">Admin</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <select id="searchRole" class="form-control input-style">
-                            <option value="">All Roles</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Manager">Manager</option>
-                            <option value="TLeader">Team Leader</option>
-                            <option value="User">User</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
+                  
+                
+           <!-------------Start Filter Section --------------------->
+
+                      <div class="col-md-2">
+                                <input id="searchKeyword" class="form-control input-style" type="text" placeholder="Search Name/ Email/ Pseudo" value="{{ request('keyword') }}">
+                     </div>
+                    
+                    
+                     <div class="col-md-1">
                         <select id="searchLob" class="form-control input-style">
                             <option value="">All LOB</option>
-                            <option value="1">Jacob Bethell</option>
-                            <option value="2">Joe Root</option>
-                            <option value="3">Ollie Pope</option>
-                            <option value="4">Ben Duckett</option>
-                            <option value="5">Zak Crawley</option>
-                            <option value="6">Harry Brook</option>
+                             @if(isset($lobs))
+                                @foreach($lobs as $lob)
+                                    <option value="{{ $lob->id }}" {{ request('lob') == $lob->id ? 'selected' : '' }}>{{ $lob->name }}</option>
+                                @endforeach
+                              @endif 
                         </select>
                     </div>
 
+                    
+                     <div class="col-md-2">
+                        <select id="searchTeam" name="team" class="form-select input-style">
+                            <option value="">All Teams</option>
+                            @if(request('lob'))
+                                @foreach($teams ?? [] as $team)
+                                    <option value="{{ $team->id }}" {{ request('team') == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+
+
+                    
+                        <div class="col-md-2">
+                            <select id="searchDepartment" class="form-control input-style">
+                                <option value="">All Departments</option>
+                                @if(isset($departments))
+                                    @foreach($departments as $department)
+                                        <option value="{{ $department->id }}" {{ request('department') == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                    <div class="col-md-1">
+                        <select id="searchRole" class="form-control input-style">
+                            <option value="">All Roles</option>
+                             @if(isset($roles))
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}" {{ request('role') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                @endforeach
+                              @endif                                
+                        </select>
+                    </div>
+
+                    <!-------------Filter Section End --------------------->
+
+                   
                     <div class="col-md-4 d-flex justify-content-end gap-2">
                         <a href="{{ route('attendance.index') }}" class="btn btn-success button-style">
                             <i class="ri ri-calendar-check-line me-1"></i>
@@ -89,40 +114,28 @@
                 
 
 
+
+
+
                 <div class="justify-content-between dt-layout-table">
                     <div class="justify-content-between align-items-center dt-layout-full crm-table">
                         <table id="membersTable" class="table dataTable dtr-column table-responsive">
                             <thead>
                                 <tr>
-                                    <th><span class="dt-column-title" role="button">S.No.</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Name</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Email</span>
-                                        <spanclass="dt-column-order"></span>
-                                    </th>
-                                    <th><span class="dt-column-title" role="button">Deartments</span>
-                                        <spanclass="dt-column-order"></span>
-                                    </th>
-
-                                    <th><span class="dt-column-title" role="button">Pseudo</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Role</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Shift</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Team</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title">Profile</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title">PAN Card</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title">Aadhar Card</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title" role="button">Status</span><span
-                                            class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title">Actions</span><span
-                                            class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">S.No.</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Name</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Email</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">LOB</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Team</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Deartments</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Role</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Pseudo</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Shift</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">Profile</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">PAN Card</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">Aadhar Card</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Status</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title">Actions</span><span class="dt-column-order"></span></th>
                                 </tr>
                             </thead>
                             <tbody id="membersTableBody">
@@ -136,37 +149,42 @@
                                  <td class="sorting_1">{{ $member->name }}</td>
                                  <td class="sorting_1">{{ $member->email }}</td>
                                   <td>
-                                    @foreach(explode(',', $member->departments) as $department)
                                         @php
-                                            $dept = trim($department);
-                                            $badgeColors = [
-                                                'Quality' => 'bg-success',   // green
-                                                'Billing' => 'bg-primary',   // blue
-                                                'Sales'   => 'bg-warning text-dark', // yellow with dark text
-                                                'CCV'     => 'bg-info text-dark',    // light blue
-                                                'Admin'   => 'bg-danger',    // red
-                                            ];
-                                            $color = $badgeColors[$dept] ?? 'bg-secondary'; // default gray
+                                            $lob = $member->lobRelation;
+                                            $lobColors = ['bg-primary', 'bg-success', 'bg-info', 'bg-danger'];
+                                            $lobColor = $lobColors[($lob->id ?? 0) % count($lobColors)];
                                         @endphp
-                                        <span class="badge {{ $color }} me-1">{{ $dept }}</span>
-                                    @endforeach
-                                </td>
-                                    <td>{{ $member->pseudo }}</td>
+                                        <span class="badge {{ $lobColor }}">{{ $lob->name ?? 'N/A' }}</span>
+                                    </td>
+                                    <td>
+                                        @php
+                                            $team = $member->teamRelation;
+                                            $teamColors = ['bg-warning text-dark', 'bg-secondary', 'bg-dark text-white', 'bg-light text-dark'];
+                                            $teamColor = $teamColors[($team->id ?? 0) % count($teamColors)];
+                                        @endphp
+                                        <span class="badge {{ $teamColor }}">{{ $team->name ?? 'N/A' }}</span>
+                                    </td>
+                                    
                                   <td>
                                         @php
-                                            $role = trim($member->role);
-                                            $roleColors = [
-                                                'Admin'   => 'bg-danger',           // red
-                                                'Manager' => 'bg-primary',          // blue
-                                                'TLeader' => 'bg-success',          // green
-                                                'User'    => 'bg-secondary',        // gray
-                                            ];
-                                            $color = $roleColors[$role] ?? 'bg-dark'; // fallback
+                                            $dept = $member->departmentRelation;
+                                            $deptColors = ['bg-purple text-white', 'bg-pink text-white', 'bg-orange text-white', 'bg-teal text-white'];
+                                            $deptColor = $deptColors[($dept->id ?? 0) % count($deptColors)] ?? 'bg-secondary';
                                         @endphp
-                                        <span class="badge {{ $color }}">{{ $role }}</span>
+                                     <span class="badge {{ $deptColor }} me-1" style="{{ str_contains($deptColor, 'bg-purple') ? 'background-color: #6f42c1 !important;' : '' }}{{ str_contains($deptColor, 'bg-pink') ? 'background-color: #e83e8c !important;' : '' }}{{ str_contains($deptColor, 'bg-orange') ? 'background-color: #fd7e14 !important;' : '' }}{{ str_contains($deptColor, 'bg-teal') ? 'background-color: #20c997 !important;' : '' }}">{{ $dept->name ?? 'N/A' }}</span>
+                                </td>
+                                   
+                                  <td>
+                                        @php
+                                            $role = $member->roleRelation;
+                                            $roleColors = ['bg-indigo text-white', 'bg-cyan text-white', 'bg-yellow text-dark', 'bg-lime text-dark'];
+                                            $roleColor = $roleColors[($role->id ?? 0) % count($roleColors)] ?? 'bg-secondary';
+                                        @endphp
+                                        <span class="badge {{ $roleColor }}" style="{{ str_contains($roleColor, 'bg-indigo') ? 'background-color: #6610f2 !important;' : '' }}{{ str_contains($roleColor, 'bg-cyan') ? 'background-color: #0dcaf0 !important;' : '' }}{{ str_contains($roleColor, 'bg-yellow') ? 'background-color: #ffc107 !important;' : '' }}{{ str_contains($roleColor, 'bg-lime') ? 'background-color: #32cd32 !important;' : '' }}">{{ $role->name ?? 'N/A' }}</span>
                                     </td>
+                                   
+                                     <td>{{ $member->pseudo }}</td>
                                     <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
-                                    <td>{{ $member->currentTeam?->team->name ?? 'No Team Assigned' }}</td>
                                     <td>
                                         @if($member->profile_picture)
                                         <img src="{{ asset('storage/' . $member->profile_picture) }}" alt="Profile" class="img-thumbnail" style="width: 30px; height: 30px; object-fit: cover;">
@@ -288,42 +306,87 @@
                             <label for="add-user-password">Password</label>
                         </div>
 
-                        <!-- User Role Field -->
                         <div class="form-floating form-floating-outline mb-5">
-                            <select id="user-role" name="departments" class="form-select" required="">
-                                <option value="Quality">Quality</option>
-                                <option value="Changes">Changes</option>
-                                <option value="Billing">Billing</option>
-                                <option value="CCV">CCV</option>
-                                <option value="Charge Back">Charge Back</option>
-                                <option value="Sales">Sales</option>
-                            </select>
-                            <label for="user-role">Departments</label>
-                        </div>
+                        <select id="lob" name="lob" class="form-select" required="">
+                            <option value="">Select Lobs</option>
+                            @foreach($lobs as $lob)
+                                <option value="{{ $lob->id }}">{{ $lob->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="lob">LOB</label>
+                       </div>
 
+                       <div class="form-floating form-floating-outline mb-5">
+    <select id="team" name="team" class="form-select" required="">
+        <option value="">Select Team</option>
+    </select>
+    <label for="team">Teams</label>
+</div>
 
-                        <!-- User Role Field -->
-                        <div class="form-floating form-floating-outline mb-5">
-                            <select id="user-role" name="role" class="form-select" required="">
-                                <option value="Agent">Agent</option>
-                                <option value="TLeader">TLeader</option>
-                                <option value="Manager">Manager</option>
-                                <option value="Admin">Admin</option>
-                            </select>
-                            <label for="user-role">User Role</label>
-                        </div>
+<script>
+document.getElementById('lob').addEventListener('change', function() {
+    const lobId = this.value;
+    const teamSelect = document.getElementById('team');
+    
+    // Reset and disable team select initially
+    teamSelect.innerHTML = '<option value="">Select Team</option>';
+    teamSelect.disabled = true;
+    
+    if(lobId) {
+        // Make API call to get teams
+        fetch(`/api/teams/${lobId}`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(teams => {
+            // Populate teams dropdown
+            teams.forEach(team => {
+                const option = new Option(team.name, team.id);
+                teamSelect.add(option);
+            });
+            // Enable the teams dropdown
+            teamSelect.disabled = false;
+        })
+        .catch(error => {
+            console.error('Error fetching teams:', error);
+            teamSelect.disabled = true;
+            // Show error message to user
+            const errorOption = new Option('Error loading teams', '');
+            teamSelect.innerHTML = '';
+            teamSelect.add(errorOption);
+        });
+    }
+});
+</script>
+                    <!-- User Role Field -->
+                    <div class="form-floating form-floating-outline mb-5">
+                        <select id="user-role" name="departments" class="form-select" required="">
+                            <option value="">Select Departments</option>
+                            @foreach($departments as $department)
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="user-role">Departments</label>
+                    </div>
 
-                        <div class="form-floating form-floating-outline mb-5">
-                            <select id="lob" name="lob" class="form-select" required="">
-                                <option value="1">Jacob Bethell</option>
-                                <option value="2">Joe Root</option>
-                                <option value="3">Ollie Pope</option>
-                                <option value="4">Ben Duckett</option>
-                                <option value="5">Zak Crawley</option>
-                                <option value="6">Harry Brook</option>
-                            </select>
-                            <label for="lob">LOB</label>
-                        </div>
+                    <!-- User Role Field -->
+                    <div class="form-floating form-floating-outline mb-5">
+                        <select id="user-role" name="role" class="form-select" required="">
+                            <option value="">Select Role</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="user-role">User Role</label>
+                    </div>
+                      
 
 
 
@@ -360,19 +423,9 @@
             </div>
         </div>
 
-
-
-
     </div>
 
-    <!-- Login Requests Button -->
-    <div class="row mb-3">
-        <div class="col-12">
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#loginRequestsModal">
-                <i class="ri-notification-line"></i> Login Requests (<span id="pendingCount">0</span>)
-            </button>
-        </div>
-    </div>
+
 
     <div class="row g-6 mb-6 mt-1">
         <div class="container mt-4">
@@ -438,22 +491,7 @@
 
 </div>
 
-@if (session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
 
-@if ($errors->any())
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <ul class="mb-0">
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
 
 
 <!--  ______________________________  Users List Table ______________________________  -->
@@ -463,75 +501,6 @@
 <!--/ Content -->
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize DataTable with AJAX
-    let table = $('#membersTable').DataTable({
-        "pageLength": 10,
-        "searching": false,
-        "paging": true,
-        "info": true,
-        "lengthChange": false,
-        "order": [[ 0, "asc" ]],
-        "columnDefs": [
-            { "orderable": false, "targets": [9, 10, 11, 12, 13] }
-        ]
-    });
-
-    // AJAX search functionality
-    function performSearch() {
-        let keyword = $('#searchKeyword').val();
-        let department = $('#searchDepartment').val();
-        let role = $('#searchRole').val();
-        let lob = $('#searchLob').val();
-
-        $.ajax({
-            url: '{{ route("members.index") }}',
-            type: 'GET',
-            data: {
-                keyword: keyword,
-                department: department,
-                role: role,
-                lob: lob,
-                ajax: 1
-            },
-            success: function(response) {
-                table.clear();
-                if(response.data && response.data.length > 0) {
-                    response.data.forEach(function(member, index) {
-                        table.row.add([
-                            index + 1,
-                            member.name,
-                            member.email,
-                            member.departments_badges,
-                            member.pseudo,
-                            member.role_badge,
-                            member.shift_name,
-                            member.team_name,
-                            member.profile_picture,
-                            member.pan_card,
-                            member.aadhar_card,
-                            member.status_badge,
-                            member.actions
-                        ]);
-                    });
-                }
-                table.draw();
-            }
-        });
-    }
-
-    // Bind search events
-    $('#searchKeyword').on('keyup', function() {
-        clearTimeout(window.searchTimeout);
-        window.searchTimeout = setTimeout(performSearch, 300);
-    });
-
-    $('#searchDepartment, #searchRole, #searchLob').on('change', performSearch);
-    
-    // Initialize search on page load
-    performSearch();
-});
-
 // Status toggle function
 function toggleStatus(userId, action) {
     if (confirm(`Are you sure you want to ${action.toLowerCase()} this user?`)) {
@@ -545,32 +514,18 @@ function toggleStatus(userId, action) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Show toast notification
-                showToast(`User status ${action.toLowerCase()}d successfully!`, 'success');
-                // Reload the page or update the table
                 location.reload();
-            } else {
-                showToast('Failed to update user status', 'error');
             }
         })
         .catch(error => {
-            showToast('An error occurred', 'error');
+            console.error('Error:', error);
         });
     }
 }
 
-// Toast notification function
-function showToast(message, type) {
-    const toast = document.createElement('div');
-    toast.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
-    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    toast.innerHTML = `${message} <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>`;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-}
-
-    const modal = document.getElementById('assignShiftTeamModal');
-
+// Modal functionality
+const modal = document.getElementById('assignShiftTeamModal');
+if(modal) {
     modal.addEventListener('show.bs.modal', function(event) {
         const button = event.relatedTarget;
         const url = button.getAttribute('data-url');
@@ -585,38 +540,72 @@ function showToast(message, type) {
                 modalBody.innerHTML = '<div class="alert alert-danger">Failed to load form.</div>';
             });
     });
+}
+
+// Filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // LOB change handler
+    const lobSelect = document.getElementById('searchLob');
+    const teamSelect = document.getElementById('searchTeam');
     
-    let lastCount = 0;
-    
-    function updatePendingCount() {
-        fetch('/agent/pending-requests')
-            .then(response => response.json())
-            .then(data => {
-                const countElement = document.getElementById('pendingCount');
-                if (countElement) {
-                    const newCount = data.length;
-                    
-                    if (newCount > lastCount) {
-                        // Show toast notification
-                        if (typeof showToast === 'function') {
-                            showToast(`New login request! (${newCount} pending)`, 'warning');
-                        } else {
-                            alert(`New login request! (${newCount} pending)`);
-                        }
-                        console.log('Toast shown for new request');
-                    }
-                    
-                    lastCount = newCount;
-                    countElement.textContent = newCount;
-                    console.log('Updated count to:', newCount);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+    if(lobSelect && teamSelect) {
+        lobSelect.addEventListener('change', function() {
+            const lobId = this.value;
+            teamSelect.innerHTML = '<option value="">All Teams</option>';
+            
+            if(lobId) {
+                fetch(`/api/teams/${lobId}`)
+                .then(response => response.json())
+                .then(teams => {
+                    teams.forEach(team => {
+                        const option = document.createElement('option');
+                        option.value = team.id;
+                        option.textContent = team.name;
+                        teamSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error loading teams:', error));
+            }
+            applyFilters();
+        });
     }
     
-    // Update count every 3 seconds
-    setInterval(updatePendingCount, 3000);
-    updatePendingCount(); // Initial load
+    // Search input handler
+    const searchInput = document.getElementById('searchKeyword');
+    if(searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(applyFilters, 500);
+        });
+    }
+    
+    // Filter change handlers
+    const filters = ['searchTeam', 'searchDepartment', 'searchRole'];
+    filters.forEach(filterId => {
+        const element = document.getElementById(filterId);
+        if(element) {
+            element.addEventListener('change', applyFilters);
+        }
+    });
+    
+    function applyFilters() {
+        const params = new URLSearchParams();
+        
+        const keyword = document.getElementById('searchKeyword')?.value;
+        const lob = document.getElementById('searchLob')?.value;
+        const team = document.getElementById('searchTeam')?.value;
+        const department = document.getElementById('searchDepartment')?.value;
+        const role = document.getElementById('searchRole')?.value;
+        
+        if(keyword) params.append('keyword', keyword);
+        if(lob) params.append('lob', lob);
+        if(team) params.append('team', team);
+        if(department) params.append('department', department);
+        if(role) params.append('role', role);
+        
+        window.location.href = `/masters/members?${params.toString()}`;
+    }
 });
 </script>
 @endsection

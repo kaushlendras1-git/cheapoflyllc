@@ -158,18 +158,27 @@
                             <table class="table table-hover">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>ID</th> 
                                         <th>PNR</th>
                                         <th>Customer</th>
                                         <th>Booking Type</th>
                                         <th>Net Value</th>
                                         <th>Status</th>
-                                        <th>Date</th>
+                                        <th>Booking Date</th>   
+                                         <th>Booking Status</th>  
+                                         <th>Payment Status</th>  
+                                         <th>Gross MCO</th>  
+                                         <th>Net MCO</th>  
+                                         <th>Quality Score</th>  
+                                         <th>Email Status</th>  
+                                        
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($bookings as $booking)
                                     <tr>
+                                        <td>1</td>
                                         <td>
                                             <span class="fw-medium">{{ $booking->pnr ?? 'N/A' }}</span>
                                         </td>
@@ -181,17 +190,35 @@
                                             </div>
                                         </td>
                                         <td>
-                                            @foreach($booking->bookingTypes as $type)
-                                                <span class="badge 
-                                                    @if($type->type == 'Flight') bg-primary
-                                                    @elseif($type->type == 'Hotel') bg-success
-                                                    @elseif($type->type == 'Cruise') bg-warning
-                                                    @elseif($type->type == 'Car') bg-info
-                                                    @elseif($type->type == 'Train') bg-secondary
-                                                    @else bg-dark
-                                                    @endif
-                                                    me-1">{{ $type->type }}</span>
-                                            @endforeach
+                                           
+                                            @php
+                                            $types = collect($booking->bookingTypes)->pluck('type')->map(fn($t) => strtolower($t))->toArray();
+                                        @endphp
+
+                                        {{-- Flight Icon --}}
+                                        @if(in_array('flight', $types))
+                                            <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
+                                        @endif
+
+                                        {{-- Hotel Icon --}}
+                                        @if(in_array('hotel', $types))
+                                            <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 18px;"></i>
+                                        @endif
+
+                                        {{-- Cruise Icon --}}
+                                        @if(in_array('cruise', $types))
+                                            <i class="ri ri-ship-fill" title="Cruise" style="color: #006994; font-size: 18px;"></i>
+                                        @endif
+
+                                        {{-- Car Icon --}}
+                                        @if(in_array('car', $types))
+                                            <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
+                                        @endif
+
+                                         {{-- Train Icon --}}
+                                        @if(in_array('train', $types))
+                                            <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 18px;"></i>
+                                        @endif
                                         </td>
                                         <td>
                                             <span class="fw-medium text-success">${{ number_format($booking->net_value, 2) }}</span>
@@ -206,6 +233,13 @@
                                             <br>
                                             <small class="text-muted">{{ $booking->created_at->format('h:i A') }}</small>
                                         </td>
+                                         <td>Booking Status</td>  
+                                         <td>Payment Status</td>  
+                                         <td>Gross MCO</td>  
+                                         <td>Net MCO</td>  
+                                         <td>Quality Score</td>  
+                                         <td>Email Status</td>  
+                                        
                                         <td>
                                             <a href="{{ route('booking.show', encode($booking->id)) }}" class="btn btn-sm btn-label-primary">
                                                 <i class="ri-eye-line"></i>

@@ -1,31 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Masters;
 
+use App\Http\Controllers\Controller;
 use App\Models\LOB;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class LOBController extends Controller
 {
     public function index()
     {
-        $lobs = LOB::with('user')->paginate(10);
+        $lobs = LOB::paginate(10);
         return view('masters.lob.index', compact('lobs'));
     }
 
     public function create()
     {
-        $users = User::all();
-        return view('masters.lob.create', compact('users'));
+        return view('masters.lob.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            #'reference' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
         ]);
 
         LOB::create($validated);
@@ -40,16 +37,13 @@ class LOBController extends Controller
 
     public function edit(LOB $lob)
     {
-        $users = User::all();
-        return view('masters.lob.create', compact('lob', 'users'));
+        return view('masters.lob.create', compact('lob'));
     }
 
     public function update(Request $request, LOB $lob)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            #'reference' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
         ]);
 
         $lob->update($validated);

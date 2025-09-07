@@ -50,11 +50,11 @@
                                 <i style="width: 14px; margin-right: 3px; height: 14px;"
                                     class="icon-base ri ri-save-2-fill"></i> Update User
                             </button>
-                            <a href="{{ route('members.index') }}" style="padding: 5px; font-size: 12px;"
+                            <!-- <a href="{{ route('members.index') }}" style="padding: 5px; font-size: 12px;"
                                 class="btn btn-sm btn-secondary text-center">
                                 <i style="width: 14px; margin-right: 3px; height: 14px;"
                                     class="icon-base ri ri-arrow-left-line"></i> Back
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -95,47 +95,73 @@
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Leave blank to keep unchanged">
+                            <input type="password" class="form-control" name="password" value="" placeholder="Leave blank to keep unchanged">
                             @error('password')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
+                        
+                          <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Address <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="address" value="{{ old('address', $member->address) }}" >
+                            @error('address')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">LOB <span class="text-danger">*</span></label>
+                            <select name="lob" id="lob" class="form-control" required>
+                                <option value="">Select LOB</option>
+                                @foreach($lobs as $lob)
+                                    <option value="{{ $lob->id }}" {{ old('lob', $member->lob) == $lob->id ? 'selected' : '' }}>{{ $lob->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('lob')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Team <span class="text-danger">*</span></label>
+                            <select name="team" id="team" class="form-control" required>
+                                <option value="">Select Team</option>
+                            </select>
+                            @error('team')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Department <span class="text-danger">*</span></label>
-                            <select name="departments" class="form-control" required>
-                                <option value="Quality" {{ old('departments', $member->departments) == 'Quality' ? 'selected' : '' }}>Quality</option>
-                                <option value="Changes" {{ old('departments', $member->departments) == 'Changes' ? 'selected' : '' }}>Changes</option>
-                                <option value="Billing" {{ old('departments', $member->departments) == 'Billing' ? 'selected' : '' }}>Billing</option>
-                                <option value="CCV" {{ old('departments', $member->departments) == 'CCV' ? 'selected' : '' }}>CCV</option>
-                                <option value="Charge Back" {{ old('departments', $member->departments) == 'Charge Back' ? 'selected' : '' }}>Charge Back</option>
-                                <option value="Sales" {{ old('departments', $member->departments) == 'Sales' ? 'selected' : '' }}>Sales</option>
+                            <select name="department_id" class="form-control" required>
+                                <option value="">Select Department</option>
+                                @foreach($departments ?? [] as $department)
+                                    <option value="{{ $department->id }}" {{ old('department_id', $member->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                                @endforeach
                             </select>
-                            @error('departments')
+                            @error('department_id')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Role <span class="text-danger">*</span></label>
-                            <select name="role" class="form-control" required>
-                                <option value="Agent" {{ old('role', $member->role) == 'Agent' ? 'selected' : '' }}>Agent</option>
-                                <option value="TLeader" {{ old('role', $member->role) == 'TLeader' ? 'selected' : '' }}>TLeader</option>
-                                <option value="Manager" {{ old('role', $member->role) == 'Manager' ? 'selected' : '' }}>Manager</option>
-                                <option value="Admin" {{ old('role', $member->role) == 'Admin' ? 'selected' : '' }}>Admin</option>
+                            <select name="role_id" class="form-control" required>
+                                <option value="">Select Role</option>
+                                @foreach($roles ?? [] as $role)
+                                    <option value="{{ $role->id }}" {{ old('role_id', $member->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                @endforeach
                             </select>
-                            @error('role')
+                            @error('role_id')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Address <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="address" value="{{ old('address', $member->address) }}" required>
-                            @error('address')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                     
+                        
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Status <span class="text-danger">*</span></label>
@@ -200,6 +226,45 @@
 </div>
 
 <script>
+const currentTeamId = {{ old('team', $member->team) ?? 'null' }};
+
+document.getElementById('lob').addEventListener('change', function() {
+    loadTeams(this.value);
+});
+
+function loadTeams(lobId, selectedTeamId = null) {
+    const teamSelect = document.getElementById('team');
+    
+    teamSelect.innerHTML = '<option value="">Select Team</option>';
+    teamSelect.disabled = true;
+    
+    if(lobId) {
+        fetch(`/api/teams/${lobId}`)
+            .then(response => response.json())
+            .then(teams => {
+                teams.forEach(team => {
+                    const option = new Option(team.name, team.id);
+                    if(selectedTeamId && team.id == selectedTeamId) {
+                        option.selected = true;
+                    }
+                    teamSelect.add(option);
+                });
+                teamSelect.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error fetching teams:', error);
+            });
+    }
+}
+
+// Load teams on page load if LOB is selected
+document.addEventListener('DOMContentLoaded', function() {
+    const lobId = document.getElementById('lob').value;
+    if(lobId) {
+        loadTeams(lobId, currentTeamId);
+    }
+});
+
 function previewImage(input, previewId) {
     const preview = document.getElementById(previewId);
     if (input.files && input.files[0]) {

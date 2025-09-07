@@ -70,6 +70,7 @@
                                 <tr>
                                     <th>Serial No.</th> <!-- New column for Serial Number -->
                                     <th>Name</th>
+                                    <th>LOB</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -79,6 +80,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td> <!-- Serial number -->
                                     <td>{{ $team->name }}</td>
+                                    <td>{{ $team->lob->name ?? 'N/A' }}</td>
                                     <td>
                                         @if( $team->status ==1)
                                         <span class="badge bg-label-success">Active</span>
@@ -108,8 +110,8 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">No teams available.</td>
-                                    <!-- Adjusted colspan to 4 to match the number of columns -->
+                                    <td colspan="5" class="text-center">No teams available.</td>
+                                    <!-- Adjusted colspan to 5 to match the number of columns -->
                                 </tr>
                                 @endforelse
                             </tbody>

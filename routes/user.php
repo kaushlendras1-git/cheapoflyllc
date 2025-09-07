@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
 
 
         Route::get('/users/{user}/assignments', function(App\Models\User $user) {
+            $user->load(['currentShift.shift', 'currentTeam.team', 'lobRelation', 'teamRelation']);
             $shifts = \App\Models\Shift::all();
             $teams = \App\Models\Team::all();
             return view('web.members.assignments', compact('user', 'shifts', 'teams'));

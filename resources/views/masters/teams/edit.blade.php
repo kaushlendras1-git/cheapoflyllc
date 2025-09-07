@@ -37,6 +37,19 @@
           </div>
 
           <div class="col-md-3 position-relative">
+            <label class="form-label">LOB <span class="text-danger">*</span></label>
+            <select name="lob_id" class="form-control">
+              <option value="">Select LOB</option>
+              @foreach($lobs as $lob)
+                <option value="{{ $lob->id }}" {{ old('lob_id', $team->lob_id) == $lob->id ? 'selected' : '' }}>{{ $lob->name }}</option>
+              @endforeach
+            </select>
+            @error('lob_id')
+              <div class="text-danger">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <div class="col-md-3 position-relative">
             <label class="form-label">Status <span class="text-danger">*</span></label>
             <select id="status" name="status" class="form-control">
               <option value="1" {{ old('status', $team->status) == 1 ? 'selected' : '' }}>Active</option>

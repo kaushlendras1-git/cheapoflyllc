@@ -21,16 +21,11 @@
                 <form method="GET" action="{{ route('agents') }}">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="marketing-upper-form mb-5 d-flex booking-form gen_form">
-                        <div class="me-4 position-relative">
-                            <label class="form-label mb-1">Search By</label>
-                            <select name="criteria" class="form-select input-style w140">
-                                <option value="">Select Criteria</option>
-                            </select>
-                        </div>
+                       
                         <div class="me-4 position-relative">
                             <label class="form-label mb-1">Keyword</label>
                             <input type="text" name="keyword" class="form-control w-96"
-                                placeholder="e.g. PNR / name / email / Contact" value="{{ request('keyword') }}">
+                                placeholder="e.g. Name / email / Contact" value="{{ request('keyword') }}">
                         </div>
                         <div class="me-4 position-relative">
                             <label class="form-label mb-1">Start Date</label>
@@ -41,6 +36,17 @@
                             <label class="form-label mb-1">End Date</label>
                             <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
                         </div>
+
+                        <div class="me-4 position-relative">
+                            <label class="form-label mb-1">LOB</label>
+                            <select name="lobs" class="form-select input-style w140">
+                                <option value="">Select</option>
+                                @foreach($lobs as $lob)
+                                     <option value="{{$lob->id}}">{{$lob->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                          <div class="me-4 position-relative">
                             <label class="form-label mb-1">Booking Status</label>
                             <select name="booking_status" class="form-select input-style w140">
@@ -75,39 +81,38 @@
                 </form>
                 <!-- Table -->
                 <div class="booking-table-wrapper py-2 crm-table">
-                                        <table class="table table-hover table-sm booking-table w-100 mb-0">
+                        <table class="table table-hover table-sm booking-table w-100 mb-0">
                         <thead class="bg-dark text-white sticky-top">
                             <tr>
-                                <th>ID</th>
-                               	<th>Booking Type</th>
-                                <th>PNR</th>
-                                <th>Booking Date</th>
-                                <th>Booking Status</th>	
-                                <th>Payment Status</th>	
-                                <th>Total</th>	
-                                <th>Agent MCO</th>
-                                <th>Name</th>
-                                <th>Email</th>
+                                
+                              <th>ID</th>
+                                <th>Agent Name</th>
+                                <th>Total No. Calls</th>
+                                <th>RPC</th>
+                               <th>Total Gross MCO</th>
+                               <th>Total  Net MCO</th>
+                               <th> Quality Score (%)</th>
+                               <th> Email Status (%)</th>
+                               <th> Auth Status (%)</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            <tr>
-                                <th>ID</th>
-                               	<th>Booking Type</th>
-                                <th>PNR</th>
-                                <th>Booking Date</th>
-                                <th>Booking Status</th>	
-                                <th>Payment Status</th>	
-                                <th>Total</th>	
-                                <th>Agent MCO</th>
-                                <th>Name</th>
-                                <th>Email</th>
+                           <tr>
+
+                            <th>ID</th>
+                                <th>Agent Name</th>
+                                <th>Total No. Calls</th>
+                                <th>RPC</th>
+                               <th>Total Gross MCO</th>
+                               <th>Total  Net MCO</th>
+                               <th> Quality Score (%)</th>
+                               <th> Email Status (%)</th>
+                               <th> Auth Status (%)</th>
                             </tr>
 
                         </tbody>
                     </table>
-
                     <!-- Pagination links -->
                     <div class="mt-3">
                     </div>
