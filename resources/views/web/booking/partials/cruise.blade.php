@@ -60,8 +60,8 @@
                     <i class="ri ri-add-circle-fill pointer"></i>
                 </button>
             </div>
-
         </div>
+        
         <div class="card-body pt-0 px-0">
             <div class="g-3 align-items-center">
                 <div class="col-md-12 table-responsive details-table-wrappper">
@@ -186,7 +186,6 @@
                                 <td style="width:1200px">
                                     <textarea class="form-control ckeditor" name="cruiseaddon[{{ $key }}][service_name]" rows="6">{{ $addon->service_name }}</textarea>
                                 </td>
-
 
                                 <td>
                                     <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn">

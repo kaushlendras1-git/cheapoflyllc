@@ -158,7 +158,7 @@ class CallLogController extends Controller
         }
 
         // Log operation and redirect
-      #  log_operation('CallLog', $callLog->id, 'created', 'Call Log created successfully', auth()->id());
+    
         return redirect()->route('call-logs.index')->with('success', 'Call Log created successfully!');
     }
 
@@ -170,11 +170,7 @@ class CallLogController extends Controller
 
     public function edit($hash)
     {
-        $id = ($hash);
-        if (!$id) {
-            abort(404);
-        }
-
+        $id = decode($hash);
         $callLog = CallLog::findOrFail($id);
         $logs = Log::where('calllog_id', $id)->with('user')->orderBy('id', 'DESC')->get();
         $campaigns = Campaign::all();

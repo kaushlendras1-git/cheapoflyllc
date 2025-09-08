@@ -91,6 +91,7 @@
                                     </td>
 
                                     <td>
+                                          <a href="{{ route('call-logs.edit', encode($log->id)) }}">
                                         <div style="display: flex; justify-content: center; gap: 4px;">
                                             @if($log->chkflight)
                                                 <i class="ri ri-flight-takeoff-line" title="Flight" style="color: #1e90ff; font-size: 18px;"></i>
@@ -107,6 +108,7 @@
                                             @if($log->chktrain)
                                                 <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 18px;"></i>
                                             @endif
+                                               </a>
                                         </div>
                                     </td>
 

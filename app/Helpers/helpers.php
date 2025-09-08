@@ -1,6 +1,7 @@
 <?php
 
    use App\Helpers\HashidsHelper;
+   use \App\Models\Log;
 
    if (!function_exists('encode')) {
        function encode($id)
@@ -17,10 +18,10 @@
    }
 
 
-   function log_operation(string $model, int $resourceId, string $action, string $message, int $userId): void
+   function log_operation(string $log_type, int $resourceId, string $action, string $message, int $userId): void
     {
-        \App\Models\Log::create([
-            'model' => $model,
+         Log::create([
+            'log_type' => $log_type,
             'resource_id' => $resourceId,
             'action' => $action,
             'message' => $message,

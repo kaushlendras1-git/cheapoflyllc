@@ -462,8 +462,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">{{$feed_back->note}}</td>
-                                <td class="text-center">{{$feed_back->user_id}}</td>
-                                <td class="text-center">{{$feed_back->created_at}}</td>
+                                <td class="text-center">{{$feed_back->user->name}}</td>                                <td class="text-center">{{$feed_back->created_at}}</td>
                             </tr>
                             @endforeach
                         </tbody>

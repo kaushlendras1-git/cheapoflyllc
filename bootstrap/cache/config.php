@@ -52,9 +52,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\resources\\views',
+      0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework\\views',
   ),
   'app' => 
   array (
@@ -69,7 +69,7 @@
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:8QJwEZ6eTyhJuVdbnWkl0JKjrlIIGL1B/qM2VFQqY/I=',
+    'key' => 'base64:3Ku1THdG+RToUi2lMIjlDOcqjILs/HFSiCoXV08Uzv0=',
     'previous_keys' => 
     array (
     ),
@@ -215,12 +215,12 @@
       'pusher' => 
       array (
         'driver' => 'pusher',
-        'key' => '',
-        'secret' => '',
-        'app_id' => '',
+        'key' => '525d518c9b9e2ce5394a',
+        'secret' => '8c6c2bdc0e7f661b4b72',
+        'app_id' => '2045427',
         'options' => 
         array (
-          'cluster' => 'mt1',
+          'cluster' => 'ap2',
           'useTLS' => true,
         ),
       ),
@@ -259,8 +259,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -323,7 +323,7 @@
       array (
         'driver' => 'mysql',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
@@ -343,7 +343,7 @@
       array (
         'driver' => 'mariadb',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
@@ -363,7 +363,7 @@
       array (
         'driver' => 'pgsql',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
@@ -378,7 +378,7 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
-        'host' => 'localhost',
+        'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
@@ -429,13 +429,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\app',
+        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\app/public',
+        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -455,7 +455,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\evika\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\app/public',
+      'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
     ),
   ),
   'firebase' => 
@@ -465,7 +465,7 @@
     array (
       'app' => 
       array (
-        'credentials' => NULL,
+        'credentials' => 'storage/app/firebase.json',
         'auth' => 
         array (
           'tenant_id' => NULL,
@@ -527,7 +527,7 @@
     'default' => 'stack',
     'deprecations' => 
     array (
-      'channel' => NULL,
+      'channel' => 'null',
       'trace' => false,
     ),
     'channels' => 
@@ -544,14 +544,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -616,7 +616,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -629,11 +629,11 @@
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => 'mailpit',
-        'port' => '1025',
-        'encryption' => NULL,
-        'username' => NULL,
-        'password' => NULL,
+        'host' => 'smtp.gmail.com',
+        'port' => '587',
+        'encryption' => 'tls',
+        'username' => 'noreply-admission@sau.int',
+        'password' => 'ugollhqvsruzyvdk',
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -684,15 +684,15 @@
     ),
     'from' => 
     array (
-      'address' => 'hello@example.com',
-      'name' => 'Laravel',
+      'address' => 'noreply-admission@sau.int',
+      'name' => 'SAU Admissions 2025-26',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -787,7 +787,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -811,10 +811,10 @@
     'convert_entities' => true,
     'options' => 
     array (
-      'font_dir' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\fonts',
-      'font_cache' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\fonts',
-      'temp_dir' => 'C:\\Users\\evika\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc',
+      'font_dir' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\fonts',
+      'font_cache' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\fonts',
+      'temp_dir' => 'C:\\Users\\Admin\\AppData\\Local\\Temp',
+      'chroot' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc',
       'allowed_protocols' => 
       array (
         'data://' => 
@@ -972,7 +972,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -1065,7 +1065,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\Users\\evika\\Desktop\\cheapoflyllc',
+    'remote_sites_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
