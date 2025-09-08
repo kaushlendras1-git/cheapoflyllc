@@ -1017,17 +1017,21 @@ class BookingFormController extends Controller
                 ], 422);
             }
 
-
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
                 'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee'
             ]);
-//            dd($request->all());
+            
+            // Store old values for logging changes
+            $oldValues = $booking->only(array_keys($bookingData));
+            
             $bookingData['shift_id'] = 2;
             $bookingData['team_id'] = 2;
-           # $bookingData['user_id'] = $user_id;
             $booking->update($bookingData);
+            
+            // Log changes
+            log_field_changes('Booking', $booking->id, $oldValues, $bookingData, auth()->id());
 
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();
             $newBookingTypes = $request->input('booking-type', []);
@@ -1500,8 +1504,12 @@ class BookingFormController extends Controller
         $countries = \DB::table('countries')->get();
         $campaigns = Campaign::all();
         $billingDeposits = BillingDeposit::where('booking_id',$booking->id)->get();
-      #  $call_types = CallType::all();
-        return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData'));
+        $logs = \App\Models\Log::where('calllog_id', $id)->with('user')->orderBy('id', 'DESC')->get();
+        
+        // Log the view action
+        log_operation('Booking', $id, 'Viewed', 'You have seen the booking', auth()->id());
+        
+        return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData','logs'));
     }
 
     public function add(){

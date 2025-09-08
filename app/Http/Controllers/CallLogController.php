@@ -191,7 +191,7 @@ class CallLogController extends Controller
             'chkcar' => 'nullable|boolean',
             'phone' => 'required|string|max:15',
             'name' => 'required|string|max:255',
-            'campaign_id' => 'required|exists:campaigns,id', // Validate as Campaign ID
+           # 'campaign_id' => 'required|exists:campaigns,id', // Validate as Campaign ID
             'reservation_source' => 'required|string|max:255',
             'call_type' => 'required|string|max:255',
             'call_converted' => 'nullable|boolean',
@@ -260,18 +260,7 @@ class CallLogController extends Controller
         }
 
         // Log changes
-        foreach ($updateData as $field => $newValue) {
-            $oldValue = $oldValues[$field] ?? null;
-            if ($oldValue != $newValue) {
-                log_operation(
-                    'CallLog',
-                    $callLog->id,
-                    'Updated',
-                    "Field '{$field}' updated from '{$oldValue}' to '{$newValue}'",
-                    auth()->id()
-                );
-            }
-        }
+        log_field_changes('CallLog', $callLog->id, $oldValues, $updateData, auth()->id());
 
         return redirect()->back()->with('success', 'Call log updated successfully!');
     }

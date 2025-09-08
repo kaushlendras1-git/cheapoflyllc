@@ -11,11 +11,21 @@ class Log extends Model
 
     protected $fillable = [
         'log_type',
-        'operation',
         'calllog_id',
+        'operation',
         'comment',
         'user_id'
     ];
+
+    public function callLog()
+    {
+        return $this->belongsTo(CallLog::class, 'calllog_id')->where('log_type', 'call_log');
+    }
+
+    public function booking()
+    {
+        return $this->belongsTo(TravelBooking::class, 'calllog_id')->where('log_type', 'booking');
+    }
 
     public function user()
     {

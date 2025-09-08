@@ -52,24 +52,24 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views',
+      0 => 'C:\\xampp\\htdocs\\cheapoflyllc\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework\\views',
+    'compiled' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\framework\\views',
   ),
   'app' => 
   array (
     'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
-    'url' => 'http://localhost',
+    'url' => 'http://172.20.10.2:8080/',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Kolkata',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:3Ku1THdG+RToUi2lMIjlDOcqjILs/HFSiCoXV08Uzv0=',
+    'key' => 'base64:hJYpTAMJLgANoFePuXwuluzejOFXrjYBBxg20Cv1Gfs=',
     'previous_keys' => 
     array (
     ),
@@ -215,12 +215,12 @@
       'pusher' => 
       array (
         'driver' => 'pusher',
-        'key' => '525d518c9b9e2ce5394a',
-        'secret' => '8c6c2bdc0e7f661b4b72',
-        'app_id' => '2045427',
+        'key' => '',
+        'secret' => '',
+        'app_id' => '',
         'options' => 
         array (
-          'cluster' => 'ap2',
+          'cluster' => NULL,
           'useTLS' => true,
         ),
       ),
@@ -259,8 +259,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/data',
+        'path' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -327,7 +327,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -347,7 +347,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_uca1400_ai_ci',
@@ -367,7 +367,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -382,7 +382,7 @@
         'port' => '3306',
         'database' => 'cheapoflyllc',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -429,14 +429,14 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app',
+        'root' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
-        'url' => 'http://localhost/storage',
+        'root' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\app/public',
+        'url' => 'http://172.20.10.2:8080//storage',
         'visibility' => 'public',
         'throw' => false,
       ),
@@ -455,7 +455,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\public\\storage' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\app/public',
+      'C:\\xampp\\htdocs\\cheapoflyllc\\public\\storage' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\app/public',
     ),
   ),
   'firebase' => 
@@ -465,7 +465,7 @@
     array (
       'app' => 
       array (
-        'credentials' => 'storage/app/firebase.json',
+        'credentials' => NULL,
         'auth' => 
         array (
           'tenant_id' => NULL,
@@ -544,14 +544,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -616,7 +616,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -685,14 +685,14 @@
     'from' => 
     array (
       'address' => 'noreply-admission@sau.int',
-      'name' => 'SAU Admissions 2025-26',
+      'name' => 'CHEAPOFLY LLC',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\resources\\views/vendor/mail',
+        0 => 'C:\\xampp\\htdocs\\cheapoflyllc\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -783,11 +783,11 @@
   ),
   'session' => 
   array (
-    'driver' => 'file',
+    'driver' => 'cookie',
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/sessions',
+    'files' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -811,10 +811,10 @@
     'convert_entities' => true,
     'options' => 
     array (
-      'font_dir' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\fonts',
-      'font_cache' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\fonts',
-      'temp_dir' => 'C:\\Users\\Admin\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc',
+      'font_dir' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\fonts',
+      'font_cache' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\fonts',
+      'temp_dir' => 'C:\\Users\\KAUSHL~1\\AppData\\Local\\Temp\\3',
+      'chroot' => 'C:\\xampp\\htdocs\\cheapoflyllc',
       'allowed_protocols' => 
       array (
         'data://' => 
@@ -972,7 +972,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'C:\\xampp\\htdocs\\cheapoflyllc\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -1065,7 +1065,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\Users\\Admin\\Desktop\\cheapoflyllc',
+    'remote_sites_path' => 'C:\\xampp\\htdocs\\cheapoflyllc',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
