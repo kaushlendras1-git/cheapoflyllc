@@ -130,6 +130,9 @@
                                 </td>
                          
 
+                                 <input type="hidden" name="passenger[{{ $key }}][id]"
+                                                    value="{{ $passengers->id }}">
+
                             <td>
                                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                                     <i class="icon-base ri ri-delete-bin-2-line"></i>

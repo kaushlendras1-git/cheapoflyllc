@@ -69,12 +69,15 @@
                                                     style="width: 40px;"
                                                     name="flight[{{ $index }}][airline_code]"
                                                     value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
-                                                    placeholder="Airlines (Code)"></td>
+                                                    placeholder="Airlines (Code)">
+                                                </td>
 
                                             <td><input type="text" class="form-control" style="width: 3.5rem;"
                                                     name="flight[{{ $index }}][flight_number]"
                                                     value="{{ old("flight.$index.flight_no", $flight->flight_number) }}"
-                                                    placeholder="Flight No"></td>
+                                                    placeholder="Flight No">
+                                            </td>
+
 
                                             <td>
                                                 <select class="form-control" style="width: 75px;"
@@ -109,6 +112,7 @@
                                                 </div>
                                             </td>
 
+
                                             <td>
                                                 <input type="text" class="form-control departure-airport"
                                                     style="width: 10rem;"
@@ -121,7 +125,7 @@
                                             </td>
 
 
-                                            <td><input type="time" class="form-control"
+                                            <td><input type="text" class="form-control time_24_hrs"
                                                     name="flight[{{ $index }}][departure_hours]"
                                                     style="width: 86px"
                                                     value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
@@ -224,3 +228,30 @@
     </div>
 </div>
 <!------------------------ End Flight Booking Details ------------------------------>
+
+
+<script>
+$(document).ready(function() {
+    // Use a class selector for all airline_code_input fields
+    $('.airline_code_input').autocomplete({
+
+
+        source: function(request, response) {
+            $.ajax({
+                url: '{{ route("airlines_code.search") }}',
+                dataType: 'json',
+                data: { q: request.term },
+                success: function(data) {
+                    response($.map(data, function(item) {
+                        return {
+                            label: item.airline_code + " - " + item.airline_code,
+                            value: item.airline_code
+                        };
+                    }));
+                }
+            });
+        },
+        minLength: 2,
+    });
+});
+</script>

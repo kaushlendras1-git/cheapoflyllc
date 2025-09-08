@@ -1185,7 +1185,6 @@ class BookingFormController extends Controller
                 ->each
                 ->delete();
 
-                
             $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
             $newCruises = $request->input('cruise', []);
             $processedCruiseIds = [];
@@ -1209,11 +1208,21 @@ class BookingFormController extends Controller
                 foreach ($request->cruiseaddon as $index => $addon) {
                     if (!empty($addon['services']) || !empty($addon['service_name'])) {
 
+                        $imagePaths = [];
+
+                        if (!empty($addon['image']) && is_array($addon['image'])) {
+                            foreach ($addon['image'] as $file) {
+                                if ($file instanceof \Illuminate\Http\UploadedFile) {
+                                    $imagePaths[] = $file->store('uploads/cruise_addons', 'public');
+                                }
+                            }
+                        }
+
                         TravelCruiseAddon::create([
                             'services'     => $addon['services'] ?? '',
                             'service_name' => $addon['service_name'] ?? '',
                             'booking_id'   => $booking->id,
-                            #'image'        => json_encode($imagePaths),
+                            'image'        => json_encode($imagePaths),
                         ]);
                     }
                 }
@@ -1402,7 +1411,6 @@ class BookingFormController extends Controller
                     $booking->logChange($booking->id, 'TravelSectorDetail', $sector->id, 'created', null, $fileName);
                 }
             }
-
             if (isset($request->screenshots) && !empty($request->screenshots)) {
                 foreach ($request->screenshots as $key => $image) {
                     $screenshots = 'storage/' . $image->store('screenshots', 'public');
@@ -1432,8 +1440,6 @@ class BookingFormController extends Controller
                     ]);
                 }
             }
-
-          #  dd($request->all());
             
            # DB::commit();
             return response()->json([

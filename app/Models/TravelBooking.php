@@ -142,5 +142,10 @@ class TravelBooking extends Model
         return $companies[$this->selected_company] ?? null;
     }
 
+    public function logChange() {
+        return true;
+        // return $this->hasMany(TravelBookingChangeLog::class, 'booking_id');
+    }
+
 
 }

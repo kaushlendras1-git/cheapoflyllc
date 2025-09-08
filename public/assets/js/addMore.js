@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="date" class="form-control" style="width: 125px;" name="cruise[${cruiseIndex}][departure_date]"></td>             
                 <td><input type="text" class="form-control" style="width:39.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
           
-                <td><input type="text" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="Hrs" min="0" max="23"></td>
-                <td><input type="text" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="Hrs" min="0" max="23"></td>
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]"></td>	
+                <td><input type="text" pattern="^([01]\\d|2[0-3]):([0-5]\\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]"></td>
 
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-cruise-btn">
@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
 
                 <td><input type="date" class="form-control" style="width: 6.7rem" name="flight[${flightIndex}][departure_date]"></td>
-                <td><input type="text" class="form-control" style="width: 40px;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
+                <td><input type="text" class="form-control airline_code_input" style="width: 40px;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
                 <td><input type="text" class="form-control" style="width: 3.5rem;" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
 
                 <td><select class="form-control" style="width: 60px;" name="flight[${flightIndex}][cabin]">

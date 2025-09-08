@@ -1171,6 +1171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".departure-airport").forEach(input => {
         initAutocomplete(input, 'departure');
     });
+
     document.querySelectorAll(".arrival-airport").forEach(input => {
         initAutocomplete(input, 'arrival');
     });
@@ -1296,6 +1297,7 @@ document.addEventListener("DOMContentLoaded", () => {
         observer.observe(trainFormsContainer, { childList: true, subtree: true });
     }
 });
+
 
 Array.from(document.querySelectorAll('.cruiseType')).forEach(item => {
     item.addEventListener('click', function () {

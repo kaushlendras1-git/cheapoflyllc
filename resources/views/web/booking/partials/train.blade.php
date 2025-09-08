@@ -98,6 +98,10 @@
                                             name="train[{{ $key }}][arrival_date]"
                                             value="{{ $trainBookingDetails->arrival_date?->format('Y-m-d') }}">
                                     </td>
+
+                                    <input type="hidden" name="train[{{ $key }}][id]"
+                                                    value="{{ $trainBookingDetails->id }}">
+
                                     <td>
                                         <button type="button" class="btn btn-outline-danger delete-train-btn">
                                             <i class="ri ri-delete-bin-line"></i>

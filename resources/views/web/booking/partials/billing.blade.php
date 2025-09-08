@@ -200,6 +200,11 @@
                                             type="hidden" />
                                     </td>
 
+
+                                    <input type="hidden" name="billing[{{ $key }}][id]"
+                                                    value="{{ $billingDetails->id }}">
+
+
                                     <td>
 
                                         <button type="button" class="btn btn-outline-danger delete-billing-btn">

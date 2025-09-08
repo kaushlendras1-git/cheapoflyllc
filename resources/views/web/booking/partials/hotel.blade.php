@@ -92,6 +92,10 @@
                                                     <i class="ri ri-delete-bin-line"></i>
                                                 </button>
                                             </td>
+
+                                            <input type="hidden" name="hotel[{{ $key }}][id]"
+                                                    value="{{ $travelHotel->id }}">
+
                                         </tr>
                                         @endforeach
                                     </tbody>

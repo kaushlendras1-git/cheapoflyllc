@@ -105,6 +105,8 @@
                                             min="0" max="23"></td>
 
 
+                                             <input type="hidden" name="cruise[{{ $key }}][id]"
+                                                    value="{{ $travelCruise->id }}">
 
                                     <td>
                                         <button type="button" class="btn btn-outline-danger delete-cruise-btn">
@@ -184,8 +186,13 @@
                                     </select>
                                 </td>
                                 <td style="width:1200px">
-                                    <textarea class="form-control ckeditor" name="cruiseaddon[{{ $key }}][service_name]" rows="6">{{ $addon->service_name }}</textarea>
+                                    <textarea class="form-control ckeditorRR" name="cruiseaddon[{{ $key }}][service_name]" rows="6">{{ $addon->service_name }}</textarea>
                                 </td>
+
+
+                                  <input type="hidden" name="cruiseaddon[{{ $key }}][id]"
+                                                    value="{{ $addon->id }}">
+
 
                                 <td>
                                     <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn">

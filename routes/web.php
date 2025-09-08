@@ -23,6 +23,7 @@ use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\FcmController;
 use App\Http\Controllers\AgentLoginController;
 use App\Http\Controllers\StatusManagementController;
+use App\Http\Controllers\AirlineCodeController;
 use App\Http\Controllers\Masters\BookingStatusController;
 use App\Http\Controllers\Masters\PaymentStatusController;
 use App\Http\Controllers\Masters\TeamController;
@@ -72,6 +73,7 @@ Route::post('/update-device-token', [NotificationController::class, 'updateDevic
 // web.php
 Route::get('/search-airline', [FlightSearchListController::class, 'search'])->name('airline.search');
 Route::get('/search-train', [TrainSearchListController::class, 'search'])->name('train.search');
+Route::get('/search-airlines_code', [AirlineCodeController::class, 'search'])->name('airlines_code.search');
 
 /**Booking **/
 

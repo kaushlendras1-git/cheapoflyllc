@@ -112,6 +112,10 @@
                                                     placeholder="Confirmation Number"
                                                     value="{{$travelCar->confirmation_number}}"></td>
 
+                                                      <input type="hidden" name="car[{{ $key }}][id]"
+                                                    value="{{ $travelCar->id }}">
+
+
                                             <td>
                                                 <button type="button" class="btn btn-outline-danger delete-car-btn">
                                                     <i class="ri ri-delete-bin-line"></i>

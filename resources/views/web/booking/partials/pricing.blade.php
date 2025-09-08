@@ -113,6 +113,7 @@
 
                             </select>
                         </td>
+                        
                         <td>
                             <button type="button" class="btn btn-outline-danger delete-pricing-btn">
                                 <i class="ri ri-delete-bin-line"></i>
@@ -236,6 +237,8 @@
                                 name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
                                 placeholder="Gross Price" min="0" step="0.01"></td>
 
+                                 
+
                         <td>
                             <span class="gross-total">{{$pricingDetails->gross_price??'0.00'}}</span>
                         </td>
@@ -267,8 +270,6 @@
                                 <option data-grossmco="1" value="company_card_used"
                                     {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card
                                     Used</option>
-
-
                                 <option data-grossmco="0" value="Partial Refund"
                                     {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund
                                 </option>
@@ -287,6 +288,8 @@
 
                             </select>
                         </td>
+                         <input type="hidden" name="pricing[{{ $key }}][id]"
+                                                    value="{{ $pricingDetails->id }}">
                         <td>
                             <button type="button" class="btn btn-outline-danger delete-pricing-btn">
                                 <i class="ri ri-delete-bin-line"></i>
