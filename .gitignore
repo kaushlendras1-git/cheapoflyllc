@@ -9,6 +9,7 @@
 package-lock.json
 /storage/framework/*
 !/storage/framework/.gitignore
+/storage/logs/
 /storage/logs/*
 !/storage/logs/.gitignore
 composer.lock

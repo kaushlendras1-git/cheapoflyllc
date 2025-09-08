@@ -14,22 +14,16 @@ class AgentLoginController extends Controller
     public function requestLogin(Request $request)
     {
         try {
-            \Log::info('Agent login request received', ['email' => $request->email]);
-            
             $request->validate(['email' => 'required|email']);
             
             $user = User::where('email', $request->email)->first();
             if (!$user) {
-                \Log::info('User not found', ['email' => $request->email]);
                 return response()->json(['error' => 'User not found'], 404);
             }
             
-            // Force cleanup ALL pending requests for this user
             AgentLoginRequest::where('user_id', $user->id)
                 ->where('status', 'pending')
                 ->update(['status' => 'expired']);
-            
-
 
             $loginRequest = AgentLoginRequest::create([
                 'user_id' => $user->id,
@@ -38,9 +32,6 @@ class AgentLoginController extends Controller
                 'expired_at' => now()->addMinutes(10)
             ]);
             
-            \Log::info('Login request created', ['request_id' => $loginRequest->id]);
-            
-            // Notify admins in sales department
             $this->notifyAdmins($user);
             
             return response()->json([
@@ -49,7 +40,6 @@ class AgentLoginController extends Controller
                 'expires_at' => $loginRequest->expired_at
             ]);
         } catch (\Exception $e) {
-            \Log::error('Agent login request error', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Server error: ' . $e->getMessage()], 500);
         }
     }
@@ -141,13 +131,9 @@ class AgentLoginController extends Controller
 
     private function notifyAdmins($requestingUser)
     {
-        \Log::info('Notifying admins for login request', ['user' => $requestingUser->email]);
-        
         $admins = User::where('role', 'admin')
             ->where('status', 'active')
             ->get();
-            
-        \Log::info('Found admins', ['count' => $admins->count(), 'admins' => $admins->pluck('email')]);
 
         foreach ($admins as $admin) {
             $this->sendBrowserNotification($admin, $requestingUser);
@@ -164,20 +150,15 @@ class AgentLoginController extends Controller
             'timestamp' => now()->timestamp . '_' . $requestingUser->id
         ];
 
-        \Log::info('Sending notification to admin', ['admin_id' => $admin->id, 'admin_email' => $admin->email]);
         \Cache::put('admin_notification_' . $admin->id, $notificationData, 600);
-        \Log::info('Notification cached', ['cache_key' => 'admin_notification_' . $admin->id]);
     }
 
     public function getAdminNotifications()
     {
         $userId = Auth::id();
-        \Log::info('Checking notifications for admin', ['admin_id' => $userId]);
-        
         $notification = \Cache::get('admin_notification_' . $userId);
         
         if ($notification) {
-            \Log::info('Found notification for admin', ['admin_id' => $userId, 'notification' => $notification]);
             \Cache::forget('admin_notification_' . $userId);
             return response()->json($notification);
         }
