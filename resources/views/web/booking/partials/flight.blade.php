@@ -228,30 +228,3 @@
     </div>
 </div>
 <!------------------------ End Flight Booking Details ------------------------------>
-
-
-<script>
-$(document).ready(function() {
-    // Use a class selector for all airline_code_input fields
-    $('.airline_code_input').autocomplete({
-
-
-        source: function(request, response) {
-            $.ajax({
-                url: '{{ route("airlines_code.search") }}',
-                dataType: 'json',
-                data: { q: request.term },
-                success: function(data) {
-                    response($.map(data, function(item) {
-                        return {
-                            label: item.airline_code + " - " + item.airline_code,
-                            value: item.airline_code
-                        };
-                    }));
-                }
-            });
-        },
-        minLength: 2,
-    });
-});
-</script>

@@ -18,8 +18,9 @@
             <li class="nav-item" role="presentation" data-tab="Hotel"
                 style="{{ in_array('Hotel', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                 <a class="nav-link" id="hotelbooking-tab" data-bs-toggle="tab" href="#hotelbooking" role="tab"
-                    aria-controls="hotelbooking" aria-selected="true"><i class="ri ri-hotel-fill" title="Hotel"
-                        style="color: #8b4513; font-size: 20px;"></i></a>
+                    aria-controls="hotelbooking" aria-selected="true">
+                    <i class="ri ri-hotel-fill" title="Hotel" style="color: #8b4513; font-size: 20px;"></i>
+                </a>
             </li>
 
             <li class="nav-item" role="presentation" data-tab="Cruise"
@@ -129,7 +130,7 @@
             @include('web.booking.partials.screenshots', ['screenshot_images' => $screenshot_images])
 
             <!-- Conversations Tab -->
-             @include('web.booking.partials.conversations')
+            @include('web.booking.partials.conversations')
 
 
 

@@ -364,11 +364,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </td>
             `;
+        flightFormsContainer.append(newRow);
         const pickupTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][arrival_hours]"]`);
         const dropoffTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][departure_hours]"]`);
         if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
         if (dropoffTimeInput) attach24HourTimeListener(dropoffTimeInput);
-
         flightIndex++;
     }
 

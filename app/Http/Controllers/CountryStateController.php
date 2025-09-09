@@ -14,7 +14,7 @@ class CountryStateController extends Controller
             return JsonResponse::successWithData('Data fetched',200, $state,'200');
         }
         catch (QueryException $e){
-            return JsonResponse::error('Failed to query', 500,'500');
+            return JsonResponse::error('Failed to query'.$e, 500,'500');
         }
         catch(\Exception $e){
             return JsonResponse::error('Internal Server Error', 500,'500');
