@@ -11,88 +11,6 @@
         </div>
     </div>
 
-    <!-- Score Cards -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">Today Score! 🎉</h5>
-                    <h4 class="text-primary mb-0">${{ number_format($scores->today_score, 2) }}</h4>
-                    <p class="mb-2">Best seller of the day</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">Weekly Score 📊</h5>
-                    <h4 class="text-success mb-0">${{ number_format($scores->weekly_score, 2) }}</h4>
-                    <p class="mb-2">This week performance</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title mb-0">Monthly Score 📈</h5>
-                    <h4 class="text-warning mb-0">${{ number_format($scores->monthly_score, 2) }}</h4>
-                    <p class="mb-2">This month achievement</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Additional Cards -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <div class="avatar">
-                        <div class="avatar-initial bg-primary rounded-circle shadow-xs">
-                            <i class="icon-base ri ri-file-word-2-line icon-24px"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h6 class="mb-1">Refund</h6>
-                    <div class="d-flex flex-wrap mb-1 align-items-center">
-                        <h4 class="mb-0 me-2">{{ $refund_total }} / {{ $refund_count }}</h4>
-                    </div>
-                    <small>Yearly Project</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card h-100 text-white">
-                <div class="card-header pb-0">
-                    <h4 class="mb-0">{{ $charge_back_total }}/<span class="text-primary mb-0">{{ $charge_back_count }}</span></h4>
-                </div>
-                <div class="card-body">
-                    <div id="totalProfitLineChart" class="mb-3"></div>
-                    <h6 class="text-center mb-0">ChargeBack</h6>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <div class="avatar">
-                        <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
-                            <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h6 class="mb-1">Total Booking</h6>
-                    <div class="d-flex flex-wrap mb-1 align-items-center">
-                        <h4 class="mb-0 me-2">{{ $total_booking_total }} / {{ $total_booking_count }}</h4>
-                    </div>
-                    <small>Weekly Project</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Filters & Data -->
     <div class="row">
         <div class="col-12">
@@ -162,13 +80,13 @@
                                         <th>PNR</th>
                                         <th>Customer</th>
                                         <th>Booking Type</th>
-                                        <th>Net Value</th>
+                                      
                                         <th>Status</th>
                                         <th>Booking Date</th>   
                                          <th>Booking Status</th>  
                                          <th>Payment Status</th>  
+                                         <th>Net Value</th>
                                          <th>Gross MCO</th>  
-                                         <th>Net MCO</th>  
                                          <th>Quality Score</th>  
                                          <th>Email Status</th>  
                                         
@@ -176,9 +94,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($bookings as $booking)
+                                   @foreach($bookings as $key => $booking)
                                     <tr>
-                                        <td>1</td>
+                                        <td>{{$key+1}}</td>
                                         <td>
                                             <span class="fw-medium">{{ $booking->pnr ?? 'N/A' }}</span>
                                         </td>
@@ -220,9 +138,7 @@
                                             <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 18px;"></i>
                                         @endif
                                         </td>
-                                        <td>
-                                            <span class="fw-medium text-success">${{ number_format($booking->net_value, 2) }}</span>
-                                        </td>
+                                        
                                         <td>
                                             <span class="badge bg-label-{{ $booking->bookingStatus->name == 'Confirmed' ? 'success' : 'warning' }}">
                                                 {{ $booking->bookingStatus->name ?? 'N/A' }}
@@ -233,11 +149,11 @@
                                             <br>
                                             <small class="text-muted">{{ $booking->created_at->format('h:i A') }}</small>
                                         </td>
-                                         <td>Booking Status</td>  
-                                         <td>Payment Status</td>  
-                                         <td>Gross MCO</td>  
-                                         <td>Net MCO</td>  
-                                         <td>Quality Score</td>  
+                                         <td>{{$booking->booking_status_id}}</td>  
+                                         <td>{{$booking->payment_status_id}}</td>  
+                                         <td><span class="fw-medium text-success">${{ number_format($booking->net_value, 2) }}</span></td>
+                                         <td>{{$booking->gross_mco}}</td>  
+                                         <td>{{$booking->quality_score}}</td>  
                                          <td>Email Status</td>  
                                         
                                         <td>

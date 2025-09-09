@@ -22,4 +22,15 @@ class BookingStatusDependency extends Model
     {
         return $this->belongsTo(BookingStatus::class, 'dependent_status_id');
     }
+    
+    public function departmentRelation()
+    {
+        return $this->belongsTo(Department::class, 'department', 'id');
+    }
+
+    public function roleRelation()
+    {
+        return $this->belongsTo(Role::class, 'role', 'id');
+    }
+
 }

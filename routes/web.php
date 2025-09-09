@@ -133,7 +133,6 @@ Route::middleware('auth')->group(function () {
     // Status Management Routes
     Route::prefix('status-management')->name('status-management.')->group(function () {
         Route::get('/', [StatusManagementController::class, 'index'])->name('index');
-        
         // Booking-Payment Status Mappings
         Route::post('/booking-payment-mapping', [StatusManagementController::class, 'storeBookingPaymentMapping'])->name('booking-payment-mapping.store');
         Route::delete('/booking-payment-mapping/{id}', [StatusManagementController::class, 'deleteBookingPaymentMapping'])->name('booking-payment-mapping.delete');

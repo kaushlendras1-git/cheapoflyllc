@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\BookingStatus;
 use App\Models\PaymentStatus;
+use App\Models\Department;
+use App\Models\Role;
 use App\Models\BookingPaymentStatus;
 use App\Models\BookingStatusDependency;
 use Illuminate\Http\Request;
@@ -17,13 +19,15 @@ class StatusManagementController extends Controller
         
         $bookingStatuses = BookingStatus::all();
         $paymentStatuses = PaymentStatus::all();
+        $departments = Department::all();
+        $roles = Role::all();
         
-        $bookingPaymentMappings = BookingPaymentStatus::with(['bookingStatus', 'paymentStatus'])
+        $bookingPaymentMappings = BookingPaymentStatus::with(['bookingStatus', 'paymentStatus', 'departmentRelation', 'roleRelation'])
             ->orderBy('department')
             ->orderBy('role')
             ->get();
             
-        $statusDependencies = BookingStatusDependency::with(['bookingStatus', 'dependentStatus'])
+        $statusDependencies = BookingStatusDependency::with(['bookingStatus', 'dependentStatus', 'departmentRelation', 'roleRelation'])
             ->orderBy('department')
             ->orderBy('role')
             ->get();
@@ -33,7 +37,9 @@ class StatusManagementController extends Controller
             'paymentStatuses', 
             'bookingPaymentMappings',
             'statusDependencies',
-            'user'
+            'user',
+            'departments',
+            'roles'
         ));
     }
 
@@ -45,8 +51,8 @@ class StatusManagementController extends Controller
             $request->validate([
                 'booking_status_id' => 'required|exists:booking_statuses,id',
                 'payment_status_id' => 'required|exists:payment_statuses,id',
-                'department' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
-                'role' => 'required|in:Manager,User,TLeader,Admin'
+                'department' => 'required',
+                'role' => 'required'
             ]);
 
             // Check if mapping already exists
@@ -76,8 +82,8 @@ class StatusManagementController extends Controller
         $request->validate([
             'booking_status_id' => 'required|exists:booking_statuses,id',
             'dependent_status_id' => 'required|exists:booking_statuses,id|different:booking_status_id',
-            'department' => 'required|in:Quality,Changes,Billing,CCV,Charge Back,Sales',
-            'role' => 'required|in:Manager,User,TLeader,Admin'
+            'department' => 'required',
+            'role' => 'required'
         ]);
 
         BookingStatusDependency::create($request->all());

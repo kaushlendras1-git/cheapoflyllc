@@ -44,8 +44,8 @@
                                 <tr>
                                     <td class="booking-col">{{ $mapping->bookingStatus->name }}</td>
                                     <td class="payment-col">{{ $mapping->paymentStatus->name }}</td>
-                                    <td><span class="badge bg-info">{{ $mapping->department }}</span></td>
-                                    <td><span class="badge bg-primary">{{ $mapping->role }}</span></td>
+                                    <td><span class="badge bg-info"> {{ $mapping->departmentRelation?->name ?? 'N/A' }}</span></td>
+                                    <td><span class="badge bg-primary"> {{ $mapping->roleRelation?->name ?? 'N/A' }}</span></td>
                                     <td>
                                         <button class="btn btn-sm btn-danger" onclick="deleteMapping({{ $mapping->id }})">
                                             Delete
@@ -86,8 +86,8 @@
                                 <tr>
                                     <td>{{ $dependency->bookingStatus->name }}</td>
                                     <td>{{ $dependency->dependentStatus->name }}</td>
-                                    <td><span class="badge bg-info">{{ $dependency->department }}</span></td>
-                                    <td><span class="badge bg-primary">{{ $dependency->role }}</span></td>
+                                    <td><span class="badge bg-info"> {{ $dependency->departmentRelation?->name ?? 'N/A' }}</span></td>
+                                    <td><span class="badge bg-primary">{{ $dependency->roleRelation?->name }}</span></td>
                                     <td>
                                         <button class="btn btn-sm btn-danger" onclick="deleteDependency({{ $dependency->id }})">
                                             Delete
@@ -120,12 +120,9 @@
                                 <label class="form-label">Department</label>
                                 <select class="form-select" name="department" id="mappingDepartment" required>
                                     <option value="">Select Department</option>
-                                    <option value="Quality">Quality</option>
-                                    <option value="Changes">Changes</option>
-                                    <option value="Billing">Billing</option>
-                                    <option value="CCV">CCV</option>
-                                    <option value="Charge Back">Charge Back</option>
-                                    <option value="Sales">Sales</option>
+                                        @foreach($departments as $department)
+                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                        @endforeach
                                 </select>
                             </div>
                         </div>
@@ -134,10 +131,9 @@
                                 <label class="form-label">Role</label>
                                 <select class="form-select" name="role" id="mappingRole" required>
                                     <option value="">Select Role</option>
-                                    <option value="Manager">Manager</option>
-                                    <option value="User">User</option>
-                                    <option value="TLeader">Team Leader</option>
-                                    <option value="Admin">Admin</option>
+                                      @foreach($roles as $role)
+                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                      @endforeach
                                 </select>
                             </div>
                         </div>
@@ -200,6 +196,7 @@
     </div>
 </div>
 
+
 <!-- Add Dependency Modal -->
 <div class="modal fade" id="addDependencyModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -216,12 +213,9 @@
                                 <label class="form-label">Department</label>
                                 <select class="form-select" name="department" id="dependencyDepartment" required>
                                     <option value="">Select Department</option>
-                                    <option value="Quality">Quality</option>
-                                    <option value="Changes">Changes</option>
-                                    <option value="Billing">Billing</option>
-                                    <option value="CCV">CCV</option>
-                                    <option value="Charge Back">Charge Back</option>
-                                    <option value="Sales">Sales</option>
+                                      @foreach($departments as $department)
+                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                      @endforeach
                                 </select>
                             </div>
                         </div>
@@ -230,10 +224,9 @@
                                 <label class="form-label">Role</label>
                                 <select class="form-select" name="role" id="dependencyRole" required>
                                     <option value="">Select Role</option>
-                                    <option value="Manager">Manager</option>
-                                    <option value="User">User</option>
-                                    <option value="TLeader">Team Leader</option>
-                                    <option value="Admin">Admin</option>
+                                 @foreach($roles as $role)
+                                   <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                 @endforeach
                                 </select>
                             </div>
                         </div>

@@ -22,4 +22,15 @@ class BookingPaymentStatus extends Model
     {
         return $this->belongsTo(PaymentStatus::class);
     }
+    
+    public function departmentRelation()
+    {
+        return $this->belongsTo(Department::class, 'department', 'id');
+    }
+
+    public function roleRelation()
+    {
+        return $this->belongsTo(Role::class, 'role', 'id');
+    }
+
 }

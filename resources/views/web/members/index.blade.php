@@ -131,7 +131,7 @@
                                     <th><span class="dt-column-title" role="button">Role</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Pseudo</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Shift</span><span class="dt-column-order"></span></th>
-                                    <th><span class="dt-column-title">Profile</span><span class="dt-column-order"></span></th>
+                                    <!-- <th><span class="dt-column-title">Profile</span><span class="dt-column-order"></span></th> -->
                                     <th><span class="dt-column-title">PAN Card</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title">Aadhar Card</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Status</span><span class="dt-column-order"></span></th>
@@ -185,13 +185,13 @@
                                    
                                      <td>{{ $member->pseudo }}</td>
                                     <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
-                                    <td>
+                                    <!--td>
                                         @if($member->profile_picture)
                                         <img src="{{ asset('storage/' . $member->profile_picture) }}" alt="Profile" class="img-thumbnail" style="width: 30px; height: 30px; object-fit: cover;">
                                         @else
                                         <span class="text-muted">-</span>
                                         @endif
-                                    </td>
+                                    </td-->
                                     <td>
                                         @if($member->pan_card)
                                         <a href="{{ asset('storage/' . $member->pan_card) }}" target="_blank" class="btn btn-sm btn-outline-success">
