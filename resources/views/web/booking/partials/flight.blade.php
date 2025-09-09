@@ -65,12 +65,17 @@
                                                     name="flight[{{ $index }}][departure_date]"
                                                     value="{{ $flight->departure_date?->format('Y-m-d') }}"></td>
 
-                                            <td><input type="text" class="form-control airline_code_input"
+                                            <td>
+                                                <input type="text" class="form-control airline_code_input"
                                                     style="width: 40px;"
                                                     name="flight[{{ $index }}][airline_code]"
                                                     value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
                                                     placeholder="Airlines (Code)">
-                                                </td>
+
+                                                <div class="flight-code-suggestions-list"
+                                                    style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
+                                                </div>
+                                            </td>
 
                                             <td><input type="text" class="form-control" style="width: 3.5rem;"
                                                     name="flight[{{ $index }}][flight_number]"

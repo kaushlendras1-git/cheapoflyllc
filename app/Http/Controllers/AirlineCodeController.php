@@ -13,7 +13,7 @@ class AirlineCodeController extends Controller
         $airlines = Airline::where('airline_name', 'like', "%$q%")
             ->orWhere('airline_code', 'like', "%$q%")
             ->limit(10)
-            ->get(['id', 'airline_code', 'airline_name']);
+            ->get(['airline_code', 'airline_name']);
 
         return response()->json($airlines);
     }

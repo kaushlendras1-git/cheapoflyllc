@@ -324,7 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
 
                 <td><input type="date" class="form-control" style="width: 6.7rem" name="flight[${flightIndex}][departure_date]"></td>
-                <td><input type="text" class="form-control airline_code_input" style="width: 40px;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)"></td>
+                <td>
+                    <input type="text" class="form-control airline_code_input" style="width: 40px;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)">
+                    <div class="flight-code-suggestions-list"
+                                                    style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
+                                                </div>
+                </td>
                 <td><input type="text" class="form-control" style="width: 3.5rem;" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
 
                 <td><select class="form-control" style="width: 60px;" name="flight[${flightIndex}][cabin]">

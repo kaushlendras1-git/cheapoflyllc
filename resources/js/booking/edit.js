@@ -1121,7 +1121,7 @@ timeInputs.forEach(input => {
 /***************Flight Search***************** */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Apply autocomplete for both departure and arrival inputs
+    
     function initAutocomplete(input, searchAt) {
         const td = input.closest('td') || input.parentElement;
         const suggestionsBox = td.querySelector('.flight-suggestions-list');
@@ -1174,9 +1174,62 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function initAutocompleteAirplaneCode(input, searchAt) {
+        const td = input.closest('td') || input.parentElement;
+        const suggestionsBox = td.querySelector('.flight-code-suggestions-list');
+        if (input) {
+            input.addEventListener("input", async (e) => {
+                const keyword = e.target.value.trim();
+                if (keyword.length < 2) {
+                    suggestionsBox.style.display = "none";
+                    return;
+                }
+    
+                try {
+                    const response = await axios.get(route("airlines_code.search", {}, Ziggy), {
+                        params: {
+                            keyword: keyword,
+                            searchAt: searchAt // 'departure' or 'arrival'
+                        }
+                    });
+                    
+                    const data = response.data;
+                    console.log(data);
+                    if (data.length > 0) {
+                        suggestionsBox.innerHTML = data.map(item => `
+                        <div class="suggestion-item" style="padding:5px; cursor:pointer;">
+                           ${item.airline_code}
+                        </div>
+                    `).join("");
+                        suggestionsBox.style.display = "block";
+                    } else {
+                        suggestionsBox.style.display = "none";
+                    }
+                } catch (error) {
+                    console.error("Error fetching data", error);
+                }
+            });
+        }
+    
+        if (suggestionsBox) {
+            suggestionsBox.addEventListener("click", (e) => {
+                if (e.target.classList.contains("suggestion-item")) {
+                    input.value = e.target.textContent.trim();
+                    suggestionsBox.style.display = "none";
+                }
+            });
+        }
+        input.addEventListener("blur", () => {
+            setTimeout(() => {
+                suggestionsBox.style.display = "none";
+            }, 150);
+        });
+    }
+    
+    
 
-    document.querySelectorAll(".departure-airport").forEach(input => {
-        initAutocomplete(input, 'departure');
+    document.querySelectorAll(".airline_code_input").forEach(input => {
+        initAutocompleteAirplaneCode(input, 'departure');
     });
 
     document.querySelectorAll(".arrival-airport").forEach(input => {
@@ -1328,11 +1381,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById('billingCountry').addEventListener('change',async function(e){
     const countryId = e.target.value;
+    const selectElement = document.getElementById('billingState');
+    selectElement.innerHTML = `<option value="">Loading...</option>`
     try{
         const response = await axios.get(route('statelist',{id:countryId}));
-        console.log(response);
+        let selectTag = '<option value="">Select State</option>'
+        response.data.data.forEach((item)=>{
+            selectTag+= `<option value="${item.id}">${item.name}</option>`
+        });
+        selectElement.innerHTML = selectTag;
+        console.log(response.data.data);
     }
     catch(e){
+        selectElement.innerHTML = `<option value="">Failed to load</option>`
         showToast('Something went wrong','error');
     }
     
