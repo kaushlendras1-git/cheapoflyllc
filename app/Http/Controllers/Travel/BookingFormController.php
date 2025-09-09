@@ -326,32 +326,52 @@ class BookingFormController extends Controller
 
    public function updateFeedBack(Request $request, $id)
     {
-        Log::info('Received parameters:', $request->all());
-
         $request->validate([
             'parameters' => 'required|array',
             'parameters.*.parameter' => 'required|string',
             'parameters.*.note' => 'nullable|string',
-            'parameters.*.marks' => 'nullable|string',
+            'parameters.*.marks' => 'nullable|numeric',
             'parameters.*.quality' => 'nullable|string',
         ]);
 
         $bookingId = decode($id);
+        $totalMarks = 0;
+        $hasFatal = false;
 
         foreach ($request->parameters as $param) {
-            if($param['note']){
+            if (!empty($param['note'])) {
                 TravelQualityFeedback::create([
                     'booking_id' => $bookingId,
-                    'user_id' => Auth::id(),
-                    'parameter' => $param['parameter'] ?? '',
-                    'note' => $param['note'] ?? '',
-                    'marks' => $param['marks'] ?? '',
-                    'quality' => $param['quality'] ?? '',
+                    'user_id'    => Auth::id(),
+                    'parameter'  => $param['parameter'] ?? '',
+                    'note'       => $param['note'] ?? '',
+                    'marks'      => $param['marks'] ?? '',
+                    'quality'    => $param['quality'] ?? '',
                 ]);
+            }
+
+            // check marks
+            if (!empty($param['marks']) && is_numeric($param['marks'])) {
+                $totalMarks += $param['marks'];
+            }
+
+            // check fatal condition
+            if (!empty($param['quality']) && strtolower($param['quality']) === 'fatal') {
+                $hasFatal = true;
             }
         }
 
-        $data = TravelQualityFeedback::select('id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at')
+        // Final quality score
+        $qualityScore = $hasFatal ? 0 : (100 - $totalMarks);
+
+        // Update booking table
+        TravelBooking::where('id', $bookingId)->update([
+            'quality_score' => $qualityScore
+        ]);
+
+        $data = TravelQualityFeedback::select(
+                'id', 'booking_id', 'user_id', 'parameter', 'note', 'marks', 'quality', 'created_at'
+            )
             ->where('booking_id', $bookingId)
             ->get();
 

@@ -81,9 +81,18 @@
                         <strong class="book-upper-tags">Changes:</strong><span class="book-bottom-tags">Zee</span>
                         <strong class="book-upper-tags">Billing:</strong><span class="book-bottom-tags">Mark</span>
                         <strong class="book-upper-tags">Quality:</strong><span class="book-bottom-tags">Smith</span>
-                        <strong class="book-upper-tags">Shared :</strong><span class="book-bottom-tags">Agent</span>
-                        <strong class="book-upper-tags">Qc Score :</strong><span class="book-bottom-tags">78%</span>
-                        <strong class="book-upper-tags">Qc Status :</strong><span style="color: #055bdb;">Approved</span> -->
+                        <strong class="book-upper-tags">Shared :</strong><span class="book-bottom-tags">Agent</span>-->
+                       @if(isset($booking->quality_score))
+                        <strong class="book-upper-tags">Qc Score :</strong>
+                        <span class="book-bottom-tags">{{ $booking->quality_score }}%</span>
+
+                        <strong class="book-upper-tags">Qc Status :</strong>
+                        @if($booking->quality_score < 30)
+                            <span style="color: red;">Rejected</span>
+                        @else
+                            <span style="color: #055bdb;">Approved</span>
+                        @endif
+                    @endif
 
                     </div>
                     
@@ -484,8 +493,5 @@
     <script>
         let booking_id = "{{ $booking->id }}";
     </script>
-    @vite('resources/js/booking/edit.js')
-    @vite('resources/js/auth/sendAuth.js')
-    @vite('resources/js/booking/pricing.js')
-    @vite('resources/js/booking/cruise.js')
+
 @endsection

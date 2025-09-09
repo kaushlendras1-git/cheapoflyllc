@@ -272,7 +272,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         <tr>
                             <td style="padding:12px; padding-left: 30px; vertical-align:top;">
                                 <p style="margin:4px 0; font-size:13px; color:#555;">
-                                <div style="white-space: pre-line; font-size: 14px;">{{ $booking->hotel_description }}
+                                <div style="white-space: pre-line; font-size: 14px;">{!! $booking->hotel_description !!}
                                 </div>
                                 </p>
                             </td>
@@ -389,8 +389,8 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     <tr style="border-bottom: 1px solid #d2d2d2;">
                                         <td style="padding-top: 10px;">
                                             <p style="margin-bottom: 0px;"><b>{{$addon->services}}</b></p>
-                                            <p style="margin-bottom: 10px; font-size: 14px;">{!!
-                                                nl2br(e($addon->service_name)) !!}</p>
+                                            <p style="margin-bottom: 10px; font-size: 14px;">
+                                                {!! $addon->service_name !!}</p>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -436,7 +436,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <!-- Title -->
                                         <td style="color:#000; padding-bottom:8px;">
                                             <div style="white-space: pre-line; font-size: 14px;">
-                                                {{ $booking->car_description }}</div>
+                                                {!! $booking->car_description !!}</div>
                                         </td>
                                     </tr>
                                 </table>
@@ -886,21 +886,135 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 <link
     href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script&family=Sacramento&family=Pacifico&family=Satisfy&display=swap"
     rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 <style>
-#signatureCanvas {
-    border: 1px solid #007bff;
-    border-radius: 8px;
-    width: 100%;
-    height: 100px;
+.signature-preview {
+    border: 2px dashed #007bff;
+    padding: 15px;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 32px;
+    font-family: 'Great Vibes';
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-.signature-preview {
-    border: 1px dashed #007bff;
-    padding: 10px;
+.signature-modal-content {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border: none;
+    overflow: hidden;
+}
+
+.signature-modal-content .modal-header {
+    background: linear-gradient(135deg, #c53d3d 0%, #e74c3c 100%);
+    color: white;
+    border-bottom: none;
+    padding: 20px 30px;
+}
+
+.signature-modal-content .modal-body {
+    padding: 30px;
+    background-color: #f8f9fa;
+}
+
+.signature-modal-content .modal-footer {
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+    padding: 20px 30px;
+}
+
+#signatureTabs .nav-link {
+    border-radius: 10px 10px 0 0;
+    margin-right: 5px;
+    font-weight: 600;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+#signatureTabs .nav-link.active {
+    background: linear-gradient(135deg, #c53d3d 0%, #e74c3c 100%);
+    color: white;
+    border-color: transparent;
+}
+
+#signatureTabs .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #c53d3d;
+}
+
+.tab-content {
+    background-color: white;
+    border-radius: 0 10px 10px 10px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#preview1, #preview2, #preview3, #preview4, #preview5 {
+    border: 2px solid #e0e0e0;
+    padding: 20px;
     text-align: center;
-    margin-top: 10px;
-    font-size: 30px;
+    margin-top: 15px;
+    font-size: 36px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 10px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#preview1:hover, #preview2:hover, #preview3:hover, #preview4:hover, #preview5:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border-color: #c53d3d;
+}
+
+#typedName1, #typedName2, #typedName3, #typedName4, #typedName5 {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#typedName1:focus, #typedName2:focus, #typedName3:focus, #typedName4:focus, #typedName5:focus {
+    border-color: #c53d3d;
+    box-shadow: 0 0 0 0.2rem rgba(197, 61, 61, 0.25);
+    outline: none;
+}
+
+#addSignatureButton {
+    background: linear-gradient(135deg, #c53d3d 0%, #e74c3c 100%);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#addSignatureButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    background: linear-gradient(135deg, #b8353a 0%, #dc3545 100%);
+}
+
+.modal.fade .modal-dialog {
+    transition: transform 0.4s ease-out;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
+.modal .modal-dialog {
+    transform: scale(0.8);
 }
 </style>
 
@@ -909,43 +1023,50 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
 <!-- Signature Modal -->
 <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content signature-modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="signatureModalLabel">Add Signature</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Tab Navigation -->
                 <ul class="nav nav-tabs" id="signatureTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="draw-tab" data-bs-toggle="tab" data-bs-target="#draw"
-                            type="button" role="tab" aria-controls="draw" aria-selected="true">Draw</button>
+                        <button class="nav-link active" id="signature1-tab" data-bs-toggle="tab" data-bs-target="#signature1" type="button" role="tab">Signature 1</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="type-tab" data-bs-toggle="tab" data-bs-target="#type" type="button"
-                            role="tab" aria-controls="type" aria-selected="false">Type</button>
+                        <button class="nav-link" id="signature2-tab" data-bs-toggle="tab" data-bs-target="#signature2" type="button" role="tab">Signature 2</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="signature3-tab" data-bs-toggle="tab" data-bs-target="#signature3" type="button" role="tab">Signature 3</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="signature4-tab" data-bs-toggle="tab" data-bs-target="#signature4" type="button" role="tab">Signature 4</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="signature5-tab" data-bs-toggle="tab" data-bs-target="#signature5" type="button" role="tab">Signature 5</button>
                     </li>
                 </ul>
                 <div class="tab-content mt-3">
-                    <!-- Draw Tab -->
-                    <div class="tab-pane fade show active" id="draw" role="tabpanel" aria-labelledby="draw-tab">
-                        <canvas id="signatureCanvas"></canvas>
-                        <button type="button" class="btn btn-secondary mt-2" id="clearButton">Clear</button>
+                    <div class="tab-pane fade show active" id="signature1" role="tabpanel">
+                        <input type="text" id="typedName1" class="form-control" value="{{$billingPricingData->cc_holder_name}}">
+                        <div id="preview1" class="signature-preview mt-2" style="font-family: 'Great Vibes';">{{$billingPricingData->cc_holder_name}}</div>
                     </div>
-                    <!-- Type Tab -->
-                    <div class="tab-pane fade" id="type" role="tabpanel" aria-labelledby="type-tab">
-                        <label for="typedName" class="form-label">Type your name:</label>
-                        <input type="text" id="typedName" class="form-control" placeholder="Enter your name">
-                        <label for="fontSelect" class="form-label mt-2">Select Font:</label>
-                        <select id="fontSelect" class="form-select">
-                            <option value="Great Vibes">Great Vibes</option>
-                            <option value="Dancing Script">Dancing Script</option>
-                            <option value="Sacramento">Sacramento</option>
-                            <option value="Pacifico">Pacifico</option>
-                            <option value="Satisfy">Satisfy</option>
-                        </select>
-                        <div id="preview" class="signature-preview mt-2">Preview: </div>
+                    <div class="tab-pane fade" id="signature2" role="tabpanel">
+                        <input type="text" id="typedName2" class="form-control" value="{{$billingPricingData->cc_holder_name}}">
+                        <div id="preview2" class="signature-preview mt-2" style="font-family: 'Dancing Script';">{{$billingPricingData->cc_holder_name}}</div>
+                    </div>
+                    <div class="tab-pane fade" id="signature3" role="tabpanel">
+                        <input type="text" id="typedName3" class="form-control" value="{{$billingPricingData->cc_holder_name}}">
+                        <div id="preview3" class="signature-preview mt-2" style="font-family: 'Sacramento';">{{$billingPricingData->cc_holder_name}}</div>
+                    </div>
+                    <div class="tab-pane fade" id="signature4" role="tabpanel">
+                        <input type="text" id="typedName4" class="form-control" value="{{$billingPricingData->cc_holder_name}}">
+                        <div id="preview4" class="signature-preview mt-2" style="font-family: 'Pacifico';">{{$billingPricingData->cc_holder_name}}</div>
+                    </div>
+                    <div class="tab-pane fade" id="signature5" role="tabpanel">
+                        <input type="text" id="typedName5" class="form-control" value="{{$billingPricingData->cc_holder_name}}">
+                        <div id="preview5" class="signature-preview mt-2" style="font-family: 'Satisfy';">{{$billingPricingData->cc_holder_name}}</div>
                     </div>
                 </div>
             </div>
@@ -965,89 +1086,45 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const canvas = document.getElementById('signatureCanvas');
-    const signaturePad = new SignaturePad(canvas);
-    const clearButton = document.getElementById('clearButton');
     const addSignatureButton = document.getElementById('addSignatureButton');
-    const typedNameInput = document.getElementById('typedName');
-    const fontSelect = document.getElementById('fontSelect');
-    const preview = document.getElementById('preview');
     const signaturePreview = document.getElementById('signaturePreview');
     const authorizeButton = document.getElementById('authorizeButton');
     const signatureDataInput = document.getElementById('signatureData');
-
-    // Function to resize the canvas
-    const resizeCanvas = () => {
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
-        canvas.getContext('2d').scale(ratio, ratio);
-        signaturePad.clear();
-    };
-
-    // Resize canvas when the modal is shown
     const signatureModal = document.getElementById('signatureModal');
-    signatureModal.addEventListener('shown.bs.modal', () => {
-        resizeCanvas(); // Resize the canvas when the modal opens
-    });
+    
+    const fonts = ['Great Vibes', 'Dancing Script', 'Sacramento', 'Pacifico', 'Satisfy'];
 
-    // Clear Button for Draw Signature
-    clearButton.addEventListener('click', () => {
-        signaturePad.clear();
-    });
-
-    // Update Preview for Typed Signature
-    const updatePreview = () => {
-        const name = typedNameInput.value;
-        const font = fontSelect.value;
-        preview.style.fontFamily = font;
-        preview.textContent = name ? name : 'Preview: ';
-    };
-
-    typedNameInput.addEventListener('input', updatePreview);
-    fontSelect.addEventListener('change', updatePreview);
+    // Update previews for all inputs
+    for (let i = 1; i <= 5; i++) {
+        const input = document.getElementById(`typedName${i}`);
+        const preview = document.getElementById(`preview${i}`);
+        input.addEventListener('input', () => {
+            preview.textContent = input.value;
+        });
+    }
 
     // Add Signature Button Logic
     addSignatureButton.addEventListener('click', () => {
         const activeTab = document.querySelector('.nav-link.active').id;
-        if (activeTab === 'draw-tab') {
-            if (signaturePad.isEmpty()) {
-                alert('Please draw a signature.');
-                return;
-            }
-            const signatureData = signaturePad.toDataURL();
-            signatureDataInput.value = signatureData;
-            document.getElementById('signatureType').value = 'draw'; // set signature type
-            signaturePreview.innerHTML =
-                `<img src="${signatureData}" alt="Signature" style="max-width: 100%;">`;
-        } else if (activeTab === 'type-tab') {
-            const name = typedNameInput.value;
-            const font = fontSelect.value;
-            if (!name) {
-                alert('Please type your name.');
-                return;
-            }
-            const signatureHTML =
-                `<span style="font-family: ${font}; font-size: 24px;">${name}</span>`;
-            signatureDataInput.value = signatureHTML; // Save as HTML for backend
-            document.getElementById('signatureType').value = 'type'; // set signature type
-            signaturePreview.innerHTML = signatureHTML;
+        const tabNumber = activeTab.replace('signature', '').replace('-tab', '');
+        const name = document.getElementById(`typedName${tabNumber}`).value;
+        const font = fonts[tabNumber - 1];
+        
+        if (!name) {
+            alert('Please type your name.');
+            return;
         }
+        
+        const signatureHTML = `<span style="font-family: ${font}; font-size: 30px;">${name}</span>`;
+        signatureDataInput.value = signatureHTML;
+        document.getElementById('signatureType').value = 'type';
+        signaturePreview.innerHTML = signatureHTML;
 
-        // Update UI
         signaturePreview.classList.remove('d-none');
         authorizeButton.disabled = false;
 
-        // Close modal
         const modal = bootstrap.Modal.getInstance(signatureModal);
         modal.hide();
-    });
-
-    // Reset Modal on Close
-    signatureModal.addEventListener('hidden.bs.modal', () => {
-        signaturePad.clear();
-        typedNameInput.value = '';
-        preview.textContent = 'Preview: ';
     });
 });
 

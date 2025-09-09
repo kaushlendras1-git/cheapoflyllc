@@ -22,9 +22,14 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="{{ asset('assets/js/addMore.js') }}"></script>
     @vite(['resources/js/agent-login.js'])
+    @vite('resources/js/booking/edit.js')
+    @vite('resources/js/auth/sendAuth.js')
+    @vite('resources/js/booking/pricing.js')
+    @vite('resources/js/booking/cruise.js')
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('load', function() {
