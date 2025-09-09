@@ -674,7 +674,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
-                <td>Card No. ${rowCount + 1}</td>
+                <td>Billing No. ${rowCount + 1}</td>
                 <td>${data.email}</td>
                 <td>${data.contact_number}</td>
                 <td>${data.street_address}</td>
