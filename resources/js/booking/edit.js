@@ -74,40 +74,40 @@ async function handleInputChange(e) {
 const container = document.getElementById('billingForms');
 
 if (container) {
-container.addEventListener('input', async function (e) {
-    if (e.target.classList.contains('usdAmount')) {
-        const row = e.target.closest('tr');
-        const amt = e.target.value;
-        const currencyField = row.querySelector('.currencyField');
-        if (!currencyField) return;
-        const selectedCurrency = currencyField.value;
-        if (!amt || !selectedCurrency) return;
-        const finalAmount = await convertAndDisplay(amt, selectedCurrency);
-        const roundedAmount = finalAmount.toFixed(2);
-        const finalAmountField = row.querySelector('.finalAmount');
-        const textAmountField = row.querySelector('.textAmount');
-        if (finalAmountField) finalAmountField.value = roundedAmount;
-        if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
-    }
-});
+    container.addEventListener('input', async function (e) {
+        if (e.target.classList.contains('usdAmount')) {
+            const row = e.target.closest('tr');
+            const amt = e.target.value;
+            const currencyField = row.querySelector('.currencyField');
+            if (!currencyField) return;
+            const selectedCurrency = currencyField.value;
+            if (!amt || !selectedCurrency) return;
+            const finalAmount = await convertAndDisplay(amt, selectedCurrency);
+            const roundedAmount = finalAmount.toFixed(2);
+            const finalAmountField = row.querySelector('.finalAmount');
+            const textAmountField = row.querySelector('.textAmount');
+            if (finalAmountField) finalAmountField.value = roundedAmount;
+            if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
+        }
+    });
 
-container.addEventListener('change', async function (e) {
-    if (e.target.classList.contains('currencyField')) {
-        const row = e.target.closest('tr');
-        const amtField = row.querySelector('.usdAmount');
-        if (!amtField) return;
-        const amt = amtField.value;
-        if (!amt) return;
-        const selectedCurrency = e.target.value;
-        if (!selectedCurrency) return;
-        const finalAmount = await convertAndDisplay(amt, selectedCurrency);
-        const roundedAmount = finalAmount.toFixed(2);
-        const finalAmountField = row.querySelector('.finalAmount');
-        const textAmountField = row.querySelector('.textAmount');
-        if (finalAmountField) finalAmountField.value = roundedAmount;
-        if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
-    }
-});
+    container.addEventListener('change', async function (e) {
+        if (e.target.classList.contains('currencyField')) {
+            const row = e.target.closest('tr');
+            const amtField = row.querySelector('.usdAmount');
+            if (!amtField) return;
+            const amt = amtField.value;
+            if (!amt) return;
+            const selectedCurrency = e.target.value;
+            if (!selectedCurrency) return;
+            const finalAmount = await convertAndDisplay(amt, selectedCurrency);
+            const roundedAmount = finalAmount.toFixed(2);
+            const finalAmountField = row.querySelector('.finalAmount');
+            const textAmountField = row.querySelector('.textAmount');
+            if (finalAmountField) finalAmountField.value = roundedAmount;
+            if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
+        }
+    });
 }
 
 if (sessionStorage.getItem("successMessage")) {
@@ -142,19 +142,19 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
 });
 
 // Enable paste only for the active tab's filepond
-document.addEventListener('paste', function(e) {
+document.addEventListener('paste', function (e) {
     const activeTab = document.querySelector('.tab-pane.active');
     if (!activeTab) return;
-    
+
     const activeFilePond = activeTab.querySelector('.filepond--root');
     if (!activeFilePond) return;
-    
+
     // Find the corresponding pond instance
     const fileInput = activeTab.querySelector('input[type="file"]');
     if (fileInput && ponds[fileInput.name]) {
         // Temporarily enable paste for active pond
         ponds[fileInput.name].allowPaste = true;
-        
+
         // Disable paste for all other ponds
         Object.keys(ponds).forEach(key => {
             if (key !== fileInput.name) {
@@ -165,12 +165,12 @@ document.addEventListener('paste', function(e) {
 });
 
 // Reset paste settings when tab changes
-document.addEventListener('shown.bs.tab', function(e) {
+document.addEventListener('shown.bs.tab', function (e) {
     // Disable paste for all ponds first
     Object.keys(ponds).forEach(key => {
         ponds[key].allowPaste = false;
     });
-    
+
     // Enable paste for the newly active tab
     const newActiveTab = document.querySelector(e.target.getAttribute('href'));
     if (newActiveTab) {
@@ -545,7 +545,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     }
     catch (e) {
         console.error(e);
-        
+
         if (e.response?.data?.reload) {
             const errorMessage = e.response?.data?.error || e.response?.data?.errors || 'Page will reload';
             showToast(errorMessage, "error");
@@ -658,30 +658,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const saveBillingBtn = document.getElementById('save-billing-detail');
     if (saveBillingBtn) {
-    saveBillingBtn.addEventListener('click', async function (e) {
-        e.preventDefault();
+        saveBillingBtn.addEventListener('click', async function (e) {
+            e.preventDefault();
 
-        const element = document.getElementById('billing-detail-add');
-        const formdata = new FormData(element);
-        const action = element.action;
+            const element = document.getElementById('billing-detail-add');
+            const formdata = new FormData(element);
+            const action = element.action;
 
-        try {
-            const response = await axios.post(action, formdata);
-            const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
-                return el.name.endsWith('][state]');
-            });
+            try {
+                const response = await axios.post(action, formdata);
+                const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
+                    return el.name.endsWith('][state]');
+                });
 
-            showToast(response.data.message);
-            document.getElementById('billing-close-modal').click();
-            element.reset();
+                showToast(response.data.message);
+                document.getElementById('billing-close-modal').click();
+                element.reset();
 
-            const data = response.data.data;
-            const tableBody = document.querySelector('#billing-table tbody');
-            if (tableBody) {
-                const rowCount = tableBody.querySelectorAll('tr').length;
+                const data = response.data.data;
+                const tableBody = document.querySelector('#billing-table tbody');
+                if (tableBody) {
+                    const rowCount = tableBody.querySelectorAll('tr').length;
 
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
                     <td>Billing No. ${rowCount + 1}</td>
                     <td>${data.email}</td>
                     <td>${data.contact_number}</td>
@@ -694,23 +694,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         <button class="btn btn-outline-danger deleteBillData" data-href="/booking/billing-details/${data.id}"><i class="ri ri-delete-bin-line"></i></button>
                     </td>
                 `;
-                billingElements.forEach(el => {
-                    if (el.tagName.toLowerCase() === 'select') {
-                        const option = document.createElement('option');
-                        option.value = response.data.data.id;
-                        option.textContent = `Card No. ${rowCount + 1}`;
+                    billingElements.forEach(el => {
+                        if (el.tagName.toLowerCase() === 'select') {
+                            const option = document.createElement('option');
+                            option.value = response.data.data.id;
+                            option.textContent = `Card No. ${rowCount + 1}`;
 
-                        el.appendChild(option);
-                    }
-                });
-                tableBody.appendChild(newRow);
-                attachDeleteHandler(newRow.querySelector('.deleteBillData'));
-                toggleBillingTableVisibility(); // After add
+                            el.appendChild(option);
+                        }
+                    });
+                    tableBody.appendChild(newRow);
+                    attachDeleteHandler(newRow.querySelector('.deleteBillData'));
+                    toggleBillingTableVisibility(); // After add
+                }
+            } catch (e) {
+                showToast(e?.response?.data?.message || 'Something went wrong', 'error');
             }
-        } catch (e) {
-            showToast(e?.response?.data?.message || 'Something went wrong', 'error');
-        }
-    });
+        });
     }
 
     Array.from(document.querySelectorAll('.deleteBillData')).forEach(attachDeleteHandler);
@@ -1305,8 +1305,38 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         observer.observe(trainFormsContainer, { childList: true, subtree: true });
     }
+
+    $('.airline_code_input').autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '{{ route("airlines_code.search") }}',
+                dataType: 'json',
+                data: { q: request.term },
+                success: function(data) {
+                    response($.map(data, function(item) {
+                        return {
+                            label: item.airline_code + " - " + item.airline_code,
+                            value: item.airline_code
+                        };
+                    }));
+                }
+            });
+        },
+        minLength: 2,
+    });
 });
 
+document.getElementById('billingCountry').addEventListener('change',async function(e){
+    const countryId = e.target.value;
+    try{
+        const response = await axios.get(route('statelist',{id:countryId}));
+        console.log(response);
+    }
+    catch(e){
+        showToast('Something went wrong','error');
+    }
+    
+});
 
 Array.from(document.querySelectorAll('.cruiseType')).forEach(item => {
     item.addEventListener('click', function () {
@@ -1347,5 +1377,3 @@ Array.from(document.querySelectorAll('.toggle-tab')).forEach(item => {
         });
     });
 });
-
-

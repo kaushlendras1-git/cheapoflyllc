@@ -78,35 +78,35 @@
                             {{ auth()->user()->departments }}</span>
 
                         <!-- <strong class="book-upper-tags">Issued On:</strong><span class="book-bottom-tags">{{ $booking->created_at }}</span>
-                        <strong class="book-upper-tags">Changes:</strong><span class="book-bottom-tags">Zee</span>
-                        <strong class="book-upper-tags">Billing:</strong><span class="book-bottom-tags">Mark</span>
-                        <strong class="book-upper-tags">Quality:</strong><span class="book-bottom-tags">Smith</span>
-                        <strong class="book-upper-tags">Shared :</strong><span class="book-bottom-tags">Agent</span>-->
-                       @if(isset($booking->quality_score))
-                        <strong class="book-upper-tags">Qc Score :</strong>
-                        <span class="book-bottom-tags">{{ $booking->quality_score }}%</span>
+                                <strong class="book-upper-tags">Changes:</strong><span class="book-bottom-tags">Zee</span>
+                                <strong class="book-upper-tags">Billing:</strong><span class="book-bottom-tags">Mark</span>
+                                <strong class="book-upper-tags">Quality:</strong><span class="book-bottom-tags">Smith</span>
+                                <strong class="book-upper-tags">Shared :</strong><span class="book-bottom-tags">Agent</span>-->
+                        @if (isset($booking->quality_score))
+                            <strong class="book-upper-tags">Qc Score :</strong>
+                            <span class="book-bottom-tags">{{ $booking->quality_score }}%</span>
 
-                        <strong class="book-upper-tags">Qc Status :</strong>
-                        @if($booking->quality_score < 30)
-                            <span style="color: red;">Rejected</span>
-                        @else
-                            <span style="color: #055bdb;">Approved</span>
+                            <strong class="book-upper-tags">Qc Status :</strong>
+                            @if ($booking->quality_score < 30)
+                                <span style="color: red;">Rejected</span>
+                            @else
+                                <span style="color: #055bdb;">Approved</span>
+                            @endif
                         @endif
+
+                    </div>
+
+
+                    @if ($booking->pricingDetails && count($booking->pricingDetails) > 0)
+                        <div class="d-flex gap-2">
+                            @include('web.booking.partials.authModel')
+
+                            <a href="{{ route('auth-history', $hashids) }}"
+                                class="btn btn-outline-secondary btn-sm rounded-pill auth-button">
+                                Mail History
+                            </a>
+                        </div>
                     @endif
-
-                    </div>
-                    
-
-                 @if($booking->pricingDetails && count($booking->pricingDetails) > 0)
-                    <div class="d-flex gap-2">
-                        @include('web.booking.partials.authModel')
-
-                        <a href="{{ route('auth-history', $hashids) }}"
-                            class="btn btn-outline-secondary btn-sm rounded-pill auth-button">
-                            Mail History
-                        </a>
-                    </div>
-                @endif
 
                 </div>
 
@@ -355,15 +355,13 @@
 
 
     <div class="d-flex justify-content-between gap-2 mt-2">
-        <a id="prev-tab-btn" class="btn btn-outline-secondary text-center" 
-   style="padding: 5px; font-size: 12px;">
-    <i class="icon-base ri ri-arrow-left-line"></i>
-</a>
+        <a id="prev-tab-btn" class="btn btn-outline-secondary text-center" style="padding: 5px; font-size: 12px;">
+            <i class="icon-base ri ri-arrow-left-line"></i>
+        </a>
 
-<a id="next-tab-btn" class="btn btn-outline-secondary text-center"
-   style="padding: 5px; font-size: 12px;">
-    <i class="icon-base ri ri-arrow-right-line"></i>
-</a>
+        <a id="next-tab-btn" class="btn btn-outline-secondary text-center" style="padding: 5px; font-size: 12px;">
+            <i class="icon-base ri ri-arrow-right-line"></i>
+        </a>
 
 
 
@@ -454,10 +452,9 @@
                                 <label class="form-label">Street Address <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="street_address">
                             </div>
-
                             <div class="col-md-3 position-relative">
                                 <label class="form-label">Country <span class="text-danger">*</span></label>
-                                <select class="form-control" name="country">
+                                <select class="form-control" name="country" id="billingCountry">
                                     <option value="">Select country</option>
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->country_name }}</option>
@@ -467,7 +464,9 @@
 
                             <div class="col-md-3 position-relative">
                                 <label class="form-label">State <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="state">
+                                <select class="form-control" name="state" id="billingState">
+                                    <option value="">Select State</option>
+                                </select>
                             </div>
 
                             <div class="col-md-3 position-relative mb-5">
