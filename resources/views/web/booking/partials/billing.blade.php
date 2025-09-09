@@ -1,10 +1,11 @@
-@if (auth()->user()->role === 'billing')
+@if (auth()->user()->department_id == 5)
     <div class="tab-pane show active" id="billing" role="tabpanel" aria-labelledby="billing-tab">
     @else
         <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
 @endif
 
-@if (auth()->user()->role != 'billing')
+
+@if (auth()->user()->department_id != 5)
     <div class="card p-4 show-booking-card">
         <div class="d-flex justify-content-between align-items-center add-bank">
             <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>

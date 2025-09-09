@@ -407,7 +407,7 @@ class BookingFormController extends Controller
             
 
 
-           if(auth()->user()->departments != 'Billing')  {
+           if(auth()->user()->departments != 5)  {
                 $rules['passenger']                              = 'required|array|min:1';
                 $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
                 $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
@@ -422,161 +422,162 @@ class BookingFormController extends Controller
             }
 
 
-            if(auth()->user()->departments != 'Billing')  {
-            // ---- FLIGHT ----
-            if (in_array('Flight', $bookingTypes)) {
-                $flightImageExists = DB::table('flight_images')->where('booking_id', $id)->exists();
+            if(auth()->user()->departments != 5)  {
+                    // ---- FLIGHT ----
+                    if (in_array('Flight', $bookingTypes)) {
+                        $flightImageExists = DB::table('flight_images')->where('booking_id', $id)->exists();
 
-                if ($flightImageExists) {
-                    $rules['flightbookingimage'] = 'array';
-                    $rules['flight'] = 'array';
-                } else {
-                    $rules['flightbookingimage'] = 'required_without:flight|array';
-                    $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
-                }
+                        if ($flightImageExists) {
+                            $rules['flightbookingimage'] = 'array';
+                            $rules['flight'] = 'array';
+                        } else {
+                            $rules['flightbookingimage'] = 'required_without:flight|array';
+                            $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
+                        }
 
-                $rules['pnrtype']                   = 'required';
-                $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
-                $rules['flight.*.departure_date']    = 'required_with:flight|date';
-                $rules['flight.*.departure_airport'] = 'required_with:flight|string|max:255';
-                $rules['flight.*.departure_hours']   = 'required_with:flight|date_format:H:i';
-                $rules['flight.*.arrival_airport']   = 'required_with:flight|string|max:255';
-                $rules['flight.*.arrival_hours']     = 'required_with:flight|date_format:H:i';
-                $rules['flight.*.duration']          = 'required_with:flight';
-                #$rules['flight.*.transit']           = 'required_with:flight';
-                #$rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
-                #$rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
-                $rules['flight.*.flight_number']     = 'required_with:flight|string|max:10';
-                $rules['flight.*.cabin']             = 'required_with:flight|string|in:B.Eco,Eco,Pre.Eco,Buss.,First Class';
-              #  $rules['flight.*.class_of_service']  = 'required_with:flight|string|max:3';
-            }
+                        $rules['pnrtype']                   = 'required';
+                        $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
+                        $rules['flight.*.departure_date']    = 'required_with:flight|date';
+                        $rules['flight.*.departure_airport'] = 'required_with:flight|string|max:255';
+                        $rules['flight.*.departure_hours']   = 'required_with:flight|date_format:H:i';
+                        $rules['flight.*.arrival_airport']   = 'required_with:flight|string|max:255';
+                        $rules['flight.*.arrival_hours']     = 'required_with:flight|date_format:H:i';
+                        $rules['flight.*.duration']          = 'required_with:flight';
+                        #$rules['flight.*.transit']           = 'required_with:flight';
+                        #$rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
+                        #$rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
+                        $rules['flight.*.flight_number']     = 'required_with:flight|string|max:10';
+                        $rules['flight.*.cabin']             = 'required_with:flight|string|in:B.Eco,Eco,Pre.Eco,Buss.,First Class';
+                    #  $rules['flight.*.class_of_service']  = 'required_with:flight|string|max:3';
+                    }
 
 
-            // ---- HOTEL ----
-            if (in_array('Hotel', $bookingTypes)) {
-                $hotelImageExists = DB::table('hotel_images')->where('booking_id', $id)->exists();
-                if ($hotelImageExists) {
-                    $rules['hotelbookingimage'] = 'array';
-                    $rules['hotel'] = 'array';
-                } else {
-                     $rules['hotelbookingimage'] = 'required_without:hotel|array';
-                    $rules['hotel'] = 'required_without:hotelbookingimage|array|min:1';
-                }
-              #  $rules['hotel_ref']                 = 'required|string';
-                $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
-                $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
-                $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
-                $rules['hotel.*.checkout_date'] = 'required_with:hotel|date|after_or_equal:hotel.*.checkin_date';
-                $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
-                $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
-                $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
-               # $rules['hotel.*.remarks']             = 'required_with:hotel|string|max:1000';
-            }
+                    // ---- HOTEL ----
+                    if (in_array('Hotel', $bookingTypes)) {
+                        $hotelImageExists = DB::table('hotel_images')->where('booking_id', $id)->exists();
+                        if ($hotelImageExists) {
+                            $rules['hotelbookingimage'] = 'array';
+                            $rules['hotel'] = 'array';
+                        } else {
+                            $rules['hotelbookingimage'] = 'required_without:hotel|array';
+                            $rules['hotel'] = 'required_without:hotelbookingimage|array|min:1';
+                        }
+                    #  $rules['hotel_ref']                 = 'required|string';
+                        $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
+                        $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
+                        $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
+                        $rules['hotel.*.checkout_date'] = 'required_with:hotel|date|after_or_equal:hotel.*.checkin_date';
+                        $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
+                        $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
+                        $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
+                    # $rules['hotel.*.remarks']             = 'required_with:hotel|string|max:1000';
+                    }
 
-            // ---- CRUISE ----
-            if (in_array('Cruise', $bookingTypes)) {
+                    // ---- CRUISE ----
+                    if (in_array('Cruise', $bookingTypes)) {
 
-                 $rules['cruise_name']                              = 'required';
-                 $rules['ship_name']                              = 'required';
-                 $rules['length']                              = 'required';
-                 $rules['departure_port']                              = 'required';
-                 $rules['arrival_port']                              = 'required';
-                 $rules['cruise_line']                              = 'required';
-               #  $rules['category']                              = 'required';
-                 $rules['stateroom']                              = 'required';
+                        $rules['cruise_name']                              = 'required';
+                        $rules['ship_name']                              = 'required';
+                        $rules['length']                              = 'required';
+                        $rules['departure_port']                              = 'required';
+                        $rules['arrival_port']                              = 'required';
+                        $rules['cruise_line']                              = 'required';
+                    #  $rules['category']                              = 'required';
+                        $rules['stateroom']                              = 'required';
 
-                $cruiseImageExists = DB::table('cruise_images')->where('booking_id', $id)->exists();
+                        $cruiseImageExists = DB::table('cruise_images')->where('booking_id', $id)->exists();
 
-                if ($cruiseImageExists) {
-                    $rules['cruisebookingimage'] = 'array';
-                    $rules['cruise'] = 'array';
-                } else {
-                    $rules['cruisebookingimage'] = 'required_without:cruise|array';
-                    $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
-                }
-              #  $rules['cruise_ref']                 = 'required|string';
-                $rules['cruise.*.departure_date']  = 'required_with:cruise|date';
-                 $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
-                 $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
-                 $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';                
-            }
+                        if ($cruiseImageExists) {
+                            $rules['cruisebookingimage'] = 'array';
+                            $rules['cruise'] = 'array';
+                        } else {
+                            $rules['cruisebookingimage'] = 'required_without:cruise|array';
+                            $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
+                        }
+                    #  $rules['cruise_ref']                 = 'required|string';
+                        $rules['cruise.*.departure_date']  = 'required_with:cruise|date';
+                        $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
+                        $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
+                        $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';                
+                    }
 
-            // ---- CAR ----
-            if (in_array('Car', $bookingTypes)) {
-                $carImageExists = DB::table('car_images')->where('booking_id', $id)->exists();
-                 $rules['car_description'] = 'required_without:car';     
-                if ($carImageExists) {
-                    $rules['carbookingimage'] = 'array';
-                    $rules['car'] = 'array';
-                } else {
-                    $rules['carbookingimage'] = 'required_without:car|array';
-                    $rules['car'] = 'required_without:carbookingimage|array|min:1';
-                }
-              #  $rules['car_ref']                 = 'required|string';
-                $rules['car.*.car_rental_provider']     = 'required_with:car|string|max:255';
-                $rules['car.*.car_type']                = 'required_with:car|string|max:255';
-                $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
-                $rules['car.*.dropoff_location']        = 'required_with:car|string|max:255';
-                $rules['car.*.pickup_date']             = 'required_with:car|date';
-                $rules['car.*.pickup_time']             = 'required_with:car|date_format:H:i';
-                $rules['car.*.dropoff_date']            = 'required_with:car|date|after_or_equal:car.*.pickup_date';
-                $rules['car.*.dropoff_time']            = 'required_with:car|date_format:H:i';
-                $rules['car.*.confirmation_number']     = 'nullable|string|max:255';
-                $rules['car.*.remarks']                 = 'nullable|string|max:255';
-//                $rules['car.*.rental_provider_address'] = 'required_with:car|string|max:255';
-            }
+                    // ---- CAR ----
+                    if (in_array('Car', $bookingTypes)) {
+                        $carImageExists = DB::table('car_images')->where('booking_id', $id)->exists();
+                        $rules['car_description'] = 'required_without:car';     
+                        if ($carImageExists) {
+                            $rules['carbookingimage'] = 'array';
+                            $rules['car'] = 'array';
+                        } else {
+                            $rules['carbookingimage'] = 'required_without:car|array';
+                            $rules['car'] = 'required_without:carbookingimage|array|min:1';
+                        }
+                    #  $rules['car_ref']                 = 'required|string';
+                        $rules['car.*.car_rental_provider']     = 'required_with:car|string|max:255';
+                        $rules['car.*.car_type']                = 'required_with:car|string|max:255';
+                        $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
+                        $rules['car.*.dropoff_location']        = 'required_with:car|string|max:255';
+                        $rules['car.*.pickup_date']             = 'required_with:car|date';
+                        $rules['car.*.pickup_time']             = 'required_with:car|date_format:H:i';
+                        $rules['car.*.dropoff_date']            = 'required_with:car|date|after_or_equal:car.*.pickup_date';
+                        $rules['car.*.dropoff_time']            = 'required_with:car|date_format:H:i';
+                        $rules['car.*.confirmation_number']     = 'nullable|string|max:255';
+                        $rules['car.*.remarks']                 = 'nullable|string|max:255';
+        //                $rules['car.*.rental_provider_address'] = 'required_with:car|string|max:255';
+                    }
 
-            // ---- TRAIN ----
-            if (in_array('Train', $bookingTypes)) {
-                $trainImageExists = DB::table('train_images')->where('booking_id', $id)->exists();
+                    // ---- TRAIN ----
+                    if (in_array('Train', $bookingTypes)) {
+                        $trainImageExists = DB::table('train_images')->where('booking_id', $id)->exists();
 
-                if ($trainImageExists) {
-                    $rules['trainbookingimage'] = 'array';
-                    $rules['train'] = 'array';
-                } else {
-                    $rules['trainbookingimage'] = 'required_without:train|array';
-                    $rules['train'] = 'required_without:trainbookingimage|array|min:1';
-                }
+                        if ($trainImageExists) {
+                            $rules['trainbookingimage'] = 'array';
+                            $rules['train'] = 'array';
+                        } else {
+                            $rules['trainbookingimage'] = 'required_without:train|array';
+                            $rules['train'] = 'required_without:trainbookingimage|array|min:1';
+                        }
 
-                $rules['train_ref']                 = 'required|string';
-                $rules['train.*.direction']         = 'required_with:train|string';
-                $rules['train.*.departure_date']    = 'required_with:train|date';
-                $rules['train.*.train_number']      = 'required_with:train|string|max:255';
-                $rules['train.*.cabin']             = 'required_with:train|string';
-                $rules['train.*.departure_station'] = 'required_with:train|string|max:255';
-                $rules['train.*.departure_hours']   = 'required_with:train|string';
-                $rules['train.*.arrival_station']   = 'required_with:train|string|max:255';
-                $rules['train.*.arrival_hours']     = 'required_with:train|string';
-                $rules['train.*.duration']          = 'required_with:train|string';
-                $rules['train.*.transit']           = 'required_with:train|string';
-                $rules['train.*.arrival_date']      = 'required_with:train|date';
-            }
+                        $rules['train_ref']                 = 'required|string';
+                        $rules['train.*.direction']         = 'required_with:train|string';
+                        $rules['train.*.departure_date']    = 'required_with:train|date';
+                        $rules['train.*.train_number']      = 'required_with:train|string|max:255';
+                        $rules['train.*.cabin']             = 'required_with:train|string';
+                        $rules['train.*.departure_station'] = 'required_with:train|string|max:255';
+                        $rules['train.*.departure_hours']   = 'required_with:train|string';
+                        $rules['train.*.arrival_station']   = 'required_with:train|string|max:255';
+                        $rules['train.*.arrival_hours']     = 'required_with:train|string';
+                        $rules['train.*.duration']          = 'required_with:train|string';
+                        $rules['train.*.transit']           = 'required_with:train|string';
+                        $rules['train.*.arrival_date']      = 'required_with:train|date';
+                    }
+                    
+                     //BILLING
+                    $rules['billing']                           = 'required|array|min:1';
+                    $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
+                    $rules['billing.*.cc_number']               = 'required|string|max:255';
+                    $rules['billing.*.cc_holder_name']          = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
+                    $rules['billing.*.exp_month']               = 'required|in:01,02,03,04,05,06,07,08,09,10,11,12';
+                    $rules['billing.*.exp_year']                = 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10);
+                    $rules['billing.*.cvv']                     = 'required|string|max:4';
+                    $rules['billing.*.currency']                = 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN';
+                    $rules['billing.*.amount']                  = 'required|numeric|min:1';
 
+                    //PRICIGN
+                    $rules['pricing']                          = 'required|array|min:1';
+                    $rules['pricing.*.passenger_type'] = [  'nullable',
+                                                                'string',
+                                                                'in:adult,child,infant,infant_on_lap,infant_on_seat',
+                                                                'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund,FXL Issuance Fees,Company card'
+                                                            ];
+
+                    $rules['pricing.*.num_passengers']         = 'required|integer';
+                    $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
+                    $rules['pricing.*.net_price']              = 'required|numeric|min:0';
+                    $rules['pricing.*.details']                = 'required|string';
         }
 
-            //BILLING
-            $rules['billing']                           = 'required|array|min:1';
-            $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
-            $rules['billing.*.cc_number']               = 'required|string|max:255';
-            $rules['billing.*.cc_holder_name']          = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
-            $rules['billing.*.exp_month']               = 'required|in:01,02,03,04,05,06,07,08,09,10,11,12';
-            $rules['billing.*.exp_year']                = 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10);
-            $rules['billing.*.cvv']                     = 'required|string|max:4';
-            $rules['billing.*.currency']                = 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN';
-            $rules['billing.*.amount']                  = 'required|numeric|min:1';
-
-            //PRICIGN
-            $rules['pricing']                          = 'required|array|min:1';
-            $rules['pricing.*.passenger_type'] = [  'nullable',
-                                                        'string',
-                                                        'in:adult,child,infant,infant_on_lap,infant_on_seat',
-                                                        'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund,FXL Issuance Fees,Company card'
-                                                    ];
-
-            $rules['pricing.*.num_passengers']         = 'required|integer';
-            $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
-            $rules['pricing.*.net_price']              = 'required|numeric|min:0';
-            $rules['pricing.*.details']                = 'required|string';
+           
 
            $remarkCount = DB::table('travel_booking_remarks')->where('booking_id', $id)->count();
             if ($remarkCount == 0) {
