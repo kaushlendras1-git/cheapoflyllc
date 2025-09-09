@@ -1435,8 +1435,8 @@ class BookingFormController extends Controller
                 }
             }
 
-            if($request->payment_status_id == 7){
-                //dd($request->payment_status_id);
+            if($request->payment_status_id == 7){ 
+                //dd($request->payment_status_id); sonu
             }
 
             
