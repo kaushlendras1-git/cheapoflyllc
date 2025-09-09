@@ -87,8 +87,9 @@ class BookingFormController extends Controller
             ]);
             $data['booking_id'] = $id;
             $insert = BillingDetail::create($data);
-            $getBillingdata = BillingDetail::select('country')->with('get_country')->find($insert->id);
+            $getBillingdata = BillingDetail::select('country','state')->with('get_country','get_state')->find($insert->id);
             $insert['country'] = $getBillingdata->get_country->country_name;
+            $insert['state'] = $getBillingdata->get_state->name;
             return response()->json([
                 'status'=>'success',
                 'code'=>201,
@@ -113,7 +114,7 @@ class BookingFormController extends Controller
         catch (\Exception $e){
             return response()->json([
                 'status'=>'failed',
-                'message'=>'Something went wrong',
+                'message'=>'Something went wrong'.$e,
                 'code'=>'500'
             ],500);
         }

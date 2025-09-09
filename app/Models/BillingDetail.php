@@ -34,4 +34,8 @@ class BillingDetail extends Model
     public function get_country(){
         return $this->belongsTo(Country::class,'country');
     }
+
+    public function get_state(){
+        return $this->belongsTo(State::class,'state');
+    }
 }
