@@ -357,12 +357,12 @@
     <div class="d-flex justify-content-between gap-2 mt-2">
         <a id="prev-tab-btn" class="btn btn-outline-secondary text-center" 
    style="padding: 5px; font-size: 12px;">
-    <i class="fas fa-arrow-left"></i>
+    <i class="icon-base ri ri-arrow-left-line"></i>
 </a>
 
 <a id="next-tab-btn" class="btn btn-outline-secondary text-center"
    style="padding: 5px; font-size: 12px;">
-    <i class="fas fa-arrow-right"></i>
+    <i class="icon-base ri ri-arrow-right-line"></i>
 </a>
 
 
