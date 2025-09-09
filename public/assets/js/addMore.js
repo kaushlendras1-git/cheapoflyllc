@@ -117,7 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cruiseFormsContainer.appendChild(newRow);
         const departureInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][departure_hrs]"]');
         const arrivalInput = newRow.querySelector('input[name="cruise[' + cruiseIndex + '][arrival_hrs]"]');
-
+        if (departureInput) attach24HourTimeListener(departureInput);
+        if (arrivalInput) attach24HourTimeListener(arrivalInput);
         cruiseIndex++;
     }
 
