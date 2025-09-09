@@ -73,6 +73,7 @@ async function handleInputChange(e) {
 
 const container = document.getElementById('billingForms');
 
+if (container) {
 container.addEventListener('input', async function (e) {
     if (e.target.classList.contains('usdAmount')) {
         const row = e.target.closest('tr');
@@ -107,6 +108,7 @@ container.addEventListener('change', async function (e) {
         if (textAmountField) textAmountField.innerText = `${roundedAmount}`;
     }
 });
+}
 
 if (sessionStorage.getItem("successMessage")) {
     showToast(sessionStorage.getItem("successMessage"));
@@ -639,6 +641,8 @@ $('.country-select').on('change', async function (e) {
 function toggleBillingTableVisibility() {
     const tableBody = document.querySelector('#billing-table tbody');
     const tableContainer = document.getElementById('billing-table-container');
+    if (!tableBody || !tableContainer) return;
+
     const rowCount = tableBody.querySelectorAll('tr').length;
 
     if (rowCount === 0) {
@@ -649,9 +653,12 @@ function toggleBillingTableVisibility() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    toggleBillingTableVisibility(); // Initial check
+    // Initial check (only if billing table exists)
+    toggleBillingTableVisibility();
 
-    document.getElementById('save-billing-detail').addEventListener('click', async function (e) {
+    const saveBillingBtn = document.getElementById('save-billing-detail');
+    if (saveBillingBtn) {
+    saveBillingBtn.addEventListener('click', async function (e) {
         e.preventDefault();
 
         const element = document.getElementById('billing-detail-add');
@@ -670,41 +677,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const data = response.data.data;
             const tableBody = document.querySelector('#billing-table tbody');
-            const rowCount = tableBody.querySelectorAll('tr').length;
+            if (tableBody) {
+                const rowCount = tableBody.querySelectorAll('tr').length;
 
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>Billing No. ${rowCount + 1}</td>
-                <td>${data.email}</td>
-                <td>${data.contact_number}</td>
-                <td>${data.street_address}</td>
-                <td>${data.city}</td>
-                <td>${data.state}</td>
-                <td>${data.zip_code}</td>
-                <td>${data.country}</td>
-                <td>
-                    <button class="btn btn-outline-danger deleteBillData" data-href="/booking/billing-details/${data.id}"><i class="ri ri-delete-bin-line"></i></button>
-                </td>
-            `;
-            billingElements.forEach(el => {
-                if (el.tagName.toLowerCase() === 'select') {
-                    const option = document.createElement('option');
-                    option.value = response.data.data.id;
-                    option.textContent = `Card No. ${rowCount + 1}`;
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>Billing No. ${rowCount + 1}</td>
+                    <td>${data.email}</td>
+                    <td>${data.contact_number}</td>
+                    <td>${data.street_address}</td>
+                    <td>${data.city}</td>
+                    <td>${data.state}</td>
+                    <td>${data.zip_code}</td>
+                    <td>${data.country}</td>
+                    <td>
+                        <button class="btn btn-outline-danger deleteBillData" data-href="/booking/billing-details/${data.id}"><i class="ri ri-delete-bin-line"></i></button>
+                    </td>
+                `;
+                billingElements.forEach(el => {
+                    if (el.tagName.toLowerCase() === 'select') {
+                        const option = document.createElement('option');
+                        option.value = response.data.data.id;
+                        option.textContent = `Card No. ${rowCount + 1}`;
 
-                    el.appendChild(option);
-                } else {
-                    console.warn('Element is not a select, cannot add option:', el);
-                }
-            });
-            tableBody.appendChild(newRow);
-            attachDeleteHandler(newRow.querySelector('.deleteBillData'));
-
-            toggleBillingTableVisibility(); // 👈 After add
+                        el.appendChild(option);
+                    }
+                });
+                tableBody.appendChild(newRow);
+                attachDeleteHandler(newRow.querySelector('.deleteBillData'));
+                toggleBillingTableVisibility(); // After add
+            }
         } catch (e) {
             showToast(e?.response?.data?.message || 'Something went wrong', 'error');
         }
     });
+    }
 
     Array.from(document.querySelectorAll('.deleteBillData')).forEach(attachDeleteHandler);
 });
@@ -1177,21 +1184,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const flightFormsContainer = document.getElementById('flightForms');
-    const observer = new MutationObserver(() => {
-        document.querySelectorAll(".departure-airport").forEach(input => {
-            if (!input.dataset.autocomplete) {
-                initAutocomplete(input, 'departure');
-                input.dataset.autocomplete = true;
-            }
+    if (flightFormsContainer) {
+        const observer = new MutationObserver(() => {
+            document.querySelectorAll(".departure-airport").forEach(input => {
+                if (!input.dataset.autocomplete) {
+                    initAutocomplete(input, 'departure');
+                    input.dataset.autocomplete = true;
+                }
+            });
+            document.querySelectorAll(".arrival-airport").forEach(input => {
+                if (!input.dataset.autocomplete) {
+                    initAutocomplete(input, 'arrival');
+                    input.dataset.autocomplete = true;
+                }
+            });
         });
-        document.querySelectorAll(".arrival-airport").forEach(input => {
-            if (!input.dataset.autocomplete) {
-                initAutocomplete(input, 'arrival');
-                input.dataset.autocomplete = true;
-            }
-        });
-    });
-    observer.observe(flightFormsContainer, { childList: true, subtree: true });
+        observer.observe(flightFormsContainer, { childList: true, subtree: true });
+    }
 
 });
 /***************Train Search***************** */

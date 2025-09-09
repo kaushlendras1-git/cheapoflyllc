@@ -1,10 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('hotel-booking-button').addEventListener('click', addHotelRow)
+    if(document.getElementById('hotel-booking-button')){
+        document.getElementById('hotel-booking-button').addEventListener('click', addHotelRow);
+    }
+    
     const hotelFormsContainer = document.getElementById('hotelForms');
     let hotelIndex = document.querySelectorAll('.hotel-row').length ?? 0;
 
     // Add initial row on page load
-    addHotelRow();
+    if(hotelFormsContainer){
+        addHotelRow();   
+    }
     // Function to add a new hotel row
     function addHotelRow() {
         const newRow = document.createElement('tr');
@@ -53,38 +58,42 @@ document.addEventListener('DOMContentLoaded', () => {
         hotelIndex = rows.length;
     }
 
-    // Event listener for input changes to auto-add rows
-    hotelFormsContainer.addEventListener('input', (e) => {
-        const row = e.target.closest('.hotel-row');
-        if (!row) return;
-
-        const rows = hotelFormsContainer.querySelectorAll('.hotel-row');
-        const lastRow = rows[rows.length - 1];
-
-        if (row === lastRow && isRowFilled(lastRow)) {
-            addHotelRow();
-        }
-    });
-
-    // Delete hotel row
-    hotelFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-hotel-btn')) {
+    if(hotelFormsContainer){
+        hotelFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.hotel-row');
-            if (hotelFormsContainer.children.length > 1) {
-                row.remove();
-                updateHotelTitles();
+            if (!row) return;
+    
+            const rows = hotelFormsContainer.querySelectorAll('.hotel-row');
+            const lastRow = rows[rows.length - 1];
+    
+            if (row === lastRow && isRowFilled(lastRow)) {
+                addHotelRow();
             }
-        }
-    });
+        });
+    
+        // Delete hotel row
+        hotelFormsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-hotel-btn')) {
+                const row = e.target.closest('.hotel-row');
+                if (hotelFormsContainer.children.length > 1) {
+                    row.remove();
+                    updateHotelTitles();
+                }
+            }
+        });
+    }
 });
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('cruise-booking-button').addEventListener('click', addCruiseRow)
+    if(document.getElementById('cruise-booking-button')){
+        document.getElementById('cruise-booking-button').addEventListener('click', addCruiseRow)
+    }
     const cruiseFormsContainer = document.getElementById('cruiseForms');
     let cruiseIndex = document.querySelectorAll('.cruise-row').length ?? 0;
-
-    addCruiseRow();
+    if(cruiseFormsContainer){
+        addCruiseRow();
+    }
 
     // Function to add a new cruise row
     function addCruiseRow() {
@@ -134,31 +143,33 @@ document.addEventListener('DOMContentLoaded', () => {
         cruiseIndex = rows.length;
     }
 
-    // Event listener for input changes to auto-add rows
-    cruiseFormsContainer.addEventListener('input', (e) => {
-        const row = e.target.closest('.cruise-row');
-        if (!row) return;
-
-        const rows = cruiseFormsContainer.querySelectorAll('.cruise-row');
-        const lastRow = rows[rows.length - 1];
-
-        if (row === lastRow && isRowFilled(lastRow)) {
-            addCruiseRow();
-        }
-    });
-
-    // Delete cruise row
-    cruiseFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-cruise-btn')) {
+    if(cruiseFormsContainer){
+        cruiseFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.cruise-row');
-            row.remove();
-            updateCruiseTitles();
-            // if (cruiseFormsContainer.children.length > 1) {
-            //     row.remove();
-            //     updateCruiseTitles();
-            // }
-        }
-    });
+            if (!row) return;
+    
+            const rows = cruiseFormsContainer.querySelectorAll('.cruise-row');
+            const lastRow = rows[rows.length - 1];
+    
+            if (row === lastRow && isRowFilled(lastRow)) {
+                addCruiseRow();
+            }
+        });
+    
+        // Delete cruise row
+        cruiseFormsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-cruise-btn')) {
+                const row = e.target.closest('.cruise-row');
+                row.remove();
+                updateCruiseTitles();
+                // if (cruiseFormsContainer.children.length > 1) {
+                //     row.remove();
+                //     updateCruiseTitles();
+                // }
+            }
+        });
+    }
+    // Event listener for input changes to auto-add rows
 });
 
 function attach24HourTimeListener(input) {
@@ -189,12 +200,15 @@ function attach24HourTimeListener(input) {
     });
 }
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('car-booking-button').addEventListener('click', addCarRow)
+    if(document.getElementById('car-booking-button')){
+        document.getElementById('car-booking-button').addEventListener('click', addCarRow)
+    }
     const carFormsContainer = document.getElementById('carForms');
     let carIndex = document.querySelectorAll('.car-row').length ?? 0;
 
-    // Add initial row on page load
-    addCarRow();
+    if(carFormsContainer){
+        addCarRow();
+    }
 
     // Function to add a new car rental row
     function addCarRow() {
@@ -247,42 +261,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         carIndex = rows.length;
     }
-
-    // Event listener for input changes to auto-add rows
-    carFormsContainer.addEventListener('input', (e) => {
-        const row = e.target.closest('.car-row');
-        if (!row) return;
-
-        const rows = carFormsContainer.querySelectorAll('.car-row');
-        const lastRow = rows[rows.length - 1];
-
-        if (row === lastRow && isRowFilled(lastRow)) {
-            addCarRow();
-        }
-    });
-
-    // Delete car row
-    carFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-car-btn')) {
+    if(carFormsContainer){
+        carFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.car-row');
-            row.remove();
-            updateCarTitles();
-            // if (carFormsContainer.children.length > 1) {
-            //     row.remove();
-            //     updateCarTitles();
-            // }
-        }
-    });
+            if (!row) return;
+    
+            const rows = carFormsContainer.querySelectorAll('.car-row');
+            const lastRow = rows[rows.length - 1];
+    
+            if (row === lastRow && isRowFilled(lastRow)) {
+                addCarRow();
+            }
+        });
+    
+        // Delete car row
+        carFormsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-car-btn')) {
+                const row = e.target.closest('.car-row');
+                row.remove();
+                updateCarTitles();
+                // if (carFormsContainer.children.length > 1) {
+                //     row.remove();
+                //     updateCarTitles();
+                // }
+            }
+        });
+    }
+    // Event listener for input changes to auto-add rows
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('flight-booking-button').addEventListener('click', addFlightRow)
+    if(document.getElementById('flight-booking-button')){
+        document.getElementById('flight-booking-button').addEventListener('click', addFlightRow);
+    }
     const flightFormsContainer = document.getElementById('flightForms');
-    const flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length ?? 0;
+    let flightRowsCount = 0;
+    if(flightFormsContainer && flightFormsContainer.getElementsByClassName('flight-row')){
+        flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length;
+    }
+    
     let flightIndex = flightRowsCount;
 
     // Add initial row on page load
-    addFlightRow();
+    if(flightFormsContainer){
+        addFlightRow();
+    }
 
     // Function to add a new flight row
     function addFlightRow() {
@@ -340,7 +363,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </td>
             `;
-        flightFormsContainer.appendChild(newRow);
         const pickupTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][arrival_hours]"]`);
         const dropoffTimeInput = newRow.querySelector(`input[name="flight[${flightIndex}][departure_hours]"]`);
         if (pickupTimeInput) attach24HourTimeListener(pickupTimeInput);
@@ -372,40 +394,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event listener for input changes to auto-add rows
-    flightFormsContainer.addEventListener('input', (e) => {
-        const row = e.target.closest('.flight-row');
-        if (!row) return;
-
-        const rows = flightFormsContainer.querySelectorAll('.flight-row');
-        const lastRow = rows[rows.length - 1];
-
-        if (row === lastRow && isRowFilled(lastRow)) {
-            addFlightRow();
-        }
-    });
-
-    // Delete flight row
-    flightFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-flight-btn')) {
+    if(flightFormsContainer){
+        flightFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.flight-row');
-            if (flightFormsContainer.children.length > 1) {
-                row.remove();
-                updateFlightTitles();
+            if (!row) return;
+
+            const rows = flightFormsContainer.querySelectorAll('.flight-row');
+            const lastRow = rows[rows.length - 1];
+
+            if (row === lastRow && isRowFilled(lastRow)) {
+                addFlightRow();
             }
-        }
-    });
+        });
+
+        // Delete flight row
+        flightFormsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-flight-btn')) {
+                const row = e.target.closest('.flight-row');
+                if (flightFormsContainer.children.length > 1) {
+                    row.remove();
+                    updateFlightTitles();
+                }
+            }
+        });
+    }
 });
 
 
 /**************************** ************** Start Train*********************** */
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('train-booking-button').addEventListener('click', addTrainRow)
+    if(document.getElementById('train-booking-button')){
+        document.getElementById('train-booking-button').addEventListener('click', addTrainRow)
+    }
     const trainFormsContainer = document.getElementById('trainForms');
     let trainIndex = document.querySelectorAll('.train-row').length ?? 0;
 
     // Add initial row on page load
-    addTrainRow();
+    if(trainFormsContainer){
+        addTrainRow();
+    }
 
     // Function to add a new train row
     function addTrainRow() {
@@ -471,30 +499,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event listener for input changes to auto-add rows
-    trainFormsContainer.addEventListener('input', (e) => {
-        const row = e.target.closest('.train-row');
-        if (!row) return;
-
-        const rows = trainFormsContainer.querySelectorAll('.train-row');
-        const lastRow = rows[rows.length - 1];
-
-        if (row === lastRow && isRowFilled(lastRow)) {
-            addTrainRow();
-        }
-    });
-
-    // Delete train row
-    trainFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-train-btn')) {
+    if(trainFormsContainer){
+        trainFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.train-row');
-            row.remove();
-            updateTrainTitles();
-            // if (trainFormsContainer.children.length > 1) {
-            //     row.remove();
-            //     updateTrainTitles();
-            // }
-        }
-    });
+            if (!row) return;
+
+            const rows = trainFormsContainer.querySelectorAll('.train-row');
+            const lastRow = rows[rows.length - 1];
+
+            if (row === lastRow && isRowFilled(lastRow)) {
+                addTrainRow();
+            }
+        });
+
+        // Delete train row
+        trainFormsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-train-btn')) {
+                const row = e.target.closest('.train-row');
+                row.remove();
+                updateTrainTitles();
+                // if (trainFormsContainer.children.length > 1) {
+                //     row.remove();
+                //     updateTrainTitles();
+                // }
+            }
+        });
+    }
 });
 
 /**************************** ************** End Train*********************** */
@@ -505,6 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Passenger Section
 document.addEventListener('DOMContentLoaded', () => {
     const passengerFormsContainer = document.getElementById('passengerForms');
+    if (!passengerFormsContainer) return;
     let passengerIndex = passengerFormsContainer.querySelectorAll('.passenger-form').length || 0;
 
     // Function to toggle credit column visibility
@@ -682,26 +713,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    passengerFormsContainer.addEventListener('input', handlePassengerInput);
-    passengerFormsContainer.addEventListener('change', handlePassengerInput);
+    if(passengerFormsContainer){
+        passengerFormsContainer.addEventListener('input', handlePassengerInput);
+        passengerFormsContainer.addEventListener('change', handlePassengerInput);
 
-    // Delete passenger row
-    passengerFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-passenger')) {
-            const row = e.target.closest('.passenger-form');
-            if (passengerFormsContainer.children.length > 1) {
-                row.remove();
-                updatePassengerTitles();
+        // Delete passenger row
+        passengerFormsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-passenger')) {
+                const row = e.target.closest('.passenger-form');
+                if (passengerFormsContainer.children.length > 1) {
+                    row.remove();
+                    updatePassengerTitles();
+                }
             }
-        }
-    });
+        });
+    }
 });
 
 
 // Billing Section
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('billing-booking-button').addEventListener('click', addBillingRow);
+    if(document.getElementById('billing-booking-button')){
+        document.getElementById('billing-booking-button').addEventListener('click', addBillingRow);
+    }
     const billingFormsContainer = document.getElementById('billingForms');
+    if (!billingFormsContainer) return;
     let billingIndex = billingFormsContainer.querySelectorAll('.billing-card').length || 0;
     let cntrystr2 = '';
 
@@ -984,15 +1020,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Delete billing row
-    billingFormsContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.delete-billing-btn')) {
-            const row = e.target.closest('.billing-card');
-            if (billingFormsContainer.children.length > 1) {
-                row.remove();
-                updateBillingTitles();
+    if(billingFormsContainer){
+        billingFormsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-billing-btn')) {
+                const row = e.target.closest('.billing-card');
+                if (billingFormsContainer.children.length > 1) {
+                    row.remove();
+                    updateBillingTitles();
+                }
             }
-        }
-    });
+        });
+    }
 });
 
 

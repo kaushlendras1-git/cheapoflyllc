@@ -42,14 +42,14 @@ class StatusManager {
     }
 
     async updatePaymentStatuses(bookingStatusId) {
-        console.log('Updating payment statuses for:', {
-            bookingStatusId,
-            department: this.userDepartment,
-            role: this.userRole
-        });
+        // console.log('Updating payment statuses for:', {
+        //     bookingStatusId,
+        //     department: this.userDepartment,
+        //     role: this.userRole
+        // });
 
         if (!bookingStatusId || !this.userDepartment || !this.userRole) {
-            console.log('Missing required data');
+            // console.log('Missing required data');
             return;
         }
 
@@ -65,7 +65,7 @@ class StatusManager {
                 }
             });
 
-            console.log('API Response:', response.data);
+            // console.log('API Response:', response.data);
             this.populatePaymentStatuses(response.data.payment_statuses);
         } catch (error) {
             console.error('Error fetching payment statuses:', error);
@@ -73,7 +73,7 @@ class StatusManager {
     }
 
     populatePaymentStatuses(paymentStatuses) {
-        console.log('Populating payment statuses:', paymentStatuses);
+        // console.log('Populating payment statuses:', paymentStatuses);
         
         // Keep current selection if exists
         const currentValue = this.paymentStatusSelect.value;
@@ -96,7 +96,7 @@ class StatusManager {
             }
         });
         
-        console.log('Payment status options updated');
+        // console.log('Payment status options updated');
     }
 }
 

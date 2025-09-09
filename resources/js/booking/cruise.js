@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const addButton = document.getElementById('cruise-addon-button');
     const container = document.getElementById('cruise-addon-container');
 
+    if (!addButton || !container) return;
+
     addButton.addEventListener('click', function () {
 
         const index = container.querySelectorAll('.cruise-addon-row').length;
@@ -69,6 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener("DOMContentLoaded", function () {
     const cruiseCheckbox = document.querySelector('#booking-cruise');
     const cruiseRoomCategory = document.querySelectorAll('#cruise_room_category');
+
+    if (!cruiseCheckbox) return;
 
     function toggleCruiseField() {
         cruiseRoomCategory.forEach(el => {
