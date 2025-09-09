@@ -149,8 +149,8 @@
                                             <br>
                                             <small class="text-muted">{{ $booking->created_at->format('h:i A') }}</small>
                                         </td>
-                                         <td>{{$booking->booking_status_id}}</td>  
-                                         <td>{{$booking->payment_status_id}}</td>  
+                                         <td>{{$booking->bookingStatus->name}}</td>  
+                                         <td>{{$booking->paymentStatus->name}}</td>  
                                          <td><span class="fw-medium text-success">${{ number_format($booking->net_value, 2) }}</span></td>
                                          <td>{{$booking->gross_mco}}</td>  
                                          <td>{{$booking->quality_score}}</td>  
