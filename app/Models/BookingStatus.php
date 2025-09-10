@@ -9,7 +9,7 @@ class BookingStatus extends Model
 {
     protected $table = 'booking_statuses';
 
-    protected $fillable = ['name', 'status', 'departments', 'roles', 'updated_by'];
+    protected $fillable = ['name','departments','roles','status', 'updated_by'];
     
     protected $casts = [
         'departments' => 'array',

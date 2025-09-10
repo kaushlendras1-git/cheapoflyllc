@@ -131,8 +131,8 @@ class AgentLoginController extends Controller
 
     private function notifyAdmins($requestingUser)
     {
-        $admins = User::where('role', 'admin')
-            ->where('status', 'active')
+        $admins = User::where('department_id', '1')
+            ->where('status', '1')
             ->get();
 
         foreach ($admins as $admin) {

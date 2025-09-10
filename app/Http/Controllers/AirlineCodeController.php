@@ -9,7 +9,7 @@ class AirlineCodeController extends Controller
 {
     public function search(Request $request)
     {
-        $q = $request->input('q');
+        $q = $request->input('keyword');
         $airlines = Airline::where('airline_name', 'like', "%$q%")
             ->orWhere('airline_code', 'like', "%$q%")
             ->limit(10)

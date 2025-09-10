@@ -1504,10 +1504,10 @@ class BookingFormController extends Controller
             'travelHotel',
         ])->findOrFail($id);
 
-        $userDepartments = auth()->user()->departments;
-        $userDepartments = [$userDepartments];
-        $booking_status = BookingStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
-        $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('department', $userDepartments[0])->get();
+
+        $booking_status = BookingStatus::where('status', 1)->whereJsonContains('departments', auth()->user()->department_id)->get();
+        $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('roles', auth()->user()->role_id)->get();
+        
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::with('get_country')->where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();

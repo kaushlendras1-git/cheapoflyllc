@@ -329,13 +329,13 @@
                     </div>
             </div>
 
-            @if (auth()->user()->departments === 'Billing')
+            @if (auth()->user()->department_id == 5)
                 @include('web.booking.partials.tabs-billing')
-            @elseif(auth()->user()->departments === 'Sales')
+            @elseif(auth()->user()->department_id == 2)
                 @include('web.booking.partials.tabs-agent')
-            @elseif(auth()->user()->departments === 'Admin')
+            @elseif(auth()->user()->department_id == 1)
                 @include('web.booking.partials.tabs-admin')
-            @elseif(auth()->user()->departments === 'Quality')
+            @elseif(auth()->user()->department_id == 3)
                 @include('web.booking.partials.tabs-quality')
             @else
                 No Data

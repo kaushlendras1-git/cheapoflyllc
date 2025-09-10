@@ -50,30 +50,34 @@ class TravelBillingDetail extends Model
     // Encrypt sensitive fields
     public function setCcNumberAttribute($value)
     {
-        $this->attributes['cc_number'] = $value ? encrypt($value) : null;
+        //$this->attributes['cc_number'] = $value ? encrypt($value) : null;
+        $this->attributes['cc_number'] = $value;
     }
 
     public function getCcNumberAttribute($value)
     {
-        try {
-            return $value ? decrypt($value) : null;
-        } catch (DecryptException $e) {
-            return $value; // fallback if already plain or broken
-        }
+        // try {
+        //     return $value ? decrypt($value) : null;
+        // } catch (DecryptException $e) {
+        //     return $value;
+        // }
+        return $value;
     }
 
     public function setCvvAttribute($value)
     {
-        $this->attributes['cvv'] = $value ? encrypt($value) : null;
+        //$this->attributes['cvv'] = $value ? encrypt($value) : null;
+        $this->attributes['cvv'] = $value;
     }
 
     public function getCvvAttribute($value)
     {
-        try {
-            return $value ? decrypt($value) : null;
-        } catch (DecryptException $e) {
-            return $value;
-        }
+        // try {
+        //     return $value ? decrypt($value) : null;
+        // } catch (DecryptException $e) {
+        //     return $value;
+        // }
+        return $value;
     }
     public function getBillingDetail(){
         return $this->belongsTo(BillingDetail::class, 'state');

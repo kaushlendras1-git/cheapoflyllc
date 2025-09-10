@@ -69,6 +69,8 @@
                             <tr>
                                 <th>Serial No.</th> <!-- Serial number column -->
                                 <th>Name</th>
+                                <th>Role</th>
+                                <th>Department</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -78,6 +80,17 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td> <!-- Serial number -->
                                 <td>{{ $bookingStatuse->id }} - {{ $bookingStatuse->name }}</td>
+                                <td>
+                                    @foreach($bookingStatuse->roles ?? [] as $roleId)
+                                        {{ $roles[$roleId] ?? '' }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </td>
+                                 <td>
+                                    @foreach($bookingStatuse->departments ?? [] as $departmentId)
+                                        {{ $departments[$departmentId] ?? '' }}@if(!$loop->last), @endif
+                                    @endforeach
+                                </td>
+
                                 <td>
                                     @if( $bookingStatuse->status == '1')
                                     <span class="badge bg-label-success">Active</span>

@@ -31,8 +31,15 @@ class User extends Authenticatable
         'remember_token',
         'profile_picture',
         'pan_card',
-        'aadhar_card'
+        'aadhar_card',
+        'last_login_ip',
+        'server_network'
     ];
+
+      protected $casts = [
+        'server_network' => 'array',
+    ];
+    
 
     /**
      * The attributes that should be hidden for serialization.

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use DB;
 
 
 class AuthController extends Controller
@@ -18,7 +19,7 @@ class AuthController extends Controller
 
 
     // Handle login
-    public function login(Request $request)
+   public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|string',
@@ -27,20 +28,42 @@ class AuthController extends Controller
 
         $loginField = $request->input('email');
         $password = $request->input('password');
-        
-        // Determine if login field is email or username
+
         $fieldType = filter_var($loginField, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-        
+
         $credentials = [
             $fieldType => $loginField,
             'password' => $password
         ];
 
         if (Auth::attempt($credentials)) {
-            if (Auth::user() && Auth::user()->status == 1) {
+            $user = Auth::user();
+
+            if ($user && $user->status == 1) {
                 $request->session()->regenerate();
 
-                // Return JSON response for AJAX requests
+                // 👉 Capture client IP
+                $loginIp = $request->ip();
+                // 👉 Capture server details (Windows example)
+                $output = shell_exec("ipconfig");
+                preg_match('/IPv4 Address.*?: ([\d\.]+)/', $output, $ipv4);
+                preg_match('/Subnet Mask.*?: ([\d\.]+)/', $output, $subnet);
+                preg_match('/Default Gateway.*?: ([\d\.]+)/', $output, $gateway);
+
+                $serverDetails = [
+                    'ipv4'   => $ipv4[1] ?? null,
+                    'subnet' => $subnet[1] ?? null,
+                    'gateway'=> $gateway[1] ?? null,
+                ];
+
+                $user = Auth::user();
+                $user->last_login_ip = $loginIp;
+                $user->server_network = $serverDetails;
+                $user->save();
+                             
+              
+
+                // JSON response for AJAX
                 if ($request->expectsJson()) {
                     return response()->json(['success' => true]);
                 }
@@ -67,6 +90,7 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+
 
     // Show registration form
     public function showRegisterForm()

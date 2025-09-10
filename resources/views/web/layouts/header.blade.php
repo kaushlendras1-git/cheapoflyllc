@@ -132,9 +132,10 @@
                     </div>
 
                     <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
-                        <ul class="navbar-nav flex-row align-items-center ms-md-auto">
-                           <!-- Masters -->
-                        @if(Auth::user()->role == 'admin')
+                        <ul class="navbar-nav flex-row align-items-center ms-md-auto">                       
+                        @if(Auth::user()->department_id == 1)
+                                                   <!-- Masters -->
+
                            <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['teams', 'emails', 'campaign', 'call-types']) ? 'active' : '' }}">
                                 <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['teams', 'emails', 'campaign', 'call-types']) ? 'active' : '' }}">
                                     <i class="menu-icon icon-base ri ri-tv-2-line"></i>
@@ -230,13 +231,10 @@
                                             <div data-i18n="Emails">Emails</div>
                                         </a>
                                     </li>
-
-
-
-                                    <!--  -->
                                 </ul>
                             </li>
-                        @endif
+                        @endif    
+                       
                             <!-- Reports -->
                             <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
                                 <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
@@ -322,7 +320,7 @@
                                 </a>
                             </li>
 
-                           @if(Auth::user()->role == 'admin')
+                           @if(Auth::user()->department_id == 1)
                             <!-- Users -->
                             <li class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'users') ? 'active' : '' }}">
                                 <a href="{{ route('users') }}" class="menu-link">

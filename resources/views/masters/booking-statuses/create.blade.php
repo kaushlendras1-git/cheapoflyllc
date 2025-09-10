@@ -4,7 +4,7 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-        <h2 class="mb-0">Add Call Type</h2>
+        <h2 class="mb-0">Add Booking Status</h2>
         <div class="breadcrumb">
                 <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
                 <a class="active"href="{{ route('booking-status.index') }}">Add Booking Status</a>
@@ -43,22 +43,12 @@
         <div class="row">
             <div class="col-mb-12 ">
                 <label class="form-label">Roles</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="manager" name="roles[]" value="Manager">
-                    <label class="form-check-label" for="manager">Manager</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="teamleader" name="roles[]" value="TeamLeader">
-                    <label class="form-check-label" for="teamleader">TeamLeader</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="supervisor" name="roles[]" value="Supervisor">
-                    <label class="form-check-label" for="supervisor">Supervisor</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="user" name="roles[]" value="User">
-                    <label class="form-check-label" for="user">User</label>
-                </div>
+                 @foreach($roles as $role)   
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="{{$role->name}}" name="roles[]" value="{{$role->id}}">
+                        <label class="form-check-label" for="{{$role->name}}">{{$role->name}}</label>
+                    </div>
+                @endforeach
             </div>
         
         </div>

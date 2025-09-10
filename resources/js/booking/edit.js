@@ -1197,8 +1197,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log(data);
                     if (data.length > 0) {
                         suggestionsBox.innerHTML = data.map(item => `
-                        <div class="suggestion-item" style="padding:5px; cursor:pointer;">
-                           ${item.airline_code}
+                        <div data-code="${item.airline_code}"  class="suggestion-item" style="padding:5px; cursor:pointer;">
+                           ${item.airline_code},${item.airline_name}
                         </div>
                     `).join("");
                         suggestionsBox.style.display = "block";
@@ -1214,7 +1214,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (suggestionsBox) {
             suggestionsBox.addEventListener("click", (e) => {
                 if (e.target.classList.contains("suggestion-item")) {
-                    input.value = e.target.textContent.trim();
+                    //input.value = e.target.textContent.trim();
+                    input.value = e.target.dataset.code;
                     suggestionsBox.style.display = "none";
                 }
             });

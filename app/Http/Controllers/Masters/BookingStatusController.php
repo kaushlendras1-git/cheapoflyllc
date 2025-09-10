@@ -5,18 +5,25 @@ namespace App\Http\Controllers\Masters;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BookingStatus;
+use App\Models\Department;
+use App\Models\Role;
 
 class BookingStatusController extends Controller
 {
     public function index()
     {
         $bookingStatuses = BookingStatus::paginate(30);
-        return view('masters.booking-statuses.index', compact('bookingStatuses'));
+        $roles = Role::pluck('name','id');
+        $departments = Department::pluck('name','id');
+        return view('masters.booking-statuses.index', compact('bookingStatuses','departments','roles'));
     }
+    
 
     public function create()
     {
-        return view('masters.booking-statuses.create');
+        $departments = Department::all();
+        $roles = Role::all();
+        return view('masters.booking-statuses.create',compact('departments','roles'));
     }
 
     public function store(Request $request)
@@ -35,8 +42,10 @@ class BookingStatusController extends Controller
     }
 
     public function edit(BookingStatus $bookingStatus)
-    {
-        return view('masters.booking-statuses.edit', compact('bookingStatus'));
+    {   
+        $departments = Department::all();
+        $roles = Role::all();
+        return view('masters.booking-statuses.edit', compact('bookingStatus','departments','roles'));
     }
 
     public function update(Request $request, BookingStatus $bookingStatus)
