@@ -1521,7 +1521,9 @@ class BookingFormController extends Controller
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
         $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id', $booking->id)->get();
-        $users = User::get();
+        
+        $users = User::where('role_id',1)->where('department_id',1)->get();
+        
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
         $campaigns = Campaign::all();

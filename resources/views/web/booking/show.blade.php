@@ -196,18 +196,7 @@
                                             @if ($booking->amadeus_sabre_pnr) disabled @endif>
                                     </div>
 
-                                    <div class="col-md-4 position-relative mb-5">
-                                        <label class="form-label"> PNR Type</label>
-                                        <select class="form-control" name="pnrtype22">
-                                            <option value="">Select</option>
-                                            <option value="FXL" {{ $booking->pnrtype == 'FXL' ? 'selected' : '' }}>FXL
-                                            </option>
-                                            <option value="GK" {{ $booking->pnrtype == 'GK' ? 'selected' : '' }}>GK
-                                            </option>
-                                            <option value="HK" {{ $booking->pnrtype == 'HK' ? 'selected' : '' }}>HK
-                                            </option>
-                                        </select>
-                                    </div>
+                                    
                                 </div>
                             </fieldset>
                             <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
@@ -298,14 +287,14 @@
 
 
                             <div class="col-md-2 position-relative mb-5">
-                                <label class="form-label"> Is Shared Booking</label>
+                                <label class="form-label"> Divided with</label>
                                 <select class="form-control" name="shared_booking">
                                     <option value="">Select</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"
-                                            {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>
-                                            {{ $user->name }}</option>
-                                    @endforeach
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>
+                                                {{ $user->name }}</option>
+                                        @endforeach
                                 </select>
                             </div>
 
