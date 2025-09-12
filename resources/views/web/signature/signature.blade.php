@@ -100,6 +100,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <!-------------Flight --------------->
             @if(in_array('Flight', $bookingTypes))
+            @php
+                $allAirlines = [];
+            @endphp
+
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -134,8 +138,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         @endif
                                     </div>
                                 </div>
+                                        @php 
+                                            $codes = explode(',', $flight->airline_code);
+                                            $allAirlines = array_unique(array_merge($allAirlines, $codes));
+                                        @endphp
                                 @endforeach
                             @endif
+
 
                             @if($flight_images)
                                 @foreach ($flight_images as $key => $img)
@@ -151,8 +160,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             @endif
 
             @if(in_array('Hotel', $bookingTypes))
-            @if($booking->travelHotel->isNotEmpty())
-            <!-- Start Hotel Details -->
+                @if($booking->travelHotel->isNotEmpty())
+                     @php
+                        $allHotelNames = [];
+                    @endphp
+
+                <!-- Start Hotel Details -->
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -202,6 +215,11 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <div style="font-weight:normal; color: #4a5568;"> {{$travelHotel->no_of_rooms}}</div>
                                     </div>
                                 </div>
+                                    @php 
+                                        $hotel_names = explode(',', $travelHotel->hotel_name);
+                                        $allHotelNames = array_unique(array_merge($allHotelNames, $hotel_names));
+                                    @endphp
+                                    
                                 @endforeach
                             </div>
                             
@@ -224,6 +242,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             @endif
 
             @if(in_array('Cruise', $bookingTypes))
+
+            @php
+                $allCruiseProvider = [];
+            @endphp
+
+           
+
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -279,6 +304,12 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         </div>
 
     </div>
+
+    @php 
+        $cruise_providers = explode(',', $cruise->cruise_line);
+        $allCruiseProvider = array_unique(array_merge($allCruiseProvider, $cruise_providers));
+    @endphp
+
     @endforeach
 </div>
 
@@ -350,6 +381,9 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <!------------ Start Car -------------->
             @if(in_array('Car', $bookingTypes))
+                @php
+                    $allCarProviders = [];
+                @endphp
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -429,6 +463,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         <span style="font-weight: 600;">{{ $travelCar->dropoff_location }}</span>
                     </div>
                 </div>
+                @php 
+                    $car_providers = explode(',', $travelCar->car_rental_provider);
+                    $allCarProviders = array_unique(array_merge($allCarProviders, $car_providers));
+                @endphp
             @endforeach
 
         </div>
@@ -453,6 +491,9 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <!-------- Start Train  ------>
             @if(in_array('Train', $bookingTypes))
+            @php
+                $allTrainProviders = [];
+            @endphp
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -531,6 +572,10 @@ border-radius: 0px;
                                     <div style="white-space: pre-line; line-height: 1.6;">{{ $booking->train_description }}</div>
                                 </div>
                             </div>
+                                @php 
+                                    $train_providers = explode(',', $trainBookingDetails->train_provider);
+                                    $allTrainProviders = array_unique(array_merge($allTrainProviders, $train_providers));
+                                @endphp
                             @endforeach
 
                             @if($train_images)
@@ -682,14 +727,38 @@ border-radius: 0px;
                                 <p style="margin-bottom: 5px;">I,&nbsp;<strong>{{$billingPricingData->cc_holder_name}} </strong>, hereby acknowledge receipt of this communication outlining the associated charges. I have thoroughly reviewed and confirmed the accuracy of the itinerary, including all passenger names, flight schedules, dates, and times.</p>
                                 <p style="margin-bottom: 5px;">I acknowledge and accept that the total cost of the booking is <strong>USD {{ number_format($booking->gross_mco, 2) }} </strong>, which will be processed through <strong>single or multiple transactions</strong>. I understand that, regardless of the number of transactions, the <strong>total amount charged will not exceed USD {{ number_format($booking->gross_mco, 2) }} </strong>.</p>
                                 <p style="margin-bottom: 5px;">I further acknowledge that the charges may appear on my credit card statements under one or more of the following descriptors:<br>
+
+                                @if($allAirlines)
+                                    {{ implode(', ', $allAirlines) }}
+                                @endif
+
+                                @if($allHotelNames)
+                                     {{ implode(', ', $allHotelNames) }}
+                                @endif
+
+                                @if($allCruiseProvider)
+                                     {{ implode(', ', $allCruiseProvider) }}
+                                @endif
+
+                               @if(!empty($allCarProviders))          
+                                     {{ implode(', ', $allCarProviders) }}
+                                @endif
+
+                                @if($allTrainProviders)
+                                     {{ implode(', ', $allTrainProviders) }}
+                                @endif  
+                                                            
                                 <strong>{{ $booking->selected_company_name }}</strong>, or <strong>{{$booking->reservation_source}}</strong>.</p>
                                 <p style="margin-bottom: 5px;">By this statement, I hereby authorize <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service providers to charge the following amounts to my cards for the related travel services:</p>
+                                
+                               
+                                
                                 <ul style="margin-top: 10px; margin-bottom: -6px;">
                                     @foreach($billingPricingDataAll as $billing)
                                     <li style="margin-bottom: 10px;"><b> USD {{ number_format($billing->authorized_amt, 2) }} </b> to my <b> {{ $billing->card_type }} ending in 
                                         @php
                                         /* if(!empty($billing->cc_number)) {
-                                            $ccNumber = decrypt($billing->cc_number);
+                                            $ccNumber = $billing->cc_number;
                                             echo substr($ccNumber, -4);
                                         } else {
                                             echo 'N/A';
@@ -707,16 +776,22 @@ border-radius: 0px;
 
 
 <!-- Row for Add Signature button -->
-<tr>
-    <td colspan="2" style="padding: 10px 30px 20px 30px;">
-        <button style="background: linear-gradient(135deg, #1a2a6c, #2b5876); color: white; border: none; padding: 12px 30px; border-radius: 0px; font-weight: 600; cursor: pointer; transition: all 0.3s;"
-                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(26, 42, 108, 0.3)';" 
-                onmouseout="this.style.transform='none'; this.style.boxShadow='none';"
-                data-bs-toggle="modal" data-bs-target="#signatureModal">
-            Add Signature
-        </button>
-    </td>
-</tr>
+
+            <tr id="signaturetd">
+                <td colspan="2" style="padding: 10px 30px 20px 30px;">
+                    <button 
+                        style="background: linear-gradient(135deg, #1a2a6c, #2b5876); color: white; border: none; padding: 12px 30px; border-radius: 0px; font-weight: 600; cursor: pointer; transition: all 0.3s;"
+                     data-bs-toggle="modal" data-bs-target="#signatureModal">Add
+                        Signature</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="signaturePreview" class="signature-preview d-none">No signature added.</div>
+                </td>
+            </tr>
+
+
 
 <!-- Row for Checkbox + Authorize button -->
 <tr>

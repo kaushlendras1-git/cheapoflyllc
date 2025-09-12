@@ -425,9 +425,6 @@ class BookingFormController extends Controller
                 $rules['booking_status_id'] = 'exclude_unless:payment_status_id,24|required|in:18';
             }
 
-            
-
-
            if(auth()->user()->departments != 5)  {
                 $rules['passenger']                              = 'required|array|min:1';
                 $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
@@ -436,7 +433,7 @@ class BookingFormController extends Controller
                 $rules['passenger.*.first_name']                 = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
                 $rules['passenger.*.middle_name']                = ['nullable','string','max:255','regex:/^[A-Za-z\s]+$/'];
                 $rules['passenger.*.last_name']                  = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
-                $rules['passenger.*.dob']                        = 'required|date';
+                $rules['passenger.*.dob']                        = ['required','date','after_or_equal:1990-01-01','before_or_equal:' . now()->toDateString(),];
                 $rules['passenger.*.seat_number']                = 'nullable|string';
                 $rules['passenger.*.credit_note']                = 'nullable|numeric';
                 $rules['passenger.*.e_ticket_number']            = 'nullable|string';
@@ -573,6 +570,7 @@ class BookingFormController extends Controller
                         $rules['train.*.arrival_date']      = 'required_with:train|date';
                     }
                     
+                    
                      //BILLING
                     $rules['billing']                           = 'required|array|min:1';
                     $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
@@ -581,6 +579,7 @@ class BookingFormController extends Controller
                     $rules['billing.*.exp_month']               = 'required|in:01,02,03,04,05,06,07,08,09,10,11,12';
                     $rules['billing.*.exp_year']                = 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10);
                     $rules['billing.*.cvv']                     = 'required|string|max:4';
+                    $rules['billing.*.state']                   = 'required';
                     $rules['billing.*.currency']                = 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN';
                     $rules['billing.*.amount']                  = 'required|numeric|min:1';
 
@@ -739,7 +738,8 @@ class BookingFormController extends Controller
                 'billing.*.cvv.required'            => 'Billing CVV is required.',
                 'billing.*.cvv.string'              => 'Billing CVV must be a string.',
                 'billing.*.cvv.max'                 => 'Billing CVV cannot exceed 4 characters.',
-
+                'billing.*.state.required'          => 'Select Billing in Card Details (Billing Tab).',
+                 
                 'billing.*.currency.required'       => 'Billing currency is required.',
                 'billing.*.currency.in'             => 'Billing currency must be one of: USD, CAD, EUR, GBP, AUD, INR, MXN.',
 
@@ -1024,6 +1024,8 @@ class BookingFormController extends Controller
             $validator->validate();
 
             $user_id =Auth::id();
+
+            #dd($request->all());
 
             #DB::beginTransaction();
 

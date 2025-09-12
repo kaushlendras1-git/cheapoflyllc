@@ -224,16 +224,15 @@ phoneInput.addEventListener("input", () => {
     // Remove non-digit characters
     let inputValue = phoneInput.value.replace(/\D/g, "");
 
-    // Format up to 15 digits as 3-3-3-3-3
+    // Format as 3-3-4
     if (inputValue.length > 3 && inputValue.length <= 6) {
         inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3)}`;
-    } else if (inputValue.length > 6 && inputValue.length <= 9) {
-        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6)}`;
-    } else if (inputValue.length > 9 && inputValue.length <= 12) {
-        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 9)} ${inputValue.slice(9)}`;
-    } else if (inputValue.length > 12) {
-        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 9)} ${inputValue.slice(9, 12)} ${inputValue.slice(12, 15)}`;
+    } else if (inputValue.length > 6) {
+        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 10)}`;
     }
+
+    // Limit max digits to 10
+    inputValue = inputValue.slice(0, 12); // 3 + 1 space + 3 + 1 space + 4 = 12 chars max
 
     // Update the input value
     phoneInput.value = inputValue;

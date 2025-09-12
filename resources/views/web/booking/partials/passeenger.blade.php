@@ -46,10 +46,6 @@
                                         {{ $passengers->passenger_type == 'Child' ? 'selected' : '' }}>
                                         Child
                                     </option>
-                                    <option value="Infant"
-                                        {{ $passengers->passenger_type == 'Infant' ? 'selected' : '' }}>
-                                        Infant
-                                    </option>
                                     <option value="Seat Infant"
                                         {{ $passengers->passenger_type == 'Seat Infant' ? 'selected' : '' }}>Seat
                                         Infant

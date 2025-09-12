@@ -14,6 +14,8 @@ use App\Models\FlightImages;
 use App\Models\HotelImages;
 use App\Models\ScreenshotImages;
 use App\Models\TrainImages;
+use App\Models\TravelCruise;
+use App\Models\TravelCruiseAddon;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -33,10 +35,15 @@ class AuthEmail extends Mailable
     public $paymentStatus;
     public $campaigns;
     public $billingData;
+    
     public $carImages;
-    public $cruiseImages;
+    public $cruise_images;
     public $flight_images;
-    public $hotelImages;
+    public $hotel_images;
+    public $train_images;
+
+    public $travel_cruise_data;
+    public $travel_cruise_addon;
     public $screenshotImages;
     public $trainImages;
     public $users;
@@ -81,13 +88,17 @@ class AuthEmail extends Mailable
         $this->campaigns = Campaign::where('status', 1)->get();
         $this->billingData = BillingDetail::where('booking_id', $this->booking->id)->get();
         $this->carImages = CarImages::where('booking_id', $this->booking->id)->get();
-        $this->cruiseImages = CruiseImages::where('booking_id', $this->booking->id)->get();
+        $this->cruise_images = CruiseImages::where('booking_id', $this->booking->id)->get();
         $this->flight_images = FlightImages::where('booking_id', $this->booking->id)->get();
-        $this->hotelImages = HotelImages::where('booking_id', $this->booking->id)->get();
+        $this->hotel_images = HotelImages::where('booking_id', $this->booking->id)->get();
         $this->screenshotImages = ScreenshotImages::where('booking_id', $this->booking->id)->get();
-        $this->trainImages = TrainImages::where('booking_id', $this->booking->id)->get();
+        $this->train_images = TrainImages::where('booking_id', $this->booking->id)->get();
+        $this->travel_cruise_data = TravelCruise::where('booking_id', $this->booking->id)->first();
+        $this->travel_cruise_addon = TravelCruiseAddon::where('booking_id',$this->booking->id)->get();
         $this->users = User::get();
         $this->bookingType = BookingType::where('id',$this->booking->query_type)->first();
+
+
     }
 
     /**

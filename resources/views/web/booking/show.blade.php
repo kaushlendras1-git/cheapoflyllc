@@ -243,8 +243,8 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="phone"
-                                    value="{{ old('phone', $booking->phone ?? '') }}">
+                                <input type="text" class="form-control" name="phone" id="phone"
+                                    value="{{ old('phone', $booking->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) : '') }}">
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
@@ -490,7 +490,7 @@
         </div>
     </div>
     <script>
-        let booking_id = "{{ $booking->id }}";
+        let booking_id = "{{ $booking->id }}";    
     </script>
 
 @endsection

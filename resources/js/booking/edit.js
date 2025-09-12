@@ -1439,3 +1439,17 @@ Array.from(document.querySelectorAll('.toggle-tab')).forEach(item => {
         });
     });
 });
+
+
+       const phoneInput = document.getElementById("phone");
+       phoneInput.addEventListener("input", () => {
+            let inputValue = phoneInput.value.replace(/\D/g, "");
+
+            if (inputValue.length > 3 && inputValue.length <= 6) {
+                inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3)}`;
+            } else if (inputValue.length > 6) {
+                inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 10)}`;
+            }
+            inputValue = inputValue.slice(0, 12);
+            phoneInput.value = inputValue;
+        });

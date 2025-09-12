@@ -54,6 +54,7 @@ class AuthEmailController extends Controller
         $buttonRoute = route('i_authorized',['booking_id'=>encode($booking_id),'card_id'=>encode($card_id),'card_billing_id'=>encode($card_billing_id),'refund_status'=>$refund_status]);
         $emailSendTo = $request->email;
 
+     
         try {
 
             // Mail Response

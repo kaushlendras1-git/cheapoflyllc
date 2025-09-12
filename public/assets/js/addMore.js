@@ -603,7 +603,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="">Select</option>
                     <option value="Adult">Adult</option>
                     <option value="Child">Child</option>
-                    <option value="Infant">Infant</option>
                     <option value="Seat Infant">Seat Infant</option>
                     <option value="Lap Infant">Lap Infant</option>
                 </select>
