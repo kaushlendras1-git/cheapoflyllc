@@ -84,9 +84,9 @@
                                 <tr class="cruise-row" data-index="{{ $key }}">
                                     <td><span class="cruise-title">{{ $key + 1 }}</span></td>
 
-                                    <td><input style="width: 125px;" type="date" class="form-control"
+                                    <td><input style="width: 125px;" type="text" class="form-control flatpickr-hotel-checkin"
                                             name="cruise[{{ $key }}][departure_date]"
-                                            value="{{ $travelCruise->departure_date?->format('Y-m-d') }}">
+                                            value="{{ $travelCruise->departure_date?->format('d-m-Y') }}">
                                     </td>
                                     <td><input type="text" class="form-control" style="width:39.5rem"
                                             name="cruise[{{ $key }}][departure_port]"

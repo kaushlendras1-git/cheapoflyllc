@@ -199,6 +199,7 @@
                                     
                                 </div>
                             </fieldset>
+
                             <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
                                 <label class="form-label">Hotel Ref</label>
                                 <input type="text" class="form-control" name="hotel_ref"
@@ -218,6 +219,7 @@
                                 <input type="text" class="form-control" name="car_ref"
                                     value="{{ old('car_ref', $booking->car_ref ?? '') }}">
                             </div>
+                            
                             <div class="col-md-2 position-relative mb-5" id="train-inputs">
                                 <label class="form-label">Train Ref</label>
                                 <input type="text" class="form-control" name="train_ref"

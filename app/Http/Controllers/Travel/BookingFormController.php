@@ -388,6 +388,7 @@ class BookingFormController extends Controller
     }
 
 
+
     public function update(Request $request, $id)
     {
         if (empty($id)) {
@@ -433,7 +434,7 @@ class BookingFormController extends Controller
                 $rules['passenger.*.first_name']                 = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
                 $rules['passenger.*.middle_name']                = ['nullable','string','max:255','regex:/^[A-Za-z\s]+$/'];
                 $rules['passenger.*.last_name']                  = ['required','string','max:255','regex:/^[A-Za-z\s]+$/'];
-                $rules['passenger.*.dob']                        = ['required','date','after_or_equal:1990-01-01','before_or_equal:' . now()->toDateString(),];
+                $rules['passenger.*.dob']                        = ['required'];
                 $rules['passenger.*.seat_number']                = 'nullable|string';
                 $rules['passenger.*.credit_note']                = 'nullable|numeric';
                 $rules['passenger.*.e_ticket_number']            = 'nullable|string';
@@ -455,11 +456,11 @@ class BookingFormController extends Controller
 
                         $rules['pnrtype']                   = 'required';
                         $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
-                        $rules['flight.*.departure_date']    = 'required_with:flight|date';
+                        $rules['flight.*.departure_date']    = 'required_with:flight';
                         $rules['flight.*.departure_airport'] = 'required_with:flight|string|max:255';
-                        $rules['flight.*.departure_hours']   = 'required_with:flight|date_format:H:i';
+                        $rules['flight.*.departure_hours']   = 'required_with:flight';
                         $rules['flight.*.arrival_airport']   = 'required_with:flight|string|max:255';
-                        $rules['flight.*.arrival_hours']     = 'required_with:flight|date_format:H:i';
+                        $rules['flight.*.arrival_hours']     = 'required_with:flight';
                         $rules['flight.*.duration']          = 'required_with:flight';
                         #$rules['flight.*.transit']           = 'required_with:flight';
                         #$rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
@@ -483,8 +484,8 @@ class BookingFormController extends Controller
                     #  $rules['hotel_ref']                 = 'required|string';
                         $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
                         $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
-                        $rules['hotel.*.checkin_date']        = 'required_with:hotel|date';
-                        $rules['hotel.*.checkout_date'] = 'required_with:hotel|date|after_or_equal:hotel.*.checkin_date';
+                        $rules['hotel.*.checkin_date']        = 'required_with:hotel';
+                        $rules['hotel.*.checkout_date']       = 'required_with:hotel';
                         $rules['hotel.*.no_of_rooms']         = 'required_with:hotel|integer|min:1';
                         $rules['hotel.*.confirmation_number'] = 'required_with:hotel|string|max:100';
                         $rules['hotel.*.hotel_address']       = 'required_with:hotel|string|max:500';
@@ -513,7 +514,7 @@ class BookingFormController extends Controller
                             $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
                         }
                     #  $rules['cruise_ref']                 = 'required|string';
-                        $rules['cruise.*.departure_date']  = 'required_with:cruise|date';
+                        $rules['cruise.*.departure_date']  = 'required_with:cruise';
                         $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
                         $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
                         $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';                
@@ -558,7 +559,7 @@ class BookingFormController extends Controller
 
                         $rules['train_ref']                 = 'required|string';
                         $rules['train.*.direction']         = 'required_with:train|string';
-                        $rules['train.*.departure_date']    = 'required_with:train|date';
+                        $rules['train.*.departure_date']    = 'required_with:train';
                         $rules['train.*.train_number']      = 'required_with:train|string|max:255';
                         $rules['train.*.cabin']             = 'required_with:train|string';
                         $rules['train.*.departure_station'] = 'required_with:train|string|max:255';
@@ -567,7 +568,7 @@ class BookingFormController extends Controller
                         $rules['train.*.arrival_hours']     = 'required_with:train|string';
                         $rules['train.*.duration']          = 'required_with:train|string';
                         $rules['train.*.transit']           = 'required_with:train|string';
-                        $rules['train.*.arrival_date']      = 'required_with:train|date';
+                        $rules['train.*.arrival_date']      = 'required_with:train';
                     }
                     
                     
@@ -702,8 +703,6 @@ class BookingFormController extends Controller
                 'passenger.*.last_name.regex'     => 'Last name can only contain letters and spaces.',
 
                 'passenger.*.dob.required'            => 'Passenger date of birth is required.',
-                'passenger.*.dob.date'                => 'Passenger date of birth must be a valid date.',
-                'passenger.*.dob.before'              => 'Passenger date of birth must be a past date.',
 
                 'passenger.*.seat_number.string'     => 'Passenger seat number must be a string.',
                 'passenger.*.credit_note.numeric'    => 'Passenger credit note must be a numeric value.',
@@ -1052,9 +1051,6 @@ class BookingFormController extends Controller
             
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
-            
-           # $bookingData['shift_id'] = 2;
-           # $bookingData['team_id'] = 2;
             $booking->update($bookingData);
             
             // Log changes
@@ -1088,32 +1084,71 @@ class BookingFormController extends Controller
                 $bt->delete(); // observer logs
             }
 
+            
+            // passengers
+
+            $existingPassengers = TravelPassenger::where('booking_id', $booking->id)->get();
+            $existingPassengerIds = $existingPassengers->pluck('id')->toArray();
 
             $passengers = collect($request->input('passenger', []))
                 ->filter(function ($data) {
-                return collect($data)->filter()->isNotEmpty();
-            });
+                    return collect($data)->filter()->isNotEmpty();
+                });
 
             $processedPassengerIds = [];
-            TravelPassenger::where('booking_id', $booking->id)
-                ->get()
-                ->each
-                ->forceDelete();
-//            TravelPassenger::where('booking_id', $booking->id)->delete();
+
             foreach ($passengers as $data) {
-
                 $data['booking_id'] = $booking->id;
+                
+                
+                if (!empty($data['dob'])) {
+                    try {
+                        $data['dob'] = Carbon::createFromFormat('d/m/Y', $data['dob'])->format('Y-m-d');
+                    } catch (\Exception $e) {
+                        $data['dob'] = null; 
+                    }
+                }
+                // Check if passenger already exists
+                if (!empty($data['id'])) {
+                    $existingPassenger = $existingPassengers->find($data['id']);
+                    
+                    if ($existingPassenger) {
+                        // Compare and update only if changed
+                        $hasChanges = false;
+                        foreach ($data as $key => $value) {
+                            if ($existingPassenger->{$key} != $value) {
+                                $hasChanges = true;
+                                break;
+                            }
+                        }
+                        
+                        if ($hasChanges) {
+                            $existingPassenger->update($data);
+                            $booking->logChange($booking->id, 'TravelPassenger', $existingPassenger->id, 'updated', json_encode($existingPassenger->getOriginal()), json_encode($data));
+                        }
+                        
+                        $processedPassengerIds[] = $existingPassenger->id;
+                        continue;
+                    }
+                }
 
-                $passenger = TravelPassenger::create(
-                    $data
-                );
+                // Create new passenger if not exists
+                $passenger = TravelPassenger::create($data);
+                $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'created', null, json_encode($data));
                 $processedPassengerIds[] = $passenger->id;
             }
-            TravelPassenger::where('booking_id', $booking->id)
+
+            // Delete removed passengers
+            $passengersToDelete = TravelPassenger::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedPassengerIds)
-                ->get()
-                ->each
-                ->forceDelete();
+                ->get();
+
+            foreach ($passengersToDelete as $passenger) {
+                $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'deleted', json_encode($passenger->toArray()), null);
+                $passenger->forceDelete();
+            }
+            // End passengers
+
 
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
             $newFlights = $request->input('flight', []);
@@ -1139,6 +1174,10 @@ class BookingFormController extends Controller
                 }
                 foreach ($newFlights as $flightData) {
                     $flightData['booking_id'] = $booking->id;
+                     
+                     $flightData['departure_date'] = Carbon::createFromFormat('d/m/Y', $flightData['departure_date'])->format('Y-m-d');
+                     $flightData['arrival_date'] = Carbon::createFromFormat('d/m/Y', $flightData['arrival_date'])->format('Y-m-d');
+
                     $flight = TravelFlightDetail::create(
                         $flightData
                     );
@@ -1152,14 +1191,18 @@ class BookingFormController extends Controller
                 ->each
                 ->forceDelete();
 
+                
+                
+
             $existingHotelIds = $booking->travelHotel->pluck('id')->toArray();
             $newHotels = $request->input('hotel', []);
             $processedHotelIds = [];
 
             $delete = TravelHotelDetail::where('booking_id', $booking->id)->get()->each->delete();
+            
             if(in_array('Hotel',$newBookingTypes)){
-               
                 $hotelData = $request->only(['hotel_description']);
+
                 $hotelData['booking_id'] = $booking->id;
                 $booking->update($hotelData);
 
@@ -1181,6 +1224,12 @@ class BookingFormController extends Controller
                     }
                     $hotelData['booking_id'] = $booking->id;
                     $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
+
+
+                    $hotelData['checkin_date'] = Carbon::createFromFormat('d/m/Y', $hotelData['checkin_date'])->format('Y-m-d');
+                    $hotelData['checkout_date'] = Carbon::createFromFormat('d/m/Y', $hotelData['checkout_date'])->format('Y-m-d');
+                   
+
                     $hotel = TravelHotelDetail::create(
                         $hotelData
                     );
@@ -1219,6 +1268,7 @@ class BookingFormController extends Controller
                 $cruiseData = $request->only(['cruise_name', 'ship_name','length', 'departure_port', 'arrival_port','cruise_line','category','stateroom','day', 'type']);
                 if (!empty($cruiseData)) {
                     $cruiseData['booking_id'] = $booking->id;
+                    
                     TravelCruise::updateOrCreate(
                         ['booking_id' => $booking->id],
                         $cruiseData
@@ -1255,12 +1305,18 @@ class BookingFormController extends Controller
                             ]);
                         }
                     }
+
+
                 foreach ($newCruises as $cruiseData) {
                     if ($this->allFieldsEmpty($cruiseData)) {
                         continue;
                     }
                     $cruiseData['booking_id'] = $booking->id;
                     $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
+
+
+                  $cruiseData['departure_date'] = Carbon::createFromFormat('d/m/Y', $cruiseData['departure_date'])->format('Y-m-d');
+
                     $cruise = TravelCruiseDetail::create(
                         $cruiseData
                     );
@@ -1584,6 +1640,23 @@ class BookingFormController extends Controller
         ]);
     }
 
+        public function deleteFlightImage($id)
+        {
+            try {
+                $image = flightImages::findOrFail($id);
+                
+                // Delete file from storage if exists
+                if (file_exists(public_path($image->file_path))) {
+                    unlink(public_path($image->file_path));
+                }
+                
+                $image->delete();
+                
+                return response()->json(['success' => true]);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false], 500);
+            }
+        }
 
 
 }

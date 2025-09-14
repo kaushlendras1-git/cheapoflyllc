@@ -257,6 +257,7 @@ class CallLogController extends Controller
                     ]);
                 }
             }
+             return redirect()->route('booking.show', ['id' => encode($booking->id)]);
         }
 
         // Log changes

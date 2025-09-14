@@ -1077,7 +1077,7 @@ document.addEventListener("DOMContentLoaded", () => {
     editors.forEach(textarea => {
         ClassicEditor
             .create(textarea, {
-                toolbar: ['bold']
+               // toolbar: ['bold']
             })
             .catch(error => {
                 console.error(error);
@@ -1131,7 +1131,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if(lastTextarea) {
                 ClassicEditor
                     .create(lastTextarea, {
-                        toolbar: ['bold']
+                       // toolbar: ['bold']
                     })
                     .catch(err => console.error(err));
             }

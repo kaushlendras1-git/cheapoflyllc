@@ -97,10 +97,11 @@
                                     value="{{ $passengers->last_name }}" placeholder="Last Name">
                             </td>
                             <td>
-                                <input type="date" style="width: 105px;" class="form-control"
+                                <input type="text" style="width: 105px;" class="form-control flatpickr-dob"
                                     name="passenger[{{ $key }}][dob]"
-                                    value="{{ $passengers->dob?->format('Y-m-d') }}">
+                                    value="{{ $passengers->dob?->format('d-m-Y') }}">
                             </td>
+
                             <td>
                                 <input type="text" style="width:50px;" class="form-control"
                                     name="passenger[{{ $key }}][seat_number]"
@@ -112,7 +113,7 @@
                                     value="{{ $passengers->credit_note_amount }}" placeholder="0" step="0.01">
                             </td>
                             <td>
-                                <input type="text" class="form-control w-100"
+                                <input type="text" class="form-control w-100 e-ticket-input"
                                     name="passenger[{{ $key }}][e_ticket_number]"
                                     value="{{ $passengers->e_ticket_number }}" placeholder="E Ticket">
                             </td>

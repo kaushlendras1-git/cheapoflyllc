@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     editors.forEach(textarea => {
         ClassicEditor.create(textarea, {
-            toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
+           // toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
         })
             .catch(error => {
                 console.error(error);
@@ -1453,3 +1453,26 @@ Array.from(document.querySelectorAll('.toggle-tab')).forEach(item => {
             inputValue = inputValue.slice(0, 12);
             phoneInput.value = inputValue;
         });
+
+
+        // Delete flight image handler
+$(document).on('click', '.delete-flight-image', function() {
+    if (!confirm('Are you sure you want to delete this image?')) return;
+    
+    const imageId = $(this).data('id');
+    const row = $(this).closest('tr');
+    
+    $.ajax({
+        url: `/booking/flight-image/${imageId}`,
+        type: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function() {
+            row.remove();
+        },
+        error: function() {
+            alert('Failed to delete image');
+        }
+    });
+});

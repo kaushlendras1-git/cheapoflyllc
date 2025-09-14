@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/status-remark/{id}', [BookingFormController::class, 'toggleRemarkStatus'])->name('status-remark');
         Route::post('/update-feedback/{id}',[BookingFormController::class,'updateFeedBack'])->name('update-feedback');
         Route::post('/delete-feedback/{id}',[BookingFormController::class,'deleteFeedBack'])->name('delete-feedback');
+        Route::delete('/flight-image/{id}', [BookingFormController::class, 'deleteFlightImage'])->name('delete.flight.image');
         Route::get('/add', [BookingFormController::class, 'add'])->name('add');
         Route::get('/search', [BookingFormController::class, 'search'])->name('search');
         Route::get('/export', [BookingFormController::class, 'export'])->name('export');

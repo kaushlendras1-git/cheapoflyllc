@@ -57,14 +57,14 @@
                                                     value="{{$travelHotel->room_category}}" placeholder="Room Category">
                                             </td>
 
-                                            <td><input type="date" class="form-control"
+                                            <td><input type="text" class="form-control flatpickr-hotel-checkin"
                                                     name="hotel[{{$key}}][checkin_date]"
-                                                    value="{{$travelHotel->checkin_date?->format('Y-m-d')}}"
+                                                    value="{{$travelHotel->checkin_date?->format('d-m-Y')}}"
                                                     style="width: 114px;"></td>
 
-                                            <td><input type="date" class="form-control"
+                                            <td><input type="text" class="form-control flatpickr-hotel-checkout"
                                                     name="hotel[{{$key}}][checkout_date]"
-                                                    value="{{$travelHotel->checkout_date?->format('Y-m-d')}}"
+                                                    value="{{$travelHotel->checkout_date?->format('d-m-Y')}}"
                                                     style="width: 114px;"></td>
 
                                             <td><input type="number" class="form-control" style="width:8rem"
@@ -118,7 +118,7 @@
                                 </thead>
                                 <tr>
                                     <td><textarea class="form-control ckeditor" name="hotel_description" placeholder="Hotel Description" >{{$booking->hotel_description}}</textarea></td>
-                                                                  </tr>
+                                </tr>
                             </table>
                         </div>
                 </div>

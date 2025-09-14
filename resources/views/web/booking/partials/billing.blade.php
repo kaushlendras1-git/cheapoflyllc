@@ -5,7 +5,8 @@
 @endif
 
 
-@if (auth()->user()->department_id != 5)
+
+@if (auth()->user()->department_id != 5 )
     <div class="card p-4 show-booking-card">
         <div class="d-flex justify-content-between align-items-center add-bank">
             <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
@@ -36,7 +37,7 @@
                             <td>{{ $bill->contact_number }}</td>
                             <td>{{ $bill->street_address }}</td>
                             <td>{{ $bill->city }}</td>
-                            <td>{{ $bill->state }}</td>
+                            <td>{{ $bill->get_state->name ?? '' }}</td>
                             <td>{{ $bill->zip_code }}</td>
                             <td>{{ $bill->get_country->country_name ?? '' }}</td>
                             <td class="text-center">
@@ -221,165 +222,163 @@
         </div>
     </div>
 
-@endif
 
-<div class="card p-4 mt-4">
-    <div class="row g-3 align-items-center">
-        <div class="col-md-12 table-responsive details-table-wrappper">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Total Amount</th>
-                        <th>Deposit Amount</th>
-                        <th>Pending Amount</th>
-                        <th>Due Date</th>
+    <div class="card p-4 mt-4" id="deposit-pending-payment">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-12 table-responsive details-table-wrappper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Total Amount</th>
+                            <th>Deposit Amount</th>
+                            <th>Pending Amount</th>
+                            <th>Due Date</th>
+                        </tr>
+                    </thead>
+                    @php
+                        function getDeposit($billingDeposits, $type)
+                        {
+                            // Convert array to collection and find first matching deposit_type
+                            return collect($billingDeposits)->firstWhere('deposit_type', $type);
+                        }
+                    @endphp
+
+                    <tr data-payment="car" id="car-deposit-billing"
+                        class="{{ in_array('Car', $bookingTypes) ? '' : 'd-none' }}">
+                        <td>
+                            Car
+                            <input type="hidden" name="deposit_type[]" value="Car" />
+                        </td>
+                        <td>
+                            <input type="text" name="total_amount[]" class="form-control"
+                                value="{{ ($deposit = getDeposit($billingDeposits, 'Car')) ? $deposit->total_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="deposit_amount[]" class="form-control"
+                                value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="pending_amount[]" class="form-control"
+                                value="{{ $deposit ? $deposit->pending_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="date" name="due_date[]" class="form-control"
+                                value="{{ $deposit ? $deposit->due_date : '' }}" />
+                        </td>
                     </tr>
-                </thead>
-                @php
-                    function getDeposit($billingDeposits, $type)
-                    {
-                        // Convert array to collection and find first matching deposit_type
-                        return collect($billingDeposits)->firstWhere('deposit_type', $type);
-                    }
-                @endphp
 
-                <tr data-payment="car" id="car-deposit-billing"
-                    class="{{ in_array('Car', $bookingTypes) ? '' : 'd-none' }}">
-                    <td>
-                        Car
-                        <input type="hidden" name="deposit_type[]" value="Car" />
-                    </td>
-                    <td>
-                        <input type="text" name="total_amount[]" class="form-control"
-                            value="{{ ($deposit = getDeposit($billingDeposits, 'Car')) ? $deposit->total_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="text" name="deposit_amount[]" class="form-control"
-                            value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="text" name="pending_amount[]" class="form-control"
-                            value="{{ $deposit ? $deposit->pending_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="date" name="due_date[]" class="form-control"
-                            value="{{ $deposit ? $deposit->due_date : '' }}" />
-                    </td>
-                </tr>
+                    <tr data-payment="cruise" id="cruise-deposit-billing"
+                        class="{{ in_array('Cruise', $bookingTypes) ? '' : 'd-none' }}">
+                        <td>
+                            Cruise
+                            <input type="hidden" name="deposit_type[]" value="Cruise" />
+                        </td>
+                        <td>
+                            <input type="text" name="total_amount[]" class="form-control"
+                                value="{{ ($deposit = getDeposit($billingDeposits, 'Cruise')) ? $deposit->total_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="deposit_amount[]" class="form-control"
+                                value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="pending_amount[]" class="form-control"
+                                value="{{ $deposit ? $deposit->pending_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="date" name="due_date[]" class="form-control"
+                                value="{{ $deposit ? $deposit->due_date : '' }}" />
+                        </td>
+                    </tr>
 
-                <tr data-payment="cruise" id="cruise-deposit-billing"
-                    class="{{ in_array('Cruise', $bookingTypes) ? '' : 'd-none' }}">
-                    <td>
-                        Cruise
-                        <input type="hidden" name="deposit_type[]" value="Cruise" />
-                    </td>
-                    <td>
-                        <input type="text" name="total_amount[]" class="form-control"
-                            value="{{ ($deposit = getDeposit($billingDeposits, 'Cruise')) ? $deposit->total_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="text" name="deposit_amount[]" class="form-control"
-                            value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="text" name="pending_amount[]" class="form-control"
-                            value="{{ $deposit ? $deposit->pending_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="date" name="due_date[]" class="form-control"
-                            value="{{ $deposit ? $deposit->due_date : '' }}" />
-                    </td>
-                </tr>
-
-                <tr data-payment="hotel" id="hotel-deposit-billing"
-                    class="{{ in_array('Hotel', $bookingTypes) ? '' : 'd-none' }}">
-                    <td>
-                        Hotel
-                        <input type="hidden" name="deposit_type[]" value="Hotel" />
-                    </td>
-                    <td>
-                        <input type="text" name="total_amount[]" class="form-control"
-                            value="{{ ($deposit = getDeposit($billingDeposits, 'Hotel')) ? $deposit->total_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="text" name="deposit_amount[]" class="form-control"
-                            value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="text" name="pending_amount[]" class="form-control"
-                            value="{{ $deposit ? $deposit->pending_amount : '' }}" />
-                    </td>
-                    <td>
-                        <input type="date" name="due_date[]" class="form-control"
-                            value="{{ $deposit ? $deposit->due_date : '' }}" />
-                    </td>
-                </tr>
-            </table>
+                    <tr data-payment="hotel" id="hotel-deposit-billing"
+                        class="{{ in_array('Hotel', $bookingTypes) ? '' : 'd-none' }}">
+                        <td>
+                            Hotel
+                            <input type="hidden" name="deposit_type[]" value="Hotel" />
+                        </td>
+                        <td>
+                            <input type="text" name="total_amount[]" class="form-control"
+                                value="{{ ($deposit = getDeposit($billingDeposits, 'Hotel')) ? $deposit->total_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="deposit_amount[]" class="form-control"
+                                value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="pending_amount[]" class="form-control"
+                                value="{{ $deposit ? $deposit->pending_amount : '' }}" />
+                        </td>
+                        <td>
+                            <input type="date" name="due_date[]" class="form-control"
+                                value="{{ $deposit ? $deposit->due_date : '' }}" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
 
+@else
 
+    <div class="card mt-2">
+        <div class="payment-form">
+            <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Transation Details</h2>
 
+            <h4 class="merchant-name mb-0">Merchent -
+                @if ($booking->selected_company == 1)
+                    Fly Dreamz
+                @elseif($booking->selected_company == 2)
+                    Fare Tickets LLC
+                @elseif($booking->selected_company == 3)
+                    Fare Ticketsus
+                @elseif($booking->selected_company == 4)
+                    Cruise Line Service
+                @endif
+            </h4>
+            <div class="row">
+                @foreach ($booking->billingDetails as $key => $billingDetails)
+                    {{--                      @dd($billingDetails) --}}
+                    <div class="col-md-3">
+                        <div class="card-partisal">
+                            <h5 class="no-card mb-4">Card {{ $key + 1 }} <span style="color: #ff0000;">(MCO =
+                                    ${{ $billingDetails['authorized_amt'] }})</span></h5>
+                            <button class="btn btn-primary no-btn add-no-btn add-bank" type="button"
+                                id="car-booking-button">
+                                <i class="ri ri-add-circle-fill pointer"></i>
+                            </button>
+                            <div class="detail_namer">
+                                <p>Card Type: <span>{{ $billingDetails['card_type'] }}</span></p>
+                                <p>Cardholder Name: <span>{{ $billingDetails['cc_holder_name'] }}</span></p>
+                                <p>Card Number: <span>{{ $billingDetails['cc_number'] }}</span></p>
+                                <p>Expiry Date:
+                                    <span>{{ $billingDetails['exp_month'] }}/{{ $billingDetails['exp_year'] }}</span>
+                                </p>
+                                <p>CVV: <span>{{ $billingDetails['cvv'] }}</span></p>
+                            </div>
+                            <h4 class="bill-add mb-4">Billing Address</h4>
+                            <div class="detail_namer">
+                                @php
+                                    $card_billing_data = \App\Models\BillingDetail::with(
+                                        'get_country:id,country_name',
+                                    )->find($billingDetails['state']);
+                                @endphp
 
-
-<div class="card mt-2">
-    <div class="payment-form">
-        <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Transation Details</h2>
-
-        <h4 class="merchant-name mb-0">Merchent -
-            @if ($booking->selected_company == 1)
-                Fly Dreamz
-            @elseif($booking->selected_company == 2)
-                Fare Tickets LLC
-            @elseif($booking->selected_company == 3)
-                Fare Ticketsus
-            @elseif($booking->selected_company == 4)
-                Cruise Line Service
-            @endif
-        </h4>
-        <div class="row">
-            @foreach ($booking->billingDetails as $key => $billingDetails)
-                {{--                      @dd($billingDetails) --}}
-                <div class="col-md-3">
-                    <div class="card-partisal">
-                        <h5 class="no-card mb-4">Card {{ $key + 1 }} <span style="color: #ff0000;">(MCO =
-                                ${{ $billingDetails['authorized_amt'] }})</span></h5>
-                        <button class="btn btn-primary no-btn add-no-btn add-bank" type="button"
-                            id="car-booking-button">
-                            <i class="ri ri-add-circle-fill pointer"></i>
-                        </button>
-                        <div class="detail_namer">
-                            <p>Card Type: <span>{{ $billingDetails['card_type'] }}</span></p>
-                            <p>Cardholder Name: <span>{{ $billingDetails['cc_holder_name'] }}</span></p>
-                            <p>Card Number: <span>{{ $billingDetails['cc_number'] }}</span></p>
-                            <p>Expiry Date:
-                                <span>{{ $billingDetails['exp_month'] }}/{{ $billingDetails['exp_year'] }}</span>
-                            </p>
-                            <p>CVV: <span>{{ $billingDetails['cvv'] }}</span></p>
-                        </div>
-                        <h4 class="bill-add mb-4">Billing Address</h4>
-                        <div class="detail_namer">
-                            @php
-                                $card_billing_data = \App\Models\BillingDetail::with(
-                                    'get_country:id,country_name',
-                                )->find($billingDetails['state']);
-                            @endphp
-
-                            <p>Email: <span>{{ $card_billing_data->email ?? '' }}</span></p>
-                            <p>Mobile: <span>{{ $card_billing_data->contact_number ?? '' }}</span></p>
-                            <p>Street Address: <span>{{ $card_billing_data->street_address ?? '' }}</span></p>
-                            <p>City: <span>{{ $card_billing_data->city ?? '' }}</span></p>
-                            <p>State: <span>{{ $card_billing_data->state ?? '' }}</span></p>
-                            <p>Zip Code: <span>{{ $card_billing_data->zip_code ?? '' }}</span></p>
-                            <p>Country <span>{{ $card_billing_data->get_country->country_name ?? '' }}</span></p>
+                                <p>Email: <span>{{ $card_billing_data->email ?? '' }}</span></p>
+                                <p>Mobile: <span>{{ $card_billing_data->contact_number ?? '' }}</span></p>
+                                <p>Street Address: <span>{{ $card_billing_data->street_address ?? '' }}</span></p>
+                                <p>City: <span>  {{ $card_billing_data->city ?? '' }}</span></p>
+                                <p>State: <span>  {{ $card_billing_data->get_state->name ?? '' }} </span></p>
+                                <p>Zip Code: <span> {{ $card_billing_data->zip_code ?? '' }}</span></p>
+                                <p>Country <span> {{ $card_billing_data->get_country->country_name ?? '' }}</span></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
-</div>
+@endif
 </div>

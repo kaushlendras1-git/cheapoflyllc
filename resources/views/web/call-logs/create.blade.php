@@ -241,4 +241,14 @@ phoneInput.addEventListener("input", () => {
 
     <!-- @vite('resources/js/callLogs/create.js') -->
 
+    <script>
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            // Page was loaded from cache (Back button), force reload
+            window.location.reload();
+        }
+    });
+</script>
+
+
     @endsection

@@ -61,9 +61,9 @@
                                             </td>
 
 
-                                            <td><input type="date" style="width: 6.7rem;" class="form-control"
+                                            <td><input type="text" style="width: 6.7rem;" class="form-control flatpickr-hotel-checkin"
                                                     name="flight[{{ $index }}][departure_date]"
-                                                    value="{{ $flight->departure_date?->format('Y-m-d') }}"></td>
+                                                    value="{{ $flight->departure_date?->format('d-m-Y') }}"></td>
 
                                             <td>
                                                 <input type="text" class="form-control airline_code_input"
@@ -130,11 +130,8 @@
                                             </td>
 
 
-                                            <td><input type="text" class="form-control time_24_hrs"
-                                                    name="flight[{{ $index }}][departure_hours]"
-                                                    style="width: 86px"
-                                                    value="{{ old("flight.$index.departure_hrs", $flight->departure_hours) }}"
-                                                    placeholder="Hrs" min="00:00" max="23:59" step="60" />
+                                            <td>
+                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][departure_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.departure_hours', $flight->departure_hours) }}">
                                             </td>
 
                                             <!-- <td><input type="text" class="form-control" style="width: 36px;"
@@ -153,11 +150,8 @@
                                             </td>
 
 
-                                            <td><input type="text" class="form-control time_24_hrs"
-                                                    style="width: 86px;"
-                                                    name="flight[{{ $index }}][arrival_hours]"
-                                                    value="{{ old("flight.$index.arrival_hrs", $flight->arrival_hours) }}"
-                                                    placeholder="Hrs" min="00:00" max="23:59" step="60">
+                                            <td>
+                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][arrival_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.arrival_hours', $flight->arrival_hours) }}">
                                             </td>
 
                                             <!-- <td><input type="text" class="form-control" style="width: 36px;"
@@ -175,9 +169,9 @@
                                                     value="{{ old("flight.$index.transit", $flight->transit) }}"
                                                     placeholder="Transit"></td>
 
-                                            <td><input type="date" class="form-control" style="width: 105px;"
+                                            <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;"
                                                     name="flight[{{ $index }}][arrival_date]"
-                                                    value="{{ $flight->arrival_date?->format('Y-m-d') }}"></td>
+                                                    value="{{ $flight->arrival_date?->format('d-m-Y') }}"></td>
                                             <td>
                                                 <button type="button"
                                                     class="btn btn-outline-danger delete-flight-btn">
@@ -210,6 +204,7 @@
                             <th>Image Preview</th>
                             <th>Agent Name</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -221,7 +216,11 @@
                                             style="max-height: 100px;" alt="Flight Image"></a></td>
                                 <td>{{ $img->get_agent?->name }}</td>
                                 <td>{{ $img->created_at }}</td>
-                            </tr>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm delete-flight-image" data-id="{{ $img->id }}">
+                                        <i class="ri ri-delete-bin-line"></i>
+                                    </button>
+                                </td>                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -232,4 +231,5 @@
 
     </div>
 </div>
+
 <!------------------------ End Flight Booking Details ------------------------------>
