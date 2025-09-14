@@ -316,14 +316,12 @@
                 <div class="card mb-0 card-space">
                     <div class="card-body p-0">
                
-                <button type="submit" name="break_type" value="short"
+                                            <button type="submit" name="break_type" value="short"
                                                     class="btn btn-warning">
                                                     Short Break
                                                 </button>
-                                                <button type="submit" name="break_type" value="dinner"
-                                                    class="btn btn-info">
-                                                    Dinner Break
-                                                </button>
+
+                                                
                          </div>
                       </div>
                     </div>

@@ -236,14 +236,6 @@
                             <th>Due Date</th>
                         </tr>
                     </thead>
-                    @php
-                        function getDeposit($billingDeposits, $type)
-                        {
-                            // Convert array to collection and find first matching deposit_type
-                            return collect($billingDeposits)->firstWhere('deposit_type', $type);
-                        }
-                    @endphp
-
                     <tr data-payment="car" id="car-deposit-billing"
                         class="{{ in_array('Car', $bookingTypes) ? '' : 'd-none' }}">
                         <td>
@@ -252,19 +244,19 @@
                         </td>
                         <td>
                             <input type="text" name="total_amount[]" class="form-control"
-                                value="{{ ($deposit = getDeposit($billingDeposits, 'Car')) ? $deposit->total_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->total_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="text" name="deposit_amount[]" class="form-control"
-                                value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->deposit_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="text" name="pending_amount[]" class="form-control"
-                                value="{{ $deposit ? $deposit->pending_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->pending_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="date" name="due_date[]" class="form-control"
-                                value="{{ $deposit ? $deposit->due_date : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->due_date ?? '' }}" />
                         </td>
                     </tr>
 
@@ -276,19 +268,19 @@
                         </td>
                         <td>
                             <input type="text" name="total_amount[]" class="form-control"
-                                value="{{ ($deposit = getDeposit($billingDeposits, 'Cruise')) ? $deposit->total_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->total_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="text" name="deposit_amount[]" class="form-control"
-                                value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->deposit_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="text" name="pending_amount[]" class="form-control"
-                                value="{{ $deposit ? $deposit->pending_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->pending_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="date" name="due_date[]" class="form-control"
-                                value="{{ $deposit ? $deposit->due_date : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->due_date ?? '' }}" />
                         </td>
                     </tr>
 
@@ -300,19 +292,19 @@
                         </td>
                         <td>
                             <input type="text" name="total_amount[]" class="form-control"
-                                value="{{ ($deposit = getDeposit($billingDeposits, 'Hotel')) ? $deposit->total_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->total_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="text" name="deposit_amount[]" class="form-control"
-                                value="{{ $deposit ? $deposit->deposit_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->deposit_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="text" name="pending_amount[]" class="form-control"
-                                value="{{ $deposit ? $deposit->pending_amount : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->pending_amount ?? '' }}" />
                         </td>
                         <td>
                             <input type="date" name="due_date[]" class="form-control"
-                                value="{{ $deposit ? $deposit->due_date : '' }}" />
+                                value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->due_date ?? '' }}" />
                         </td>
                     </tr>
                 </table>

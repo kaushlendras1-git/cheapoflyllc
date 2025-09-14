@@ -5,15 +5,15 @@
             <input type="file" id="screenshots-upload" name="screenshots[]" multiple>
         </div>
 
-        <div class="" style="margin-top:20px">
-            @if($screenshot_images)
+        @if(isset($screenshot_images) && $screenshot_images->count())
+            <div class="" style="margin-top:20px">
                 @if( auth()->user()->role != 1)
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped crm-table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Image Preview</th>
+                                <th>#</th>
+                                <th>Image Preview</th>
                                 <th>Agent Name</th>
                                 <th>Date</th>
                             </tr>
@@ -33,13 +33,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                    @else
-                    <p>No images found.</p>
-                @endif
-            @endif    
-        </div>
-
-
-
+                 @endif 
+            </div>
+         @endif     
     </div>
 </div>

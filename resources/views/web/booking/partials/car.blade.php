@@ -140,20 +140,17 @@
                                 </tr>
                             </thead>
                             <tr>
-                                <td><textarea class="form-control ckeditor" name="car_description" placeholder="Car Description" cols="30" rows="6">{{$booking->car_description}}</textarea></td>
+                                <td><textarea class="form-control " name="car_description" placeholder="Car Description" cols="30" rows="6">{{$booking->car_description}}</textarea></td>
                             </tr>
                         </table>
                     </div>
              </div>
 
-
-
+                @if(isset($car_images) && $car_images->count())
                     <div style="margin-top:20px">
                         <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
                     </div>
-
                     <div class="" style="margin-top:20px">
-                        @if($car_images)
                             <table class="table table-bordered table-striped crm-table">
                                 <thead>
                                     <tr>
@@ -174,11 +171,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        @else
-                            <p>No images found.</p>
-                        @endif
-                    </div>
-
+                        </div>
+                @endif
                 </div>
             </div>
             <!------------------------ End Car Booking Details ------------------------------>

@@ -117,7 +117,8 @@
                                     </tr>
                                 </thead>
                                 <tr>
-                                    <td><textarea class="form-control ckeditor" name="hotel_description" placeholder="Hotel Description" >{{$booking->hotel_description}}</textarea></td>
+                                    <!--ckeditor-->
+                                    <td><textarea class="form-control" name="hotel_description" placeholder="Hotel Description" >{{$booking->hotel_description}}</textarea></td>
                                 </tr>
                             </table>
                         </div>
@@ -133,33 +134,30 @@
 
 
 
-
-                    <div class="" style="margin-top:20px">
-                        @if($hotel_images)
-                            <table class="table table-bordered table-striped crm-table">
-                                <thead>
+        @if(isset($hotel_images) && $hotel_images->count())
+            <div class="" style="margin-top:20px">
+                    <table class="table table-bordered table-striped crm-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Image Preview</th>
+                                <th>Agent Name</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($hotel_images as $key => $img)
                                     <tr>
-                                        <th>#</th>
-                                        <th>Image Preview</th>
-                                        <th>Agent Name</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($hotel_images as $key => $img)
-                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
-                                            <td>{{ $img->get_agent?->name }}</td>
-                                            <td>{{ $img->created_at }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @else
-                            <p>No images found.</p>
-                        @endif
-                    </div>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50" src="{{ asset($img->file_path) }}" class="img-thumbnail" style="max-height: 100px;" alt="Flight Image"></a></td>
+                                    <td>{{ $img->get_agent?->name }}</td>
+                                    <td>{{ $img->created_at }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+        @endif
 
                 </div>
             </div>

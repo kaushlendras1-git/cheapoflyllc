@@ -195,8 +195,11 @@
             <input type="file" id="flight-screenshots-upload" name="flightbookingimage[]" multiple>
         </div>
 
+
+      
+    @if(isset($flight_images) && $flight_images->count())
         <div class="" style="margin-top:20px">
-            @if ($flight_images)
+         
                 <table class="table table-bordered table-striped crm-table">
                     <thead>
                         <tr>
@@ -224,11 +227,10 @@
                         @endforeach
                     </tbody>
                 </table>
-            @else
-                <p>No images found.</p>
-            @endif
+            
         </div>
-
+    @endif
+    
     </div>
 </div>
 

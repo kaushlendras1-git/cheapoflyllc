@@ -180,25 +180,24 @@
                                 <input type="text" class="form-control" name="pnr" value="{{ $booking->pnr }}"
                                     disabled>
                             </div>
+                            
                             <fieldset id="flight-inputs" class="toggle-section col-md-6">
                                 <div class="row">
-                                    <div class="col-md-4 position-relative mb-5">
+                                    <div class="col-md-6 position-relative mb-5">
                                         <label class="form-label">Airline PNR</label>
                                         <input type="text" class="form-control" name="airlinepnr"
                                             value="{{ $booking->airlinepnr }}"
-                                            @if ($booking->airlinepnr) disabled @endif>
+                                            @if ($booking->airlinepnr) readonly @endif>
                                     </div>
-
-                                    <div class="col-md-4 position-relative mb-5">
+                                    <div class="col-md-6 position-relative mb-5">
                                         <label class="form-label">Amadeus/Sabre PNR</label>
                                         <input type="text" class="form-control" name="amadeus_sabre_pnr"
                                             value="{{ $booking->amadeus_sabre_pnr }}"
                                             @if ($booking->amadeus_sabre_pnr) disabled @endif>
                                     </div>
-
-                                    
                                 </div>
                             </fieldset>
+
 
                             <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
                                 <label class="form-label">Hotel Ref</label>

@@ -93,7 +93,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             <img width="40" src="{{asset('email-templates/event.png')}}" alt="Number"> 
                         </div>
                         <div style="font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 0px;">Booking Date</div>
-                        <div style="font-size: 14px; color: #4a5568; font-weight: 500;">Monday, Jul 14,2025</div>
+                        <div style="font-size: 14px; color: #4a5568; font-weight: 500;">{{ $booking->created_at->format('l, M d, Y') }}</div>
                     </div>
                 </td>
             </tr>
@@ -610,9 +610,7 @@ border-radius: 0px;
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Card Number</div>
                                 <div style="font-size: 14px; color: #4a5568;">
-                                    @php
-                                    /* Masked card number logic */
-                                    @endphp
+                                    {{$billingPricingData->cc_number}}
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
@@ -623,12 +621,14 @@ border-radius: 0px;
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Booking Date</div>
-                                <div style="font-size: 14px; color: #4a5568;">Monday, Jul 14,2025</div>
+                                <div style="font-size: 14px; color: #4a5568;">{{ $booking->created_at->format('l, M d, Y') }}</div>
                             </div>
+                           @if($booking->airlinepnr) 
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Airline Ref</div>
                                 <div style="font-size: 14px; color: #4a5568;">{{ $booking->airlinepnr }}</div>
                             </div>
+                           @endif 
                         </div>
                     </div>
                 </td>
@@ -728,25 +728,12 @@ border-radius: 0px;
                                 <p style="margin-bottom: 5px;">I acknowledge and accept that the total cost of the booking is <strong>USD {{ number_format($booking->gross_mco, 2) }} </strong>, which will be processed through <strong>single or multiple transactions</strong>. I understand that, regardless of the number of transactions, the <strong>total amount charged will not exceed USD {{ number_format($booking->gross_mco, 2) }} </strong>.</p>
                                 <p style="margin-bottom: 5px;">I further acknowledge that the charges may appear on my credit card statements under one or more of the following descriptors:<br>
 
-                                @if($allAirlines)
-                                    {{ implode(', ', $allAirlines) }}
-                                @endif
-
-                                @if($allHotelNames)
-                                     {{ implode(', ', $allHotelNames) }}
-                                @endif
-
-                                @if($allCruiseProvider)
-                                     {{ implode(', ', $allCruiseProvider) }}
-                                @endif
-
-                               @if(!empty($allCarProviders))          
-                                     {{ implode(', ', $allCarProviders) }}
-                                @endif
-
-                                @if($allTrainProviders)
-                                     {{ implode(', ', $allTrainProviders) }}
-                                @endif  
+                               {{ !empty($allAirlines) ? implode(', ', $allAirlines) : '' }}
+                               {{ !empty($allHotelNames) ? implode(', ', $allHotelNames) : '' }}
+                               {{ !empty($allCruiseProvider) ? implode(', ', $allCruiseProvider) : '' }}
+                               {{ !empty($allCarProviders) ? implode(', ', $allCarProviders) : '' }}
+                               {{ !empty($allTrainProviders) ? implode(', ', $allTrainProviders) : '' }}
+                               
                                                             
                                 <strong>{{ $booking->selected_company_name }}</strong>, or <strong>{{$booking->reservation_source}}</strong>.</p>
                                 <p style="margin-bottom: 5px;">By this statement, I hereby authorize <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service providers to charge the following amounts to my cards for the related travel services:</p>

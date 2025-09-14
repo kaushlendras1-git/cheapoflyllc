@@ -455,6 +455,7 @@ class BookingFormController extends Controller
                         }
 
                         $rules['pnrtype']                   = 'required';
+                        $rules['airlinepnr']                   = 'required';
                         $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
                         $rules['flight.*.departure_date']    = 'required_with:flight';
                         $rules['flight.*.departure_airport'] = 'required_with:flight|string|max:255';
@@ -1108,6 +1109,7 @@ class BookingFormController extends Controller
                         $data['dob'] = null; 
                     }
                 }
+
                 // Check if passenger already exists
                 if (!empty($data['id'])) {
                     $existingPassenger = $existingPassengers->find($data['id']);
