@@ -734,6 +734,7 @@ border-radius: 0px;
                                {{ !empty($allCarProviders) ? implode(', ', $allCarProviders) : '' }}
                                {{ !empty($allTrainProviders) ? implode(', ', $allTrainProviders) : '' }}
                                
+                               
                                                             
                                 <strong>{{ $booking->selected_company_name }}</strong>, or <strong>{{$booking->reservation_source}}</strong>.</p>
                                 <p style="margin-bottom: 5px;">By this statement, I hereby authorize <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service providers to charge the following amounts to my cards for the related travel services:</p>
