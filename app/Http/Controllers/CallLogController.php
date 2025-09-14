@@ -192,7 +192,7 @@ class CallLogController extends Controller
             'phone' => 'required|string|max:15',
             'name' => 'required|string|max:255',
            # 'campaign_id' => 'required|exists:campaigns,id', // Validate as Campaign ID
-            'reservation_source' => 'required|string|max:255',
+           # 'reservation_source' => 'required|string|max:255',
             'call_type' => 'required|string|max:255',
             'call_converted' => 'nullable|boolean',
             'followup_date' => 'nullable|date',
@@ -229,7 +229,7 @@ class CallLogController extends Controller
                 $booking = TravelBooking::create([
                     'name' => $request->name,
                     'phone' => $request->phone,
-                    'reservation_source' => $request->reservation_source,
+                   # 'reservation_source' => $request->reservation_source,
                     'campaign' => $request->campaign, // Store campaign ID
                     'pnr' => $pnr,
                     'booking_status_id' => 1,

@@ -119,17 +119,6 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-2 position-relative mb-5">
-                            <label for="reservation_source" class="form-label">Reservation Source <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" id="reservation_source" name="reservation_source" class="form-control"
-                                value="{{ old('reservation_source') }}">
-                            @error('reservation_source')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-
                         
                         <div class="col-md-2 position-relative mb-5">
                             <label for="call_type" class="form-label">Call Type <span
@@ -148,7 +137,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-2 position-relative mb-5" id="assign">
+                        <div class="col-md-2 position-relative mb-5" id="assignDiv" style="display: none;">
                             <label for="assign" class="form-label">Follow Up</label>
                             <select name="assign" id="assign" class="form-control">
                                 <option value="" {{ old('assign') == '' ? 'selected' : '' }}>Select</option>
@@ -202,18 +191,18 @@
 
     <script>
 
-    // document.getElementById('call_type').addEventListener('change', function() {
-    //     const followupDateDiv = document.getElementById('followup_date');
-    //     const assignDiv = document.getElementById('assign');
+    document.getElementById('call_type').addEventListener('change', function() {
+        const followupDateDiv = document.getElementById('followup_date');
+        const assignDiv = document.getElementById('assignDiv');
 
-    //     if (this.value === 'FollowUp') {
-    //         followupDateDiv.style.display = 'block';
-    //         assignDiv.style.display = 'block';
-    //     } else {
-    //         followupDateDiv.style.display = 'none';
-    //         assignDiv.style.display = 'none';
-    //     }
-    // });
+        if (this.value == 4) { // Assuming '4' is the ID for 'Follow Up'
+            followupDateDiv.style.display = 'block';
+            assignDiv.style.display = 'block';
+        } else {
+            followupDateDiv.style.display = 'none';
+            assignDiv.style.display = 'none';
+        }
+    });
     </script>
 
 

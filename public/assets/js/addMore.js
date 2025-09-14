@@ -692,7 +692,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="Adult">Adult</option>
                     <option value="Child">Child</option>
                     <option value="Seat Infant">Seat Infant</option>
-                    <option value="Lap Infant">Lap Infant</option>
+                    <option value="Lap Infant">Lap Infant</option>                    
                 </select>
             </td>
             <td>
@@ -1017,7 +1017,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
                 <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]"></td>
                 <td>
-                    <select style="width:7.5rem" class="form-control state-select" name="billing[${billingIndex}][state]">
+                    <select style="width:7.5rem" class="form-control state-select" onclick="if(this.value=='' && this.options.length==1){var modal = new bootstrap.Modal(document.getElementById('exampleModal')); modal.show();}" name="billing[${billingIndex}][state]">
                         ${billingOptions}
                     </select>
                 </td>

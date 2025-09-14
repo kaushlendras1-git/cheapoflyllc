@@ -614,6 +614,15 @@ border-radius: 0px;
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Card Type</div>
+                                <div style="font-size: 14px; color: #4a5568;">
+                                   {{$billingPricingData->card_type}}
+                                </div>
+                            </div>
+
+                            
+
+                            <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Email</div>
                                 <div style="font-size: 14px;">
                                     <a style="color: #1a56db; text-decoration: none;" href="mailto:{{$billingPricingData->email}}">{{$billingPricingData->email}}</a>
@@ -684,19 +693,59 @@ border-radius: 0px;
                             Price Details (USD)
                         </div>
                         <div style="padding: 8px 20px;">
+
+
+                            @php
+                                $mergedPrices = [];
+                                foreach($booking->pricingDetails as $pricingDetails) {
+                                    if($pricingDetails->passenger_type) {
+                                        if(!isset($mergedPrices[$pricingDetails->passenger_type])) {
+                                            $mergedPrices[$pricingDetails->passenger_type] = 0;
+                                        }
+                                        $mergedPrices[$pricingDetails->passenger_type] += $pricingDetails->gross_price;
+                                    }
+                                }
+                                @endphp
+
+                               
+
+                            @foreach($mergedPrices as $passengerType => $totalPrice)
                             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Total Price per person including taxes and fees</div>
-                                <div style="font-size: 16px; font-weight: 600; color: #0f9b0f;">
-                                    ${{ number_format($billingPricingData->authorized_amt, 2) }}
+                                
+                                <div style="font-size: 14px;  color: #2d3748;">
+
+                                    @if(in_array($booking->query_type, [3,7,8]))
+                                        Total Price per person including taxes and fees.
+                                    @elseif($booking->query_type == 2)
+                                        Rebooking fees per person.
+                                    @elseif($booking->query_type == 4)
+                                        Baggage fees per Bag.
+                                    @elseif($booking->query_type == 9)
+                                        Travel Insurance per person.
+                                   @elseif(in_array($booking->query_type, [11,12]))
+                                        Price to upgrade per person including taxes and fees.   
+                                    @else
+                                        Total Price per person including taxes and fees.        
+                                    @endif
+
+
+
+                                    ({{ ucfirst($passengerType) }})</div>
+                                
+                                <div style="font-size: 16px; color: #0f9b0f;">
+                                    ${{ number_format($totalPrice, 2) }}
                                 </div>
                             </div>
+                            @endforeach
+
+
                             <div style="display: flex; justify-content: space-between; padding: 10px 0;">
-                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Total Price for Entire Itinerary including taxes and fees</div>
+                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Total Amount including taxes & Fees. </div>
                                 <div style="font-size: 16px; font-weight: 600; color: #0f9b0f;">
-                                    ${{ number_format($billingPricingData->authorized_amt, 2) }}
+                                    ${{ number_format(array_sum($mergedPrices), 2) }}
                                 </div>
-                            </div>
-                            
+                            </div>                                      
+
                             <div style="margin-top: 10px; padding:  10px 20px; background-color: #f8f9fa; border-radius: 0px;">
                                 <ul style="margin: 0; padding-left: 20px; color: #4a5568; font-size: 12px;">
                                     <li style="margin-bottom: 10px; line-height: 1.6;">

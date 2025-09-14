@@ -1,0 +1,22 @@
+Improvements:
+
+
+3.  Country code list to be added before the phone number field.
+
+
+6. if "Amex" is selcted in Card Type then card number limit should be 15 digits. 
+7. "Conatct No." change to "Billing phone No.". also set the limit for phone number digits.
+8. "Action not allowed. Add clear and valid remarks to proceed." limit for words -30.
+9. TFN on Auth page - 1844 362 2566.
+10. Auth page - Tue, Sep 23 - KL 450 - 15h45m
+11. Add Card Type in customer information box.
+
+
+================== Done ===========================
+
+
+1. "Follow up" will only open if the call type is call back arranged.
+2. "Reservation source" to be removed from call log page
+
+4. "Amadeus/Sabre PNR" should appear on the selection of FXR and FXL.
+5. Bilings Details box should pop up on the selction of billing.

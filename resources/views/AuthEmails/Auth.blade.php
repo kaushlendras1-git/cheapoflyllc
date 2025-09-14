@@ -614,6 +614,12 @@ border-radius: 0px;
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Card Type</div>
+                                <div style="font-size: 14px; color: #4a5568;">
+                                    {{$billingPricingData->card_type}}
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Email</div>
                                 <div style="font-size: 14px;">
                                     <a style="color: #1a56db; text-decoration: none;" href="mailto:{{$billingPricingData->email}}">{{$billingPricingData->email}}</a>
@@ -638,11 +644,7 @@ border-radius: 0px;
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style="    font-weight: 600;
-    color: #1a2a6c;
-    padding: 10px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;">
+                        <div style="font-weight: 600;color: #1a2a6c;padding: 10px 20px;background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
                             Passenger Details
                         </div>
                         <div style="overflow-x: auto;">
@@ -675,20 +677,19 @@ border-radius: 0px;
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style="    font-weight: 600;
-    color: #1a2a6c;
-    padding: 10px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;">
+                        <div style="font-weight: 600;color: #1a2a6c;padding: 10px 20px;background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
                             Price Details (USD)
                         </div>
                         <div style="padding: 8px 20px;">
+                            
                             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Total Price per person including taxes and fees</div>
                                 <div style="font-size: 16px; font-weight: 600; color: #0f9b0f;">
                                     ${{ number_format($billingPricingData->authorized_amt, 2) }}
                                 </div>
                             </div>
+
+
                             <div style="display: flex; justify-content: space-between; padding: 10px 0;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Total Price for Entire Itinerary including taxes and fees</div>
                                 <div style="font-size: 16px; font-weight: 600; color: #0f9b0f;">
@@ -734,7 +735,7 @@ border-radius: 0px;
                                {{ !empty($allCarProviders) ? implode(', ', $allCarProviders) : '' }}
                                {{ !empty($allTrainProviders) ? implode(', ', $allTrainProviders) : '' }}
                                
-                               
+
                                                             
                                 <strong>{{ $booking->selected_company_name }}</strong>, or <strong>{{$booking->reservation_source}}</strong>.</p>
                                 <p style="margin-bottom: 5px;">By this statement, I hereby authorize <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service providers to charge the following amounts to my cards for the related travel services:</p>

@@ -76,8 +76,9 @@
                     <div class="row booking-form">
                         <div class="col-md-3 position-relative mb-5">
                             <label class="form-label">Calling Phone No.  <span class="text-danger">*</span></label>
-                            <input type="text" name="phone" class="form-control"
-                                value="{{ old('phone', $callLog->phone) }}">
+                            <input type="text" name="phone" id="phone" class="form-control"
+                                value="{{ old('phone', $callLog->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $callLog->phone) : '') }}"
+                                >
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -109,14 +110,7 @@
                     </div>
 
                     <div class="row mb-3 booking-form">
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Reservation Source <span class="text-danger">*</span></label>
-                            <input type="text" name="reservation_source" class="form-control"
-                                value="{{ old('reservation_source', $callLog->reservation_source) }}">
-                            @error('reservation_source')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        
 
                         <div class="col-md-3 position-relative mb-5">
                             <label class="form-label">Call Type <span class="text-danger">*</span></label>
@@ -136,7 +130,11 @@
                         </div>
 
 
-                        <div class="col-md-3 position-relative mb-5" id="assign">
+                        <div class="col-md-3 position-relative mb-5" id="assignDiv" 
+                        @if($callLog->call_type != 4)
+                            style="display: none;" 
+                        @endif
+                        >
                             <label for="assign" class="form-label">Follow Up<span class="text-danger">*</span></label>
                             <select name="assign" id="assign" class="form-control">
                                 <option value="" {{ old('assign') == '' ? 'selected' : '' }}>Select</option>
@@ -152,7 +150,7 @@
                         </div>
 
 
-                        <div class="col-md-3 position-relative mb-5" id="followup_date" style="display: none;">
+                        <div class="col-md-3 position-relative mb-5" id="followup_date"  @if($callLog->call_type != 4) style="display: none;"  @endif>
                             <label for="followup_date_input" class="form-label">Followup Date <span
                                     class="text-danger">*</span></label>
                             <input type="datetime-local" id="followup_date_input" name="followup_date"
@@ -277,15 +275,35 @@
 <!---------------- Start History ---- ------------- --------- ----->
 
 
-<!---------------- End History --------------- ----------------- -->
+<script>
+const phoneInput = document.getElementById("phone");
+
+phoneInput.addEventListener("input", () => {
+    // Remove non-digit characters
+    let inputValue = phoneInput.value.replace(/\D/g, "");
+
+    // Format as 3-3-4
+    if (inputValue.length > 3 && inputValue.length <= 6) {
+        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3)}`;
+    } else if (inputValue.length > 6) {
+        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 10)}`;
+    }
+
+    // Limit max digits to 10
+    inputValue = inputValue.slice(0, 12); // 3 + 1 space + 3 + 1 space + 4 = 12 chars max
+
+    // Update the input value
+    phoneInput.value = inputValue;
+});
+</script>
 
 <script>
 // JavaScript to toggle visibility of Follow-Up Date and Call Back Assign fields
 document.getElementById('call_type').addEventListener('change', function() {
     const followupDateDiv = document.getElementById('followup_date');
-    const assignDiv = document.getElementById('assign');
+    const assignDiv = document.getElementById('assignDiv');
 
-    if (this.value === 'FollowUp') {
+    if (this.value == 4 ) {
         followupDateDiv.style.display = 'block'; // Show Follow-Up Date
         assignDiv.style.display = 'block'; // Show Follow-Up Date
     } else {

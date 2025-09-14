@@ -153,14 +153,13 @@
                                     <td>
                                         <select id="state-{{ $key }}" class="form-control state-select"
                                             style="width:7.5rem" name="billing[{{ $key }}][state]">
-                                            <option value="">Select Billing</option>
-                                            @foreach ($billingData as $biKey => $bi)
-                                                <option value="{{ $bi->id }}"
-                                                    {{ $bi->id == $billingDetails['state'] ? 'selected' : '' }}>Card
-                                                    No.{{ $biKey + 1 }}</option>
-                                            @endforeach
-                                        </select>
-                                    </td>
+                                        <option value="">Select Billing</option>
+                                        @foreach ($billingData as $biKey => $bi)
+                                            <option value="{{ $bi->id }}"
+                                                {{ $bi->id == $billingDetails['state'] ? 'selected' : '' }}>Billing
+                                                No.{{ $biKey + 1 }}</option>
+                                        @endforeach
+                                    </select>                                    </td>
 
                                     <td><input style="width: 65px; !important;" type="text"
                                             class="form-control usdAmount" placeholder=""

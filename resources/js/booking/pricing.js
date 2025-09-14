@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="infant">Infant</option>
                     <option value="infant_on_lap">Infant on Lap</option>
                     <option value="infant_on_seat">Infant on Seat</option>
+                    <option value="Pet-in Cabin">Pet-in Cabin</option>
+                    <option value="Pet-in Cargo">Pet-in Cargo</option>
                 </select>
             </td>
             <td><input type="number" style="width: 120px" class="form-control num_passengers" name="pricing[${pricingIndex}][num_passengers]" value="1" min="0"></td>
@@ -40,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option data-grossmco="0" value="Chargeback Fee">Chargeback Fee</option>
                     <option data-grossmco="0" value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
                     <option data-grossmco="0" value="Chargeback Amt.">Chargeback Amt.</option>
+                    <option data-grossmco="1" value=" Pet-in Cabin"> Pet-in Cabin</option>
+                    <option data-grossmco="1" value="Pet-in Cargo">Pet-in Cargo</option>
+
                 </select>
             </td>
             <td>
@@ -331,9 +336,11 @@ function updateFooterTotals() {
         let finalNetAmount = parseFloat(fetchNetAmount) + merchantFeefinal;
         document.getElementById('total_net_profit').textContent = finalNetAmount;
         document.getElementById('net_value').value = finalNetAmount;
-        //mcqElement.textContent = grossMco - merchantFeefinal;
-        mcqElement.textContent = grossMco;
-        document.getElementById('gross_mco').value=grossMco - merchantFeefinal;
+        
+        mcqElement.textContent = grossMco - merchantFeefinal;
+        mcqElement.textContent = grossTotal - grossMco;
+
+        document.getElementById('gross_mco').value= grossMco - merchantFeefinal;
     }
 
     const netProfitAfterFee = grossTotal - netTotal;

@@ -9,26 +9,27 @@
 
         <div class="card p-4 details-table-wrappper show-booking-card">
             <div class="col-md-5 position-relative checkbox-servis">
-            <!-- <label class="d-block mb-2">PNR Type</label> -->
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="pnrtype" id="FXL" value="FXL"
-                    {{ $booking->pnrtype == 'FXL' ? 'checked' : '' }}>
-                <label class="form-check-label" for="FXL">FXL</label>
+                <!-- <label class="d-block mb-2">PNR Type</label> -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="pnrtype" id="FXL" value="FXL"
+                        {{ $booking->pnrtype == 'FXL' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="FXL">FXL</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="pnrtype" id="GK" value="GK"
+                        {{ $booking->pnrtype == 'GK' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="GK">GK</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="pnrtype" id="HK" value="HK"
+                        {{ $booking->pnrtype == 'HK' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="HK">HK</label>
+                </div>
             </div>
 
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="pnrtype" id="GK" value="GK"
-                    {{ $booking->pnrtype == 'GK' ? 'checked' : '' }}>
-                <label class="form-check-label" for="GK">GK</label>
-            </div>
 
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="pnrtype" id="HK" value="HK"
-                    {{ $booking->pnrtype == 'HK' ? 'checked' : '' }}>
-                <label class="form-check-label" for="HK">HK</label>
-            </div>
-
-        </div>
             <div class="d-flex justify-content-end mb-2">
                 <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
                     <i class="ri ri-add-circle-fill pointer"></i>
@@ -225,6 +226,16 @@
                                     {{$pricingDetails->passenger_type=='infant_on_seat'?'selected':''}}>
                                     Infant
                                     on Seat</option>
+
+                                    <option value="infant_on_seat"
+                                    {{$pricingDetails->passenger_type=='Pet-in Cargo'?'selected':''}}>
+                                    Pet-in Cargo</option>
+
+                                    <option value="infant_on_seat"
+                                    {{$pricingDetails->passenger_type=='Pet-in Cabin'?'selected':''}}>
+                                    Pet-in Cabin</option>
+
+
                             </select>
                         </td>
                         <td>

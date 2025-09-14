@@ -26,6 +26,7 @@
     <script src="{{ asset('assets/js/addMore.js') }}"></script>
     @vite('resources/js/agent-login.js')
     @vite('resources/js/booking/edit.js')
+    @vite('resources/js/booking/otherMain.js')
     @vite('resources/js/auth/sendAuth.js')
     @vite('resources/js/booking/pricing.js')
     @vite('resources/js/booking/cruise.js')
