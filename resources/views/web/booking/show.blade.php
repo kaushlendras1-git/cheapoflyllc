@@ -301,12 +301,15 @@
 
 
                             <div class="col-md-2 position-relative mb-5">
-                                <label class="form-label">Booking Type</label>
-                                <select id="query_type" class="form-control" name="query_type">
-                                    @foreach ($booking_types as $booking_type)
-                                        <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}"
-                                            data-id="{{ $booking_type->id }}">{{ $booking_type->name }}</option>
-                                    @endforeach
+                                <label class="form-label">Booking Type </label>
+                                <select id="query_type" class="form-control" name="query_type"> 
+                                     @foreach ($booking_types as $booking_type)
+                                            <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}"
+                                                data-id="{{ $booking_type->id }}"
+                                                {{ old('query_type', $booking->query_type ?? '') == $booking_type->id ? 'selected' : '' }}>
+                                                {{ $booking_type->name }} - {{ $booking_type->id }}
+                                            </option>
+                                        @endforeach
                                 </select>
                             </div>
 

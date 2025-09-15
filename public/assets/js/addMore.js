@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
 
                 <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="HH:MM"></td>
-                <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="HH:MM"></td>
+                <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
                 <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;" name="flight[${flightIndex}][arrival_date]"></td>
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-flight-btn">

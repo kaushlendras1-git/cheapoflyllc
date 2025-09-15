@@ -83,7 +83,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         <div style="margin-bottom: 12px;"> 
                             <img width="40" src="{{asset('email-templates/sku.png')}}" alt="Number"> 
                         </div>
-                        <div style="font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 0px;">Booking Reference Number</div>
+                        <div style="font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 0px;">Order Reference Number</div>
                         <div style="font-size: 14px; color: #4a5568; font-weight: 500;">{{ $booking->pnr }}</div>
                     </div>
                 </td>
@@ -92,7 +92,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         <div style="margin-bottom: 12px;"> 
                             <img width="40" src="{{asset('email-templates/event.png')}}" alt="Number"> 
                         </div>
-                        <div style="font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 0px;">Booking Date</div>
+                        <div style="font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 0px;">Order Date</div>
                         <div style="font-size: 14px; color: #4a5568; font-weight: 500;">{{ $booking->created_at->format('l, M d, Y') }}</div>
                     </div>
                 </td>
@@ -148,7 +148,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
                             @if($flight_images)
                                 @foreach ($flight_images as $key => $img)
-                                    <div style="padding: 10px 0;">
+                                    <div style="padding-top: 10px;">
                                         <img src="{{ asset($img->file_path) }}" style="max-width: 100%; height: auto; border-radius: 6px;">
                                     </div>
                                 @endforeach
@@ -610,7 +610,8 @@ border-radius: 0px;
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Card Number</div>
                                 <div style="font-size: 14px; color: #4a5568;">
-                                   {{$billingPricingData->cc_number}}
+                                  {{ str_repeat('*', strlen($billingPricingData->cc_number) - 4) . substr($billingPricingData->cc_number, -4) }}
+
                                 </div>
                             </div>
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px; border-bottom: 1px solid #e9ecef;">
@@ -708,12 +709,19 @@ border-radius: 0px;
                                 @endphp
 
                                
+@if(in_array($booking->query_type, [11,12]))
+ <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
+    <div style="font-size: 14px;  color: #2d3748;"> Pet in cargo Fees  :</div>
+         <div style="font-size: 16px; color: #0f9b0f;"> ${{ number_format(array_sum($mergedPrices), 2) }}</div>
+  </div>
+
+ @else                                   
+
 
                             @foreach($mergedPrices as $passengerType => $totalPrice)
                             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
                                 
-                                <div style="font-size: 14px;  color: #2d3748;">
-
+                                <div style="font-size: 14px;  color: #2d3748;">                             
                                     @if(in_array($booking->query_type, [3,7,8]))
                                         Total Price per person including taxes and fees.
                                     @elseif($booking->query_type == 2)
@@ -722,14 +730,13 @@ border-radius: 0px;
                                         Baggage fees per Bag.
                                     @elseif($booking->query_type == 9)
                                         Travel Insurance per person.
-                                   @elseif(in_array($booking->query_type, [11,12]))
-                                        Price to upgrade per person including taxes and fees.   
+                                     @elseif($booking->query_type == 17)
+                                       Cruise Fare - Per Guest -   
+                                 
+                                    
                                     @else
                                         Total Price per person including taxes and fees.        
                                     @endif
-
-
-
                                     ({{ ucfirst($passengerType) }})</div>
                                 
                                 <div style="font-size: 16px; color: #0f9b0f;">
@@ -737,6 +744,8 @@ border-radius: 0px;
                                 </div>
                             </div>
                             @endforeach
+@endif
+
 
 
                             <div style="display: flex; justify-content: space-between; padding: 10px 0;">
@@ -775,7 +784,7 @@ border-radius: 0px;
                         <div style="padding: 10px 20px;">
                             <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
                                 <p style="margin-bottom: 5px;">I,&nbsp;<strong>{{$billingPricingData->cc_holder_name}} </strong>, hereby acknowledge receipt of this communication outlining the associated charges. I have thoroughly reviewed and confirmed the accuracy of the itinerary, including all passenger names, flight schedules, dates, and times.</p>
-                                <p style="margin-bottom: 5px;">I acknowledge and accept that the total cost of the booking is <strong>USD {{ number_format($booking->gross_mco, 2) }} </strong>, which will be processed through <strong>single or multiple transactions</strong>. I understand that, regardless of the number of transactions, the <strong>total amount charged will not exceed USD {{ number_format($booking->gross_mco, 2) }} </strong>.</p>
+                                <p style="margin-bottom: 5px;">I acknowledge and accept that the total cost of the booking is <strong>USD {{ number_format(array_sum($mergedPrices), 2) }} </strong>, which will be processed through <strong>single or multiple transactions</strong>. I understand that, regardless of the number of transactions, the <strong>total amount charged will not exceed USD {{ number_format(array_sum($mergedPrices), 2) }} </strong>.</p>
                                 <p style="margin-bottom: 5px;">I further acknowledge that the charges may appear on my credit card statements under one or more of the following descriptors:<br>
 
                                {{ !empty($allAirlines) ? implode(', ', $allAirlines) : '' }}

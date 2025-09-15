@@ -1057,6 +1057,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+
 document.addEventListener('DOMContentLoaded', function () {
     const queryTypeSelect = document.getElementById('query_type');
     if (!queryTypeSelect) return;
@@ -1067,7 +1068,8 @@ document.addEventListener('DOMContentLoaded', function () {
         allOptions.push({
             value: option.value,
             text: option.text,
-            dataType: option.getAttribute('data-type')
+            dataType: option.getAttribute('data-type'),
+            selected: option.selected // Store selected state
         });
     });
 
@@ -1075,6 +1077,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Get all checked checkboxes that might be booking types
         const allChecked = document.querySelectorAll('input[type="checkbox"]:checked');
         const checkedTypes = [];
+
+        // Store currently selected value before clearing
+        const currentlySelected = queryTypeSelect.value;
 
         // Extract booking types from checked boxes
         allChecked.forEach(checkbox => {
@@ -1119,8 +1124,17 @@ document.addEventListener('DOMContentLoaded', function () {
             opt.textContent = option.text;
             opt.setAttribute('data-type', option.dataType);
             opt.setAttribute('data-id', option.value);
+            // Set selected if this was the previously selected value
+            if (option.value === currentlySelected) {
+                opt.selected = true;
+            }
             queryTypeSelect.appendChild(opt);
         });
+
+        // If previously selected value is not in new options, select first option
+        if (!optionsToShow.some(opt => opt.value === currentlySelected) && optionsToShow.length > 0) {
+            queryTypeSelect.value = optionsToShow[0].value;
+        }
     }
 
     // Listen to all checkbox changes

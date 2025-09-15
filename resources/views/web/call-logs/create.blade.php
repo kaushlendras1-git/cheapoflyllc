@@ -88,9 +88,9 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Country</label>
                             <select name="country_code" id="country_code" class="form-control">
-                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ old('country_code', 'US') == 'US' ? 'selected' : '' }}>🇺🇸 United States</option>
-                                <option value="CA" data-code="+1" data-flag="🇨🇦" {{ old('country_code') == 'CA' ? 'selected' : '' }}>🇨🇦 Canada</option>
-                                <option value="GB" data-code="+44" data-flag="🇬🇧" {{ old('country_code') == 'GB' ? 'selected' : '' }}>🇬🇧 United Kingdom</option>
+                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ old('country_code', 'US') == 'US' ? 'selected' : '' }}>United States</option>
+                                <option value="CA" data-code="+1" data-flag="🇨🇦" {{ old('country_code') == 'CA' ? 'selected' : '' }}>Canada</option>
+                                <option value="GB" data-code="+44" data-flag="🇬🇧" {{ old('country_code') == 'GB' ? 'selected' : '' }}>United Kingdom</option>
                                 <option value="AU" data-code="+61" data-flag="🇦🇺" {{ old('country_code') == 'AU' ? 'selected' : '' }}>🇦🇺 Australia</option>
                                 <option value="IN" data-code="+91" data-flag="🇮🇳" {{ old('country_code') == 'IN' ? 'selected' : '' }}>🇮🇳 India</option>
                                 <option value="DE" data-code="+49" data-flag="🇩🇪" {{ old('country_code') == 'DE' ? 'selected' : '' }}>🇩🇪 Germany</option>

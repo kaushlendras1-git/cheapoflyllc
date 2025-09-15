@@ -316,9 +316,6 @@ function updateFooterTotals() {
     document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
     document.getElementById('gross_value').value = grossTotal.toFixed(2);
 
-
-
-
     document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
     document.getElementById('net_value').value = netTotal.toFixed(2);
 
@@ -327,7 +324,8 @@ function updateFooterTotals() {
 
 
     if (mcqElement) {
-        let merchantFeefinal = grossMco * 0.15;
+        //let merchantFeefinal = grossMco * 0.15;
+        let merchantFeefinal = diff * 0.15;
         // document.getElementById('merchant_fee_text').textContent = merchantFeefinal;
         document.getElementById('merchant_fee_text1').textContent = merchantFeefinal;
         document.getElementById('merchant_fee_text2').textContent = merchantFeefinal;
