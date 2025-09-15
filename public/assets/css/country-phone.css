@@ -1,0 +1,46 @@
+.country-code-select {
+    border-right: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.phone-input {
+    border-left: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 38px !important;
+    border-right: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 36px !important;
+    padding-left: 8px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px !important;
+}
+
+.input-group .select2-container {
+    flex: 0 0 120px !important;
+}
+
+.country-phone-wrapper .input-group {
+    border: 1px solid #d1d3e2;
+    border-radius: 0.35rem;
+    overflow: hidden;
+}
+
+.country-phone-wrapper .select2-container--default .select2-selection--single {
+    border: none !important;
+    background: #f8f9fc;
+}
+
+.country-phone-wrapper .phone-input {
+    border: none !important;
+}

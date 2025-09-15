@@ -159,12 +159,12 @@
                                                         value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}"
                                                         placeholder="mm" min="0" max="2"></td> -->
 
-                                            <td><input type="text" class="form-control" style="width: 4.5rem;"
+                                            <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
                                                     name="flight[{{ $index }}][duration]"
                                                     value="{{ old("flight.$index.duration", $flight->duration) }}"
                                                     placeholder="Duration"></td>
 
-                                            <td><input type="text" class="form-control" style="width: 4.5rem;"
+                                            <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
                                                     name="flight[{{ $index }}][transit]"
                                                     value="{{ old("flight.$index.transit", $flight->transit) }}"
                                                     placeholder="Transit"></td>

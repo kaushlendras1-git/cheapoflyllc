@@ -10,7 +10,8 @@ Route::middleware('auth')->group(function () {
         
         Route::post('/billing-details/{id}', [BookingFormController::class, 'billingDetails'])->name('billing-details');
         Route::get('/billing-details/{id}', [BookingFormController::class, 'getBillingDetails'])->name('get-billing-details');
-
+        Route::get('/billing-details/edit/{id}', [BookingFormController::class, 'editBillingDetails'])->name('billing-details.edit');
+        Route::put('/billing-details/{id}', [BookingFormController::class, 'updateBillingDetails'])->name('billing-details.update');
         Route::delete('/billing-details/{id}', [BookingFormController::class, 'deletebillingDetails'])->name('billing-details.destroy');
         Route::post('/update-remark/{id}',[BookingFormController::class,'updateRemark'])->name('update-remark');
         Route::post('/delete-remark/{id}',[BookingFormController::class,'deleteRemark'])->name('delete-remark');

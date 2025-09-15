@@ -21,7 +21,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 <th style="padding: 10px 20px; background: linear-gradient(135deg, #1a2a6c, #2b5876); text-align: right;">
                     <span style="display: flex; align-items: center; justify-content: end;">
                         <img style="margin-right: 10px; filter: brightness(0) invert(1);" width="20" src="{{asset('email-templates/call.png')}}" alt="call">
-                        <a style="font-size: 18px; font-weight: 600; color: #ffffff; text-decoration: none;" href="tel:+1-844-382-2225">+1-844-382-2225</a>
+                        <a style="font-size: 18px; font-weight: 600; color: #ffffff; text-decoration: none;" href="tel:+1-844-382-2225">+1-844-362-2566</a>
                     </span>
                 </th>
             </tr>

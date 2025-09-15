@@ -41,9 +41,14 @@
                             <td>{{ $bill->zip_code }}</td>
                             <td>{{ $bill->get_country->country_name ?? '' }}</td>
                             <td class="text-center">
+                                <button data-href="{{ route('booking.billing-details.edit', $bill->id) }}"
+                                    class="btn btn-outline-primary editBillData me-2">
+                                    <i class="ri ri-edit-line"></i>
+                                </button>
                                 <button data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}"
                                     class="btn btn-outline-danger deleteBillData">
-                                    <i class="ri ri-delete-bin-line"></i> </button>
+                                    <i class="ri ri-delete-bin-line"></i> 
+                                </button>
                             </td>
                         </tr>
                     @endforeach

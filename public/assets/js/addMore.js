@@ -411,8 +411,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="HH:MM" maxlength="5">
                 </td>
 
-                <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="Duration"></td>
-                <td><input type="text" class="form-control" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
+                <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="HH:MM"></td>
+                <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="HH:MM"></td>
                 <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;" name="flight[${flightIndex}][arrival_date]"></td>
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-flight-btn">
@@ -1012,7 +1012,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>
                     <select class="form-control" name="billing[${billingIndex}][exp_year]">
                         <option value="">YYYY</option>
-                        ${Array.from({ length: 11 }, (_, i) => `<option value="${2024 + i}">${2024 + i}</option>`).join('')}
+                        ${Array.from({ length: 11 }, (_, i) => `<option value="${2025 + i}">${2025 + i}</option>`).join('')}
                     </select>
                 </td>
                 <td><input type="text" style="width: 57px;" class="form-control" placeholder="CVV" name="billing[${billingIndex}][cvv]"></td>
@@ -1352,7 +1352,7 @@ function attachTimeFormatter(input) {
         }
         
         const parts = value.split(':');
-        if (parts[0] && parseInt(parts[0]) > 12) {
+        if (parts[0] && parseInt(parts[0]) > 23) {
             parts[0] = '23';
         }
         if (parts[1] && parseInt(parts[1]) > 59) {

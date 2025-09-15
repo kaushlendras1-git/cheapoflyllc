@@ -435,8 +435,7 @@
                             </div>
                             <div class="col-md-3 position-relative mb-5">
                                 <label class="form-label">Conatct No. <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="contact_number">
-                            </div>
+                                <input type="text" class="form-control" name="contact_number" pattern="\d{3} \d{3} \d{4}" maxlength="15">                            </div>
                             <div class="col-md-3 position-relative mb-5">
                                 <label class="form-label">Street Address <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="street_address">

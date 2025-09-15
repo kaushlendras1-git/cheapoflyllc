@@ -116,7 +116,36 @@
                                     <td>{{ $log->pnr }}</td>
                                      <td>{{ $log->created_at }}</td>
                                     <td>{{ $log->name }}</td>
-                                    <td>{{ $log->phone }}</td>
+                                    <td>
+                                        @php
+                                            $phone = $log->phone;
+                                            $countryCode = $log->country_code ?? 'US';
+                                            $countryCodes = [
+                                                'US' => '+1', 'CA' => '+1', 'GB' => '+44', 'AU' => '+61',
+                                                'IN' => '+91', 'DE' => '+49', 'FR' => '+33', 'MX' => '+52'
+                                            ];
+                                            $code = $countryCodes[$countryCode] ?? '+1';
+                                            
+                                            if ($phone && !str_starts_with($phone, '+')) {
+                                                $digits = preg_replace('/\D/', '', $phone);
+                                                $codeDigits = preg_replace('/\D/', '', $code);
+                                                if (str_starts_with($digits, $codeDigits)) {
+                                                    $digits = substr($digits, strlen($codeDigits));
+                                                }
+                                                if (strlen($digits) > 6) {
+                                                    $formatted = substr($digits, 0, 3) . ' ' . substr($digits, 3, 3) . ' ' . substr($digits, 6);
+                                                } elseif (strlen($digits) > 3) {
+                                                    $formatted = substr($digits, 0, 3) . ' ' . substr($digits, 3);
+                                                } else {
+                                                    $formatted = $digits;
+                                                }
+                                                $displayPhone = $code . ' ' . $formatted;
+                                            } else {
+                                                $displayPhone = $phone;
+                                            }
+                                        @endphp
+                                        {{ $displayPhone }}
+                                    </td>
                                   <td>{{ $log->campaign ? $log->campaign->name : 'No Campaign' }}</td>
                                     
                                     <td>{{ $log->reservation_source }}</td>

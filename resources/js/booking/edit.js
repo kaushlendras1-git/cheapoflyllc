@@ -664,49 +664,86 @@ document.addEventListener('DOMContentLoaded', function () {
             const element = document.getElementById('billing-detail-add');
             const formdata = new FormData(element);
             const action = element.action;
+            const isEditing = element.dataset.editingId;
 
             try {
-                const response = await axios.post(action, formdata);
-                const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
-                    return el.name.endsWith('][state]');
-                });
+                let response;
+                if (isEditing) {
+                    formdata.append('_method', 'PUT');
+                    response = await axios.post(action, formdata);
+                } else {
+                    response = await axios.post(action, formdata);
+                }
 
                 showToast(response.data.message);
                 document.getElementById('billing-close-modal').click();
-                element.reset();
-
+                
                 const data = response.data.data;
                 const tableBody = document.querySelector('#billing-table tbody');
-                if (tableBody) {
-                    const rowCount = tableBody.querySelectorAll('tr').length;
-
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                    <td>Billing No. ${rowCount + 1}</td>
-                    <td>${data.email}</td>
-                    <td>${data.contact_number}</td>
-                    <td>${data.street_address}</td>
-                    <td>${data.city}</td>
-                    <td>${data.state}</td>
-                    <td>${data.zip_code}</td>
-                    <td>${data.country}</td>
-                    <td>
-                        <button class="btn btn-outline-danger deleteBillData" data-href="/booking/billing-details/${data.id}"><i class="ri ri-delete-bin-line"></i></button>
-                    </td>
-                `;
-                    billingElements.forEach(el => {
-                        if (el.tagName.toLowerCase() === 'select') {
-                            const option = document.createElement('option');
-                            option.value = response.data.data.id;
-                            option.textContent = `Card No. ${rowCount + 1}`;
-
-                            el.appendChild(option);
-                        }
+                
+                if (isEditing) {
+                    // Update existing row
+                    const rowIndex = element.dataset.editingRow;
+                    const row = tableBody.rows[rowIndex - 1]; // -1 because rowIndex is 1-based
+                    if (row) {
+                        row.cells[1].textContent = data.email;
+                        row.cells[2].textContent = data.contact_number;
+                        row.cells[3].textContent = data.street_address;
+                        row.cells[4].textContent = data.city;
+                        row.cells[5].textContent = data.state || '';
+                        row.cells[6].textContent = data.zip_code;
+                        row.cells[7].textContent = data.country || '';
+                    }
+                    // Clear editing state
+                    delete element.dataset.editingId;
+                    delete element.dataset.editingRow;
+                } else {
+                    // Add new row
+                    const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
+                        return el.name.endsWith('][state]');
                     });
-                    tableBody.appendChild(newRow);
-                    attachDeleteHandler(newRow.querySelector('.deleteBillData'));
-                    toggleBillingTableVisibility(); // After add
+                    
+                    if (tableBody) {
+                        const rowCount = tableBody.querySelectorAll('tr').length;
+
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                        <td>Billing No. ${rowCount + 1}</td>
+                        <td>${data.email}</td>
+                        <td>${data.contact_number}</td>
+                        <td>${data.street_address}</td>
+                        <td>${data.city}</td>
+                        <td>${data.state}</td>
+                        <td>${data.zip_code}</td>
+                        <td>${data.country}</td>
+                        <td class="text-center">
+                            <button data-href="/booking/billing-details/edit/${data.id}" class="btn btn-outline-primary editBillData me-2">
+                                <i class="ri ri-edit-line"></i>
+                            </button>
+                            <button class="btn btn-outline-danger deleteBillData" data-href="/booking/billing-details/${data.id}">
+                                <i class="ri ri-delete-bin-line"></i>
+                            </button>
+                        </td>
+                    `;
+                        billingElements.forEach(el => {
+                            if (el.tagName.toLowerCase() === 'select') {
+                                const option = document.createElement('option');
+                                option.value = response.data.data.id;
+                                option.textContent = `Card No. ${rowCount + 1}`;
+                                el.appendChild(option);
+                            }
+                        });
+                        tableBody.appendChild(newRow);
+                        attachDeleteHandler(newRow.querySelector('.deleteBillData'));
+                        attachEditHandler(newRow.querySelector('.editBillData'));
+                        toggleBillingTableVisibility();
+                    }
                 }
+                
+                element.reset();
+                element.action = element.action.replace(/\/\d+$/, '/' + window.location.pathname.split('/').pop());
+                element.method = 'POST';
+                
             } catch (e) {
                 showToast(e?.response?.data?.message || 'Something went wrong', 'error');
             }
@@ -714,7 +751,53 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     Array.from(document.querySelectorAll('.deleteBillData')).forEach(attachDeleteHandler);
+    Array.from(document.querySelectorAll('.editBillData')).forEach(attachEditHandler);
 });
+
+function attachEditHandler(el) {
+    el.addEventListener('click', async e => {
+        e.preventDefault();
+        const button = e.target.closest('.editBillData');
+        const action = button.getAttribute('data-href');
+        
+        try {
+            const response = await axios.get(action);
+            const data = response.data.data;
+            
+            // Populate modal fields
+            document.querySelector('input[name="email"]').value = data.email;
+            document.querySelector('input[name="contact_number"]').value = data.contact_number;
+            document.querySelector('input[name="street_address"]').value = data.street_address;
+            document.querySelector('input[name="city"]').value = data.city;
+            document.querySelector('select[name="country"]').value = data.country;
+            document.querySelector('input[name="zip_code"]').value = data.zip_code;
+            
+            // Load states for selected country
+            if (data.country) {
+                const stateResponse = await axios.get(`/statelist/${data.country}`);
+                let stateOptions = '<option value="">Select State</option>';
+                stateResponse.data.data.forEach(state => {
+                    stateOptions += `<option value="${state.id}" ${state.id == data.state ? 'selected' : ''}>${state.name}</option>`;
+                });
+                document.getElementById('billingState').innerHTML = stateOptions;
+            }
+            
+            // Change form action to update and store original row
+            const form = document.getElementById('billing-detail-add');
+            form.action = action.replace('/edit/', '/');
+            form.method = 'PUT';
+            form.dataset.editingId = data.id;
+            form.dataset.editingRow = button.closest('tr').rowIndex;
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            modal.show();
+            
+        } catch (e) {
+            showToast('Failed to load billing details', 'error');
+        }
+    });
+}
 
 function attachDeleteHandler(el) {
     el.addEventListener('click', async e => {
@@ -1128,7 +1211,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (input) {
             input.addEventListener("input", async (e) => {
                 const keyword = e.target.value.trim();
-                if (keyword.length < 2) {
+                if (keyword.length < 3) {
                     suggestionsBox.style.display = "none";
                     return;
                 }

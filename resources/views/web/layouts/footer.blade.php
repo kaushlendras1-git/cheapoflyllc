@@ -19,6 +19,10 @@
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/css/country-phone.css') }}" rel="stylesheet" />
+    <script src="{{ asset('assets/js/country-phone.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
@@ -27,6 +31,7 @@
     @vite('resources/js/agent-login.js')
     @vite('resources/js/booking/edit.js')
     @vite('resources/js/booking/otherMain.js')
+    @vite('resources/js/country-phone.js')
     @vite('resources/js/auth/sendAuth.js')
     @vite('resources/js/booking/pricing.js')
     @vite('resources/js/booking/cruise.js')

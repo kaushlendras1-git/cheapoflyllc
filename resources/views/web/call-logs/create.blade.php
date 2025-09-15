@@ -84,9 +84,64 @@
                 <!-- Booking Form Card -->
                 <div class="pt-5 ps-0">
                     <div class="row booking-form">
+                        
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Country</label>
+                            <select name="country_code" id="country_code" class="form-control">
+                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ old('country_code', 'US') == 'US' ? 'selected' : '' }}>🇺🇸 United States</option>
+                                <option value="CA" data-code="+1" data-flag="🇨🇦" {{ old('country_code') == 'CA' ? 'selected' : '' }}>🇨🇦 Canada</option>
+                                <option value="GB" data-code="+44" data-flag="🇬🇧" {{ old('country_code') == 'GB' ? 'selected' : '' }}>🇬🇧 United Kingdom</option>
+                                <option value="AU" data-code="+61" data-flag="🇦🇺" {{ old('country_code') == 'AU' ? 'selected' : '' }}>🇦🇺 Australia</option>
+                                <option value="IN" data-code="+91" data-flag="🇮🇳" {{ old('country_code') == 'IN' ? 'selected' : '' }}>🇮🇳 India</option>
+                                <option value="DE" data-code="+49" data-flag="🇩🇪" {{ old('country_code') == 'DE' ? 'selected' : '' }}>🇩🇪 Germany</option>
+                                <option value="FR" data-code="+33" data-flag="🇫🇷" {{ old('country_code') == 'FR' ? 'selected' : '' }}>🇫🇷 France</option>
+                                <option value="MX" data-code="+52" data-flag="🇲🇽" {{ old('country_code') == 'MX' ? 'selected' : '' }}>🇲🇽 Mexico</option>
+                                <option value="JP" data-code="+81" data-flag="🇯🇵" {{ old('country_code') == 'JP' ? 'selected' : '' }}>🇯🇵 Japan</option>
+                                <option value="KR" data-code="+82" data-flag="🇰🇷" {{ old('country_code') == 'KR' ? 'selected' : '' }}>🇰🇷 South Korea</option>
+                                <option value="CN" data-code="+86" data-flag="🇨🇳" {{ old('country_code') == 'CN' ? 'selected' : '' }}>🇨🇳 China</option>
+                                <option value="BR" data-code="+55" data-flag="🇧🇷" {{ old('country_code') == 'BR' ? 'selected' : '' }}>🇧🇷 Brazil</option>
+                                <option value="RU" data-code="+7" data-flag="🇷🇺" {{ old('country_code') == 'RU' ? 'selected' : '' }}>🇷🇺 Russia</option>
+                                <option value="IT" data-code="+39" data-flag="🇮🇹" {{ old('country_code') == 'IT' ? 'selected' : '' }}>🇮🇹 Italy</option>
+                                <option value="ES" data-code="+34" data-flag="🇪🇸" {{ old('country_code') == 'ES' ? 'selected' : '' }}>🇪🇸 Spain</option>
+                                <option value="NL" data-code="+31" data-flag="🇳🇱" {{ old('country_code') == 'NL' ? 'selected' : '' }}>🇳🇱 Netherlands</option>
+                                <option value="SE" data-code="+46" data-flag="🇸🇪" {{ old('country_code') == 'SE' ? 'selected' : '' }}>🇸🇪 Sweden</option>
+                                <option value="NO" data-code="+47" data-flag="🇳🇴" {{ old('country_code') == 'NO' ? 'selected' : '' }}>🇳🇴 Norway</option>
+                                <option value="DK" data-code="+45" data-flag="🇩🇰" {{ old('country_code') == 'DK' ? 'selected' : '' }}>🇩🇰 Denmark</option>
+                                <option value="FI" data-code="+358" data-flag="🇫🇮" {{ old('country_code') == 'FI' ? 'selected' : '' }}>🇫🇮 Finland</option>
+                                <option value="CH" data-code="+41" data-flag="🇨🇭" {{ old('country_code') == 'CH' ? 'selected' : '' }}>🇨🇭 Switzerland</option>
+                                <option value="AT" data-code="+43" data-flag="🇦🇹" {{ old('country_code') == 'AT' ? 'selected' : '' }}>🇦🇹 Austria</option>
+                                <option value="BE" data-code="+32" data-flag="🇧🇪" {{ old('country_code') == 'BE' ? 'selected' : '' }}>🇧🇪 Belgium</option>
+                                <option value="PL" data-code="+48" data-flag="🇵🇱" {{ old('country_code') == 'PL' ? 'selected' : '' }}>🇵🇱 Poland</option>
+                                <option value="TR" data-code="+90" data-flag="🇹🇷" {{ old('country_code') == 'TR' ? 'selected' : '' }}>🇹🇷 Turkey</option>
+                                <option value="SA" data-code="+966" data-flag="🇸🇦" {{ old('country_code') == 'SA' ? 'selected' : '' }}>🇸🇦 Saudi Arabia</option>
+                                <option value="AE" data-code="+971" data-flag="🇦🇪" {{ old('country_code') == 'AE' ? 'selected' : '' }}>🇦🇪 UAE</option>
+                                <option value="SG" data-code="+65" data-flag="🇸🇬" {{ old('country_code') == 'SG' ? 'selected' : '' }}>🇸🇬 Singapore</option>
+                                <option value="MY" data-code="+60" data-flag="🇲🇾" {{ old('country_code') == 'MY' ? 'selected' : '' }}>🇲🇾 Malaysia</option>
+                                <option value="TH" data-code="+66" data-flag="🇹🇭" {{ old('country_code') == 'TH' ? 'selected' : '' }}>🇹🇭 Thailand</option>
+                                <option value="PH" data-code="+63" data-flag="🇵🇭" {{ old('country_code') == 'PH' ? 'selected' : '' }}>🇵🇭 Philippines</option>
+                                <option value="ID" data-code="+62" data-flag="🇮🇩" {{ old('country_code') == 'ID' ? 'selected' : '' }}>🇮🇩 Indonesia</option>
+                                <option value="VN" data-code="+84" data-flag="🇻🇳" {{ old('country_code') == 'VN' ? 'selected' : '' }}>🇻🇳 Vietnam</option>
+                                <option value="BD" data-code="+880" data-flag="🇧🇩" {{ old('country_code') == 'BD' ? 'selected' : '' }}>🇧🇩 Bangladesh</option>
+                                <option value="PK" data-code="+92" data-flag="🇵🇰" {{ old('country_code') == 'PK' ? 'selected' : '' }}>🇵🇰 Pakistan</option>
+                                <option value="LK" data-code="+94" data-flag="🇱🇰" {{ old('country_code') == 'LK' ? 'selected' : '' }}>🇱🇰 Sri Lanka</option>
+                                <option value="NZ" data-code="+64" data-flag="🇳🇿" {{ old('country_code') == 'NZ' ? 'selected' : '' }}>🇳🇿 New Zealand</option>
+                                <option value="ZA" data-code="+27" data-flag="🇿🇦" {{ old('country_code') == 'ZA' ? 'selected' : '' }}>🇿🇦 South Africa</option>
+                                <option value="EG" data-code="+20" data-flag="🇪🇬" {{ old('country_code') == 'EG' ? 'selected' : '' }}>🇪🇬 Egypt</option>
+                                <option value="NG" data-code="+234" data-flag="🇳🇬" {{ old('country_code') == 'NG' ? 'selected' : '' }}>🇳🇬 Nigeria</option>
+                                <option value="KE" data-code="+254" data-flag="🇰🇪" {{ old('country_code') == 'KE' ? 'selected' : '' }}>🇰🇪 Kenya</option>
+                                <option value="AR" data-code="+54" data-flag="🇦🇷" {{ old('country_code') == 'AR' ? 'selected' : '' }}>🇦🇷 Argentina</option>
+                                <option value="CL" data-code="+56" data-flag="🇨🇱" {{ old('country_code') == 'CL' ? 'selected' : '' }}>🇨🇱 Chile</option>
+                                <option value="CO" data-code="+57" data-flag="🇨🇴" {{ old('country_code') == 'CO' ? 'selected' : '' }}>🇨🇴 Colombia</option>
+                                <option value="PE" data-code="+51" data-flag="🇵🇪" {{ old('country_code') == 'PE' ? 'selected' : '' }}>🇵🇪 Peru</option>
+                            </select>
+                        </div>
+
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
-                            <input type="tel" id="phone" name="phone" class="form-control" value="{{ old('phone') }}">
+                            <div class="d-flex align-items-center">
+                                <input type="tel" id="phone" name="phone" class="form-control" value="{{ old('phone') }}" maxlength="20">
+                                <span id="country_flag" class="ms-2" style="font-size: 20px;">🇺🇸</span>
+                            </div>
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -206,27 +261,7 @@
     </script>
 
 
-<script>
-const phoneInput = document.getElementById("phone");
 
-phoneInput.addEventListener("input", () => {
-    // Remove non-digit characters
-    let inputValue = phoneInput.value.replace(/\D/g, "");
-
-    // Format as 3-3-4
-    if (inputValue.length > 3 && inputValue.length <= 6) {
-        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3)}`;
-    } else if (inputValue.length > 6) {
-        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 10)}`;
-    }
-
-    // Limit max digits to 10
-    inputValue = inputValue.slice(0, 12); // 3 + 1 space + 3 + 1 space + 4 = 12 chars max
-
-    // Update the input value
-    phoneInput.value = inputValue;
-});
-</script>
 
     <!-- @vite('resources/js/callLogs/create.js') -->
 

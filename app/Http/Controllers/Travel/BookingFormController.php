@@ -129,6 +129,82 @@ class BookingFormController extends Controller
         ],200);
     }
 
+    public function editBillingDetails($id){
+        try{
+            $billingDetail = BillingDetail::findOrFail($id);
+            return response()->json([
+                'status'=>'success',
+                'code'=>200,
+                'data'=>$billingDetail
+            ],200);
+        }
+        catch(ModelNotFoundException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Billing Details not found',
+                'code'=>'404'
+            ],404);
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Something went wrong',
+                'code'=>'500'
+            ],500);
+        }
+    }
+
+    public function updateBillingDetails(Request $request, $id){
+        try{
+            $data = $request->validate([
+                'email'=>'required|email',
+                'contact_number'=>'required|regex:/^\d{10}$/',
+                'street_address'=>'required',
+                'city'=>'required',
+                'state'=>'required',
+                'zip_code'=>'required',
+                'country'=>'required',
+            ]);
+            
+            $billingDetail = BillingDetail::findOrFail($id);
+            $billingDetail->update($data);
+            
+            // Get updated data with relationships
+            $getBillingdata = BillingDetail::select('*')->with('get_country','get_state')->find($id);
+            $responseData = $billingDetail->toArray();
+            $responseData['country'] = $getBillingdata->get_country->country_name ?? '';
+            $responseData['state'] = $getBillingdata->get_state->name ?? '';
+            
+            return response()->json([
+                'status'=>'success',
+                'code'=>200,
+                'message'=>'Billing Details Updated Successfully',
+                'data'=>$responseData
+            ],200);
+        }
+        catch(ValidationException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>$e->validator->errors()->first(),
+                'code'=>'422'
+            ],422);
+        }
+        catch(ModelNotFoundException $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Billing Details not found',
+                'code'=>'404'
+            ],404);
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'Something went wrong',
+                'code'=>'500'
+            ],500);
+        }
+    }
+
     public function deletebillingDetails($id){
         try{
             $destroy = BillingDetail::findOrFail($id);
@@ -291,6 +367,16 @@ class BookingFormController extends Controller
 
         try {
             $decodedId = decode($id);
+            
+            if(str_word_count($request->remark) < 30) {
+                //return JsonResponse::error('Action not allowed. Add clear and valid remarks to proceed.', 500);
+                 return response()->json([
+                                            'status'=>'failed',
+                                            'message'=>'Action not allowed. Add clear and valid remarks to proceed.',
+                                            'code'=>'500'
+                                        ],500);
+            }
+
             TravelBookingRemark::create([
                 'booking_id' => $decodedId,
                 'particulars' => nl2br(htmlspecialchars($request->remark, ENT_QUOTES, 'UTF-8')),
@@ -311,8 +397,8 @@ class BookingFormController extends Controller
                         'created_at' => $item->created_at->format('d-m-Y'),
                     ];
                 });
-
             return JsonResponse::successWithData('Booking remark saved successfully', 201, $data, '201');
+
         } catch (\Exception $e) {
             return JsonResponse::error('Failed to save remark: ' . $e->getMessage(), 500);
         }

@@ -74,11 +74,40 @@
                 <!-- Booking Form Card -->
                 <div class="pt-5 ps-0">
                     <div class="row booking-form">
-                        <div class="col-md-3 position-relative mb-5">
-                            <label class="form-label">Calling Phone No.  <span class="text-danger">*</span></label>
-                            <input type="text" name="phone" id="phone" class="form-control"
-                                value="{{ old('phone', $callLog->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $callLog->phone) : '') }}"
-                                >
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Country</label>
+                            <select name="country_code" id="country_code" class="form-control">
+                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ old('country_code', $callLog->country_code ?? 'US') == 'US' ? 'selected' : '' }}>🇺🇸 United States</option>
+                                <option value="CA" data-code="+1" data-flag="🇨🇦" {{ old('country_code', $callLog->country_code) == 'CA' ? 'selected' : '' }}>🇨🇦 Canada</option>
+                                <option value="GB" data-code="+44" data-flag="🇬🇧" {{ old('country_code', $callLog->country_code) == 'GB' ? 'selected' : '' }}>🇬🇧 United Kingdom</option>
+                                <option value="AU" data-code="+61" data-flag="🇦🇺" {{ old('country_code', $callLog->country_code) == 'AU' ? 'selected' : '' }}>🇦🇺 Australia</option>
+                                <option value="IN" data-code="+91" data-flag="🇮🇳" {{ old('country_code', $callLog->country_code) == 'IN' ? 'selected' : '' }}>🇮🇳 India</option>
+                                <option value="DE" data-code="+49" data-flag="🇩🇪" {{ old('country_code', $callLog->country_code) == 'DE' ? 'selected' : '' }}>🇩🇪 Germany</option>
+                                <option value="FR" data-code="+33" data-flag="🇫🇷" {{ old('country_code', $callLog->country_code) == 'FR' ? 'selected' : '' }}>🇫🇷 France</option>
+                                <option value="MX" data-code="+52" data-flag="🇲🇽" {{ old('country_code', $callLog->country_code) == 'MX' ? 'selected' : '' }}>🇲🇽 Mexico</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
+                            <div class="d-flex align-items-center">
+                                <input type="tel" name="phone" id="phone" class="form-control" value="{{ old('phone', $callLog->phone) }}"  maxlength="20">
+                                <span id="country_flag" class="ms-2" style="font-size: 20px;">
+                                    @php
+                                        $countryCode = old('country_code', $callLog->country_code ?? 'US');
+                                        $flags = [
+                                            'US' => '🇺🇸',
+                                            'CA' => '🇨🇦', 
+                                            'GB' => '🇬🇧',
+                                            'AU' => '🇦🇺',
+                                            'IN' => '🇮🇳',
+                                            'DE' => '🇩🇪',
+                                            'FR' => '🇫🇷',
+                                            'MX' => '🇲🇽'
+                                        ];
+                                    @endphp
+                                    {{ $flags[$countryCode] ?? '🇺🇸' }}
+                                </span>
+                            </div>
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -275,27 +304,7 @@
 <!---------------- Start History ---- ------------- --------- ----->
 
 
-<script>
-const phoneInput = document.getElementById("phone");
 
-phoneInput.addEventListener("input", () => {
-    // Remove non-digit characters
-    let inputValue = phoneInput.value.replace(/\D/g, "");
-
-    // Format as 3-3-4
-    if (inputValue.length > 3 && inputValue.length <= 6) {
-        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3)}`;
-    } else if (inputValue.length > 6) {
-        inputValue = `${inputValue.slice(0, 3)} ${inputValue.slice(3, 6)} ${inputValue.slice(6, 10)}`;
-    }
-
-    // Limit max digits to 10
-    inputValue = inputValue.slice(0, 12); // 3 + 1 space + 3 + 1 space + 4 = 12 chars max
-
-    // Update the input value
-    phoneInput.value = inputValue;
-});
-</script>
 
 <script>
 // JavaScript to toggle visibility of Follow-Up Date and Call Back Assign fields

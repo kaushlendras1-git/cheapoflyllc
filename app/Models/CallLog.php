@@ -16,6 +16,7 @@ class CallLog extends Model
         'chkcruise',
         'chkcar',
         'phone',
+        'country_code',
         'name',
         'team',
         'campaign_id',
