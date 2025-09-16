@@ -1,4 +1,5 @@
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 
 document.addEventListener('DOMContentLoaded', function () {
     const addButton = document.getElementById('cruise-addon-button');
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Name of Service</label>
-                            <textarea class="form-control ckeditorRR" name="cruiseaddon[${index}][service_name]" rows="4"></textarea>
+                            <textarea class="form-control" name="cruiseaddon[${index}][service_name]" rows="4"></textarea>
                         </div>
                         <div class="text-end">
                             <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn">
@@ -47,12 +48,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
         container.insertAdjacentHTML('beforeend', newRow);
         const textarea = document.querySelector(`textarea[name="cruiseaddon[${index}][service_name]"]`);
-        ClassicEditor.create(textarea, {
-            toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
-        })
-            .catch(error => {
-                console.error(error);
-            });
+        
+        // Create Quill editor for new textarea
+        const editorDiv = document.createElement('div');
+        editorDiv.style.minHeight = '150px';
+        textarea.style.display = 'none';
+        textarea.parentNode.insertBefore(editorDiv, textarea.nextSibling);
+
+        const quill = new Quill(editorDiv, {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+
+        window.quillInstances[textarea.name] = quill;
+        
+        quill.on('text-change', () => {
+            textarea.value = quill.root.innerHTML;
+        });
     });
 
     document.addEventListener('click', function (e) {
@@ -85,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const select = row.querySelector('select');
             if (select) select.name = `cruiseaddon[${currentIndex}][services]`;
 
-            const textarea = row.querySelector('textarea.ckeditorRR');
+            const textarea = row.querySelector('textarea[name*="[service_name]"]');
             if (textarea) textarea.name = `cruiseaddon[${currentIndex}][service_name]`;
             
             const hiddenInput = row.querySelector('input[type="hidden"][name*="[id]"]');
