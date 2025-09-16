@@ -165,16 +165,16 @@ class BookingFormController extends Controller
                 'zip_code'=>'required',
                 'country'=>'required',
             ]);
-            
+
             $billingDetail = BillingDetail::findOrFail($id);
             $billingDetail->update($data);
-            
+
             // Get updated data with relationships
             $getBillingdata = BillingDetail::select('*')->with('get_country','get_state')->find($id);
             $responseData = $billingDetail->toArray();
             $responseData['country'] = $getBillingdata->get_country->country_name ?? '';
             $responseData['state'] = $getBillingdata->get_state->name ?? '';
-            
+
             return response()->json([
                 'status'=>'success',
                 'code'=>200,
@@ -327,7 +327,7 @@ class BookingFormController extends Controller
             $bookings->appends($request->all());
         } else {
             // return empty result when no search/filter applied
-            $bookings = collect(); 
+            $bookings = collect();
         }
 
 
@@ -367,7 +367,7 @@ class BookingFormController extends Controller
 
         try {
             $decodedId = decode($id);
-            
+
             if(str_word_count($request->remark) < 30) {
                 //return JsonResponse::error('Action not allowed. Add clear and valid remarks to proceed.', 500);
                  return response()->json([
@@ -477,6 +477,7 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
+        dd($request->all());
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -604,13 +605,13 @@ class BookingFormController extends Controller
                         $rules['cruise.*.departure_date']  = 'required_with:cruise';
                         $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
                         $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
-                        $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';                
+                        $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';
                     }
 
                     // ---- CAR ----
                     if (in_array('Car', $bookingTypes)) {
                         $carImageExists = DB::table('car_images')->where('booking_id', $id)->exists();
-                        $rules['car_description'] = 'required_without:car';     
+                        $rules['car_description'] = 'required_without:car';
                         if ($carImageExists) {
                             $rules['carbookingimage'] = 'array';
                             $rules['car'] = 'array';
@@ -657,8 +658,8 @@ class BookingFormController extends Controller
                         $rules['train.*.transit']           = 'required_with:train|string';
                         $rules['train.*.arrival_date']      = 'required_with:train';
                     }
-                    
-                    
+
+
                      //BILLING
                     $rules['billing']                           = 'required|array|min:1';
                     $rules['billing.*.card_type']               = 'required|string|in:VISA,Mastercard,AMEX,DISCOVER';
@@ -685,7 +686,7 @@ class BookingFormController extends Controller
                     $rules['pricing.*.details']                = 'required|string';
         }
 
-           
+
 
            $remarkCount = DB::table('travel_booking_remarks')->where('booking_id', $id)->count();
             if ($remarkCount == 0) {
@@ -825,7 +826,7 @@ class BookingFormController extends Controller
                 'billing.*.cvv.string'              => 'Billing CVV must be a string.',
                 'billing.*.cvv.max'                 => 'Billing CVV cannot exceed 4 characters.',
                 'billing.*.state.required'          => 'Select Billing in Card Details (Billing Tab).',
-                 
+
                 'billing.*.currency.required'       => 'Billing currency is required.',
                 'billing.*.currency.in'             => 'Billing currency must be one of: USD, CAD, EUR, GBP, AUD, INR, MXN.',
 
@@ -956,7 +957,7 @@ class BookingFormController extends Controller
 
                 'cruise.*.departure_hrs.required'  => 'Cruise departure time is required.',
                 'cruise.*.departure_hrs.date_format'=> 'Cruise departure time must be in format HH:MM.',
-                
+
                 'cruise.*.arrival_hrs.required'    => 'Cruise arrival time is required.',
                 'cruise.*.arrival_hrs.date_format' => 'Cruise arrival time must be in format HH:MM.',
 
@@ -1135,11 +1136,11 @@ class BookingFormController extends Controller
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
                 'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee'
             ]);
-            
+
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
             $booking->update($bookingData);
-            
+
             // Log changes
             log_field_changes('Booking', $booking->id, $oldValues, $bookingData, auth()->id());
 
@@ -1171,7 +1172,7 @@ class BookingFormController extends Controller
                 $bt->delete(); // observer logs
             }
 
-            
+
             // passengers
 
             $existingPassengers = TravelPassenger::where('booking_id', $booking->id)->get();
@@ -1186,16 +1187,18 @@ class BookingFormController extends Controller
                 $data['booking_id'] = $booking->id;
                 if (!empty($data['dob'])) {
                     try {
-                        $data['dob'] = Carbon::createFromFormat('d/m/Y', $data['dob'])->format('Y-m-d');
+                        // Handle both d/m/Y and d-m-Y formats
+                        $dobString = str_replace('-', '/', $data['dob']);
+                        $data['dob'] = Carbon::createFromFormat('d/m/Y', $dobString)->format('Y-m-d');
                     } catch (\Exception $e) {
-                        $data['dob'] = null; 
+                        $data['dob'] = null;
                     }
                 }
 
                 // Check if passenger already exists
                 if (!empty($data['id'])) {
                     $existingPassenger = $existingPassengers->find($data['id']);
-                    
+
                     if ($existingPassenger) {
                         // Compare and update only if changed
                         $hasChanges = false;
@@ -1205,7 +1208,7 @@ class BookingFormController extends Controller
                                 break;
                             }
                         }
-                        
+
                         if ($hasChanges) {
                             $existingPassenger->update($data);
                             $booking->logChange($booking->id, 'TravelPassenger', $existingPassenger->id, 'updated', json_encode($existingPassenger->getOriginal()), json_encode($data));
@@ -1257,9 +1260,10 @@ class BookingFormController extends Controller
                 }
                 foreach ($newFlights as $flightData) {
                     $flightData['booking_id'] = $booking->id;
-                     
-                     $flightData['departure_date'] = Carbon::createFromFormat('d/m/Y', $flightData['departure_date'])->format('Y-m-d');
-                     $flightData['arrival_date'] = Carbon::createFromFormat('d/m/Y', $flightData['arrival_date'])->format('Y-m-d');
+
+                     // Handle both d/m/Y and d-m-Y formats
+                     $flightData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['departure_date']))->format('Y-m-d');
+                     $flightData['arrival_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['arrival_date']))->format('Y-m-d');
 
                     $flight = TravelFlightDetail::create(
                         $flightData
@@ -1274,15 +1278,15 @@ class BookingFormController extends Controller
                 ->each
                 ->forceDelete();
 
-                
-                
+
+
 
             $existingHotelIds = $booking->travelHotel->pluck('id')->toArray();
             $newHotels = $request->input('hotel', []);
             $processedHotelIds = [];
 
             $delete = TravelHotelDetail::where('booking_id', $booking->id)->get()->each->delete();
-            
+
             if(in_array('Hotel',$newBookingTypes)){
                 $hotelData = $request->only(['hotel_description']);
 
@@ -1309,9 +1313,10 @@ class BookingFormController extends Controller
                     $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
 
 
-                    $hotelData['checkin_date'] = Carbon::createFromFormat('d/m/Y', $hotelData['checkin_date'])->format('Y-m-d');
-                    $hotelData['checkout_date'] = Carbon::createFromFormat('d/m/Y', $hotelData['checkout_date'])->format('Y-m-d');
-                   
+                    // Handle both d/m/Y and d-m-Y formats
+                    $hotelData['checkin_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $hotelData['checkin_date']))->format('Y-m-d');
+                    $hotelData['checkout_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $hotelData['checkout_date']))->format('Y-m-d');
+
 
                     $hotel = TravelHotelDetail::create(
                         $hotelData
@@ -1341,7 +1346,7 @@ class BookingFormController extends Controller
                 ->each
                 ->delete();
 
-                
+
             $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
             $newCruises = $request->input('cruise', []);
             $processedCruiseIds = [];
@@ -1351,7 +1356,7 @@ class BookingFormController extends Controller
                 $cruiseData = $request->only(['cruise_name', 'ship_name','length', 'departure_port', 'arrival_port','cruise_line','category','stateroom','day', 'type']);
                 if (!empty($cruiseData)) {
                     $cruiseData['booking_id'] = $booking->id;
-                    
+
                     TravelCruise::updateOrCreate(
                         ['booking_id' => $booking->id],
                         $cruiseData
@@ -1361,7 +1366,7 @@ class BookingFormController extends Controller
                if ($request->has('cruiseaddon')) {
 
                # dd($request->cruiseaddon);
-                
+
                 TravelCruiseAddon::where('booking_id', $booking->id)->delete();
                 foreach ($request->cruiseaddon as $index => $addon) {
                     if (!empty($addon['services']) || !empty($addon['service_name'])) {
@@ -1376,8 +1381,8 @@ class BookingFormController extends Controller
                 }
             }
 
-                
-                                
+
+
                 if(isset($request->cruisebookingimage) && !empty($request->cruisebookingimage)){
                         foreach($request->cruisebookingimage as $key => $image){
                             $cruisebookingimage = 'storage/'.$image->store('cruise_booking_image','public');
@@ -1398,7 +1403,8 @@ class BookingFormController extends Controller
                     $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
 
 
-                  $cruiseData['departure_date'] = Carbon::createFromFormat('d/m/Y', $cruiseData['departure_date'])->format('Y-m-d');
+                  // Handle both d/m/Y and d-m-Y formats
+                  $cruiseData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $cruiseData['departure_date']))->format('Y-m-d');
 
                     $cruise = TravelCruiseDetail::create(
                         $cruiseData
@@ -1434,7 +1440,7 @@ class BookingFormController extends Controller
             TravelCarDetail::where('booking_id', $booking->id)->get()->each->delete();
 
             if(in_array('Car',$newBookingTypes)){
-                
+
                  $carData['car_description'] = $request->car_description;
                  $booking->update($carData);
 
@@ -1501,8 +1507,9 @@ class BookingFormController extends Controller
                 foreach ($newTrains as $train) {
                     $trainData = $train;
                     $trainData['booking_id'] = $booking->id;
-                    $trainData['departure_date'] = Carbon::createFromFormat('d/m/Y', $trainData['departure_date'])->format('Y-m-d');
-                    $trainData['arrival_date'] = Carbon::createFromFormat('d/m/Y', $trainData['arrival_date'])->format('Y-m-d');
+                    // Handle both d/m/Y and d-m-Y formats
+                    $trainData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $trainData['departure_date']))->format('Y-m-d');
+                    $trainData['arrival_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $trainData['arrival_date']))->format('Y-m-d');
                     $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
                     $car = TravelTrainDetail::create(
                         $trainData
@@ -1579,11 +1586,11 @@ class BookingFormController extends Controller
                 }
             }
 
-            if($request->payment_status_id == 7){ 
+            if($request->payment_status_id == 7){
                 //dd($request->payment_status_id); sonu
             }
 
-            
+
             if(!empty($request->deposit_type)){
                 BillingDeposit::where('booking_id',$booking->id)->delete();
                 foreach($request->deposit_type as $key=>$deposits){
@@ -1599,7 +1606,7 @@ class BookingFormController extends Controller
             }
 
           #  dd($request->all());
-            
+
            # DB::commit();
             return response()->json([
                 'status' => 'success',
@@ -1650,7 +1657,7 @@ class BookingFormController extends Controller
 
         $booking_status = BookingStatus::where('status', 1)->whereJsonContains('departments', auth()->user()->department_id)->get();
         $payment_status = PaymentStatus::where('status', 1)->whereJsonContains('roles', auth()->user()->role_id)->get();
-        
+
         $campaigns = Campaign::where('status',1)->get();
         $billingData = BillingDetail::with('get_country')->where('booking_id',$booking->id)->get();
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
@@ -1662,18 +1669,18 @@ class BookingFormController extends Controller
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
         $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id', $booking->id)->get();
-        
+
         $users = User::where('role_id',1)->where('department_id',1)->get();
-        
+
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
-        //$countries = json_decode(file_get_contents('http://127.0.0.1:8000/country.json')); 
+        //$countries = json_decode(file_get_contents('http://127.0.0.1:8000/country.json'));
         $billingDeposits = BillingDeposit::where('booking_id',$booking->id)->get();
         $logs = \App\Models\Log::where('calllog_id', $id)->with('user')->orderBy('id', 'DESC')->get();
-        
+
         // Log the view action
         log_operation('Booking', $id, 'Viewed', 'You have seen the booking', auth()->id());
-        
+
         return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData','logs'));
     }
 
@@ -1729,14 +1736,14 @@ class BookingFormController extends Controller
         {
             try {
                 $image = flightImages::findOrFail($id);
-                
+
                 // Delete file from storage if exists
                 if (file_exists(public_path($image->file_path))) {
                     unlink(public_path($image->file_path));
                 }
-                
+
                 $image->delete();
-                
+
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {
                 return response()->json(['success' => false], 500);
