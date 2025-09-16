@@ -317,11 +317,11 @@
                        </div>
 
                        <div class="form-floating form-floating-outline mb-5">
-    <select id="team" name="team" class="form-select" required="">
-        <option value="">Select Team</option>
-    </select>
-    <label for="team">Teams</label>
-</div>
+                            <select id="team" name="team" class="form-select" required="">
+                                <option value="">Select Team</option>
+                            </select>
+                            <label for="team">Teams</label>
+                        </div>
 
 <script>
 document.getElementById('lob').addEventListener('change', function() {
@@ -367,7 +367,7 @@ document.getElementById('lob').addEventListener('change', function() {
 </script>
                     <!-- User Role Field -->
                     <div class="form-floating form-floating-outline mb-5">
-                        <select id="user-role" name="departments" class="form-select" required="">
+                        <select id="user-role" name="department_id" class="form-select" required="">
                             <option value="">Select Departments</option>
                             @foreach($departments as $department)
                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
@@ -378,7 +378,7 @@ document.getElementById('lob').addEventListener('change', function() {
 
                     <!-- User Role Field -->
                     <div class="form-floating form-floating-outline mb-5">
-                        <select id="user-role" name="role" class="form-select" required="">
+                        <select id="user-role" name="role_id" class="form-select" required="">
                             <option value="">Select Role</option>
                             @foreach($roles as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>

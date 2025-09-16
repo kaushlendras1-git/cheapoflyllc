@@ -1670,7 +1670,7 @@ class BookingFormController extends Controller
         
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
-        $campaigns = Campaign::all();
+        //$countries = json_decode(file_get_contents('http://127.0.0.1:8000/country.json')); 
         $billingDeposits = BillingDeposit::where('booking_id',$booking->id)->get();
         $logs = \App\Models\Log::where('calllog_id', $id)->with('user')->orderBy('id', 'DESC')->get();
         
