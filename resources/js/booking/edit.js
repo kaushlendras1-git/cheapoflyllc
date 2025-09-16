@@ -8,24 +8,45 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 import { route } from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 
-// Store CKEditor instances globally
-window.ckEditorInstances = {};
+// Store Quill instances globally
+window.quillInstances = {};
 
 document.addEventListener('DOMContentLoaded', () => {
-    const editors = document.querySelectorAll('textarea.ckeditor');
+    const textareas = document.querySelectorAll('textarea[name$="_description"], textarea[name*="[service_name]"]');
 
-    editors.forEach(textarea => {
-        ClassicEditor.create(textarea, {
-           // toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
-        })
-        .then(editor => {
-            // Store editor instance with textarea name as key
-            window.ckEditorInstances[textarea.name] = editor;
-        })
-        .catch(error => {
-            console.error(error);
+    textareas.forEach(textarea => {
+        // Create div container for Quill
+        const editorDiv = document.createElement('div');
+        editorDiv.style.minHeight = '150px';
+        textarea.style.display = 'none';
+        textarea.parentNode.insertBefore(editorDiv, textarea.nextSibling);
+
+        // Initialize Quill
+        const quill = new Quill(editorDiv, {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+
+        // Set initial content
+        quill.root.innerHTML = textarea.value;
+
+        // Store instance
+        window.quillInstances[textarea.name] = quill;
+
+        // Update textarea on content change
+        quill.on('text-change', () => {
+            textarea.value = quill.root.innerHTML;
         });
     });
 });
@@ -228,12 +249,12 @@ document.querySelectorAll('.destroy_filepond').forEach(input => {
 document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     
-    // Sync CKEditor 5 data before form submission
-    if (window.ckEditorInstances) {
-        for (const [name, editor] of Object.entries(window.ckEditorInstances)) {
+    // Sync Quill data before form submission
+    if (window.quillInstances) {
+        for (const [name, quill] of Object.entries(window.quillInstances)) {
             const textarea = document.querySelector(`textarea[name="${name}"]`);
-            if (textarea && editor) {
-                textarea.value = editor.getData();
+            if (textarea && quill) {
+                textarea.value = quill.root.innerHTML;
             }
         }
     }

@@ -158,7 +158,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Name of Service</label>
-                                <textarea class="form-control ckeditor" name="cruiseaddon[{{ $key }}][service_name]" rows="4">{{ $addon->service_name }}</textarea>
+                                <textarea class="form-control" name="cruiseaddon[{{ $key }}][service_name]" rows="4">{{ $addon->service_name }}</textarea>
                             </div>
                             <div class="text-end">
                                 <button type="button" class="btn btn-outline-danger delete-addon-cruise-btn">

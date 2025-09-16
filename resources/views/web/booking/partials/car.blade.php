@@ -140,16 +140,19 @@
                                 </tr>
                             </thead>
                             <tr>
-                                <td><textarea class="form-control " name="car_description" placeholder="Car Description" cols="30" rows="6">{{$booking->car_description}}</textarea></td>
+                                <td><textarea class="form-control" name="car_description" placeholder="Car Description" cols="30" rows="6">{{$booking->car_description}}</textarea></td>
                             </tr>
                         </table>
                     </div>
              </div>
 
-                @if(isset($car_images) && $car_images->count())
-                    <div style="margin-top:20px">
+
+              <div style="margin-top:20px">
                         <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
                     </div>
+                    
+                @if(isset($car_images) && $car_images->count())
+                   
                     <div class="" style="margin-top:20px">
                             <table class="table table-bordered table-striped crm-table">
                                 <thead>
