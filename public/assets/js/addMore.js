@@ -2,13 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('hotel-booking-button')){
         document.getElementById('hotel-booking-button').addEventListener('click', addHotelRow);
     }
-    
+
     const hotelFormsContainer = document.getElementById('hotelForms');
     let hotelIndex = document.querySelectorAll('.hotel-row').length ?? 0;
 
     // Add initial row on page load
     if(hotelFormsContainer){
-        addHotelRow();   
+        addHotelRow();
     }
     // Function to add a new hotel row
     function addHotelRow() {
@@ -33,11 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             `;
         hotelFormsContainer.appendChild(newRow);
-        
+
         // Initialize Flatpickr for hotel date inputs
         const checkinInput = newRow.querySelector('.flatpickr-hotel-checkin');
         const checkoutInput = newRow.querySelector('.flatpickr-hotel-checkout');
-        
+
         if (typeof flatpickr !== 'undefined') {
             if (checkinInput) {
                 flatpickr(checkinInput, {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         }
-        
+
         hotelIndex++;
     }
 
@@ -86,15 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
         hotelFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.hotel-row');
             if (!row) return;
-    
+
             const rows = hotelFormsContainer.querySelectorAll('.hotel-row');
             const lastRow = rows[rows.length - 1];
-    
+
             if (row === lastRow && isRowFilled(lastRow)) {
                 addHotelRow();
             }
         });
-    
+
         // Delete hotel row
         hotelFormsContainer.addEventListener('click', (e) => {
             if (e.target.closest('.delete-hotel-btn')) {
@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
         newRow.dataset.index = cruiseIndex;
         newRow.innerHTML = `
                 <td><span class="cruise-title">${cruiseIndex + 1}</span></td>
-                <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 125px;" name="cruise[${cruiseIndex}][departure_date]"></td>             
+                <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 125px;" name="cruise[${cruiseIndex}][departure_date]"></td>
                 <td><input type="text" class="form-control" style="width:39.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
-          
-                <td><input type="text" class="form-control time-12hr" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="HH:MM" maxlength="5"></td>	
+
+                <td><input type="text" class="form-control time-12hr" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="HH:MM" maxlength="5"></td>
                 <td><input type="text" class="form-control time-12hr" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="HH:MM" maxlength="5"></td>
 
                 <td>
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeInputs.forEach(input => {
             attachTimeFormatter(input);
         });
-        
+
         // Initialize Flatpickr for new date inputs
         const dateInputs = newRow.querySelectorAll('.flatpickr-hotel-checkin');
         if (typeof flatpickr !== 'undefined') {
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-        
+
         cruiseIndex++;
     }
 
@@ -186,15 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
         cruiseFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.cruise-row');
             if (!row) return;
-    
+
             const rows = cruiseFormsContainer.querySelectorAll('.cruise-row');
             const lastRow = rows[rows.length - 1];
-    
+
             if (row === lastRow && isRowFilled(lastRow)) {
                 addCruiseRow();
             }
         });
-    
+
         // Delete cruise row
         cruiseFormsContainer.addEventListener('click', (e) => {
             if (e.target.closest('.delete-cruise-btn')) {
@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeInputs.forEach(input => {
             attachTimeFormatter(input);
         });
-        
+
         // Initialize Flatpickr for new date inputs
         const dateInputs = newRow.querySelectorAll('.flatpickr-hotel-checkin');
         if (typeof flatpickr !== 'undefined') {
@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-        
+
         carIndex++;
     }
 
@@ -318,15 +318,15 @@ document.addEventListener('DOMContentLoaded', () => {
         carFormsContainer.addEventListener('input', (e) => {
             const row = e.target.closest('.car-row');
             if (!row) return;
-    
+
             const rows = carFormsContainer.querySelectorAll('.car-row');
             const lastRow = rows[rows.length - 1];
-    
+
             if (row === lastRow && isRowFilled(lastRow)) {
                 addCarRow();
             }
         });
-    
+
         // Delete car row
         carFormsContainer.addEventListener('click', (e) => {
             if (e.target.closest('.delete-car-btn')) {
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(flightFormsContainer && flightFormsContainer.getElementsByClassName('flight-row')){
         flightRowsCount = flightFormsContainer.getElementsByClassName('flight-row').length;
     }
-    
+
     let flightIndex = flightRowsCount;
 
     // Add initial row on page load
@@ -391,7 +391,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="First Class">First Class</option>
                 </select></td>
 
-                <td><input type="text" class="form-control" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service"></td>
+                <td>
+                    <input type="text" class="form-control operating_service_search" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service">
+                    <div class="operating-flight-suggestions-list"
+                        style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
+                    </div>
+                </td>
                 <td>
                     <input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
                     <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
@@ -421,13 +426,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
             `;
         flightFormsContainer.append(newRow);
-        
+
         // Initialize time formatting for new inputs
         const timeInputs = newRow.querySelectorAll('.time-12hr');
         timeInputs.forEach(input => {
             attachTimeFormatter(input);
         });
-        
+
         // Initialize Flatpickr for new date inputs
         const dateInputs = newRow.querySelectorAll('.flatpickr-hotel-checkin');
         if (typeof flatpickr !== 'undefined') {
@@ -440,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
-        
+
         flightIndex++;
     }
 
@@ -545,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeInputs.forEach(input => {
             attachTimeFormatter(input);
         });
-        
+
         // Initialize Flatpickr for new date inputs
         const dateInputs = newRow.querySelectorAll('.flatpickr-hotel-checkin');
         if (typeof flatpickr !== 'undefined') {
@@ -692,7 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="Adult">Adult</option>
                     <option value="Child">Child</option>
                     <option value="Seat Infant">Seat Infant</option>
-                    <option value="Lap Infant">Lap Infant</option>                    
+                    <option value="Lap Infant">Lap Infant</option>
                 </select>
             </td>
             <td>
@@ -713,7 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td><input type="text" class="form-control" name="passenger[${passengerIndex}][first_name]" placeholder="First Name"></td>
-           
+
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
             <td><input type="text" class="form-control flatpickr-dob" style="width: 105px;" name="passenger[${passengerIndex}][dob]" placeholder="dd/mm/yyyy"></td>
             <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
@@ -726,7 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </td>
         `;
         passengerFormsContainer.appendChild(newRow);
-        
+
         // Initialize Flatpickr for the new date input
         const dobInput = newRow.querySelector('.flatpickr-dob');
         if (dobInput && typeof flatpickr !== 'undefined') {
@@ -737,13 +742,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 clickOpens: true
             });
         }
-        
+
         // Initialize e-ticket formatter for the new input
         const eTicketInput = newRow.querySelector('.e-ticket-input');
         if (eTicketInput) {
             attachETicketFormatter(eTicketInput);
         }
-        
+
         passengerIndex++;
 
         // Apply credit column visibility to new row immediately
@@ -1220,7 +1225,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectedTypes = Array.from(checkboxes)
             .filter(checkbox => checkbox.checked)
             .map(checkbox => checkbox.value.toLowerCase());
-        
+
         const depositDiv = document.getElementById('deposit-pending-payment');
         if (depositDiv) {
             const showDeposit = selectedTypes.some(type => ['car', 'hotel', 'cruise'].includes(type));
@@ -1314,7 +1319,7 @@ document.addEventListener('DOMContentLoaded', function() {
             allowInput: false,
             clickOpens: true
         });
-        
+
         // Initialize for existing hotel date inputs
         flatpickr('.flatpickr-hotel-checkin', {
             dateFormat: 'd/m/Y',
@@ -1322,19 +1327,19 @@ document.addEventListener('DOMContentLoaded', function() {
             allowInput: false,
             clickOpens: true
         });
-        
+
         flatpickr('.flatpickr-hotel-checkout', {
             dateFormat: 'd/m/Y',
             minDate: 'today',
             allowInput: false,
             clickOpens: true
         });
-        
+
         // Initialize existing time inputs
         document.querySelectorAll('.time-12hr').forEach(input => {
             attachTimeFormatter(input);
         });
-        
+
         // Initialize existing e-ticket inputs
         document.querySelectorAll('.e-ticket-input').forEach(input => {
             attachETicketFormatter(input);
@@ -1346,11 +1351,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function attachTimeFormatter(input) {
     input.addEventListener('input', function() {
         let value = this.value.replace(/[^\d:]/g, '');
-        
+
         if (value.length === 2 && !value.includes(':')) {
             value += ':';
         }
-        
+
         const parts = value.split(':');
         if (parts[0] && parseInt(parts[0]) > 23) {
             parts[0] = '23';
@@ -1358,7 +1363,7 @@ function attachTimeFormatter(input) {
         if (parts[1] && parseInt(parts[1]) > 59) {
             parts[1] = '59';
         }
-        
+
         this.value = parts.join(':').substring(0, 5);
     });
 }
