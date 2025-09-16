@@ -47,9 +47,9 @@ class AppServiceProvider extends ServiceProvider
             TravelSectorDetail::class
         ];
 
-        foreach ($models as $model) {
-            $model::observe(GenericChangeObserver::class);
-        }
+        // foreach ($models as $model) {
+        //     $model::observe(GenericChangeObserver::class);
+        // }
         
         User::observe(UserObserver::class);
     }

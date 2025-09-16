@@ -51,6 +51,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Validation\Rule;
 use App\Models\CallType;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Log as BookingLog;
 
 
 class BookingFormController extends Controller
@@ -1139,9 +1140,7 @@ class BookingFormController extends Controller
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
             $booking->update($bookingData);
-
-            // Log changes
-            log_field_changes('Booking', $booking->id, $oldValues, $bookingData, auth()->id());
+//            log_field_changes('Booking', $booking->id, $oldValues, $bookingData, auth()->id());
 
             $existingBookingTypeIds = $booking->bookingTypes->pluck('id')->toArray();
             $newBookingTypes = $request->input('booking-type', []);
@@ -1154,12 +1153,12 @@ class BookingFormController extends Controller
                 );
                 $processedBookingTypeIds[] = $bookingType->id;
                 if ($bookingType->wasRecentlyCreated) {
-                    $booking->logChange($booking->id, 'TravelBookingType', $bookingType->id, 'type', null, $type);
+//                    $booking->logChange($booking->id, 'TravelBookingType', $bookingType->id, 'type', null, $type);
                 }
             }
             $deletedBookingTypes = array_diff($existingBookingTypeIds, $processedBookingTypeIds);
             foreach ($deletedBookingTypes as $deletedId) {
-                $booking->logChange($booking->id, 'TravelBookingType', $deletedId, 'deleted', 'exists', null);
+//                $booking->logChange($booking->id, 'TravelBookingType', $deletedId, 'deleted', 'exists', null);
             }
 //            TravelBookingType::where('booking_id', $booking->id)
 //                ->whereNotIn('id', $processedBookingTypeIds)
@@ -1168,7 +1167,7 @@ class BookingFormController extends Controller
                 ->whereNotIn('id', $processedBookingTypeIds ?? [])
                 ->get();
             foreach ($bookingTypesToDelete as $bt) {
-                $bt->delete(); // observer logs
+                $bt->delete();
             }
 
 
@@ -1193,13 +1192,9 @@ class BookingFormController extends Controller
                         $data['dob'] = null;
                     }
                 }
-
-                // Check if passenger already exists
                 if (!empty($data['id'])) {
                     $existingPassenger = $existingPassengers->find($data['id']);
-
                     if ($existingPassenger) {
-                        // Compare and update only if changed
                         $hasChanges = false;
                         foreach ($data as $key => $value) {
                             if ($existingPassenger->{$key} != $value) {
@@ -1210,7 +1205,7 @@ class BookingFormController extends Controller
 
                         if ($hasChanges) {
                             $existingPassenger->update($data);
-                            $booking->logChange($booking->id, 'TravelPassenger', $existingPassenger->id, 'updated', json_encode($existingPassenger->getOriginal()), json_encode($data));
+                            // $booking->logChange($booking->id, 'TravelPassenger', $existingPassenger->id, 'updated', json_encode($existingPassenger->getOriginal()), json_encode($data));
                         }
                         $processedPassengerIds[] = $existingPassenger->id;
                         continue;
@@ -1218,7 +1213,7 @@ class BookingFormController extends Controller
                 }
                 // Create new passenger if not exists
                 $passenger = TravelPassenger::create($data);
-                $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'created', null, json_encode($data));
+                // $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'created', null, json_encode($data));
                 $processedPassengerIds[] = $passenger->id;
             }
 
@@ -1228,24 +1223,19 @@ class BookingFormController extends Controller
                 ->get();
 
             foreach ($passengersToDelete as $passenger) {
-                $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'deleted', json_encode($passenger->toArray()), null);
+                // $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'deleted', json_encode($passenger->toArray()), null);
                 $passenger->forceDelete();
             }
             // End passengers
 
 
 
-            $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
+            $existingFlights = TravelFlightDetail::where('booking_id', $booking->id)->get();
+            $existingFlightIds = $existingFlights->pluck('id')->toArray();
             $newFlights = $request->input('flight', []);
             $processedFlightIds = [];
-//            $check = TravelFlightDetail::where('booking_id', $booking->id)->forceDelete();
-            $check = TravelFlightDetail::where('booking_id', $booking->id)
-                ->get()
-                ->each
-                ->forceDelete();
             if(in_array('Flight',$newBookingTypes)){
 
-                // Handle flight booking image uploads
                 if (isset($request->flightbookingimage) && !empty($request->flightbookingimage)) {
                     $flightbookingimage = [];
                     foreach ($request->flightbookingimage as $key => $image) {
@@ -1257,34 +1247,68 @@ class BookingFormController extends Controller
                         ]);
                     }
                 }
+
                 foreach ($newFlights as $flightData) {
                     $flightData['booking_id'] = $booking->id;
 
-                     // Handle both d/m/Y and d-m-Y formats
-                     $flightData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['departure_date']))->format('Y-m-d');
-                     $flightData['arrival_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['arrival_date']))->format('Y-m-d');
+                    // Handle both d/m/Y and d-m-Y formats
+                    $flightData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['departure_date']))->format('Y-m-d');
+                    $flightData['arrival_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['arrival_date']))->format('Y-m-d');
 
-                    $flight = TravelFlightDetail::create(
-                        $flightData
-                    );
-                    $processedFlightIds[] = $flight->id;
+                    // Check if flight has ID (existing record)
+                    if (!empty($flightData['id'])) {
+                        $existingFlight = $existingFlights->find($flightData['id']);
+
+                        if ($existingFlight) {
+                            // Update existing flight
+                            $existingFlight->update($flightData);
+                            $processedFlightIds[] = $existingFlight->id;
+                            BookingLog::create([
+                                'log_type' => 'booking',
+                                'calllog_id' => $booking->id,
+                                'operation' => 'Flight Updated',
+                                'comment' => 'Flight details updated for ' . ($flightData['departure_airport'] ?? 'N/A') . ' to ' . ($flightData['arrival_airport'] ?? 'N/A'),
+                                'user_id' => auth()->id()
+                            ]);
+                        }
+                    } else {
+                        // Create new flight (no ID means new record)
+                        unset($flightData['id']); // Remove ID for new records
+                        $flight = TravelFlightDetail::create($flightData);
+                        $processedFlightIds[] = $flight->id;
+                        BookingLog::create([
+                            'log_type' => 'booking',
+                            'calllog_id' => $booking->id,
+                            'operation' => 'Flight Added',
+                            'comment' => 'New flight added from ' . ($flightData['departure_airport'] ?? 'N/A') . ' to ' . ($flightData['arrival_airport'] ?? 'N/A'),
+                            'user_id' => auth()->id()
+                        ]);
+                    }
                 }
             }
 
-            TravelFlightDetail::where('booking_id', $booking->id)
+
+            $deletedFlights = TravelFlightDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedFlightIds)
-                ->get()
-                ->each
-                ->forceDelete();
+                ->get();
+            
+            foreach ($deletedFlights as $deletedFlight) {
+                BookingLog::create([
+                    'log_type' => 'booking',
+                    'calllog_id' => $booking->id,
+                    'operation' => 'Flight Deleted',
+                    'comment' => 'Flight removed: ' . ($deletedFlight->departure_airport ?? 'N/A') . ' to ' . ($deletedFlight->arrival_airport ?? 'N/A'),
+                    'user_id' => auth()->id()
+                ]);
+                $deletedFlight->forceDelete();
+            }
 
 
 
 
-            $existingHotelIds = $booking->travelHotel->pluck('id')->toArray();
+            $existingHotels = TravelHotelDetail::where('booking_id', $booking->id)->get();
             $newHotels = $request->input('hotel', []);
             $processedHotelIds = [];
-
-            $delete = TravelHotelDetail::where('booking_id', $booking->id)->get()->each->delete();
 
             if(in_array('Hotel',$newBookingTypes)){
                 $hotelData = $request->only(['hotel_description']);
@@ -1309,47 +1333,63 @@ class BookingFormController extends Controller
                         continue;
                     }
                     $hotelData['booking_id'] = $booking->id;
-                    $oldHotel = TravelHotelDetail::find($hotelData['id'] ?? null);
-
 
                     // Handle both d/m/Y and d-m-Y formats
                     $hotelData['checkin_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $hotelData['checkin_date']))->format('Y-m-d');
                     $hotelData['checkout_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $hotelData['checkout_date']))->format('Y-m-d');
 
+                    // Check if hotel has ID (existing record)
+                    if (!empty($hotelData['id'])) {
+                        $existingHotel = $existingHotels->find($hotelData['id']);
 
-                    $hotel = TravelHotelDetail::create(
-                        $hotelData
-                    );
-                    if ($oldHotel) {
-                        foreach ($hotelData as $field => $newValue) {
-                            if ($oldHotel->$field != $newValue) {
-                                $booking->logChange($booking->id, 'TravelHotelDetail', $hotel->id, $field, $oldHotel->$field, $newValue);
-                            }
+                        if ($existingHotel) {
+                            // Update existing hotel
+                            $existingHotel->update($hotelData);
+                            $processedHotelIds[] = $existingHotel->id;
+                            BookingLog::create([
+                                'log_type' => 'booking',
+                                'calllog_id' => $booking->id,
+                                'operation' => 'Hotel Updated',
+                                'comment' => 'Hotel details updated: ' . ($hotelData['hotel_name'] ?? 'N/A'),
+                                'user_id' => auth()->id()
+                            ]);
                         }
                     } else {
-                        $booking->logChange($booking->id, 'TravelHotelDetail', $hotel->id, 'created', null, json_encode($hotelData));
+                        // Create new hotel (no ID means new record)
+                        unset($hotelData['id']); // Remove ID for new records
+                        $hotel = TravelHotelDetail::create($hotelData);
+                        $processedHotelIds[] = $hotel->id;
+                        BookingLog::create([
+                            'log_type' => 'booking',
+                            'calllog_id' => $booking->id,
+                            'operation' => 'Hotel Added',
+                            'comment' => 'New hotel added: ' . ($hotelData['hotel_name'] ?? 'N/A'),
+                            'user_id' => auth()->id()
+                        ]);
                     }
-                    $processedHotelIds[] = $hotel->id;
                 }
             }
-            $deletedHotels = array_diff($existingHotelIds, $processedHotelIds);
-            foreach ($deletedHotels as $deletedId) {
-                $booking->logChange($booking->id, 'TravelHotelDetail', $deletedId, 'deleted', 'exists', null);
+
+            $deletedHotels = TravelHotelDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedHotelIds)
+                ->get();
+            
+            foreach ($deletedHotels as $deletedHotel) {
+                BookingLog::create([
+                    'log_type' => 'booking',
+                    'calllog_id' => $booking->id,
+                    'operation' => 'Hotel Deleted',
+                    'comment' => 'Hotel removed: ' . ($deletedHotel->hotel_name ?? 'N/A'),
+                    'user_id' => auth()->id()
+                ]);
+                $deletedHotel->delete();
             }
-//            TravelHotelDetail::where('booking_id', $booking->id)
-//                ->whereNotIn('id', $processedHotelIds)
-//                ->delete();
-            TravelHotelDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedHotelIds ?? [])
-                ->get()
-                ->each
-                ->delete();
 
 
-            $existingCruiseIds = $booking->cruiseDetails?$booking->cruiseDetails->pluck('id')->toArray():[];
+            $existingCruises = TravelCruiseDetail::where('booking_id', $booking->id)->get();
             $newCruises = $request->input('cruise', []);
             $processedCruiseIds = [];
-            TravelCruiseDetail::where('booking_id', $booking->id)->get()->each->delete();
+
             if(in_array('Cruise',$newBookingTypes)){
 
                 $cruiseData = $request->only(['cruise_name', 'ship_name','length', 'departure_port', 'arrival_port','cruise_line','category','stateroom','day', 'type']);
@@ -1399,44 +1439,63 @@ class BookingFormController extends Controller
                         continue;
                     }
                     $cruiseData['booking_id'] = $booking->id;
-                    $oldCruise = TravelCruiseDetail::find($cruiseData['id'] ?? null);
 
+                    // Handle both d/m/Y and d-m-Y formats
+                    $cruiseData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $cruiseData['departure_date']))->format('Y-m-d');
 
-                  // Handle both d/m/Y and d-m-Y formats
-                  $cruiseData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $cruiseData['departure_date']))->format('Y-m-d');
+                    // Check if cruise has ID (existing record)
+                    if (!empty($cruiseData['id'])) {
+                        $existingCruise = $existingCruises->find($cruiseData['id']);
 
-                    $cruise = TravelCruiseDetail::create(
-                        $cruiseData
-                    );
-                    if ($oldCruise) {
-                        foreach ($cruiseData as $field => $newValue) {
-                            if ($oldCruise->$field != $newValue) {
-                                $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, $field, $oldCruise->$field, $newValue);
-                            }
+                        if ($existingCruise) {
+                            // Update existing cruise
+                            $existingCruise->update($cruiseData);
+                            $processedCruiseIds[] = $existingCruise->id;
+                            BookingLog::create([
+                                'log_type' => 'booking',
+                                'calllog_id' => $booking->id,
+                                'operation' => 'Cruise Updated',
+                                'comment' => 'Cruise details updated: ' . ($cruiseData['departure_port'] ?? 'N/A'),
+                                'user_id' => auth()->id()
+                            ]);
                         }
                     } else {
-                        $booking->logChange($booking->id, 'TravelCruiseDetail', $cruise->id, 'created', null, json_encode($cruiseData));
+                        // Create new cruise (no ID means new record)
+                        unset($cruiseData['id']); // Remove ID for new records
+                        $cruise = TravelCruiseDetail::create($cruiseData);
+                        $processedCruiseIds[] = $cruise->id;
+                        BookingLog::create([
+                            'log_type' => 'booking',
+                            'calllog_id' => $booking->id,
+                            'operation' => 'Cruise Added',
+                            'comment' => 'New cruise added from: ' . ($cruiseData['departure_port'] ?? 'N/A'),
+                            'user_id' => auth()->id()
+                        ]);
                     }
-                    $processedCruiseIds[] = $cruise->id;
                 }
             }
 
-            $deletedCruises = array_diff($existingCruiseIds, $processedCruiseIds);
-            foreach ($deletedCruises as $deletedId) {
-                $booking->logChange($booking->id, 'TravelCruiseDetail', $deletedId, 'deleted', 'exists', null);
+            // Delete cruises that are missing from the request (not in processedCruiseIds)
+            $deletedCruises = TravelCruiseDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedCruiseIds)
+                ->get();
+            
+            foreach ($deletedCruises as $deletedCruise) {
+                BookingLog::create([
+                    'log_type' => 'booking',
+                    'calllog_id' => $booking->id,
+                    'operation' => 'Cruise Deleted',
+                    'comment' => 'Cruise removed: ' . ($deletedCruise->departure_port ?? 'N/A'),
+                    'user_id' => auth()->id()
+                ]);
+                $deletedCruise->delete();
             }
-//            TravelCruiseDetail::where('booking_id', $booking->id)
-//                ->whereNotIn('id', $processedCruiseIds)
-//                ->delete();
-            TravelCruiseDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedCruiseIds ?? [])
-                ->get()
-                ->each
-                ->delete();
-            $existingCarIds = $booking->carDetails ? $booking->carDetails->pluck('id')->toArray() : [];
+
+
+
+            $existingCars = TravelCarDetail::where('booking_id', $booking->id)->get();
             $newCars = $request->input('car', []);
             $processedCarIds = [];
-            TravelCarDetail::where('booking_id', $booking->id)->get()->each->delete();
 
             if(in_array('Car',$newBookingTypes)){
 
@@ -1469,24 +1528,77 @@ class BookingFormController extends Controller
                 }
                 foreach ($newCars as $carData) {
                     $carData['booking_id'] = $booking->id;
-                    $car = TravelCarDetail::create(
-                        $carData
-                    );
-                    $processedCarIds[] = $car->id;
+
+                    // Handle date formatting
+                    if (!empty($carData['pickup_date'])) {
+                        try {
+                            $carData['pickup_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $carData['pickup_date']))->format('Y-m-d');
+                        } catch (\Exception $e) {
+                            // If parsing fails, try to parse as is or set to null
+                            $carData['pickup_date'] = Carbon::parse($carData['pickup_date'])->format('Y-m-d');
+                        }
+                    }
+                    if (!empty($carData['dropoff_date'])) {
+                        try {
+                            $carData['dropoff_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $carData['dropoff_date']))->format('Y-m-d');
+                        } catch (\Exception $e) {
+                            // If parsing fails, try to parse as is or set to null
+                            $carData['dropoff_date'] = Carbon::parse($carData['dropoff_date'])->format('Y-m-d');
+                        }
+                    }
+
+                    // Check if car has ID (existing record)
+                    if (!empty($carData['id'])) {
+                        $existingCar = $existingCars->find($carData['id']);
+
+                        if ($existingCar) {
+                            // Update existing car
+                            $existingCar->update($carData);
+                            $processedCarIds[] = $existingCar->id;
+                            BookingLog::create([
+                                'log_type' => 'booking',
+                                'calllog_id' => $booking->id,
+                                'operation' => 'Car Updated',
+                                'comment' => 'Car rental updated: ' . ($carData['car_rental_provider'] ?? 'N/A') . ' - ' . ($carData['car_type'] ?? 'N/A'),
+                                'user_id' => auth()->id()
+                            ]);
+                        }
+                    } else {
+                        // Create new car (no ID means new record)
+                        unset($carData['id']); // Remove ID for new records
+                        $car = TravelCarDetail::create($carData);
+                        $processedCarIds[] = $car->id;
+                        BookingLog::create([
+                            'log_type' => 'booking',
+                            'calllog_id' => $booking->id,
+                            'operation' => 'Car Added',
+                            'comment' => 'New car rental added: ' . ($carData['car_rental_provider'] ?? 'N/A') . ' - ' . ($carData['car_type'] ?? 'N/A'),
+                            'user_id' => auth()->id()
+                        ]);
+                    }
                 }
             }
 
-//            TravelCarDetail::where('booking_id', $booking->id)
-//                ->whereNotIn('id', $processedCarIds)
-//                ->delete();
-            TravelCarDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedCarIds ?? [])
-                ->get()
-                ->each
-                ->delete();
+            // Delete cars that are missing from the request (not in processedCarIds)
+            $deletedCars = TravelCarDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedCarIds)
+                ->get();
+            
+            foreach ($deletedCars as $deletedCar) {
+                BookingLog::create([
+                    'log_type' => 'booking',
+                    'calllog_id' => $booking->id,
+                    'operation' => 'Car Deleted',
+                    'comment' => 'Car rental removed: ' . ($deletedCar->car_rental_provider ?? 'N/A') . ' - ' . ($deletedCar->car_type ?? 'N/A'),
+                    'user_id' => auth()->id()
+                ]);
+                $deletedCar->delete();
+            }
 
-            $newTrains = !empty($request->train)?$request->train:[];
-            TravelTrainDetail::where('booking_id', $booking->id)->get()->each->delete();
+            $existingTrains = TravelTrainDetail::where('booking_id', $booking->id)->get();
+            $newTrains = $request->input('train', []);
+            $processedTrainIds = [];
+
             if(in_array('Train',$newBookingTypes)){
 
                  $trainData['train_description'] = $request->train_description;
@@ -1503,18 +1615,75 @@ class BookingFormController extends Controller
                         }
                 }
 
-                foreach ($newTrains as $train) {
-                    $trainData = $train;
+                foreach ($newTrains as $trainData) {
                     $trainData['booking_id'] = $booking->id;
-                    // Handle both d/m/Y and d-m-Y formats
-                    $trainData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $trainData['departure_date']))->format('Y-m-d');
-                    $trainData['arrival_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $trainData['arrival_date']))->format('Y-m-d');
-                    $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
-                    $car = TravelTrainDetail::create(
-                        $trainData
-                    );
+
+                    // Handle date formatting with try-catch
+                    if (!empty($trainData['departure_date'])) {
+                        try {
+                            $trainData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $trainData['departure_date']))->format('Y-m-d');
+                        } catch (\Exception $e) {
+                            $trainData['departure_date'] = Carbon::parse($trainData['departure_date'])->format('Y-m-d');
+                        }
+                    }
+                    if (!empty($trainData['arrival_date'])) {
+                        try {
+                            $trainData['arrival_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $trainData['arrival_date']))->format('Y-m-d');
+                        } catch (\Exception $e) {
+                            $trainData['arrival_date'] = Carbon::parse($trainData['arrival_date'])->format('Y-m-d');
+                        }
+                    }
+
+                    // Check if train has ID (existing record)
+                    if (!empty($trainData['id'])) {
+                        $existingTrain = $existingTrains->find($trainData['id']);
+
+                        if ($existingTrain) {
+                            // Update existing train
+                            $existingTrain->update($trainData);
+                            $processedTrainIds[] = $existingTrain->id;
+                            BookingLog::create([
+                                'log_type' => 'booking',
+                                'calllog_id' => $booking->id,
+                                'operation' => 'Train Updated',
+                                'comment' => 'Train details updated: ' . ($trainData['departure_station'] ?? 'N/A') . ' to ' . ($trainData['arrival_station'] ?? 'N/A'),
+                                'user_id' => auth()->id()
+                            ]);
+                        }
+                    } else {
+                        // Create new train (no ID means new record)
+                        unset($trainData['id']); // Remove ID for new records
+                        $train = TravelTrainDetail::create($trainData);
+                        $processedTrainIds[] = $train->id;
+                        BookingLog::create([
+                            'log_type' => 'booking',
+                            'calllog_id' => $booking->id,
+                            'operation' => 'Train Added',
+                            'comment' => 'New train added from ' . ($trainData['departure_station'] ?? 'N/A') . ' to ' . ($trainData['arrival_station'] ?? 'N/A'),
+                            'user_id' => auth()->id()
+                        ]);
+                    }
                 }
             }
+
+            // Delete trains that are missing from the request (not in processedTrainIds)
+            $deletedTrains = TravelTrainDetail::where('booking_id', $booking->id)
+                ->whereNotIn('id', $processedTrainIds)
+                ->get();
+            
+            foreach ($deletedTrains as $deletedTrain) {
+                BookingLog::create([
+                    'log_type' => 'booking',
+                    'calllog_id' => $booking->id,
+                    'operation' => 'Train Deleted',
+                    'comment' => 'Train removed: ' . ($deletedTrain->departure_station ?? 'N/A') . ' to ' . ($deletedTrain->arrival_station ?? 'N/A'),
+                    'user_id' => auth()->id()
+                ]);
+                $deletedTrain->delete();
+            }
+
+
+
             $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
             $newBillings = $request->input('billing', []);
             $processedBillingIds = [];
@@ -1570,7 +1739,7 @@ class BookingFormController extends Controller
                         'booking_id' => $booking->id,
                         'sector_type' => $fileName,
                     ]);
-                    $booking->logChange($booking->id, 'TravelSectorDetail', $sector->id, 'created', null, $fileName);
+//                    $booking->logChange($booking->id, 'TravelSectorDetail', $sector->id, 'created', null, $fileName);
                 }
             }
 
@@ -1678,7 +1847,7 @@ class BookingFormController extends Controller
         $logs = \App\Models\Log::where('calllog_id', $id)->with('user')->orderBy('id', 'DESC')->get();
 
         // Log the view action
-        log_operation('Booking', $id, 'Viewed', 'You have seen the booking', auth()->id());
+        // log_operation('Booking', $id, 'Viewed', 'You have seen the booking', auth()->id());
 
         return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData','logs'));
     }
