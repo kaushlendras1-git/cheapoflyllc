@@ -22,6 +22,7 @@ class TravelHotelDetail extends Model
         'hotel_address',
         'files',
         'remarks',
+        'special_notes'
     ];
 
     protected $casts = [
