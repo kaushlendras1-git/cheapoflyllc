@@ -10,6 +10,9 @@ import { route } from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+// Store CKEditor instances globally
+window.ckEditorInstances = {};
+
 document.addEventListener('DOMContentLoaded', () => {
     const editors = document.querySelectorAll('textarea.ckeditor');
 
@@ -17,9 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ClassicEditor.create(textarea, {
            // toolbar: ["bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "undo", "redo"],
         })
-            .catch(error => {
-                console.error(error);
-            });
+        .then(editor => {
+            // Store editor instance with textarea name as key
+            window.ckEditorInstances[textarea.name] = editor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
     });
 });
 
@@ -220,6 +227,17 @@ document.querySelectorAll('.destroy_filepond').forEach(input => {
 
 document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
+    
+    // Sync CKEditor 5 data before form submission
+    if (window.ckEditorInstances) {
+        for (const [name, editor] of Object.entries(window.ckEditorInstances)) {
+            const textarea = document.querySelector(`textarea[name="${name}"]`);
+            if (textarea && editor) {
+                textarea.value = editor.getData();
+            }
+        }
+    }
+    
     const action = e.target.action;
     const formdata = new FormData(e.target);
     const keysToDelete = [];
@@ -765,7 +783,7 @@ function attachEditHandler(el) {
             const data = response.data.data;
             
             // Populate modal fields
-            document.querySelector('input[name="email"]').value = data.email;
+            document.getElementById('billing-email').value = data.email;
             document.querySelector('input[name="contact_number"]').value = data.contact_number;
             document.querySelector('input[name="street_address"]').value = data.street_address;
             document.querySelector('input[name="city"]').value = data.city;

@@ -435,7 +435,7 @@
                         <div class="row booking-form">
                             <div class="col-md-3 position-relative mb-5">
                                 <label class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="email">
+                                <input type="text" class="form-control" name="email" id="billing-email">
                             </div>
                             <div class="col-md-3 position-relative mb-5">
                                 <label class="form-label">Conatct No. <span class="text-danger">*</span></label>

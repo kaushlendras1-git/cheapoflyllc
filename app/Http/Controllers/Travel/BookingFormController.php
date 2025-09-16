@@ -1181,13 +1181,9 @@ class BookingFormController extends Controller
                 ->filter(function ($data) {
                     return collect($data)->filter()->isNotEmpty();
                 });
-
             $processedPassengerIds = [];
-
             foreach ($passengers as $data) {
                 $data['booking_id'] = $booking->id;
-                
-                
                 if (!empty($data['dob'])) {
                     try {
                         $data['dob'] = Carbon::createFromFormat('d/m/Y', $data['dob'])->format('Y-m-d');
@@ -1214,12 +1210,10 @@ class BookingFormController extends Controller
                             $existingPassenger->update($data);
                             $booking->logChange($booking->id, 'TravelPassenger', $existingPassenger->id, 'updated', json_encode($existingPassenger->getOriginal()), json_encode($data));
                         }
-                        
                         $processedPassengerIds[] = $existingPassenger->id;
                         continue;
                     }
                 }
-
                 // Create new passenger if not exists
                 $passenger = TravelPassenger::create($data);
                 $booking->logChange($booking->id, 'TravelPassenger', $passenger->id, 'created', null, json_encode($data));
@@ -1236,6 +1230,7 @@ class BookingFormController extends Controller
                 $passenger->forceDelete();
             }
             // End passengers
+
 
 
             $existingFlightIds = $booking->travelFlight ? $booking->travelFlight->pluck('id')->toArray() : [];
@@ -1506,6 +1501,8 @@ class BookingFormController extends Controller
                 foreach ($newTrains as $train) {
                     $trainData = $train;
                     $trainData['booking_id'] = $booking->id;
+                    $trainData['departure_date'] = Carbon::createFromFormat('d/m/Y', $trainData['departure_date'])->format('Y-m-d');
+                    $trainData['arrival_date'] = Carbon::createFromFormat('d/m/Y', $trainData['arrival_date'])->format('Y-m-d');
                     $trainDataD = TravelTrainDetail::where('booking_id',$booking->id ?? null)->first();
                     $car = TravelTrainDetail::create(
                         $trainData
