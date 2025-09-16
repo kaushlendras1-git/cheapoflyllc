@@ -103,14 +103,25 @@
                                 <option data-grossmco="1" value="Cruise Cost">Cruise Cost</option>
                                 <option data-grossmco="1" value="Train Cost">Train Cost</option>
                                 <option data-grossmco="1" value="Company card">Company card</option>
-
                                 <option data-grossmco="0" value="Partial Refund">Partial Refund</option>
                                 <option data-grossmco="0" value="Full Refund">Full Refund</option>
                                 <option data-grossmco="0" value="Chargeback Fee">Chargeback Fee</option>
-                                <option data-grossmco="0" value="Partial Chargeback Amt.">Partial Chargeback Amt.
-                                </option>
+                                <option data-grossmco="0" value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
                                 <option data-grossmco="0" value="Chargeback Amt.">Chargeback Amt.</option>
 
+                                <option data-grossmco="1" data-cruise="1" value="Excursions">Excursions</option>
+                                <option data-grossmco="1" data-cruise="1" value="Spa Services">Spa Services</option>
+                                <option data-grossmco="1" data-cruise="1" value="WiFi Packages">WiFi Packages</option>
+                                <option data-grossmco="1" data-cruise="1" value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
+                                <option data-grossmco="1" data-cruise="1" value="Shuttle Services">Shuttle Services</option>
+                                <option data-grossmco="1" data-cruise="1" value="Speciality Dining">Speciality Dining</option>
+                                <option data-grossmco="1" data-cruise="1" value="Drink Packages">Drink Packages</option>
+                                <option data-grossmco="1" data-cruise="1" value="Trip Insurance">Trip Insurance</option>
+                                <option data-grossmco="1" data-cruise="1" value="Check-in Proces Luggage Tags & Sailing Pass">Check-in Proces Luggage Tags & Sailing Pass</option>
+                                <option data-grossmco="1" data-cruise="1" value="Special Occasion Package">Special Occasion Package</option>
+                                <option data-grossmco="1" data-cruise="1" value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
+                                <option data-grossmco="1" data-cruise="1" value="Old Itinerary">Old Itinerary</option>
+                                <option data-grossmco="1" data-cruise="1" value="Changed Itinerary">Changed Itinerary</option>
 
                             </select>
                         </td>
@@ -296,6 +307,21 @@
                                 <option data-grossmco="0" value="Chargeback Amt."
                                     {{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback
                                     Amt.</option>
+
+                                <option data-grossmco="1" data-cruise="1" value="Excursions" {{ $pricingDetails->details == 'Excursions' ? 'selected' : '' }} >Excursions</option>
+                                <option data-grossmco="1" data-cruise="1" value="Spa Services" {{ $pricingDetails->details == 'Spa Services' ? 'selected' : '' }} >Spa Services</option>
+                                <option data-grossmco="1" data-cruise="1" value="WiFi Packages" {{ $pricingDetails->details == 'WiFi Packages' ? 'selected' : '' }} >WiFi Packages</option>
+                                <option data-grossmco="1" data-cruise="1" value="Crew Appreciation Fees/Gratuities"  {{ $pricingDetails->details == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }} >Crew Appreciation Fees/Gratuities</option>
+                                <option data-grossmco="1" data-cruise="1" value="Shuttle Services" {{ $pricingDetails->details == 'Shuttle Services' ? 'selected' : '' }}>Shuttle Services</option>
+                                <option data-grossmco="1" data-cruise="1" value="Speciality Dining"  {{ $pricingDetails->details == 'Speciality Dining' ? 'selected' : '' }}>Speciality Dining</option>
+                                <option data-grossmco="1" data-cruise="1" value="Drink Packages" {{ $pricingDetails->details == 'Drink Packages' ? 'selected' : '' }}>Drink Packages</option>
+                                <option data-grossmco="1" data-cruise="1" value="Trip Insurance" {{ $pricingDetails->details == 'Trip Insurance' ? 'selected' : '' }}>Trip Insurance</option>
+                                <option data-grossmco="1" data-cruise="1" value="Check-in Proces Luggage Tags & Sailing Pass" {{ $pricingDetails->details == 'Check-in Proces Luggage Tags & Sailing Pass' ? 'selected' : '' }}>Check-in Proces Luggage Tags & Sailing Pass</option>
+                                <option data-grossmco="1" data-cruise="1" value="Special Occasion Package" {{ $pricingDetails->details == 'Special Occasion Package' ? 'selected' : '' }}>Special Occasion Package</option>
+                                <option data-grossmco="1" data-cruise="1" value="Water Bottle or Distilled Water Package" {{ $pricingDetails->details == 'Water Bottle or Distilled Water Package' ? 'selected' : '' }}>Water Bottle or Distilled Water Package</option>
+                                <option data-grossmco="1" data-cruise="1" value="Old Itinerary" {{ $pricingDetails->details == 'Old Itinerary' ? 'selected' : '' }}>Old Itinerary</option>
+                                <option data-grossmco="1" data-cruise="1" value="Changed Itinerary" {{ $pricingDetails->details == 'Changed Itinerary' ? 'selected' : '' }}>Changed Itinerary</option>
+
 
                             </select>
                         </td>

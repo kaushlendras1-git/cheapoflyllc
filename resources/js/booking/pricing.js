@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+
+
+
+
+
+
+
     document.getElementById('pricing-booking-button').addEventListener('click',addPricingRow)
     const pricingFormsContainer = document.getElementById('pricingForms');
     let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
@@ -45,6 +53,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option data-grossmco="1" value=" Pet-in Cabin"> Pet-in Cabin</option>
                     <option data-grossmco="1" value="Pet-in Cargo">Pet-in Cargo</option>
 
+                    <option data-grossmco="1" data-cruise="1" value="Excursions">Excursions</option>
+                    <option data-grossmco="1" data-cruise="1" value="Spa Services">Spa Services</option>
+                    <option data-grossmco="1" data-cruise="1" value="WiFi Packages">WiFi Packages</option>
+                    <option data-grossmco="1" data-cruise="1" value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
+                    <option data-grossmco="1" data-cruise="1" value="Shuttle Services">Shuttle Services</option>
+                    <option data-grossmco="1" data-cruise="1" value="Speciality Dining">Speciality Dining</option>
+                    <option data-grossmco="1" data-cruise="1" value="Drink Packages">Drink Packages</option>
+                    <option data-grossmco="1" data-cruise="1" value="Trip Insurance">Trip Insurance</option>
+                    <option data-grossmco="1" data-cruise="1" value="Check-in Proces Luggage Tags & Sailing Pass">Check-in Proces Luggage Tags & Sailing Pass</option>
+                    <option data-grossmco="1" data-cruise="1" value="Special Occasion Package">Special Occasion Package</option>
+                    <option data-grossmco="1" data-cruise="1" value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
+                    <option data-grossmco="1" data-cruise="1" value="Old Itinerary">Old Itinerary</option>
+                    <option data-grossmco="1" data-cruise="1" value="Changed Itinerary">Changed Itinerary</option>
                 </select>
             </td>
             <td>
@@ -53,6 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </button>
             </td>
         `;
+        
+        // Apply cruise visibility to new row
+        toggleCruiseOptionsForRow(newRow);
         if(checkMerchantRow){
             checkMerchantRow.before(newRow);
         }
@@ -158,6 +182,40 @@ document.addEventListener('DOMContentLoaded', () => {
             addPricingRow();
         }
     }
+
+    // Function to show/hide cruise options based on cruise checkbox
+    function toggleCruiseOptions() {
+        const cruiseCheckbox = document.getElementById('booking-cruise');
+        const cruiseOptions = document.querySelectorAll('option[data-cruise="1"]');
+        
+        if (cruiseCheckbox && cruiseCheckbox.checked) {
+            cruiseOptions.forEach(option => option.style.display = 'block');
+        } else {
+            cruiseOptions.forEach(option => option.style.display = 'none');
+        }
+    }
+
+    // Function to apply cruise visibility to a specific row
+    function toggleCruiseOptionsForRow(row) {
+        const cruiseCheckbox = document.getElementById('booking-cruise');
+        const cruiseOptions = row.querySelectorAll('option[data-cruise="1"]');
+        
+        if (cruiseCheckbox && cruiseCheckbox.checked) {
+            cruiseOptions.forEach(option => option.style.display = 'block');
+        } else {
+            cruiseOptions.forEach(option => option.style.display = 'none');
+        }
+    }
+
+    // Listen for cruise checkbox changes
+    document.addEventListener('change', (e) => {
+        if (e.target.id === 'booking-cruise') {
+            toggleCruiseOptions();
+        }
+    });
+
+    // Initial check on page load
+    document.addEventListener('DOMContentLoaded', toggleCruiseOptions);
 
     // Input change handler
     pricingFormsContainer.addEventListener('input', (e) => {
