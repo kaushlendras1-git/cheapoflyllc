@@ -248,7 +248,7 @@ document.querySelectorAll('.destroy_filepond').forEach(input => {
 
 document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
-    
+
     // Sync Quill data before form submission
     if (window.quillInstances) {
         for (const [name, quill] of Object.entries(window.quillInstances)) {
@@ -258,7 +258,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
             }
         }
     }
-    
+
     const action = e.target.action;
     const formdata = new FormData(e.target);
     const keysToDelete = [];
@@ -716,10 +716,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 showToast(response.data.message);
                 document.getElementById('billing-close-modal').click();
-                
+
                 const data = response.data.data;
                 const tableBody = document.querySelector('#billing-table tbody');
-                
+
                 if (isEditing) {
                     // Update existing row
                     const rowIndex = element.dataset.editingRow;
@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const billingElements = [...document.querySelectorAll('[name^="billing["]')].filter(el => {
                         return el.name.endsWith('][state]');
                     });
-                    
+
                     if (tableBody) {
                         const rowCount = tableBody.querySelectorAll('tr').length;
 
@@ -778,11 +778,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         toggleBillingTableVisibility();
                     }
                 }
-                
+
                 element.reset();
                 element.action = element.action.replace(/\/\d+$/, '/' + window.location.pathname.split('/').pop());
                 element.method = 'POST';
-                
+
             } catch (e) {
                 showToast(e?.response?.data?.message || 'Something went wrong', 'error');
             }
@@ -798,11 +798,11 @@ function attachEditHandler(el) {
         e.preventDefault();
         const button = e.target.closest('.editBillData');
         const action = button.getAttribute('data-href');
-        
+
         try {
             const response = await axios.get(action);
             const data = response.data.data;
-            
+
             // Populate modal fields
             document.getElementById('billing-email').value = data.email;
             document.querySelector('input[name="contact_number"]').value = data.contact_number;
@@ -810,7 +810,7 @@ function attachEditHandler(el) {
             document.querySelector('input[name="city"]').value = data.city;
             document.querySelector('select[name="country"]').value = data.country;
             document.querySelector('input[name="zip_code"]').value = data.zip_code;
-            
+
             // Load states for selected country
             if (data.country) {
                 const stateResponse = await axios.get(`/statelist/${data.country}`);
@@ -820,18 +820,18 @@ function attachEditHandler(el) {
                 });
                 document.getElementById('billingState').innerHTML = stateOptions;
             }
-            
+
             // Change form action to update and store original row
             const form = document.getElementById('billing-detail-add');
             form.action = action.replace('/edit/', '/');
             form.method = 'PUT';
             form.dataset.editingId = data.id;
             form.dataset.editingRow = button.closest('tr').rowIndex;
-            
+
             // Show modal
             const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
             modal.show();
-            
+
         } catch (e) {
             showToast('Failed to load billing details', 'error');
         }
@@ -1257,7 +1257,7 @@ timeInputs.forEach(input => {
 /***************Flight Search***************** */
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     function initAutocomplete(input, searchAt) {
         const td = input.closest('td') || input.parentElement;
         const suggestionsBox = td.querySelector('.flight-suggestions-list');
@@ -1320,7 +1320,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     suggestionsBox.style.display = "none";
                     return;
                 }
-    
+
                 try {
                     const response = await axios.get(route("airlines_code.search", {}, Ziggy), {
                         params: {
@@ -1328,7 +1328,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             searchAt: searchAt // 'departure' or 'arrival'
                         }
                     });
-                    
+
                     const data = response.data;
                     console.log(data);
                     if (data.length > 0) {
@@ -1346,7 +1346,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
-    
+
         if (suggestionsBox) {
             suggestionsBox.addEventListener("click", (e) => {
                 if (e.target.classList.contains("suggestion-item")) {
@@ -1362,8 +1362,64 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 150);
         });
     }
-    
-    
+
+    function initAutocompleteOperation(input, searchAt) {
+        const td = input.closest('td') || input.parentElement;
+        const suggestionsBox = td.querySelector('.operating-flight-suggestions-list');
+        if (input) {
+            input.addEventListener("input", async (e) => {
+                const keyword = e.target.value.trim();
+                if (keyword.length < 2) {
+                    suggestionsBox.style.display = "none";
+                    return;
+                }
+
+                try {
+                    const response = await axios.get(route("airlines_code.search", {}, Ziggy), {
+                        params: {
+                            keyword: keyword,
+                            searchAt: searchAt // 'departure' or 'arrival'
+                        }
+                    });
+
+                    const data = response.data;
+                    if (data.length > 0) {
+                        suggestionsBox.innerHTML = data.map(item => `
+                        <div data-code="${item.airline_code}"  class="suggestion-item" style="padding:5px; cursor:pointer;">
+                           ${item.airline_code},${item.airline_name}
+                        </div>
+                    `).join("");
+                        suggestionsBox.style.display = "block";
+                    } else {
+                        suggestionsBox.style.display = "none";
+                    }
+                } catch (error) {
+                    console.error("Error fetching data", error);
+                }
+            });
+        }
+
+        if (suggestionsBox) {
+            suggestionsBox.addEventListener("click", (e) => {
+                if (e.target.classList.contains("suggestion-item")) {
+                    //input.value = e.target.textContent.trim();
+                    input.value = e.target.dataset.code;
+                    suggestionsBox.style.display = "none";
+                }
+            });
+        }
+        input.addEventListener("blur", () => {
+            setTimeout(() => {
+                suggestionsBox.style.display = "none";
+            }, 150);
+        });
+    }
+
+
+
+    document.querySelectorAll(".operating_service_search").forEach(input => {
+        initAutocompleteOperation(input, 'departure');
+    });
 
     document.querySelectorAll(".airline_code_input").forEach(input => {
         initAutocompleteAirplaneCode(input, 'departure');
@@ -1533,7 +1589,7 @@ document.getElementById('billingCountry').addEventListener('change',async functi
         selectElement.innerHTML = `<option value="">Failed to load</option>`
         showToast('Something went wrong','error');
     }
-    
+
 });
 
 Array.from(document.querySelectorAll('.cruiseType')).forEach(item => {
@@ -1594,10 +1650,10 @@ Array.from(document.querySelectorAll('.toggle-tab')).forEach(item => {
         // Delete flight image handler
 $(document).on('click', '.delete-flight-image', function() {
     if (!confirm('Are you sure you want to delete this image?')) return;
-    
+
     const imageId = $(this).data('id');
     const row = $(this).closest('tr');
-    
+
     $.ajax({
         url: `/booking/flight-image/${imageId}`,
         type: 'DELETE',

@@ -107,12 +107,12 @@
                                                 </select>
                                             </td>
 
-                                            <td><input type="text" class="form-control"
+                                            <td><input type="text" class="form-control operating_service_search"
                                                     name="flight[{{ $index }}][class_of_service]"
                                                     value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}"
                                                     placeholder="Class of Service" style="width: 37px;" min="0"
                                                     max="1">
-                                                <div class="flight-suggestions-list"
+                                                <div class="operating-flight-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                                                 </div>
                                             </td>
@@ -196,10 +196,10 @@
         </div>
 
 
-      
+
     @if(isset($flight_images) && $flight_images->count())
         <div class="" style="margin-top:20px">
-         
+
                 <table class="table table-bordered table-striped crm-table">
                     <thead>
                         <tr>
@@ -227,10 +227,10 @@
                         @endforeach
                     </tbody>
                 </table>
-            
+
         </div>
     @endif
-    
+
     </div>
 </div>
 
