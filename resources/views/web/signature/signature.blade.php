@@ -239,7 +239,9 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 </td>
             </tr>
             @endif
-            @endif
+        @endif
+
+
 
             @if(in_array('Cruise', $bookingTypes))
 
@@ -257,21 +259,16 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         </div>
                         <div style="padding: 10px 20px;">
                             <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 00px;">
-                                <div style="flex: 1; min-width: 300px;">
-                                    <img style="width: 100%; border-radius: 0px; height: 200px; object-fit: cover;" src="{{asset('email-templates/cruise-auth.jpg')}}" alt="cruise-img">
-                                </div>
                                 <div style="flex: 1; min-width: 300px;    margin-bottom: -10px;">
-                                    <div style="padding-left: 0; padding-bottom: 5px;">
-                                        <img width="100" src="{{asset('email-templates/msc-cruise.png')}}" alt="cruise-logo">
+                                    <div style=" font-size:16px; font-weight:600; color:#1a2a6c; padding:10px 20px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
+                                     Royal Caribbean
                                     </div>
+
                                   <div style="background:#f8f9fa; padding:10px 20px; text-align:center; border-top:1px solid #e9ecef; border-bottom:1px solid #e9ecef; margin-bottom: 20px;">
     @foreach([$travel_cruise_data] as $cruise)
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; text-align: left;">
         
-        <div>
-            <div style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">Ship Name</div>
-            <div style="font-weight:normal; color: #4a5568;">{{ $cruise->cruise_name }}</div>
-        </div>
+       
 
         <div>
             <div style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">Length</div>
@@ -288,10 +285,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <div style="font-weight:normal; color: #4a5568;">{{ $cruise->arrival_port }}</div>
         </div>
 
-        <div>
-            <div style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">Cruise Line</div>
-            <div style="font-weight:normal; color: #4a5568;">{{ $cruise->cruise_line }}</div>
-        </div>
 
         <div>
             <div style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">Category</div>
@@ -324,8 +317,8 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                             <tr style="background-color: #e6eeff; font-weight:bold;">
                                                 <td style="padding:6px 12px; width:25%; border: 1px solid #e9ecef;">DATE</td>
                                                 <td style="padding:6px 12px; width:35%; border: 1px solid #e9ecef;">PORT OF CALL</td>
-                                                <td style="padding:6px 12px; width:20%; border: 1px solid #e9ecef;">ARRIVE</td>
                                                 <td style="padding:6px 12px; width:20%; border: 1px solid #e9ecef;">DEPART</td>
+                                                <td style="padding:6px 12px; width:20%; border: 1px solid #e9ecef;">ARRIVE</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -337,11 +330,17 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                 </td>
                                                 <td style="padding:2px 12px; border: 1px solid #e9ecef; color: #4a5568;">{{$travelCruise->departure_port}}</td>
                                                 <td style="padding:2px 12px; border: 1px solid #e9ecef; color: #4a5568;">
-                                                    {{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}
+                                                     @if($travelCruise->departure_hrs)
+                                                        {{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}
+                                                    @endif  
                                                 </td>
                                                 <td style="padding:2px 12px; border: 1px solid #e9ecef; color: #4a5568;">
-                                                    {{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}
+                                                    @if($travelCruise->arrival_hrs)
+                                                        {{ date('h:i A', strtotime($travelCruise->arrival_hrs)) }}
+                                                    @endif  
+
                                                 </td>
+                                                
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -349,22 +348,24 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 </div>
                             </div>
                             
-                            <div>
-                                <div style="    background-color: #f8f9fa;
-    padding: 10px 15px;
-    border-radius: 0px;
-   
-    font-weight: 600;
-    color: #1a2a6c;">Add-on Services</div>
-                                @foreach($travel_cruise_addon as $addon )
-                                <div style="padding: 5px 15px; border-bottom: 1px solid #e9ecef;">
-                                    <div style="font-weight: 600; font-size: 12px; color: #1a2a6c; margin-bottom: 0px;">{{$addon->services}} :</div>
-                                    <div style="font-size: 12px; color: #4a5568; line-height: 1.3;">
-                                        {!! $addon->service_name !!}
+                            @if($travel_cruise_addon && count($travel_cruise_addon) > 0)
+                                <div>
+                                    <div style="background-color: #f8f9fa; padding: 10px 15px; border-radius: 0px; font-weight: 600; color: #1a2a6c;">
+                                        Add-on Services
                                     </div>
+                                    @foreach($travel_cruise_addon as $addon)
+                                        <div style="padding: 5px 15px; border-bottom: 1px solid #e9ecef;">
+                                            <div style="font-weight: 600; font-size: 12px; color: #1a2a6c; margin-bottom: 0px;">
+                                                {{ $addon->services }} :
+                                            </div>
+                                            <div style="font-size: 12px; color: #4a5568; line-height: 1.3;">
+                                                {!! $addon->service_name !!}
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
-                            </div>
+                            @endif
+
                             
                             @if($cruise_images)
                                 @foreach ($cruise_images as $key => $img)
@@ -565,10 +566,7 @@ border-radius: 0px;
 
 
                                 <!-- Seat Info -->
-                                <div style="    background: #e6eeff;
-    padding: 10px;
-    font-size: 12px;
-    color: #1a2a6c;    margin-top: 10px;">
+                                <div style="background: #e6eeff;padding: 10px;font-size: 12px;color: #1a2a6c;margin-top: 10px;">
                                     <div style="white-space: pre-line; line-height: 1.6;">{{ $booking->train_description }}</div>
                                 </div>
                             </div>
@@ -595,11 +593,7 @@ border-radius: 0px;
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style="font-weight: 600;
-    color: #1a2a6c;
-    padding: 10px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;">
+                        <div style="font-weight: 600;color: #1a2a6c;padding: 10px 20px;background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
                             Customer Information
                         </div>
                         <div style="padding: 0;">
@@ -711,13 +705,13 @@ border-radius: 0px;
             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
                 <div style="font-size: 14px;  color: #2d3748;">
                     <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
-                     <div style="font-size: 14px;  color: #2d3748;">  Excursion fee, per person per day ({{$ExcursionPrice->details}})  :</div>
+                     <div style="font-size: 14px;  color: #2d3748;">  {{$ExcursionPrice->details}}, per person:</div>
                      <div style="font-size: 16px; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
                 </div>
+                <span style="font-size:10px">inc. taxes & fees.</span>
            
               @endforeach  
-
-                
+                            
 
         @else
 
@@ -768,7 +762,7 @@ border-radius: 0px;
                             <div style="display: flex; justify-content: space-between; padding: 10px 0;">
                                 <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Total Amount including taxes & Fees. </div>
                                 <div style="font-size: 16px; font-weight: 600; color: #0f9b0f;">
-                                    ${{ number_format(array_sum($mergedPrices), 2) }}
+                                    ${{ number_format($booking->gross_value, 2) }}
                                 </div>
                             </div>                                      
 

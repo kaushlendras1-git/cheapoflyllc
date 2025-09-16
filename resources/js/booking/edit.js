@@ -1244,7 +1244,7 @@ timeInputs.forEach(input => {
         // Validate 24-hour time format
         const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
         if (!regex.test(value)) {
-            input.setCustomValidity('Please enter a valid time in 24-hour format HH:mm');
+          //  input.setCustomValidity('Please enter a valid time in 24-hour format HH:mm');
         } else {
             input.setCustomValidity('');
         }

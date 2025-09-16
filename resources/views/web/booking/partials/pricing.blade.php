@@ -311,7 +311,7 @@
                                 <option data-grossmco="1" data-cruise="1" value="Excursions" {{ $pricingDetails->details == 'Excursions' ? 'selected' : '' }} >Excursions</option>
                                 <option data-grossmco="1" data-cruise="1" value="Spa Services" {{ $pricingDetails->details == 'Spa Services' ? 'selected' : '' }} >Spa Services</option>
                                 <option data-grossmco="1" data-cruise="1" value="WiFi Packages" {{ $pricingDetails->details == 'WiFi Packages' ? 'selected' : '' }} >WiFi Packages</option>
-                                <option data-grossmco="1" data-cruise="1" value="Crew Appreciation Fees/Gratuities"  {{ $pricingDetails->details == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }} >Crew Appreciation Fees/Gratuities</option>
+                                <option data-grossmco="1" data-cruise="1" value="Gratuities"  {{ $pricingDetails->details == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }} >Crew Appreciation Fees/Gratuities</option>
                                 <option data-grossmco="1" data-cruise="1" value="Shuttle Services" {{ $pricingDetails->details == 'Shuttle Services' ? 'selected' : '' }}>Shuttle Services</option>
                                 <option data-grossmco="1" data-cruise="1" value="Speciality Dining"  {{ $pricingDetails->details == 'Speciality Dining' ? 'selected' : '' }}>Speciality Dining</option>
                                 <option data-grossmco="1" data-cruise="1" value="Drink Packages" {{ $pricingDetails->details == 'Drink Packages' ? 'selected' : '' }}>Drink Packages</option>

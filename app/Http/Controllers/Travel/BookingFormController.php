@@ -603,8 +603,8 @@ class BookingFormController extends Controller
                     #  $rules['cruise_ref']                 = 'required|string';
                         $rules['cruise.*.departure_date']  = 'required_with:cruise';
                         $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
-                        $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
-                        $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';
+                       # $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
+                       # $rules['cruise.*.arrival_hrs']     = 'required_with:cruise|date_format:H:i';
                     }
 
                     // ---- CAR ----

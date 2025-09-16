@@ -95,6 +95,7 @@ class SignatureController extends Controller
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
         $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
+        
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id',$booking->id)->get();
         $users = User::get();
         return view('web.signature.signature', compact('billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));

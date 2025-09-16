@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option data-grossmco="1" data-cruise="1" value="Excursions">Excursions</option>
                     <option data-grossmco="1" data-cruise="1" value="Spa Services">Spa Services</option>
                     <option data-grossmco="1" data-cruise="1" value="WiFi Packages">WiFi Packages</option>
-                    <option data-grossmco="1" data-cruise="1" value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
+                    <option data-grossmco="1" data-cruise="1" value="Gratuities">Crew Appreciation Fees/Gratuities</option>
                     <option data-grossmco="1" data-cruise="1" value="Shuttle Services">Shuttle Services</option>
                     <option data-grossmco="1" data-cruise="1" value="Speciality Dining">Speciality Dining</option>
                     <option data-grossmco="1" data-cruise="1" value="Drink Packages">Drink Packages</option>
