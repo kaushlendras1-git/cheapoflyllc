@@ -477,7 +477,6 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -1364,9 +1363,6 @@ class BookingFormController extends Controller
                 }
 
                if ($request->has('cruiseaddon')) {
-
-               # dd($request->cruiseaddon);
-
                 TravelCruiseAddon::where('booking_id', $booking->id)->delete();
                 foreach ($request->cruiseaddon as $index => $addon) {
                     if (!empty($addon['services']) || !empty($addon['service_name'])) {
@@ -1380,6 +1376,9 @@ class BookingFormController extends Controller
                     }
                 }
             }
+           else{
+               TravelCruiseAddon::where('booking_id', $booking->id)->delete();
+           }
 
 
 

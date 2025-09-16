@@ -61,7 +61,7 @@
                 </button>
             </div>
         </div>
-        
+
         <div class="card-body pt-0 px-0">
             <div class="g-3 align-items-center">
                 <div class="col-md-12 table-responsive details-table-wrappper">
