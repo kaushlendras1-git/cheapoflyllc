@@ -686,37 +686,52 @@ border-radius: 0px;
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style="    font-weight: 600;
-    color: #1a2a6c;
-    padding: 10px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;">
+                        <div style="    font-weight: 600;color: #1a2a6c;padding: 10px 20px;background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
                             Price Details (USD)
                         </div>
                         <div style="padding: 8px 20px;">
 
+        @php
+            $mergedPrices = [];
+            foreach($booking->pricingDetails as $pricingDetails) {
+                if($pricingDetails->passenger_type) {
+                    if(!isset($mergedPrices[$pricingDetails->passenger_type])) {
+                        $mergedPrices[$pricingDetails->passenger_type] = 0;
+                    }
+                    $mergedPrices[$pricingDetails->passenger_type] += $pricingDetails->gross_price;
+                }
+            }
+            @endphp
 
-                            @php
-                                $mergedPrices = [];
-                                foreach($booking->pricingDetails as $pricingDetails) {
-                                    if($pricingDetails->passenger_type) {
-                                        if(!isset($mergedPrices[$pricingDetails->passenger_type])) {
-                                            $mergedPrices[$pricingDetails->passenger_type] = 0;
-                                        }
-                                        $mergedPrices[$pricingDetails->passenger_type] += $pricingDetails->gross_price;
-                                    }
-                                }
-                                @endphp
 
-                               
-@if(in_array($booking->query_type, [11,12]))
- <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
-    <div style="font-size: 14px;  color: #2d3748;"> Pet in cargo Fees  :</div>
-         <div style="font-size: 16px; color: #0f9b0f;"> ${{ number_format(array_sum($mergedPrices), 2) }}</div>
-  </div>
+        @if($booking->query_type == 26)
+                
+            
+          @foreach($booking->pricingDetails as $ExcursionPrice)  
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
+                <div style="font-size: 14px;  color: #2d3748;">
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
+                     <div style="font-size: 14px;  color: #2d3748;">  Excursion fee, per person per day ({{$ExcursionPrice->details}})  :</div>
+                     <div style="font-size: 16px; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
+                </div>
+           
+              @endforeach  
 
- @else                                   
+                
 
+        @else
+
+
+                          
+
+
+                @if(in_array($booking->query_type, [11,12]))
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
+                    <div style="font-size: 14px;  color: #2d3748;"> Pet in cargo Fees  :</div>
+                        <div style="font-size: 16px; color: #0f9b0f;"> ${{ number_format(array_sum($mergedPrices), 2) }}</div>
+                </div>
+
+                @else                                   
 
                             @foreach($mergedPrices as $passengerType => $totalPrice)
                             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
@@ -732,20 +747,22 @@ border-radius: 0px;
                                         Travel Insurance per person.
                                      @elseif($booking->query_type == 17)
                                        Cruise Fare - Per Guest -   
-                                 
                                     
                                     @else
                                         Total Price per person including taxes and fees.        
                                     @endif
-                                    ({{ ucfirst($passengerType) }})</div>
-                                
+                                    ({{ ucfirst($passengerType) }})
+                                </div>
                                 <div style="font-size: 16px; color: #0f9b0f;">
                                     ${{ number_format($totalPrice, 2) }}
                                 </div>
-                            </div>
+                    
                             @endforeach
-@endif
 
+                @endif
+        @endif 
+       
+    
 
 
                             <div style="display: flex; justify-content: space-between; padding: 10px 0;">
