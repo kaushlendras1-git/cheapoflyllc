@@ -92,21 +92,19 @@
                                                     value="{{$travelCar->dropoff_location}}"
                                                     placeholder="Drop-off Location"></td>
 
-                                            <td><input style="width: 110px;" type="date" class="form-control"
+                                            <td><input style="width: 110px;" type="text" class="form-control flatpickr-hotel-checkin"
                                                     name="car[{{$key}}][pickup_date]"
-                                                    value="{{$travelCar->pickup_date?->format('Y-m-d')}}"></td>
+                                                    value="{{$travelCar->pickup_date?->format('d-m-Y')}}"></td>
 
-                                            <td><input type="text" pattern="^([01]\d|2[0-3]):([0-5]\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 105px;"
-                                                    name="car[{{$key}}][pickup_time]"
-                                                    value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}">
-                                            </td>
-                                            <td><input style="width: 105px;" type="date" class="form-control"
+                                            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 105px;" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <span class="time-format-indicator" style="display: none;"></span></td>
+                                            
+                                                <td><input style="width: 105px;" type="text" class="form-control flatpickr-hotel-checkin"
                                                     name="car[{{$key}}][dropoff_date]"
-                                                    value="{{$travelCar->dropoff_date?->format('Y-m-d')}}"></td>
-                                            <td><input type="text" pattern="^([01]\d|2[0-3]):([0-5]\d)$" placeholder="HH:mm (24-hour)" title="Enter time as HH:mm in 24-hour format (00:00 to 23:59)" class="form-control time_24_hrs" style="width: 100px;"
-                                                    name="car[{{$key}}][dropoff_time]"
-                                                    value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}">
-                                            </td>
+                                                    value="{{$travelCar->dropoff_date?->format('d-m-Y')}}"></td>
+
+                                            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 100px;" name="car[{{$key}}][dropoff_time]" value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <span class="time-format-indicator" style="display: none;"></span></td>
                                             <td><input type="text" class="form-control" style="width:12rem"
                                                     name="car[{{$key}}][confirmation_number]"
                                                     placeholder="Confirmation Number"

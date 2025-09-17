@@ -68,7 +68,8 @@ class BookingFormController extends Controller
         try{
             $data = $request->validate([
                 'email'=>'required|email',
-                'contact_number'=>'required|regex:/^\d{10}$/',
+                //'contact_number'=>'required|regex:/^\d{15}$/',
+                'contact_number'=>'required',
                 'street_address'=>'required',
                 'city'=>'required',
                 'state'=>'required',
@@ -272,7 +273,7 @@ class BookingFormController extends Controller
                                 }
                             )
                             ->orderBy('created_at', 'desc')
-                            ->paginate(10);
+                            ->paginate(20);
 
 
         $bookings->appends($request->only('search'));
@@ -624,9 +625,9 @@ class BookingFormController extends Controller
                         $rules['car.*.car_type']                = 'required_with:car|string|max:255';
                         $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
                         $rules['car.*.dropoff_location']        = 'required_with:car|string|max:255';
-                        $rules['car.*.pickup_date']             = 'required_with:car|date';
+                        $rules['car.*.pickup_date']             = 'required_with:car|date_format:d/m/Y';
                         $rules['car.*.pickup_time']             = 'required_with:car|date_format:H:i';
-                        $rules['car.*.dropoff_date']            = 'required_with:car|date|after_or_equal:car.*.pickup_date';
+                        $rules['car.*.dropoff_date']            = 'required_with:car|date_format:d/m/Y|after_or_equal:car.*.pickup_date';
                         $rules['car.*.dropoff_time']            = 'required_with:car|date_format:H:i';
                         $rules['car.*.confirmation_number']     = 'nullable|string|max:255';
                         $rules['car.*.remarks']                 = 'nullable|string|max:255';
@@ -974,29 +975,29 @@ class BookingFormController extends Controller
                 'car.*.car_type.string'             => 'Car type must be a string.',
                 'car.*.car_type.max'                => 'Car type cannot exceed 255 characters.',
 
-                'car.*.pickup_location.required'   => 'Pickup location is required.',
-                'car.*.pickup_location.string'     => 'Pickup location must be a string.',
-                'car.*.pickup_location.max'        => 'Pickup location cannot exceed 255 characters.',
+                'car.*.pickup_location.required'   => 'Car Pickup location is required.',
+                'car.*.pickup_location.string'     => 'Car Pickup location must be a string.',
+                'car.*.pickup_location.max'        => 'Car Pickup location cannot exceed 255 characters.',
 
-                'car.*.dropoff_location.required'  => 'Dropoff location is required.',
-                'car.*.dropoff_location.string'    => 'Dropoff location must be a string.',
-                'car.*.dropoff_location.max'       => 'Dropoff location cannot exceed 255 characters.',
+                'car.*.dropoff_location.required'  => 'Car Dropoff location is required.',
+                'car.*.dropoff_location.string'    => 'Car Dropoff location must be a string.',
+                'car.*.dropoff_location.max'       => 'Car Dropoff location cannot exceed 255 characters.',
 
-                'car.*.pickup_date.required'       => 'Pickup date is required.',
-                'car.*.pickup_date.date'           => 'Pickup date must be a valid date.',
-                'car.*.pickup_date.after_or_equal' => 'Pickup date cannot be before today.',
-                'car.*.dropoff_date.after_or_equal' => "Drop-off date must be the same or after the pickup date.",
+                'car.*.pickup_date.required'       => 'Car Pickup date is required.',
+                'car.*.pickup_date.date_format'    => 'Car Pickup date must be in dd/mm/yyyy format.',
+                'car.*.pickup_date.after_or_equal' => 'Car Pickup date cannot be before today.',
+                'car.*.dropoff_date.after_or_equal' => "Car Drop-off date must be the same or after the pickup date.",
 
 
-                'car.*.pickup_time.required'       => 'Pickup time is required.',
-                'car.*.pickup_time.date_format'    => 'Pickup time must be in format HH:MM.',
+                'car.*.pickup_time.required'       => 'Car Pickup time is required.',
+                'car.*.pickup_time.date_format'    => 'Car Pickup time must be in format HH:MM.',
 
-                'car.*.dropoff_date.required'      => 'Dropoff date is required.',
-                'car.*.dropoff_date.date'          => 'Dropoff date must be a valid date.',
-                'car.*.dropoff_date.after_or_equal'=> 'Dropoff date cannot be before today.',
+                'car.*.dropoff_date.required'      => 'Car Dropoff date is required.',
+                'car.*.dropoff_date.date_format'   => 'Car Dropoff date must be in dd/mm/yyyy format.',
+                'car.*.dropoff_date.after_or_equal'=> 'Car Dropoff date cannot be before today.',
 
-                'car.*.dropoff_time.required'      => 'Dropoff time is required.',
-                'car.*.dropoff_time.date_format'   => 'Dropoff time must be in format HH:MM.',
+                'car.*.dropoff_time.required'      => 'Car Dropoff time is required.',
+                'car.*.dropoff_time.date_format'   => 'Car Dropoff time must be in format HH:MM.',
 
                 'car.*.confirmation_number.string' => 'Car confirmation number must be a string.',
                 'car.*.confirmation_number.max'    => 'Car confirmation number cannot exceed 255 characters.',
@@ -1004,9 +1005,9 @@ class BookingFormController extends Controller
                 'car.*.remarks.string'             => 'Car remarks must be a string.',
                 'car.*.remarks.max'                => 'Car remarks cannot exceed 255 characters.',
 
-                'car.*.rental_provider_address.required' => 'Rental provider address is required.',
-                'car.*.rental_provider_address.string'   => 'Rental provider address must be a string.',
-                'car.*.rental_provider_address.max'      => 'Rental provider address cannot exceed 255 characters.',
+                'car.*.rental_provider_address.required' => 'Car Rental provider address is required.',
+                'car.*.rental_provider_address.string'   => 'Car Rental provider address must be a string.',
+                'car.*.rental_provider_address.max'      => 'Car Rental provider address cannot exceed 255 characters.',
 
                 // Train
                 'train.required'                   => 'Train booking details are required.',
@@ -1105,9 +1106,23 @@ class BookingFormController extends Controller
                     if ($cardType === 'DISCOVER' && !preg_match('/^6(?:011|5)/', $ccNumber)) {
                         $validator->errors()->add("billing.$index.cc_number", 'Discover numbers must start with 6011 or 65.');
                     }
+                }
 
+                // Validate that sum of authorized_amt equals gross_value
+                $grossValue = (float) ($request->input('gross_value') ?? 0);
+                $totalAuthorizedAmt = 0;
+                
+                foreach ($billings as $billing) {
+                    $authorizedAmt = (float) ($billing['authorized_amt'] ?? 0);
+                    $totalAuthorizedAmt += $authorizedAmt;
+                }
+                
+                if (abs($totalAuthorizedAmt - $grossValue) > 0.01) {
+                    $validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
                 }
             });
+
+
             $validator->validate();
 
             $user_id =Auth::id();
@@ -1136,6 +1151,8 @@ class BookingFormController extends Controller
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
                 'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee'
             ]);
+
+          
 
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
@@ -1838,7 +1855,7 @@ class BookingFormController extends Controller
         $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id', $booking->id)->get();
 
-        $users = User::where('role_id',1)->where('department_id',1)->get();
+        $users = User::where('role_id',1)->where('department_id',2)->get();
 
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();

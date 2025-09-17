@@ -99,17 +99,11 @@
                                             name="cruise[{{ $key }}][departure_port]"
                                             value="{{ $travelCruise->departure_port }}" placeholder="Port"></td>
 
-                                    <td><input type="text" class="form-control time_24_hrs" style="width:50px"
-                                            name="cruise[{{ $key }}][departure_hrs]"
-                                            value="{{ $travelCruise->departure_hrs }}" placeholder="Hrs" min="0"
-                                            max="23"></td>
+                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[{{ $key }}][departure_hrs]" value="{{ $travelCruise->departure_hrs }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                        <span class="time-format-indicator" style="display: none;"></span></td>
 
-
-
-                                    <td><input type="text" class="form-control time_24_hrs" style="width:50px;"
-                                            name="cruise[{{ $key }}][arrival_hrs]"
-                                            value="{{ $travelCruise->arrival_hrs }}" placeholder="Hrs"
-                                            min="0" max="23"></td>
+                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[{{ $key }}][arrival_hrs]" value="{{ $travelCruise->arrival_hrs }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                        <span class="time-format-indicator" style="display: none;"></span></td>
 
 
                                              <input type="hidden" name="cruise[{{ $key }}][id]"

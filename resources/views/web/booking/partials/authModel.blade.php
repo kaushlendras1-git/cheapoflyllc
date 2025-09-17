@@ -1,5 +1,12 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 
+<style>
+.btn-mail { background-color: #007bff !important; color: white !important; }
+.btn-sms { background-color: #28a745 !important; color: white !important; }
+.btn-whatsapp { background-color: #25d366 !important; color: white !important; }
+.btn-survey { background-color: #17a2b8 !important; color: white !important; }
+</style>
+
 
 
 <!-- Button to trigger call logs modal -->
@@ -24,51 +31,103 @@
         -->
 
             @php
-                $lastCcHolderName = null;
+                $cardsByHolder = [];
+                foreach($booking->billingDetails as $billingDetails) {
+                    $cc = $billingDetails['cc_number'];
+                    $digits = preg_replace('/\D+/', '', (string) $cc);
+                    $last4 = strlen($digits) >= 4 ? substr($digits, -4) : null;
+                    $holderName = $billingDetails['cc_holder_name'] ?? 'Unknown';
+                    
+                    if (!isset($cardsByHolder[$holderName])) {
+                        $cardsByHolder[$holderName] = [
+                            'cards' => [],
+                            'billing' => $billingDetails
+                        ];
+                    }
+                    
+                    if ($last4) {
+                        $cardsByHolder[$holderName]['cards'][] = "***{$last4}";
+                    }
+                }
             @endphp
 
-            @foreach($booking->billingDetails as $key => $billingDetails)
+            @foreach($cardsByHolder as $holderName => $data)
                 @php
-                    $card_billing_data = \App\Models\BillingDetail::find($billingDetails['address']);
-                    $cc     = $billingDetails['cc_number'];
-                    $digits = preg_replace('/\D+/', '', (string) $cc);
-                    $last4  = strlen($digits) >= 4 ? substr($digits, -4) : null;
-                    $currentCcHolderName = $billingDetails['cc_holder_name'] ?? null;
+                    $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
+                    $billingDetails = $data['billing'];
                 @endphp
-
-                @if($currentCcHolderName !== $lastCcHolderName)
-                    <button class="btn btn-custom d-flex align-items-center sendAuthMail"
-                            data-bs-toggle="modal"
-                            data-bs-target="#sendAuthMailModal"
-                            data-booking_id="{{ encode($billingDetails->booking_id) }}"
-                            data-card_id="{{ encode($billingDetails->state) }}"
-                            data-card_billing_id="{{ encode($billingDetails->id) }}"
-                            data-email="{{ $billingDetails->getBillingDetail->email }}"
-                            data-cc_number="{{ $billingDetails['cc_number'] }}"
-                            data-bs-dismiss="modal"
-                            data-href="{{ route('i_authorized', ['booking_id' => encode($billingDetails->booking_id), 'card_id' => encode($billingDetails->state), 'card_billing_id' => encode($billingDetails->id), 'refund_status' => encode(1)]) }}"
-                    >
-                        <i class="ri ri-mail-open-fill"></i>
-                        Send Auth Email{{ $last4 ? " (Card ***{$last4})" : '' }}
-                    </button>
-
-                    @php
-                        $lastCcHolderName = $currentCcHolderName;
-                    @endphp
-                @endif
+                
+                <button class="btn btn-custom d-flex align-items-center sendAuthMail"
+                        data-bs-toggle="modal"
+                        data-bs-target="#sendAuthMailModal"
+                        data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                        data-card_id="{{ encode($billingDetails->state) }}"
+                        data-card_billing_id="{{ encode($billingDetails->id) }}"
+                        data-email="{{ $billingDetails->getBillingDetail->email }}"
+                        data-cc_number="{{ $billingDetails['cc_number'] }}"
+                        data-bs-dismiss="modal"
+                        data-href="{{ route('i_authorized', ['booking_id' => encode($billingDetails->booking_id), 'card_id' => encode($billingDetails->state), 'card_billing_id' => encode($billingDetails->id), 'refund_status' => encode(1)]) }}"
+                >
+                    <i class="ri ri-mail-open-fill"></i>
+                    Send Auth Email{{ $cardDisplay }}
+                </button>
             @endforeach
 
+            @foreach($cardsByHolder as $holderName => $data)
+                @php
+                    $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
+                    $billingDetails = $data['billing'];
+                @endphp
+                
+                <button class="btn btn-custom btn-mail d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
+                data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                data-card_id="{{ encode($billingDetails->state) }}"
+                data-card_billing_id="{{ encode($billingDetails->id) }}"
+                data-email="{{ $billingDetails->getBillingDetail->email }}"
+                data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Auth Mail{{ $cardDisplay }}
+                </button>
+            @endforeach
 
+            @foreach($cardsByHolder as $holderName => $data)
+                @php
+                    $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
+                    $billingDetails = $data['billing'];
+                @endphp
+                
+                <button class="btn btn-custom btn-sms d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" 
+                data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                data-card_id="{{ encode($billingDetails->state) }}"
+                data-card_billing_id="{{ encode($billingDetails->id) }}"
+                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> Send Auth SMS{{ $cardDisplay }}</button>
+            @endforeach
 
-            <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
-            data-booking_id="{{ $hashids }}"
-            data-email="kaushlendras1@gmail.com"
-            data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Mail
-         </button>
+            @foreach($cardsByHolder as $holderName => $data)
+                @php
+                    $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
+                    $billingDetails = $data['billing'];
+                @endphp
+                
+                <button class="btn btn-custom btn-whatsapp d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" 
+                data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                data-card_id="{{ encode($billingDetails->state) }}"
+                data-card_billing_id="{{ encode($billingDetails->id) }}"
+                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> Send Auth WhatsApp{{ $cardDisplay }}</button>
+            @endforeach
 
-          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" data-id="{{ $booking->id }}"  data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> SMS</button>
-          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" data-id="{{ $booking->id }}"  data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> WhatsApp</button>
-          <button class="btn btn-custom d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#surveyModal" data-id="{{ $booking->id }}"  data-bs-dismiss="modal"><i class="ri ri-survey-fill"></i> Survey</button>
+            @foreach($cardsByHolder as $holderName => $data)
+                @php
+                    $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
+                    $billingDetails = $data['billing'];
+                @endphp
+                
+                <button class="btn btn-custom btn-survey d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#surveyModal" 
+                data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                data-card_id="{{ encode($billingDetails->state) }}"
+                data-card_billing_id="{{ encode($billingDetails->id) }}"
+                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-survey-fill"></i> Send Auth Survey{{ $cardDisplay }}</button>
+            @endforeach
+
+            
         </div>
       </div>
     </div>

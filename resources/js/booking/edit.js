@@ -10,6 +10,7 @@ import { route } from "ziggy-js";
 import CurrencyAPI from '@everapi/currencyapi-js';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
+import './timeFormatter.js';
 
 // Store Quill instances globally
 window.quillInstances = {};

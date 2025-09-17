@@ -91,7 +91,7 @@
                             <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
                             <div class="d-flex align-items-center">
                                 <input type="tel" name="phone" id="phone" class="form-control" value="{{ old('phone', $callLog->phone) }}"  maxlength="20">
-                                <span id="country_flag" class="ms-2" style="font-size: 20px;">
+                                <!-- <span id="country_flag" class="ms-2" style="font-size: 20px;">
                                     @php
                                         $countryCode = old('country_code', $callLog->country_code ?? 'US');
                                         $flags = [
@@ -106,7 +106,7 @@
                                         ];
                                     @endphp
                                     {{ $flags[$countryCode] ?? '🇺🇸' }}
-                                </span>
+                                </span> -->
                             </div>
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>

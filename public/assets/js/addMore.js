@@ -129,8 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 125px;" name="cruise[${cruiseIndex}][departure_date]"></td>
                 <td><input type="text" class="form-control" style="width:39.5rem" name="cruise[${cruiseIndex}][departure_port]" placeholder="Departure Port"></td>
 
-                <td><input type="text" class="form-control time-12hr" style="width:50px;" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="HH:MM" maxlength="5"></td>
-                <td><input type="text" class="form-control time-12hr" style="width:50px;" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="HH:MM" maxlength="5"></td>
+                <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[${cruiseIndex}][departure_hrs]" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format"><span class="time-format-indicator" style="display: none;"></span></td>
+                <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[${cruiseIndex}][arrival_hrs]" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format"><span class="time-format-indicator" style="display: none;"></span></td>
 
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-cruise-btn">
@@ -261,9 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" class="form-control" style="width:9rem" name="car[${carIndex}][pickup_location]" placeholder="Pick-up Location"></td>
                 <td><input type="text" class="form-control" style="width:10rem" name="car[${carIndex}][dropoff_location]" placeholder="Drop-off Location"></td>
                 <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width:105px"; name="car[${carIndex}][pickup_date]"></td>
-                <td><input type="text" class="form-control time-12hr" style="width:105px" name="car[${carIndex}][pickup_time]" placeholder="HH:MM" maxlength="5"></td>
+                <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:105px" name="car[${carIndex}][pickup_time]" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format"><span class="time-format-indicator" style="display: none;"></span></td>
                 <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width:105px"; name="car[${carIndex}][dropoff_date]"></td>
-                <td><input type="text" class="form-control time-12hr" style="width:105px" name="car[${carIndex}][dropoff_time]" placeholder="HH:MM" maxlength="5"></td>
+                <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:105px" name="car[${carIndex}][dropoff_time]" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format"><span class="time-format-indicator" style="display: none;"></span></td>
                 <td><input type="text" class="form-control" style="width:12rem" name="car[${carIndex}][confirmation_number]" placeholder="Confirmation Number"></td>
                  <td>
                     <button type="button" class="btn btn-outline-danger delete-car-btn">
@@ -402,8 +402,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                     </div>
                 </td>
-                <td>
+                <td style="position: relative;">
                     <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[${flightIndex}][departure_hours]" placeholder="HH:MM" maxlength="5">
+                    <span class="time-format-indicator" style="display: none;"></span>
                 </td>
 
                 <td>
@@ -412,12 +413,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </td>
 
-                <td>
+                <td style="position: relative;">
                     <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[${flightIndex}][arrival_hours]" placeholder="HH:MM" maxlength="5">
+                    <span class="time-format-indicator" style="display: none;"></span>
                 </td>
 
-                <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="HH:MM"></td>
-                <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"></td>
+                <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][duration]" placeholder="HH:MM"><span class="time-format-indicator-time-format-indicator" style="display: none;"></span></td>
+                <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 4.5rem;" name="flight[${flightIndex}][transit]" placeholder="Transit"><span class="time-format-indicator-time-format-indicator" style="display: none;"></span></td>
                 <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;" name="flight[${flightIndex}][arrival_date]"></td>
                 <td>
                     <button type="button" class="btn btn-outline-danger delete-flight-btn">
@@ -529,13 +531,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="train-suggestions-box" style="position:absolute;width:100%; background:#fff; z-index: 19999; border:1px solid #ccc; display:none;">
                 </div>
             </td>
-            <td><input type="text" class="form-control time-12hr" style="width: 80px;" name="train[${trainIndex}][departure_hours]" placeholder="HH:MM" maxlength="5"></td>
+            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 86px;" name="train[${trainIndex}][departure_hours]" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format"><span class="time-format-indicator" style="display: none;"></span></td>
             <td>
                 <input type="text" class="form-control train_arrival_station" style="width: 9rem;" name="train[${trainIndex}][arrival_station]" placeholder="Arrival Station">
                 <div class="train-suggestions-box" style="position:absolute; background:#fff;  z-index: 19999;border:1px solid #ccc; display:none;">
                 </div>
             </td>
-            <td><input type="text" class="form-control time-12hr" style="width: 80px;" name="train[${trainIndex}][arrival_hours]" placeholder="HH:MM" maxlength="5"></td>
+            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 86px;" name="train[${trainIndex}][arrival_hours]" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format"><span class="time-format-indicator" style="display: none;"></span></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][duration]" placeholder="Duration"></td>
             <td><input type="text" class="form-control" style="width: 5.5rem;" name="train[${trainIndex}][transit]" placeholder="Transit"></td>
             <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 110px;" name="train[${trainIndex}][arrival_date]"></td>
@@ -857,24 +859,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let cntrystr2 = '';
 
     // Fetch countries
-    $.ajax({
-        url: '/countrylist',
-        method: 'GET',
-        success: function (res) {
-            let cntrylst = res.data;
-            cntrystr2 = '<option value="">Select Country</option>';
-            $.each(cntrylst, function () {
-                cntrystr2 += `<option value="${this.id}">${this.name}</option>`;
-            });
-            // Update existing country selects
-            document.querySelectorAll('.country-select').forEach(select => {
-                select.innerHTML = cntrystr2;
-            });
-        },
-        error: function (res) {
-            console.error('Failed to fetch countries:', res);
-        }
-    });
+    // $.ajax({
+    //     url: '/countrylist',
+    //     method: 'GET',
+    //     success: function (res) {
+    //         let cntrylst = res.data;
+    //         cntrystr2 = '<option value="">Select Country</option>';
+    //         $.each(cntrylst, function () {
+    //             cntrystr2 += `<option value="${this.id}">${this.name}</option>`;
+    //         });
+    //         // Update existing country selects
+    //         document.querySelectorAll('.country-select').forEach(select => {
+    //             select.innerHTML = cntrystr2;
+    //         });
+    //     },
+    //     error: function (res) {
+    //         console.error('Failed to fetch countries:', res);
+    //     }
+    // });
 
     // Add initial row on page load if no rows exist
     if (billingIndex === 0) {
@@ -1099,7 +1101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const lastRow = rows[rows.length - 1];
 
         if (row === lastRow && isRowFilled(lastRow)) {
-            addBillingRow();
+            //1104addBillingRow();
         }
     }
 

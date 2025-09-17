@@ -130,8 +130,9 @@
                                             </td>
 
 
-                                            <td>
-                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][departure_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.departure_hours', $flight->departure_hours) }}">
+                                            <td style="position: relative;">
+                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][departure_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.departure_hours', $flight->departure_hours) }}" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <span class="time-format-indicator" style="display: none;"></span>
                                             </td>
 
                                             <!-- <td><input type="text" class="form-control" style="width: 36px;"
@@ -150,8 +151,9 @@
                                             </td>
 
 
-                                            <td>
-                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][arrival_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.arrival_hours', $flight->arrival_hours) }}">
+                                            <td style="position: relative;">
+                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][arrival_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.arrival_hours', $flight->arrival_hours) }}" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <span class="time-format-indicator" style="display: none;"></span>
                                             </td>
 
                                             <!-- <td><input type="text" class="form-control" style="width: 36px;"
@@ -159,15 +161,19 @@
                                                         value="{{ old("flight.$index.arrival_mm", $flight->arrival_minutes) }}"
                                                         placeholder="mm" min="0" max="2"></td> -->
 
-                                            <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
+                                            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
                                                     name="flight[{{ $index }}][duration]"
                                                     value="{{ old("flight.$index.duration", $flight->duration) }}"
-                                                    placeholder="Duration"></td>
+                                                    placeholder="Duration" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <!-- <span class="time-format-indicator" style="display: none;"></span> -->
+                                            </td>
 
-                                            <td><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
+                                            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
                                                     name="flight[{{ $index }}][transit]"
                                                     value="{{ old("flight.$index.transit", $flight->transit) }}"
-                                                    placeholder="Transit"></td>
+                                                    placeholder="Transit" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <!-- <span class="time-format-indicator" style="display: none;"></span> -->
+                                            </td>
 
                                             <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;"
                                                     name="flight[{{ $index }}][arrival_date]"

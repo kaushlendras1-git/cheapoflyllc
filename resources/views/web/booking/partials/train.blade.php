@@ -66,10 +66,8 @@
                                         </div>
                                     </td>
 
-                                    <td><input type="text" class="form-control time_24_hrs" style="width: 70px;"
-                                            name="train[{{ $key }}][departure_hours]"
-                                            value="{{ $trainBookingDetails->departure_hours }}" placeholder="Hrs"
-                                            min="0" max="23"></td>
+                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 86px;" name="train[{{ $key }}][departure_hours]" value="{{ $trainBookingDetails->departure_hours }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                        <span class="time-format-indicator" style="display: none;"></span></td>
 
                                     <td style="position: relative;"><input type="text"
                                             class="form-control train_arrival_station" style="width: 9rem;"
@@ -81,10 +79,8 @@
                                         </div>
                                     </td>
 
-                                    <td><input type="text" class="form-control time_24_hrs" style="width: 80px;"
-                                            name="train[{{ $key }}][arrival_hours]"
-                                            value="{{ $trainBookingDetails->arrival_hours }}" placeholder="Hrs"
-                                            min="0" max="23"></td>
+                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 86px;" name="train[{{ $key }}][arrival_hours]" value="{{ $trainBookingDetails->arrival_hours }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                        <span class="time-format-indicator" style="display: none;"></span></td>
 
                                     <td><input type="text" class="form-control" style="width: 5.5rem;"
                                             name="train[{{ $key }}][duration]"

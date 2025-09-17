@@ -634,6 +634,35 @@ border-radius: 0px;
                             </div>
                            @endif
 
+                           @if($booking->airlinepnr) 
+                            <div style="display: flex; justify-content: space-between; padding: 8px 20px;">
+                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Airline Ref</div>
+                                <div style="font-size: 14px; color: #4a5568;">{{ $booking->airlinepnr }}</div>
+                            </div>
+                           @endif
+
+                           @if($booking->cruise_ref) 
+                            <div style="display: flex; justify-content: space-between; padding: 8px 20px;">
+                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Cruise Ref</div>
+                                <div style="font-size: 14px; color: #4a5568;">{{ $booking->cruise_ref }}</div>
+                            </div>
+                           @endif
+
+                            @if($booking->car_ref) 
+                            <div style="display: flex; justify-content: space-between; padding: 8px 20px;">
+                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Car Ref</div>
+                                <div style="font-size: 14px; color: #4a5568;">{{ $booking->car_ref }}</div>
+                            </div>
+                           @endif
+
+                            @if($booking->train_ref) 
+                            <div style="display: flex; justify-content: space-between; padding: 8px 20px;">
+                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Train Ref</div>
+                                <div style="font-size: 14px; color: #4a5568;">{{ $booking->train_ref }}</div>
+                            </div>
+                           @endif
+
+
                         </div>
                     </div>
                 </td>
