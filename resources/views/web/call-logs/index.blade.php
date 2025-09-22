@@ -105,6 +105,8 @@
                                             @if($log->chkcar)
                                                 <i class="ri ri-car-fill" title="Car" style="color: #228b22; font-size: 18px;"></i>
                                             @endif
+
+                                         
                                             @if($log->chktrain)
                                                 <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 18px;"></i>
                                             @endif

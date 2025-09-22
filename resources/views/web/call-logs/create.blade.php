@@ -227,17 +227,17 @@
                                 <label for="call_converted_no">No</label>
                             </div>
                         </div>
-                        <div class="col-md-6 position-relative">
+                       
+                        <div class="col-md-6 position-relative notes" id="notesDiv" style="display: none;">
                            <label class="form-label">Notes</label>
                             <textarea name="notes" class="form-control">{{ old('notes') }}</textarea>
                             @error('notes')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
                     </div>
-                    <!-- <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div> -->
+                  
             </form>
         </div>
 
@@ -257,6 +257,18 @@
             followupDateDiv.style.display = 'none';
             assignDiv.style.display = 'none';
         }
+    });
+
+    // Show/hide notes based on call_converted selection
+    document.querySelectorAll('input[name="call_converted"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            const notesDiv = document.getElementById('notesDiv');
+            if (this.value === '0') { // call_converted_no
+                notesDiv.style.display = 'block';
+            } else {
+                notesDiv.style.display = 'none';
+            }
+        });
     });
     </script>
 

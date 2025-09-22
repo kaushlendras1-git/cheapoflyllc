@@ -188,7 +188,10 @@ Route::middleware('auth')->group(function () {
 // API route for teams by LOB
 Route::get('/api/teams/{lobId}', [\App\Http\Controllers\Masters\TeamController::class, 'getTeamsByLob']);
 
+
+
 require __DIR__ . '/booking.php';
 require __DIR__ . '/masters.php';
 require __DIR__ . '/reports.php';
 require __DIR__ . '/user.php';
+require __DIR__ . '/ringcentral.php';

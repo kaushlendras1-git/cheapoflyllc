@@ -13,6 +13,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/users', [MemberController::class, 'index'])->name('users.index');
     Route::post('/users/change-status', [MemberController::class, 'changeStatus'])->name('users.change-status');
     Route::get('/users', [MemberController::class, 'index'])->name('users');
+    
+    // RingCentral Settings Routes
+    Route::get('/ringcentral/settings', [\App\Http\Controllers\RingCentralSettingsController::class, 'index'])->name('ringcentral.settings');
+    Route::put('/ringcentral/settings', [\App\Http\Controllers\RingCentralSettingsController::class, 'update'])->name('ringcentral.settings.update');
 
    // Shift assignment route
     Route::post('/users/{user}/change-shift', [UserShiftController::class, 'changeShift'])->name('users.change-shift');

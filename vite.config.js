@@ -24,6 +24,10 @@ export default defineConfig({
                 //pricing
                 'resources/js/booking/pricing.js',
                 'resources/js/booking/status-manager.js',
+                'resources/js/agent-login.js',
+                'resources/js/booking/otherMain.js',
+                'resources/js/country-phone.js',
+                'resources/js/booking/cruise.js',
                
 
             ],

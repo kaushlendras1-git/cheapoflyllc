@@ -131,8 +131,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                                 <strong>Arriving:</strong> {{ date('h:i A', strtotime($flight->arrival_hours)) }} into {{$flight->arrival_airport}}
                                             </span>
                                         </div>
-                                        @if($flight->transit)
-                                        <div style="color: #718096; font-size:13px; margin-top:0px; padding: 8px 0;">
+                                        @if($flight->transit && $flight->transit != '00:00')                                        <div style="color: #718096; font-size:13px; margin-top:0px; padding: 8px 0;">
                                             <div>-------- Transit Time: {{$flight->transit }} --------</div>
                                         </div>
                                         @endif
@@ -567,7 +566,7 @@ border-radius: 0px;
 
                                 <!-- Seat Info -->
                                 <div style="background: #e6eeff;padding: 10px;font-size: 12px;color: #1a2a6c;margin-top: 10px;">
-                                    <div style="white-space: pre-line; line-height: 1.6;">{{ $booking->train_description }}</div>
+                                    <div style="white-space: pre-line; line-height: 1.6;">{!! $booking->train_description !!}</div>
                                 </div>
                             </div>
                                 @php 
@@ -634,12 +633,7 @@ border-radius: 0px;
                             </div>
                            @endif
 
-                           @if($booking->airlinepnr) 
-                            <div style="display: flex; justify-content: space-between; padding: 8px 20px;">
-                                <div style="font-size: 14px; font-weight: 600; color: #2d3748;">Airline Ref</div>
-                                <div style="font-size: 14px; color: #4a5568;">{{ $booking->airlinepnr }}</div>
-                            </div>
-                           @endif
+                        
 
                            @if($booking->cruise_ref) 
                             <div style="display: flex; justify-content: space-between; padding: 8px 20px;">
@@ -705,8 +699,8 @@ border-radius: 0px;
                 </td>
             </tr>
 
-            <!-------Price ---------->
-            <tr>
+            <!-------Start Price ---------->
+            <tr class="price-details">
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
                         <div style="    font-weight: 600;color: #1a2a6c;padding: 10px 20px;background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
@@ -728,18 +722,13 @@ border-radius: 0px;
 
 
         @if($booking->query_type == 26)
-                
-            
           @foreach($booking->pricingDetails as $ExcursionPrice)  
             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
-                <div style="font-size: 14px;  color: #2d3748;">
-                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
-                     <div style="font-size: 14px;  color: #2d3748;">  {{$ExcursionPrice->details}}, per person:</div>
-                     <div style="font-size: 16px; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
-                </div>
-                <span style="font-size:10px">inc. taxes & fees.</span>
-           
-              @endforeach  
+                <div style="font-size: 14px; color: #2d3748;">{{$ExcursionPrice->details}}, per person:</div>
+                <div style="font-size: 16px; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
+            </div>
+            <div style="font-size: 10px; color: #666; padding: 0 0 10px 0;">inc. taxes & fees.</div>
+          @endforeach  
                             
 
         @else
@@ -758,28 +747,14 @@ border-radius: 0px;
 
                             @foreach($mergedPrices as $passengerType => $totalPrice)
                             <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e9ecef;">
-                                
-                                <div style="font-size: 14px;  color: #2d3748;">                             
-                                    @if(in_array($booking->query_type, [3,7,8]))
-                                        Total Price per person including taxes and fees.
-                                    @elseif($booking->query_type == 2)
-                                        Rebooking fees per person.
-                                    @elseif($booking->query_type == 4)
-                                        Baggage fees per Bag.
-                                    @elseif($booking->query_type == 9)
-                                        Travel Insurance per person.
-                                     @elseif($booking->query_type == 17)
-                                       Cruise Fare - Per Guest -   
-                                    
-                                    @else
-                                        Total Price per person including taxes and fees.        
-                                    @endif
-                                    ({{ ucfirst($passengerType) }})
-                                </div>
+                                <div style="font-size: 14px; color: #2d3748;">@if(in_array($booking->query_type, [3,7,8]))Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})@elseif($booking->query_type == 2)Rebooking fees per person. ({{ ucfirst($passengerType) }})@elseif($booking->query_type == 4)Baggage fees per Bag. ({{ ucfirst($passengerType) }})@elseif($booking->query_type == 9)Travel Insurance per person. ({{ ucfirst($passengerType) }})@elseif($booking->query_type == 17)Cruise Fare - Per Guest - ({{ ucfirst($passengerType) }}) 
+                                    @else 
+                                    Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
+                                    @endif</div>
                                 <div style="font-size: 16px; color: #0f9b0f;">
                                     ${{ number_format($totalPrice, 2) }}
                                 </div>
-                    
+                            </div>
                             @endforeach
 
                 @endif
@@ -805,10 +780,12 @@ border-radius: 0px;
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
                 </td>
             </tr>
+
+
+          <!--  End Price Details -->
+
 
 
             <tr>

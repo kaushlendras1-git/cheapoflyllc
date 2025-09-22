@@ -94,6 +94,14 @@
                         </div>
 
                         <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Extension</label>
+                            <input type="text" class="form-control" name="extension" value="{{ old('extension', $member->extension) }}" placeholder="1001">
+                            @error('extension')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Password</label>
                             <input type="password" class="form-control" name="password" value="" placeholder="Leave blank to keep unchanged">
                             @error('password')

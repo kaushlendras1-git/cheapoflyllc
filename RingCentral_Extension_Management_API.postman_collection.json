@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "ringcentral-extension-mgmt-001",
+		"name": "RingCentral Extension Management API",
+		"description": "API collection for RingCentral integration with user extension management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "RingCentral Core",
+			"item": [
+				{
+					"name": "Send SMS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/sms",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"sms"
+							]
+						}
+					}
+				},
+				{
+					"name": "Make Call",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/call",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"call"
+							]
+						}
+					}
+				},
+				{
+					"name": "Send Fax",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/fax",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"fax"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Call Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/call-logs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"call-logs"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Incoming Calls",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/incoming-calls",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"incoming-calls"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Incoming Calls by Extension",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/incoming-calls/1001",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"incoming-calls",
+								"1001"
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Comment to Call",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"call_id\": \"12345\",\n    \"comment\": \"Customer inquiry about billing\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ringcentral/add-comment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"add-comment"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Extension Management",
+			"item": [
+				{
+					"name": "Get User by Extension",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/user-by-extension/1001",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"user-by-extension",
+								"1001"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Extensions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/all-extensions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"all-extensions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Incoming Call Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"body\": {\n        \"to\": {\n            \"extensionNumber\": \"1001\"\n        },\n        \"from\": {\n            \"phoneNumber\": \"+1234567890\"\n        },\n        \"direction\": \"Inbound\",\n        \"sessionId\": \"call-session-123\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ringcentral/webhook/incoming-call",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"webhook",
+								"incoming-call"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Get Users List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users?ajax=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "ajax",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create User with Extension",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"phone\": \"+1234567890\",\n    \"extension\": \"1001\",\n    \"pseudo\": \"johndoe\",\n    \"password\": \"password123\",\n    \"role_id\": 1,\n    \"department_id\": 1,\n    \"lob\": 1,\n    \"team\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/members",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Settings",
+			"item": [
+				{
+					"name": "Get RingCentral Settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/settings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"settings"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update RingCentral Settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"client_id\": \"your_client_id\",\n    \"client_secret\": \"your_client_secret\",\n    \"extension\": \"1000\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ringcentral/settings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ringcentral",
+								"settings"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://172.20.10.2:8000/cheapoflyllc/public"
+		},
+		{
+			"key": "auth_token",
+			"value": ""
+		}
+	]
+}

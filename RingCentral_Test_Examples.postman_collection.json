@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "ringcentral-test-examples-001",
+		"name": "RingCentral Test Examples",
+		"description": "Ready-to-use test examples with sample data",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Quick Tests",
+			"item": [
+				{
+					"name": "Test Extension 1001",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/user-by-extension/1001",
+							"host": ["{{base_url}}"],
+							"path": ["ringcentral", "user-by-extension", "1001"]
+						}
+					}
+				},
+				{
+					"name": "Get All Extensions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/all-extensions",
+							"host": ["{{base_url}}"],
+							"path": ["ringcentral", "all-extensions"]
+						}
+					}
+				},
+				{
+					"name": "Test Webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"body\": {\n        \"to\": {\n            \"extensionNumber\": \"1001\"\n        },\n        \"from\": {\n            \"phoneNumber\": \"+1234567890\"\n        },\n        \"direction\": \"Inbound\",\n        \"sessionId\": \"test-call-123\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ringcentral/webhook/incoming-call",
+							"host": ["{{base_url}}"],
+							"path": ["ringcentral", "webhook", "incoming-call"]
+						}
+					}
+				},
+				{
+					"name": "Add Test Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"call_id\": \"test-call-12345\",\n    \"comment\": \"Customer inquiry about billing\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ringcentral/add-comment",
+							"host": ["{{base_url}}"],
+							"path": ["ringcentral", "add-comment"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Sample Data Tests",
+			"item": [
+				{
+					"name": "Create Test User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Agent\",\n    \"email\": \"testagent@example.com\",\n    \"phone\": \"+1234567890\",\n    \"extension\": \"1001\",\n    \"pseudo\": \"testagent\",\n    \"password\": \"password123\",\n    \"role_id\": 2,\n    \"department_id\": 2,\n    \"lob\": 1,\n    \"team\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/members",
+							"host": ["{{base_url}}"],
+							"path": ["members"]
+						}
+					}
+				},
+				{
+					"name": "Test Multiple Extensions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ringcentral/user-by-extension/1002",
+							"host": ["{{base_url}}"],
+							"path": ["ringcentral", "user-by-extension", "1002"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://172.20.10.2:8000/cheapoflyllc/public"
+		}
+	]
+}

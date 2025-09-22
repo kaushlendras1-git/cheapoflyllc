@@ -130,6 +130,7 @@
                                     <th><span class="dt-column-title" role="button">Deartments</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Role</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Pseudo</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Extension</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Shift</span><span class="dt-column-order"></span></th>
                                     <!-- <th><span class="dt-column-title">Profile</span><span class="dt-column-order"></span></th> -->
                                     <th><span class="dt-column-title">PAN Card</span><span class="dt-column-order"></span></th>
@@ -184,6 +185,7 @@
                                     </td>
                                    
                                      <td>{{ $member->pseudo }}</td>
+                                     <td>{{ $member->extension ?? '-' }}</td>
                                     <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                                     <!--td>
                                         @if($member->profile_picture)
@@ -297,6 +299,13 @@
                             <input type="text" id="add-user-contact" class="form-control phone-mask"
                                 placeholder="+1 (609) 988-44-11" aria-label="Phone Number" name="phone" required="">
                             <label for="add-user-contact">Contact</label>
+                        </div>
+
+                        <!-- Extension Field -->
+                        <div class="form-floating form-floating-outline mb-5">
+                            <input type="text" id="add-user-extension" class="form-control"
+                                placeholder="1001" aria-label="Extension" name="extension">
+                            <label for="add-user-extension">Extension</label>
                         </div>
 
                         <!-- Password Field -->
