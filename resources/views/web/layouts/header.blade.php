@@ -267,6 +267,18 @@
                                             <div data-i18n="Team Score">Team Score</div>
                                         </a>
                                     </li>
+                                    <li class="menu-item {{ Route::currentRouteName() == 'reports.campaign-calls' ? 'active' : '' }}">
+                                        <a href="{{ route('reports.campaign-calls') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
+                                            <div data-i18n="Campaign Calls">Campaign Calls</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item {{ Route::currentRouteName() == 'reports.revenue' ? 'active' : '' }}">
+                                        <a href="{{ route('reports.revenue') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-money-dollar-circle-line"></i>
+                                            <div data-i18n="Revenue Report">Revenue Report</div>
+                                        </a>
+                                    </li>
 
                                   
 
@@ -352,6 +364,12 @@
                                         <a href="{{ route('ringcentral.demo') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-play-circle-line"></i>
                                             <div data-i18n="Demo">Demo & Examples</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-youtube-line"></i>
+                                            <div data-i18n="Tutorial">Video Tutorial</div>
                                         </a>
                                     </li>
                                 </ul>

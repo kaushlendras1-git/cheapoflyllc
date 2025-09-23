@@ -13,6 +13,7 @@ Route::prefix('ringcentral')->name('ringcentral.')->group(function () {
     Route::post('/add-comment', [RingCentralController::class, 'addComment'])->name('add-comment');
     Route::get('/test', function() { return view('web.ringcentral.test'); })->name('test');
     Route::get('/demo', function() { return view('web.ringcentral.demo'); })->name('demo');
+    Route::get('/tutorial', function() { return view('web.ringcentral.tutorial'); })->name('tutorial');
     
     // Call routing endpoints
     Route::get('/user-by-extension/{extension}', [CallRoutingController::class, 'getUserByExtension'])->name('user-by-extension');
