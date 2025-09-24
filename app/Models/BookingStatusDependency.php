@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BookingStatusDependency extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
         'booking_status_id',
         'dependent_status_id',

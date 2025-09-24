@@ -160,7 +160,8 @@ class BookingFormController extends Controller
         try{
             $data = $request->validate([
                 'email'=>'required|email',
-                'contact_number'=>'required|regex:/^\d{10}$/',
+                //'contact_number'=>'required|regex:/^\d{10}$/',
+                'contact_number'=>'required',
                 'street_address'=>'required',
                 'city'=>'required',
                 'state'=>'required',

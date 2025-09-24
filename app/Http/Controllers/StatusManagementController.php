@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Role;
 use App\Models\BookingPaymentStatus;
 use App\Models\BookingStatusDependency;
+use App\Models\StatusInterdependency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,12 +32,18 @@ class StatusManagementController extends Controller
             ->orderBy('department')
             ->orderBy('role')
             ->get();
+            
+        $statusInterdependencies = StatusInterdependency::with(['bookingStatus', 'paymentStatus', 'department', 'role'])
+            ->orderBy('department_id')
+            ->orderBy('role_id')
+            ->get();
 
         return view('web.status-management.index', compact(
             'bookingStatuses', 
             'paymentStatuses', 
             'bookingPaymentMappings',
             'statusDependencies',
+            'statusInterdependencies',
             'user',
             'departments',
             'roles'
@@ -121,5 +128,79 @@ class StatusManagementController extends Controller
     {
         PaymentStatus::findOrFail($id)->delete();
         return response()->json(['success' => true, 'message' => 'Payment status deleted successfully']);
+    }
+
+    public function storeBookingStatus(Request $request)
+    {
+        $request->validate(['name' => 'required|string|max:255|unique:booking_statuses,name']);
+        BookingStatus::create($request->only('name'));
+        return response()->json(['success' => true, 'message' => 'Booking status created successfully']);
+    }
+
+    public function updateBookingStatus(Request $request, $id)
+    {
+        $request->validate(['name' => 'required|string|max:255|unique:booking_statuses,name,' . $id]);
+        BookingStatus::findOrFail($id)->update($request->only('name'));
+        return response()->json(['success' => true, 'message' => 'Booking status updated successfully']);
+    }
+
+    public function deleteBookingStatus($id)
+    {
+        BookingStatus::findOrFail($id)->delete();
+        return response()->json(['success' => true, 'message' => 'Booking status deleted successfully']);
+    }
+
+    public function storeStatusInterdependency(Request $request)
+    {
+        $request->validate([
+            'booking_status_id' => 'required|exists:booking_statuses,id',
+            'payment_status_id' => 'required|exists:payment_statuses,id',
+            'department_id' => 'required|exists:departments,id',
+            'role_id' => 'required|exists:roles,id',
+            'direction' => 'required|in:booking_to_payment,payment_to_booking,bidirectional'
+        ]);
+
+        StatusInterdependency::create($request->all());
+        return response()->json(['success' => true, 'message' => 'Status interdependency created successfully']);
+    }
+
+    public function deleteStatusInterdependency($id)
+    {
+        StatusInterdependency::findOrFail($id)->delete();
+        return response()->json(['success' => true, 'message' => 'Status interdependency deleted successfully']);
+    }
+
+    public function getAvailableStatuses(Request $request)
+    {
+        $departmentId = $request->department_id;
+        $roleId = $request->role_id;
+        $currentBookingStatus = $request->current_booking_status;
+        $currentPaymentStatus = $request->current_payment_status;
+
+        $availablePaymentStatuses = [];
+        $availableBookingStatuses = [];
+
+        if ($currentBookingStatus) {
+            $interdependencies = StatusInterdependency::where('booking_status_id', $currentBookingStatus)
+                ->where('department_id', $departmentId)
+                ->where('role_id', $roleId)
+                ->whereIn('direction', ['booking_to_payment', 'bidirectional'])
+                ->pluck('payment_status_id');
+            $availablePaymentStatuses = PaymentStatus::whereIn('id', $interdependencies)->get();
+        }
+
+        if ($currentPaymentStatus) {
+            $interdependencies = StatusInterdependency::where('payment_status_id', $currentPaymentStatus)
+                ->where('department_id', $departmentId)
+                ->where('role_id', $roleId)
+                ->whereIn('direction', ['payment_to_booking', 'bidirectional'])
+                ->pluck('booking_status_id');
+            $availableBookingStatuses = BookingStatus::whereIn('id', $interdependencies)->get();
+        }
+
+        return response()->json([
+            'availablePaymentStatuses' => $availablePaymentStatuses,
+            'availableBookingStatuses' => $availableBookingStatuses
+        ]);
     }
 }
