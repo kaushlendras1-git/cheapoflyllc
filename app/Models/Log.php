@@ -14,7 +14,8 @@ class Log extends Model
         'calllog_id',
         'operation',
         'comment',
-        'user_id'
+        'user_id',
+        'user_type'
     ];
 
     public function callLog()

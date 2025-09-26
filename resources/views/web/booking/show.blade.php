@@ -77,7 +77,7 @@
                             class="book-bottom-tags">{{ $booking->user?->name ?? 'N/A' }} </span>
 
                          <strong class="book-upper-tags">Issued On:</strong><span class="book-bottom-tags">{{ $booking->created_at }}</span>
-                             
+
                          <!--   <strong class="book-upper-tags">Changes:</strong><span class="book-bottom-tags">Zee</span>
                                 <strong class="book-upper-tags">Billing:</strong><span class="book-bottom-tags">Mark</span>
                                 <strong class="book-upper-tags">Quality:</strong><span class="book-bottom-tags">Smith</span>
@@ -89,7 +89,7 @@
                               @endphp
                               <strong class="book-upper-tags"> Divided with:</strong><span class="book-bottom-tags">{{$sharedUser->name ?? ''}} </span>
                             @endif
-                            
+
 
                             @if (isset($booking->quality_score))
                                 <strong class="book-upper-tags">Qc Score :</strong>
@@ -190,9 +190,9 @@
                                 <input type="text" class="form-control" name="pnr" value="{{ $booking->pnr }}"
                                     disabled>
                             </div>
-                            
-                           
-                               
+
+
+
                                     <div class="col-md-2 position-relative mb-5" id="flight-inputs">
                                         <label class="form-label">Airline PNR</label>
                                         <input type="text" class="form-control" name="airlinepnr"
@@ -206,7 +206,7 @@
                                             value="{{ $booking->amadeus_sabre_pnr }}"
                                             @if ($booking->amadeus_sabre_pnr) readonly @endif>
                                     </div>
-                          
+
 
                             <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
                                 <label class="form-label">Hotel Ref</label>
@@ -227,7 +227,7 @@
                                 <input type="text" class="form-control" name="car_ref"
                                     value="{{ old('car_ref', $booking->car_ref ?? '') }}">
                             </div>
-                            
+
                             <div class="col-md-2 position-relative mb-5" id="train-inputs">
                                 <label class="form-label">Train Ref</label>
                                 <input type="text" class="form-control" name="train_ref"
@@ -312,7 +312,7 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Booking Type </label>
-                                <select id="query_type" class="form-control" name="query_type"> 
+                                <select id="query_type" class="form-control" name="query_type">
                                      @foreach ($booking_types as $booking_type)
                                             <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}"
                                                 data-id="{{ $booking_type->id }}"
@@ -447,7 +447,7 @@
                                 <label class="form-label">Email <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="email" id="billing-email">
                             </div>
-                            
+
                             <div class="col-md-3 position-relative mb-5">
                                 <label class="form-label">Conatct No. <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="contact_number" pattern="[0-9\-]{10,17}" maxlength="17" oninput="let digits = this.value.replace(/\D/g, ''); if(digits.length > 15) digits = digits.slice(0,15); let x = digits.match(/(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,5})/); this.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '') + (x[4] ? '-' + x[4] : '');">
@@ -494,8 +494,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade bank-details" id="billingFieldModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Bank Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="billing-close-modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form
+                        id="billing-field-add">
+                        @csrf
+                        <div class="row booking-form">
+                            <div class="col-md-3 position-relative mb-5">
+                                <label class="form-label">Booking Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="bookingNumber" id="billing-email">
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-start">
+                    <button type="button" class="btn btn-primary" id="save-billing-field-save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
-        let booking_id = "{{ $booking->id }}";    
+        let booking_id = "{{ $booking->id }}";
     </script>
 
 @endsection

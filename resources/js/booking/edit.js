@@ -1669,3 +1669,30 @@ $(document).on('click', '.delete-flight-image', function() {
         }
     });
 });
+
+$('#billingFieldModal').on('show.bs.modal',function(e){
+    const action = e.relatedTarget.getAttribute('data-href');
+    const form = $(e.target).find('form');
+    form.attr('action',action);
+});
+
+$('#save-billing-field-save').click(async function(e){
+    e.preventDefault();
+    const form = $('#billingFieldModal').find('form');
+    const action = form.attr('action');
+    const formData = new FormData(form[0]);
+    try{
+        const response = await axios.post(action, formData);
+        showToast('Billing field saved successfully', 'success');
+        $('#billingFieldModal').modal('hide');
+    }
+    catch (e) {
+        if(e.response.status === 422){
+            showToast('Please fill all the required fields', 'error');
+        }
+        else{
+            showToast('Failed to save billing field', 'error');
+        }
+    }
+
+})

@@ -510,12 +510,12 @@ class BookingFormController extends Controller
             // '13', '14','18','19','32','33','39','41','43','44', '50', '51'
             //passenger[0][credit_note_amount]
 
-          if (auth()->user()->departments === 'Sales' || auth()->user()->role === 'User') {
+          if (auth()->user()->department_id == 2 || auth()->user()->role === 'User') {
                 $rules['payment_status_id'] = 'required|integer';
                 $rules['booking_status_id'] = 'exclude_unless:payment_status_id,24|required|in:18';
             }
 
-           if(auth()->user()->departments != 5)  {
+           if(auth()->user()->department_id != 5 && auth()->user()->department_id != 3)  {
                 $rules['passenger']                              = 'required|array|min:1';
                 $rules['passenger.*.passenger_type']             = 'required|string|in:Adult,Child,Infant,Seat Infant,Lap Infant';
                 $rules['passenger.*.gender']                     = 'required|string|in:Male,Female,Other';
@@ -530,7 +530,7 @@ class BookingFormController extends Controller
             }
 
 
-            if(auth()->user()->departments != 5)  {
+            if(auth()->user()->department_id != 5 && auth()->user()->department_id != 3)  {
                     // ---- FLIGHT ----
                     if (in_array('Flight', $bookingTypes)) {
                         $flightImageExists = DB::table('flight_images')->where('booking_id', $id)->exists();
@@ -687,8 +687,6 @@ class BookingFormController extends Controller
                     $rules['pricing.*.net_price']              = 'required|numeric|min:0';
                     $rules['pricing.*.details']                = 'required|string';
         }
-
-
 
            $remarkCount = DB::table('travel_booking_remarks')->where('booking_id', $id)->count();
             if ($remarkCount == 0) {
@@ -1112,17 +1110,17 @@ class BookingFormController extends Controller
                 // Validate that sum of authorized_amt equals gross_value
                 $grossValue = (float) ($request->input('gross_value') ?? 0);
                 $totalAuthorizedAmt = 0;
-                
+
                 foreach ($billings as $billing) {
                     $authorizedAmt = (float) ($billing['authorized_amt'] ?? 0);
                     $totalAuthorizedAmt += $authorizedAmt;
                 }
-                
-                if (abs($totalAuthorizedAmt - $grossValue) > 0.01) {
-                    $validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
+                if(auth()->user()->department_id != 5 && auth()->user()->department_id != 3){
+                    if (abs($totalAuthorizedAmt - $grossValue) > 0.01) {
+                        $validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
+                    }
                 }
             });
-
 
             $validator->validate();
 
@@ -1153,7 +1151,7 @@ class BookingFormController extends Controller
                 'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee'
             ]);
 
-          
+
 
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
@@ -1286,7 +1284,8 @@ class BookingFormController extends Controller
                                 'calllog_id' => $booking->id,
                                 'operation' => 'Flight Updated',
                                 'comment' => 'Flight details updated for ' . ($flightData['departure_airport'] ?? 'N/A') . ' to ' . ($flightData['arrival_airport'] ?? 'N/A'),
-                                'user_id' => auth()->id()
+                                'user_id' => auth()->id(),
+                                'user_type'=>auth()->user()->roleRelation->name
                             ]);
                         }
                     } else {
@@ -1299,7 +1298,8 @@ class BookingFormController extends Controller
                             'calllog_id' => $booking->id,
                             'operation' => 'Flight Added',
                             'comment' => 'New flight added from ' . ($flightData['departure_airport'] ?? 'N/A') . ' to ' . ($flightData['arrival_airport'] ?? 'N/A'),
-                            'user_id' => auth()->id()
+                            'user_id' => auth()->id(),
+                            'user_type'=>auth()->user()->roleRelation->name
                         ]);
                     }
                 }
@@ -1309,14 +1309,15 @@ class BookingFormController extends Controller
             $deletedFlights = TravelFlightDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedFlightIds)
                 ->get();
-            
+
             foreach ($deletedFlights as $deletedFlight) {
                 BookingLog::create([
                     'log_type' => 'booking',
                     'calllog_id' => $booking->id,
                     'operation' => 'Flight Deleted',
                     'comment' => 'Flight removed: ' . ($deletedFlight->departure_airport ?? 'N/A') . ' to ' . ($deletedFlight->arrival_airport ?? 'N/A'),
-                    'user_id' => auth()->id()
+                    'user_id' => auth()->id(),
+                    'user_type'=>auth()->user()->roleRelation->name
                 ]);
                 $deletedFlight->forceDelete();
             }
@@ -1369,7 +1370,8 @@ class BookingFormController extends Controller
                                 'calllog_id' => $booking->id,
                                 'operation' => 'Hotel Updated',
                                 'comment' => 'Hotel details updated: ' . ($hotelData['hotel_name'] ?? 'N/A'),
-                                'user_id' => auth()->id()
+                                'user_id' => auth()->id(),
+                                'user_type'=>auth()->user()->roleRelation->name
                             ]);
                         }
                     } else {
@@ -1382,7 +1384,8 @@ class BookingFormController extends Controller
                             'calllog_id' => $booking->id,
                             'operation' => 'Hotel Added',
                             'comment' => 'New hotel added: ' . ($hotelData['hotel_name'] ?? 'N/A'),
-                            'user_id' => auth()->id()
+                            'user_id' => auth()->id(),
+                            'user_type'=>auth()->user()->roleRelation->name
                         ]);
                     }
                 }
@@ -1391,14 +1394,15 @@ class BookingFormController extends Controller
             $deletedHotels = TravelHotelDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedHotelIds)
                 ->get();
-            
+
             foreach ($deletedHotels as $deletedHotel) {
                 BookingLog::create([
                     'log_type' => 'booking',
                     'calllog_id' => $booking->id,
                     'operation' => 'Hotel Deleted',
                     'comment' => 'Hotel removed: ' . ($deletedHotel->hotel_name ?? 'N/A'),
-                    'user_id' => auth()->id()
+                    'user_id' => auth()->id(),
+                    'user_type'=>auth()->user()->roleRelation->name
                 ]);
                 $deletedHotel->delete();
             }
@@ -1474,7 +1478,8 @@ class BookingFormController extends Controller
                                 'calllog_id' => $booking->id,
                                 'operation' => 'Cruise Updated',
                                 'comment' => 'Cruise details updated: ' . ($cruiseData['departure_port'] ?? 'N/A'),
-                                'user_id' => auth()->id()
+                                'user_id' => auth()->id(),
+                                'user_type'=>auth()->user()->roleRelation->name
                             ]);
                         }
                     } else {
@@ -1487,7 +1492,8 @@ class BookingFormController extends Controller
                             'calllog_id' => $booking->id,
                             'operation' => 'Cruise Added',
                             'comment' => 'New cruise added from: ' . ($cruiseData['departure_port'] ?? 'N/A'),
-                            'user_id' => auth()->id()
+                            'user_id' => auth()->id(),
+                            'user_type'=>auth()->user()->roleRelation->name
                         ]);
                     }
                 }
@@ -1497,14 +1503,15 @@ class BookingFormController extends Controller
             $deletedCruises = TravelCruiseDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedCruiseIds)
                 ->get();
-            
+
             foreach ($deletedCruises as $deletedCruise) {
                 BookingLog::create([
                     'log_type' => 'booking',
                     'calllog_id' => $booking->id,
                     'operation' => 'Cruise Deleted',
                     'comment' => 'Cruise removed: ' . ($deletedCruise->departure_port ?? 'N/A'),
-                    'user_id' => auth()->id()
+                    'user_id' => auth()->id(),
+                    'user_type'=>auth()->user()->roleRelation->name
                 ]);
                 $deletedCruise->delete();
             }
@@ -1578,7 +1585,8 @@ class BookingFormController extends Controller
                                 'calllog_id' => $booking->id,
                                 'operation' => 'Car Updated',
                                 'comment' => 'Car rental updated: ' . ($carData['car_rental_provider'] ?? 'N/A') . ' - ' . ($carData['car_type'] ?? 'N/A'),
-                                'user_id' => auth()->id()
+                                'user_id' => auth()->id(),
+                                'user_type'=>auth()->user()->roleRelation->name
                             ]);
                         }
                     } else {
@@ -1591,7 +1599,8 @@ class BookingFormController extends Controller
                             'calllog_id' => $booking->id,
                             'operation' => 'Car Added',
                             'comment' => 'New car rental added: ' . ($carData['car_rental_provider'] ?? 'N/A') . ' - ' . ($carData['car_type'] ?? 'N/A'),
-                            'user_id' => auth()->id()
+                            'user_id' => auth()->id(),
+                            'user_type'=>auth()->user()->roleRelation->name
                         ]);
                     }
                 }
@@ -1601,14 +1610,15 @@ class BookingFormController extends Controller
             $deletedCars = TravelCarDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedCarIds)
                 ->get();
-            
+
             foreach ($deletedCars as $deletedCar) {
                 BookingLog::create([
                     'log_type' => 'booking',
                     'calllog_id' => $booking->id,
                     'operation' => 'Car Deleted',
                     'comment' => 'Car rental removed: ' . ($deletedCar->car_rental_provider ?? 'N/A') . ' - ' . ($deletedCar->car_type ?? 'N/A'),
-                    'user_id' => auth()->id()
+                    'user_id' => auth()->id(),
+                    'user_type'=>auth()->user()->roleRelation->name
                 ]);
                 $deletedCar->delete();
             }
@@ -1665,7 +1675,8 @@ class BookingFormController extends Controller
                                 'calllog_id' => $booking->id,
                                 'operation' => 'Train Updated',
                                 'comment' => 'Train details updated: ' . ($trainData['departure_station'] ?? 'N/A') . ' to ' . ($trainData['arrival_station'] ?? 'N/A'),
-                                'user_id' => auth()->id()
+                                'user_id' => auth()->id(),
+                                'user_type'=>auth()->user()->roleRelation->name
                             ]);
                         }
                     } else {
@@ -1678,7 +1689,8 @@ class BookingFormController extends Controller
                             'calllog_id' => $booking->id,
                             'operation' => 'Train Added',
                             'comment' => 'New train added from ' . ($trainData['departure_station'] ?? 'N/A') . ' to ' . ($trainData['arrival_station'] ?? 'N/A'),
-                            'user_id' => auth()->id()
+                            'user_id' => auth()->id(),
+                            'user_type'=>auth()->user()->roleRelation->name
                         ]);
                     }
                 }
@@ -1688,26 +1700,26 @@ class BookingFormController extends Controller
             $deletedTrains = TravelTrainDetail::where('booking_id', $booking->id)
                 ->whereNotIn('id', $processedTrainIds)
                 ->get();
-            
+
             foreach ($deletedTrains as $deletedTrain) {
                 BookingLog::create([
                     'log_type' => 'booking',
                     'calllog_id' => $booking->id,
                     'operation' => 'Train Deleted',
                     'comment' => 'Train removed: ' . ($deletedTrain->departure_station ?? 'N/A') . ' to ' . ($deletedTrain->arrival_station ?? 'N/A'),
-                    'user_id' => auth()->id()
+                    'user_id' => auth()->id(),
+                    'user_type'=>auth()->user()->roleRelation->name
                 ]);
                 $deletedTrain->delete();
             }
 
 
-
-            $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
-            $newBillings = $request->input('billing', []);
-            $processedBillingIds = [];
-
-            TravelBillingDetail::where('booking_id',$booking->id)->get()->each->forceDelete();
-            foreach ($newBillings as $index => $billingData) {
+            if(auth()->user()->department_id != 5){
+                $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
+                $newBillings = $request->input('billing', []);
+                $processedBillingIds = [];
+                TravelBillingDetail::where('booking_id',$booking->id)->get()->each->forceDelete();
+                foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;
                     // Set active only if this is the last card
                     $billingData['is_active'] = ($request->input('activeCard') == $index) ? 1 : 0;
@@ -1716,13 +1728,14 @@ class BookingFormController extends Controller
                     );
                     $processedBillingIds[] = $billing->id;
                 }
-
-            TravelBillingDetail::where('booking_id', $booking->id)
-                ->whereNotIn('id', $processedBillingIds)
-                ->get()
-                ->each
-                ->forceDelete();
-
+                if(!empty($processedBillingIds)){
+                    TravelBillingDetail::where('booking_id', $booking->id)
+                        ->whereNotIn('id', $processedBillingIds)
+                        ->get()
+                        ->each
+                        ->forceDelete();
+                }
+            }
 
             $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
             $newPricings = $request->input('pricing', []);
@@ -1869,7 +1882,43 @@ class BookingFormController extends Controller
 
         return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData','logs'));
     }
-
+    public function saveBillingField(string $id,Request $request){
+        try{
+            $validated = $request->validate([
+                'bookingNumber'=>'required'
+            ]);
+            $fetch = TravelBillingDetail::where('id',$id)->first();
+            $previous = $fetch->new_field;
+            $fetch->update(['new_field'=>$request->bookingNumber]);
+            BookingLog::create([
+                'log_type' => 'booking',
+                'calllog_id' => $fetch->booking_id,
+                'operation' => 'Billing Updated',
+                'comment' => 'Billing new field details updated for ' . ($previous ?? 'N/A') . ' to ' . ($request->bookingNumber ?? 'N/A'),
+                'user_id' => auth()->id(),
+                'user_type'=>auth()->user()->roleRelation->name
+            ]);
+            return response()->json([
+                'status'=>'success',
+                'message'=>'Billing Field Updated Successfully',
+                'code'=>201
+            ],201);
+        }
+        catch(ValidationException $e){
+            return response()->json([
+                'message'=>$e->validator->errors()->first(),
+                'status'=>'failed',
+                'code'=>422
+            ],422);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'message'=>'Something went wrong',
+                'code'=>500,
+                'status'=>'failed'
+            ],500);
+        }
+    }
     public function add(){
        $pnr = date('dm') . str_pad(time() % 86400 % 10000, 4, '0', STR_PAD_LEFT) . str_pad(
                 DB::table('travel_bookings')->whereDate('created_at', now()->toDateString())->count() + 1,

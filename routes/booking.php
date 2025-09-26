@@ -5,9 +5,9 @@ use App\Http\Controllers\OnlineBookingController;
 Route::middleware('auth')->group(function () {
 
     Route::prefix('booking')->name('booking.')->group(function () {
-    
+
         Route::resource('online-booking', OnlineBookingController::class);
-        
+
         Route::post('/billing-details/{id}', [BookingFormController::class, 'billingDetails'])->name('billing-details');
         Route::get('/billing-details/{id}', [BookingFormController::class, 'getBillingDetails'])->name('get-billing-details');
         Route::get('/billing-details/edit/{id}', [BookingFormController::class, 'editBillingDetails'])->name('billing-details.edit');
@@ -25,8 +25,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [BookingFormController::class, 'index'])->name('index');
         Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
         Route::patch('/update/{id}', [BookingFormController::class, 'update'])->name('update');
+        Route::post('save-billing-field/{id}',[BookingFormController::class,'saveBillingField'])->name('newField');
 
-        
         Route::prefix('auth-email')->name('auth-email.')->group(function () {
             Route::post('index/{id}', [\App\Http\Controllers\Auth\AuthEmailController::class, 'index'])->name('sendmail');
         });
