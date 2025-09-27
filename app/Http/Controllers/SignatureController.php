@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BillingDetail;
 use App\Models\CarImages;
 use App\Models\CruiseImages;
-use App\Models\flightImages;
+use App\Models\FlightImages;
 use App\Models\HotelImages;
 use App\Models\ScreenshotImages;
 use App\Models\TrainImages;
@@ -90,7 +90,7 @@ class SignatureController extends Controller
         $billingData = BillingDetail::where('booking_id',$booking->id)->get();
         $car_images = CarImages::where('booking_id', $booking->id)->get();
         $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
-        $flight_images = flightImages::where('booking_id', $booking->id)->get();
+        $flight_images = FlightImages::where('booking_id', $booking->id)->get();
         $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
