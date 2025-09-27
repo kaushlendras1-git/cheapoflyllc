@@ -448,7 +448,7 @@
                                 <select class="form-control" name="country" id="billingCountry">
                                     <option value="">Select country</option>
                                     @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->country_name }}</option>
+                                        <option value="{{ $country->id }}" {{ $country->country_name == 'United States of America' ? 'selected' : '' }}>{{ $country->country_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -513,6 +513,25 @@
 
     <script>
         let booking_id = "{{ $booking->id }}";
+        
+        // Load states for USA on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            const countrySelect = document.getElementById('billingCountry');
+            const stateSelect = document.getElementById('billingState');
+            
+            if (countrySelect.value) {
+                try {
+                    const response = await axios.get(`/statelist/${countrySelect.value}`);
+                    let stateOptions = '<option value="">Select State</option>';
+                    response.data.data.forEach(state => {
+                        stateOptions += `<option value="${state.id}">${state.name}</option>`;
+                    });
+                    stateSelect.innerHTML = stateOptions;
+                } catch (e) {
+                    console.error('Failed to load states');
+                }
+            }
+        });
     </script>
 
 @endsection

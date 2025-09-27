@@ -30,6 +30,10 @@
                 </button>
             </div>
 
+            <!-- Hidden inputs for gross and net values -->
+            <input name="gross_value" type="hidden" id="gross_value" />
+            <input name="net_value" type="hidden" id="net_value" />
+            
             <table class="pricing-table table">
                 <thead>
                     <tr>
@@ -38,7 +42,6 @@
                                 style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
                                 <strong>Gross Amount</strong>
                                 <span id="total_gross_profit">0.00</span>
-                                <input name="gross_value" type="hidden" id="gross_value" />
                             </div>
                         </td>
                         <td colspan="4">
@@ -46,7 +49,6 @@
                                 style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
                                 <strong>Net Amount</strong>
                                 <span id="total_net_profit">0.00</span>
-                                <input name="net_value" type="hidden" id="net_value" />
                             </div>
                         </td>
                     </tr>

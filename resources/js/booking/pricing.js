@@ -248,6 +248,9 @@ document.addEventListener('DOMContentLoaded', () => {
     pricingFormsContainer.querySelectorAll('.pricing-row').forEach(row => {
         calculateRowTotals(row);
     });
+    
+    // Ensure totals are calculated on page load
+    updateFooterTotals();
 });
 
 document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
@@ -376,6 +379,10 @@ function updateFooterTotals() {
 
     document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
     document.getElementById('net_value').value = netTotal.toFixed(2);
+    
+    // Debug logging
+    console.log('Setting gross_value:', grossTotal.toFixed(2));
+    console.log('Setting net_value:', netTotal.toFixed(2));
 
     const diff = grossTotal - netTotal;
     const mcqElement = document.getElementById('total_gross_value');

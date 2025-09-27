@@ -100,10 +100,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <!-------------Flight --------------->
             @if(in_array('Flight', $bookingTypes))
-            @php
-                $allAirlines = [];
-            @endphp
-
+          
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -115,7 +112,15 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 @foreach($booking->travelFlight as $index => $flight)
                                 <div style="display: flex; align-items: flex-start; margin-bottom: 18px; padding-bottom: 0px; border-bottom: 1px solid #e9ecef; flex-wrap: wrap;">
                                     <div style="flex-shrink: 0; margin-right: 15px; margin-bottom: 15px;">
-                                        <img src="https://www.pnrconverter.com/images/airlines/png/150/nz.png" alt="airline logo" style="height:35px; width:75px; object-fit: contain;">
+                                    
+
+
+                                        @php
+                                            $airline = \App\Models\Airline::where('airline_code', $flight->airline_code)->first();
+                                            $logoPath = $airline && $airline->logo ? asset($airline->logo) : asset('email-templates/default-airline.png');
+                                        @endphp
+                                        <img src="{{ $logoPath }}" alt="airline logo" style="height:35px; width:75px; object-fit: contain;">
+
                                     </div>
                                     <div style="flex: 1; min-width: 280px;">
                                         <div style="font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 0px;">
@@ -137,10 +142,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         @endif
                                     </div>
                                 </div>
-                                        @php 
-                                            $codes = explode(',', $flight->airline_code);
-                                            $allAirlines = array_unique(array_merge($allAirlines, $codes));
-                                        @endphp
+                                        
                                 @endforeach
                             @endif
 
@@ -160,9 +162,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             @if(in_array('Hotel', $bookingTypes))
                 @if($booking->travelHotel->isNotEmpty())
-                     @php
-                        $allHotelNames = [];
-                    @endphp
+                    
 
                 <!-- Start Hotel Details -->
             <tr>
@@ -214,10 +214,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <div style="font-weight:normal; color: #4a5568;"> {{$travelHotel->no_of_rooms}}</div>
                                     </div>
                                 </div>
-                                    @php 
-                                        $hotel_names = explode(',', $travelHotel->hotel_name);
-                                        $allHotelNames = array_unique(array_merge($allHotelNames, $hotel_names));
-                                    @endphp
                                     
                                 @endforeach
                             </div>
@@ -243,11 +239,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
 
             @if(in_array('Cruise', $bookingTypes))
-
-            @php
-                $allCruiseProvider = [];
-            @endphp
-
            
 
             <tr>
@@ -296,11 +287,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         </div>
 
     </div>
-
-    @php 
-        $cruise_providers = explode(',', $cruise->cruise_line);
-        $allCruiseProvider = array_unique(array_merge($allCruiseProvider, $cruise_providers));
-    @endphp
 
     @endforeach
 </div>
@@ -381,9 +367,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <!------------ Start Car -------------->
             @if(in_array('Car', $bookingTypes))
-                @php
-                    $allCarProviders = [];
-                @endphp
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -463,10 +446,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         <span style="font-weight: 600;">{{ $travelCar->dropoff_location }}</span>
                     </div>
                 </div>
-                @php 
-                    $car_providers = explode(',', $travelCar->car_rental_provider);
-                    $allCarProviders = array_unique(array_merge($allCarProviders, $car_providers));
-                @endphp
             @endforeach
 
         </div>
@@ -491,9 +470,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <!-------- Start Train  ------>
             @if(in_array('Train', $bookingTypes))
-            @php
-                $allTrainProviders = [];
-            @endphp
             <tr>
                 <td colspan="2" style="padding: 10px 30px 0px 30px;">
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
@@ -569,10 +545,6 @@ border-radius: 0px;
                                     <div style="white-space: pre-line; line-height: 1.6;">{!! $booking->train_description !!}</div>
                                 </div>
                             </div>
-                                @php 
-                                    $train_providers = explode(',', $trainBookingDetails->train_provider);
-                                    $allTrainProviders = array_unique(array_merge($allTrainProviders, $train_providers));
-                                @endphp
                             @endforeach
 
                             @if($train_images)
@@ -802,16 +774,11 @@ border-radius: 0px;
                             <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
                                 <p style="margin-bottom: 5px;">I,&nbsp;<strong>{{$billingPricingData->cc_holder_name}} </strong>, hereby acknowledge receipt of this communication outlining the associated charges. I have thoroughly reviewed and confirmed the accuracy of the itinerary, including all passenger names, flight schedules, dates, and times.</p>
                                 <p style="margin-bottom: 5px;">I acknowledge and accept that the total cost of the booking is <strong>USD {{ number_format(array_sum($mergedPrices), 2) }} </strong>, which will be processed through <strong>single or multiple transactions</strong>. I understand that, regardless of the number of transactions, the <strong>total amount charged will not exceed USD {{ number_format(array_sum($mergedPrices), 2) }} </strong>.</p>
-                                <p style="margin-bottom: 5px;">I further acknowledge that the charges may appear on my credit card statements under one or more of the following descriptors:<br>
+                                <p style="margin-bottom: 5px;">I further acknowledge that the charges may appear on my credit card statements under one or more of the following descriptors: <br> {{ $booking->descriptor }}
+                              
 
-                               {{ !empty($allAirlines) ? implode(', ', $allAirlines) : '' }}
-                               {{ !empty($allHotelNames) ? implode(', ', $allHotelNames) : '' }}
-                               {{ !empty($allCruiseProvider) ? implode(', ', $allCruiseProvider) : '' }}
-                               {{ !empty($allCarProviders) ? implode(', ', $allCarProviders) : '' }}
-                               {{ !empty($allTrainProviders) ? implode(', ', $allTrainProviders) : '' }}
 
-                
-                                <strong>{{ $booking->selected_company_name }}</strong>, or <strong>{{$booking->reservation_source}}</strong>.</p>
+                                <strong>{{ $booking->selected_company_name }}</strong>.</p>
                                 <p style="margin-bottom: 5px;">By this statement, I hereby authorize <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service providers to charge the following amounts to my cards for the related travel services:</p>
                                 
                                
@@ -819,14 +786,7 @@ border-radius: 0px;
                                 <ul style="margin-top: 10px; margin-bottom: -6px;">
                                     @foreach($billingPricingDataAll as $billing)
                                     <li style="margin-bottom: 10px;"><b> USD {{ number_format($billing->authorized_amt, 2) }} </b> to my <b> {{ $billing->card_type }} ending in 
-                                        @php
-                                        /* if(!empty($billing->cc_number)) {
-                                            $ccNumber = $billing->cc_number;
-                                            echo substr($ccNumber, -4);
-                                        } else {
-                                            echo 'N/A';
-                                        } */
-                                        @endphp
+                                      **** **** ****  {{ substr($billing->cc_number, -4) }}                                       
                                     </b></li>
                                     @endforeach                                                  
                                 </ul>

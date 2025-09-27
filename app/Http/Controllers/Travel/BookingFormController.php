@@ -1109,6 +1109,7 @@ class BookingFormController extends Controller
                     }
                 }
 
+              #dd($request->input('gross_value'));
                 // Validate that sum of authorized_amt equals gross_value
                 $grossValue = (float) ($request->input('gross_value') ?? 0);
                 $totalAuthorizedAmt = 0;
@@ -1120,7 +1121,9 @@ class BookingFormController extends Controller
                 
                 if(auth()->user()->department_id != 5 && auth()->user()->department_id != 3){
                     if (abs($totalAuthorizedAmt - $grossValue) > 0.01) {
-                        #$validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
+                        //$validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
+                        $validator->errors()->add('gross_value', 'The Total Amount on all the cards must match gross amount on the billing page');
+
                     }
                 }
 

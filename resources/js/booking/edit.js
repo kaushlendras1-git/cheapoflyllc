@@ -259,9 +259,24 @@ document.getElementById('bookingForm').addEventListener('submit', async function
             }
         }
     }
-
+    
     const action = e.target.action;
     const formdata = new FormData(e.target);
+    
+    // Calculate and add gross_value and net_value to FormData
+    const pricingRows = document.querySelectorAll('#pricingForms .pricing-row');
+    let grossTotal = 0;
+    let netTotal = 0;
+    
+    pricingRows.forEach(row => {
+        const grossTotalSpan = row.querySelector('.gross-total');
+        const netTotalSpan = row.querySelector('.net-total');
+        if (grossTotalSpan) grossTotal += parseFloat(grossTotalSpan.textContent || 0);
+        if (netTotalSpan) netTotal += parseFloat(netTotalSpan.textContent || 0);
+    });
+    
+    formdata.set('gross_value', grossTotal.toFixed(2));
+    formdata.set('net_value', netTotal.toFixed(2));
     const keysToDelete = [];
     const flightpattern = /^flight\[\d+\]/;
     const hotelpattern = /^hotel\[\d+\]/;
@@ -269,6 +284,10 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     const carpattern = /^car\[\d+\]/;
     const trainpattern = /^train\[\d+\]/;
     for (let key of formdata.keys()) {
+        // Skip deletion of gross_value and net_value
+        if (key === 'gross_value' || key === 'net_value') {
+            continue;
+        }
         if (flightpattern.test(key)) {
             keysToDelete.push(key);
         }
@@ -294,8 +313,9 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     const isCruiseChecked = document.querySelector('#booking-cruise')?.checked || false;
     const isCarChecked = document.querySelector('#booking-car')?.checked || false;
     const isTrainChecked = document.querySelector('#booking-train')?.checked || false;
-    
+ 
     console.log('Cruise checkbox checked:', isCruiseChecked);
+ 
     if (isFlightChecked) {
         const flightInputs = document.querySelectorAll('[name^="flight["]');
         const rows = {};
