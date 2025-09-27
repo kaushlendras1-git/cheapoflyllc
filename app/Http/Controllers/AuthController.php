@@ -45,15 +45,21 @@ class AuthController extends Controller
                 // 👉 Capture client IP
                 $loginIp = $request->ip();
                 // 👉 Capture server details (Windows example)
-                $output = shell_exec("ipconfig");
-                preg_match('/IPv4 Address.*?: ([\d\.]+)/', $output, $ipv4);
-                preg_match('/Subnet Mask.*?: ([\d\.]+)/', $output, $subnet);
-                preg_match('/Default Gateway.*?: ([\d\.]+)/', $output, $gateway);
+                // $output = shell_exec("ipconfig");
+                // preg_match('/IPv4 Address.*?: ([\d\.]+)/', $output, $ipv4);
+                // preg_match('/Subnet Mask.*?: ([\d\.]+)/', $output, $subnet);
+                // preg_match('/Default Gateway.*?: ([\d\.]+)/', $output, $gateway);
 
                 $serverDetails = [
-                    'ipv4'   => $ipv4[1] ?? null,
-                    'subnet' => $subnet[1] ?? null,
-                    'gateway'=> $gateway[1] ?? null,
+                    // 'ipv4'   => $ipv4[1] ?? null,
+                    // 'subnet' => $subnet[1] ?? null,
+                    // 'gateway'=> $gateway[1] ?? null,
+
+                    'ipv4'   => null,
+                    'subnet' => null,
+                    'gateway'=> null,
+
+                    
                 ];
 
                 $user = Auth::user();
