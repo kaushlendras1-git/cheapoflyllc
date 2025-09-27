@@ -8,7 +8,7 @@ use App\Models\TravelCruise;
 use App\Models\CarImages;
 use App\Models\CruiseImages;
 use App\Models\TravelCruiseAddon;
-use App\Models\flightImages;
+use App\Models\FlightImages;
 use App\Models\HotelImages;
 use App\Models\ScreenshotImages;
 use App\Models\TrainImages;
@@ -543,7 +543,7 @@ class BookingFormController extends Controller
                             $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
                         }
 
-                        $rules['pnrtype']                   = 'required';
+                       # $rules['pnrtype']                   = 'required';
                         $rules['airlinepnr']                   = 'required';
                         $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
                         $rules['flight.*.departure_date']    = 'required_with:flight';
@@ -584,6 +584,8 @@ class BookingFormController extends Controller
 
                     // ---- CRUISE ----
                     if (in_array('Cruise', $bookingTypes)) {
+
+                       # dd($request->all());
 
                         $rules['cruise_name']                              = 'required';
                         $rules['ship_name']                              = 'required';
@@ -1115,11 +1117,13 @@ class BookingFormController extends Controller
                     $authorizedAmt = (float) ($billing['authorized_amt'] ?? 0);
                     $totalAuthorizedAmt += $authorizedAmt;
                 }
+                
                 if(auth()->user()->department_id != 5 && auth()->user()->department_id != 3){
                     if (abs($totalAuthorizedAmt - $grossValue) > 0.01) {
-                        $validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
+                        #$validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
                     }
                 }
+
             });
 
             $validator->validate();
@@ -1862,7 +1866,7 @@ class BookingFormController extends Controller
         $feed_backs = TravelQualityFeedback::where('booking_id', $booking->id)->get();
         $car_images = CarImages::where('booking_id', $booking->id)->get();
         $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
-        $flight_images = flightImages::where('booking_id', $booking->id)->get();
+        $flight_images = FlightImages::where('booking_id', $booking->id)->get();
         $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
         $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
         $train_images = TrainImages::where('booking_id', $booking->id)->get();
@@ -1970,7 +1974,7 @@ class BookingFormController extends Controller
         public function deleteFlightImage($id)
         {
             try {
-                $image = flightImages::findOrFail($id);
+                $image = FlightImages::findOrFail($id);
 
                 // Delete file from storage if exists
                 if (file_exists(public_path($image->file_path))) {

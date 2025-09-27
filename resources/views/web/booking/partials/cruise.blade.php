@@ -36,6 +36,7 @@
                     <tr>
                         <td> <input type="text" class="form-control" placeholder="Cruise Line" name="cruise_line"
                                 value="{{ $travel_cruise_data?->cruise_line }}"></td>
+
                         <td><input type="text" class="form-control" placeholder="Name of the Ship"
                                 placeholder="Name of the Ship" name="ship_name"
                                 value="{{ $travel_cruise_data?->ship_name }}">
@@ -213,9 +214,6 @@
             @endif
         </div>
     </div>
-
-
-
 
 
 

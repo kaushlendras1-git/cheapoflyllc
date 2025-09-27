@@ -140,6 +140,6 @@
             @include('web.booking.partials.conversations')
 
             <!-- RingCentral Tab -->
-            @include('web.booking.partials.ringcentral')
+            @include('web.booking.partials.ringcentral') 
 
         </div>

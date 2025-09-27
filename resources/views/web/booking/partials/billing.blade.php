@@ -1,7 +1,7 @@
 @if (auth()->user()->department_id == 5)
     <div class="tab-pane show active" id="billing" role="tabpanel" aria-labelledby="billing-tab">
     @else
-        <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+    <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
 @endif
 
 
@@ -56,6 +56,7 @@
                     </table>
                 </div>
             </div>
+            
             <div class="card p-4 mt-4 show-booking-card">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-header border-0 p-0 detail-passanger">Card Details <span style="color:red"> (Billing Details
@@ -224,7 +225,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            
 
 
             <div class="card p-4 mt-4" id="deposit-pending-payment">
@@ -315,7 +316,7 @@
                     </div>
                 </div>
             </div>
-
+        </div>
 
         @else
 
@@ -376,6 +377,7 @@
                     </div>
                 </div>
             </div>
+
         @endif
-    </div>
 </div>
+

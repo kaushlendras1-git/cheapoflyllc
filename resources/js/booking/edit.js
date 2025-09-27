@@ -289,11 +289,13 @@ document.getElementById('bookingForm').addEventListener('submit', async function
 
 
 
-    const isFlightChecked = document.querySelector('#booking-flight').checked;
-    const isHotelChecked = document.querySelector('#booking-hotel').checked;
-    const isCruiseChecked = document.querySelector('#booking-cruise').checked;
-    const isCarChecked = document.querySelector('#booking-car').checked;
-    const isTrainChecked = document.querySelector('#booking-train').checked;
+    const isFlightChecked = document.querySelector('#booking-flight')?.checked || false;
+    const isHotelChecked = document.querySelector('#booking-hotel')?.checked || false;
+    const isCruiseChecked = document.querySelector('#booking-cruise')?.checked || false;
+    const isCarChecked = document.querySelector('#booking-car')?.checked || false;
+    const isTrainChecked = document.querySelector('#booking-train')?.checked || false;
+    
+    console.log('Cruise checkbox checked:', isCruiseChecked);
     if (isFlightChecked) {
         const flightInputs = document.querySelectorAll('[name^="flight["]');
         const rows = {};
@@ -316,6 +318,12 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         });
     }
     if (isHotelChecked) {
+        // Handle hotel description
+        const hotelDesc = document.querySelector('[name="hotel_description"]');
+        if (hotelDesc && hotelDesc.value.trim()) {
+            formdata.append('hotel_description', hotelDesc.value.trim());
+        }
+        
         const hotelInputs = document.querySelectorAll('[name^="hotel["]');
         const rows = {};
         hotelInputs.forEach(input => {
@@ -339,8 +347,25 @@ document.getElementById('bookingForm').addEventListener('submit', async function
 
 
     if (isCruiseChecked) {
+        // Handle main cruise details (simple field names)
+        const mainCruiseFields = ['cruise_line', 'ship_name', 'cruise_name', 'length', 'departure_port', 'arrival_port', 'category', 'stateroom', 'cruise_description'];
+        const mainCruiseData = {};
+        
+        mainCruiseFields.forEach(fieldName => {
+            const input = document.querySelector(`[name="${fieldName}"]`);
+            if (input && input.value.trim()) {
+                mainCruiseData[fieldName] = input.value.trim();
+            }
+        });
+        
+        // Add main cruise data if not empty
+        if (Object.keys(mainCruiseData).length > 0) {
+            Object.entries(mainCruiseData).forEach(([key, val]) => {
+                formdata.append(key, val);
+            });
+        }
 
-        // ✅ Handle Cruise (Main Cruise Fields)
+        // Handle cruise itinerary (indexed fields)
         const cruiseInputs = document.querySelectorAll('[name^="cruise["]');
         const cruiseRows = {};
 
@@ -408,6 +433,12 @@ document.getElementById('bookingForm').addEventListener('submit', async function
 
 
     if (isCarChecked) {
+        // Handle car description
+        const carDesc = document.querySelector('[name="car_description"]');
+        if (carDesc && carDesc.value.trim()) {
+            formdata.append('car_description', carDesc.value.trim());
+        }
+        
         const carInputs = document.querySelectorAll('[name^="car["]');
         const rows = {};
         carInputs.forEach(input => {
@@ -429,6 +460,12 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         });
     }
     if (isTrainChecked) {
+        // Handle train description
+        const trainDesc = document.querySelector('[name="train_description"]');
+        if (trainDesc && trainDesc.value.trim()) {
+            formdata.append('train_description', trainDesc.value.trim());
+        }
+        
         const trainInputs = document.querySelectorAll('[name^="train["]');
         const rows = {};
         trainInputs.forEach(input => {

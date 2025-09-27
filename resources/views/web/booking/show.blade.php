@@ -329,6 +329,7 @@
 
                         </div>
                     </div>
+                </form>
             </div>
 
             @if (auth()->user()->department_id == 5)
@@ -343,33 +344,17 @@
                 No Data
             @endif
 
+            <div class="d-flex justify-content-between gap-2 mt-2">
+                <a id="prev-tab-btn" class="btn btn-outline-secondary text-center" style="padding: 5px; font-size: 12px;">
+                    <i class="icon-base ri ri-arrow-left-line"></i>
+                </a>
 
-
-
-
-
-
-
+                <a id="next-tab-btn" class="btn btn-outline-secondary text-center" style="padding: 5px; font-size: 12px;">
+                    <i class="icon-base ri ri-arrow-right-line"></i>
+                </a>
+            </div>
         </div>
-
     </div>
-
-
-
-    <div class="d-flex justify-content-between gap-2 mt-2">
-        <a id="prev-tab-btn" class="btn btn-outline-secondary text-center" style="padding: 5px; font-size: 12px;">
-            <i class="icon-base ri ri-arrow-left-line"></i>
-        </a>
-
-        <a id="next-tab-btn" class="btn btn-outline-secondary text-center" style="padding: 5px; font-size: 12px;">
-            <i class="icon-base ri ri-arrow-right-line"></i>
-        </a>
-
-
-
-
-    </div>
-    </form>
 
 
     <!-- Button trigger modal -->
@@ -426,6 +411,7 @@
             min-height: 60px;
         }
     </style>
+
 
 
     <!-- Modal -->
@@ -494,7 +480,8 @@
             </div>
         </div>
     </div>
-    <div class="modal fade bank-details" id="billingFieldModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <!-- Modal -->
+    <!-- <div class="modal fade bank-details" id="billingFieldModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -521,7 +508,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+
+
     <script>
         let booking_id = "{{ $booking->id }}";
     </script>

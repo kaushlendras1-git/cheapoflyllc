@@ -1,11 +1,5 @@
 <div class="tab-pane fade" id="pricing" role="tabpanel" aria-labelledby="pricing-tab">
-
     <div class="col-md-12">
-
-
-        
-
-
 
         <div class="card p-4 details-table-wrappper show-booking-card">
             <div class="col-md-5 position-relative checkbox-servis">
