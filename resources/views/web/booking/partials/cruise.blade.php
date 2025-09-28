@@ -45,10 +45,16 @@
                                 value="{{ $travel_cruise_data?->cruise_name }}"></td>
                         <td> <input type="text" class="form-control" placeholder="Length" placeholder="length"
                                 name="length" value="{{ $travel_cruise_data?->length }}"></td>
-                        <td><input type="text" class="form-control" placeholder="Departure Port"
-                                name="departure_port" value="{{ $travel_cruise_data?->departure_port }}"></td>
-                        <td> <input type="text" class="form-control" placeholder="Arival Port" name="arrival_port"
+                        
+                        <td>
+                             <input type="text" class="form-control" placeholder="Departure Port"
+                                name="departure_port" value="{{ $travel_cruise_data?->departure_port }}">
+                        </td>
+
+                        
+                                <td> <input type="text" class="form-control" placeholder="Arival Port" name="arrival_port"
                                 value="{{ $travel_cruise_data?->arrival_port }}"></td>
+
                         
                         <td><input type="text" class="form-control" placeholder="Room Category" name="category"
                                 value="{{ $travel_cruise_data?->category }}">

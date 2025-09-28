@@ -34,21 +34,28 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         hotelFormsContainer.appendChild(newRow);
 
-        // Initialize Flatpickr for hotel date inputs
+        // Initialize Flatpickr for hotel date inputs with dependency
         const checkinInput = newRow.querySelector('.flatpickr-hotel-checkin');
         const checkoutInput = newRow.querySelector('.flatpickr-hotel-checkout');
 
         if (typeof flatpickr !== 'undefined') {
+            let checkoutFp;
+            
             if (checkinInput) {
                 flatpickr(checkinInput, {
                     dateFormat: 'd/m/Y',
                     minDate: 'today',
                     allowInput: false,
-                    clickOpens: true
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && checkoutFp) {
+                            checkoutFp.set('minDate', selectedDates[0]);
+                        }
+                    }
                 });
             }
             if (checkoutInput) {
-                flatpickr(checkoutInput, {
+                checkoutFp = flatpickr(checkoutInput, {
                     dateFormat: 'd/m/Y',
                     minDate: 'today',
                     allowInput: false,
@@ -277,17 +284,34 @@ document.addEventListener('DOMContentLoaded', () => {
             attachTimeFormatter(input);
         });
 
-        // Initialize Flatpickr for new date inputs
-        const dateInputs = newRow.querySelectorAll('.flatpickr-hotel-checkin');
+        // Initialize Flatpickr for car date inputs with dependency
+        const pickupDateInput = newRow.querySelector('input[name*="[pickup_date]"]');
+        const dropoffDateInput = newRow.querySelector('input[name*="[dropoff_date]"]');
+        
         if (typeof flatpickr !== 'undefined') {
-            dateInputs.forEach(input => {
-                flatpickr(input, {
+            let dropoffFp;
+            
+            if (pickupDateInput) {
+                flatpickr(pickupDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && dropoffFp) {
+                            dropoffFp.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+            }
+            if (dropoffDateInput) {
+                dropoffFp = flatpickr(dropoffDateInput, {
                     dateFormat: 'd/m/Y',
                     minDate: 'today',
                     allowInput: false,
                     clickOpens: true
                 });
-            });
+            }
         }
 
         carIndex++;
@@ -573,17 +597,34 @@ document.addEventListener('DOMContentLoaded', () => {
             attachTimeFormatter(input);
         });
 
-        // Initialize Flatpickr for new date inputs
-        const dateInputs = newRow.querySelectorAll('.flatpickr-hotel-checkin');
+        // Initialize Flatpickr for train date inputs with dependency
+        const departureDateInput = newRow.querySelector('input[name*="[departure_date]"]');
+        const arrivalDateInput = newRow.querySelector('input[name*="[arrival_date]"]');
+        
         if (typeof flatpickr !== 'undefined') {
-            dateInputs.forEach(input => {
-                flatpickr(input, {
+            let arrivalFp;
+            
+            if (departureDateInput) {
+                flatpickr(departureDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && arrivalFp) {
+                            arrivalFp.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+            }
+            if (arrivalDateInput) {
+                arrivalFp = flatpickr(arrivalDateInput, {
                     dateFormat: 'd/m/Y',
                     minDate: 'today',
                     allowInput: false,
                     clickOpens: true
                 });
-            });
+            }
         }
 
         trainIndex++;
@@ -1426,10 +1467,106 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Initialize for existing hotel date inputs (non-flight)
+        // Initialize for existing hotel date inputs with dependency
+        document.querySelectorAll('.hotel-row').forEach(row => {
+            const checkinInput = row.querySelector('.flatpickr-hotel-checkin');
+            const checkoutInput = row.querySelector('.flatpickr-hotel-checkout');
+            
+            if (checkinInput && checkoutInput) {
+                let checkoutFp;
+                
+                // Initialize checkin date
+                flatpickr(checkinInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && checkoutFp) {
+                            checkoutFp.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+                
+                // Initialize checkout date
+                checkoutFp = flatpickr(checkoutInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true
+                });
+            }
+        });
+        
+        // Initialize for existing car date inputs with dependency
+        document.querySelectorAll('.car-row').forEach(row => {
+            const pickupDateInput = row.querySelector('input[name*="[pickup_date]"]');
+            const dropoffDateInput = row.querySelector('input[name*="[dropoff_date]"]');
+            
+            if (pickupDateInput && dropoffDateInput) {
+                let dropoffFp;
+                
+                // Initialize pickup date
+                flatpickr(pickupDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && dropoffFp) {
+                            dropoffFp.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+                
+                // Initialize dropoff date
+                dropoffFp = flatpickr(dropoffDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true
+                });
+            }
+        });
+        
+        // Initialize for existing train date inputs with dependency
+        document.querySelectorAll('.train-row').forEach(row => {
+            const departureDateInput = row.querySelector('input[name*="[departure_date]"]');
+            const arrivalDateInput = row.querySelector('input[name*="[arrival_date]"]');
+            
+            if (departureDateInput && arrivalDateInput) {
+                let arrivalFp;
+                
+                // Initialize departure date
+                flatpickr(departureDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && arrivalFp) {
+                            arrivalFp.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+                
+                // Initialize arrival date
+                arrivalFp = flatpickr(arrivalDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true
+                });
+            }
+        });
+        
+        // Initialize other hotel date inputs (non-hotel/car/train rows)
         document.querySelectorAll('.flatpickr-hotel-checkin').forEach(input => {
-            // Skip flight date inputs as they need special handling
+            // Skip flight date inputs, hotel row inputs, car row inputs, and train row inputs as they need special handling
             if (input.name && (input.name.includes('flight[') && (input.name.includes('[departure_date]') || input.name.includes('[arrival_date]')))) {
+                return;
+            }
+            if (input.closest('.hotel-row') || input.closest('.car-row') || input.closest('.train-row')) {
                 return;
             }
             
@@ -1472,11 +1609,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        flatpickr('.flatpickr-hotel-checkout', {
-            dateFormat: 'd/m/Y',
-            minDate: 'today',
-            allowInput: false,
-            clickOpens: true
+        // Initialize remaining checkout inputs that weren't handled by hotel rows
+        document.querySelectorAll('.flatpickr-hotel-checkout').forEach(input => {
+            if (!input.closest('.hotel-row')) {
+                flatpickr(input, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true
+                });
+            }
         });
 
         // Initialize existing time inputs

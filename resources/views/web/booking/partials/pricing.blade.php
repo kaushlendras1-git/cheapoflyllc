@@ -318,6 +318,9 @@
                                 <option data-grossmco="1" data-cruise="1" value="Old Itinerary" {{ $pricingDetails->details == 'Old Itinerary' ? 'selected' : '' }}>Old Itinerary</option>
                                 <option data-grossmco="1" data-cruise="1" value="Changed Itinerary" {{ $pricingDetails->details == 'Changed Itinerary' ? 'selected' : '' }}>Changed Itinerary</option>
 
+                                <option data-grossmco="1" data-change="1" value="Change Fee" {{ $pricingDetails->details == 'Change Fee' ? 'selected' : '' }}>Change Fee</option>
+                                <option data-grossmco="1" data-change="1" value="Fare Difference"  {{ $pricingDetails->details == 'Fare Difference' ? 'selected' : '' }}>Fare Difference</option>
+
 
                             </select>
                         </td>

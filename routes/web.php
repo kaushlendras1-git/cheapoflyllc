@@ -74,6 +74,7 @@ Route::post('/update-device-token', [NotificationController::class, 'updateDevic
 Route::get('/search-airline', [FlightSearchListController::class, 'search'])->name('airline.search');
 Route::get('/search-train', [TrainSearchListController::class, 'search'])->name('train.search');
 Route::get('/search-airlines_code', [AirlineCodeController::class, 'search'])->name('airlines_code.search');
+Route::get('/api/cruise-ports', [\App\Http\Controllers\CruisePortController::class, 'getCruisePorts'])->name('cruise-ports.api');
 
 /**Booking **/
 

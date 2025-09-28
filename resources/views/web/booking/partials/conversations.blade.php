@@ -64,9 +64,9 @@
                                                             <p class="mb-0 comment-viewer ms-5">{{ $log->comment }} @ {{ $log->created_at->diffForHumans() }}</p>
                                                         </div>
                                                     </div>
-                                                    <div class="viewer-right-side">
+                                                    <!-- <div class="viewer-right-side">
                                                         <h6 class="mb-0">{{ $log->operation }}</h6>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </li>
