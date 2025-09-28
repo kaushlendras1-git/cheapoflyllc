@@ -436,16 +436,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Initialize Flatpickr for new date inputs
-        const dateInputs = newRow.querySelectorAll('.flatpickr-hotel-checkin');
+        const departureDateInput = newRow.querySelector('input[name*="[departure_date]"]');
+        const arrivalDateInput = newRow.querySelector('input[name*="[arrival_date]"]');
+        
         if (typeof flatpickr !== 'undefined') {
-            dateInputs.forEach(input => {
-                flatpickr(input, {
+            let arrivalFp;
+            
+            // Initialize departure date
+            if (departureDateInput) {
+                flatpickr(departureDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && arrivalFp) {
+                            arrivalFp.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+            }
+            
+            // Initialize arrival date
+            if (arrivalDateInput) {
+                arrivalFp = flatpickr(arrivalDateInput, {
                     dateFormat: 'd/m/Y',
                     minDate: 'today',
                     allowInput: false,
                     clickOpens: true
                 });
-            });
+            }
         }
 
         flightIndex++;
@@ -734,15 +754,51 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         passengerFormsContainer.appendChild(newRow);
 
-        // Initialize Flatpickr for the new date input
+        // Initialize Flatpickr for the new date input with passenger type dependency
         const dobInput = newRow.querySelector('.flatpickr-dob');
+        const passengerTypeSelect = newRow.querySelector('select[name*="[passenger_type]"]');
+        
         if (dobInput && typeof flatpickr !== 'undefined') {
-            flatpickr(dobInput, {
+            let dobFp = flatpickr(dobInput, {
                 dateFormat: 'd/m/Y',
                 maxDate: 'today',
                 allowInput: false,
                 clickOpens: true
             });
+            
+            // Add event listener for passenger type change
+            if (passengerTypeSelect) {
+                passengerTypeSelect.addEventListener('change', function() {
+                    const passengerType = this.value;
+                    let minDate = null;
+                    let maxDate = 'today';
+                    
+                    if (passengerType === 'Adult') {
+                        // Adult: above 11 years
+                        const elevenYearsAgo = new Date();
+                        elevenYearsAgo.setFullYear(elevenYearsAgo.getFullYear() - 11);
+                        maxDate = elevenYearsAgo;
+                    } else if (passengerType === 'Child') {
+                        // Child: 2-11 years
+                        const elevenYearsAgo = new Date();
+                        elevenYearsAgo.setFullYear(elevenYearsAgo.getFullYear() - 11);
+                        const twoYearsAgo = new Date();
+                        twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+                        minDate = elevenYearsAgo;
+                        maxDate = twoYearsAgo;
+                    } else if (passengerType === 'Seat Infant' || passengerType === 'Lap Infant') {
+                        // Infant: below 2 years
+                        const twoYearsAgo = new Date();
+                        twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+                        minDate = twoYearsAgo;
+                        maxDate = 'today';
+                    }
+                    
+                    dobFp.set('minDate', minDate);
+                    dobFp.set('maxDate', maxDate);
+                    dobInput.value = ''; // Clear existing date when type changes
+                });
+            }
         }
 
         // Initialize e-ticket formatter for the new input
@@ -1031,8 +1087,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><input type="text" style="width: 65px;" class="form-control usdAmount" placeholder="Amount" name="billing[${billingIndex}][authorized_amt]"></td>
                 <td>
                     <select class="form-control currencyField" name="billing[${billingIndex}][currency]">
-                        <option value="">Select</option>
-                        <option value="USD">USD</option>
+                        <option value="USD" >USD</option>
                         <option value="CAD">CAD</option>
                         <option value="EUR">EUR</option>
                         <option value="GBP">GBP</option>
@@ -1314,20 +1369,107 @@ function setState(stateID, countryName) {
 // Initialize Flatpickr for existing date inputs
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof flatpickr !== 'undefined') {
-        // Initialize for existing passenger DOB inputs
-        flatpickr('.flatpickr-dob', {
-            dateFormat: 'd/m/Y',
-            maxDate: 'today',
-            allowInput: false,
-            clickOpens: true
+        // Initialize for existing passenger DOB inputs with age restrictions
+        document.querySelectorAll('.passenger-form').forEach(row => {
+            const dobInput = row.querySelector('.flatpickr-dob');
+            const passengerTypeSelect = row.querySelector('select[name*="[passenger_type]"]');
+            
+            if (dobInput) {
+                let dobFp = flatpickr(dobInput, {
+                    dateFormat: 'd/m/Y',
+                    maxDate: 'today',
+                    allowInput: false,
+                    clickOpens: true
+                });
+                
+                // Function to update date restrictions based on passenger type
+                function updateDateRestrictions() {
+                    const passengerType = passengerTypeSelect ? passengerTypeSelect.value : '';
+                    let minDate = null;
+                    let maxDate = 'today';
+                    
+                    if (passengerType === 'Adult') {
+                        // Adult: above 11 years
+                        const elevenYearsAgo = new Date();
+                        elevenYearsAgo.setFullYear(elevenYearsAgo.getFullYear() - 11);
+                        maxDate = elevenYearsAgo;
+                    } else if (passengerType === 'Child') {
+                        // Child: 2-11 years
+                        const elevenYearsAgo = new Date();
+                        elevenYearsAgo.setFullYear(elevenYearsAgo.getFullYear() - 11);
+                        const twoYearsAgo = new Date();
+                        twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+                        minDate = elevenYearsAgo;
+                        maxDate = twoYearsAgo;
+                    } else if (passengerType === 'Seat Infant' || passengerType === 'Lap Infant') {
+                        // Infant: below 2 years
+                        const twoYearsAgo = new Date();
+                        twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+                        minDate = twoYearsAgo;
+                        maxDate = 'today';
+                    }
+                    
+                    dobFp.set('minDate', minDate);
+                    dobFp.set('maxDate', maxDate);
+                }
+                
+                // Apply initial restrictions based on current selection
+                updateDateRestrictions();
+                
+                // Add event listener for passenger type change
+                if (passengerTypeSelect) {
+                    passengerTypeSelect.addEventListener('change', function() {
+                        updateDateRestrictions();
+                        dobInput.value = ''; // Clear existing date when type changes
+                    });
+                }
+            }
         });
 
-        // Initialize for existing hotel date inputs
-        flatpickr('.flatpickr-hotel-checkin', {
-            dateFormat: 'd/m/Y',
-            minDate: 'today',
-            allowInput: false,
-            clickOpens: true
+        // Initialize for existing hotel date inputs (non-flight)
+        document.querySelectorAll('.flatpickr-hotel-checkin').forEach(input => {
+            // Skip flight date inputs as they need special handling
+            if (input.name && (input.name.includes('flight[') && (input.name.includes('[departure_date]') || input.name.includes('[arrival_date]')))) {
+                return;
+            }
+            
+            flatpickr(input, {
+                dateFormat: 'd/m/Y',
+                minDate: 'today',
+                allowInput: false,
+                clickOpens: true
+            });
+        });
+        
+        // Initialize existing flight date inputs with dependency
+        document.querySelectorAll('.flight-row').forEach(row => {
+            const departureDateInput = row.querySelector('input[name*="[departure_date]"]');
+            const arrivalDateInput = row.querySelector('input[name*="[arrival_date]"]');
+            
+            if (departureDateInput && arrivalDateInput) {
+                let arrivalFp;
+                
+                // Initialize departure date
+                flatpickr(departureDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length > 0 && arrivalFp) {
+                            arrivalFp.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+                
+                // Initialize arrival date
+                arrivalFp = flatpickr(arrivalDateInput, {
+                    dateFormat: 'd/m/Y',
+                    minDate: 'today',
+                    allowInput: false,
+                    clickOpens: true
+                });
+            }
         });
 
         flatpickr('.flatpickr-hotel-checkout', {
