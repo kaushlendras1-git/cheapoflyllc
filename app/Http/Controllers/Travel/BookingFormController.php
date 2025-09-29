@@ -950,7 +950,7 @@ class BookingFormController extends Controller
                 'cruise.array'                    => 'Cruise booking details must be an array.',
                 'cruise.min'                      => 'At least one cruise booking is required.',
 
-                'cruise.*.departure_port.required' => 'Cruise departure port is required.',
+                'cruise.*.departure_port.required' => 'Cruise Booking Itinerary Date field missing.',
                 'cruise.*.departure_port.string' => 'Cruise departure port must be a string.',
                 'cruise.*.departure_port.max'    => 'Cruise departure port cannot exceed 255 characters.',
 
@@ -1275,8 +1275,14 @@ class BookingFormController extends Controller
                     $flightData['booking_id'] = $booking->id;
 
                     // Handle both d/m/Y and d-m-Y formats
-                    $flightData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['departure_date']))->format('Y-m-d');
-                    $flightData['arrival_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $flightData['arrival_date']))->format('Y-m-d');
+                   $flightData['departure_date'] = preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $flightData['departure_date'])
+                                ? DateTime::createFromFormat('d/m/Y', $flightData['departure_date'])->format('Y-m-d')
+                                : DateTime::createFromFormat('Y-m-d', $flightData['departure_date'])->format('Y-m-d');
+
+                    $flightData['arrival_date'] = preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $flightData['arrival_date'])
+                                                ? DateTime::createFromFormat('d/m/Y', $flightData['arrival_date'])->format('Y-m-d')
+                                                : DateTime::createFromFormat('Y-m-d', $flightData['arrival_date'])->format('Y-m-d');
+
 
                     // Check if flight has ID (existing record)
                     if (!empty($flightData['id'])) {
