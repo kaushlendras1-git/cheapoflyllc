@@ -1369,8 +1369,14 @@ class BookingFormController extends Controller
                     $hotelData['booking_id'] = $booking->id;
 
                     // Handle both d/m/Y and d-m-Y formats
-                    $hotelData['checkin_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $hotelData['checkin_date']))->format('Y-m-d');
-                    $hotelData['checkout_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $hotelData['checkout_date']))->format('Y-m-d');
+                    $hotelData['checkin_date'] = preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $hotelData['checkin_date'])
+                        ? \DateTime::createFromFormat('d/m/Y', $hotelData['checkin_date'])->format('Y-m-d')
+                        : \DateTime::createFromFormat('Y-m-d', $hotelData['checkin_date'])->format('Y-m-d');
+
+                    // ✅ Hotel check-out date
+                    $hotelData['checkout_date'] = preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $hotelData['checkout_date'])
+                        ? \DateTime::createFromFormat('d/m/Y', $hotelData['checkout_date'])->format('Y-m-d')
+                        : \DateTime::createFromFormat('Y-m-d', $hotelData['checkout_date'])->format('Y-m-d');
 
                     // Check if hotel has ID (existing record)
                     if (!empty($hotelData['id'])) {
@@ -1478,7 +1484,8 @@ class BookingFormController extends Controller
                     $cruiseData['booking_id'] = $booking->id;
 
                     // Handle both d/m/Y and d-m-Y formats
-                    $cruiseData['departure_date'] = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $cruiseData['departure_date']))->format('Y-m-d');
+                   $cruiseData['departure_date'] = \DateTime::createFromFormat('d/m/Y', $cruiseData['departure_date'])->format('Y-m-d');
+
 
                     // Check if cruise has ID (existing record)
                     if (!empty($cruiseData['id'])) {
