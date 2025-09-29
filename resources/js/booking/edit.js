@@ -1727,6 +1727,94 @@ $(document).on('click', '.delete-flight-image', function() {
     });
 });
 
+// Delete hotel image handler
+$(document).on('click', '.delete-hotel-image-btn', function() {
+    if (!confirm('Are you sure you want to delete this image?')) return;
+
+    const imageId = $(this).data('id');
+    const row = $(this).closest('tr');
+
+    $.ajax({
+        url: `/booking/hotel-image/${imageId}`,
+        type: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function() {
+            row.remove();
+        },
+        error: function() {
+            alert('Failed to delete image');
+        }
+    });
+});
+
+// Delete cruise image handler
+$(document).on('click', '.delete-cruise-image-btn', function() {
+    if (!confirm('Are you sure you want to delete this image?')) return;
+
+    const imageId = $(this).data('id');
+    const row = $(this).closest('tr');
+
+    $.ajax({
+        url: `/booking/cruise-image/${imageId}`,
+        type: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function() {
+            row.remove();
+        },
+        error: function() {
+            alert('Failed to delete image');
+        }
+    });
+});
+
+// Delete car image handler
+$(document).on('click', '.delete-car-image-btn', function() {
+    if (!confirm('Are you sure you want to delete this image?')) return;
+
+    const imageId = $(this).data('id');
+    const row = $(this).closest('tr');
+
+    $.ajax({
+        url: `/booking/car-image/${imageId}`,
+        type: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function() {
+            row.remove();
+        },
+        error: function() {
+            alert('Failed to delete image');
+        }
+    });
+});
+
+// Delete train image handler
+$(document).on('click', '.delete-train-image-btn', function() {
+    if (!confirm('Are you sure you want to delete this image?')) return;
+
+    const imageId = $(this).data('id');
+    const row = $(this).closest('tr');
+
+    $.ajax({
+        url: `/booking/train-image/${imageId}`,
+        type: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function() {
+            row.remove();
+        },
+        error: function() {
+            alert('Failed to delete image');
+        }
+    });
+});
+
 $('#billingFieldModal').on('show.bs.modal',function(e){
     const action = e.relatedTarget.getAttribute('data-href');
     const form = $(e.target).find('form');

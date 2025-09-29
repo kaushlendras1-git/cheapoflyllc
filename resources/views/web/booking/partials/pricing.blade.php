@@ -37,7 +37,7 @@
             <table class="pricing-table table">
                 <thead>
                     <tr>
-                        <td colspan="4" style="border: solid 1px;">
+                        <td colspan="5" style="border: solid 1px;">
                             <div
                                 style="color: #ed9900;display: flex; justify-content: space-between; align-items: center;">
                                 <strong>Gross Amount</strong>
@@ -57,9 +57,10 @@
                         <th>No. of Pax</th>
                         <th>Price*</th>
                         <th>Total*</th>
+                        <th>Price Description</th>
                         <th>Price*</th>
                         <th>Total</th>
-                        <th>Details</th>
+                        <th>Cost Description</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -84,6 +85,31 @@
                                 placeholder="Gross Price" min="0" step="0.01" style="width: 110px;"></td>
 
                         <td><span class="gross-total">0.00</span></td>
+                        <td>
+                            <select style="width: 160px;" name="pricing[0][price_description]" class="form-select form-control">
+                            <option value="">Select</option>
+                            <option value="Flight Price Offered">Flight Price Offered</option>
+                            <option value="Hotel Price Offered">Hotel Price Offered</option>
+                            <option value="Car Price Offered">Car Price Offered</option>
+                            <option value="Cruise Price Offered">Cruise Price Offered</option>
+                            <option value="Train Price Offered">Train Price Offered</option>
+                            <option value="Excursions">Excursions</option>
+                            <option value="Spa Services">Spa Services</option>
+                            <option value="WiFi Packages">WiFi Packages</option>
+                            <option value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
+                            <option value="Shuttle Services">Shuttle Services</option>
+                            <option value="Speciality Dining">Speciality Dining</option>
+                            <option value="Drink Packages">Drink Packages</option>
+                            <option value="Trip Insurance">Trip Insurance</option>
+                            <option value="Check-in Proces Luggage Tags &amp; Sailing Pass">Check-in Proces Luggage Tags &amp; Sailing Pass</option>
+                            <option value="Special Occasion Package">Special Occasion Package</option>
+                            <option value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
+                            <option value="Pet-in Cabin">Pet-in Cabin</option>
+                            <option value="Pet-in Cargo">Pet-in Cargo</option>
+                            </select>
+                        </td>
+
+
                         <td><input type="number" style="width: 110px;" class="form-control" name="pricing[0][net_price]"
                                 placeholder="Net Price" min="0" step="0.01">
                         </td>
@@ -92,7 +118,6 @@
                             <select style="width: 145px;" name="pricing[0][details]"
                                 class="form-select form-control detailDropdown" id="details_0">
                                 <option value="">Select</option>
-
                                 <option data-grossmco="1" value="Flight Ticket Cost">Flight Ticket Cost</option>
                                 <option data-grossmco="1" value="Hotel Cost">Hotel Cost</option>
                                 <option data-grossmco="1" value="Car Rental Cost">Car Rental Cost</option>
@@ -155,6 +180,7 @@
                         <td>
                             <span class="gross-total">0.00</span>
                         </td>
+                        <td>ffsdfs</td>
                         <td>
                             <input type="number" style="width: 110px;" class="form-control"
                                 name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
@@ -193,6 +219,7 @@
                         <td>
                             <span class="gross-total">0.00</span>
                         </td>
+                        <td></td>
                         <td>
                             <input type="number" style="width: 110px;" class="form-control"
                                 name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
@@ -260,12 +287,39 @@
                         <td>
                             <span class="gross-total">{{$pricingDetails->gross_price??'0.00'}}</span>
                         </td>
+
+                        <td>
+                            <select style="width: 160px;" name="pricing[{{$key}}][price_description]" class="form-select form-control">
+                            <option value="">Select</option>
+                            <option value="Flight Price Offered" {{$pricingDetails->price_description=='Flight Price Offered'?'selected':''}} > Flight Price Offered</option>
+                            <option value="Hotel Price Offered" {{$pricingDetails->price_description=='Hotel Price Offered'?'selected':''}} >Hotel Price Offered</option>
+                            <option value="Car Price Offered" {{$pricingDetails->price_description=='Car Price Offered'?'selected':''}} >Car Price Offered</option>
+                            <option value="Cruise Price Offered" {{$pricingDetails->price_description=='Cruise Price Offered'?'selected':''}} >Cruise Price Offered</option>
+                            <option value="Train Price Offered" {{$pricingDetails->price_description=='Train Price Offered'?'selected':''}} >Train Price Offered</option>
+                            <option value="Excursions" {{$pricingDetails->price_description=='Excursions'?'selected':''}} >Excursions</option>
+                            <option value="Spa Services" {{$pricingDetails->price_description=='Spa Services'?'selected':''}} >Spa Services</option>
+                            <option value="WiFi Packages" {{$pricingDetails->price_description=='WiFi Packages'?'selected':''}} >WiFi Packages</option>
+                            <option value="Crew Appreciation Fees/Gratuities" {{$pricingDetails->price_description=='Crew Appreciation Fees/Gratuities'?'selected':''}} >Crew Appreciation Fees/Gratuities</option>
+                            <option value="Shuttle Services" {{$pricingDetails->price_description=='Shuttle Services'?'selected':''}} >Shuttle Services</option>
+                            <option value="Speciality Dining" {{$pricingDetails->price_description=='Speciality Dining'?'selected':''}} >Speciality Dining</option>
+                            <option value="Drink Packages" {{$pricingDetails->price_description=='Drink Packages'?'selected':''}} >Drink Packages</option>
+                            <option value="Trip Insurance" {{$pricingDetails->price_description=='Trip Insurance'?'selected':''}} >Trip Insurance</option>
+                            <option value="Check-in Proces Luggage Tags &amp; Sailing Pass" {{$pricingDetails->price_description=='Check-in Proces Luggage Tags & Sailing Pass'?'selected':''}} >Check-in Proces Luggage Tags & Sailing Pass</option>
+                            <option value="Special Occasion Package" {{$pricingDetails->price_description=='Special Occasion Package'?'selected':''}} >Special Occasion Package</option>
+                            <option value="Water Bottle or Distilled Water Package" {{$pricingDetails->price_description=='Water Bottle or Distilled Water Package'?'selected':''}} >Water Bottle or Distilled Water Package</option>
+                            <option value="Pet-in Cabin" {{$pricingDetails->price_description=='Pet-in Cabin'?'selected':''}} >Pet-in Cabin</option>
+                            <option value="Pet-in Cargo" {{$pricingDetails->price_description=='Pet-in Cargo'?'selected':''}} >Pet-in Cargo</option>
+                            </select>
+                        </td>
+                        
                         <td>
                             <input type="number" style="width: 110px;" class="form-control"
                                 name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
                                 placeholder="Net Price" min="0" step="0.01">
                         </td>
+
                         <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
+                        
                         <td>
                             <select class="form-control detailDropdown" style="width: 145px;"
                                 name="pricing[{{$key}}][details]" id="details_{{$key}}">
@@ -315,9 +369,7 @@
                                 <option data-grossmco="1" data-cruise="1" value="Check-in Proces Luggage Tags & Sailing Pass" {{ $pricingDetails->details == 'Check-in Proces Luggage Tags & Sailing Pass' ? 'selected' : '' }}>Check-in Proces Luggage Tags & Sailing Pass</option>
                                 <option data-grossmco="1" data-cruise="1" value="Special Occasion Package" {{ $pricingDetails->details == 'Special Occasion Package' ? 'selected' : '' }}>Special Occasion Package</option>
                                 <option data-grossmco="1" data-cruise="1" value="Water Bottle or Distilled Water Package" {{ $pricingDetails->details == 'Water Bottle or Distilled Water Package' ? 'selected' : '' }}>Water Bottle or Distilled Water Package</option>
-                                <option data-grossmco="1" data-cruise="1" value="Old Itinerary" {{ $pricingDetails->details == 'Old Itinerary' ? 'selected' : '' }}>Old Itinerary</option>
-                                <option data-grossmco="1" data-cruise="1" value="Changed Itinerary" {{ $pricingDetails->details == 'Changed Itinerary' ? 'selected' : '' }}>Changed Itinerary</option>
-
+                               
                                 <option data-grossmco="1" data-change="1" value="Change Fee" {{ $pricingDetails->details == 'Change Fee' ? 'selected' : '' }}>Change Fee</option>
                                 <option data-grossmco="1" data-change="1" value="Fare Difference"  {{ $pricingDetails->details == 'Fare Difference' ? 'selected' : '' }}>Fare Difference</option>
 
@@ -344,8 +396,10 @@
                         <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
                         <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
                         <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
+                        <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"></td>
                         <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"><span
                                 id="merchant_fee_text1">0.00</span></td>
+
                         <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;"><span
                                 id="merchant_fee_text2">0.00</span></td>
                         <td class="pb-0" style="border-bottom: 1;border-right: 1px solid #000 !important;">Merchant Fee
@@ -354,10 +408,11 @@
                     </tr>
 
                     <tr>
-                        <td colspan="6" class="pb-0" style="border-bottom: 0;">
+                        <td colspan="5" class="pb-0" style="border-bottom: 0;border-right: 1px solid #000 !important;">
                             <strong style="color:#055bdb">Gross MCO</strong> : <span id="total_gross_value">0.00</span>
                             <input name="gross_mco" type="hidden" id="gross_mco" />
                         </td>
+
                         <td class="pb-0" style="border-bottom: 0;">
                             <strong style="color:#055bdb">Net MCO</strong> : <span
                                 id="total_netprofit_value">0.00</span>
@@ -365,10 +420,8 @@
                         </td>
                     </tr>
 
-                    <tr>
-                        <td colspan="6" class="pb-0" style="border-bottom: 0;">
                             <input name="merchant_fee" type="hidden" id="merchant_fee" />
-                        </td>
+                       
                     </tr>
                 </tfoot>
             </table>

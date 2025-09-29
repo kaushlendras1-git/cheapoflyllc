@@ -19,6 +19,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-feedback/{id}',[BookingFormController::class,'updateFeedBack'])->name('update-feedback');
         Route::post('/delete-feedback/{id}',[BookingFormController::class,'deleteFeedBack'])->name('delete-feedback');
         Route::delete('/flight-image/{id}', [BookingFormController::class, 'deleteFlightImage'])->name('delete.flight.image');
+        Route::delete('/hotel-image/{id}', [BookingFormController::class, 'deleteHotelImage'])->name('delete.hotel.image');
+        Route::delete('/cruise-image/{id}', [BookingFormController::class, 'deleteCruiseImage'])->name('delete.cruise.image');
+        Route::delete('/car-image/{id}', [BookingFormController::class, 'deleteCarImage'])->name('delete.car.image');
+        Route::delete('/train-image/{id}', [BookingFormController::class, 'deleteTrainImage'])->name('delete.train.image');
         Route::get('/add', [BookingFormController::class, 'add'])->name('add');
         Route::get('/search', [BookingFormController::class, 'search'])->name('search');
         Route::get('/export', [BookingFormController::class, 'export'])->name('export');

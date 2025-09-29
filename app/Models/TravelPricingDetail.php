@@ -15,6 +15,7 @@ class TravelPricingDetail extends Model
         'booking_id',
         'passenger_type',
         'num_passengers',
+        'price_description',
         'gross_price',
         'net_price',
         'details'

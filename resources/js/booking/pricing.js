@@ -34,8 +34,32 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="number" style="width: 120px" class="form-control num_passengers" name="pricing[${pricingIndex}][num_passengers]" value="1" min="0"></td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
             <td><span class="gross-total">0.00</span></td>
+            <td>
+            <select style="width: 160px;" name="pricing[${pricingIndex}][price_description]" class="form-select form-control">
+                <option value="">Select</option>
+                <option value="Flight Price Offered">Flight Price Offered</option>
+                <option value="Hotel Price Offered">Hotel Price Offered</option>
+                <option value="Car Price Offered">Car Price Offered</option>
+                <option value="Cruise Price Offered">Cruise Price Offered</option>
+                <option value="Train Price Offered">Train Price Offered</option>
+                <option value="Excursions">Excursions</option>
+                <option value="Spa Services">Spa Services</option>
+                <option value="WiFi Packages">WiFi Packages</option>
+                <option value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
+                <option value="Shuttle Services">Shuttle Services</option>
+                <option value="Speciality Dining">Speciality Dining</option>
+                <option value="Drink Packages">Drink Packages</option>
+                <option value="Trip Insurance">Trip Insurance</option>
+                <option value="Check-in Proces Luggage Tags &amp; Sailing Pass">Check-in Proces Luggage Tags &amp; Sailing Pass</option>
+                <option value="Special Occasion Package">Special Occasion Package</option>
+                <option value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
+                <option value="Pet-in Cabin">Pet-in Cabin</option>
+                <option value="Pet-in Cargo">Pet-in Cargo</option>
+            </select>
+            </td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
             <td><span class="net-total">0.00</span></td>
+          
             <td>
                 <select style="width: 145px;" class="form-control detailDropdown" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
@@ -64,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option data-grossmco="1" data-cruise="1" value="Check-in Proces Luggage Tags & Sailing Pass">Check-in Proces Luggage Tags & Sailing Pass</option>
                     <option data-grossmco="1" data-cruise="1" value="Special Occasion Package">Special Occasion Package</option>
                     <option data-grossmco="1" data-cruise="1" value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
-                    <option data-grossmco="1" data-cruise="1" value="Old Itinerary">Old Itinerary</option>
-                    <option data-grossmco="1" data-cruise="1" value="Changed Itinerary">Changed Itinerary</option>
 
                     <option data-grossmco="1" data-change="1" value="Change Fee">Change Fee</option>
                     <option data-grossmco="1" data-change="1" value="Fare Difference">Fare Difference</option>
@@ -286,6 +308,7 @@ document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
                 <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
                 <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
                 <td><span class="gross-total">0.00</span></td>
+                <td></td>
                 <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="10.00" readonly></td>
                 <td><span class="net-total">${netTotal}</span></td>
                 <td>
@@ -316,6 +339,7 @@ document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
                 <td><input type="number" style="width: 120px" class="form-control" name="pricing[${pricingIndex}][num_passengers]" value="${totalPassengers}" readonly></td>
                 <td><input type="number" style="width: 100px" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" readonly></td>
                 <td><span class="gross-total">0.00</span></td>
+                <td></td>
                 <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" value="100.00" readonly></td>
                 <td><span class="net-total">${netTotal}</span></td>
                 <td>
@@ -397,8 +421,8 @@ function updateFooterTotals() {
         //let merchantFeefinal = grossMco * 0.15;
         let merchantFeefinal = diff * 0.15;
         // document.getElementById('merchant_fee_text').textContent = merchantFeefinal;
-        document.getElementById('merchant_fee_text1').textContent = merchantFeefinal;
-        document.getElementById('merchant_fee_text2').textContent = merchantFeefinal;
+        document.getElementById('merchant_fee_text1').textContent = merchantFeefinal.toFixed(2);
+        document.getElementById('merchant_fee_text2').textContent = merchantFeefinal.toFixed(2);
         document.getElementById('merchant_fee').value = merchantFeefinal;
         let fetchNetAmount = document.getElementById('total_net_profit').textContent;
         let finalNetAmount = parseFloat(fetchNetAmount) + merchantFeefinal;
@@ -429,7 +453,7 @@ function updateFooterTotals() {
     const fetchgrossAmount = document.getElementById('total_gross_profit').textContent;
     const fetchnetAmount = document.getElementById('total_net_profit').textContent;
     const finalnetMCOs = fetchgrossAmount - fetchnetAmount;
-    document.getElementById('total_netprofit_value').textContent = finalnetMCOs;
+    document.getElementById('total_netprofit_value').textContent = parseFloat(finalnetMCOs).toFixed(2);
     document.getElementById('net_mco').value = finalnetMCOs;
 }
 

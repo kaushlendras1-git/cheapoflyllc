@@ -1762,11 +1762,8 @@ class BookingFormController extends Controller
             $existingPricingIds = $booking->pricingDetails->pluck('id')->toArray();
             $newPricings = $request->input('pricing', []);
 
-
-          #  dd($newPricings);
-
+           # dd($newPricings);
             $processedPricingIds = [];
-
             TravelPricingDetail::where('booking_id',$booking->id)->get()->each->delete();
             foreach ($newPricings as $index => $pricingData) {
                 $pricingData['booking_id'] = $booking->id;
@@ -1781,8 +1778,6 @@ class BookingFormController extends Controller
                 ->get()
                 ->each
                 ->delete();
-
-
 
             if ($request->hasFile('sector_details')) {
                 foreach ($request->file('sector_details') as $file) {
@@ -1995,6 +1990,75 @@ class BookingFormController extends Controller
                 $image = FlightImages::findOrFail($id);
 
                 // Delete file from storage if exists
+                if (file_exists(public_path($image->file_path))) {
+                    unlink(public_path($image->file_path));
+                }
+
+                $image->delete();
+
+                return response()->json(['success' => true]);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false], 500);
+            }
+        }
+
+        public function deleteHotelImage($id)
+        {
+            try {
+                $image = HotelImages::findOrFail($id);
+
+                // Delete file from storage if exists
+                if (file_exists(public_path($image->file_path))) {
+                    unlink(public_path($image->file_path));
+                }
+
+                $image->delete();
+
+                return response()->json(['success' => true]);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false], 500);
+            }
+        }
+
+        public function deleteCruiseImage($id)
+        {
+            try {
+                $image = CruiseImages::findOrFail($id);
+
+                if (file_exists(public_path($image->file_path))) {
+                    unlink(public_path($image->file_path));
+                }
+
+                $image->delete();
+
+                return response()->json(['success' => true]);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false], 500);
+            }
+        }
+
+        public function deleteCarImage($id)
+        {
+            try {
+                $image = CarImages::findOrFail($id);
+
+                if (file_exists(public_path($image->file_path))) {
+                    unlink(public_path($image->file_path));
+                }
+
+                $image->delete();
+
+                return response()->json(['success' => true]);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false], 500);
+            }
+        }
+
+        public function deleteTrainImage($id)
+        {
+            try {
+                $image = TrainImages::findOrFail($id);
+
                 if (file_exists(public_path($image->file_path))) {
                     unlink(public_path($image->file_path));
                 }

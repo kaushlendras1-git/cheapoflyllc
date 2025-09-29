@@ -200,6 +200,7 @@
                             <th>Image Preview</th>
                             <th>Agent Name</th>
                             <th>Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -211,6 +212,11 @@
                                             style="max-height: 100px;" alt="Flight Image"></a></td>
                                 <td>{{ $img->get_agent?->name }}</td>
                                 <td>{{ $img->created_at }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-danger delete-cruise-image-btn" data-id="{{ $img->id }}">
+                                        <i class="ri ri-delete-bin-line"></i>
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
