@@ -715,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Get all 10th column elements (th and td)
         const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(9)');
-        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(10)');
+        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(9)');
 
         if (allowedDataIds.includes(dataType)) {
             // Show credit column
@@ -786,7 +786,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control flatpickr-dob" style="width: 105px;" name="passenger[${passengerIndex}][dob]" placeholder="dd/mm/yyyy"></td>
             <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
             <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
-            <td><input type="text" class="form-control w-100 e-ticket-input" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket" maxlength="14"></td>            <td style="${!isCruise ? 'display:none' : ''}"><input type="text" class="form-control w-100 room_category" name="passenger[${passengerIndex}][room_category]" placeholder="Room Category"></td>
+            <td><input type="text" class="form-control w-100 e-ticket-input" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket" maxlength="14"></td>
+            <td style="${!isCruise ? 'display:none' : ''}"><input type="text" class="form-control w-100 room_category" name="passenger[${passengerIndex}][room_category]" placeholder="Room Category"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
                     <i class="icon-base ri ri-delete-bin-2-line"></i>

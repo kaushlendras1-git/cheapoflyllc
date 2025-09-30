@@ -79,13 +79,13 @@
                     $billingDetails = $data['billing'];
                 @endphp
                 
-                <button class="btn btn-custom btn-mail d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
+                <!-- <button class="btn btn-custom btn-mail d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
                 data-booking_id="{{ encode($billingDetails->booking_id) }}"
                 data-card_id="{{ encode($billingDetails->state) }}"
                 data-card_billing_id="{{ encode($billingDetails->id) }}"
                 data-email="{{ $billingDetails->getBillingDetail->email }}"
                 data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Auth Mail{{ $cardDisplay }}
-                </button>
+                </button> -->
             @endforeach
 
             @foreach($cardsByHolder as $holderName => $data)

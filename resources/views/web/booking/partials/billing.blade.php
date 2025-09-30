@@ -111,10 +111,14 @@
                                                         DISCOVER</option>
                                                 </select>
                                             </td>
-                                            <td><input type="text" maxlength="16" pattern="[0-9]*" inputmode="numeric" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control"
+                                            <td>
+                                                <input type="text" maxlength="16" pattern="[0-9]*" inputmode="numeric" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control cc-number-input"
                                                     style="width: 140px;" placeholder="CC Number"
                                                     name="billing[{{ $key }}][cc_number]"
-                                                    value="{{ $billingDetails['cc_number'] }}"></td>
+                                                    value="{{ $billingDetails['cc_number'] }}"
+                                                    data-original="{{ $billingDetails['cc_number'] }}"
+                                                    onfocus="showFullNumber(this)" onblur="maskNumber(this)">
+                                            </td>
 
 
                                             <td><input type="text" class="form-control w-100 cc_holder_name"
@@ -214,9 +218,9 @@
 
                                             <td>
 
-                                                <button type="button" class="btn btn-outline-danger delete-billing-btn">
+                                                <!-- <button type="button" class="btn btn-outline-danger delete-billing-btn">
                                                     <i class="ri ri-delete-bin-line"></i>
-                                                </button>
+                                                </button> -->
                                             </td>
                                         </tr>
                                     @endforeach
@@ -317,6 +321,44 @@
                 </div>
             </div>
         </div>
+
+<script>
+function maskNumber(input) {
+    const original = input.getAttribute('data-original');
+    if (original && original.length > 4) {
+        const lastFour = original.slice(-4);
+        const maskedPart = 'x'.repeat(original.length - 4);
+        input.value = maskedPart + lastFour;
+    }
+}
+
+function showFullNumber(input) {
+    const original = input.getAttribute('data-original');
+    // if (original) {
+    //     input.value = original;
+    // }
+}
+
+// Initialize masking on page load
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.cc-number-input').forEach(input => {
+        if (input.value) {
+            input.setAttribute('data-original', input.value);
+            maskNumber(input);
+        }
+    });
+});
+
+// Before form submission, restore original values
+document.getElementById('bookingForm').addEventListener('submit', function() {
+    document.querySelectorAll('.cc-number-input').forEach(input => {
+        const original = input.getAttribute('data-original');
+        if (original) {
+            input.value = original;
+        }
+    });
+});
+</script>
 
         @else
 

@@ -214,38 +214,6 @@ document.querySelectorAll('.destroy_filepond').forEach(input => {
     FilePond.destroy(input);
 });
 
-// const bookingTypes = [
-//     { key: 'flight', inputName: 'flightbookingimage[]' },
-//     { key: 'hotel', inputName: 'hotelbookingimage[]' },
-//     { key: 'cruise', inputName: 'cruisebookingimage[]' },
-//     { key: 'car', inputName: 'carbookingimage[]' },
-//     { key: 'train', inputName: 'trainbookingimage[]' },
-// ];
-
-// bookingTypes.forEach(({ key, inputName }) => {
-//     const span = document.getElementById(`${key}_uploaded_files`);
-//     const baseUrl = span.dataset.baseurl;
-//     const normalizedBaseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-//     const uploadedImages = JSON.parse(span.dataset.images || '[]');
-//
-//     const pondInstance = ponds[inputName];
-//
-//     if (pondInstance && uploadedImages.length) {
-//         uploadedImages.forEach((filePath) => {
-//             if (filePath) {
-//                 const fullUrl = normalizedBaseUrl + filePath;
-//                 fetch(fullUrl)
-//                     .then(response => response.blob())
-//                     .then(blob => {
-//                         const fileName = filePath.split('/').pop();
-//                         const file = new File([blob], fileName, { type: blob.type });
-//                         pondInstance.addFile(file);
-//                     })
-//                     .catch(error => console.error(`Error loading ${key} file:`, error));
-//             }
-//         });
-//     }
-// });
 
 document.getElementById('bookingForm').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -507,47 +475,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         });
     }
 
-
-    //     if (isFlightChecked) {
-    //     const skipFieldsForFlight = ['airline_code', 'flight_number', 'class_of_service'];
-    //     const inputs = document.querySelectorAll('[name^="flight["]');
-    //     const rows = {};
-    //     let dynamicIndex = 0;
-
-    //     inputs.forEach(input => {
-    //         const match = input.name.match(/^flight\[\d+\]\[([^\]]+)\]$/); // ignore original index
-    //         if (!match) return;
-
-    //         const field = match[1];
-    //         const value = (input.type === 'checkbox' || input.type === 'radio')
-    //             ? (input.checked ? input.value : '')
-    //             : input.value.trim();
-
-    //         // Start a new row when direction is Outbound or Inbound
-    //         if (field === 'direction') {
-    //             dynamicIndex++;
-    //             rows[dynamicIndex] = {};
-    //         }
-
-    //         if (!rows[dynamicIndex]) rows[dynamicIndex] = {};
-    //         rows[dynamicIndex][field] = value;
-    //     });
-
-    //     Object.keys(rows).forEach(index => {
-    //         const rowData = rows[index];
-    //         const allBlank = skipFieldsForFlight.every(field => !((rowData[field] ?? '').trim()));
-
-    //         if (!allBlank) {
-    //             Object.entries(rowData).forEach(([fieldName, value]) => {
-    //                 if (value) {
-    //                     formdata.append(`flight[${index}][${fieldName}]`, value);
-    //                 }
-    //             });
-    //         }
-    //     });
-    // }
-
-
+    
     for (const inputName in ponds) {
         const pond = ponds[inputName];
         pond.getFiles().forEach(fileItem => {
@@ -1134,14 +1062,21 @@ document.addEventListener('DOMContentLoaded', function () {
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    // Restore the active tab from localStorage
-    let activeTab = localStorage.getItem("activeTab");
-    if (activeTab) {
-        let tabEl = document.querySelector(`a[href="${activeTab}"]`);
-        if (tabEl) {
-            new bootstrap.Tab(tabEl).show();
+    // Check if this is a page reload using performance.navigation
+    const isReload = performance.navigation.type === performance.navigation.TYPE_RELOAD;
+    
+    // Restore the active tab from localStorage only on reload
+    if (isReload) {
+        let activeTab = localStorage.getItem("activeTab");
+        if (activeTab) {
+            let tabEl = document.querySelector(`a[href="${activeTab}"]`);
+            if (tabEl) {
+                new bootstrap.Tab(tabEl).show();
+            }
         }
+    } else {
+        // Clear stored tab for fresh navigation
+        localStorage.removeItem("activeTab");
     }
 
     // Save the active tab whenever it changes
@@ -1150,7 +1085,6 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("activeTab", e.target.getAttribute("href"));
         });
     });
-
 
 });
 

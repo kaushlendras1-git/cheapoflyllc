@@ -22,7 +22,7 @@
                         <th>Seat</th>
                         <th>Credit/Refund Amt.</th>
                         <th>E-Ticket</th>
-                        <th id="room-category-column" style="display:none">Room Category</th>
+                        <th id="room-category-column" style="display: {{ in_array('Cruise', $bookingTypes) ? 'block' : 'none' }};">Room Category</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -118,13 +118,12 @@
                                     value="{{ $passengers->e_ticket_number }}" placeholder="E Ticket">
                             </td>
                             
-                         
-                                <td id="cruise_room_category" style="display: none;">
-                                    <input type="text" class="form-control w-100 room_category"
-                                        name="passenger[{{ $key }}][room_category]"
-                                        value="{{ $passengers->room_category }}"
-                                        placeholder="Room Category">
-                                </td>
+                            <td class="room_category" style="display: {{ in_array('Cruise', $bookingTypes) ? 'table-cell' : 'none' }};">
+                                <input type="text" class="form-control w-100"
+                                    name="passenger[{{ $key }}][room_category]"
+                                    value="{{ $passengers->room_category }}"
+                                    placeholder="Room Category">
+                            </td>
                          
 
                                  <input type="hidden" name="passenger[{{ $key }}][id]"

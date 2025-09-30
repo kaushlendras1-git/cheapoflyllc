@@ -485,7 +485,6 @@ class BookingFormController extends Controller
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
-
         try {
             $bookingTypes = $request->input('booking-type', []);
             $rules = [
@@ -529,8 +528,10 @@ class BookingFormController extends Controller
                 $rules['passenger.*.seat_number']                = 'nullable|string';
                 $rules['passenger.*.credit_note']                = 'nullable|numeric';
                 $rules['passenger.*.e_ticket_number']            = 'nullable|string';
+                $rules['passenger.*.room_category']            = 'nullable|string';
             }
 
+            #dd($request->all());
 
             if(auth()->user()->department_id != 5 && auth()->user()->department_id != 3)  {
                     // ---- FLIGHT ----
@@ -807,7 +808,7 @@ class BookingFormController extends Controller
 
                 'billing.*.card_type.required'      => 'Billing card type is required.',
                 'billing.*.card_type.string'        => 'Billing card type must be a string.',
-                'billing.*.card_type.in'            => 'Billing card type must be one of: VISA, MasterCard, AMEX, Discover.',
+                'billing.*.card_type.in'            => 'Billing card type must be one of: Visa, MasterCard, Amex, Discover.',
 
                 'billing.*.cc_number.required'      => 'Billing credit card number is required.',
                 'billing.*.cc_number.string'        => 'Billing credit card number must be a string.',
@@ -1079,17 +1080,17 @@ class BookingFormController extends Controller
 
                     if ($cardType === 'AMEX') {
                         if (strlen($ccNumber) !== 15) {
-                            $validator->errors()->add("billing.$index.cc_number", 'AMEX card number must be exactly 15 digits.');
+                            $validator->errors()->add("billing.$index.cc_number", 'Amex card number must be exactly 15 digits.');
                         }
                         if (strlen($cvv) !== 4) {
-                            $validator->errors()->add("billing.$index.cvv", 'AMEX CVV must be exactly 4 digits.');
+                            $validator->errors()->add("billing.$index.cvv", 'Amex CVV must be exactly 4 digits.');
                         }
                     } else {
                         if (strlen($ccNumber) !== 16) {
-                            $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for non-AMEX.');
+                            $validator->errors()->add("billing.$index.cc_number", 'Card number must be exactly 16 digits for Non-Amex.');
                         }
                         if (strlen($cvv) !== 3) {
-                            $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for non-AMEX.');
+                            $validator->errors()->add("billing.$index.cvv", 'CVV must be exactly 3 digits for Non-Amex.');
                         }
                     }
 
@@ -1141,18 +1142,19 @@ class BookingFormController extends Controller
 
             $booking = TravelBooking::findOrFail($id);
 
-            // $lastUpdatedAt = $request->input('last_updated_at');
-            // $bookingUpdatedAt = $booking->updated_at ? $booking->updated_at->format('Y-m-d H:i:s') : null;
+            $lastUpdatedAt = $request->input('last_updated_at');
+            $bookingUpdatedAt = $booking->updated_at ? $booking->updated_at->format('Y-m-d H:i:s') : null;
 
-            // if (strtotime($lastUpdatedAt) !== strtotime($bookingUpdatedAt)) {
-            //     return response()->json([
-            //         'status' => 'error',
-            //         'error' => 'This booking was updated by someone else. Please refresh and try again.',
-            //         'code' => 422,
-            //         'reload' => true,
-            //         'delay_reload' => 3000
-            //     ], 422);
-            // }
+            if (strtotime($lastUpdatedAt) !== strtotime($bookingUpdatedAt)) {
+                return response()->json([
+                    'status' => 'error',
+                    'error' => 'This booking was updated by someone else. Please refresh and try again.',
+                    'code' => 422,
+                    'reload' => true,
+                    'delay_reload' => 3000
+                ], 422);
+            }
+            
 
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',

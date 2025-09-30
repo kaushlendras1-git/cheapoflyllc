@@ -217,13 +217,6 @@
                                     </li>
 
                                   
-                                    
-                                    <li class="menu-item {{ Route::currentRouteName() == 'status-management.index' ? 'active' : '' }}">
-                                        <a href="{{ route('status-management.index') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-settings-3-line"></i>
-                                            <div data-i18n="Status Management">Status Management</div>
-                                        </a>
-                                    </li>
 
                                      <li class="menu-item {{ Route::currentRouteName() == 'emails.index' ? 'active' : '' }}">
                                         <a href="{{ route('emails.index') }}" class="menu-link">

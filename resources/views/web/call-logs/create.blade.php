@@ -182,11 +182,16 @@
                                 <option value="" {{ old('call_type') == '' ? 'selected' : '' }}>Select</option>
                                 @foreach($call_types as $call_type)
                                 <option value="{{ $call_type->id }}"
+                                    data-type="{{ $call_type->type }}"
+                                    data-id="{{ $call_type->id }}"
+
                                     {{ old('call_type') == $call_type->id ? 'selected' : '' }}>
                                     {{ $call_type->name }}
                                 </option>
                                 @endforeach
                             </select>
+
+                            
                             @error('call_type')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror

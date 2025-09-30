@@ -91,22 +91,6 @@
                             <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
                             <div class="d-flex align-items-center">
                                 <input type="tel" name="phone" id="phone" class="form-control" value="{{ old('phone', $callLog->phone) }}"  maxlength="20">
-                                <!-- <span id="country_flag" class="ms-2" style="font-size: 20px;">
-                                    @php
-                                        $countryCode = old('country_code', $callLog->country_code ?? 'US');
-                                        $flags = [
-                                            'US' => '🇺🇸',
-                                            'CA' => '🇨🇦', 
-                                            'GB' => '🇬🇧',
-                                            'AU' => '🇦🇺',
-                                            'IN' => '🇮🇳',
-                                            'DE' => '🇩🇪',
-                                            'FR' => '🇫🇷',
-                                            'MX' => '🇲🇽'
-                                        ];
-                                    @endphp
-                                    {{ $flags[$countryCode] ?? '🇺🇸' }}
-                                </span> -->
                             </div>
                             @error('phone')
                             <div class="text-danger">{{ $message }}</div>
@@ -148,6 +132,8 @@
                                     Select</option>
                                 @foreach($call_types as $call_type)
                                 <option value="{{ $call_type->id }}"
+                                    data-type="{{ $call_type->type }}"
+                                    data-id="{{ $call_type->id }}"    
                                     {{ old('call_type', $callLog->call_type) == $call_type->id ? 'selected' : '' }}>
                                     {{ $call_type->name }}
                                 </option>

@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\FcmController;
 use App\Http\Controllers\AgentLoginController;
-use App\Http\Controllers\StatusManagementController;
+
 use App\Http\Controllers\AirlineCodeController;
 use App\Http\Controllers\Masters\BookingStatusController;
 use App\Http\Controllers\Masters\PaymentStatusController;
@@ -131,22 +131,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('units', UnitController::class);
     });
 
-    // Status Management Routes
-    Route::prefix('status-management')->name('status-management.')->group(function () {
-        Route::get('/', [StatusManagementController::class, 'index'])->name('index');
-        // Booking-Payment Status Mappings
-        Route::post('/booking-payment-mapping', [StatusManagementController::class, 'storeBookingPaymentMapping'])->name('booking-payment-mapping.store');
-        Route::delete('/booking-payment-mapping/{id}', [StatusManagementController::class, 'deleteBookingPaymentMapping'])->name('booking-payment-mapping.delete');
-        
-        // Status Dependencies
-        Route::post('/status-dependency', [StatusManagementController::class, 'storeStatusDependency'])->name('status-dependency.store');
-        Route::delete('/status-dependency/{id}', [StatusManagementController::class, 'deleteStatusDependency'])->name('status-dependency.delete');
-        
-        // Payment Status Management
-        Route::post('/payment-status', [StatusManagementController::class, 'storePaymentStatus'])->name('payment-status.store');
-        Route::put('/payment-status/{id}', [StatusManagementController::class, 'updatePaymentStatus'])->name('payment-status.update');
-        Route::delete('/payment-status/{id}', [StatusManagementController::class, 'deletePaymentStatus'])->name('payment-status.delete');
-    });
+
 
     Route::resource('emails', EmailTemplateController::class);
     #Route::resource('call-back', CallBackController::class);
