@@ -16,7 +16,7 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         // Build query with search filters
-        $query = User::with(['currentShift.shift', 'currentTeam.team', 'departmentRelation', 'roleRelation', 'lobRelation', 'teamRelation']);
+        $query = User::with(['currentShift.shift', 'currentTeam.team', 'departmentRelation', 'roleRelation', 'lobRelation', 'teamRelation', 'teamLeader']);
 
         // Search by keyword (name, email, pseudo)
         if ($request->filled('keyword')) {
@@ -46,6 +46,11 @@ class MemberController extends Controller
         // Filter by team
         if ($request->filled('team')) {
             $query->where('team', $request->team);
+        }
+
+        // Filter by team leader
+        if ($request->filled('team_leader')) {
+            $query->where('team_leader', $request->team_leader);
         }
 
         // Handle AJAX requests
@@ -119,6 +124,9 @@ class MemberController extends Controller
        $departments = Department::all();
        $roles = Role::all();
        $teams = Team::all();
+       $team_leaders = User::whereHas('roleRelation', function($query) {
+           $query->where('name', 'Team Leader');
+       })->get();
        
        // Load teams for selected LOB
        if ($request->filled('lob')) {
@@ -138,6 +146,7 @@ class MemberController extends Controller
             'departments',
             'roles',
             'teams',
+            'team_leaders'
         ));
     }
 
@@ -155,6 +164,7 @@ class MemberController extends Controller
             'department_id' => 'required|exists:departments,id',
             'lob' => 'required|exists:lobs,id',
             'team' => 'required|exists:teams,id',
+            'team_leader' => 'nullable|exists:users,id',
         ]);
         $validated['status'] = 1;
         User::create($validated);
@@ -175,7 +185,10 @@ class MemberController extends Controller
         $lobs = LOB::all();
         $departments = Department::all();
         $roles = Role::all();
-        return view('web.members.edit', compact('member', 'lobs', 'departments', 'roles'));
+        $team_leaders = User::whereHas('roleRelation', function($query) {
+            $query->where('name', 'Team Leader');
+        })->get();
+        return view('web.members.edit', compact('member', 'lobs', 'departments', 'roles', 'team_leaders'));
     }
 
     public function update(Request $request, $hashid)
@@ -196,6 +209,7 @@ class MemberController extends Controller
             'role_id' => 'required|integer|exists:roles,id',
             'lob' => 'required|integer|exists:lobs,id',
             'team' => 'required|integer|exists:teams,id',
+            'team_leader' => 'nullable|exists:users,id',
             'profile_picture' => 'nullable|image|mimes:jpeg,png|max:1048',
             'aadhar_card' => 'nullable|image|mimes:jpeg,png|max:1048',
         ]);
