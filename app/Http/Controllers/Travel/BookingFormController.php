@@ -270,7 +270,7 @@ class BookingFormController extends Controller
 
         $bookings = $query
                             ->when(
-                                auth()->user()->role == 'User' && auth()->user()->departments == 'Sales',
+                                auth()->user()->role_id == 1 && auth()->user()->department_id == 2,
                                 function ($q) use ($userId) {
                                     $q->where('user_id', $userId);
                                 }
@@ -505,6 +505,11 @@ class BookingFormController extends Controller
                 'descriptor'          => 'nullable|string|max:255',
                 'amadeus_sabre_pnr'   => 'nullable|string|max:255',
                 'sector_details.*'    => 'required|file|image|max:2048',
+                'deposit_type'        => 'nullable|array',
+                'total_amount'        => 'nullable|array',
+                'deposit_amount'      => 'nullable|array',
+                'pending_amount'      => 'nullable|array',
+                'due_date'            => 'nullable|array',
             ];
 
             // if(query_type)
@@ -556,7 +561,7 @@ class BookingFormController extends Controller
                         $rules['flight.*.arrival_hours']     = 'required_with:flight';
                         $rules['flight.*.duration']          = 'required_with:flight';
                         #$rules['flight.*.transit']           = 'required_with:flight';
-                        #$rules['flight.*.arrival_date']      = 'required_with:flight|date|after_or_equal:flight.*.departure_date';
+                        $rules['flight.*.arrival_date']      = 'required_with:flight|after_or_equal:flight.*.departure_date';
                         #$rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
                         $rules['flight.*.flight_number']     = 'required_with:flight|string|max:10';
                         $rules['flight.*.cabin']             = 'required_with:flight|string|in:B.Eco,Eco,Pre.Eco,Buss.,First Class';
@@ -1071,6 +1076,45 @@ class BookingFormController extends Controller
             $validator = Validator::make($request->all(), $rules, $messages);
             $validator->after(function ($validator) use ($request, $bookingTypes) {
 
+                // Validate deposit fields inter-dependency
+                $depositType = $request->input('deposit_type', []);
+                $totalAmount = $request->input('total_amount', []);
+                $depositAmount = $request->input('deposit_amount', []);
+                $pendingAmount = $request->input('pending_amount', []);
+                $dueDate = $request->input('due_date', []);
+
+                $hasAnyDepositData = !empty(array_filter($depositType)) || !empty(array_filter($totalAmount)) ||
+                                   !empty(array_filter($depositAmount)) || !empty(array_filter($pendingAmount)) ||
+                                   !empty(array_filter($dueDate));
+
+                if ($hasAnyDepositData) {
+                    $maxCount = max(count($depositType), count($totalAmount), count($depositAmount), count($pendingAmount), count($dueDate));
+
+                    for ($i = 0; $i < $maxCount; $i++) {
+                        $hasValue = !empty($depositType[$i] ?? '') || !empty($totalAmount[$i] ?? '') ||
+                                  !empty($depositAmount[$i] ?? '') || !empty($pendingAmount[$i] ?? '') ||
+                                  !empty($dueDate[$i] ?? '');
+
+                        if ($hasValue) {
+                            if (empty($depositType[$i] ?? '')) {
+                                $validator->errors()->add("deposit_type.$i", 'Deposit type is required when other deposit fields have values.');
+                            }
+                            if (empty($totalAmount[$i] ?? '')) {
+                                $validator->errors()->add("total_amount.$i", 'Total amount is required when other deposit fields have values.');
+                            }
+                            if (empty($depositAmount[$i] ?? '')) {
+                                $validator->errors()->add("deposit_amount.$i", 'Deposit amount is required when other deposit fields have values.');
+                            }
+                            if (empty($pendingAmount[$i] ?? '')) {
+                                $validator->errors()->add("pending_amount.$i", 'Pending amount is required when other deposit fields have values.');
+                            }
+                            if (empty($dueDate[$i] ?? '')) {
+                                $validator->errors()->add("due_date.$i", 'Due date is required when other deposit fields have values.');
+                            }
+                        }
+                    }
+                }
+
                 // Billing card number and CVV validation
                 $billings = $request->input('billing', []);
                 foreach ($billings as $index => $billing) {
@@ -1121,7 +1165,7 @@ class BookingFormController extends Controller
                     $authorizedAmt = (float) ($billing['authorized_amt'] ?? 0);
                     $totalAuthorizedAmt += $authorizedAmt;
                 }
-                
+
                 if(auth()->user()->department_id != 5 && auth()->user()->department_id != 3){
                     if (abs($totalAuthorizedAmt - $grossValue) > 0.01) {
                         //$validator->errors()->add('gross_value', 'The total of Billing amounts (' . number_format($totalAuthorizedAmt, 2) . ') must equal the Gross Amount (' . number_format($grossValue, 2) . ').');
@@ -1139,7 +1183,6 @@ class BookingFormController extends Controller
             #dd($request->all());
 
             #DB::beginTransaction();
-
             $booking = TravelBooking::findOrFail($id);
 
             $lastUpdatedAt = $request->input('last_updated_at');
@@ -1154,16 +1197,26 @@ class BookingFormController extends Controller
                     'delay_reload' => 3000
                 ], 422);
             }
-            
+
 
             $bookingData = $request->only([
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
-                'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee'
+                'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee',
+                'hotel_payment_type','cruise_payment_type','car_payment_type'
             ]);
-
-
-
+            $array = [];
+            foreach($request->deposit_type as $key=>$deposit){
+                $array[$deposit] = [
+                    'total_amount'=>$request->total_amount[$key],
+                    'deposit_amount'=>$request->deposit_amount[$key],
+                    'pending_amount'=>$request->pending_amount[$key],
+                    'due_date'=>$request->due_date[$key],
+                ];
+            }
+            if(!empty($array)){
+                $bookingData['card_details_json'] =  $array;
+            }
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
             $booking->update($bookingData);
@@ -1742,6 +1795,8 @@ class BookingFormController extends Controller
                 $existingBillingIds = $booking->billingDetails->pluck('id')->toArray();
                 $newBillings = $request->input('billing', []);
                 $processedBillingIds = [];
+
+
                 TravelBillingDetail::where('booking_id',$booking->id)->get()->each->forceDelete();
                 foreach ($newBillings as $index => $billingData) {
                     $billingData['booking_id'] = $booking->id;

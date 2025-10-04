@@ -20,7 +20,7 @@
                         <th>Last Name</th>
                         <th>DOB</th>
                         <th>Seat</th>
-                        <th>Credit/Refund Amt.</th>
+                        <th id="passenger_credit">Credit/Refund Amt.</th>
                         <th>E-Ticket</th>
                         <th id="room-category-column" style="display: {{ in_array('Cruise', $bookingTypes) ? 'block' : 'none' }};">Room Category</th>
                         <th>Action</th>
@@ -101,14 +101,17 @@
                                     name="passenger[{{ $key }}][dob]"
                                     value="{{ $passengers->dob?->format('d-m-Y') }}">
                             </td>
-
+                            @php
+                                $allowedDataIds = ['13', '14', '18', '19', '32', '33', '39', '41', '43', '44', '50', '51'];
+                            @endphp
                             <td>
-                                <input type="text" style="width:50px;" class="form-control"
+                                <input type="text" style="width:50px" class="form-control"
                                     name="passenger[{{ $key }}][seat_number]"
                                     value="{{ $passengers->seat_number }}" placeholder="Seat">
                             </td>
+
                             <td>
-                                <input type="number" style="width:80px" class="form-control"
+                                <input type="number" style="width:80px;" class="form-control"
                                     name="passenger[{{ $key }}][credit_note_amount]"
                                     value="{{ $passengers->credit_note_amount }}" placeholder="0" step="0.01">
                             </td>
@@ -117,14 +120,14 @@
                                     name="passenger[{{ $key }}][e_ticket_number]"
                                     value="{{ $passengers->e_ticket_number }}" placeholder="E Ticket">
                             </td>
-                            
+
                             <td class="room_category" style="display: {{ in_array('Cruise', $bookingTypes) ? 'table-cell' : 'none' }};">
                                 <input type="text" class="form-control w-100"
                                     name="passenger[{{ $key }}][room_category]"
                                     value="{{ $passengers->room_category }}"
                                     placeholder="Room Category">
                             </td>
-                         
+
 
                                  <input type="hidden" name="passenger[{{ $key }}][id]"
                                                     value="{{ $passengers->id }}">

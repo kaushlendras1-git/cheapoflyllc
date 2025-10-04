@@ -21,13 +21,14 @@ class TravelBooking extends Model
         'selected_company', 'booking_status_id', 'payment_status_id', 'reservation_source',
         'descriptor','flightbookingimage','hotelbookingimage','cruisebookingimage','carbookingimage','trainbookingimage',
         'call_queue','shared_booking','screenshot','gross_value','net_value','gross_mco','net_mco','merchant_fee','car_description',
-        'hotel_description','train_description'
+        'hotel_description','train_description','hotel_payment_type','cruise_payment_type','car_payment_type','card_details_json'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+        'card_details_json'=>'array'
     ];
 
     public function bookingTypes()

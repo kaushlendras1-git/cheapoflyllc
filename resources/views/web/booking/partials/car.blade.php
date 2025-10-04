@@ -30,12 +30,12 @@
                 <div class="card p-4 show-booking-card">
                     <div class=" position-relative checkbox-servis mb-1 mt-1">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="payment_type" id="car_full_payment" value="full_payment" checked>
+                            <input class="form-check-input" type="radio" name="car_payment_type" id="car_full_payment" value="full_payment" {{$booking->car_payment_type=="full_payment"?'checked':''}}>
                             <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="payment_type" id="car_deposit" value="deposit">
+                            <input class="form-check-input" type="radio" name="car_payment_type" id="car_deposit" value="deposit" {{$booking->car_payment_type=="deposit"?'checked':''}}>
                             <label class="form-check-label" for="deposit">Deposit</label>
                         </div>
                 </div>
@@ -98,7 +98,7 @@
 
                                             <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 105px;" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
                                                 <span class="time-format-indicator" style="display: none;"></span></td>
-                                            
+
                                                 <td><input style="width: 105px;" type="text" class="form-control flatpickr-hotel-checkin"
                                                     name="car[{{$key}}][dropoff_date]"
                                                     value="{{$travelCar->dropoff_date?->format('d-m-Y')}}"></td>
@@ -134,7 +134,7 @@
                             <thead>
                                 <tr>
                                     <th>Car Description</th>
-                                 
+
                                 </tr>
                             </thead>
                             <tr>
@@ -148,9 +148,9 @@
               <div style="margin-top:20px">
                         <input type="file" id="screenshots-upload" name="carbookingimage[]" multiple>
                     </div>
-                    
+
                 @if(isset($car_images) && $car_images->count())
-                   
+
                     <div class="" style="margin-top:20px">
                             <table class="table table-bordered table-striped crm-table">
                                 <thead>

@@ -4,13 +4,13 @@
 
         <div class="position-relative checkbox-servis mb-2 mt-2">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="payment_type" id="fullPayment"
-                    value="cruise_full_payment" checked>
+                <input class="form-check-input" type="radio" name="cruise_payment_type" id="fullPayment"
+                    value="full_payment" {{$booking->cruise_payment_type=="full_payment"?'checked':''}}>
                 <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
             </div>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="payment_type" id="cruise_deposit" value="deposit">
+                <input class="form-check-input" type="radio" name="cruise_payment_type" id="cruise_deposit" value="deposit" {{$booking->cruise_payment_type=="deposit"?'checked':''}}>
                 <label class="form-check-label" for="deposit">Deposit</label>
             </div>
         </div>
@@ -45,17 +45,17 @@
                                 value="{{ $travel_cruise_data?->cruise_name }}"></td>
                         <td> <input type="text" class="form-control" placeholder="Length" placeholder="length"
                                 name="length" value="{{ $travel_cruise_data?->length }}"></td>
-                        
+
                         <td>
                              <input type="text" class="form-control" placeholder="Departure Port"
                                 name="departure_port" value="{{ $travel_cruise_data?->departure_port }}">
                         </td>
 
-                        
+
                                 <td> <input type="text" class="form-control" placeholder="Arival Port" name="arrival_port"
                                 value="{{ $travel_cruise_data?->arrival_port }}"></td>
 
-                        
+
                         <td><input type="text" class="form-control" placeholder="Room Category" name="category"
                                 value="{{ $travel_cruise_data?->category }}">
                         </td>

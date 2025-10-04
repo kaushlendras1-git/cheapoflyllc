@@ -24,6 +24,7 @@ class TravelPassenger extends Model
         'middle_name',
         'last_name',
         'e_ticket_number',
+        'room_category'
     ];
 
     protected $casts = [

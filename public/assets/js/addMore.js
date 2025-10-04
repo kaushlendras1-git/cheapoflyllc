@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (typeof flatpickr !== 'undefined') {
             let checkoutFp;
-            
+
             if (checkinInput) {
                 flatpickr(checkinInput, {
                     dateFormat: 'd/m/Y',
@@ -287,10 +287,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize Flatpickr for car date inputs with dependency
         const pickupDateInput = newRow.querySelector('input[name*="[pickup_date]"]');
         const dropoffDateInput = newRow.querySelector('input[name*="[dropoff_date]"]');
-        
+
         if (typeof flatpickr !== 'undefined') {
             let dropoffFp;
-            
+
             if (pickupDateInput) {
                 flatpickr(pickupDateInput, {
                     dateFormat: 'd/m/Y',
@@ -462,10 +462,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize Flatpickr for new date inputs
         const departureDateInput = newRow.querySelector('input[name*="[departure_date]"]');
         const arrivalDateInput = newRow.querySelector('input[name*="[arrival_date]"]');
-        
+
         if (typeof flatpickr !== 'undefined') {
             let arrivalFp;
-            
+
             // Initialize departure date
             if (departureDateInput) {
                 flatpickr(departureDateInput, {
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
-            
+
             // Initialize arrival date
             if (arrivalDateInput) {
                 arrivalFp = flatpickr(arrivalDateInput, {
@@ -600,10 +600,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize Flatpickr for train date inputs with dependency
         const departureDateInput = newRow.querySelector('input[name*="[departure_date]"]');
         const arrivalDateInput = newRow.querySelector('input[name*="[arrival_date]"]');
-        
+
         if (typeof flatpickr !== 'undefined') {
             let arrivalFp;
-            
+
             if (departureDateInput) {
                 flatpickr(departureDateInput, {
                     dateFormat: 'd/m/Y',
@@ -712,19 +712,25 @@ document.addEventListener('DOMContentLoaded', () => {
             dataType = selectedOption.getAttribute('data-id');
         }
         const allowedDataIds = ['13', '14', '18', '19', '32', '33', '39', '41', '43', '44', '50', '51'];
+        const creditCells = document.querySelectorAll('input[name^="passenger["][name$="[credit_note_amount]"]');
+        const creditHeaders = document.getElementById('passenger_credit');
 
         // Get all 10th column elements (th and td)
-        const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(9)');
-        const creditCells = document.querySelectorAll('.passenger-table td:nth-child(9)');
-
+        // const creditHeaders = document.querySelectorAll('.passenger-table th:nth-child(9)');
+        // const creditCells = document.querySelectorAll('.passenger-table td:nth-child(9)');
         if (allowedDataIds.includes(dataType)) {
             // Show credit column
-            creditHeaders.forEach(el => el.style.display = '');
-            creditCells.forEach(el => el.style.display = '');
+            creditHeaders.style.display = '';
+            creditCells.forEach(input => {
+                const td = input.closest('td');
+                td.style.display = '';
+            });
         } else {
-            // Hide credit column
-            creditHeaders.forEach(el => el.style.display = 'none');
-            creditCells.forEach(el => el.style.display = 'none');
+            creditHeaders.style.display = 'none';
+            creditCells.forEach(input => {
+                const td = input.closest('td');
+                td.style.display = 'none';
+            });
         }
 
         const booking_hotel = document.getElementById('booking-hotel');
@@ -785,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="text" class="form-control" style="width: 7.5rem" name="passenger[${passengerIndex}][last_name]" placeholder="Last Name"></td>
             <td><input type="text" class="form-control flatpickr-dob" style="width: 105px;" name="passenger[${passengerIndex}][dob]" placeholder="dd/mm/yyyy"></td>
             <td><input type="text" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][seat_number]" placeholder="Seat"></td>
-            <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note]" placeholder="0" step="0.01"></td>
+            <td><input type="number" class="form-control" style="width:80px;" name="passenger[${passengerIndex}][credit_note_amount]" placeholder="0" step="0.01"></td>
             <td><input type="text" class="form-control w-100 e-ticket-input" name="passenger[${passengerIndex}][e_ticket_number]" placeholder="E Ticket" maxlength="14"></td>
             <td style="${!isCruise ? 'display:none' : ''}"><input type="text" class="form-control w-100 room_category" name="passenger[${passengerIndex}][room_category]" placeholder="Room Category"></td>
             <td>
@@ -799,7 +805,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize Flatpickr for the new date input with passenger type dependency
         const dobInput = newRow.querySelector('.flatpickr-dob');
         const passengerTypeSelect = newRow.querySelector('select[name*="[passenger_type]"]');
-        
+
         if (dobInput && typeof flatpickr !== 'undefined') {
             let dobFp = flatpickr(dobInput, {
                 dateFormat: 'd/m/Y',
@@ -807,14 +813,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 allowInput: false,
                 clickOpens: true
             });
-            
+
             // Add event listener for passenger type change
             if (passengerTypeSelect) {
                 passengerTypeSelect.addEventListener('change', function() {
                     const passengerType = this.value;
                     let minDate = null;
                     let maxDate = 'today';
-                    
+
                     if (passengerType === 'Adult') {
                         // Adult: above 11 years
                         const elevenYearsAgo = new Date();
@@ -835,7 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         minDate = twoYearsAgo;
                         maxDate = 'today';
                     }
-                    
+
                     dobFp.set('minDate', minDate);
                     dobFp.set('maxDate', maxDate);
                     dobInput.value = ''; // Clear existing date when type changes
@@ -1415,7 +1421,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.passenger-form').forEach(row => {
             const dobInput = row.querySelector('.flatpickr-dob');
             const passengerTypeSelect = row.querySelector('select[name*="[passenger_type]"]');
-            
+
             if (dobInput) {
                 let dobFp = flatpickr(dobInput, {
                     dateFormat: 'd/m/Y',
@@ -1423,13 +1429,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     allowInput: false,
                     clickOpens: true
                 });
-                
+
                 // Function to update date restrictions based on passenger type
                 function updateDateRestrictions() {
                     const passengerType = passengerTypeSelect ? passengerTypeSelect.value : '';
                     let minDate = null;
                     let maxDate = 'today';
-                    
+
                     if (passengerType === 'Adult') {
                         // Adult: above 11 years
                         const elevenYearsAgo = new Date();
@@ -1450,14 +1456,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         minDate = twoYearsAgo;
                         maxDate = 'today';
                     }
-                    
+
                     dobFp.set('minDate', minDate);
                     dobFp.set('maxDate', maxDate);
                 }
-                
+
                 // Apply initial restrictions based on current selection
                 updateDateRestrictions();
-                
+
                 // Add event listener for passenger type change
                 if (passengerTypeSelect) {
                     passengerTypeSelect.addEventListener('change', function() {
@@ -1472,10 +1478,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.hotel-row').forEach(row => {
             const checkinInput = row.querySelector('.flatpickr-hotel-checkin');
             const checkoutInput = row.querySelector('.flatpickr-hotel-checkout');
-            
+
             if (checkinInput && checkoutInput) {
                 let checkoutFp;
-                
+
                 // Initialize checkin date
                 flatpickr(checkinInput, {
                     dateFormat: 'd/m/Y',
@@ -1488,7 +1494,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
-                
+
                 // Initialize checkout date
                 checkoutFp = flatpickr(checkoutInput, {
                     dateFormat: 'd/m/Y',
@@ -1498,15 +1504,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-        
+
         // Initialize for existing car date inputs with dependency
         document.querySelectorAll('.car-row').forEach(row => {
             const pickupDateInput = row.querySelector('input[name*="[pickup_date]"]');
             const dropoffDateInput = row.querySelector('input[name*="[dropoff_date]"]');
-            
+
             if (pickupDateInput && dropoffDateInput) {
                 let dropoffFp;
-                
+
                 // Initialize pickup date
                 flatpickr(pickupDateInput, {
                     dateFormat: 'd/m/Y',
@@ -1519,7 +1525,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
-                
+
                 // Initialize dropoff date
                 dropoffFp = flatpickr(dropoffDateInput, {
                     dateFormat: 'd/m/Y',
@@ -1529,15 +1535,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-        
+
         // Initialize for existing train date inputs with dependency
         document.querySelectorAll('.train-row').forEach(row => {
             const departureDateInput = row.querySelector('input[name*="[departure_date]"]');
             const arrivalDateInput = row.querySelector('input[name*="[arrival_date]"]');
-            
+
             if (departureDateInput && arrivalDateInput) {
                 let arrivalFp;
-                
+
                 // Initialize departure date
                 flatpickr(departureDateInput, {
                     dateFormat: 'd/m/Y',
@@ -1550,7 +1556,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
-                
+
                 // Initialize arrival date
                 arrivalFp = flatpickr(arrivalDateInput, {
                     dateFormat: 'd/m/Y',
@@ -1560,7 +1566,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-        
+
         // Initialize other hotel date inputs (non-hotel/car/train rows)
         document.querySelectorAll('.flatpickr-hotel-checkin').forEach(input => {
             // Skip flight date inputs, hotel row inputs, car row inputs, and train row inputs as they need special handling
@@ -1570,7 +1576,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (input.closest('.hotel-row') || input.closest('.car-row') || input.closest('.train-row')) {
                 return;
             }
-            
+
             flatpickr(input, {
                 dateFormat: 'd/m/Y',
                 minDate: 'today',
@@ -1578,15 +1584,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 clickOpens: true
             });
         });
-        
+
         // Initialize existing flight date inputs with dependency
         document.querySelectorAll('.flight-row').forEach(row => {
             const departureDateInput = row.querySelector('input[name*="[departure_date]"]');
             const arrivalDateInput = row.querySelector('input[name*="[arrival_date]"]');
-            
+
             if (departureDateInput && arrivalDateInput) {
                 let arrivalFp;
-                
+
                 // Initialize departure date
                 flatpickr(departureDateInput, {
                     dateFormat: 'd/m/Y',
@@ -1599,7 +1605,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
-                
+
                 // Initialize arrival date
                 arrivalFp = flatpickr(arrivalDateInput, {
                     dateFormat: 'd/m/Y',

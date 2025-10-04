@@ -56,7 +56,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <div class="card p-4 mt-4 show-booking-card">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-header border-0 p-0 detail-passanger">Card Details <span style="color:red"> (Billing Details
@@ -229,7 +229,7 @@
                         </div>
                     </div>
                 </div>
-            
+
 
 
             <div class="card p-4 mt-4" id="deposit-pending-payment">
@@ -253,19 +253,19 @@
                                 </td>
                                 <td>
                                     <input type="text" name="total_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->total_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Car'])?$booking->card_details_json['Car']['total_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="text" name="deposit_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->deposit_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Car'])?$booking->card_details_json['Car']['deposit_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="text" name="pending_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->pending_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Car'])?$booking->card_details_json['Car']['pending_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="date" name="due_date[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Car')->due_date ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Car'])?$booking->card_details_json['Car']['due_date']:''}}" />
                                 </td>
                             </tr>
 
@@ -277,19 +277,19 @@
                                 </td>
                                 <td>
                                     <input type="text" name="total_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->total_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Cruise'])?$booking->card_details_json['Cruise']['total_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="text" name="deposit_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->deposit_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Cruise'])?$booking->card_details_json['Cruise']['deposit_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="text" name="pending_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->pending_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Cruise'])?$booking->card_details_json['Cruise']['pending_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="date" name="due_date[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Cruise')->due_date ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Cruise'])?$booking->card_details_json['Cruise']['due_date']:''}}" />
                                 </td>
                             </tr>
 
@@ -301,19 +301,19 @@
                                 </td>
                                 <td>
                                     <input type="text" name="total_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->total_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Hotel'])?$booking->card_details_json['Hotel']['total_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="text" name="deposit_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->deposit_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Hotel'])?$booking->card_details_json['Hotel']['deposit_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="text" name="pending_amount[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->pending_amount ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Hotel'])?$booking->card_details_json['Hotel']['pending_amount']:''}}" />
                                 </td>
                                 <td>
                                     <input type="date" name="due_date[]" class="form-control"
-                                        value="{{ collect($billingDeposits)->firstWhere('deposit_type', 'Hotel')->due_date ?? '' }}" />
+                                        value="{{!empty($booking->card_details_json['Hotel'])?$booking->card_details_json['Hotel']['due_date']:''}}" />
                                 </td>
                             </tr>
                         </table>

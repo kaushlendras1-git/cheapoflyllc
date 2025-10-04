@@ -20,13 +20,13 @@ class CallLogController extends Controller
 
     public function index(Request $request)
     {
-        
+
         $query = CallLog::query()
             ->join('users', 'call_logs.user_id', '=', 'users.id')
             ->select('call_logs.*', 'users.name as user_name')
             ->with('campaign')
             ->when(
-                        auth()->user()->role == 'User' && auth()->user()->departments == 'Sales',
+                        auth()->user()->role_id == 1 && auth()->user()->department_id == 2,
                         function ($q) {
                             $q->where('call_logs.user_id', auth()->user()->id);
                         }
@@ -107,7 +107,7 @@ class CallLogController extends Controller
         $validated['phone'] = preg_replace('/\D/', '', $request->phone);
         $callLog = CallLog::create($validated);
 
-          
+
 
         if ($request->call_converted) {
             // Fetch Campaign (already validated, so no need to re-validate)
@@ -159,7 +159,7 @@ class CallLogController extends Controller
         }
 
         // Log operation and redirect
-    
+
         return redirect()->route('call-logs.index')->with('success', 'Call Log created successfully!');
     }
 

@@ -227,22 +227,48 @@ document.getElementById('bookingForm').addEventListener('submit', async function
             }
         }
     }
-    
+
     const action = e.target.action;
     const formdata = new FormData(e.target);
+
+    // Add payment type fields from selected radio buttons
+    const hotelPaymentType = document.querySelector('input[name="hotel_payment_type"]:checked')?.value || '';
+    const cruisePaymentType = document.querySelector('input[name="cruise_payment_type"]:checked')?.value || '';
+    const carPaymentType = document.querySelector('input[name="car_payment_type"]:checked')?.value || '';
+
+    formdata.append('hotel_payment_type', hotelPaymentType);
+    formdata.append('cruise_payment_type', cruisePaymentType);
+    formdata.append('car_payment_type', carPaymentType);
     
+    // Add deposit fields
+    document.querySelectorAll('input[name="deposit_type[]"]').forEach(input => {
+        formdata.append('deposit_type[]', input.value);
+    });
+    document.querySelectorAll('input[name="total_amount[]"]').forEach(input => {
+        formdata.append('total_amount[]', input.value);
+    });
+    document.querySelectorAll('input[name="deposit_amount[]"]').forEach(input => {
+        formdata.append('deposit_amount[]', input.value);
+    });
+    document.querySelectorAll('input[name="pending_amount[]"]').forEach(input => {
+        formdata.append('pending_amount[]', input.value);
+    });
+    document.querySelectorAll('input[name="due_date[]"]').forEach(input => {
+        formdata.append('due_date[]', input.value);
+    });
+
     // Calculate and add gross_value and net_value to FormData
     const pricingRows = document.querySelectorAll('#pricingForms .pricing-row');
     let grossTotal = 0;
     let netTotal = 0;
-    
+
     pricingRows.forEach(row => {
         const grossTotalSpan = row.querySelector('.gross-total');
         const netTotalSpan = row.querySelector('.net-total');
         if (grossTotalSpan) grossTotal += parseFloat(grossTotalSpan.textContent || 0);
         if (netTotalSpan) netTotal += parseFloat(netTotalSpan.textContent || 0);
     });
-    
+
     formdata.set('gross_value', grossTotal.toFixed(2));
     formdata.set('net_value', netTotal.toFixed(2));
     const keysToDelete = [];
@@ -281,9 +307,9 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     const isCruiseChecked = document.querySelector('#booking-cruise')?.checked || false;
     const isCarChecked = document.querySelector('#booking-car')?.checked || false;
     const isTrainChecked = document.querySelector('#booking-train')?.checked || false;
- 
+
     console.log('Cruise checkbox checked:', isCruiseChecked);
- 
+
     if (isFlightChecked) {
         const flightInputs = document.querySelectorAll('[name^="flight["]');
         const rows = {};
@@ -311,7 +337,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         if (hotelDesc && hotelDesc.value.trim()) {
             formdata.append('hotel_description', hotelDesc.value.trim());
         }
-        
+
         const hotelInputs = document.querySelectorAll('[name^="hotel["]');
         const rows = {};
         hotelInputs.forEach(input => {
@@ -338,14 +364,14 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         // Handle main cruise details (simple field names)
         const mainCruiseFields = ['cruise_line', 'ship_name', 'cruise_name', 'length', 'departure_port', 'arrival_port', 'category', 'stateroom', 'cruise_description'];
         const mainCruiseData = {};
-        
+
         mainCruiseFields.forEach(fieldName => {
             const input = document.querySelector(`[name="${fieldName}"]`);
             if (input && input.value.trim()) {
                 mainCruiseData[fieldName] = input.value.trim();
             }
         });
-        
+
         // Add main cruise data if not empty
         if (Object.keys(mainCruiseData).length > 0) {
             Object.entries(mainCruiseData).forEach(([key, val]) => {
@@ -426,7 +452,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         if (carDesc && carDesc.value.trim()) {
             formdata.append('car_description', carDesc.value.trim());
         }
-        
+
         const carInputs = document.querySelectorAll('[name^="car["]');
         const rows = {};
         carInputs.forEach(input => {
@@ -453,7 +479,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         if (trainDesc && trainDesc.value.trim()) {
             formdata.append('train_description', trainDesc.value.trim());
         }
-        
+
         const trainInputs = document.querySelectorAll('[name^="train["]');
         const rows = {};
         trainInputs.forEach(input => {
@@ -475,7 +501,7 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         });
     }
 
-    
+
     for (const inputName in ponds) {
         const pond = ponds[inputName];
         pond.getFiles().forEach(fileItem => {
@@ -754,7 +780,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             if (el.tagName.toLowerCase() === 'select') {
                                 const option = document.createElement('option');
                                 option.value = response.data.data.id;
-                                option.textContent = `Card No. ${rowCount + 1}`;
+                                option.textContent = `Billing No. ${rowCount + 1}`;
                                 el.appendChild(option);
                             }
                         });
@@ -1064,7 +1090,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener("DOMContentLoaded", function () {
     // Check if this is a page reload using performance.navigation
     const isReload = performance.navigation.type === performance.navigation.TYPE_RELOAD;
-    
+
     // Restore the active tab from localStorage only on reload
     if (isReload) {
         let activeTab = localStorage.getItem("activeTab");
