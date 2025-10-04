@@ -158,13 +158,23 @@
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Role <span class="text-danger">*</span></label>
-                            <select name="role_id" class="form-control" required>
+                            <select name="role_id" id="role-select" class="form-control" required>
                                 <option value="">Select Role</option>
                                 @foreach($roles ?? [] as $role)
-                                    <option value="{{ $role->id }}" {{ old('role_id', $member->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                    <option value="{{ $role->id }}" data-role-name="{{ strtolower($role->name) }}" {{ old('role_id', $member->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                 @endforeach
                             </select>
                             @error('role_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2 position-relative mb-5" id="team-leader-section" style="display: none;">
+                            <label class="form-label">Team Leader</label>
+                            <select name="team_leader" id="team_leader" class="form-control">
+                                <option value="">Select Team Leader</option>
+                            </select>
+                            @error('team_leader')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -258,6 +268,8 @@ function loadTeams(lobId, selectedTeamId = null) {
                     teamSelect.add(option);
                 });
                 teamSelect.disabled = false;
+                // Update team leaders after teams are loaded
+                updateTeamLeaders();
             })
             .catch(error => {
                 console.error('Error fetching teams:', error);
@@ -271,7 +283,59 @@ document.addEventListener('DOMContentLoaded', function() {
     if(lobId) {
         loadTeams(lobId, currentTeamId);
     }
+    
+    // Initialize team leader section
+    checkRoleForTeamLeader();
+    
+    // Add role change listener
+    document.getElementById('role-select').addEventListener('change', checkRoleForTeamLeader);
+    document.getElementById('team').addEventListener('change', updateTeamLeaders);
 });
+
+function checkRoleForTeamLeader() {
+    const roleSelect = document.getElementById('role-select');
+    const selectedOption = roleSelect.options[roleSelect.selectedIndex];
+    const roleName = selectedOption.getAttribute('data-role-name');
+    const teamLeaderSection = document.getElementById('team-leader-section');
+    
+    if (roleName === 'agent') {
+        teamLeaderSection.style.display = 'block';
+        updateTeamLeaders();
+    } else {
+        teamLeaderSection.style.display = 'none';
+    }
+}
+
+function updateTeamLeaders() {
+    const lobId = document.getElementById('lob').value;
+    const teamId = document.getElementById('team').value;
+    const teamLeaderSelect = document.getElementById('team_leader');
+    const roleSelect = document.getElementById('role-select');
+    const selectedRole = roleSelect?.options[roleSelect.selectedIndex];
+    const roleName = selectedRole?.getAttribute('data-role-name');
+    const currentTeamLeader = {{ old('team_leader', $member->team_leader) ?? 'null' }};
+    
+    if (roleName === 'agent' && lobId && teamId) {
+        fetch(`/api/team-leaders?lob=${lobId}&team=${teamId}`)
+            .then(response => response.json())
+            .then(leaders => {
+                teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+                leaders.forEach(leader => {
+                    const option = new Option(leader.name, leader.id);
+                    if(currentTeamLeader && leader.id == currentTeamLeader) {
+                        option.selected = true;
+                    }
+                    teamLeaderSelect.add(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading team leaders:', error);
+                teamLeaderSelect.innerHTML = '<option value="">Error loading leaders</option>';
+            });
+    } else if (roleName === 'agent') {
+        teamLeaderSelect.innerHTML = '<option value="">Select LOB and Team first</option>';
+    }
+}
 
 function previewImage(input, previewId) {
     const preview = document.getElementById(previewId);

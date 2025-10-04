@@ -28,6 +28,7 @@ class User extends Authenticatable
         'extension',
         'role_id',
         'department_id',
+        'team_leader',
         'status',
         'remember_token',
         'profile_picture',
@@ -116,5 +117,15 @@ class User extends Authenticatable
     public function roleRelation()
     {
         return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function teamLeader()
+    {
+        return $this->belongsTo(User::class, 'team_leader');
+    }
+
+    public function teamMembers()
+    {
+        return $this->hasMany(User::class, 'team_leader');
     }
 }

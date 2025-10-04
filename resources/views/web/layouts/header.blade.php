@@ -50,6 +50,8 @@
         @keyframes spin {
             100% { transform: rotate(360deg); }
         }
+        
+
 
     </style>
     @routes
@@ -58,6 +60,8 @@
         // Set user role and department for admin notifications
         window.userRole = '{{ Auth::user()->role ?? "" }}';
         window.userDepartment = '{{ Auth::user()->departments ?? "" }}';
+        
+
     </script>
     @yield('head')
 </head>
@@ -272,8 +276,24 @@
                                             <div data-i18n="Revenue Report">Revenue Report</div>
                                         </a>
                                     </li>
-
-                                  
+                                    <li class="menu-item {{ Route::currentRouteName() == 'reports.team' ? 'active' : '' }}">
+                                        <a href="{{ route('reports.team') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-team-line"></i>
+                                            <div data-i18n="Team Reports">Team Reports</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item {{ Route::currentRouteName() == 'reports.unit' ? 'active' : '' }}">
+                                        <a href="{{ route('reports.unit') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-building-line"></i>
+                                            <div data-i18n="Unit Reports">Unit Reports</div>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item {{ Route::currentRouteName() == 'reports.company' ? 'active' : '' }}">
+                                        <a href="{{ route('reports.company') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <div data-i18n="Company Reports">Company Reports</div>
+                                        </a>
+                                    </li>
 
                                 </ul>
                             </li>
@@ -368,6 +388,7 @@
                                 </ul>
                             </li>
                          @endif
+
 
 
                             <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">

@@ -44,7 +44,7 @@
                     
                      <div class="col-md-1">
                         <select id="searchLob" class="form-control input-style">
-                            <option value="">All LOB</option>
+                            <option value="">Lobs</option>
                              @if(isset($lobs))
                                 @foreach($lobs as $lob)
                                     <option value="{{ $lob->id }}" {{ request('lob') == $lob->id ? 'selected' : '' }}>{{ $lob->name }}</option>
@@ -54,9 +54,9 @@
                     </div>
 
                     
-                     <div class="col-md-2">
+                     <div class="col-md-1">
                         <select id="searchTeam" name="team" class="form-select input-style">
-                            <option value="">All Teams</option>
+                            <option value="">Teams</option>
                             @if(request('lob'))
                                 @foreach($teams ?? [] as $team)
                                     <option value="{{ $team->id }}" {{ request('team') == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
@@ -65,11 +65,21 @@
                         </select>
                     </div>
 
+                    <div class="col-md-2">
+                        <select id="searchTeamLeader" class="form-control input-style">
+                            <option value="">Team Leaders</option>
+                            @if(isset($team_leaders))
+                                @foreach($team_leaders as $leader)
+                                    <option value="{{ $leader->id }}" {{ request('team_leader') == $leader->id ? 'selected' : '' }}>{{ $leader->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
 
                     
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <select id="searchDepartment" class="form-control input-style">
-                                <option value="">All Departments</option>
+                                <option value="">Departments</option>
                                 @if(isset($departments))
                                     @foreach($departments as $department)
                                         <option value="{{ $department->id }}" {{ request('department') == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
@@ -80,7 +90,7 @@
 
                     <div class="col-md-1">
                         <select id="searchRole" class="form-control input-style">
-                            <option value="">All Roles</option>
+                            <option value="">Roles</option>
                              @if(isset($roles))
                                 @foreach($roles as $role)
                                     <option value="{{ $role->id }}" {{ request('role') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
@@ -129,6 +139,7 @@
                                     <th><span class="dt-column-title" role="button">Team</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Deartments</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Role</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Team Leader</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Pseudo</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Extension</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Shift</span><span class="dt-column-order"></span></th>
@@ -182,6 +193,14 @@
                                             $roleColor = $roleColors[($role->id ?? 0) % count($roleColors)] ?? 'bg-secondary';
                                         @endphp
                                         <span class="badge {{ $roleColor }}" style="{{ str_contains($roleColor, 'bg-indigo') ? 'background-color: #6610f2 !important;' : '' }}{{ str_contains($roleColor, 'bg-cyan') ? 'background-color: #0dcaf0 !important;' : '' }}{{ str_contains($roleColor, 'bg-yellow') ? 'background-color: #ffc107 !important;' : '' }}{{ str_contains($roleColor, 'bg-lime') ? 'background-color: #32cd32 !important;' : '' }}">{{ $role->name ?? 'N/A' }}</span>
+                                    </td>
+                                   
+                                    <td>
+                                        @if($member->teamLeader)
+                                            <span class="badge bg-success">{{ $member->teamLeader->name }}</span>
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
                                     </td>
                                    
                                      <td>{{ $member->pseudo }}</td>
@@ -362,6 +381,12 @@ document.getElementById('lob').addEventListener('change', function() {
             });
             // Enable the teams dropdown
             teamSelect.disabled = false;
+            // Reset team leader when LOB changes
+            updateTeamLeaders();
+        })
+        .then(() => {
+            // Add team change listener
+            teamSelect.addEventListener('change', updateTeamLeaders);
         })
         .catch(error => {
             console.error('Error fetching teams:', error);
@@ -371,6 +396,58 @@ document.getElementById('lob').addEventListener('change', function() {
             teamSelect.innerHTML = '';
             teamSelect.add(errorOption);
         });
+    }
+    // Reset team leader when LOB changes
+    updateTeamLeaders();
+});
+
+// Add team change listener
+document.getElementById('team').addEventListener('change', updateTeamLeaders);
+
+// Function to update team leaders based on LOB and team
+function updateTeamLeaders() {
+    const lobId = document.getElementById('lob').value;
+    const teamId = document.getElementById('team').value;
+    const roleSelect = document.getElementById('role-select');
+    const teamLeaderSection = document.getElementById('team-leader-section');
+    const teamLeaderSelect = document.getElementById('team_leader');
+    
+    // Check if agent role is selected
+    const selectedRole = roleSelect?.options[roleSelect.selectedIndex];
+    const roleName = selectedRole?.getAttribute('data-role-name');
+    
+    if (roleName === 'agent' && lobId && teamId) {
+        teamLeaderSection.style.display = 'block';
+        
+        fetch(`/api/team-leaders?lob=${lobId}&team=${teamId}`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(leaders => {
+            teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+            leaders.forEach(leader => {
+                const option = new Option(leader.name, leader.id);
+                teamLeaderSelect.add(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading team leaders:', error);
+            teamLeaderSelect.innerHTML = '<option value="">Error loading team leaders</option>';
+        });
+    } else if (roleName !== 'agent') {
+        teamLeaderSection.style.display = 'none';
+    } else {
+        teamLeaderSelect.innerHTML = '<option value="">Select LOB and Team first</option>';
+    }
+}
+
+// Role change handler
+document.addEventListener('DOMContentLoaded', function() {
+    const roleSelect = document.getElementById('role-select');
+    if (roleSelect) {
+        roleSelect.addEventListener('change', updateTeamLeaders);
     }
 });
 </script>
@@ -387,22 +464,64 @@ document.getElementById('lob').addEventListener('change', function() {
 
                     <!-- User Role Field -->
                     <div class="form-floating form-floating-outline mb-5">
-                        <select id="user-role" name="role_id" class="form-select" required="">
+                        <select id="role-select" name="role_id" class="form-select" required="">
                             <option value="">Select Role</option>
                             @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                <option value="{{ $role->id }}" data-role-name="{{ strtolower($role->name) }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
-                        <label for="user-role">User Role</label>
+                        <label for="role-select">User Role</label>
                     </div>
-                      
 
+
+                    <div class="form-floating form-floating-outline mb-5" id="team-leader-section" style="display: none;">
+                        <select id="team_leader" name="team_leader" class="form-select">
+                            <option value="">Select Team Leader</option>
+                        </select>
+                        <label for="team_leader">Team Leader</label>
+                    </div>
 
 
                         <!-- Submit Button -->
-                        <button type="submit"
+                    <button type="submit"
                             class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light" style="padding: 5px; font-size: 12px;">Submit</button>
                     </form>
+
+<script>
+// Role change handler for team leader visibility
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('role-select').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const roleName = selectedOption.getAttribute('data-role-name');
+        const teamLeaderSection = document.getElementById('team-leader-section');
+        const teamLeaderSelect = document.getElementById('team_leader');
+        
+        if (roleName === 'agent') {
+            teamLeaderSection.style.display = 'block';
+            // Load team leaders
+            fetch('/api/team-leaders', {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(leaders => {
+                teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+                leaders.forEach(leader => {
+                    const option = new Option(leader.name, leader.id);
+                    teamLeaderSelect.add(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading team leaders:', error);
+            });
+        } else {
+            teamLeaderSection.style.display = 'none';
+            teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+        }
+    });
+});
+</script>
 
 
                 </div>
@@ -551,6 +670,38 @@ if(modal) {
     });
 }
 
+// Role change handler for team leader visibility
+document.getElementById('role-select').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const roleName = selectedOption.getAttribute('data-role-name');
+    const teamLeaderSection = document.getElementById('team-leader-section');
+    const teamLeaderSelect = document.getElementById('team_leader');
+    
+    if (roleName === 'agent' || roleName === 'team leader') {
+        teamLeaderSection.style.display = 'block';
+        // Load team leaders
+        fetch('/api/team-leaders', {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(leaders => {
+            teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+            leaders.forEach(leader => {
+                const option = new Option(leader.name, leader.id);
+                teamLeaderSelect.add(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading team leaders:', error);
+        });
+    } else {
+        teamLeaderSection.style.display = 'none';
+        teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+    }
+});
+
 // Filter functionality
 document.addEventListener('DOMContentLoaded', function() {
     // LOB change handler
@@ -561,6 +712,7 @@ document.addEventListener('DOMContentLoaded', function() {
         lobSelect.addEventListener('change', function() {
             const lobId = this.value;
             teamSelect.innerHTML = '<option value="">All Teams</option>';
+            document.getElementById('searchTeamLeader').innerHTML = '<option value="">All Team Leaders</option>';
             
             if(lobId) {
                 fetch(`/api/teams/${lobId}`)
@@ -574,6 +726,70 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 })
                 .catch(error => console.error('Error loading teams:', error));
+                
+                // Load filtered team leaders when LOB changes
+                fetch(`/api/team-leaders?lob=${lobId}`)
+                .then(response => response.json())
+                .then(leaders => {
+                    document.getElementById('searchTeamLeader').innerHTML = '<option value="">All Team Leaders</option>';
+                    leaders.forEach(leader => {
+                        document.getElementById('searchTeamLeader').innerHTML += `<option value="${leader.id}">${leader.name}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                // Reset to all team leaders when no LOB selected
+                fetch('/api/team-leaders')
+                .then(response => response.json())
+                .then(leaders => {
+                    document.getElementById('searchTeamLeader').innerHTML = '<option value="">All Team Leaders</option>';
+                    leaders.forEach(leader => {
+                        document.getElementById('searchTeamLeader').innerHTML += `<option value="${leader.id}">${leader.name}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+            }
+            applyFilters();
+        });
+        
+        // Team change handler
+        teamSelect.addEventListener('change', function() {
+            const lobId = document.getElementById('searchLob').value;
+            const teamId = this.value;
+            const teamLeaderSelect = document.getElementById('searchTeamLeader');
+            
+            if(lobId && teamId) {
+                fetch(`/api/team-leaders?lob=${lobId}&team=${teamId}`)
+                .then(response => response.json())
+                .then(leaders => {
+                    teamLeaderSelect.innerHTML = '<option value="">All Team Leaders</option>';
+                    leaders.forEach(leader => {
+                        teamLeaderSelect.innerHTML += `<option value="${leader.id}">${leader.name}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+            } else if(lobId || teamId) {
+                // Show filtered team leaders when only LOB or team is selected
+                fetch(`/api/team-leaders?lob=${lobId}&team=${teamId}`)
+                .then(response => response.json())
+                .then(leaders => {
+                    teamLeaderSelect.innerHTML = '<option value="">All Team Leaders</option>';
+                    leaders.forEach(leader => {
+                        teamLeaderSelect.innerHTML += `<option value="${leader.id}">${leader.name}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                // Reset to show all team leaders when no LOB/team selected
+                fetch('/api/team-leaders')
+                .then(response => response.json())
+                .then(leaders => {
+                    teamLeaderSelect.innerHTML = '<option value="">All Team Leaders</option>';
+                    leaders.forEach(leader => {
+                        teamLeaderSelect.innerHTML += `<option value="${leader.id}">${leader.name}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
             }
             applyFilters();
         });
@@ -589,8 +805,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Filter change handlers
-    const filters = ['searchTeam', 'searchDepartment', 'searchRole'];
+    // Filter change handlers for remaining filters
+    const filters = ['searchTeamLeader', 'searchDepartment', 'searchRole'];
     filters.forEach(filterId => {
         const element = document.getElementById(filterId);
         if(element) {
@@ -604,12 +820,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const keyword = document.getElementById('searchKeyword')?.value;
         const lob = document.getElementById('searchLob')?.value;
         const team = document.getElementById('searchTeam')?.value;
+        const teamLeader = document.getElementById('searchTeamLeader')?.value;
         const department = document.getElementById('searchDepartment')?.value;
         const role = document.getElementById('searchRole')?.value;
         
         if(keyword) params.append('keyword', keyword);
         if(lob) params.append('lob', lob);
         if(team) params.append('team', team);
+        if(teamLeader) params.append('team_leader', teamLeader);
         if(department) params.append('department', department);
         if(role) params.append('role', role);
         

@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "amadeus-pnr-retrieve-001",
+		"name": "Amadeus PNR_Retrieve Collection",
+		"description": "Complete collection for Amadeus Web Services PNR_Retrieve API integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{amadeus_username}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{amadeus_password}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"exec": [
+					"// Generate unique conversation ID",
+					"const conversationId = 'CHEAPO_' + Date.now();",
+					"pm.environment.set('conversation_id', conversationId);",
+					"",
+					"// Set current timestamp",
+					"pm.environment.set('timestamp', new Date().toISOString());"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://webservices.amadeus.com/1ASIWCHEAPO",
+			"type": "string"
+		},
+		{
+			"key": "office_id",
+			"value": "CHEAPO001",
+			"type": "string"
+		},
+		{
+			"key": "amadeus_username",
+			"value": "WSHEAPO01",
+			"type": "string"
+		},
+		{
+			"key": "amadeus_password",
+			"value": "CHEAPO123",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "PNR_Retrieve - Basic",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "http://webservices.amadeus.com/PNR_Retrieve_21_1_1A"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\" xmlns:ses=\"http://xml.amadeus.com/2010/06/Session_v3\">\n    <soap:Header>\n        <link:TransactionFlowLink>\n            <link:Consumer>\n                <link:UniqueID>{{conversation_id}}</link:UniqueID>\n            </link:Consumer>\n        </link:TransactionFlowLink>\n        <ses:Session>\n            <ses:SessionId>{{conversation_id}}</ses:SessionId>\n            <ses:SequenceNumber>1</ses:SequenceNumber>\n            <ses:SecurityToken>{{$base64 (concat amadeus_username \":\" amadeus_password)}}</ses:SecurityToken>\n        </ses:Session>\n    </soap:Header>\n    <soap:Body>\n        <PNR_Retrieve xmlns=\"http://xml.amadeus.com/PNRRET_21_1_1A\">\n            <retrievalFacts>\n                <retrieve>\n                    <type>2</type>\n                </retrieve>\n                <reservationOrProfileIdentifier>\n                    <reservation>\n                        <controlNumber>{{pnr_code}}</controlNumber>\n                    </reservation>\n                </reservationOrProfileIdentifier>\n            </retrievalFacts>\n        </PNR_Retrieve>\n    </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "{{base_url}}/PNR_Retrieve",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"PNR_Retrieve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PNR_Retrieve - With Session Management",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "http://webservices.amadeus.com/PNR_Retrieve_21_1_1A"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{$base64 (concat amadeus_username \":\" amadeus_password)}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\" xmlns:ses=\"http://xml.amadeus.com/2010/06/Session_v3\">\n    <soapenv:Header>\n        <link:TransactionFlowLink>\n            <link:Consumer>\n                <link:UniqueID>{{conversation_id}}</link:UniqueID>\n            </link:Consumer>\n        </link:TransactionFlowLink>\n        <ses:Session>\n            <ses:SessionId>{{conversation_id}}</ses:SessionId>\n            <ses:SequenceNumber>1</ses:SequenceNumber>\n            <ses:SecurityToken>{{$base64 (concat amadeus_username \":\" amadeus_password)}}</ses:SecurityToken>\n        </ses:Session>\n    </soapenv:Header>\n    <soapenv:Body>\n        <PNR_Retrieve xmlns=\"http://xml.amadeus.com/PNRRET_21_1_1A\">\n            <retrievalFacts>\n                <retrieve>\n                    <type>2</type>\n                </retrieve>\n                <reservationOrProfileIdentifier>\n                    <reservation>\n                        <controlNumber>{{pnr_code}}</controlNumber>\n                    </reservation>\n                </reservationOrProfileIdentifier>\n            </retrievalFacts>\n        </PNR_Retrieve>\n    </soapenv:Body>\n</soapenv:Envelope>"
+				},
+				"url": {
+					"raw": "{{base_url}}/PNR_Retrieve",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"PNR_Retrieve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PNR_Retrieve - Alternative Format",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml; charset=utf-8"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://webservices.amadeus.com/PNR_Retrieve_21_1_1A\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap12:Envelope xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\" xmlns:ses=\"http://xml.amadeus.com/2010/06/Session_v3\">\n    <soap12:Header>\n        <link:TransactionFlowLink>\n            <link:Consumer>\n                <link:UniqueID>{{conversation_id}}</link:UniqueID>\n            </link:Consumer>\n        </link:TransactionFlowLink>\n        <ses:Session>\n            <ses:SessionId>{{conversation_id}}</ses:SessionId>\n            <ses:SequenceNumber>1</ses:SequenceNumber>\n            <ses:SecurityToken>{{$base64 (concat amadeus_username \":\" amadeus_password)}}</ses:SecurityToken>\n        </ses:Session>\n    </soap12:Header>\n    <soap12:Body>\n        <PNR_Retrieve xmlns=\"http://xml.amadeus.com/PNRRET_21_1_1A\">\n            <retrievalFacts>\n                <retrieve>\n                    <type>2</type>\n                </retrieve>\n                <reservationOrProfileIdentifier>\n                    <reservation>\n                        <controlNumber>{{pnr_code}}</controlNumber>\n                    </reservation>\n                </reservationOrProfileIdentifier>\n            </retrievalFacts>\n        </PNR_Retrieve>\n    </soap12:Body>\n</soap12:Envelope>"
+				},
+				"url": {
+					"raw": "{{base_url}}/PNR_Retrieve",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"PNR_Retrieve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Session Authentication Test",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "http://webservices.amadeus.com/Security_Authenticate_21_1_1A"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <soap:Header/>\n    <soap:Body>\n        <Security_Authenticate xmlns=\"http://xml.amadeus.com/VLSSLQ_06_1_1A\">\n            <userIdentifier>\n                <originIdentification>\n                    <sourceOffice>{{office_id}}</sourceOffice>\n                </originIdentification>\n                <originator>{{amadeus_username}}</originator>\n                <organizationId>1A</organizationId>\n            </userIdentifier>\n            <dutyCode>\n                <dutyCodeDetails>\n                    <referenceQualifier>DUT</referenceQualifier>\n                    <referenceIdentifier>SU</referenceIdentifier>\n                </dutyCodeDetails>\n            </dutyCode>\n            <systemDetails>\n                <organizationDetails>\n                    <organizationId>1A</organizationId>\n                </organizationDetails>\n            </systemDetails>\n            <passwordInfo>\n                <dataLength>{{amadeus_password.length}}</dataLength>\n                <dataType>E</dataType>\n                <binaryData>{{amadeus_password}}</binaryData>\n            </passwordInfo>\n        </Security_Authenticate>\n    </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "{{base_url}}/Security_Authenticate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"Security_Authenticate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

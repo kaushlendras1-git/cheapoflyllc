@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "amadeus-pnr-working-001",
+		"name": "Amadeus PNR_Retrieve - Working Collection",
+		"description": "Working collection for Amadeus PNR_Retrieve API v21.1 (Schema 2010/01)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "amadeus_endpoint",
+			"value": "https://webservices.amadeus.com",
+			"type": "string"
+		},
+		{
+			"key": "office_id",
+			"value": "1ASIWCHECF5",
+			"type": "string"
+		},
+		{
+			"key": "amadeus_username",
+			"value": "YOUR_USERNAME",
+			"type": "string"
+		},
+		{
+			"key": "amadeus_password",
+			"value": "YOUR_PASSWORD",
+			"type": "string"
+		},
+		{
+			"key": "pnr_code",
+			"value": "ABC123",
+			"type": "string"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"exec": [
+					"// Generate session ID",
+					"const sessionId = 'CHEAPO_' + Date.now();",
+					"pm.environment.set('session_id', sessionId);",
+					"",
+					"// Set sequence number",
+					"pm.environment.set('sequence_number', '1');"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"item": [
+		{
+			"name": "PNR_Retrieve - Standard Request",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "http://webservices.amadeus.com/PNR_Retrieve_21_1_1A"
+					}
+				],
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{amadeus_username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{amadeus_password}}",
+							"type": "string"
+						}
+					]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\" xmlns:ses=\"http://xml.amadeus.com/2010/06/Session_v3\">\n    <soapenv:Header>\n        <link:TransactionFlowLink>\n            <link:Consumer>\n                <link:UniqueID>{{session_id}}</link:UniqueID>\n            </link:Consumer>\n        </link:TransactionFlowLink>\n        <ses:Session>\n            <ses:SessionId>{{session_id}}</ses:SessionId>\n            <ses:SequenceNumber>{{sequence_number}}</ses:SequenceNumber>\n            <ses:SecurityToken>{{amadeus_username}}:{{amadeus_password}}</ses:SecurityToken>\n        </ses:Session>\n    </soapenv:Header>\n    <soapenv:Body>\n        <PNR_Retrieve xmlns=\"http://xml.amadeus.com/PNRRET_21_1_1A\">\n            <retrievalFacts>\n                <retrieve>\n                    <type>2</type>\n                </retrieve>\n                <reservationOrProfileIdentifier>\n                    <reservation>\n                        <controlNumber>{{pnr_code}}</controlNumber>\n                    </reservation>\n                </reservationOrProfileIdentifier>\n            </retrievalFacts>\n        </PNR_Retrieve>\n    </soapenv:Body>\n</soapenv:Envelope>"
+				},
+				"url": {
+					"raw": "{{amadeus_endpoint}}/{{office_id}}",
+					"host": [
+						"{{amadeus_endpoint}}"
+					],
+					"path": [
+						"{{office_id}}"
+					]
+				}
+			}
+		},
+		{
+			"name": "PNR_Retrieve - Redisplay Current Session",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "http://webservices.amadeus.com/PNR_Retrieve_21_1_1A"
+					}
+				],
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{amadeus_username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{amadeus_password}}",
+							"type": "string"
+						}
+					]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\" xmlns:ses=\"http://xml.amadeus.com/2010/06/Session_v3\">\n    <soapenv:Header>\n        <link:TransactionFlowLink>\n            <link:Consumer>\n                <link:UniqueID>{{session_id}}</link:UniqueID>\n            </link:Consumer>\n        </link:TransactionFlowLink>\n        <ses:Session>\n            <ses:SessionId>{{session_id}}</ses:SessionId>\n            <ses:SequenceNumber>{{sequence_number}}</ses:SequenceNumber>\n            <ses:SecurityToken>{{amadeus_username}}:{{amadeus_password}}</ses:SecurityToken>\n        </ses:Session>\n    </soapenv:Header>\n    <soapenv:Body>\n        <PNR_Retrieve xmlns=\"http://xml.amadeus.com/PNRRET_21_1_1A\">\n            <retrievalFacts>\n                <retrieve>\n                    <type>3</type>\n                </retrieve>\n            </retrievalFacts>\n        </PNR_Retrieve>\n    </soapenv:Body>\n</soapenv:Envelope>"
+				},
+				"url": {
+					"raw": "{{amadeus_endpoint}}/{{office_id}}",
+					"host": [
+						"{{amadeus_endpoint}}"
+					],
+					"path": [
+						"{{office_id}}"
+					]
+				}
+			}
+		},
+		{
+			"name": "PNR_Retrieve - With Record Locator",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "http://webservices.amadeus.com/PNR_Retrieve_21_1_1A"
+					}
+				],
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{amadeus_username}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{amadeus_password}}",
+							"type": "string"
+						}
+					]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\" xmlns:ses=\"http://xml.amadeus.com/2010/06/Session_v3\">\n    <soapenv:Header>\n        <link:TransactionFlowLink>\n            <link:Consumer>\n                <link:UniqueID>{{session_id}}</link:UniqueID>\n            </link:Consumer>\n        </link:TransactionFlowLink>\n        <ses:Session>\n            <ses:SessionId>{{session_id}}</ses:SessionId>\n            <ses:SequenceNumber>{{sequence_number}}</ses:SequenceNumber>\n            <ses:SecurityToken>{{amadeus_username}}:{{amadeus_password}}</ses:SecurityToken>\n        </ses:Session>\n    </soapenv:Header>\n    <soapenv:Body>\n        <PNR_Retrieve xmlns=\"http://xml.amadeus.com/PNRRET_21_1_1A\">\n            <retrievalFacts>\n                <retrieve>\n                    <type>2</type>\n                </retrieve>\n                <reservationOrProfileIdentifier>\n                    <reservation>\n                        <controlNumber>{{pnr_code}}</controlNumber>\n                    </reservation>\n                </reservationOrProfileIdentifier>\n            </retrievalFacts>\n        </PNR_Retrieve>\n    </soapenv:Body>\n</soapenv:Envelope>"
+				},
+				"url": {
+					"raw": "{{amadeus_endpoint}}/{{office_id}}",
+					"host": [
+						"{{amadeus_endpoint}}"
+					],
+					"path": [
+						"{{office_id}}"
+					]
+				}
+			}
+		}
+	]
+}
