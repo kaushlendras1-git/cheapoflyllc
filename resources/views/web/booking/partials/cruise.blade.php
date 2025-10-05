@@ -4,13 +4,13 @@
 
         <div class="position-relative checkbox-servis mb-2 mt-2">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="cruise_payment_type" id="fullPayment"
+                <input class="form-check-input payment_type" type="radio" name="cruise_payment_type" id="fullPayment"
                     value="full_payment" {{$booking->cruise_payment_type=="full_payment"?'checked':''}}>
                 <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
             </div>
 
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="cruise_payment_type" id="cruise_deposit" value="deposit" {{$booking->cruise_payment_type=="deposit"?'checked':''}}>
+                <input class="form-check-input payment_type" type="radio" name="cruise_payment_type" id="cruise_deposit" value="deposit" {{$booking->cruise_payment_type=="deposit"?'checked':''}}>
                 <label class="form-check-label" for="deposit">Deposit</label>
             </div>
         </div>

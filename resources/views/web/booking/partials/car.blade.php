@@ -30,12 +30,12 @@
                 <div class="card p-4 show-booking-card">
                     <div class=" position-relative checkbox-servis mb-1 mt-1">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="car_payment_type" id="car_full_payment" value="full_payment" {{$booking->car_payment_type=="full_payment"?'checked':''}}>
+                            <input class="form-check-input payment_type" type="radio" name="car_payment_type" id="car_full_payment" value="full_payment" {{$booking->car_payment_type=="full_payment"?'checked':''}}>
                             <label class="form-check-label" for="fullPayment" style="width: 100px;">Full Payment</label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="car_payment_type" id="car_deposit" value="deposit" {{$booking->car_payment_type=="deposit"?'checked':''}}>
+                            <input class="form-check-input payment_type" type="radio" name="car_payment_type" id="car_deposit" value="deposit" {{$booking->car_payment_type=="deposit"?'checked':''}}>
                             <label class="form-check-label" for="deposit">Deposit</label>
                         </div>
                 </div>

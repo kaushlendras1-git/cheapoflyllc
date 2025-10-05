@@ -553,6 +553,7 @@ class BookingFormController extends Controller
 
                        # $rules['pnrtype']                   = 'required';
                         $rules['airlinepnr']                   = 'required';
+
                         $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
                         $rules['flight.*.departure_date']    = 'required_with:flight';
                         $rules['flight.*.departure_airport'] = 'required_with:flight|string|max:255';
@@ -579,7 +580,7 @@ class BookingFormController extends Controller
                             $rules['hotelbookingimage'] = 'required_without:hotel|array';
                             $rules['hotel'] = 'required_without:hotelbookingimage|array|min:1';
                         }
-                    #  $rules['hotel_ref']                 = 'required|string';
+                        $rules['hotel_ref']                 = 'required|string';
                         $rules['hotel.*.hotel_name']          = 'required_with:hotel|string|max:255';
                         $rules['hotel.*.room_category']       = 'required_with:hotel|string|max:255';
                         $rules['hotel.*.checkin_date']        = 'required_with:hotel';
@@ -594,16 +595,6 @@ class BookingFormController extends Controller
                     if (in_array('Cruise', $bookingTypes)) {
 
                        # dd($request->all());
-
-                        $rules['cruise_name']                              = 'required';
-                        $rules['ship_name']                              = 'required';
-                        $rules['length']                              = 'required';
-                        $rules['departure_port']                              = 'required';
-                        $rules['arrival_port']                              = 'required';
-                        $rules['cruise_line']                              = 'required';
-                    #  $rules['category']                              = 'required';
-                        $rules['stateroom']                              = 'required';
-
                         $cruiseImageExists = DB::table('cruise_images')->where('booking_id', $id)->exists();
 
                         if ($cruiseImageExists) {
@@ -613,7 +604,17 @@ class BookingFormController extends Controller
                             $rules['cruisebookingimage'] = 'required_without:cruise|array';
                             $rules['cruise'] = 'required_without:cruisebookingimage|array|min:1';
                         }
-                    #  $rules['cruise_ref']                 = 'required|string';
+                        $rules['cruise_name']                              = 'required';
+                        $rules['ship_name']                              = 'required';
+                        $rules['length']                              = 'required';
+                        $rules['departure_port']                              = 'required';
+                        $rules['arrival_port']                              = 'required';
+                        $rules['cruise_line']                              = 'required';
+                    #  $rules['category']                              = 'required';
+                        $rules['stateroom']                              = 'required';
+
+
+                        $rules['cruise_ref']                 = 'required|string';
                         $rules['cruise.*.departure_date']  = 'required_with:cruise';
                         $rules['cruise.*.departure_port']  = 'required_with:cruise|string|max:255';
                        # $rules['cruise.*.departure_hrs']   = 'required_with:cruise|date_format:H:i';
@@ -631,7 +632,7 @@ class BookingFormController extends Controller
                             $rules['carbookingimage'] = 'required_without:car|array';
                             $rules['car'] = 'required_without:carbookingimage|array|min:1';
                         }
-                    #  $rules['car_ref']                 = 'required|string';
+                        $rules['car_ref']                 = 'required|string';
                         $rules['car.*.car_rental_provider']     = 'required_with:car|string|max:255';
                         $rules['car.*.car_type']                = 'required_with:car|string|max:255';
                         $rules['car.*.pickup_location']         = 'required_with:car|string|max:255';
@@ -1076,44 +1077,37 @@ class BookingFormController extends Controller
             $validator = Validator::make($request->all(), $rules, $messages);
             $validator->after(function ($validator) use ($request, $bookingTypes) {
 
-                // Validate deposit fields inter-dependency
-                $depositType = $request->input('deposit_type', []);
-                $totalAmount = $request->input('total_amount', []);
-                $depositAmount = $request->input('deposit_amount', []);
-                $pendingAmount = $request->input('pending_amount', []);
-                $dueDate = $request->input('due_date', []);
+                // Validate deposit fields when payment type fields have values
+                $hotelPaymentType = $request->input('hotel_payment_type');
+                $cruisePaymentType = $request->input('cruise_payment_type');
+                $carPaymentType = $request->input('car_payment_type');
 
-                $hasAnyDepositData = !empty(array_filter($depositType)) || !empty(array_filter($totalAmount)) ||
-                                   !empty(array_filter($depositAmount)) || !empty(array_filter($pendingAmount)) ||
-                                   !empty(array_filter($dueDate));
+                $hasPaymentType = !empty($hotelPaymentType) || !empty($cruisePaymentType) || !empty($carPaymentType);
+                if ($hasPaymentType) {
+                    $depositType = $request->input('deposit_type', []);
+                    $totalAmount = $request->input('total_amount', []);
+                    $depositAmount = $request->input('deposit_amount', []);
+                    $pendingAmount = $request->input('pending_amount', []);
+                    $dueDate = $request->input('due_date', []);
 
-                if ($hasAnyDepositData) {
-                    $maxCount = max(count($depositType), count($totalAmount), count($depositAmount), count($pendingAmount), count($dueDate));
-
-                    for ($i = 0; $i < $maxCount; $i++) {
-                        $hasValue = !empty($depositType[$i] ?? '') || !empty($totalAmount[$i] ?? '') ||
-                                  !empty($depositAmount[$i] ?? '') || !empty($pendingAmount[$i] ?? '') ||
-                                  !empty($dueDate[$i] ?? '');
-
-                        if ($hasValue) {
-                            if (empty($depositType[$i] ?? '')) {
-                                $validator->errors()->add("deposit_type.$i", 'Deposit type is required when other deposit fields have values.');
-                            }
-                            if (empty($totalAmount[$i] ?? '')) {
-                                $validator->errors()->add("total_amount.$i", 'Total amount is required when other deposit fields have values.');
-                            }
-                            if (empty($depositAmount[$i] ?? '')) {
-                                $validator->errors()->add("deposit_amount.$i", 'Deposit amount is required when other deposit fields have values.');
-                            }
-                            if (empty($pendingAmount[$i] ?? '')) {
-                                $validator->errors()->add("pending_amount.$i", 'Pending amount is required when other deposit fields have values.');
-                            }
-                            if (empty($dueDate[$i] ?? '')) {
-                                $validator->errors()->add("due_date.$i", 'Due date is required when other deposit fields have values.');
-                            }
-                        }
+                    if (empty(array_filter($depositType))) {
+                        $validator->errors()->add('deposit_type', 'Deposit type is required when payment type is specified.');
+                    }
+                    if (empty(array_filter($totalAmount))) {
+                        $validator->errors()->add('total_amount', 'Total amount is required when payment type is specified.');
+                    }
+                    if (empty(array_filter($depositAmount))) {
+                        $validator->errors()->add('deposit_amount', 'Deposit amount is required when payment type is specified.');
+                    }
+                    if (empty(array_filter($pendingAmount, function($value) { return $value !== null && $value !== ''; }))) {
+                        $validator->errors()->add('pending_amount', 'Pending amount is required when payment type is specified.');
+                    }
+                    if (empty(array_filter($dueDate))) {
+                        $validator->errors()->add('due_date', 'Due date is required when payment type is specified.');
                     }
                 }
+
+                // Validate deposit fields inter-dependency
 
                 // Billing card number and CVV validation
                 $billings = $request->input('billing', []);
@@ -1179,7 +1173,6 @@ class BookingFormController extends Controller
             $validator->validate();
 
             $user_id =Auth::id();
-
             #dd($request->all());
 
             #DB::beginTransaction();

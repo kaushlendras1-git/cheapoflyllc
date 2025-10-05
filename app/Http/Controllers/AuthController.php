@@ -59,21 +59,29 @@ class AuthController extends Controller
                     'subnet' => null,
                     'gateway'=> null,
 
-                    
+
                 ];
 
                 $user = Auth::user();
                 $user->last_login_ip = $loginIp;
                 $user->server_network = $serverDetails;
                 $user->save();
-                             
-              
+
+
+
+                // Check department for redirection
+                if($user->department_id === 1){
+                    if ($request->expectsJson()) {
+                        return response()->json(['success' => true, 'redirect' => '/admin/dashboard']);
+                    }
+                    return redirect('/admin/dashboard');
+                }
 
                 // JSON response for AJAX
                 if ($request->expectsJson()) {
-                    return response()->json(['success' => true]);
+                    return response()->json(['success' => true, 'redirect' => '/dashboard']);
                 }
-
+                
                 return redirect()->intended('dashboard');
             } else {
                 Auth::logout();

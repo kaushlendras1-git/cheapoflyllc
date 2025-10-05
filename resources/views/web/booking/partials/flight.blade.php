@@ -70,7 +70,7 @@
                                                     style="width: 40px;"
                                                     name="flight[{{ $index }}][airline_code]"
                                                     value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
-                                                    placeholder="Airlines (Code)">
+                                                    placeholder="Airlines (Code)" autocomplete="off">
 
                                                 <div class="flight-code-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
@@ -111,6 +111,7 @@
                                                     name="flight[{{ $index }}][class_of_service]"
                                                     value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}"
                                                     placeholder="Class of Service" style="width: 37px;" min="0"
+                                                   autocomplete="off"
                                                     max="1">
                                                 <div class="operating-flight-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
@@ -123,7 +124,9 @@
                                                     style="width: 10rem;"
                                                     name="flight[{{ $index }}][departure_airport]"
                                                     value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
-                                                    placeholder="Departure Airport">
+                                                    placeholder="Departure Airport"
+                                                   autocomplete="off"
+                                                >
                                                 <div class="flight-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                                                 </div>
@@ -144,7 +147,9 @@
                                                     name="flight[{{ $index }}][arrival_airport]"
                                                     style="width: 90px;"
                                                     value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}"
-                                                    placeholder="Arrival Airport">
+                                                    placeholder="Arrival Airport"
+                                                   autocomplete="off"
+                                                />
                                                 <div class="flight-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                                                 </div>

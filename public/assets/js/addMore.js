@@ -401,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 6.7rem" name="flight[${flightIndex}][departure_date]"></td>
                 <td>
-                    <input type="text" class="form-control airline_code_input" style="width: 40px;" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)">
+                    <input type="text" class="form-control airline_code_input" style="width: 40px;" autocomplete="off" name="flight[${flightIndex}][airline_code]" placeholder="Airlines (Code)">
                     <div class="flight-code-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;"></div>
                 </td>
                 <td><input type="text" class="form-control" style="width: 3.5rem;" name="flight[${flightIndex}][flight_number]" placeholder="Flight No"></td>
@@ -416,13 +416,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select></td>
 
                 <td>
-                    <input type="text" class="form-control operating_service_search" style="width: 37px;" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service">
+                    <input type="text" class="form-control operating_service_search" style="width: 37px;" autocomplete="off" name="flight[${flightIndex}][class_of_service]" placeholder="Class of Service">
                     <div class="operating-flight-suggestions-list"
                         style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                     </div>
                 </td>
                 <td>
-                    <input type="text" class="form-control departure-airport" style="width: 10rem;" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
+                    <input type="text" class="form-control departure-airport" style="width: 10rem;" autocomplete="off" name="flight[${flightIndex}][departure_airport]" placeholder="Departure Airport">
                     <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                     </div>
                 </td>
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
 
                 <td>
-                    <input type="text" class="form-control arrival-airport" style="width: 90px;" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
+                    <input type="text" class="form-control arrival-airport" style="width: 90px;" autocomplete="off" name="flight[${flightIndex}][arrival_airport]" placeholder="Arrival Airport">
                     <div class="flight-suggestions-list" style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                     </div>
                 </td>

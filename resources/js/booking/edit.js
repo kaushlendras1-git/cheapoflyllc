@@ -239,22 +239,32 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     formdata.append('hotel_payment_type', hotelPaymentType);
     formdata.append('cruise_payment_type', cruisePaymentType);
     formdata.append('car_payment_type', carPaymentType);
-    
-    // Add deposit fields
+
+    // Add deposit fields (exclude rows with d-none class)
     document.querySelectorAll('input[name="deposit_type[]"]').forEach(input => {
-        formdata.append('deposit_type[]', input.value);
+        if (!input.closest('tr').classList.contains('d-none')) {
+            formdata.append('deposit_type[]', input.value);
+        }
     });
     document.querySelectorAll('input[name="total_amount[]"]').forEach(input => {
-        formdata.append('total_amount[]', input.value);
+        if (!input.closest('tr').classList.contains('d-none')) {
+            formdata.append('total_amount[]', input.value);
+        }
     });
     document.querySelectorAll('input[name="deposit_amount[]"]').forEach(input => {
-        formdata.append('deposit_amount[]', input.value);
+        if (!input.closest('tr').classList.contains('d-none')) {
+            formdata.append('deposit_amount[]', input.value);
+        }
     });
     document.querySelectorAll('input[name="pending_amount[]"]').forEach(input => {
-        formdata.append('pending_amount[]', input.value);
+        if (!input.closest('tr').classList.contains('d-none')) {
+            formdata.append('pending_amount[]', input.value);
+        }
     });
     document.querySelectorAll('input[name="due_date[]"]').forEach(input => {
-        formdata.append('due_date[]', input.value);
+        if (!input.closest('tr').classList.contains('d-none')) {
+            formdata.append('due_date[]', input.value);
+        }
     });
 
     // Calculate and add gross_value and net_value to FormData
@@ -1801,3 +1811,14 @@ $('#save-billing-field-save').click(async function(e){
     }
 
 })
+
+$('input[name="hotel_payment_type"]').click(function(){
+    $('#hotel-deposit-billing').removeClass('d-none');
+});
+
+$('input[name="car_payment_type"]').click(function(){
+    $('#car-deposit-billing').removeClass('d-none');
+});
+$('input[name="cruise_payment_type"]').click(function(){
+    $('#cruise-deposit-billing').removeClass('d-none');
+});

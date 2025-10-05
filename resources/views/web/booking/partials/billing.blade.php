@@ -245,8 +245,7 @@
                                     <th>Due Date</th>
                                 </tr>
                             </thead>
-                            <tr data-payment="car" id="car-deposit-billing"
-                                class="{{ in_array('Car', $bookingTypes) ? '' : 'd-none' }}">
+                            <tr data-payment="car" class="{{isset($booking->card_details_json['Car'])?'':'d-none'}}" id="car-deposit-billing">
                                 <td>
                                     Car
                                     <input type="hidden" name="deposit_type[]" value="Car" />
@@ -269,8 +268,7 @@
                                 </td>
                             </tr>
 
-                            <tr data-payment="cruise" id="cruise-deposit-billing"
-                                class="{{ in_array('Cruise', $bookingTypes) ? '' : 'd-none' }}">
+                            <tr data-payment="cruise" class="{{isset($booking->card_details_json['Cruise'])?'':'d-none'}}" id="cruise-deposit-billing">
                                 <td>
                                     Cruise
                                     <input type="hidden" name="deposit_type[]" value="Cruise" />
@@ -293,8 +291,7 @@
                                 </td>
                             </tr>
 
-                            <tr data-payment="hotel" id="hotel-deposit-billing"
-                                class="{{ in_array('Hotel', $bookingTypes) ? '' : 'd-none' }}">
+                            <tr data-payment="hotel" class="{{isset($booking->card_details_json['Hotel'])?'':'d-none'}}" id="hotel-deposit-billing">
                                 <td>
                                     Hotel
                                     <input type="hidden" name="deposit_type[]" value="Hotel" />
