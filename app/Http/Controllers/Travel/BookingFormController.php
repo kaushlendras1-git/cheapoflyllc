@@ -275,6 +275,16 @@ class BookingFormController extends Controller
                                     $q->where('user_id', $userId);
                                 }
                             )
+
+                            ->when(
+                                auth()->user()->role_id == 2 && auth()->user()->department_id == 2,
+                                function ($q) use ($userId) {
+                                    // Get all users where current user is their team leader
+                                    $teamMemberIds = \App\Models\User::where('team_leader', $userId)->pluck('id');
+                                    $q->whereIn('user_id', $teamMemberIds);
+                                }
+                            )
+
                             ->orderBy('created_at', 'desc')
                             ->paginate(20);
 
@@ -1178,17 +1188,28 @@ class BookingFormController extends Controller
             #DB::beginTransaction();
             $booking = TravelBooking::findOrFail($id);
 
+            // Optimistic locking - prevent concurrent updates
             $lastUpdatedAt = $request->input('last_updated_at');
-            $bookingUpdatedAt = $booking->updated_at ? $booking->updated_at->format('Y-m-d H:i:s') : null;
+            $currentUpdatedAt = $booking->updated_at ? $booking->updated_at->format('Y-m-d H:i:s') : null;
 
-            if (strtotime($lastUpdatedAt) !== strtotime($bookingUpdatedAt)) {
+            if (!$lastUpdatedAt) {
                 return response()->json([
                     'status' => 'error',
-                    'error' => 'This booking was updated by someone else. Please refresh and try again.',
+                    'error' => 'Invalid request. Please refresh the page.',
                     'code' => 422,
-                    'reload' => true,
-                    'delay_reload' => 3000
+                    'reload' => true
                 ], 422);
+            }
+
+            if ($lastUpdatedAt !== $currentUpdatedAt) {
+                return response()->json([
+                    'status' => 'error',
+                    'error' => 'This booking was updated by another user. Please refresh and try again.',
+                    'code' => 409, // Conflict status code
+                    'reload' => true,
+                    'delay_reload' => 2000,
+                    'last_updated_by' => $booking->updated_by ?? 'Unknown user'
+                ], 409);
             }
 
 
@@ -1198,6 +1219,7 @@ class BookingFormController extends Controller
                 'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee',
                 'hotel_payment_type','cruise_payment_type','car_payment_type'
             ]);
+
             // $array = [];
             // foreach($request->deposit_type as $key=>$deposit){
             //     $array[$deposit] = [

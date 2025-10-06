@@ -8,21 +8,57 @@ use App\Models\CallLog;
 use App\Models\Attendance;
 use App\Models\ShortBreak;
 use App\Models\TravelBooking;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
 class TeamLeaderDashboardController extends Controller
 {
-    
+
     public function index(){
         $userId = Auth::id();
-        $flight = CallLog::where('user_id', $userId)->where('chkflight', 1)->count();
-        $hotel = CallLog::where('user_id', $userId)->where('chkhotel', 1)->count();
-        $cruise = CallLog::where('user_id', $userId)->where('chkcruise', 1)->count();
-        $car = CallLog::where('user_id', $userId)->where('chkcar', 1)->count();
-        $train = CallLog::where('user_id', $userId)->where('chktrain', 1)->count();
-        $pending = CallLog::where('user_id', $userId)->where('call_converted','!=1', 1)->count();
+        
+        // Get team member IDs
+        $teamMemberIds = \App\Models\User::where('team_leader', $userId)->pluck('id');
+        
+        // Daily team performance
+        $dailyPerformance = DB::table('travel_bookings')
+            ->join('users', 'users.id', '=', 'travel_bookings.user_id')
+            ->whereIn('travel_bookings.user_id', $teamMemberIds)
+            ->whereDate('travel_bookings.created_at', today())
+            ->selectRaw('users.name, SUM(travel_bookings.net_mco) as net_mco')
+            ->groupBy('users.id', 'users.name')
+            ->orderBy('net_mco', 'desc')
+            ->get();
+
+        // Weekly team performance
+        $weeklyPerformance = DB::table('travel_bookings')
+            ->join('users', 'users.id', '=', 'travel_bookings.user_id')
+            ->whereIn('travel_bookings.user_id', $teamMemberIds)
+            ->whereBetween('travel_bookings.created_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->selectRaw('users.name, SUM(travel_bookings.net_mco) as net_mco')
+            ->groupBy('users.id', 'users.name')
+            ->orderBy('net_mco', 'desc')
+            ->get();
+
+        // Monthly team performance
+        $monthlyPerformance = DB::table('travel_bookings')
+            ->join('users', 'users.id', '=', 'travel_bookings.user_id')
+            ->whereIn('travel_bookings.user_id', $teamMemberIds)
+            ->whereMonth('travel_bookings.created_at', now()->month)
+            ->whereYear('travel_bookings.created_at', now()->year)
+            ->selectRaw('users.name, SUM(travel_bookings.net_mco) as net_mco')
+            ->groupBy('users.id', 'users.name')
+            ->orderBy('net_mco', 'desc')
+            ->get();
+
+        $flight = CallLog::whereIn('user_id', $teamMemberIds)->where('chkflight', 1)->count();
+        $hotel = CallLog::whereIn('user_id', $teamMemberIds)->where('chkhotel', 1)->count();
+        $cruise = CallLog::whereIn('user_id', $teamMemberIds)->where('chkcruise', 1)->count();
+        $car = CallLog::whereIn('user_id', $teamMemberIds)->where('chkcar', 1)->count();
+        $train = CallLog::whereIn('user_id', $teamMemberIds)->where('chktrain', 1)->count();
+        $pending = CallLog::whereIn('user_id', $teamMemberIds)->where('call_converted','!=1', 1)->count();
 
         $booking_type_count = DB::table('travel_bookings as b')
                     ->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')
@@ -33,17 +69,15 @@ class TeamLeaderDashboardController extends Controller
                         SUM(CASE WHEN t.type = 'Car' THEN 1 ELSE 0 END) as car_booking,
                         SUM(CASE WHEN t.type = 'Train' THEN 1 ELSE 0 END) as train_booking
                     ")
-                    ->where('b.user_id', Auth::id())
-                    #->whereMonth('b.created_at', now()->month)
-                    #->whereYear('b.created_at', now()->year)
+                    ->whereIn('b.user_id', $teamMemberIds)
                     ->first();                           
-        $flight_booking = $booking_type_count->flight_booking;
-        $hotel_booking = $booking_type_count->flight_booking;
-        $cruise_booking = $booking_type_count->flight_booking;
-        $car_booking = $booking_type_count->flight_booking;
-        $train_booking = $booking_type_count->flight_booking;
+        $flight_booking = $booking_type_count->flight_booking ?? 0;
+        $hotel_booking = $booking_type_count->hotel_booking ?? 0;
+        $cruise_booking = $booking_type_count->cruise_booking ?? 0;
+        $car_booking = $booking_type_count->car_booking ?? 0;
+        $train_booking = $booking_type_count->train_booking ?? 0;
 
-        $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
+        $pending_booking = TravelBooking::whereIn('user_id', $teamMemberIds)->where('booking_status_id',1)->count();
 
         $scores = DB::table('travel_bookings')
                     ->selectRaw("
@@ -51,60 +85,43 @@ class TeamLeaderDashboardController extends Controller
                         SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN net_value ELSE 0 END) as weekly_score,
                         SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN net_value ELSE 0 END) as monthly_score
                     ")
-                    ->where('user_id', Auth::id())
+                    ->whereIn('user_id', $teamMemberIds)
                     ->first();
 
-        $today_score   = $scores->today_score;
-        $weekly_score  = $scores->weekly_score;
-        $monthly_score = $scores->monthly_score;
+        $today_score   = $scores->today_score ?? 0;
+        $weekly_score  = $scores->weekly_score ?? 0;
+        $monthly_score = $scores->monthly_score ?? 0;
 
-
-        $charge_back_total = 22;
-        $charge_back_count = 22;
-
-        $total_booking_total = 0;
-        $total_booking_count = 0;
+        $charge_back_data = TravelBooking::whereIn('user_id', $teamMemberIds)
+                                        ->where('booking_status_id', 13)
+                                        ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                        ->first();
+        $charge_back_total = $charge_back_data->total ?? 0;
+        $charge_back_count = $charge_back_data->count ?? 0;
         
-        $refund_total = 16;
-        $refund_count = 0;
-
+        $refund_data = TravelBooking::whereIn('user_id', $teamMemberIds)
+                                   ->where('payment_status_id', 16)
+                                   ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                   ->first();
+        $refund_total = $refund_data->total ?? 0;
+        $refund_count = $refund_data->count ?? 0;
         
-        $attendances = Attendance::where('user_id', $userId)
-             ->whereMonth('attendance_date', date('m'))  // June
+        $total_booking_data = TravelBooking::whereIn('user_id', $teamMemberIds)
+                                          ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                          ->first();
+        $total_booking_total = $total_booking_data->total ?? 0;
+        $total_booking_count = $total_booking_data->count ?? 0;
+        
+        $attendances = Attendance::whereIn('user_id', $teamMemberIds)
+             ->whereMonth('attendance_date', date('m'))
              ->whereYear('attendance_date', 2025)
-             ->pluck('status', 'attendance_date');
+             ->get()
+             ->groupBy('user_id');
 
-       
-          \App\Models\Attendance::firstOrCreate([
-                'user_id' => $userId,
-                'attendance_date' => Carbon::today()->toDateString(),
-            ], [
-                'status' => 'P',
-            ]);
-
-    //     \App\Models\ShortBreak::create([
-    //     'user_id' => 1,
-    //     'type' => 'Short',
-    //     'break_date' => today(),
-    //     'status' => 'Ended',
-    //     'start_time' => now()->subMinutes(13),
-    //     'end_time' => now(),
-    //     'total_time' => 13,
-    //     'approved' => true,
-    // ]);
-
-    
-        // Format result for calendar grid
-        $daysInMonth = Carbon::createFromDate(2025, date('m'), 1)->daysInMonth;
         $calendar = [];
 
-        for ($day = 1; $day <= $daysInMonth; $day++) {
-            $date = Carbon::create(2025, date('m'), $day)->format('Y-m-d');
-            $calendar[$day] = $attendances[$date] ?? '';
-        }
-
-        return view('web.user-dashboard', 
-        compact('calendar','charge_back_total','charge_back_count','total_booking_total','total_booking_count','refund_total','refund_count',
+        return view('web.teamleader-dashboard', 
+        compact('dailyPerformance','weeklyPerformance','monthlyPerformance','calendar','charge_back_total','charge_back_count','total_booking_total','total_booking_count','refund_total','refund_count',
                 'flight', 'hotel', 'cruise', 'car','train','today_score','weekly_score','monthly_score','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking'));
     }
 

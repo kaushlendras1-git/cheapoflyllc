@@ -1,5 +1,7 @@
 @extends('web.layouts.main')
+
 @section('content')
+
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y p-70 mt-4">
     <div class="row gy-6 mt-0">
@@ -332,4 +334,107 @@
 </div>
 <!--/ Content -->
 
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <!-- Daily Performance -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Daily Performance</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Agent</th>
+                                    <th>Net MCO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($dailyPerformance as $member)
+                                <tr>
+                                    <td>{{ $member->name }}</td>
+                                    <td>${{ number_format($member->net_mco, 2) }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center">No data</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Performance -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Weekly Performance</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Agent</th>
+                                    <th>Net MCO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($weeklyPerformance as $member)
+                                <tr>
+                                    <td>{{ $member->name }}</td>
+                                    <td>${{ number_format($member->net_mco, 2) }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center">No data</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Performance -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Monthly Performance</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Agent</th>
+                                    <th>Net MCO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($monthlyPerformance as $member)
+                                <tr>
+                                    <td>{{ $member->name }}</td>
+                                    <td>${{ number_format($member->net_mco, 2) }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center">No data</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
