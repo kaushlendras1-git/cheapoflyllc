@@ -1198,18 +1198,18 @@ class BookingFormController extends Controller
                 'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee',
                 'hotel_payment_type','cruise_payment_type','car_payment_type'
             ]);
-            $array = [];
-            foreach($request->deposit_type as $key=>$deposit){
-                $array[$deposit] = [
-                    'total_amount'=>$request->total_amount[$key],
-                    'deposit_amount'=>$request->deposit_amount[$key],
-                    'pending_amount'=>$request->pending_amount[$key],
-                    'due_date'=>$request->due_date[$key],
-                ];
-            }
-            if(!empty($array)){
-                $bookingData['card_details_json'] =  $array;
-            }
+            // $array = [];
+            // foreach($request->deposit_type as $key=>$deposit){
+            //     $array[$deposit] = [
+            //         'total_amount'=>$request->total_amount[$key],
+            //         'deposit_amount'=>$request->deposit_amount[$key],
+            //         'pending_amount'=>$request->pending_amount[$key],
+            //         'due_date'=>$request->due_date[$key],
+            //     ];
+            // }
+            // if(!empty($array)){
+            //     $bookingData['card_details_json'] =  $array;
+            // }
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
             $booking->update($bookingData);

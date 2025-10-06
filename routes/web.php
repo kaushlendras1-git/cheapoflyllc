@@ -17,6 +17,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\MailHistoryController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\TeamLeaderDashboardController;
+
 use App\Mail\TestEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\SignatureController;
@@ -140,8 +142,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
 
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/admin/teamleader-dashboard', [TeamLeaderDashboardController::class, 'index'])->name('admin.teamleader-dashboard');
     Route::get('/score-details', [UserDashboardController::class, 'scoreDetails'])->name('score.details');
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 
         /** Call Logs**/

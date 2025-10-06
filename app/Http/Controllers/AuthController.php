@@ -67,7 +67,7 @@ class AuthController extends Controller
                 $user->server_network = $serverDetails;
                 $user->save();
 
-
+               
 
                 // Check department for redirection
                 if($user->department_id === 1){
@@ -76,6 +76,15 @@ class AuthController extends Controller
                     }
                     return redirect('/admin/dashboard');
                 }
+
+                if($user->department_id === 2 && $user->role_id === 2){
+                    if ($request->expectsJson()) {
+                        return response()->json(['success' => true, 'redirect' => '/admin/teamleader-dashboard']);
+                    }
+                    return redirect('/admin/teamleader-dashboard');
+                }
+
+
 
                 // JSON response for AJAX
                 if ($request->expectsJson()) {
