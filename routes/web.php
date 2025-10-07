@@ -141,6 +141,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/forgot-password', function () {return view('web.forgot-password');})->name('forgot-password');
 
+    Route::get('admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/user-performance', [AdminDashboardController::class, 'userPerformance'])->name('admin.user-performance');
+    Route::get('/admin/revenue-data', [AdminDashboardController::class, 'revenueData'])->name('admin.revenue-data');
+    Route::get('/admin/queue-status', [AdminDashboardController::class, 'queueStatus'])->name('admin.queue-status');
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/admin/teamleader-dashboard', [TeamLeaderDashboardController::class, 'index'])->name('admin.teamleader-dashboard');
     Route::get('/score-details', [UserDashboardController::class, 'scoreDetails'])->name('score.details');

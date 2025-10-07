@@ -1,50 +1,37 @@
 @extends('web.layouts.main')
+@section('head')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@endsection
 @section('content')
 
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row gy-6">
                 <!-- Agent Login Requests -->
-                <div class="col-md-12 col-lg-4">
-                  <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                      <h5 class="card-title mb-0">Agent Login Requests</h5>
-                      <span class="badge bg-warning" id="pendingCount">0</span>
-                    </div>
-                    <div class="card-body" style="max-height: 300px; overflow-y: auto;">
-                      <div id="loginRequests">
-                        <p class="text-muted text-center">No pending requests</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Agent Login Requests -->
+                
+           
+
 
                 <!-- Congratulations card -->
-                <div class="col-md-12 col-lg-4">
+                <div class="col-md-12 col-lg-4" style="margin-top: 50px;">
                   <div class="card">
                     <div class="card-body text-nowrap">
                       <h5 class="card-title mb-0 flex-wrap text-nowrap">Today Score! 🎉</h5>
                       <p class="mb-2">Best seller of the month</p>
-                      <h4 class="text-primary mb-0">$42.8k</h4>
+                      <h4 class="text-primary mb-0">${{ number_format($today_score, 2) }}</h4>
                       <p class="mb-2">78% of target 🚀</p>
                       <a href="javascript:;" class="btn btn-sm btn-primary">View Sales</a>
                     </div>
-                    <img
-                      src="./assets/img/illustrations/trophy.png"
-                      class="position-absolute bottom-0 end-0 me-5 mb-5"
-                      width="83"
-                      alt="view sales" />
                   </div>
                 </div>
                 <!--/ Congratulations card -->
 
                 <!-- Transactions -->
-                <div class="col-lg-8">
+                <div class="col-lg-8" style="margin-top: 50px;">
                   <div class="card h-100">
                     <div class="card-header">
                       <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="card-title m-0 me-2">Call Logs</h5>
+                        <h5 class="card-title m-0 me-2">Scores </h5>
                         <div class="dropdown">
                           <button
                             class="btn text-body-secondary p-0"
@@ -70,7 +57,7 @@
                             </div>
                             <div class="ms-3">
                               <p class="mb-0">Flight</p>
-                              <h5 class="mb-0">245</h5>
+                              <h5 class="mb-0">${{ number_format($flight_score, 2) }}</h5>
                             </div>
                           </div>
                         </div>
@@ -83,7 +70,7 @@
                             </div>
                             <div class="ms-3">
                               <p class="mb-0">Hotel</p>
-                              <h5 class="mb-0">12.5</h5>
+                              <h5 class="mb-0">${{ number_format($hotel_score, 2) }}</h5>
                             </div>
                           </div>
                         </div>
@@ -96,7 +83,7 @@
                             </div>
                             <div class="ms-3">
                               <p class="mb-0">Cruise</p>
-                              <h5 class="mb-0">1.54</h5>
+                              <h5 class="mb-0">${{ number_format($cruise_score, 2) }}</h5>
                             </div>
                           </div>
                         </div>
@@ -109,7 +96,7 @@
                             </div>
                             <div class="ms-3">
                               <p class="mb-0">Car</p>
-                              <h5 class="mb-0">88</h5>
+                              <h5 class="mb-0">${{ number_format($car_score, 2) }}</h5>
                             </div>
                           </div>
                         </div>
@@ -120,38 +107,21 @@
                 <!--/ Transactions -->
 
                 <!-- Weekly Overview Chart -->
-                <div class="col-xl-4 col-md-6">
+                <div class="col-xl-6 col-md-6">
                   <div class="card">
                     <div class="card-header pb-0">
                       <div class="d-flex justify-content-between">
                         <h5 class="mb-1">Weekly Overview</h5>
-                        <div class="dropdown">
-                          <button
-                            class="btn text-body-secondary p-0"
-                            type="button"
-                            id="weeklyOverviewDropdown"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="weeklyOverviewDropdown">
-                            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Update</a>
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div class="card-body">
-                      <div id="weeklyOverviewChart"></div>
-                      <div class="mt-0">
+                      <div style="height: 300px;">
+                        <canvas id="weeklyBarChart"></canvas>
+                      </div>
+                      <div class="mt-3">
                         <div class="d-flex align-items-center gap-4">
-                          <h4 class="mb-0">45%</h4>
-                          <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
-                        </div>
-                        <div class="d-grid mt-3 mt-md-4">
-                          <button class="btn btn-primary" type="button">Details</button>
+                          <h4 class="mb-0">${{ number_format($weekly_score, 2) }}</h4>
+                          <p class="mb-0">Weekly net profit</p>
                         </div>
                       </div>
                     </div>
@@ -159,802 +129,206 @@
                 </div>
                 <!--/ Weekly Overview Chart -->
 
-                <!-- Total Earnings -->
-                <div class="col-xl-4 col-md-6">
+                <!-- Monthly Overview Chart -->
+                <div class="col-xl-6 col-md-6">
                   <div class="card">
-                    <div class="card-header d-flex align-items-center justify-content-between pb-0">
-                      <h5 class="card-title m-0 me-2">Total Earning</h5>
-                      <div class="dropdown">
-                        <button
-                          class="btn text-body-secondary p-0"
-                          type="button"
-                          id="totalEarnings"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false">
-                          <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalEarnings">
-                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <div class="mb-4">
-                        <div class="d-flex align-items-center">
-                          <h3 class="mb-0">$24,895</h3>
-                          <span class="text-success ms-2">
-                            <i class="icon-base ri ri-arrow-up-s-line icon-sm"></i>
-                            <span>10%</span>
-                          </span>
-                        </div>
-                        <p class="mb-0">Compared to $84,325 last year</p>
-                      </div>
-                      <ul class="p-0 m-0">
-                        <li class="d-flex mb-6">
-                          <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                            <img src="../../../assets/img/icons/misc/bitbank.png" alt="zipcar" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Zipcar</h6>
-                              <p class="mb-0">Vuejs, React & HTML</p>
-                            </div>
-                            <div>
-                              <h6 class="mb-2">$24,895.65</h6>
-                              <div class="progress bg-label-primary" style="height: 4px">
-                                <div
-                                  class="progress-bar bg-primary"
-                                  style="width: 75%"
-                                  role="progressbar"
-                                  aria-valuenow="75"
-                                  aria-valuemin="0"
-                                  aria-valuemax="100"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex mb-6">
-                          <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                            <img src="../../../assets/img/icons/misc/bitbank.png" alt="bitbank" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Bitbank</h6>
-                              <p class="mb-0">Sketch, Figma & XD</p>
-                            </div>
-                            <div>
-                              <h6 class="mb-2">$8,6500.20</h6>
-                              <div class="progress bg-label-info" style="height: 4px">
-                                <div
-                                  class="progress-bar bg-info"
-                                  style="width: 75%"
-                                  role="progressbar"
-                                  aria-valuenow="75"
-                                  aria-valuemin="0"
-                                  aria-valuemax="100"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="d-flex">
-                          <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                            <img src="../../../assets/img/icons/misc/aviato.png" alt="aviato" />
-                          </div>
-                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="me-2">
-                              <h6 class="mb-0">Aviato</h6>
-                              <p class="mb-0">HTML & Angular</p>
-                            </div>
-                            <div>
-                              <h6 class="mb-2">$1,2450.80</h6>
-                              <div class="progress bg-label-secondary" style="height: 4px">
-                                <div
-                                  class="progress-bar bg-secondary"
-                                  style="width: 75%"
-                                  role="progressbar"
-                                  aria-valuenow="75"
-                                  aria-valuemin="0"
-                                  aria-valuemax="100"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Total Earnings -->
-
-                <!-- Four Cards -->
-                <div class="col-xl-4 col-md-6">
-                  <div class="row gy-6">
-                    <!-- Total Profit line chart -->
-                    <div class="col-sm-6">
-                      <div class="card h-100">
-                        <div class="card-header pb-0">
-                          <h4 class="mb-0">$86.4k</h4>
-                        </div>
-                        <div class="card-body">
-                          <div id="totalProfitLineChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Total Profit</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Total Profit line chart -->
-                    <!-- Total Profit Weekly Project -->
-                    <div class="col-sm-6">
-                      <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                          <div class="avatar">
-                            <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
-                              <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
-                            </div>
-                          </div>
-                          <div class="dropdown">
-                            <button
-                              class="btn text-body-secondary p-0"
-                              type="button"
-                              id="totalProfitID"
-                              data-bs-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false">
-                              <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalProfitID">
-                              <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                              <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                              <a class="dropdown-item" href="javascript:void(0);">Update</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h6 class="mb-1">Total Profit</h6>
-                          <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">$25.6k</h4>
-                            <p class="text-success mb-0">+42%</p>
-                          </div>
-                          <small>Weekly Project</small>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Total Profit Weekly Project -->
-                    <!-- New Yearly Project -->
-                    <div class="col-sm-6">
-                      <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                          <div class="avatar">
-                            <div class="avatar-initial bg-primary rounded-circle shadow-xs">
-                              <i class="icon-base ri ri-file-word-2-line icon-24px"></i>
-                            </div>
-                          </div>
-                          <div class="dropdown">
-                            <button
-                              class="btn text-body-secondary p-0"
-                              type="button"
-                              id="newProjectID"
-                              data-bs-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false">
-                              <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="newProjectID">
-                              <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                              <a class="dropdown-item" href="javascript:void(0);">Share</a>
-                              <a class="dropdown-item" href="javascript:void(0);">Update</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h6 class="mb-1">New Project</h6>
-                          <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">862</h4>
-                            <p class="text-danger mb-0">-18%</p>
-                          </div>
-                          <small>Yearly Project</small>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ New Yearly Project -->
-                    <!-- Sessions chart -->
-                    <div class="col-sm-6">
-                      <div class="card h-100">
-                        <div class="card-header pb-0">
-                          <h4 class="mb-0">2,856</h4>
-                        </div>
-                        <div class="card-body">
-                          <div id="sessionsColumnChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Sessions</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Sessions chart -->
-                  </div>
-                </div>
-                <!--/ four cards -->
-
-                <!-- Performance Chart -->
-                <div class="col-xl-4 col-md-6">
-                  <div class="card h-100">
-                    <div class="card-header">
+                    <div class="card-header pb-0">
                       <div class="d-flex justify-content-between">
-                        <h5 class="mb-0">Performance</h5>
-                        <div class="dropdown">
-                          <button
-                            class="btn text-body-secondary p-0"
-                            type="button"
-                            id="performanceDropdown"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="performanceDropdown">
-                            <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                          </div>
-                        </div>
+                        <h5 class="mb-1">Monthly Overview</h5>
                       </div>
                     </div>
                     <div class="card-body">
-                      <div id="performanceChart"></div>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Performance Chart -->
-
-                <!-- Deposit / Withdraw -->
-                <div class="col-xl-8">
-                  <div class="card-group">
-                    <div class="card mb-0">
-                      <div class="card-body card-separator">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-                          <h5 class="m-0 me-2">Deposit</h5>
-                          <a class="fw-medium" href="javascript:void(0);">View all</a>
-                        </div>
-                        <div class="deposit-content pt-2">
-                          <ul class="p-0 m-0">
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/payments/gumroad.png"
-                                  class="img-fluid"
-                                  alt="gumroad"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Gumroad Account</h6>
-                                  <p class="mb-0">Sell UI Kit</p>
-                                </div>
-                                <h6 class="text-success mb-0">+$4,650</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/payments/mastercard-2.png"
-                                  class="img-fluid"
-                                  alt="mastercard"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Mastercard</h6>
-                                  <p class="mb-0">Wallet deposit</p>
-                                </div>
-                                <h6 class="text-success mb-0">+$92,705</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/payments/stripes.png"
-                                  class="img-fluid"
-                                  alt="stripes"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Stripe Account</h6>
-                                  <p class="mb-0">iOS Application</p>
-                                </div>
-                                <h6 class="text-success mb-0">+$957</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/payments/american-bank.png"
-                                  class="img-fluid"
-                                  alt="american"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">American Bank</h6>
-                                  <p class="mb-0">Bank Transfer</p>
-                                </div>
-                                <h6 class="text-success mb-0">+$6,837</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex align-items-center">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/payments/citi.png"
-                                  class="img-fluid"
-                                  alt="citi"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Bank Account</h6>
-                                  <p class="mb-0">Wallet deposit</p>
-                                </div>
-                                <h6 class="text-success mb-0">+$446</h6>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
+                      <div style="height: 300px;">
+                        <canvas id="monthlyBarChart"></canvas>
                       </div>
-                    </div>
-                    <div class="card mb-0">
-                      <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-                          <h5 class="m-0 me-2">Withdraw</h5>
-                          <a class="fw-medium" href="javascript:void(0);">View all</a>
-                        </div>
-                        <div class="withdraw-content pt-2">
-                          <ul class="p-0 m-0">
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/brands/google.png"
-                                  class="img-fluid"
-                                  alt="google"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Google Adsense</h6>
-                                  <p class="mb-0">Paypal deposit</p>
-                                </div>
-                                <h6 class="text-danger mb-0">-$145</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/brands/github.png"
-                                  class="img-fluid"
-                                  alt="github"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Github Enterprise</h6>
-                                  <p class="mb-0">Security &amp; compliance</p>
-                                </div>
-                                <h6 class="text-danger mb-0">-$1870</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/brands/slack.png"
-                                  class="img-fluid"
-                                  alt="slack"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Upgrade Slack Plan</h6>
-                                  <p class="mb-0">Debit card deposit</p>
-                                </div>
-                                <h6 class="text-danger mb-0">$450</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 align-items-center pb-2">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/payments/digital-ocean.png"
-                                  class="img-fluid"
-                                  alt="digital"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">Digital Ocean</h6>
-                                  <p class="mb-0">Cloud Hosting</p>
-                                </div>
-                                <h6 class="text-danger mb-0">-$540</h6>
-                              </div>
-                            </li>
-                            <li class="d-flex align-items-center">
-                              <div class="flex-shrink-0 me-4">
-                                <img
-                                  src="../../../assets/img/icons/brands/aws.png"
-                                  class="img-fluid"
-                                  alt="aws"
-                                  height="30"
-                                  width="30" />
-                              </div>
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <h6 class="mb-0">AWS Account</h6>
-                                  <p class="mb-0">Choosing a Cloud Platform</p>
-                                </div>
-                                <h6 class="text-danger mb-0">-$21</h6>
-                              </div>
-                            </li>
-                          </ul>
+                      <div class="mt-3">
+                        <div class="d-flex align-items-center gap-4">
+                          <h4 class="mb-0">${{ number_format($monthly_score, 2) }}</h4>
+                          <p class="mb-0">Monthly net profit</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- Deposit / Withdraw -->
+                <!--/ Monthly Overview Chart -->
 
-                <!-- Sales by Countries -->
-                <div class="col-xl-4 col-md-6">
+                <!-- Daily Overview Chart -->
+                <div class="col-xl-12 col-md-6">
+                  <div class="card">
+                    <div class="card-header pb-0">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="mb-1">Daily Overview (Last 2 Months)</h5>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div style="height: 300px;">
+                        <canvas id="dailyBarChart"></canvas>
+                      </div>
+                      <div class="mt-3">
+                        <div class="d-flex align-items-center gap-4">
+                          <h4 class="mb-0">${{ number_format($today_score, 2) }}</h4>
+                          <p class="mb-0">Today's net profit</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Daily Overview Chart -->
+
+                <!-- Booking Types Line Chart -->
+                <div class="col-xl-12 col-md-6">
+                  <div class="card">
+                    <div class="card-header pb-0">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="mb-1">Booking Types Performance (Last 2 Months)</h5>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div style="height: 300px;">
+                        <canvas id="bookingTypesLineChart"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Booking Types Line Chart -->
+
+                <!-- Queues Status -->
+                <div class="col-xl-6">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="m-0 me-2">Queues Status</h5>
+                      <input type="date" id="queueDate" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" onchange="filterQueues()" style="width: 150px;">
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-sm" id="queueTable">
+                          <thead>
+                            <tr>
+                              <th>Status Name</th>
+                              <th>Count</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @forelse($queueStatus as $status)
+                            <tr>
+                              <td>{{ $status->status_name }}</td>
+                              <td>{{ $status->count }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                              <td colspan="2" class="text-center">No data available</td>
+                            </tr>
+                            @endforelse
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Queues Status -->
+
+                <!-- Revenue Status -->
+                <div class="col-xl-6 col-md-6">
                   <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="card-title m-0 me-2">Sales by Countries</h5>
-                      <div class="dropdown">
-                        <button
-                          class="btn text-body-secondary p-0"
-                          type="button"
-                          id="saleStatus"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false">
-                          <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="saleStatus">
-                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                        </div>
+                      <h5 class="m-0 me-2">Revenue Status</h5>
+                      <div class="d-flex gap-2">
+                        <input type="date" id="revenueDateFrom" class="form-control form-control-sm" value="{{ date('Y-m-01') }}">
+                        <input type="date" id="revenueDateTo" class="form-control form-control-sm" value="{{ date('Y-m-t') }}">
+                        <button class="btn btn-primary btn-sm" onclick="filterRevenue()">Filter</button>
                       </div>
                     </div>
                     <div class="card-body">
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                          <div class="avatar me-4">
-                            <div class="avatar-initial bg-label-success rounded-circle">US</div>
-                          </div>
-                          <div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                              <h6 class="mb-0">$8,656k</h6>
-                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
-                              <span class="text-success">25.8%</span>
-                            </div>
-                            <p class="mb-0">United states of america</p>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                          <h6 class="mb-1">894k</h6>
-                          <small class="text-body-secondary">Sales</small>
-                        </div>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                          <div class="avatar me-4">
-                            <span class="avatar-initial bg-label-danger rounded-circle">UK</span>
-                          </div>
-                          <div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                              <h6 class="mb-0">$2,415k</h6>
-                              <i class="icon-base ri ri-arrow-down-s-line icon-24px text-danger"></i>
-                              <span class="text-danger">6.2%</span>
-                            </div>
-                            <p class="mb-0">United Kingdom</p>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                          <h6 class="mb-1">645k</h6>
-                          <small class="text-body-secondary">Sales</small>
-                        </div>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                          <div class="avatar me-4">
-                            <span class="avatar-initial bg-label-warning rounded-circle">IN</span>
-                          </div>
-                          <div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                              <h6 class="mb-0">865k</h6>
-                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
-                              <span class="text-success"> 12.4%</span>
-                            </div>
-                            <p class="mb-0">India</p>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                          <h6 class="mb-1">148k</h6>
-                          <small class="text-body-secondary">Sales</small>
-                        </div>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                          <div class="avatar me-4">
-                            <span class="avatar-initial bg-label-secondary rounded-circle">JA</span>
-                          </div>
-                          <div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                              <h6 class="mb-0">$745k</h6>
-                              <i class="icon-base ri ri-arrow-down-s-line icon-24px text-danger"></i>
-                              <span class="text-danger">11.9%</span>
-                            </div>
-                            <p class="mb-0">Japan</p>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                          <h6 class="mb-1">86k</h6>
-                          <small class="text-body-secondary">Sales</small>
-                        </div>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                          <div class="avatar me-4">
-                            <span class="avatar-initial bg-label-danger rounded-circle">KO</span>
-                          </div>
-                          <div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                              <h6 class="mb-0">$45k</h6>
-                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
-                              <span class="text-success">16.2%</span>
-                            </div>
-                            <p class="mb-0">Korea</p>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                          <h6 class="mb-1">42k</h6>
-                          <small class="text-body-secondary">Sales</small>
-                        </div>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center mb-4">
-                          <div class="avatar me-4">
-                            <span class="avatar-initial bg-label-primary rounded-circle">CH</span>
-                          </div>
-                          <div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                              <h6 class="mb-0">$12k</h6>
-                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
-                              <span class="text-success">14.8%</span>
-                            </div>
-                            <p class="mb-0">China</p>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                          <h6 class="mb-1">8k</h6>
-                          <small class="text-body-secondary">Sales</small>
-                        </div>
-                      </div>
-                      <div class="d-flex justify-content-between">
-                        <div class="d-flex align-items-center">
-                          <div class="avatar me-4">
-                            <span class="avatar-initial bg-label-danger rounded-circle">KO</span>
-                          </div>
-                          <div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                              <h6 class="mb-0">$95k</h6>
-                              <i class="icon-base ri ri-arrow-up-s-line icon-24px text-success"></i>
-                              <span class="text-success">9.2%</span>
-                            </div>
-                            <p class="mb-0">france</p>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                          <h6 class="mb-1">142k</h6>
-                          <small class="text-body-secondary">Sales</small>
-                        </div>
+                      <div class="table-responsive">
+                        <table class="table table-sm" id="revenueTable">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Count</th>
+                              <th>Gross</th>
+                              <th>Net</th>
+                              <th>Deductions</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @forelse($revenueData as $revenue)
+                            <tr>
+                              <td>{{ $revenue->date }}</td>
+                              <td>{{ $revenue->count }}</td>
+                              <td>${{ number_format($revenue->gross, 2) }}</td>
+                              <td>${{ number_format($revenue->net, 2) }}</td>
+                              <td>${{ number_format($revenue->deductions, 2) }}</td>
+                              <td>${{ number_format($revenue->total, 2) }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                              <td colspan="6" class="text-center">No data available</td>
+                            </tr>
+                            @endforelse
+                          </tbody>
+                          <tfoot>
+                            <tr class="fw-bold">
+                              <td>Total</td>
+                              <td>{{ $revenueData->sum('count') }}</td>
+                              <td>${{ number_format($revenueData->sum('gross'), 2) }}</td>
+                              <td>${{ number_format($revenueData->sum('net'), 2) }}</td>
+                              <td>${{ number_format($revenueData->sum('deductions'), 2) }}</td>
+                              <td>${{ number_format($revenueData->sum('total'), 2) }}</td>
+                            </tr>
+                          </tfoot>
+                        </table>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!--/ Sales by Countries -->
-                <!-- Data Tables -->
-                <div class="col-xl-8 col-md-6">
+                <!--/ Revenue Status -->
+
+                <!-- Users Score -->
+                <div class="col-xl-12 col-md-6">
                   <div class="card overflow-hidden">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">User Performance</h5>
+                      <div class="d-flex gap-2">
+                        <input type="date" id="dateFrom" class="form-control form-control-sm" value="{{ date('Y-m-01') }}">
+                        <input type="date" id="dateTo" class="form-control form-control-sm" value="{{ date('Y-m-t') }}">
+                        <button class="btn btn-primary btn-sm" onclick="filterData()">Filter</button>
+                      </div>
+                    </div>
                     <div class="table-responsive">
-                      <table class="table table-sm">
+                      <table class="table table-sm" id="userPerformanceTable">
                         <thead>
                           <tr>
-                            <th class="text-truncate">User</th>
-                            <th class="text-truncate">Email</th>
-                            <th class="text-truncate">Role</th>
-                            <th class="text-truncate">Status</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Gross MCO</th>
+                            <th>Net MCO</th>
                           </tr>
                         </thead>
                         <tbody>
+                          @forelse($userPerformance as $user)
                           <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Jordan Stevenson</h6>
-                                  <small class="text-truncate">@amiccoo</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">susanna.Lind57@gmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-vip-crown-line icon-22px text-primary me-2"></i>
-                                <span>Admin</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role_name }}</td>
+                            <td>{{ $user->department_name }}</td>
+                            <td>${{ number_format($user->gross_mco, 2) }}</td>
+                            <td>${{ number_format($user->net_mco, 2) }}</td>
                           </tr>
+                          @empty
                           <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Benedetto Rossiter</h6>
-                                  <small class="text-truncate">@brossiter15</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">estelle.Bailey10@gmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
-                                <span>Editor</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
+                            <td colspan="6" class="text-center">No data available</td>
                           </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bentlee Emblin</h6>
-                                  <small class="text-truncate">@bemblinf</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">milo86@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-computer-line text-danger icon-22px me-2"></i>
-                                <span>Author</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bertha Biner</h6>
-                                  <small class="text-truncate">@bbinerh</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">lonnie35@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
-                                <span>Editor</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Beverlie Krabbe</h6>
-                                  <small class="text-truncate">@bkrabbe1d</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">ahmad_Collins@yahoo.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-pie-chart-2-line icon-22px text-info me-2"></i>
-                                <span>Maintainer</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bradan Rosebotham</h6>
-                                  <small class="text-truncate">@brosebothamz</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">tillman.Gleason68@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-edit-box-line text-warning icon-22px me-2"></i>
-                                <span>Editor</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-warning rounded-pill">Pending</span></td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Bree Kilday</h6>
-                                  <small class="text-truncate">@bkildayr</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">otho21@gmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-user-3-line icon-22px text-success me-2"></i>
-                                <span>Subscriber</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-success rounded-pill">Active</span></td>
-                          </tr>
-                          <tr class="border-transparent">
-                            <td>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-4">
-                                  <img src="../../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
-                                </div>
-                                <div>
-                                  <h6 class="mb-0 text-truncate">Breena Gallemore</h6>
-                                  <small class="text-truncate">@bgallemore6</small>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="text-truncate">florencio.Little@hotmail.com</td>
-                            <td class="text-truncate">
-                              <div class="d-flex align-items-center">
-                                <i class="icon-base ri ri-user-3-line icon-22px text-success me-2"></i>
-                                <span>Subscriber</span>
-                              </div>
-                            </td>
-                            <td><span class="badge bg-label-secondary rounded-pill">Inactive</span></td>
-                          </tr>
+                          @endforelse
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
-                <!--/ Data Tables -->
+                <!-- /Users Score -->
+
               </div>
             </div>
             <!--/ Content -->
@@ -1072,11 +446,320 @@
         
         document.body.insertAdjacentHTML('beforeend', alertHtml);
         
-        // Auto remove after 3 seconds
         setTimeout(() => {
             const alert = document.querySelector('.alert');
             if (alert) alert.remove();
         }, 3000);
+    }
+
+    async function filterRevenue() {
+        const dateFrom = document.getElementById('revenueDateFrom').value;
+        const dateTo = document.getElementById('revenueDateTo').value;
+        
+        try {
+            const response = await fetch(`/admin/revenue-data?date_from=${dateFrom}&date_to=${dateTo}`, {
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            
+            const data = await response.json();
+            updateRevenueTable(data);
+        } catch (error) {
+            console.error('Error filtering revenue data:', error);
+        }
+    }
+
+    function updateRevenueTable(data) {
+        const tbody = document.querySelector('#revenueTable tbody');
+        const tfoot = document.querySelector('#revenueTable tfoot');
+        let html = '';
+        let totals = { count: 0, gross: 0, net: 0, deductions: 0, total: 0 };
+        
+        data.forEach(revenue => {
+            html += `
+                <tr>
+                    <td>${revenue.date}</td>
+                    <td>${revenue.count}</td>
+                    <td>$${parseFloat(revenue.gross).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(revenue.net).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(revenue.deductions).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(revenue.total).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                </tr>
+            `;
+            totals.count += parseInt(revenue.count);
+            totals.gross += parseFloat(revenue.gross);
+            totals.net += parseFloat(revenue.net);
+            totals.deductions += parseFloat(revenue.deductions);
+            totals.total += parseFloat(revenue.total);
+        });
+        
+        tbody.innerHTML = html;
+        tfoot.innerHTML = `
+            <tr class="fw-bold">
+                <td>Total</td>
+                <td>${totals.count}</td>
+                <td>$${totals.gross.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                <td>$${totals.net.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                <td>$${totals.deductions.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                <td>$${totals.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            </tr>
+        `;
+    }
+
+    async function filterData() {
+        const dateFrom = document.getElementById('dateFrom').value;
+        const dateTo = document.getElementById('dateTo').value;
+        
+        try {
+            const response = await fetch(`/admin/user-performance?date_from=${dateFrom}&date_to=${dateTo}`, {
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            
+            const data = await response.json();
+            updateTable(data);
+        } catch (error) {
+            console.error('Error filtering data:', error);
+        }
+    }
+
+    function updateTable(users) {
+        const tbody = document.querySelector('#userPerformanceTable tbody');
+        let html = '';
+        
+        users.forEach(user => {
+            html += `
+                <tr>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role_name}</td>
+                    <td>${user.department_name}</td>
+                    <td>$${parseFloat(user.gross_mco).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(user.net_mco).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                </tr>
+            `;
+        });
+        
+        tbody.innerHTML = html;
+    }
+
+    async function filterQueues() {
+        const date = document.getElementById('queueDate').value;
+        
+        try {
+            const response = await fetch(`/admin/queue-status?date=${date}`, {
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            
+            const data = await response.json();
+            updateQueueTable(data);
+        } catch (error) {
+            console.error('Error filtering queue data:', error);
+        }
+    }
+
+    function updateQueueTable(data) {
+        const tbody = document.querySelector('#queueTable tbody');
+        let html = '';
+        
+        data.forEach(status => {
+            html += `
+                <tr>
+                    <td>${status.status_name}</td>
+                    <td>${status.count}</td>
+                </tr>
+            `;
+        });
+        
+        tbody.innerHTML = html;
+    }
+
+    // Initialize charts when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeCharts();
+    });
+
+    function initializeCharts() {
+        // Weekly Bar Chart
+        const weeklyData = @json($weeklyData);
+        const weeklyCtx = document.getElementById('weeklyBarChart').getContext('2d');
+        new Chart(weeklyCtx, {
+            type: 'bar',
+            data: {
+                labels: weeklyData.map(item => item.label),
+                datasets: [{
+                    label: 'Net Profit',
+                    data: weeklyData.map(item => item.value),
+                    backgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Week Period'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Net Profit ($)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Monthly Bar Chart
+        const monthlyData = @json($monthlyData);
+        const monthlyCtx = document.getElementById('monthlyBarChart').getContext('2d');
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: monthlyData.map(item => item.label),
+                datasets: [{
+                    label: 'Net Profit',
+                    data: monthlyData.map(item => item.value),
+                    backgroundColor: '#28a745'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Net Profit ($)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Daily Bar Chart
+        const dailyData = @json($dailyData);
+        const dailyCtx = document.getElementById('dailyBarChart').getContext('2d');
+        new Chart(dailyCtx, {
+            type: 'bar',
+            data: {
+                labels: dailyData.map(item => item.label),
+                datasets: [{
+                    label: 'Net Profit',
+                    data: dailyData.map(item => item.value),
+                    backgroundColor: '#ffc107'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Net Profit ($)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Booking Types Line Chart
+        const lineChartData = @json($lineChartData);
+        const lineCtx = document.getElementById('bookingTypesLineChart').getContext('2d');
+        new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: lineChartData.map(item => item.label),
+                datasets: [{
+                    label: 'Flight',
+                    data: lineChartData.map(item => item.flight),
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Hotel',
+                    data: lineChartData.map(item => item.hotel),
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Cruise',
+                    data: lineChartData.map(item => item.cruise),
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Car',
+                    data: lineChartData.map(item => item.car),
+                    borderColor: '#17a2b8',
+                    backgroundColor: 'rgba(23, 162, 184, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Net Profit ($)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
     }
 
     // Clean up interval when page unloads

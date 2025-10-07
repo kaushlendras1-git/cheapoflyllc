@@ -81,7 +81,9 @@
             <nav class="layout-navbar navbar navbar-expand-xl align-items-center" id="layout-navbar">
                 <div class="container-xxl">
                     <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
-                    @if(auth()->user()->role_id == 2 && auth()->user()->department_id == 2)
+                    @if(auth()->user()->role_id == 3 && auth()->user()->department_id == 1)
+                        <a href="{{route('admin.dashboard')}}" class="app-brand-link gap-2">
+                    @elseif(auth()->user()->role_id == 2 && auth()->user()->department_id == 2)
                         <a href="{{route('admin.teamleader-dashboard')}}" class="app-brand-link gap-2">
                     @else        
                     <a href="{{route('user.dashboard')}}" class="app-brand-link gap-2">
