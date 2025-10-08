@@ -492,6 +492,7 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
+
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -1100,20 +1101,38 @@ class BookingFormController extends Controller
                     $pendingAmount = $request->input('pending_amount', []);
                     $dueDate = $request->input('due_date', []);
 
-                    if (empty(array_filter($depositType))) {
-                        $validator->errors()->add('deposit_type', 'Deposit type is required when payment type is specified.');
+                    // Check if all arrays have the same length
+                    $depositTypeCount = count($depositType);
+                    if (count($totalAmount) !== $depositTypeCount || count($depositAmount) !== $depositTypeCount ||
+                        count($pendingAmount) !== $depositTypeCount || count($dueDate) !== $depositTypeCount) {
+                        $validator->errors()->add('deposit_fields', 'All deposit fields must have the same number of entries.');
                     }
-                    if (empty(array_filter($totalAmount))) {
-                        $validator->errors()->add('total_amount', 'Total amount is required when payment type is specified.');
+
+                    // Check for null values in each array
+                    foreach ($depositType as $index => $value) {
+                        if (is_null($value) || $value === '') {
+                            $validator->errors()->add("deposit_type.{$index}", 'Deposit type cannot be null or empty.');
+                        }
                     }
-                    if (empty(array_filter($depositAmount))) {
-                        $validator->errors()->add('deposit_amount', 'Deposit amount is required when payment type is specified.');
+                    foreach ($totalAmount as $index => $value) {
+                        if (is_null($value) || $value === '') {
+                            $validator->errors()->add("total_amount.{$index}", 'Total amount cannot be null or empty.');
+                        }
                     }
-                    if (empty(array_filter($pendingAmount, function($value) { return $value !== null && $value !== ''; }))) {
-                        $validator->errors()->add('pending_amount', 'Pending amount is required when payment type is specified.');
+                    foreach ($depositAmount as $index => $value) {
+                        if (is_null($value) || $value === '') {
+                            $validator->errors()->add("deposit_amount.{$index}", 'Deposit amount cannot be null or empty.');
+                        }
                     }
-                    if (empty(array_filter($dueDate))) {
-                        $validator->errors()->add('due_date', 'Due date is required when payment type is specified.');
+                    foreach ($pendingAmount as $index => $value) {
+                        if (is_null($value) || $value === '') {
+                            $validator->errors()->add("pending_amount.{$index}", 'Pending amount cannot be null or empty.');
+                        }
+                    }
+                    foreach ($dueDate as $index => $value) {
+                        if (is_null($value) || $value === '') {
+                            $validator->errors()->add("due_date.{$index}", 'Due date cannot be null or empty.');
+                        }
                     }
                 }
 
@@ -1181,7 +1200,6 @@ class BookingFormController extends Controller
             });
 
             $validator->validate();
-
             $user_id =Auth::id();
             #dd($request->all());
 
@@ -1220,18 +1238,18 @@ class BookingFormController extends Controller
                 'hotel_payment_type','cruise_payment_type','car_payment_type'
             ]);
 
-            // $array = [];
-            // foreach($request->deposit_type as $key=>$deposit){
-            //     $array[$deposit] = [
-            //         'total_amount'=>$request->total_amount[$key],
-            //         'deposit_amount'=>$request->deposit_amount[$key],
-            //         'pending_amount'=>$request->pending_amount[$key],
-            //         'due_date'=>$request->due_date[$key],
-            //     ];
-            // }
-            // if(!empty($array)){
-            //     $bookingData['card_details_json'] =  $array;
-            // }
+             $array = [];
+             foreach($request->deposit_type as $key=>$deposit){
+                 $array[$deposit] = [
+                     'total_amount'=>$request->total_amount[$key],
+                     'deposit_amount'=>$request->deposit_amount[$key],
+                     'pending_amount'=>$request->pending_amount[$key],
+                     'due_date'=>$request->due_date[$key],
+                 ];
+             }
+             if(!empty($array)){
+                 $bookingData['card_details_json'] =  $array;
+             }
             // Store old values for logging changes
             $oldValues = $booking->only(array_keys($bookingData));
             $booking->update($bookingData);
