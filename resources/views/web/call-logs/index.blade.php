@@ -116,7 +116,7 @@
 
 
                                     <td>{{ $log->pnr }}</td>
-                                     <td>{{ $log->created_at }}</td>
+                                    <td>{{ $log->created_at->format('d-m-Y H:i:s') }}</td>
                                     <td>{{ $log->name }}</td>
                                     <td>
                                         @php
@@ -158,7 +158,7 @@
                                             <i class="ri ri-close-line" style="color: red; font-size: 18px;"></i>
                                         @endif
                                     </td>
-                                    <td>{{ $log->updated_at }}</td>
+                                      <td>{{ $log->updated_at->format('d-m-Y H:i:s') }}</td>
                                      @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
                                         <td>{{ $log->user_name }}</td>
                                      @endif   

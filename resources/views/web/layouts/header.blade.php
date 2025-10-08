@@ -245,7 +245,7 @@
                                     <div data-i18n="Reports">Reports</div>
                                 </a>
                                 <ul class="menu-sub">
-                                    <li class="menu-item {{ Route::currentRouteName() == 'marketing' ? 'active' : '' }}">
+                                    <!-- <li class="menu-item {{ Route::currentRouteName() == 'marketing' ? 'active' : '' }}">
                                         <a href="{{ route('marketing') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-advertisement-line"></i>
                                             <div data-i18n="Marketing">Marketing</div>
@@ -256,7 +256,7 @@
                                             <i class="menu-icon icon-base ri ri-group-line"></i>
                                             <div data-i18n="Call Queue">Call Queue</div>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li class="menu-item {{ Route::currentRouteName() == 'score.details' ? 'active' : '' }}">
                                         <a href="{{ route('score.details') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-user-2-line"></i>
@@ -264,12 +264,13 @@
                                         </a>
                                     </li>
 
-                                    <li class="menu-item {{ Route::currentRouteName() == 'score' ? 'active' : '' }}">
+                                    <!-- <li class="menu-item {{ Route::currentRouteName() == 'score' ? 'active' : '' }}">
                                         <a href="{{ route('score') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-star-line ri-2x"></i>
                                             <div data-i18n="Team Score">Team Score</div>
                                         </a>
-                                    </li>
+                                    </li> -->
+                                    
                                     <li class="menu-item {{ Route::currentRouteName() == 'reports.campaign-calls' ? 'active' : '' }}">
                                         <a href="{{ route('reports.campaign-calls') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-phone-line"></i>

@@ -14,6 +14,8 @@ use App\Models\CallLog;
 use App\Models\TravelQualityFeedback;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TeamReportExport;
 
 class TeamReportController extends Controller
 {
@@ -60,7 +62,7 @@ class TeamReportController extends Controller
             });
         }
 
-        $bookings = $query->orderBy('created_at', 'desc')->paginate(50);
+        $bookings = $query->orderBy('created_at', 'desc')->paginate(20);
 
         // Calculate chart data
         $chartData = $this->getChartData($request);
@@ -119,5 +121,10 @@ class TeamReportController extends Controller
             'net_amounts' => $chartData->pluck('net_amount')->toArray(),
             'booking_counts' => $chartData->pluck('booking_count')->toArray()
         ];
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new TeamReportExport($request), 'team-report.xlsx');
     }
 }

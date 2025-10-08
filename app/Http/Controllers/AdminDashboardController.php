@@ -16,42 +16,42 @@ class AdminDashboardController extends Controller
         $cruise = CallLog::where('user_id', $userId)->where('chkcruise', 1)->count();
         $car = CallLog::where('user_id', $userId)->where('chkcar', 1)->count();
         
-        // Today's scores by booking type (net_mco)
+        // Today's scores by booking type (net_value)
         $flight_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Flight')
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
-            ->sum('travel_bookings.net_mco') ?? 0;
+            ->sum('travel_bookings.net_value') ?? 0;
             
         $hotel_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Hotel')
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
-            ->sum('travel_bookings.net_mco') ?? 0;
+            ->sum('travel_bookings.net_value') ?? 0;
             
         $cruise_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Cruise')
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
-            ->sum('travel_bookings.net_mco') ?? 0;
+            ->sum('travel_bookings.net_value') ?? 0;
             
         $car_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Car')
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
-            ->sum('travel_bookings.net_mco') ?? 0;
-        // Today's total net_mco score
+            ->sum('travel_bookings.net_value') ?? 0;
+        // Today's total net_value score
         $today_score = DB::table('travel_bookings')
             ->whereDate('created_at', date('Y-m-d'))
-            ->sum('net_mco') ?? 0;
+            ->sum('net_value') ?? 0;
         $weekly_score = DB::table('travel_bookings')
             ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->sum('net_mco') ?? 0;
+            ->sum('net_value') ?? 0;
             
         $monthly_score = DB::table('travel_bookings')
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
-            ->sum('net_mco') ?? 0;
+            ->sum('net_value') ?? 0;
             
         // Weekly data - last 8 weeks
         $weeklyData = [];
@@ -61,7 +61,7 @@ class AdminDashboardController extends Controller
             
             $weeklyProfit = DB::table('travel_bookings')
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->sum('net_mco') ?? 0;
+                ->sum('net_value') ?? 0;
                 
             $weeklyData[] = [
                 'label' => $startOfWeek->format('M d') . ' - ' . $endOfWeek->format('M d'),
@@ -77,7 +77,7 @@ class AdminDashboardController extends Controller
             $monthlyProfit = DB::table('travel_bookings')
                 ->whereYear('created_at', $month->year)
                 ->whereMonth('created_at', $month->month)
-                ->sum('net_mco') ?? 0;
+                ->sum('net_value') ?? 0;
                 
             $monthlyData[] = [
                 'label' => $month->format('M Y'),
@@ -93,7 +93,7 @@ class AdminDashboardController extends Controller
         for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
             $dailyProfit = DB::table('travel_bookings')
                 ->whereDate('created_at', $date->format('Y-m-d'))
-                ->sum('net_mco') ?? 0;
+                ->sum('net_value') ?? 0;
                 
             $dailyData[] = [
                 'label' => $date->format('M d'),
@@ -110,25 +110,25 @@ class AdminDashboardController extends Controller
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
                 ->where('travel_booking_types.type', 'Flight')
                 ->whereDate('travel_bookings.created_at', $dateStr)
-                ->sum('travel_bookings.net_mco') ?? 0;
+                ->sum('travel_bookings.net_value') ?? 0;
                 
             $hotelProfit = DB::table('travel_bookings')
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
                 ->where('travel_booking_types.type', 'Hotel')
                 ->whereDate('travel_bookings.created_at', $dateStr)
-                ->sum('travel_bookings.net_mco') ?? 0;
+                ->sum('travel_bookings.net_value') ?? 0;
                 
             $cruiseProfit = DB::table('travel_bookings')
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
                 ->where('travel_booking_types.type', 'Cruise')
                 ->whereDate('travel_bookings.created_at', $dateStr)
-                ->sum('travel_bookings.net_mco') ?? 0;
+                ->sum('travel_bookings.net_value') ?? 0;
                 
             $carProfit = DB::table('travel_bookings')
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
                 ->where('travel_booking_types.type', 'Car')
                 ->whereDate('travel_bookings.created_at', $dateStr)
-                ->sum('travel_bookings.net_mco') ?? 0;
+                ->sum('travel_bookings.net_value') ?? 0;
                 
             $lineChartData[] = [
                 'label' => $date->format('M d'),
@@ -151,11 +151,11 @@ class AdminDashboardController extends Controller
                 users.email,
                 roles.name as role_name,
                 departments.name as department_name,
-                SUM(travel_bookings.gross_mco) as gross_mco,
-                SUM(travel_bookings.net_mco) as net_mco
+                SUM(travel_bookings.gross_value) as gross_value,
+                SUM(travel_bookings.net_value) as net_value
             ')
             ->groupBy('users.id', 'users.name', 'users.email', 'roles.name', 'departments.name')
-            ->orderBy('net_mco', 'desc')
+            ->orderBy('net_value', 'desc')
             ->get();
 
         // Revenue data for current month
@@ -165,10 +165,10 @@ class AdminDashboardController extends Controller
             ->selectRaw('
                 DATE(created_at) as date,
                 COUNT(*) as count,
-                SUM(gross_mco) as gross,
-                SUM(net_mco) as net,
-                SUM(gross_mco - net_mco) as deductions,
-                SUM(net_mco) as total
+                SUM(gross_value) as gross,
+                SUM(net_value) as net,
+                SUM(gross_value - net_value) as deductions,
+                SUM(net_value) as total
             ')
             ->groupBy('date')
             ->orderBy('date', 'desc')
@@ -199,10 +199,10 @@ class AdminDashboardController extends Controller
             ->selectRaw('
                 DATE(created_at) as date,
                 COUNT(*) as count,
-                SUM(gross_mco) as gross,
-                SUM(net_mco) as net,
-                SUM(gross_mco - net_mco) as deductions,
-                SUM(net_mco) as total
+                SUM(gross_value) as gross,
+                SUM(net_value) as net,
+                SUM(gross_value - net_value) as deductions,
+                SUM(net_value) as total
             ')
             ->groupBy('date')
             ->orderBy('date', 'desc')
@@ -244,11 +244,11 @@ class AdminDashboardController extends Controller
                 users.email,
                 roles.name as role_name,
                 departments.name as department_name,
-                SUM(travel_bookings.gross_mco) as gross_mco,
-                SUM(travel_bookings.net_mco) as net_mco
+                SUM(travel_bookings.gross_value) as gross_value,
+                SUM(travel_bookings.net_value) as net_value
             ')
             ->groupBy('users.id', 'users.name', 'users.email', 'roles.name', 'departments.name')
-            ->orderBy('net_mco', 'desc')
+            ->orderBy('net_value', 'desc')
             ->get();
 
         return response()->json($userPerformance);

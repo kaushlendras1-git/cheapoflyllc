@@ -56,8 +56,7 @@
                                 <th>ID</th>
                                 <th>Booking Type</th>
                                 <th>PNR</th>
-                                <th>Booking Date</th>
-                                
+                                <th>Booking Date</th>                                
                                 <th>Booking Status</th>
                                 <th>Payment Status</th>
                                 <th>Total</th>
@@ -114,7 +113,7 @@
 
                                 </td>
                                 <td>{{ $booking->pnr }}</td>
-                                <td>{{ $booking->created_at }}</td>
+                                <td>{{ $booking->created_at->format('d-m-Y H:i:s') }}</td>
                                 <!-- Booking Status -->
                                 <td>
                                     @if($booking->bookingStatus)

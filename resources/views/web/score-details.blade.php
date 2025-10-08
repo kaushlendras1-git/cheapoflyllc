@@ -175,8 +175,8 @@
                                 </p>
                             </div>
                             <div>
-                                {{ $bookings->links() }}
-                            </div>
+                                {{ $bookings->links('pagination::bootstrap-5') }}
+
                         </div>
                     @else
                         <div class="text-center py-5">

@@ -13,6 +13,8 @@ use App\Models\User;
 use App\Models\CallLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UnitReportExport;
 
 class UnitReportController extends Controller
 {
@@ -70,7 +72,7 @@ class UnitReportController extends Controller
         $agents = $query->groupBy('users.id', 'users.name')
                        ->havingRaw('COUNT(DISTINCT travel_bookings.id) > 0')
                        ->orderBy('gross_amount', 'desc')
-                       ->paginate(50);
+                       ->paginate(20);
 
         // Calculate chart data
         $chartData = $this->getChartData($request);
@@ -131,5 +133,10 @@ class UnitReportController extends Controller
             'charge_backs' => $chartData->pluck('charge_back')->toArray(),
             'refunds' => $chartData->pluck('refund')->toArray()
         ];
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new UnitReportExport($request), 'unit-report.xlsx');
     }
 }

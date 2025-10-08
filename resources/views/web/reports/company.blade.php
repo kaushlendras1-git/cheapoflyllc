@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="add-follow-btn export-btn">
-                            <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export To Excel" href="#" class="btn btn-success px-4 py-3 gap-1 w-auto button-style">
+                            <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export To Excel" href="{{ route('reports.company.export', request()->query()) }}" class="btn btn-success px-4 py-3 gap-1 w-auto button-style">
                                 <i class="ri ri-file-excel-2-line fs-5"></i>
                             </a>
                         </div>
@@ -146,7 +146,7 @@
                     </table>
                     
                     <div class="mt-3">
-                        {{ $lobReports->appends(request()->query())->links() }}
+                        {{ $lobReports->appends(request()->query())->links('vendor.pagination.bootstrap-5') }}
                     </div>
                 </div>
                 

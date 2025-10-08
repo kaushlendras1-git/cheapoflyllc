@@ -13,39 +13,19 @@
 
 
                 <!-- Congratulations card -->
-                <div class="col-md-12 col-lg-4" style="margin-top: 50px;">
+                <div class="col-md-12 col-lg-4" style="margin-top: 30px;">
                   <div class="card">
                     <div class="card-body text-nowrap">
                       <h5 class="card-title mb-0 flex-wrap text-nowrap">Today Score! 🎉</h5>
-                      <p class="mb-2">Best seller of the month</p>
-                      <h4 class="text-primary mb-0">${{ number_format($today_score, 2) }}</h4>
-                      <p class="mb-2">78% of target 🚀</p>
-                      <a href="javascript:;" class="btn btn-sm btn-primary">View Sales</a>
+                      <h5 class="text-primary mb-0">${{ number_format($today_score, 2) }}</h5>
                     </div>
                   </div>
                 </div>
                 <!--/ Congratulations card -->
 
                 <!-- Transactions -->
-                <div class="col-lg-8" style="margin-top: 50px;">
-                  <div class="card h-100">
-                    <div class="card-header">
-                      <div class="d-flex align-items-center justify-content-between">
-                        <h5 class="card-title m-0 me-2">Scores </h5>
-                        <div class="dropdown">
-                          <button
-                            class="btn text-body-secondary p-0"
-                            type="button"
-                            id="transactionID"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="icon-base ri ri-more-2-line icon-24px"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <p class="small mb-0"><span class="h6 mb-0">Total 48.5% Growth</span> 😎 this month</p>
-                    </div>
+                <div class="col-lg-8" style="margin-top: 30px;">
+                  <div class="card">                    
                     <div class="card-body">
                       <div class="row g-6">
                         <div class="col-md-3 col-6">
@@ -106,7 +86,32 @@
                 </div>
                 <!--/ Transactions -->
 
-                <!-- Weekly Overview Chart -->
+
+
+                <!-- Daily Overview Chart -->
+                <div class="col-xl-12 col-md-6">
+                  <div class="card">
+                    <div class="card-header pb-0">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="mb-1">Daily Overview (Last 2 Months)</h5>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div style="height: 300px;">
+                        <canvas id="dailyBarChart"></canvas>
+                      </div>
+                      <div class="mt-3">
+                        <div class="d-flex align-items-center gap-4">
+                          <h4 class="mb-0">${{ number_format($today_score, 2) }}</h4>
+                          <p class="mb-0">Today's net profit</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Daily Overview Chart -->
+
+                                <!-- Weekly Overview Chart -->
                 <div class="col-xl-6 col-md-6">
                   <div class="card">
                     <div class="card-header pb-0">
@@ -151,29 +156,6 @@
                   </div>
                 </div>
                 <!--/ Monthly Overview Chart -->
-
-                <!-- Daily Overview Chart -->
-                <div class="col-xl-12 col-md-6">
-                  <div class="card">
-                    <div class="card-header pb-0">
-                      <div class="d-flex justify-content-between">
-                        <h5 class="mb-1">Daily Overview (Last 2 Months)</h5>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <div style="height: 300px;">
-                        <canvas id="dailyBarChart"></canvas>
-                      </div>
-                      <div class="mt-3">
-                        <div class="d-flex align-items-center gap-4">
-                          <h4 class="mb-0">${{ number_format($today_score, 2) }}</h4>
-                          <p class="mb-0">Today's net profit</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Daily Overview Chart -->
 
                 <!-- Booking Types Line Chart -->
                 <div class="col-xl-12 col-md-6">
@@ -314,8 +296,8 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role_name }}</td>
                             <td>{{ $user->department_name }}</td>
-                            <td>${{ number_format($user->gross_mco, 2) }}</td>
-                            <td>${{ number_format($user->net_mco, 2) }}</td>
+                            <td>${{ number_format($user->gross_value, 2) }}</td>
+                            <td>${{ number_format($user->net_value, 2) }}</td>
                           </tr>
                           @empty
                           <tr>
@@ -536,8 +518,8 @@
                     <td>${user.email}</td>
                     <td>${user.role_name}</td>
                     <td>${user.department_name}</td>
-                    <td>$${parseFloat(user.gross_mco).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-                    <td>$${parseFloat(user.net_mco).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(user.gross_value).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>$${parseFloat(user.net_value).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
                 </tr>
             `;
         });

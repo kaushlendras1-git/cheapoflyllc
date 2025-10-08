@@ -13,6 +13,8 @@ use App\Models\LOB;
 use App\Models\CallLog;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CompanyReportExport;
 
 class CompanyReportController extends Controller
 {
@@ -73,7 +75,7 @@ class CompanyReportController extends Controller
         $lobReports = $query->groupBy('lobs.id', 'lobs.name')
                            ->havingRaw('COUNT(DISTINCT travel_bookings.id) > 0')
                            ->orderBy('gross_amount', 'desc')
-                           ->paginate(50);
+                           ->paginate(20);
 
         // Calculate chart data
         $chartData = $this->getChartData($request);
@@ -137,5 +139,10 @@ class CompanyReportController extends Controller
             'charge_backs' => $chartData->pluck('charge_back')->toArray(),
             'refunds' => $chartData->pluck('refund')->toArray()
         ];
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new CompanyReportExport($request), 'company-report.xlsx');
     }
 }

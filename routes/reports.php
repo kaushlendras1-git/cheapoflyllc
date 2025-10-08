@@ -15,8 +15,11 @@ Route::middleware('auth')->group(function () {
         Route::get('campaign-calls', [CampaignCallsReportController::class, 'index'])->name('reports.campaign-calls');
         Route::get('revenue', [RevenueReportController::class, 'index'])->name('reports.revenue');
         Route::get('team', [TeamReportController::class, 'index'])->name('reports.team');
+        Route::get('team/export', [TeamReportController::class, 'export'])->name('reports.team.export');
         Route::get('unit', [UnitReportController::class, 'index'])->name('reports.unit');
+        Route::get('unit/export', [UnitReportController::class, 'export'])->name('reports.unit.export');
         Route::get('company', [CompanyReportController::class, 'index'])->name('reports.company');
+        Route::get('company/export', [CompanyReportController::class, 'export'])->name('reports.company.export');
     });
   });
 
