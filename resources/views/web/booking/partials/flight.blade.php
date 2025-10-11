@@ -183,6 +183,7 @@
                                             <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;"
                                                     name="flight[{{ $index }}][arrival_date]"
                                                     value="{{ $flight->arrival_date?->format('d-m-Y') }}"></td>
+                                                    
                                             <td>
                                                 <button type="button"
                                                     class="btn btn-outline-danger delete-flight-btn">

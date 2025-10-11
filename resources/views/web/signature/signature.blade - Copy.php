@@ -821,21 +821,60 @@ border-radius: 0px;
                 </td>
             </tr>
 
-    <tr>
-        <td colspan="2" style="padding: 0px 30px 20px 30px;">
-        
-                <!-- Checkbox -->
-                <div style="margin-bottom: 12px;">
-                    <label style="display: flex; align-items: center; font-size: 14px; color: #4a5568;">
-                        <input type="checkbox" id="termsCheckbox" required style="margin-right: 8px;">
-                        <a href="{{ route('terms-and-conditions') }}" target="_blank" 
-                        style="color: #1a56db; text-decoration: none;">
-                        I have read and agree to the Terms and Conditions
-                        </a>
-                    </label>
-                </div>        
-        </td>
-    </tr>
+
+<!-- Row for Add Signature button -->
+
+            <tr id="signaturetd">
+                <td colspan="2" style="padding: 10px 30px 20px 30px;">
+                    <button 
+                        style="background: linear-gradient(135deg, #1a2a6c, #2b5876); color: white; border: none; padding: 12px 30px; border-radius: 0px; font-weight: 600; cursor: pointer; transition: all 0.3s;"
+                     data-bs-toggle="modal" data-bs-target="#signatureModal">Add
+                        Signature</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="signaturePreview" class="signature-preview d-none">No signature added.</div>
+                </td>
+            </tr>
+
+
+
+<!-- Row for Checkbox + Authorize button -->
+<tr>
+    <td colspan="2" style="padding: 0px 30px 20px 30px;">
+        <form id="authorizationForm" method="POST" action="{{ route('signature.store') }}">
+            @csrf
+            <input type="hidden" name="card_id" id="card_id" value="{{ $card_id }}">
+            <input type="hidden" name="card_billing_id" id="card_billing_id" value="{{ $card_billing_id }}">
+            <input type="hidden" name="refund_status" id="refund_status" value="{{ $refund_status }}">
+            <input type="hidden" name="signature" id="signatureData">
+            <input type="hidden" name="signature_type" id="signatureType">
+            <input type="hidden" name="booking_id" id="booking_id" value="{{ request()->segment(2) }}">
+
+            <!-- Checkbox -->
+            <div style="margin-bottom: 12px;">
+                <label style="display: flex; align-items: center; font-size: 14px; color: #4a5568;">
+                    <input type="checkbox" id="termsCheckbox" required style="margin-right: 8px;">
+                    <a href="{{ route('terms-and-conditions') }}" target="_blank" 
+                       style="color: #1a56db; text-decoration: none;">
+                       I have read and agree to the Terms and Conditions
+                    </a>
+                </label>
+            </div>
+
+            <!-- Authorize Button -->
+            <div>
+                <button type="submit" class="btn btn-success " id="authorizeButton" disabled
+                        style="background: linear-gradient(135deg, #0f9b0f, #1ed760); color: white; border: none; padding: 12px 40px; border-radius: 0px; font-weight: 600; cursor: pointer; transition: all 0.3s;"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(15, 155, 15, 0.3)';" 
+                        onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
+                    I Authorize
+                </button>
+            </div>
+        </form>
+    </td>
+</tr>
 
 
            
@@ -862,8 +901,224 @@ border-radius: 0px;
         </tfoot>
     </table>
 
+    <!-- Signature Modal -->
+    <div class="modal fade" id="signatureModal" tabindex="-1" aria-labelledby="signatureModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                <div class="modal-header" style="background: linear-gradient(135deg, #1a2a6c, #2b5876); color: white; border-bottom: none; padding: 20px 25px;">
+                    <h5 class="modal-title" style="font-family: 'Playfair Display', serif; font-weight: 600;">Add Your Signature</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(0) invert(1);"></button>
+                </div>
+                <div class="modal-body" style="padding: 25px;">
+                    <ul class="nav nav-tabs" id="signatureTabs" role="tablist" style="border-bottom: 2px solid #e9ecef;">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="signature1-tab" data-bs-toggle="tab" data-bs-target="#signature1" type="button" role="tab" 
+                                    style="border: none; border-radius: 6px 6px 0 0; padding: 10px 15px; color: #4a5568; font-weight: 500; background: transparent;">
+                                Signature 1
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="signature2-tab" data-bs-toggle="tab" data-bs-target="#signature2" type="button" role="tab" 
+                                    style="border: none; border-radius: 6px 6px 0 0; padding: 10px 15px; color: #4a5568; font-weight: 500; background: transparent;">
+                                Signature 2
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="signature3-tab" data-bs-toggle="tab" data-bs-target="#signature3" type="button" role="tab" 
+                                    style="border: none; border-radius: 6px 6px 0 0; padding: 10px 15px; color: #4a5568; font-weight: 500; background: transparent;">
+                                Signature 3
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="signature4-tab" data-bs-toggle="tab" data-bs-target="#signature4" type="button" role="tab" 
+                                    style="border: none; border-radius: 6px 6px 0 0; padding: 10px 15px; color: #4a5568; font-weight: 500; background: transparent;">
+                                Signature 4
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="signature5-tab" data-bs-toggle="tab" data-bs-target="#signature5" type="button" role="tab" 
+                                    style="border: none; border-radius: 6px 6px 0 0; padding: 10px 15px; color: #4a5568; font-weight: 500; background: transparent;">
+                                Signature 5
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-4">
+                        <div class="tab-pane fade show active" id="signature1" role="tabpanel">
+                            <input type="text" id="typedName1" class="form-control" value="{{$billingPricingData->cc_holder_name}}" 
+                                   style="border: 1px solid #d2d6dc; border-radius: 6px; padding: 12px 15px; font-size: 15px;">
+                            <div id="preview1" class="signature-preview mt-3" style="font-family: 'Great Vibes'; border: 2px dashed #d2d6dc; padding: 20px; text-align: center; font-size: 32px; background-color: #fafafa; border-radius: 8px; min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                                {{$billingPricingData->cc_holder_name}}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="signature2" role="tabpanel">
+                            <input type="text" id="typedName2" class="form-control" value="{{$billingPricingData->cc_holder_name}}" 
+                                   style="border: 1px solid #d2d6dc; border-radius: 6px; padding: 12px 15px; font-size: 15px;">
+                            <div id="preview2" class="signature-preview mt-3" style="font-family: 'Dancing Script'; border: 2px dashed #d2d6dc; padding: 20px; text-align: center; font-size: 32px; background-color: #fafafa; border-radius: 8px; min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                                {{$billingPricingData->cc_holder_name}}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="signature3" role="tabpanel">
+                            <input type="text" id="typedName3" class="form-control" value="{{$billingPricingData->cc_holder_name}}" 
+                                   style="border: 1px solid #d2d6dc; border-radius: 6px; padding: 12px 15px; font-size: 15px;">
+                            <div id="preview3" class="signature-preview mt-3" style="font-family: 'Sacramento'; border: 2px dashed #d2d6dc; padding: 20px; text-align: center; font-size: 32px; background-color: #fafafa; border-radius: 8px; min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                                {{$billingPricingData->cc_holder_name}}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="signature4" role="tabpanel">
+                            <input type="text" id="typedName4" class="form-control" value="{{$billingPricingData->cc_holder_name}}" 
+                                   style="border: 1px solid #d2d6dc; border-radius: 6px; padding: 12px 15px; font-size: 15px;">
+                            <div id="preview4" class="signature-preview mt-3" style="font-family: 'Pacifico'; border: 2px dashed #d2d6dc; padding: 20px; text-align: center; font-size: 32px; background-color: #fafafa; border-radius: 8px; min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                                {{$billingPricingData->cc_holder_name}}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="signature5" role="tabpanel">
+                            <input type="text" id="typedName5" class="form-control" value="{{$billingPricingData->cc_holder_name}}" 
+                                   style="border: 1px solid #d2d6dc; border-radius: 6px; padding: 12px 15px; font-size: 15px;">
+                            <div id="preview5" class="signature-preview mt-3" style="font-family: 'Satisfy'; border: 2px dashed #d2d6dc; padding: 20px; text-align: center; font-size: 32px; background-color: #fafafa; border-radius: 8px; min-height: 100px; display: flex; align-items: center; justify-content: center;">
+                                {{$billingPricingData->cc_holder_name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid #e9ecef; padding: 20px 25px;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" 
+                            style="background: #a0aec0; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 500;">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="addSignatureButton" 
+                            style="background: linear-gradient(135deg, #1a2a6c, #2b5876); border: none; padding: 10px 25px; border-radius: 6px; font-weight: 500;">Add Signature</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Include necessary JS files and scripts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script&family=Sacramento&family=Pacifico&family=Satisfy&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const addSignatureButton = document.getElementById('addSignatureButton');
+        const signaturePreview = document.getElementById('signaturePreview');
+        const authorizeButton = document.getElementById('authorizeButton');
+        const signatureDataInput = document.getElementById('signatureData');
+        const signatureModal = document.getElementById('signatureModal');
+        
+        const fonts = ['Great Vibes', 'Dancing Script', 'Sacramento', 'Pacifico', 'Satisfy'];
 
+        // Update previews for all inputs
+        for (let i = 1; i <= 5; i++) {
+            const input = document.getElementById(`typedName${i}`);
+            const preview = document.getElementById(`preview${i}`);
+            input.addEventListener('input', () => {
+                preview.textContent = input.value;
+            });
+        }
+
+        // Add Signature Button Logic
+        addSignatureButton.addEventListener('click', () => {
+            const activeTab = document.querySelector('.nav-link.active').id;
+            const tabNumber = activeTab.replace('signature', '').replace('-tab', '');
+            const name = document.getElementById(`typedName${tabNumber}`).value;
+            const font = fonts[tabNumber - 1];
+            
+            if (!name) {
+                alert('Please type your name.');
+                return;
+            }
+            
+            const signatureHTML = `<span style="font-family: ${font}; font-size: 30px;">${name}</span>`;
+            signatureDataInput.value = signatureHTML;
+            document.getElementById('signatureType').value = 'type';
+            signaturePreview.innerHTML = signatureHTML;
+
+            signaturePreview.classList.remove('d-none');
+            authorizeButton.disabled = false;
+
+            const modal = bootstrap.Modal.getInstance(signatureModal);
+            modal.hide();
+        });
+    });
+
+    function showToast(message, type = "success") {
+        const toastId = `toast-${Date.now()}`;
+
+        const styleMap = {
+            success: {
+                bgColor: "#28a745", // Bootstrap green
+                textColor: "#ffffff",
+                icon: "✔", // Unicode check mark
+                borderColor: "#218838"
+            },
+            error: {
+                bgColor: "#dc3545", // Bootstrap red
+                textColor: "#ffffff",
+                icon: "⚠",
+                borderColor: "#c82333"
+            }
+        };
+
+        const style = styleMap[type] || styleMap.success;
+
+        const toast = document.createElement("div");
+        toast.id = toastId;
+        toast.className = "toast-container toast-enter";
+        toast.setAttribute("role", "alert");
+
+        toast.style.cssText = `
+            background-color: ${style.bgColor};
+            color: ${style.textColor};
+            border: 1px solid ${style.borderColor};
+            padding: 14px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            max-width: 340px;
+            z-index: 9999;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        `;
+
+        toast.innerHTML = `
+            <div style="display: flex; align-items: center;">
+                <strong style="font-size: 18px;">${style.icon}</strong>
+                <span style="margin-left: 10px;">${message}</span>
+            </div>
+        `;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.remove("toast-enter");
+            toast.classList.add("toast-exit");
+            toast.addEventListener("animationend", () => toast.remove());
+        }, 4500);
+    }
+    
+    $('#authorizationForm').submit(function(e) {
+        e.preventDefault();
+        const formdata = new FormData(e.target);
+        const href = e.target.action;
+        $.ajax({
+            url: href,
+            type: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                showToast(data.message);
+                $('#authorizeButton').remove();
+                 $('#signaturetd').hide();
+            },
+            error: function(data) {
+                showToast(data.responseJSON.message, 'error');
+            }
+        });
+    });
+    </script>
 </body>
 </html>

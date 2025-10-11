@@ -187,4 +187,5 @@ require __DIR__ . '/masters.php';
 require __DIR__ . '/reports.php';
 require __DIR__ . '/user.php';
 require __DIR__ . '/ringcentral.php';
+require __DIR__ . '/zoho-sign.php';
 

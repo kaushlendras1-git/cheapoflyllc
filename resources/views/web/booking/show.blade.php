@@ -308,8 +308,6 @@
                                 </select>
                             </div>
 
-
-
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Booking Type </label>
                                 <select id="query_type" class="form-control" name="query_type">
@@ -322,6 +320,22 @@
                                         @endforeach
                                 </select>
                             </div>
+
+                           
+                            <div class="col-md-2 position-relative mb-5" id="changes_assign_to_div">
+                                <label class="form-label">Changes Assign To</label>
+                                <select id="changes_assign_to" class="form-control" name="changes_assign_to">
+                                    <option value="">Select User</option>
+                                    @foreach ($changesAssignUsers as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ old('changes_assign_to', $booking->changes_assign_to ?? '') == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
 
 
                             @include('web.booking.status')
@@ -392,6 +406,8 @@
 
         document.getElementById('next-tab-btn').addEventListener('click', goToNextTab);
         document.getElementById('prev-tab-btn').addEventListener('click', goToPrevTab);
+
+
     </script>
 
 

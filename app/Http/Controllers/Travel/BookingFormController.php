@@ -492,6 +492,7 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -511,6 +512,7 @@ class BookingFormController extends Controller
                 'selected_company'    => 'required|string|max:255',
                 'booking_status_id'   => 'nullable',
                 'payment_status_id'   => 'nullable',
+                'changes_assign_to'   => 'nullable',
                 'reservation_source'  => 'nullable|string|max:255',
                 'descriptor'          => 'nullable|string|max:255',
                 'amadeus_sabre_pnr'   => 'nullable|string|max:255',
@@ -561,7 +563,7 @@ class BookingFormController extends Controller
                             $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
                         }
 
-                       # $rules['pnrtype']                   = 'required';
+                        $rules['pnrtype']                   = 'required';
                         $rules['airlinepnr']                   = 'required';
 
                         $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
@@ -1217,7 +1219,7 @@ class BookingFormController extends Controller
                 'payment_status_id', 'booking_status_id', 'pnr', 'campaign', 'hotel_ref', 'cruise_ref', 'car_ref', 'train_ref', 'airlinepnr',
                 'amadeus_sabre_pnr', 'pnrtype', 'name', 'phone', 'email', 'query_type',
                 'selected_company', 'reservation_source', 'descriptor','shared_booking','call_queue','gross_value','net_value','gross_mco','net_mco','merchant_fee',
-                'hotel_payment_type','cruise_payment_type','car_payment_type'
+                'hotel_payment_type','cruise_payment_type','car_payment_type','changes_assign_to'
             ]);
 
             // $array = [];
@@ -1959,6 +1961,7 @@ class BookingFormController extends Controller
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id', $booking->id)->get();
 
         $users = User::where('role_id',1)->where('department_id',2)->get();
+        $changesAssignUsers = User::where('department_id', 7)->get();
 
         $booking_types = BookingType::get();
         $countries = \DB::table('countries')->get();
@@ -1969,7 +1972,7 @@ class BookingFormController extends Controller
         // Log the view action
         // log_operation('Booking', $id, 'Viewed', 'You have seen the booking', auth()->id());
 
-        return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData','logs'));
+        return view('web.booking.show', compact('billingDeposits','travel_cruise_addon','travel_cruise_data','campaigns','booking_types','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','countries','booking','users', 'hashids','feed_backs','booking_status','payment_status','campaigns','billingData','logs','changesAssignUsers'));
     }
     public function saveBillingField(string $id,Request $request){
         try{
