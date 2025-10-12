@@ -4,7 +4,35 @@
 <div class="container-xxl flex-grow-1 container-p-y p-70 mt-4">
     <div class="row gy-6 mt-0">
         <!-- Upper Card  -->
-        <div class="col-md-2">
+        
+         <!-- Congratulations card -->
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">Today</h4>
+
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        <!--/ Congratulations card -->
+
+        <!-- Transactions -->
+
+        <div class="col-md-3">
             <div class="card insights-upper position-relative">
                 <div
                     class="avatar-initial bg-primary rounded shadow-xs d-flex align-items-center justify-content-center">
@@ -12,14 +40,22 @@
                 </div>
                 <div class="booking text-end">
                     <h4 class="mb-0">Flight</h4>
-                    <p class="mb-0">{{ $flight_booking }}</p>
+                 
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$flight}}: Calls Logs</p>
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+
+        <div class="col-md-3">
             <div class="card insights-upper position-relative">
                 <div
                     class="avatar-initial bg-success rounded shadow-xs d-flex align-items-center justify-content-center">
@@ -27,14 +63,21 @@
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #56ca00;" class="mb-0">Hotel</h4>
-                    <p class="mb-0">{{ $hotel_booking }}</p>
+                   
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$hotel}}: Calls Logs</p>
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="card insights-upper position-relative">
                 <div
                     class="avatar-initial bg-warning rounded shadow-xs d-flex align-items-center justify-content-center">
@@ -42,175 +85,227 @@
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #ffb400;" class="mb-0">Cruise</h4>
-                    <p class="mb-0">{{ $cruise_booking }}</p>
+                    
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$cruise}}: Calls Logs</p>
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="card insights-upper position-relative">
                 <div class="avatar-initial bg-info rounded shadow-xs d-flex align-items-center justify-content-center">
                     <i class="icon-base ri ri-car-fill icon-24px"></i>
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #16b1ff;" class="mb-0">Car</h4>
-                    <p class="mb-0">{{ $car_booking }}</p>
+                   
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$car}}: Calls Logs</p>
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="card insights-upper position-relative">
                 <div class="avatar-initial bg-info rounded shadow-xs d-flex align-items-center justify-content-center">
                     <i class="icon-base ri ri-train-fill icon-24px"></i>
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #16b1ff;" class="mb-0">Train</h4>
-                    <p class="mb-0">{{ $train_booking }}</p>
+                    
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$train}}: Calls Logs</p>
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="card insights-upper position-relative">
                 <div
                     class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
                     <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
                 </div>
                 <div class="booking text-end">
-                    <h4 style="color: #ff4c51;" class="mb-0">Pending</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <h4 style="color: #ff4c51;" class="mb-0">Package</h4>
+                   
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
 
-        <!-- Congratulations card -->
-        <div class="col-md-12 col-lg-4">
-            <div class="card">
-                <div class="card-body text-nowrap">
-                    <h5 class="card-title mb-0 flex-wrap text-nowrap">Today Score! 🎉</h5>
-                    <p class="mb-2">Best seller of the month</p>
-                    <h4 class="text-primary mb-0">${{$today_score}}</h4>
-                    <p class="mb-2">78% of target 🚀</p>
-                    <a href="{{ route('score.details') }}" class="btn btn-sm btn-primary">View Details</a>
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial rounded shadow-xs d-flex align-items-center justify-content-center"
+                    style="background-color: #9dac18ff; color: #fff;" >
+                    <i class="icon-base ri ri-star-fill icon-24px"></i>
                 </div>
-                <img src="./assets/img/illustrations/trophy.png" class="position-absolute bottom-0 end-0 me-5 mb-5"
-                    width="83" alt="view sales" />
-            </div>
-        </div>
-        <!--/ Congratulations card -->
-
-
-        <!-- Weekly Overview Chart -->
-        <div class="col-xl-4 col-md-6">
-            <div class="card card-space h-100">
-                <div class="card-header p-0">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="mb-1">Weekly Score</h5>
-                        <h4 class="mb-0">${{$weekly_score}}</h4>
-                    </div>
+                <div class="booking text-end">
+                    <h4 style="color: #9dac18ff;" class="mb-0">Quality Score</h4>
                 </div>
-                <div class="card-body p-0">
-                    <div id="weeklyOverviewChart"></div>
-                    <div class="mt-1">
-                        <div class="d-flex align-items-center gap-4">
-                            <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
-                        </div>
-                        <div class="d-grid mt-3 mt-md-4">
-                            <a href="{{ route('score.details') }}" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-6">
-            <div class="card card-space h-100">
-                <div class="card-header p-0">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="mb-1">Monthly Score</h5>
-                    </div>
+        <!--/ Transactions -->
+        
+        
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
                 </div>
-                <div class="card-body p-0">
-                    <div id="weeklyOverviewChart"></div>
-                    <div class="mt-1">
-                        <div class="d-flex align-items-center gap-4">
-                            <h4 class="mb-0">${{$monthly_score}}</h4>
-                            <p class="mb-0">Your sales performance is 45% 😎 better compared to last month</p>
-                        </div>
-                        <div class="d-grid mt-3 mt-md-4">
-                            <a href="{{ route('score.details') }}" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">This Week</h4>
+                   
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
             </div>
         </div>
-        <!--/ Weekly Overview Chart -->
-
-
-
-
-        <!-- Total Earnings -->
-               
-
-        <div class="col-xl-4 col-md-6">
-                    <div class="card h-100 text-white">
-                        <div class="card-header pb-0">
-                            <h4 class="mb-0">${{number_format($charge_back_total, 2)}}/<span class="text-primary mb-0">{{$charge_back_count}}</span></h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="totalProfitLineChart" class="mb-3"></div>
-                            <h6 class="text-center mb-0">ChargeBack</h6>
-                            <div class="d-grid mt-3">
-                                <a href="{{ route('score.details', ['filter_type' => 'chargeback']) }}" class="btn btn-sm btn-primary">View Details</a>
-                            </div>
-                        </div>
-                    </div>
+      
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
                 </div>
-                <!--/ Total Profit line chart -->
-
-                
-                <!-- Refund -->
-                 <div class="col-xl-4 col-md-6">
-                    <div class="card h-100">
-                        <div class="card-header pb-0">
-                            <h4 class="mb-0">${{number_format($refund_total, 2)}}/<span class="text-primary mb-0">{{$refund_count}}</span></h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3"></div>
-                            <h6 class="text-center mb-0">Refund</h6>
-                            <div class="d-grid mt-3">
-                                <a href="{{ route('score.details', ['filter_type' => 'refund']) }}" class="btn btn-sm btn-primary">View Details</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">Fortnight</h4>
+                   
                 </div>
-
-                <!-- Total Booking -->
-               <div class="col-xl-4 col-md-6">
-                    <div class="card h-100">
-                        <div class="card-header pb-0">
-                            <h4 class="mb-0">${{number_format($total_booking_total, 2)}}/<span class="text-primary mb-0">{{$total_booking_count}}</span></h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3"></div>
-                            <h6 class="text-center mb-0">Total Booking</h6>
-                            <div class="d-grid mt-3">
-                                <a href="{{ route('score.details', ['filter_type' => 'total']) }}" class="btn btn-sm btn-primary">View Details</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
                 </div>
-                <!--/ Total Booking -->
-        <!--/ Total Earnings -->
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">ChargeBack</h4>
+                   
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">Refund</h4>
+                   
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">Declined</h4>
+                   
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        
+       
+
 
         <div class="col-xl-4 col-md-6">
             <div class="card card-space h-100">
@@ -288,28 +383,7 @@
             </div>
         </div>
 
-        <div class="col-xl-4 col-md-6">
-            <div class="card-group h-100">
-                <div class="card mb-0 card-space">
-                    <div class="card-body p-0">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-0">
-                            <h5 class="m-0 me-2">Quality Report</h5>
-                            <a class="fw-medium" href="javascript:void(0);">View all</a>
-                        </div>
-                        <div class="deposit-content pt-2"> booking approved 100/ decline Qc pendind
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-0">
-                            <h5 class="m-0 me-2">Quality Report</h5>
-                            <a class="fw-medium" href="javascript:void(0);">View all</a>
-                        </div>
-                        <div class="deposit-content pt-2"> booking approved 100/ decline Qc pendind
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
        
         <div class="col-xl-4 col-md-6">
             <div class="card-group h-100">
