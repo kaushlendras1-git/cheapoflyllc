@@ -64,6 +64,7 @@ Route::middleware('auth')->get('/api/payment-statuses-by-booking', [App\Http\Con
 
 /***** Auth **** */
 Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');
+Route::get('/i_authorized_pdf/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'pdf'])->name('i_authorized_pdf');
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
 Route::post('/mail-sent',[\App\Http\Controllers\Auth\AuthEmailController::class,'index'])->name('mail-sent');

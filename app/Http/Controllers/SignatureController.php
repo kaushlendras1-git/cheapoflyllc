@@ -102,6 +102,69 @@ class SignatureController extends Controller
     }
 
 
+    public function pdf($booking_id, $card_id, $card_billing_id, $refund_status)
+    {
+        $id = decode($booking_id);
+        $hashids = $booking_id;
+        $booking = TravelBooking::with([
+            'bookingTypes',
+            'sectorDetails',
+            'passengers',
+            'billingDetails',
+            'pricingDetails',
+            'trainBookingDetails',
+            'screenshots',
+            'travelFlight' => fn($query) => $query->withTrashed(),
+            'travelCar',
+            'travelCruise',
+            'travelHotel',
+        ])->findOrFail($id);
+
+        $billingPricingData = DB::table('travel_billing_details as b')
+                            ->join('billing_details as p', 'b.state', '=', 'p.id')
+                            ->where('b.booking_id', $booking->id)
+                            ->select(
+                                'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv','b.amount','b.authorized_amt',
+                                'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'
+                            )
+                            ->first();
+
+        $billingPricingDataAll = DB::table('travel_billing_details as b')
+        ->join('billing_details as p', 'b.state', '=', 'p.id')
+        ->where('b.booking_id', $booking->id)
+        ->select(
+            'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv','b.amount','b.authorized_amt',
+            'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'
+        )
+        ->get();
+
+        $booking_status = BookingStatus::where('status',1)->get();
+        $payment_status = PaymentStatus::where('status',1)->get();
+        $campaigns = Campaign::where('status',1)->get();
+        $billingData = BillingDetail::where('booking_id',$booking->id)->get();
+        $car_images = CarImages::where('booking_id', $booking->id)->get();
+        $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
+        $flight_images = FlightImages::where('booking_id', $booking->id)->get();
+        $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
+        $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
+        $train_images = TrainImages::where('booking_id', $booking->id)->get();
+        $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
+        $travel_cruise_addon = TravelCruiseAddon::where('booking_id',$booking->id)->get();
+        $users = User::get();
+        
+        // Generate PDF
+        $pdf = \PDF::loadView('web.signature.signature-pdf', compact(
+            'billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id',
+            'card_billing_id','refund_status','billingPricingData','car_images','cruise_images',
+            'flight_images','hotel_images','train_images','screenshot_images','booking','users',
+            'hashids','booking_status','payment_status','campaigns','billingData'
+        ));
+        
+        return $pdf->stream('authorization-' . $booking->id . '.pdf', ['Attachment' => false]);
+
+    }
+
+
     public function store(Request $request)
     {
 

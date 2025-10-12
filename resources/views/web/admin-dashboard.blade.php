@@ -5,7 +5,7 @@
 @section('content')
 
             <!-- Content -->
-            <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="container-xxl flex-grow-1 container-p-y"  style="margin-top: 30px;">
               <div class="row gy-6">
                 <!-- Agent Login Requests -->
                 
@@ -13,77 +13,164 @@
 
 
                 <!-- Congratulations card -->
-                <div class="col-md-12 col-lg-4" style="margin-top: 30px;">
-                  <div class="card">
-                    <div class="card-body text-nowrap">
-                      <h5 class="card-title mb-0 flex-wrap text-nowrap">Today Score! 🎉</h5>
-                      <h5 class="text-primary mb-0">${{ number_format($today_score, 2) }}</h5>
-                    </div>
-                  </div>
+                <div class="col-md-3">
+               <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
                 </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">Today</h4>
+                    <p class="mb-0">30</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
                 <!--/ Congratulations card -->
 
                 <!-- Transactions -->
-                <div class="col-lg-8" style="margin-top: 30px;">
-                  <div class="card">                    
-                    <div class="card-body">
-                      <div class="row g-6">
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-primary rounded shadow-xs">
-                                <i class="icon-base ri ri-pie-chart-2-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Flight</p>
-                              <h5 class="mb-0">${{ number_format($flight_score, 2) }}</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-success rounded shadow-xs">
-                                <i class="icon-base ri ri-group-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Hotel</p>
-                              <h5 class="mb-0">${{ number_format($hotel_score, 2) }}</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-warning rounded shadow-xs">
-                                <i class="icon-base ri ri-macbook-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Cruise</p>
-                              <h5 class="mb-0">${{ number_format($cruise_score, 2) }}</h5>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                          <div class="d-flex align-items-center">
-                            <div class="avatar">
-                              <div class="avatar-initial bg-info rounded shadow-xs">
-                                <i class="icon-base ri ri-money-dollar-circle-line icon-24px"></i>
-                              </div>
-                            </div>
-                            <div class="ms-3">
-                              <p class="mb-0">Car</p>
-                              <h5 class="mb-0">${{ number_format($car_score, 2) }}</h5>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
+              <div class="col-md-3">
+              <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-primary rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-flight-takeoff-line icon-24px"></i>
                 </div>
+                <div class="booking text-end">
+                    <h4 class="mb-0">Flight</h4>
+                    <p class="mb-0">28</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-success rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-hotel-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #56ca00;" class="mb-0">Hotel</h4>
+                    <p class="mb-0">28</p>
+                </div>
+                <div class="call-log text-start">
+                      <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-warning rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-ship-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ffb400;" class="mb-0">Cruise</h4>
+                    <p class="mb-0">28</p>
+                </div>
+                <div class="call-log text-start">
+                      <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div class="avatar-initial bg-info rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-car-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #16b1ff;" class="mb-0">Car</h4>
+                    <p class="mb-0">28</p>
+                </div>
+                <div class="call-log text-start">
+                      <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div class="avatar-initial bg-info rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-train-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #16b1ff;" class="mb-0">Train</h4>
+                    <p class="mb-0">28</p>
+                </div>
+                <div class="call-log text-start">
+                      <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card insights-upper position-relative">
+                <div
+                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #ff4c51;" class="mb-0">Package</h4>
+                    <p class="mb-0">30</p>
+                </div>
+                <div class="call-log text-start">
+                     <p class="mb-0">Total score: $0.00</p>
+                    <p class="mb-0">Total Bookings: $0.00</p>
+                    <p class="mb-0">Total Calls: $0.00</p>
+                    <p class="mb-0">RPC: $0.00</p>
+                    <p class="mb-0">Conversion: 0.00 %</p>
+                    <p class="mb-0">Quality: 0.00 %</p>
+                    <p class="mb-0">Refund: 0.00 %</p>
+                    <p class="mb-0">Chargeback: 0.00 %</p>
+                </div>
+            </div>
+        </div>
+
                 <!--/ Transactions -->
 
 

@@ -31,6 +31,8 @@ class ZohoSignService
     public function refreshAccessToken()
     {
         try {
+            Log::info('Refreshing Zoho access token...');
+            
             $response = $this->client->post('https://accounts.zoho.in/oauth/v2/token', [
                 'form_params' => [
                     'refresh_token' => $this->refreshToken,
@@ -41,17 +43,23 @@ class ZohoSignService
                 ]
             ]);
 
-            $data = json_decode($response->getBody(), true);
+            $responseBody = $response->getBody()->getContents();
+            Log::info('Token refresh response: ' . $responseBody);
+            
+            $data = json_decode($responseBody, true);
             
             if (isset($data['access_token'])) {
+                Log::info('Access token refreshed successfully');
                 return $data['access_token'];
             }
             
-            throw new \Exception('Access token not found in response');
+            Log::error('Access token not found in response: ' . json_encode($data));
+            throw new \Exception('Access token not found in response: ' . json_encode($data));
             
         } catch (RequestException $e) {
-            Log::error('Zoho Sign Token Refresh Error: ' . $e->getMessage());
-            throw $e;
+            $errorBody = $e->hasResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
+            Log::error('Zoho Sign Token Refresh Error: ' . $e->getMessage() . ' Response: ' . $errorBody);
+            throw new \Exception('Token refresh failed: ' . $e->getMessage() . ' Response: ' . $errorBody);
         }
     }
 
@@ -111,12 +119,59 @@ class ZohoSignService
     }
 
     /**
+     * Get Document Info
+     */
+    public function getDocumentInfo($requestId, $documentId)
+    {
+        try {
+            $accessToken = $this->refreshAccessToken();
+            
+            $response = $this->client->get($this->signUrl . '/requests/' . $requestId . '/documents/' . $documentId, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $accessToken
+                ]
+            ]);
+            
+            return json_decode($response->getBody(), true);
+            
+        } catch (RequestException $e) {
+            Log::error('Zoho Sign Get Document Info Error: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Send Document for Signature
      */
     public function submitDocument($requestId, $actionId, $documentId, $fields = [])
     {
         try {
             $accessToken = $this->refreshAccessToken();
+            
+            // Default fields if none provided
+            if (empty($fields)) {
+                // Get document info to determine page count
+                $docInfo = $this->getDocumentInfo($requestId, $documentId);
+                $totalPages = $docInfo['document']['total_pages'] ?? 1;
+                $lastPage = $totalPages - 1; // Pages are 0-indexed
+                
+                $fields = [
+                    [
+                        'field_type_name' => 'Signature',
+                        'field_category' => 'signature',
+                        'field_label' => 'Signature',
+                        'is_mandatory' => true,
+                        'page_no' => $lastPage,
+                        'document_id' => $documentId,
+                        'field_name' => 'Signature',
+                        'y_coord' => 50, // Bottom of page
+                        'action_id' => $actionId,
+                        'abs_width' => 200,
+                        'x_coord' => 100,
+                        'abs_height' => 50
+                    ]
+                ];
+            }
             
             $requestData = [
                 'requests' => [

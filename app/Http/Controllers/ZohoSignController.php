@@ -50,8 +50,27 @@ class ZohoSignController extends Controller
                 $request->private_notes ?? ''
             );
 
+            \Log::info('Create Document Response: ' . json_encode($response));
+            
             if (isset($response['requests']['request_id'])) {
-                return redirect()->back()->with('success', '✅ Document sent for signature successfully! Request ID: ' . $response['requests']['request_id'] . '. The recipient will receive an email to sign the document.');
+                $requestId = $response['requests']['request_id'];
+                $actionId = $response['requests']['actions'][0]['action_id'] ?? null;
+                $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
+                
+                \Log::info('Extracted IDs - Request: ' . $requestId . ', Action: ' . $actionId . ', Document: ' . $documentId);
+                
+                if ($actionId && $documentId) {
+                    // Submit document for signature
+                    $submitResponse = $this->zohoSignService->submitDocument($requestId, $actionId, $documentId);
+                    
+                    if (isset($submitResponse['status']) && $submitResponse['status'] === 'success') {
+                        return redirect()->back()->with('success', '✅ Document sent for signature successfully! Request ID: ' . $requestId . '. The recipient will receive an email to sign the document.');
+                    } else {
+                        return redirect()->back()->with('error', '❌ Document created but failed to submit for signature. Response: ' . json_encode($submitResponse));
+                    }
+                } else {
+                    return redirect()->back()->with('error', '❌ Document created but missing action_id or document_id. Response: ' . json_encode($response));
+                }
             }
 
             return redirect()->back()->with('error', '❌ Failed to send document for signature. Response: ' . json_encode($response));

@@ -563,7 +563,7 @@ class BookingFormController extends Controller
                             $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
                         }
 
-                        $rules['pnrtype']                   = 'required';
+                       # $rules['pnrtype']                   = 'required';
                         $rules['airlinepnr']                   = 'required';
 
                         $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
