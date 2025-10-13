@@ -88,13 +88,42 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Country</label>
                             <select name="country_code" id="country_code" class="form-control">
-                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ old('country_code', 'US') == 'US' ? 'selected' : '' }}>United States</option>
-                                <option value="CA" data-code="+1" data-flag="🇨🇦" {{ old('country_code') == 'CA' ? 'selected' : '' }}>Canada</option>
-                                <option value="GB" data-code="+44" data-flag="🇬🇧" {{ old('country_code') == 'GB' ? 'selected' : '' }}>United Kingdom</option>
-                                <option value="AU" data-code="+61" data-flag="🇦🇺" {{ old('country_code') == 'AU' ? 'selected' : '' }}>🇦🇺 Australia</option>
-                                <option value="IN" data-code="+91" data-flag="🇮🇳" {{ old('country_code') == 'IN' ? 'selected' : '' }}>🇮🇳 India</option>
-                                <option value="DE" data-code="+49" data-flag="🇩🇪" {{ old('country_code') == 'DE' ? 'selected' : '' }}>🇩🇪 Germany</option>
-                                <option value="FR" data-code="+33" data-flag="🇫🇷" {{ old('country_code') == 'FR' ? 'selected' : '' }}>🇫🇷 France</option>
+                                @php
+                                    $phoneParam = request('canonicalformat') ?: request('phone');
+                                    // Handle URL encoding - %2B becomes +
+                                    if ($phoneParam) {
+                                        $phoneParam = '+'.str_replace('%2B', '+', $phoneParam);
+                                    }
+
+                                    
+
+                                    $detectedCountry = '';
+                                    if ($phoneParam) {
+                                        echo "Phone: '$phoneParam'<br>";
+                                        $countryCodes = ['+44' => 'GB', '+1' => 'US', '+91' => 'IN', '+49' => 'DE', '+33' => 'FR'];
+                                        foreach ($countryCodes as $code => $country) {
+                                            echo "Checking '$code' in '$phoneParam': " . (strpos($phoneParam, $code) === 0 ? 'YES' : 'NO') . "<br>";
+                                            if (strpos($phoneParam, $code) === 0) {
+                                                $detectedCountry = $country;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    
+                                    
+                                    $selectedCountry = $detectedCountry ?: old('country_code');
+
+                                   
+
+                                @endphp
+                                <option value="" {{ !$selectedCountry ? 'selected' : '' }}>Select Country</option>
+                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ $selectedCountry == 'US' ? 'selected' : '' }}>United States</option>
+                                <option value="CA" data-code="+1" data-flag="🇨🇦" {{ $selectedCountry == 'CA' ? 'selected' : '' }}>Canada</option>
+                                <option value="GB" data-code="+44" data-flag="🇬🇧" {{ $selectedCountry == 'GB' ? 'selected' : '' }}>United Kingdom</option>
+                                <option value="AU" data-code="+61" data-flag="🇦🇺" {{ $selectedCountry == 'AU' ? 'selected' : '' }}>🇦🇺 Australia</option>
+                                <option value="IN" data-code="+91" data-flag="🇮🇳" {{ $selectedCountry == 'IN' ? 'selected' : '' }}>🇮🇳 India</option>
+                                <option value="DE" data-code="+49" data-flag="🇩🇪" {{ $selectedCountry == 'DE' ? 'selected' : '' }}>🇩🇪 Germany</option>
+                                <option value="FR" data-code="+33" data-flag="🇫🇷" {{ $selectedCountry == 'FR' ? 'selected' : '' }}>🇫🇷 France</option>
                                 <option value="MX" data-code="+52" data-flag="🇲🇽" {{ old('country_code') == 'MX' ? 'selected' : '' }}>🇲🇽 Mexico</option>
                                 <option value="JP" data-code="+81" data-flag="🇯🇵" {{ old('country_code') == 'JP' ? 'selected' : '' }}>🇯🇵 Japan</option>
                                 <option value="KR" data-code="+82" data-flag="🇰🇷" {{ old('country_code') == 'KR' ? 'selected' : '' }}>🇰🇷 South Korea</option>
@@ -139,7 +168,20 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
                             <div class="d-flex align-items-center">
-                                <input type="tel" id="phone" name="phone" class="form-control" value="{{ old('phone') }}" maxlength="20">
+                                @php
+                                    $phoneValue = request('phone') ?: old('phone');
+                                    if ($phoneValue) {
+                                        // Extract only digits
+                                        $digits = preg_replace('/\D/', '', $phoneValue);
+                                        // Get last 10 digits
+                                        $last10 = substr($digits, -10);
+                                        // Format as XXX XXX XXXX
+                                        if (strlen($last10) == 10) {
+                                            $phoneValue = substr($last10, 0, 3) . ' ' . substr($last10, 3, 3) . ' ' . substr($last10, 6, 4);
+                                        }
+                                    }
+                                @endphp
+                                <input type="text" id="phone" name="phone" class="form-control" value="{{ $phoneValue }}" maxlength="20">
                                 <!-- <span id="country_flag" class="ms-2" style="font-size: 20px;">🇺🇸</span> -->
                             </div>
                             @error('phone')
@@ -151,7 +193,7 @@
                         <div class="col-md-2 position-relative mb-5">
                            
                             <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                            <input type="text" name="name" class="form-control" value="{{ request('name') ?: old('name') }}">
                             @error('name')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -289,6 +331,8 @@
             window.location.reload();
         }
     });
+    
+
 </script>
 
 
