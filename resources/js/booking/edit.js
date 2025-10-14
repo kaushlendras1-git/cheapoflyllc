@@ -239,6 +239,10 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     formdata.append('hotel_payment_type', hotelPaymentType);
     formdata.append('cruise_payment_type', cruisePaymentType);
     formdata.append('car_payment_type', carPaymentType);
+    
+    // Add pnrtype from selected radio button
+    const pnrType = document.querySelector('input[name="pnrtype"]:checked')?.value || '';
+    formdata.append('pnrtype', pnrType);
 
     // Add deposit fields (exclude rows with d-none class)
     document.querySelectorAll('input[name="deposit_type[]"]').forEach(input => {

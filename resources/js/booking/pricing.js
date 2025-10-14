@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <option value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
                 <option value="Pet-in Cabin">Pet-in Cabin</option>
                 <option value="Pet-in Cargo">Pet-in Cargo</option>
+                <option value="Cancellation Fee">Cancellation Fee</option>
             </select>
             </td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <select style="width: 145px;" class="form-control detailDropdown" name="pricing[${pricingIndex}][details]" id="details_${pricingIndex}">
                     <option value="">Select</option>
-                    <option data-grossmco="1" value="Flight Ticket Cost">Flight Ticket Cost</option>
+                    <option data-grossmco="1" value="Flight Cost">Flight Cost</option>
                     <option data-grossmco="1" value="Hotel Cost">Hotel Cost</option>
                     <option data-grossmco="1" value="Car Rental Cost">Car Rental Cost</option>
                     <option data-grossmco="1" value="Cruise Cost">Cruise Cost</option>

@@ -2,7 +2,8 @@
     <div class="col-md-12">
 
         <div class="card p-4 details-table-wrappper show-booking-card">
-            <div class="col-md-5 position-relative checkbox-servis">
+
+            <div class="col-md-5 position-relative checkbox-servis" id="pnr-type-section" style="display: none;">
                 <!-- <label class="d-block mb-2">PNR Type</label> -->
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="pnrtype" id="FXL" value="FXL"
@@ -22,6 +23,30 @@
                     <label class="form-check-label" for="HK">HK</label>
                 </div>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const flightCheckbox = document.getElementById('booking-flight');
+                    const pnrTypeSection = document.getElementById('pnr-type-section');
+
+                    function togglePnrType() {
+                        if (flightCheckbox.checked) {
+                            pnrTypeSection.style.display = 'block';
+                        } else {
+                            pnrTypeSection.style.display = 'none';
+                            // Clear radio button selection when hiding
+                            document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
+                                radio.checked = false;
+                            });
+                        }
+                    }
+                    // Check initial state
+                    togglePnrType();
+                    
+                    // Listen for changes
+                    flightCheckbox.addEventListener('change', togglePnrType);
+                });
+            </script>
 
 
             <div class="d-flex justify-content-end mb-2">
@@ -118,7 +143,7 @@
                             <select style="width: 145px;" name="pricing[0][details]"
                                 class="form-select form-control detailDropdown" id="details_0">
                                 <option value="">Select</option>
-                                <option data-grossmco="1" value="Flight Ticket Cost">Flight Ticket Cost</option>
+                                <option data-grossmco="1" value="Flight Cost">Flight Cost</option>
                                 <option data-grossmco="1" value="Hotel Cost">Hotel Cost</option>
                                 <option data-grossmco="1" value="Car Rental Cost">Car Rental Cost</option>
                                 <option data-grossmco="1" value="Cruise Cost">Cruise Cost</option>
@@ -180,7 +205,7 @@
                         <td>
                             <span class="gross-total">0.00</span>
                         </td>
-                        <td>ffsdfs</td>
+                        <td>FXL Issuance Fees</td>
                         <td>
                             <input type="number" style="width: 110px;" class="form-control"
                                 name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
@@ -309,6 +334,7 @@
                             <option value="Water Bottle or Distilled Water Package" {{$pricingDetails->price_description=='Water Bottle or Distilled Water Package'?'selected':''}} >Water Bottle or Distilled Water Package</option>
                             <option value="Pet-in Cabin" {{$pricingDetails->price_description=='Pet-in Cabin'?'selected':''}} >Pet-in Cabin</option>
                             <option value="Pet-in Cargo" {{$pricingDetails->price_description=='Pet-in Cargo'?'selected':''}} >Pet-in Cargo</option>
+                            <option value="Cancellation Fee" {{$pricingDetails->price_description=='Cancellation Fee'?'selected':''}} >Cancellation Fee</option>
                             </select>
                         </td>
                         
@@ -323,9 +349,9 @@
                         <td>
                             <select class="form-control detailDropdown" style="width: 145px;"
                                 name="pricing[{{$key}}][details]" id="details_{{$key}}">
-                                <option data-grossmco="1" value="Flight Ticket Cost"
-                                    {{ $pricingDetails->details == 'Flight Ticket Cost' ? 'selected' : '' }}>Flight
-                                    Ticket Cost</option>
+                                <option data-grossmco="1" value="Flight Cost"
+                                    {{ $pricingDetails->details == 'Flight Cost' ? 'selected' : '' }}>Flight
+                                    Cost</option>
                                 <option data-grossmco="1" value="Hotel Cost"
                                     {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
                                 <option data-grossmco="1" value="Car Rental Cost"

@@ -41,6 +41,8 @@ use App\Http\Controllers\Masters\RoleController;
 use App\Http\Controllers\Masters\LOBController;
 use App\Http\Controllers\Masters\UnitController;
 
+
+
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 
 // Agent Login Request Routes (no auth required)
@@ -64,6 +66,7 @@ Route::middleware('auth')->get('/api/payment-statuses-by-booking', [App\Http\Con
 
 /***** Auth **** */
 Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');
+Route::get('/i_authorized_pdf/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'pdf'])->name('i_authorized_pdf');
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
 Route::post('/mail-sent',[\App\Http\Controllers\Auth\AuthEmailController::class,'index'])->name('mail-sent');
@@ -187,4 +190,5 @@ require __DIR__ . '/masters.php';
 require __DIR__ . '/reports.php';
 require __DIR__ . '/user.php';
 require __DIR__ . '/ringcentral.php';
+require __DIR__ . '/zoho-sign.php';
 

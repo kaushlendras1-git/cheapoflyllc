@@ -8,9 +8,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AuthEmail;
 use App\Utils\JsonResponse;
+use App\ZohoSign\ZohoSignService;
 use App\Models\AuthHistory;
+use App\Models\TravelBillingDetail;
 use Illuminate\Validation\ValidationException;
 use Swift_TransportException;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Campaign;
+use App\Models\BillingDetail;
+use App\Models\CarImages;
+use App\Models\CruiseImages;
+use App\Models\FlightImages;
+use App\Models\HotelImages;
+use App\Models\ScreenshotImages;
+use App\Models\TrainImages;
+use App\Models\TravelCruise;
+use App\Models\TravelCruiseAddon;
+use App\Models\User;
 
 class AuthEmailController extends Controller
 {
@@ -50,17 +64,56 @@ class AuthEmailController extends Controller
         $card_billing_id = decode($request->card_billing_id);
         $refund_status = str_replace('-','_',$request->refund_status);
 
-//        $refund_status = 1;
+        // Fetch all data required for the PDF view
+        $billingPricingDataAll = TravelBillingDetail::where('booking_id', $bookingId)->get();
+        $billingPricingData = TravelBillingDetail::where('id',$card_billing_id)->first();
+        $booking_status = $booking->booking_status;
+        $payment_status = $booking->payment_status;
+        $campaigns = Campaign::where('status',1)->get();
+        $car_images = CarImages::where('booking_id', $booking->id)->get();
+        $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
+        $flight_images = FlightImages::where('booking_id', $booking->id)->get();
+        $hotel_images = HotelImages::where('booking_id', $booking->id)->get();
+        $screenshot_images = ScreenshotImages::where('booking_id', $booking->id)->get();
+        $train_images = TrainImages::where('booking_id', $booking->id)->get();
+        $travel_cruise_data = TravelCruise::where('booking_id', $booking->id)->first();
+        $travel_cruise_addon = TravelCruiseAddon::where('booking_id',$booking->id)->get();
+        $users = User::get();
+
         $buttonRoute = route('i_authorized',['booking_id'=>encode($booking_id),'card_id'=>encode($card_id),'card_billing_id'=>encode($card_billing_id),'refund_status'=>$refund_status]);
         $emailSendTo = $request->email;
 
-     
+        // Generate PDF using SignatureController
+        $signatureController = new \App\Http\Controllers\SignatureController();
+        $pdfResponse = $signatureController->pdf(
+            encode($booking_id),
+            encode($card_id),
+            encode($card_billing_id),
+            'YBvpr6pl'
+        );
+        
+        // Save PDF to temporary file
+        $fileName = 'authorization-' . $booking_id . '.pdf';
+        $fullPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $fileName;
+        file_put_contents($fullPath, $pdfResponse->getContent());
+        
         try {
 
             // Mail Response
 
             try {
-                    Mail::to($emailSendTo)->send(new AuthEmail($bookingId, $buttonRoute));
+                    $recipientFetch = TravelBillingDetail::select('cc_holder_name')->where('id', $card_billing_id)->first();
+                    $recipientName = $recipientFetch->cc_holder_name;
+                    $zohoSignService = new ZohoSignService();
+                    $response = $zohoSignService->createDocument(
+                        $recipientName,
+                        $request->email,
+                        $recipientName,
+                        $fullPath,
+                        'Please review and sign this document'
+                    );
+                    // dd($recipientName,$request->email);
+                    // Mail::to($emailSendTo)->send(new AuthEmail($bookingId, $buttonRoute));
                     AuthHistory::create([
                         'booking_id' => $bookingId,
                         'card_id' => $card_id,
