@@ -41,6 +41,8 @@ use App\Http\Controllers\Masters\RoleController;
 use App\Http\Controllers\Masters\LOBController;
 use App\Http\Controllers\Masters\UnitController;
 
+
+
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 
 // Agent Login Request Routes (no auth required)

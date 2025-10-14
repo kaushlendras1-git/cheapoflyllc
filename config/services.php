@@ -31,4 +31,11 @@ return [
         ],
     ],
 
+    'amadeus' => [
+        'soap_wsdl_url' => env('AMADEUS_SOAP_WSDL_URL'),
+        'soap_username' => env('AMADEUS_SOAP_USERNAME'),
+        'soap_password' => env('AMADEUS_SOAP_PASSWORD'),
+        'soap_officeid' => env('AMADEUS_SOAP_OFFICEID'),
+    ],
+
 ];

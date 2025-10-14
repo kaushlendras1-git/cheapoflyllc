@@ -780,6 +780,13 @@
         'channel' => NULL,
       ),
     ),
+    'amadeus' => 
+    array (
+      'soap_wsdl_url' => 'https://nodeD1.test.webservices.amadeus.com/1ASIWTUTICO',
+      'soap_username' => 'WSTUTICO',
+      'soap_password' => 'your_password_here',
+      'soap_officeid' => 'LONBG08AA',
+    ),
   ),
   'session' => 
   array (

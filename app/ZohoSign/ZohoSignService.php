@@ -35,17 +35,18 @@ class ZohoSignService
             
             $response = $this->client->post('https://accounts.zoho.in/oauth/v2/token', [
                 'form_params' => [
-                    'refresh_token' => $this->refreshToken,
-                    'client_id' => $this->clientId,
-                    'client_secret' => $this->clientSecret,
-                    'redirect_uri' => $this->redirectUri,
+                    'refresh_token' => '1000.29e4740f0b0765d47ae29f338dda2636.d922819cce30f52b81ab016dd14db0b1',
+                    'client_id' => '1000.SYE5R6WSMC7ULLJVXD8ZDWTWKRQ47A',
+                    'client_secret' => '1e9a4ed0bfe9aeaeb67ad52340e3d27ed57c921ad1',
+                    'redirect_uri' => 'https://sign.zoho.in',
                     'grant_type' => 'refresh_token'
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded'
                 ]
             ]);
 
-            $responseBody = $response->getBody()->getContents();
-            Log::info('Token refresh response: ' . $responseBody);
-            
+            $responseBody = $response->getBody()->getContents();            
             $data = json_decode($responseBody, true);
             
             if (isset($data['access_token'])) {
@@ -93,9 +94,9 @@ class ZohoSignService
                 ]
             ];
 
-            $response = $this->client->post($this->signUrl . '/requests', [
+            $response = $this->client->post('https://sign.zoho.in/api/v1/requests', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken
+                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken
                 ],
                 'multipart' => [
                     [
@@ -126,9 +127,9 @@ class ZohoSignService
         try {
             $accessToken = $this->refreshAccessToken();
             
-            $response = $this->client->get($this->signUrl . '/requests/' . $requestId . '/documents/' . $documentId, [
+            $response = $this->client->get('https://sign.zoho.in/api/v1/requests/' . $requestId . '/documents/' . $documentId, [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken
+                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken
                 ]
             ]);
             
@@ -188,9 +189,9 @@ class ZohoSignService
                 ]
             ];
 
-            $response = $this->client->post($this->signUrl . '/requests/' . $requestId . '/submit', [
+            $response = $this->client->post('https://sign.zoho.in/api/v1/requests/' . $requestId . '/submit', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $accessToken,
+                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken,
                     'Content-Type' => 'application/x-www-form-urlencoded'
                 ],
                 'form_params' => [
