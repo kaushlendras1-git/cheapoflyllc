@@ -13,7 +13,7 @@
 
 
                 <!-- Congratulations card -->
-                <div class="col-md-12 col-lg-4" style="margin-top: 30px;">
+                <div class="col-md-12 col-lg-3" style="margin-top: 30px;">
                   <div class="card">
                     <div class="card-body text-nowrap">
                       <h5 class="card-title mb-0 flex-wrap text-nowrap">Today Score! 🎉</h5>
@@ -24,11 +24,12 @@
                 <!--/ Congratulations card -->
 
                 <!-- Transactions -->
-                <div class="col-lg-8" style="margin-top: 30px;">
+                <div class="col-lg-9" style="margin-top: 30px;">
                   <div class="card">                    
                     <div class="card-body">
                       <div class="row g-6">
-                        <div class="col-md-3 col-6">
+                        
+                        <div class="col-md-2 col-6">
                           <div class="d-flex align-items-center">
                             <div class="avatar">
                               <div class="avatar-initial bg-primary rounded shadow-xs">
@@ -41,7 +42,8 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-3 col-6">
+
+                        <div class="col-md-2 col-6">
                           <div class="d-flex align-items-center">
                             <div class="avatar">
                               <div class="avatar-initial bg-success rounded shadow-xs">
@@ -54,7 +56,8 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-3 col-6">
+                        
+                        <div class="col-md-2 col-6">
                           <div class="d-flex align-items-center">
                             <div class="avatar">
                               <div class="avatar-initial bg-warning rounded shadow-xs">
@@ -80,6 +83,21 @@
                             </div>
                           </div>
                         </div>
+
+                        <div class="col-md-3 col-6">
+                          <div class="d-flex align-items-center">
+                            <div class="avatar">
+                              <div class="avatar-initial bg-info rounded shadow-xs">
+                                <i class="icon-base ri ri-money-dollar-circle-line icon-24px"></i>
+                              </div>
+                            </div>
+                            <div class="ms-3">
+                              <p class="mb-0">Train</p>
+                              <h5 class="mb-0">${{ number_format($train_score, 2) }}</h5>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>

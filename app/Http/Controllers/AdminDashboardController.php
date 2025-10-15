@@ -20,24 +20,35 @@ class AdminDashboardController extends Controller
         $flight_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Flight')
+            ->whereIn('travel_bookings.booking_status_id', [19, 20])
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
             ->sum('travel_bookings.net_value') ?? 0;
             
         $hotel_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Hotel')
+            ->whereIn('travel_bookings.booking_status_id', [19, 20])
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
             ->sum('travel_bookings.net_value') ?? 0;
             
         $cruise_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Cruise')
+            ->whereIn('travel_bookings.booking_status_id', [19, 20])
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
             ->sum('travel_bookings.net_value') ?? 0;
             
         $car_score = DB::table('travel_bookings')
             ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
             ->where('travel_booking_types.type', 'Car')
+            ->whereIn('travel_bookings.booking_status_id', [19, 20])
+            ->whereDate('travel_bookings.created_at', date('Y-m-d'))
+            ->sum('travel_bookings.net_value') ?? 0;
+            
+        $train_score = DB::table('travel_bookings')
+            ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
+            ->where('travel_booking_types.type', 'Train')
+            ->whereIn('travel_bookings.booking_status_id', [19, 20])
             ->whereDate('travel_bookings.created_at', date('Y-m-d'))
             ->sum('travel_bookings.net_value') ?? 0;
         // Today's total net_value score
@@ -198,7 +209,7 @@ class AdminDashboardController extends Controller
             ->orderBy('count', 'desc')
             ->get();
 
-        return view('web.admin-dashboard', compact('flight', 'hotel', 'cruise', 'car','today_score','weekly_score','monthly_score','userPerformance','revenueData','queueStatus','flight_score','hotel_score','cruise_score','car_score','weeklyData','monthlyData','dailyData','lineChartData'));
+        return view('web.admin-dashboard', compact('flight', 'hotel', 'cruise', 'car','today_score','weekly_score','monthly_score','userPerformance','revenueData','queueStatus','flight_score','hotel_score','cruise_score','car_score','train_score','weeklyData','monthlyData','dailyData','lineChartData'));
     }
 
     public function revenueData(Request $request)
