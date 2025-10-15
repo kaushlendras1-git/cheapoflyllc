@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Booking Authorization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', Arial, sans-serif; }
+    </style>
+    <title>Booking Authorization - {{ $booking->pnr }} </title>
 </head>
 @php
 $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
@@ -708,7 +709,7 @@ border-radius: 0px;
                     <!-- Terms and Conditions -->
                     <div style="margin-bottom: 12px;">
                         <div style="display: flex; align-items: center; font-size: 14px; color: #4a5568;">
-                             <input type="checkbox" id="termsCheckbox" required style="margin-right: 8px;">
+                             @{{Checkbox}}
                             <a href="{{ route('terms-and-conditions') }}" target="_blank" 
                             style="color: #1a56db; text-decoration: none;">
                             I have read and agree to the Terms and Conditions

@@ -14,7 +14,7 @@
                 </div>
                 <div class="booking text-end">
                     <h4 class="mb-0">Flight</h4>
-                    <p class="mb-0">{{ $flight_booking }}</p>
+                    <p class="mb-0">${{ number_format($flight_score, 2) }}/{{ $flight_booking }}</p>
                 </div>
                 <div class="call-log text-start">
                     <p class="mb-0">{{$flight}}: Calls Logs</p>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #56ca00;" class="mb-0">Hotel</h4>
-                    <p class="mb-0">{{ $hotel_booking }}</p>
+                    <p class="mb-0">${{ number_format($hotel_score, 2) }}/{{ $hotel_booking }}</p>
                 </div>
                 <div class="call-log text-start">
                     <p class="mb-0">{{$hotel}}: Calls Logs</p>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #ffb400;" class="mb-0">Cruise</h4>
-                    <p class="mb-0">{{ $cruise_booking }}</p>
+                    <p class="mb-0">${{ number_format($cruise_score, 2) }}/{{ $cruise_booking }}</p>
                 </div>
                 <div class="call-log text-start">
                     <p class="mb-0">{{$cruise}}: Calls Logs</p>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #16b1ff;" class="mb-0">Car</h4>
-                    <p class="mb-0">{{ $car_booking }}</p>
+                    <p class="mb-0">${{ number_format($car_score, 2) }}/{{ $car_booking }}</p>
                 </div>
                 <div class="call-log text-start">
                     <p class="mb-0">{{$car}}: Calls Logs</p>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #16b1ff;" class="mb-0">Train</h4>
-                    <p class="mb-0">{{ $train_booking }}</p>
+                    <p class="mb-0">${{ number_format($train_score, 2) }}/{{ $train_booking }}</p>
                 </div>
                 <div class="call-log text-start">
                     <p class="mb-0">{{$train}}: Calls Logs</p>
@@ -81,112 +81,119 @@
         </div>
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
-                <div
-                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
-                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                <div class="avatar-initial bg-secondary rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-stack-line icon-24px"></i>
+                </div>
+                <div class="booking text-end">
+                    <h4 style="color: #8592a3;" class="mb-0">Package</h4>
+                    <p class="mb-0">${{ number_format($package_score, 2) }}/{{ $package_booking }}</p>
+                </div>
+                <div class="call-log text-start">
+                    <p class="mb-0">Team Total</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card insights-upper position-relative">
+                <div class="avatar-initial bg-warning rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-close-circle-line icon-24px"></i>
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #ff4c51;" class="mb-0">Declined</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <p class="mb-0">${{ number_format($declined_score, 2) }}/{{ $declined_count }}</p>
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Team Total</p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
-                <div
-                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
-                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                <div class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-bank-card-line icon-24px"></i>
                 </div>
                 <div class="booking text-end">
                     <h4 style="color: #ff4c51;" class="mb-0">Chargeback</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <p class="mb-0">${{ number_format($chargeback_score, 2) }}/{{ $chargeback_count }}</p>
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Team Total</p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
-                <div
-                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
-                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                <div class="avatar-initial rounded shadow-xs d-flex align-items-center justify-content-center" style="background-color: #9dac18ff; color: #fff;">
+                    <i class="icon-base ri ri-star-fill icon-24px"></i>
                 </div>
                 <div class="booking text-end">
-                    <h4 style="color: #ff4c51;" class="mb-0">Quality</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <h4 style="color: #9dac18ff;" class="mb-0">Quality</h4>
+                    <p class="mb-0">{{ $quality_avg }}%</p>
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Team Average</p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
-                <div
-                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
-                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                <div class="avatar-initial bg-primary rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-calendar-todo-line icon-24px"></i>
                 </div>
                 <div class="booking text-end">
-                    <h4 style="color: #ff4c51;" class="mb-0">Today Score</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <h4 style="color: #696cff;" class="mb-0">Today Score</h4>
+                    <p class="mb-0">${{ number_format($today_score, 2) }}</p>
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Team Total</p>
                 </div>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
-                <div
-                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
-                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                <div class="avatar-initial bg-success rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-calendar-check-line icon-24px"></i>
                 </div>
                 <div class="booking text-end">
-                    <h4 style="color: #ff4c51;" class="mb-0">Weekly Score</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <h4 style="color: #56ca00;" class="mb-0">Weekly Score</h4>
+                    <p class="mb-0">${{ number_format($weekly_score, 2) }}</p>
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Team Total</p>
                 </div>
             </div>
         </div>
         
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
-                <div
-                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
-                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                <div class="avatar-initial bg-info rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-calendar-line icon-24px"></i>
                 </div>
                 <div class="booking text-end">
-                    <h4 style="color: #ff4c51;" class="mb-0">Monthly Score</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <h4 style="color: #16b1ff;" class="mb-0">Monthly Score</h4>
+                    <p class="mb-0">${{ number_format($monthly_score, 2) }}</p>
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Team Total</p>
                 </div>
             </div>
         </div>
         
         <div class="col-md-2">
             <div class="card insights-upper position-relative">
-                <div
-                    class="avatar-initial bg-danger rounded shadow-xs d-flex align-items-center justify-content-center">
-                    <i class="icon-base ri ri-pass-pending-fill icon-24px"></i>
+                <div class="avatar-initial bg-warning rounded shadow-xs d-flex align-items-center justify-content-center">
+                    <i class="icon-base ri ri-refund-line icon-24px"></i>
                 </div>
                 <div class="booking text-end">
-                    <h4 style="color: #ff4c51;" class="mb-0">Refund</h4>
-                    <p class="mb-0">{{ $pending_booking }}</p>
+                    <h4 style="color: #ffb400;" class="mb-0">Refund</h4>
+                    <p class="mb-0">{{ $refund_count }}</p>
                 </div>
                 <div class="call-log text-start">
-                    <p class="mb-0">{{$pending}}: Calls Logs</p>
+                    <p class="mb-0">Team Total</p>
                 </div>
             </div>
         </div>

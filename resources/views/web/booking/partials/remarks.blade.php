@@ -26,7 +26,7 @@
                                         @foreach($remarks as $key=>$remark)
                                         <tr id="remark-row-{{ $remark->id }}">
                                             <td>{{$key+1}}</td>
-                                            <td style="max-width:800px; white-space:normal !important; word-break:break-word; overflow-wrap:break-word;"> {{$remark->particulars}}</td>
+                                            <td style="max-width:800px; white-space:normal !important; word-break:break-word; overflow-wrap:break-word;"> {!! $remark->particulars !!}</td>
                                             <td>{{$remark->agentUser?->name}}</td>
                                             <td>{{$remark->created_at}}</td>
                                             <td>

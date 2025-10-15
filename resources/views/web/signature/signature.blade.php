@@ -1104,7 +1104,7 @@ border-radius: 0px;
                     <div style="margin-bottom: 12px;">
                         <label
                             style="display: flex; align-items: center; font-size: 14px; color: #4a5568; cursor: pointer;">
-                            <input type="checkbox" id="termsCheckbox" required style="margin-right: 8px;">
+                           @{{Checkbox}}
                             <a href="{{ route('terms-and-conditions') }}" target="_blank"
                                 style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
@@ -1113,17 +1113,20 @@ border-radius: 0px;
                     </div>
 
 
-
-
-
-                    <!-- Signature Input -->
-                    <div style="margin-top: 10px;">
-                        <label
-                            style="    font-size: .875rem;  font-weight: 600; color: #2d3748; display: block; margin-bottom: 8px;">
-                            Signature:
+                    <tr>
+                <td colspan="2" style="padding: 0px 30px 20px 30px;">
+                    <!-- Signature Space -->
+                    <div style="margin-top: 30px; text-align: right;">
+                        <div style="width: 200px; height: 60px; border-bottom: 2px solid #1a2a6c; margin-left: auto; margin-bottom: 10px;">@{{S}}</div>
+                        <label style="font-size: 16px; font-weight: 600; color: #1a2a6c; display: inline-block;">
+                            Signature
                         </label>
-                        <input type="text" placeholder="Enter your signature"
-                            style="width: 98%; padding: 5px; border: 2px solid #e9ecef;  font-size: 14px; margin-bottom:20px;">
+                    </div> 
+                </td>
+            </tr>
+
+
+
                     </div>
                 </td>
             </tr>
@@ -1170,13 +1173,6 @@ border-radius: 0px;
                 </td>
             </tr>
         </tfoot>
-
-
     </table>
-
-
-
-
 </body>
-
 </html>

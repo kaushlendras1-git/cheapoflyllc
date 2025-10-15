@@ -27,7 +27,7 @@ class TeamLeaderDashboardController extends Controller
             ->join('users', 'users.id', '=', 'travel_bookings.user_id')
             ->whereIn('travel_bookings.user_id', $teamMemberIds)
             ->whereDate('travel_bookings.created_at', today())
-            ->selectRaw('users.name, SUM(travel_bookings.net_mco) as net_mco')
+            ->selectRaw('users.name, SUM(travel_bookings.net_value) as net_mco')
             ->groupBy('users.id', 'users.name')
             ->orderBy('net_mco', 'desc')
             ->get();
@@ -37,7 +37,7 @@ class TeamLeaderDashboardController extends Controller
             ->join('users', 'users.id', '=', 'travel_bookings.user_id')
             ->whereIn('travel_bookings.user_id', $teamMemberIds)
             ->whereBetween('travel_bookings.created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->selectRaw('users.name, SUM(travel_bookings.net_mco) as net_mco')
+            ->selectRaw('users.name, SUM(travel_bookings.net_value) as net_mco')
             ->groupBy('users.id', 'users.name')
             ->orderBy('net_mco', 'desc')
             ->get();
@@ -48,7 +48,7 @@ class TeamLeaderDashboardController extends Controller
             ->whereIn('travel_bookings.user_id', $teamMemberIds)
             ->whereMonth('travel_bookings.created_at', now()->month)
             ->whereYear('travel_bookings.created_at', now()->year)
-            ->selectRaw('users.name, SUM(travel_bookings.net_mco) as net_mco')
+            ->selectRaw('users.name, SUM(travel_bookings.net_value) as net_mco')
             ->groupBy('users.id', 'users.name')
             ->orderBy('net_mco', 'desc')
             ->get();
@@ -79,38 +79,29 @@ class TeamLeaderDashboardController extends Controller
 
         $pending_booking = TravelBooking::whereIn('user_id', $teamMemberIds)->where('booking_status_id',1)->count();
 
-        $scores = DB::table('travel_bookings')
-                    ->selectRaw("
-                        SUM(CASE WHEN DATE(created_at) = CURDATE() THEN net_value ELSE 0 END) as today_score,
-                        SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN net_value ELSE 0 END) as weekly_score,
-                        SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN net_value ELSE 0 END) as monthly_score
-                    ")
-                    ->whereIn('user_id', $teamMemberIds)
-                    ->first();
-
-        $today_score   = $scores->today_score ?? 0;
-        $weekly_score  = $scores->weekly_score ?? 0;
-        $monthly_score = $scores->monthly_score ?? 0;
-
-        $charge_back_data = TravelBooking::whereIn('user_id', $teamMemberIds)
-                                        ->where('booking_status_id', 13)
-                                        ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
-                                        ->first();
-        $charge_back_total = $charge_back_data->total ?? 0;
-        $charge_back_count = $charge_back_data->count ?? 0;
+        // Team metrics calculations using net_value
+        $today_score = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->whereIn('booking_status_id', [19, 20])->whereDate('created_at', today())->sum('net_value') ?? 0;
+        $weekly_score = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->whereIn('booking_status_id', [19, 20])->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('net_value') ?? 0;
+        $monthly_score = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->whereIn('booking_status_id', [19, 20])->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->sum('net_value') ?? 0;
         
-        $refund_data = TravelBooking::whereIn('user_id', $teamMemberIds)
-                                   ->where('payment_status_id', 16)
-                                   ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
-                                   ->first();
-        $refund_total = $refund_data->total ?? 0;
-        $refund_count = $refund_data->count ?? 0;
+        // Booking type scores
+        $flight_score = DB::table('travel_bookings as b')->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')->whereIn('b.user_id', $teamMemberIds)->where('t.type', 'Flight')->whereIn('b.booking_status_id', [19, 20])->sum('b.net_value') ?? 0;
+        $hotel_score = DB::table('travel_bookings as b')->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')->whereIn('b.user_id', $teamMemberIds)->where('t.type', 'Hotel')->whereIn('b.booking_status_id', [19, 20])->sum('b.net_value') ?? 0;
+        $cruise_score = DB::table('travel_bookings as b')->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')->whereIn('b.user_id', $teamMemberIds)->where('t.type', 'Cruise')->whereIn('b.booking_status_id', [19, 20])->sum('b.net_value') ?? 0;
+        $car_score = DB::table('travel_bookings as b')->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')->whereIn('b.user_id', $teamMemberIds)->where('t.type', 'Car')->whereIn('b.booking_status_id', [19, 20])->sum('b.net_value') ?? 0;
+        $train_score = DB::table('travel_bookings as b')->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')->whereIn('b.user_id', $teamMemberIds)->where('t.type', 'Train')->whereIn('b.booking_status_id', [19, 20])->sum('b.net_value') ?? 0;
         
-        $total_booking_data = TravelBooking::whereIn('user_id', $teamMemberIds)
-                                          ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
-                                          ->first();
-        $total_booking_total = $total_booking_data->total ?? 0;
-        $total_booking_count = $total_booking_data->count ?? 0;
+        // Package bookings (multiple types)
+        $package_booking_ids = DB::table('travel_booking_types')->select('booking_id')->whereIn('booking_id', function($query) use ($teamMemberIds) { $query->select('id')->from('travel_bookings')->whereIn('user_id', $teamMemberIds); })->groupBy('booking_id')->havingRaw('COUNT(DISTINCT type) > 1')->pluck('booking_id');
+        $package_booking = count($package_booking_ids);
+        $package_score = DB::table('travel_bookings')->whereIn('id', $package_booking_ids)->whereIn('booking_status_id', [19, 20])->sum('net_value') ?? 0;
+        
+        $declined_count = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->where('booking_status_id', 21)->count();
+        $declined_score = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->where('booking_status_id', 21)->sum('net_value') ?? 0;
+        $chargeback_count = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->where('booking_status_id', 22)->count();
+        $chargeback_score = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->where('booking_status_id', 22)->sum('net_value') ?? 0;
+        $refund_count = DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->whereIn('payment_status_id', [13, 16])->count();
+        $quality_avg = round(DB::table('travel_bookings')->whereIn('user_id', $teamMemberIds)->avg('quality_score') ?? 0, 2);
         
         $attendances = Attendance::whereIn('user_id', $teamMemberIds)
              ->whereMonth('attendance_date', date('m'))
@@ -121,97 +112,11 @@ class TeamLeaderDashboardController extends Controller
         $calendar = [];
 
         return view('web.teamleader-dashboard', 
-        compact('dailyPerformance','weeklyPerformance','monthlyPerformance','calendar','charge_back_total','charge_back_count','total_booking_total','total_booking_count','refund_total','refund_count',
-                'flight', 'hotel', 'cruise', 'car','train','today_score','weekly_score','monthly_score','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking'));
+        compact('dailyPerformance','weeklyPerformance','monthlyPerformance','calendar',
+                'flight', 'hotel', 'cruise', 'car','train','today_score','weekly_score','monthly_score','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking',
+                'flight_score','hotel_score','cruise_score','car_score','train_score','package_booking','package_score','declined_count','declined_score','chargeback_count','chargeback_score','refund_count','quality_avg'));
     }
 
-    public function scoreDetails(Request $request)
-    {
-        $userId = Auth::id();
-        
-        $query = TravelBooking::where('user_id', $userId);
-        
-        // Apply filters
-        if ($request->period) {
-            switch ($request->period) {
-                case 'today':
-                    $query->whereDate('created_at', today());
-                    break;
-                case 'weekly':
-                    $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
-                    break;
-                case 'monthly':
-                    $query->whereMonth('created_at', now()->month)
-                          ->whereYear('created_at', now()->year);
-                    break;
-            }
-        }
-        
-        if ($request->date_from) {
-            $query->whereDate('created_at', '>=', $request->date_from);
-        }
-        
-        if ($request->date_to) {
-            $query->whereDate('created_at', '<=', $request->date_to);
-        }
-        
-        if ($request->booking_type) {
-            $query->whereHas('bookingTypes', function($q) use ($request) {
-                $q->where('type', $request->booking_type);
-            });
-        }
-        
-        // Handle filter types from cards
-        if ($request->filter_type) {
-            switch ($request->filter_type) {
-                case 'chargeback':
-                    $query->where('booking_status_id', 13);
-                    break;
-                case 'refund':
-                    $query->where('payment_status_id', 16);
-                    break;
-                case 'total':
-                    // No additional filter for total bookings
-                    break;
-            }
-        }
-        
-        $bookings = $query->with(['bookingTypes', 'paymentStatus', 'bookingStatus'])
-                          ->orderBy('created_at', 'desc')
-                          ->paginate(20);
-        
-        // Calculate scores for cards
-        $scores = DB::table('travel_bookings')
-                    ->selectRaw("
-                        SUM(CASE WHEN DATE(created_at) = CURDATE() THEN net_value ELSE 0 END) as today_score,
-                        SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN net_value ELSE 0 END) as weekly_score,
-                        SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN net_value ELSE 0 END) as monthly_score
-                    ")
-                    ->where('user_id', $userId)
-                    ->first();
-        
-        // Calculate real data from travel_bookings
-        $charge_back_data = TravelBooking::where('user_id', $userId)
-                                        ->where('booking_status_id', 13)
-                                        ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
-                                        ->first();
-        $charge_back_total = $charge_back_data->total ?? 0;
-        $charge_back_count = $charge_back_data->count ?? 0;
-        
-        $refund_data = TravelBooking::where('user_id', $userId)
-                                   ->where('payment_status_id', 16)
-                                   ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
-                                   ->first();
-        $refund_total = $refund_data->total ?? 0;
-        $refund_count = $refund_data->count ?? 0;
-        
-        $total_booking_data = TravelBooking::where('user_id', $userId)
-                                          ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
-                                          ->first();
-        $total_booking_total = $total_booking_data->total ?? 0;
-        $total_booking_count = $total_booking_data->count ?? 0;
-        
-        return view('web.score-details', compact('bookings', 'scores', 'charge_back_total', 'charge_back_count', 'total_booking_total', 'total_booking_count', 'refund_total', 'refund_count'));
-    }
+
 }
 

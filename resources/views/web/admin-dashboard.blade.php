@@ -174,43 +174,9 @@
                 </div>
                 <!--/ Booking Types Line Chart -->
 
-                <!-- Queues Status -->
-                <div class="col-xl-6">
-                  <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                      <h5 class="m-0 me-2">Queues Status</h5>
-                      <input type="date" id="queueDate" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" onchange="filterQueues()" style="width: 150px;">
-                    </div>
-                    <div class="card-body">
-                      <div class="table-responsive">
-                        <table class="table table-sm" id="queueTable">
-                          <thead>
-                            <tr>
-                              <th>Status Name</th>
-                              <th>Count</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @forelse($queueStatus as $status)
-                            <tr>
-                              <td>{{ $status->status_name }}</td>
-                              <td>{{ $status->count }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                              <td colspan="2" class="text-center">No data available</td>
-                            </tr>
-                            @endforelse
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- /Queues Status -->
-
+                
                 <!-- Revenue Status -->
-                <div class="col-xl-6 col-md-6">
+                <div class="col-xl-12 col-md-12">
                   <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between">
                       <h5 class="m-0 me-2">Revenue Status</h5>
@@ -310,6 +276,41 @@
                   </div>
                 </div>
                 <!-- /Users Score -->
+                 <!-- Queues Status -->
+                <div class="col-xl-12">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="m-0 me-2">Queues Status</h5>
+                      <input type="date" id="queueDate" class="form-control form-control-sm" value="{{ date('Y-m-d') }}" onchange="filterQueues()" style="width: 150px;">
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-sm" id="queueTable">
+                          <thead>
+                            <tr>
+                              <th>Status Name</th>
+                              <th>Count</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @forelse($queueStatus as $status)
+                            <tr>
+                              <td>{{ $status->status_name }}</td>
+                              <td>{{ $status->count }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                              <td colspan="2" class="text-center">No data available</td>
+                            </tr>
+                            @endforelse
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Queues Status -->
+
 
               </div>
             </div>

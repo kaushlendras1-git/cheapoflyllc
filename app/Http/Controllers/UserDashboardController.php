@@ -45,28 +45,88 @@ class UserDashboardController extends Controller
 
         $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
 
-        $scores = DB::table('travel_bookings')
-                    ->selectRaw("
-                        SUM(CASE WHEN DATE(created_at) = CURDATE() THEN net_value ELSE 0 END) as today_score,
-                        SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN net_value ELSE 0 END) as weekly_score,
-                        SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN net_value ELSE 0 END) as monthly_score
-                    ")
-                    ->where('user_id', Auth::id())
-                    ->first();
-
-        $today_score   = $scores->today_score;
-        $weekly_score  = $scores->weekly_score;
-        $monthly_score = $scores->monthly_score;
 
 
-        $charge_back_total = 22;
-        $charge_back_count = 22;
 
-        $total_booking_total = 0;
-        $total_booking_count = 0;
+        // Compact time-based metrics
+        $periods = [
+            'today' => [today(), today()->endOfDay()],
+            'week' => [now()->startOfWeek(), now()->endOfWeek()],
+            'fortnight' => [now()->subDays(13)->startOfDay(), now()->endOfDay()],
+            'month' => [now()->startOfMonth(), now()->endOfMonth()]
+        ];
         
-        $refund_total = 16;
-        $refund_count = 0;
+        $metrics = [];
+        foreach ($periods as $period => $dates) {
+            $gross_score = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
+            $refund_sum = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('payment_status_id', [13, 16])->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
+            $chargeback = DB::table('travel_bookings')->where('user_id', $userId)->where('booking_status_id', 22)->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
+            $score = $gross_score - $refund_sum - $chargeback;
+            $bookings = DB::table('travel_bookings')->where('user_id', $userId)->whereBetween('created_at', $dates)->count();
+            $successful_bookings = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereBetween('created_at', $dates)->count();
+            $calls = DB::table('call_logs')->where('user_id', $userId)->whereBetween('created_at', $dates)->count();
+            $quality = round(DB::table('travel_bookings')->where('user_id', $userId)->whereBetween('created_at', $dates)->avg('quality_score') ?? 0, 2);
+            
+            $metrics[$period] = [
+                'score' => $score,
+                'bookings' => $bookings,
+                'calls' => $calls,
+                'rpc' => $calls > 0 ? round($score / $calls, 2) : 0,
+                'conversion' => $calls > 0 ? round(($successful_bookings * 100) / $calls, 2) : 0,
+                'quality' => $quality,
+                'refund' => $refund_sum,
+                'chargeback' => $chargeback
+            ];
+        }
+        
+        extract($metrics['today'], EXTR_PREFIX_ALL, 'today');
+        extract($metrics['week'], EXTR_PREFIX_ALL, 'week');
+        extract($metrics['fortnight'], EXTR_PREFIX_ALL, 'fortnight');
+        extract($metrics['month'], EXTR_PREFIX_ALL, 'total');
+        
+        // Month-specific counts
+        $charge_back_count = DB::table('travel_bookings')->where('user_id', $userId)->where('booking_status_id', 22)->whereBetween('created_at', $periods['month'])->count();
+        $refund_count = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('payment_status_id', [13, 16])->whereBetween('created_at', $periods['month'])->count();
+        
+        // Aliases for backward compatibility
+        $total_booking_total = $total_score;
+        $total_booking_count = $total_bookings;
+        $charge_back_total = $total_chargeback;
+        $refund_total = $total_refund;
+        $rpc = $total_rpc;
+        $conversion = $total_conversion;
+        $quality = $total_quality;
+        
+        // BOOKING TYPE SPECIFIC METRICS
+        // Flight metrics
+        $flight_metrics = $this->getBookingTypeMetrics($userId, 'Flight');
+        
+        // Hotel metrics  
+        $hotel_metrics = $this->getBookingTypeMetrics($userId, 'Hotel');
+        
+        // Cruise metrics
+        $cruise_metrics = $this->getBookingTypeMetrics($userId, 'Cruise');
+        
+        // Car metrics
+        $car_metrics = $this->getBookingTypeMetrics($userId, 'Car');
+        
+        // Train metrics
+        $train_metrics = $this->getBookingTypeMetrics($userId, 'Train');
+        
+        // Package metrics (bookings with multiple types)
+        $package_metrics = $this->getPackageMetrics($userId);
+        
+        // CHARGEBACK SPECIFIC METRICS (booking_status_id = 22)
+        $chargeback_metrics = $this->getStatusMetrics($userId, 'chargeback', 22);
+        
+        // REFUND SPECIFIC METRICS (payment_status_id IN (13,16))
+        $refund_metrics = $this->getPaymentStatusMetrics($userId, 'refund', [13, 16]);
+        
+        // DECLINED SPECIFIC METRICS (booking_status_id = 21)
+        $declined_metrics = $this->getStatusMetrics($userId, 'declined', 21);
+        
+        // QUALITY SCORE METRICS
+        $quality_metrics = $this->getQualityMetrics($userId);
 
         
         $attendances = Attendance::where('user_id', $userId)
@@ -103,9 +163,18 @@ class UserDashboardController extends Controller
             $calendar[$day] = $attendances[$date] ?? '';
         }
 
+
+        
+        
         return view('web.user-dashboard', 
         compact('calendar','charge_back_total','charge_back_count','total_booking_total','total_booking_count','refund_total','refund_count',
-                'flight', 'hotel', 'cruise', 'car','train','today_score','weekly_score','monthly_score','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking'));
+                'flight', 'hotel', 'cruise', 'car','train','flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending','pending_booking',
+                'total_score','total_bookings','total_calls','rpc','conversion','quality',
+                'today_score','today_bookings','today_calls','today_rpc','today_conversion','today_quality','today_refund','today_chargeback',
+                'week_score','week_bookings','week_calls','week_rpc','week_conversion','week_quality','week_refund','week_chargeback',
+                'fortnight_score','fortnight_bookings','fortnight_calls','fortnight_rpc','fortnight_conversion','fortnight_quality','fortnight_refund','fortnight_chargeback',
+                'flight_metrics','hotel_metrics','cruise_metrics','car_metrics','train_metrics','package_metrics',
+                'chargeback_metrics','refund_metrics','declined_metrics','quality_metrics'));
     }
 
     public function scoreDetails(Request $request)
@@ -163,37 +232,329 @@ class UserDashboardController extends Controller
                           ->orderBy('created_at', 'desc')
                           ->paginate(20);
         
-        // Calculate scores for cards
-        $scores = DB::table('travel_bookings')
-                    ->selectRaw("
-                        SUM(CASE WHEN DATE(created_at) = CURDATE() THEN net_value ELSE 0 END) as today_score,
-                        SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN net_value ELSE 0 END) as weekly_score,
-                        SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN net_value ELSE 0 END) as monthly_score
-                    ")
-                    ->where('user_id', $userId)
-                    ->first();
+
         
-        // Calculate real data from travel_bookings
+        // Calculate real data from travel_bookings using net_mco
         $charge_back_data = TravelBooking::where('user_id', $userId)
-                                        ->where('booking_status_id', 13)
-                                        ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                        ->where('booking_status_id', 22)
+                                        ->selectRaw('SUM(net_mco) as total, COUNT(*) as count')
                                         ->first();
         $charge_back_total = $charge_back_data->total ?? 0;
         $charge_back_count = $charge_back_data->count ?? 0;
         
         $refund_data = TravelBooking::where('user_id', $userId)
-                                   ->where('payment_status_id', 16)
-                                   ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                   ->whereIn('payment_status_id', [13, 16])
+                                   ->selectRaw('SUM(net_mco) as total, COUNT(*) as count')
                                    ->first();
         $refund_total = $refund_data->total ?? 0;
         $refund_count = $refund_data->count ?? 0;
         
         $total_booking_data = TravelBooking::where('user_id', $userId)
-                                          ->selectRaw('SUM(net_value) as total, COUNT(*) as count')
+                                          ->selectRaw('SUM(net_mco) as total, COUNT(*) as count')
                                           ->first();
         $total_booking_total = $total_booking_data->total ?? 0;
         $total_booking_count = $total_booking_data->count ?? 0;
         
-        return view('web.score-details', compact('bookings', 'scores', 'charge_back_total', 'charge_back_count', 'total_booking_total', 'total_booking_count', 'refund_total', 'refund_count'));
+        return view('web.score-details', compact('bookings', 'charge_back_total', 'charge_back_count', 'total_booking_total', 'total_booking_count', 'refund_total', 'refund_count'));
+    }
+    
+    private function getBookingTypeMetrics($userId, $type)
+    {
+        $monthStart = now()->startOfMonth();
+        $monthEnd = now()->endOfMonth();
+        
+        // Get bookings that have only this specific type (current month)
+        $bookingIds = DB::table('travel_booking_types')
+            ->select('booking_id')
+            ->where('type', $type)
+            ->whereIn('booking_id', function($query) use ($userId, $monthStart, $monthEnd) {
+                $query->select('id')
+                      ->from('travel_bookings')
+                      ->where('user_id', $userId)
+                      ->whereBetween('created_at', [$monthStart, $monthEnd]);
+            })
+            ->whereNotIn('booking_id', function($query) use ($type) {
+                // Exclude bookings that have other types (those are packages)
+                $query->select('booking_id')
+                      ->from('travel_booking_types')
+                      ->where('type', '!=', $type)
+                      ->groupBy('booking_id')
+                      ->havingRaw('COUNT(*) > 0');
+            })
+            ->pluck('booking_id');
+            
+        $gross_score = DB::table('travel_bookings')
+            ->whereIn('id', $bookingIds)
+            ->whereIn('booking_status_id', [19, 20])
+            ->sum('net_mco') ?? 0;
+            
+        $refund_sum = DB::table('travel_bookings')
+            ->whereIn('id', $bookingIds)
+            ->whereIn('payment_status_id', [13, 16])
+            ->sum('net_mco') ?? 0;
+            
+        $chargeback = DB::table('travel_bookings')
+            ->whereIn('id', $bookingIds)
+            ->where('booking_status_id', 22)
+            ->sum('net_mco') ?? 0;
+            
+        $score = $gross_score - $refund_sum - $chargeback;
+            
+        $bookings = DB::table('travel_bookings')
+            ->whereIn('id', $bookingIds)
+            ->count();
+            
+        $successful_bookings = DB::table('travel_bookings')
+            ->whereIn('id', $bookingIds)
+            ->whereIn('booking_status_id', [19, 20])
+            ->count();
+            
+        $calls = DB::table('call_logs')
+            ->where('user_id', $userId)
+            ->where('chk' . strtolower($type), 1)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $rpc = $calls > 0 ? round($score / $calls, 2) : 0;
+        $conversion = $calls > 0 ? round(($successful_bookings * 100) / $calls, 2) : 0;
+        
+        $quality = DB::table('travel_bookings')
+            ->whereIn('id', $bookingIds)
+            ->avg('quality_score') ?? 0;
+            
+        $refund = $refund_sum;
+            
+        return [
+            'score' => $score,
+            'bookings' => $bookings,
+            'calls' => $calls,
+            'rpc' => $rpc,
+            'conversion' => $conversion,
+            'quality' => round($quality, 2),
+            'refund' => $refund,
+            'chargeback' => $chargeback
+        ];
+    }
+    
+    private function getPackageMetrics($userId)
+    {
+        $monthStart = now()->startOfMonth();
+        $monthEnd = now()->endOfMonth();
+        
+        // Get bookings that have multiple types (packages) - current month
+        $packageBookingIds = DB::table('travel_booking_types')
+            ->select('booking_id')
+            ->whereIn('booking_id', function($query) use ($userId, $monthStart, $monthEnd) {
+                $query->select('id')
+                      ->from('travel_bookings')
+                      ->where('user_id', $userId)
+                      ->whereBetween('created_at', [$monthStart, $monthEnd]);
+            })
+            ->groupBy('booking_id')
+            ->havingRaw('COUNT(DISTINCT type) > 1')
+            ->pluck('booking_id');
+            
+        $gross_score = DB::table('travel_bookings')
+            ->whereIn('id', $packageBookingIds)
+            ->whereIn('booking_status_id', [19, 20])
+            ->sum('net_mco') ?? 0;
+            
+        $refund_sum = DB::table('travel_bookings')
+            ->whereIn('id', $packageBookingIds)
+            ->whereIn('payment_status_id', [13, 16])
+            ->sum('net_mco') ?? 0;
+            
+        $chargeback = DB::table('travel_bookings')
+            ->whereIn('id', $packageBookingIds)
+            ->where('booking_status_id', 22)
+            ->sum('net_mco') ?? 0;
+            
+        $score = $gross_score - $refund_sum - $chargeback;
+            
+        $bookings = DB::table('travel_bookings')
+            ->whereIn('id', $packageBookingIds)
+            ->count();
+            
+        $successful_bookings = DB::table('travel_bookings')
+            ->whereIn('id', $packageBookingIds)
+            ->whereIn('booking_status_id', [19, 20])
+            ->count();
+            
+        // For package calls, count calls that have multiple checkboxes checked (current month)
+        $calls = DB::table('call_logs')
+            ->where('user_id', $userId)
+            ->whereRaw('(chkflight + chkhotel + chkcruise + chkcar + chktrain) > 1')
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $rpc = $calls > 0 ? round($score / $calls, 2) : 0;
+        $conversion = $calls > 0 ? round(($successful_bookings * 100) / $calls, 2) : 0;
+        
+        $quality = DB::table('travel_bookings')
+            ->whereIn('id', $packageBookingIds)
+            ->avg('quality_score') ?? 0;
+            
+        $refund = $refund_sum;
+            
+        return [
+            'score' => $score,
+            'bookings' => $bookings,
+            'calls' => $calls,
+            'rpc' => $rpc,
+            'conversion' => $conversion,
+            'quality' => round($quality, 2),
+            'refund' => $refund,
+            'chargeback' => $chargeback
+        ];
+    }
+    
+    private function getStatusMetrics($userId, $type, $statusId)
+    {
+        $monthStart = now()->startOfMonth();
+        $monthEnd = now()->endOfMonth();
+        
+        $score = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->where('booking_status_id', $statusId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->sum('net_mco') ?? 0;
+            
+        $bookings = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->where('booking_status_id', $statusId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        // For calls, we use total calls as base since these are status-based filters
+        $calls = DB::table('call_logs')
+            ->where('user_id', $userId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $rpc = $calls > 0 ? round($score / $calls, 2) : 0;
+        $conversion = $calls > 0 ? round(($bookings * 100) / $calls, 2) : 0;
+        
+        $quality = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->where('booking_status_id', $statusId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->avg('quality_score') ?? 0;
+            
+        return [
+            'score' => $score,
+            'bookings' => $bookings,
+            'calls' => $calls,
+            'rpc' => $rpc,
+            'conversion' => $conversion,
+            'quality' => round($quality, 2),
+            'refund' => 0, // Not applicable for status metrics
+            'chargeback' => $score // For chargeback card, this is the main metric
+        ];
+    }
+    
+    private function getPaymentStatusMetrics($userId, $type, $statusIds)
+    {
+        $monthStart = now()->startOfMonth();
+        $monthEnd = now()->endOfMonth();
+        
+        $score = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereIn('payment_status_id', $statusIds)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->sum('net_mco') ?? 0;
+            
+        $bookings = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereIn('payment_status_id', $statusIds)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $calls = DB::table('call_logs')
+            ->where('user_id', $userId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $rpc = $calls > 0 ? round($score / $calls, 2) : 0;
+        $conversion = $calls > 0 ? round(($bookings * 100) / $calls, 2) : 0;
+        
+        $quality = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereIn('payment_status_id', $statusIds)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->avg('quality_score') ?? 0;
+            
+        return [
+            'score' => $score,
+            'bookings' => $bookings,
+            'calls' => $calls,
+            'rpc' => $rpc,
+            'conversion' => $conversion,
+            'quality' => round($quality, 2),
+            'refund' => $score, // For refund card, this is the main metric
+            'chargeback' => 0 // Not applicable for payment status metrics
+        ];
+    }
+    
+    private function getQualityMetrics($userId)
+    {
+        $monthStart = now()->startOfMonth();
+        $monthEnd = now()->endOfMonth();
+        
+        $gross_score = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereIn('booking_status_id', [19, 20])
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->sum('net_mco') ?? 0;
+            
+        $refund_sum = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereIn('payment_status_id', [13, 16])
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->sum('net_mco') ?? 0;
+            
+        $chargeback = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->where('booking_status_id', 22)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->sum('net_mco') ?? 0;
+            
+        $score = $gross_score - $refund_sum - $chargeback;
+            
+        $bookings = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $successful_bookings = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereIn('booking_status_id', [19, 20])
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $calls = DB::table('call_logs')
+            ->where('user_id', $userId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->count();
+            
+        $rpc = $calls > 0 ? round($score / $calls, 2) : 0;
+        $conversion = $calls > 0 ? round(($successful_bookings * 100) / $calls, 2) : 0;
+        
+        $quality = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereBetween('created_at', [$monthStart, $monthEnd])
+            ->avg('quality_score') ?? 0;
+            
+        $refund = $refund_sum;
+            
+        return [
+            'score' => $score,
+            'bookings' => $bookings,
+            'calls' => $calls,
+            'rpc' => $rpc,
+            'conversion' => $conversion,
+            'quality' => round($quality, 2),
+            'refund' => $refund,
+            'chargeback' => $chargeback
+        ];
     }
 }

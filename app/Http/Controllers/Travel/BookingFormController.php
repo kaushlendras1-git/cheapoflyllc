@@ -383,7 +383,7 @@ class BookingFormController extends Controller
         try {
             $decodedId = decode($id);
 
-            if(str_word_count($request->remark) < 30) {
+            if(str_word_count($request->remark) < 20) {
                 //return JsonResponse::error('Action not allowed. Add clear and valid remarks to proceed.', 500);
                  return response()->json([
                                             'status'=>'failed',
