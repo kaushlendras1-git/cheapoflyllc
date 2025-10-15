@@ -42,13 +42,16 @@ class AdminDashboardController extends Controller
             ->sum('travel_bookings.net_value') ?? 0;
         // Today's total net_value score
         $today_score = DB::table('travel_bookings')
+            ->whereIn('booking_status_id', [19, 20])
             ->whereDate('created_at', date('Y-m-d'))
             ->sum('net_value') ?? 0;
         $weekly_score = DB::table('travel_bookings')
+            ->whereIn('booking_status_id', [19, 20])
             ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->sum('net_value') ?? 0;
             
         $monthly_score = DB::table('travel_bookings')
+            ->whereIn('booking_status_id', [19, 20])
             ->whereYear('created_at', date('Y'))
             ->whereMonth('created_at', date('m'))
             ->sum('net_value') ?? 0;
@@ -60,6 +63,7 @@ class AdminDashboardController extends Controller
             $endOfWeek = now()->subWeeks($i)->endOfWeek();
             
             $weeklyProfit = DB::table('travel_bookings')
+                ->whereIn('booking_status_id', [19, 20])
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
                 ->sum('net_value') ?? 0;
                 
@@ -75,6 +79,7 @@ class AdminDashboardController extends Controller
             $month = now()->subMonths($i);
             
             $monthlyProfit = DB::table('travel_bookings')
+                ->whereIn('booking_status_id', [19, 20])
                 ->whereYear('created_at', $month->year)
                 ->whereMonth('created_at', $month->month)
                 ->sum('net_value') ?? 0;
@@ -92,6 +97,7 @@ class AdminDashboardController extends Controller
         
         for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
             $dailyProfit = DB::table('travel_bookings')
+                ->whereIn('booking_status_id', [19, 20])
                 ->whereDate('created_at', $date->format('Y-m-d'))
                 ->sum('net_value') ?? 0;
                 
@@ -108,24 +114,28 @@ class AdminDashboardController extends Controller
             
             $flightProfit = DB::table('travel_bookings')
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
+                ->whereIn('travel_bookings.booking_status_id', [19, 20])
                 ->where('travel_booking_types.type', 'Flight')
                 ->whereDate('travel_bookings.created_at', $dateStr)
                 ->sum('travel_bookings.net_value') ?? 0;
                 
             $hotelProfit = DB::table('travel_bookings')
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
+                ->whereIn('travel_bookings.booking_status_id', [19, 20])
                 ->where('travel_booking_types.type', 'Hotel')
                 ->whereDate('travel_bookings.created_at', $dateStr)
                 ->sum('travel_bookings.net_value') ?? 0;
                 
             $cruiseProfit = DB::table('travel_bookings')
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
+                ->whereIn('travel_bookings.booking_status_id', [19, 20])
                 ->where('travel_booking_types.type', 'Cruise')
                 ->whereDate('travel_bookings.created_at', $dateStr)
                 ->sum('travel_bookings.net_value') ?? 0;
                 
             $carProfit = DB::table('travel_bookings')
                 ->join('travel_booking_types', 'travel_bookings.id', '=', 'travel_booking_types.booking_id')
+                ->whereIn('travel_bookings.booking_status_id', [19, 20])
                 ->where('travel_booking_types.type', 'Car')
                 ->whereDate('travel_bookings.created_at', $dateStr)
                 ->sum('travel_bookings.net_value') ?? 0;
@@ -144,6 +154,7 @@ class AdminDashboardController extends Controller
             ->leftJoin('travel_bookings', 'users.id', '=', 'travel_bookings.user_id')
             ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
             ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
+            ->whereIn('travel_bookings.booking_status_id', [19, 20])
             ->whereMonth('travel_bookings.created_at', date('m'))
             ->whereYear('travel_bookings.created_at', date('Y'))
             ->selectRaw('
@@ -160,6 +171,7 @@ class AdminDashboardController extends Controller
 
         // Revenue data for current month
         $revenueData = DB::table('travel_bookings')
+            ->whereIn('booking_status_id', [19, 20])
             ->whereMonth('created_at', date('m'))
             ->whereYear('created_at', date('Y'))
             ->selectRaw('
@@ -195,6 +207,7 @@ class AdminDashboardController extends Controller
         $dateTo = $request->input('date_to', date('Y-m-t'));
 
         $revenueData = DB::table('travel_bookings')
+            ->whereIn('booking_status_id', [19, 20])
             ->whereBetween('created_at', [$dateFrom, $dateTo])
             ->selectRaw('
                 DATE(created_at) as date,
@@ -238,6 +251,7 @@ class AdminDashboardController extends Controller
             ->leftJoin('travel_bookings', 'users.id', '=', 'travel_bookings.user_id')
             ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
             ->leftJoin('departments', 'users.department_id', '=', 'departments.id')
+            ->whereIn('travel_bookings.booking_status_id', [19, 20])
             ->whereBetween('travel_bookings.created_at', [$dateFrom, $dateTo])
             ->selectRaw('
                 users.name,
