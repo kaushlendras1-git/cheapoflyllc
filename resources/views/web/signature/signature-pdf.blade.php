@@ -28,16 +28,34 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         <tbody>
             <tr>
                 <td colspan="2" style="padding: 0px;">
-                    @if($bookingTypes[0] == 'Flight')
-                    <img style="height: 200px; width: 100%; object-fit: cover;" src="{{ public_path('email-templates/flight-banner.png') }}" alt="flight">
-                    @elseif($bookingTypes[0] == 'Cruise')
-                    <img style="height: 200px; width: 100%; object-fit: cover;" src="{{ public_path('email-templates/cruise.jpeg') }}" alt="cruise">
-                    @elseif($bookingTypes[0] == 'Train')
-                    <img style="height: 200px; width: 100%; object-fit: cover;" src="{{ public_path('email-templates/amtrak.jpeg') }}" alt="amtrak">
-                    @elseif($bookingTypes[0] == 'Car')
-                    <img style="height: 200px; width: 100%; object-fit: cover;" src="{{ public_path('email-templates/car.jpeg') }}" alt="car">
-                    @elseif($bookingTypes[0] == 'Hotel')
-                    <img style="height: 200px; width: 100%; object-fit: cover;" src="{{ public_path('email-templates/hotel.jpeg') }}" alt="hotel">
+                
+                    @if($booking->selected_company == 1 && $bookingTypes[0] == 'Flight')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/flydreamz-flight.png') }}" alt="flight">
+                    @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Cruise')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/flydreamz-cruise.png') }}" alt="cruise">
+                    @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Hotel')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/flydreamz-hotel.png') }}" alt="hotel">
+                    @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Train')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/flydreamz-train.png') }}" alt="train">
+                    @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Cruise')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/fare-tickets-cruise.png') }}" alt="cruise">
+                    @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Flight')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/fare-tickets-flight.png') }}" alt="flight">
+                    @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Hotel')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/fare-tickets-hotel.png') }}" alt="hotel">
+                    @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Train')
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/fare-tickets-train.png') }}" alt="train">
+                    @else
+                    <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                        src="{{ public_path('email-templates/flight-banner.png') }}" alt="default">
                     @endif
                 </td>
             </tr>

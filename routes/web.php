@@ -70,8 +70,7 @@ Route::get('/i_authorized_pdf/{booking_id}/{card_id}/{card_billing_id}/{refund_s
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');
 Route::post('/mail-sent',[\App\Http\Controllers\Auth\AuthEmailController::class,'index'])->name('mail-sent');
-Route::get('/terms-and-conditions', function () {return view('web.terms-and-conditions');})->name('terms-and-conditions');
-
+// Notification Routes
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
 Route::post('/update-device-token', [NotificationController::class, 'updateDeviceToken']);
 
@@ -183,6 +182,16 @@ Route::middleware('auth')->group(function () {
 // API route for teams by LOB
 Route::get('/api/teams/{lobId}', [\App\Http\Controllers\Masters\TeamController::class, 'getTeamsByLob']);
 
+
+Route::get('/terms-and-conditions', function () {return view('terms.terms-and-conditions');})->name('terms-and-conditions');
+
+// Flydreamz Routes
+    Route::get('/flydreamz/terms-and-conditions/refundable', function () { return view('terms.flydreamz_refundable'); })->name('flydreamz.terms.refundable');
+    Route::get('/flydreamz/terms-and-conditions/nonrefundable', function () { return view('terms.flydreamz_nonrefundable');})->name('flydreamz.terms.nonrefundable');
+
+// FareticketsUS Routes
+    Route::get('/fareticketsus/terms-and-conditions/refundable', function () { return view('terms.fareticketsus_refundable');})->name('fareticketsus.terms.refundable');
+    Route::get('/fareticketsus/terms-and-conditions/nonrefundable', function () { return view('terms.fareticketsus_nonrefundable');})->name('fareticketsus.terms.nonrefundable');
 
 
 require __DIR__ . '/booking.php';

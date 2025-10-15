@@ -78,22 +78,37 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         style="border-collapse: collapse;">
                         <tr>
                             <td style="padding: 0;">
-                                @if($bookingTypes[0] == 'Flight')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block;     object-position: top right;"
-                                    src="{{ asset('email-templates/flight-banner.png') }}" alt="flight">
-                                @elseif($bookingTypes[0] == 'Cruise')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
-                                    src="{{ asset('email-templates/cruise.jpeg') }}" alt="cruise">
-                                @elseif($bookingTypes[0] == 'Train')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block;     object-position: top right; "
-                                    src="{{ asset('email-templates/amtrak.jpeg') }}" alt="amtrak">
-                                @elseif($bookingTypes[0] == 'Car')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
-                                    src="{{ asset('email-templates/car.jpeg') }}" alt="car">
-                                @elseif($bookingTypes[0] == 'Hotel')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
-                                    src="{{ asset('email-templates/hotel.jpeg') }}" alt="hotel">
+                                
+                             
+                                @if($booking->selected_company == 1 && $bookingTypes[0] == 'Flight')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/flydreamz-flight.png') }}" alt="flight">
+                                @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Cruise')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/flydreamz-cruise.png') }}" alt="cruise">
+                                @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Hotel')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/flydreamz-hotel.png') }}" alt="hotel">
+                                @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Train')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/flydreamz-train.png') }}" alt="train">
+                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Cruise')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/fare-tickets-cruise.png') }}" alt="cruise">
+                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Flight')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/fare-tickets-flight.png') }}" alt="flight">
+                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Hotel')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/fare-tickets-hotel.png') }}" alt="hotel">
+                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Train')
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/fare-tickets-train.png') }}" alt="train">
+                                @else
+                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
+                                    src="{{ asset('email-templates/flight-banner.png') }}" alt="default">
                                 @endif
+                            
                             </td>
                         </tr>
                     </table>
@@ -1097,15 +1112,18 @@ border-radius: 0px;
                 </td>
             </tr>
 
+            @php
+                $company = $booking->selected_company == 1 ? 'flydreamz' : 'fareticketsus';
+                $fare = ($fare_type == 0) ? 'refundable' : 'nonrefundable';
+            @endphp
+
             <tr>
                 <td colspan="2" style="padding: 5px 10px;">
-
-                    <!-- Terms and Conditions -->
                     <div style="margin-bottom: 12px;">
                         <label
                             style="display: flex; align-items: center; font-size: 14px; color: #4a5568; cursor: pointer;">
                            @{{Checkbox}}
-                            <a href="{{ route('terms-and-conditions') }}" target="_blank"
+                            <a href="{{ route($company . '.terms.' . $fare) }}" target="_blank"
                                 style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
                             </a>

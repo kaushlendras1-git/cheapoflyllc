@@ -275,26 +275,15 @@
                                     value="{{ old('descriptor', $booking->descriptor ?? '') }}">
                             </div>
 
-
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">LOB</label>
                                 <select id="selected_company" name="selected_company" class="form-control">
-                                    <option value="1"
-                                        {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>
-                                        flydreamz</option>
-                                    <option value="2"
-                                        {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}>
-                                        fareticketsllc</option>
-                                    <option value="3"
-                                        {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>
-                                        fareticketsus</option>
-                                    <option value="4"
-                                        {{ old('selected_company', $booking->selected_company ?? '') === '4' ? 'selected' : '' }}>
-                                        cruiselineservice</option>
+                                    <option value="1" {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>flydreamz</option>
+                                    <option value="2" {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}>fareticketsus</option>
+                                    <option value="3" {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>fareticketsllc</option>
+                                    <option value="4" {{ old('selected_company', $booking->selected_company ?? '') === '4' ? 'selected' : '' }}>cruiselineservice</option>
                                 </select>
                             </div>
-
-
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label"> Divided with</label>

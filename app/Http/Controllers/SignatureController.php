@@ -49,6 +49,9 @@ class SignatureController extends Controller
     public function showForm($booking_id, $card_id, $card_billing_id, $refund_status)
     {
         $id = decode($booking_id);
+        $fare_type = $refund_status;
+ 
+
         $hashids = $booking_id;
         $booking = TravelBooking::with([
             'bookingTypes',
@@ -98,7 +101,7 @@ class SignatureController extends Controller
         
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id',$booking->id)->get();
         $users = User::get();
-        return view('web.signature.signature', compact('billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
+        return view('web.signature.signature', compact('fare_type','billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
     }
 
 
@@ -106,6 +109,7 @@ class SignatureController extends Controller
     {
         $id = decode($booking_id);
         $hashids = $booking_id;
+        $fare_type = $refund_status;
         $booking = TravelBooking::with([
             'bookingTypes',
             'sectorDetails',
@@ -153,7 +157,7 @@ class SignatureController extends Controller
         $users = User::get();
         
         // Generate PDF using wkhtmltopdf with fallback
-        $html = view('web.signature.signature-pdf', compact(
+        $html = view('web.signature.signature-pdf', compact('fare_type',
             'billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id',
             'card_billing_id','refund_status','billingPricingData','car_images','cruise_images',
             'flight_images','hotel_images','train_images','screenshot_images','booking','users',
