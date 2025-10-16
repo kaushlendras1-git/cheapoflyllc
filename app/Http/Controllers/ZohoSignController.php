@@ -35,7 +35,7 @@ class ZohoSignController extends Controller
 
         try {
             // Use static PDF file
-            $fullPath = storage_path('app/Document1.pdf');
+            $fullPath = storage_path('app/LCC1000000061.pdf');
             
             if (!file_exists($fullPath)) {
                 return redirect()->back()->with('error', '❌ Test PDF file not found.');

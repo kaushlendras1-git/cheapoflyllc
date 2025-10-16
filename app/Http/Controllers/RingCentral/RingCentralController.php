@@ -14,12 +14,14 @@ class RingCentralController extends Controller
     private $baseUrl = 'https://platform.ringcentral.com';
     private $clientId;
     private $clientSecret;
+    private $accountId;
     private $extension;
 
     public function __construct()
     {
         $this->clientId = env('RINGCENTRAL_CLIENT_ID');
         $this->clientSecret = env('RINGCENTRAL_CLIENT_SECRET');
+        $this->accountId = env('RINGCENTRAL_ACCOUNT_ID', '~');
         $this->extension = auth()->user()->extension ?? env('RINGCENTRAL_EXTENSION');
     }
 
@@ -195,18 +197,113 @@ class RingCentralController extends Controller
         }
     }
 
+    public function authorize()
+    {
+        $redirectUri = env('RINGCENTRAL_REDIRECT_URI', url('/ringcentral/callback'));
+        $authUrl = $this->baseUrl . '/restapi/oauth/authorize?' . http_build_query([
+            'response_type' => 'code',
+            'client_id' => $this->clientId,
+            'redirect_uri' => $redirectUri,
+            'state' => csrf_token()
+        ]);
+        
+        return redirect($authUrl);
+    }
+    
+    public function callback(Request $request)
+    {
+        $code = $request->get('code');
+        $state = $request->get('state');
+        
+        if (!$code || $state !== csrf_token()) {
+            return response()->json(['error' => 'Invalid authorization code or state'], 400);
+        }
+        
+        $redirectUri = env('RINGCENTRAL_REDIRECT_URI', url('/ringcentral/callback'));
+        
+        $response = Http::withBasicAuth($this->clientId, $this->clientSecret)
+            ->asForm()
+            ->post($this->baseUrl . '/restapi/oauth/token', [
+                'grant_type' => 'authorization_code',
+                'code' => $code,
+                'redirect_uri' => $redirectUri
+            ]);
+            
+        if ($response->successful()) {
+            $tokenData = $response->json();
+            // Store tokens in session or database
+            session([
+                'ringcentral_access_token' => $tokenData['access_token'],
+                'ringcentral_refresh_token' => $tokenData['refresh_token'] ?? null,
+                'ringcentral_expires_at' => now()->addSeconds($tokenData['expires_in'])
+            ]);
+            
+            return response()->json(['message' => 'Authorization successful']);
+        }
+        
+        return response()->json(['error' => 'Failed to exchange code for token'], 400);
+    }
+    
     private function getAccessToken()
     {
-        $response = Http::asForm()->post($this->baseUrl . '/restapi/oauth/token', [
-            'grant_type' => 'client_credentials',
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret
-        ]);
-
-        if ($response->successful()) {
-            return $response->json()['access_token'];
+        // Check if we have a valid access token in session
+        $accessToken = session('ringcentral_access_token');
+        $expiresAt = session('ringcentral_expires_at');
+        
+        if ($accessToken && $expiresAt && now()->lt($expiresAt)) {
+            return $accessToken;
         }
-
-        throw new \Exception('Failed to get RingCentral access token');
+        
+        // Try to refresh token if available
+        $refreshToken = session('ringcentral_refresh_token');
+        if ($refreshToken) {
+            $response = Http::withBasicAuth($this->clientId, $this->clientSecret)
+                ->asForm()
+                ->post($this->baseUrl . '/restapi/oauth/token', [
+                    'grant_type' => 'refresh_token',
+                    'refresh_token' => $refreshToken
+                ]);
+                
+            if ($response->successful()) {
+                $tokenData = $response->json();
+                session([
+                    'ringcentral_access_token' => $tokenData['access_token'],
+                    'ringcentral_refresh_token' => $tokenData['refresh_token'] ?? $refreshToken,
+                    'ringcentral_expires_at' => now()->addSeconds($tokenData['expires_in'])
+                ]);
+                
+                return $tokenData['access_token'];
+            }
+        }
+        
+        // Try password flow as fallback
+        $username = env('RINGCENTRAL_USERNAME');
+        $password = env('RINGCENTRAL_PASSWORD');
+        
+        if ($username && $password) {
+            $response = Http::withBasicAuth($this->clientId, $this->clientSecret)
+                ->asForm()
+                ->post($this->baseUrl . '/restapi/oauth/token', [
+                    'grant_type' => 'password',
+                    'username' => $username,
+                    'password' => $password,
+                    'extension' => $this->extension
+                ]);
+                
+            if ($response->successful()) {
+                $tokenData = $response->json();
+                session([
+                    'ringcentral_access_token' => $tokenData['access_token'],
+                    'ringcentral_refresh_token' => $tokenData['refresh_token'] ?? null,
+                    'ringcentral_expires_at' => now()->addSeconds($tokenData['expires_in'])
+                ]);
+                
+                return $tokenData['access_token'];
+            }
+            
+            Log::error('RingCentral Password Auth Error: ' . $response->body());
+        }
+        
+        throw new \Exception('No valid access token. Please authorize first at /ringcentral/authorize');
     }
 }

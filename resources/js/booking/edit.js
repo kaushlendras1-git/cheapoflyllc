@@ -283,8 +283,17 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         if (netTotalSpan) netTotal += parseFloat(netTotalSpan.textContent || 0);
     });
 
+    // Get MCO values from specific span elements
+    const grossMcoSpan = document.getElementById('total_gross_value');
+    const netMcoSpan = document.getElementById('total_netprofit_value');
+    const grossMco = grossMcoSpan ? parseFloat(grossMcoSpan.textContent || 0) : 0;
+    const netMco = netMcoSpan ? parseFloat(netMcoSpan.textContent || 0) : 0;
+
     formdata.set('gross_value', grossTotal.toFixed(2));
     formdata.set('net_value', netTotal.toFixed(2));
+    formdata.set('net_mco', netMco.toFixed(2));
+    formdata.set('gross_mco', grossMco.toFixed(2));
+
     const keysToDelete = [];
     const flightpattern = /^flight\[\d+\]/;
     const hotelpattern = /^hotel\[\d+\]/;

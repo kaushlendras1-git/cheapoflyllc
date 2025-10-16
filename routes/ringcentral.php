@@ -5,6 +5,8 @@ use App\Http\Controllers\RingCentral\RingCentralController;
 use App\Http\Controllers\RingCentral\CallRoutingController;
 
 Route::prefix('ringcentral')->name('ringcentral.')->group(function () {
+    Route::get('/authorize', [RingCentralController::class, 'authorize'])->name('authorize');
+    Route::get('/callback', [RingCentralController::class, 'callback'])->name('callback');
     Route::get('/sms', [RingCentralController::class, 'sms'])->name('sms');
     Route::get('/call', [RingCentralController::class, 'call'])->name('call');
     Route::get('/fax', [RingCentralController::class, 'fax'])->name('fax');

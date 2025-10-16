@@ -160,15 +160,15 @@ class ZohoSignService
                         'field_type_name' => 'Signature',
                         'field_category' => 'signature',
                         'field_label' => 'Signature',
-                        'is_mandatory' => true,
+                        'is_mandatory' => false,
                         'page_no' => $lastPage,
                         'document_id' => $documentId,
                         'field_name' => 'Signature',
-                        'y_coord' => 50, // Bottom of page
+                        'y_coord' => 50,
                         'action_id' => $actionId,
-                        'abs_width' => 200,
-                        'x_coord' => 100,
-                        'abs_height' => 50
+                        'abs_width' => 0,
+                        'x_coord' => 0,
+                        'abs_height' => 0
                     ]
                 ];
             }
@@ -182,7 +182,7 @@ class ZohoSignService
                             'action_type' => 'SIGN',
                             'private_notes' => 'Sign the document',
                             'signing_order' => 0,
-                            'fields' => $fields
+                           // 'fields' => $fields
                         ]
                     ]
                 ]

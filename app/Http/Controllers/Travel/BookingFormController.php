@@ -492,7 +492,7 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+        # dd($request->all());
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -699,12 +699,7 @@ class BookingFormController extends Controller
 
                     //PRICIGN
                     $rules['pricing']                          = 'required|array|min:1';
-                    $rules['pricing.*.passenger_type'] = [  'nullable',
-                                                                'string',
-                                                                'in:adult,child,infant,infant_on_lap,infant_on_seat',
-                                                                'required_unless:pricing.*.details,Issuance Fees - Voyzant,Full Refund,Partial Refund,FXL Issuance Fees,Company card'
-                                                            ];
-
+                    $rules['pricing.*.passenger_type']         = 'required|string|in:adult,child,infant,infant_on_lap,infant_on_seat';
                     $rules['pricing.*.num_passengers']         = 'required|integer';
                     $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
                     $rules['pricing.*.net_price']              = 'required|numeric|min:0';
@@ -799,25 +794,24 @@ class BookingFormController extends Controller
                 'passenger.*.title.string'            => 'Passenger title must be a valid string.',
                 'passenger.*.title.in'                => 'Passenger title must be one of: Mr, Ms, Mrs, Dr, Master, Miss.',
 
-               'passenger.*.first_name.required' => 'First name is required.',
-                'passenger.*.first_name.string'   => 'First name must be a valid string.',
-                'passenger.*.first_name.max'      => 'First name cannot exceed 255 characters.',
-                'passenger.*.first_name.regex'    => 'First name can only contain letters and spaces.',
+                'passenger.*.first_name.required' =>  'In Passenger Tab, First name is required.',
+                'passenger.*.first_name.string'   => 'In Passenger Tab, First name must be a valid string.',
+                'passenger.*.first_name.max'      => 'In Passenger Tab, First name cannot exceed 255 characters.',
+                'passenger.*.first_name.regex'    => 'In Passenger Tab, First name can only contain letters and spaces.',
 
-                'passenger.*.middle_name.string'  => 'Middle name must be a valid string.',
-                'passenger.*.middle_name.max'     => 'Middle name cannot exceed 255 characters.',
-                'passenger.*.middle_name.regex'   => 'Middle name can only contain letters and spaces.',
+                'passenger.*.middle_name.string'  => 'In Passenger Tab, Middle name must be a valid string.',
+                'passenger.*.middle_name.max'     => 'In Passenger Tab, Middle name cannot exceed 255 characters.',
+                'passenger.*.middle_name.regex'   => 'In Passenger Tab, Middle name can only contain letters and spaces.',
 
-                'passenger.*.last_name.required'  => 'Last name is required.',
-                'passenger.*.last_name.string'    => 'Last name must be a valid string.',
-                'passenger.*.last_name.max'       => 'Last name cannot exceed 255 characters.',
-                'passenger.*.last_name.regex'     => 'Last name can only contain letters and spaces.',
+                'passenger.*.last_name.required'  => 'In Passenger Tab, Last name is required.',
+                'passenger.*.last_name.string'    => 'In Passenger Tab, Last name must be a valid string.',
+                'passenger.*.last_name.max'       => 'In Passenger Tab, Last name cannot exceed 255 characters.',
+                'passenger.*.last_name.regex'     => 'In Passenger Tab, Last name can only contain letters and spaces.',
+                'passenger.*.dob.required'        => 'In Passenger Tab, Passenger date of birth is required.',
 
-                'passenger.*.dob.required'            => 'Passenger date of birth is required.',
-
-                'passenger.*.seat_number.string'     => 'Passenger seat number must be a string.',
-                'passenger.*.credit_note.numeric'    => 'Passenger credit note must be a numeric value.',
-                'passenger.*.e_ticket_number.string' => 'Passenger e-ticket number must be a string.',
+                'passenger.*.seat_number.string'     => 'In Passenger Tab, Passenger seat number must be a string.',
+                'passenger.*.credit_note.numeric'    => 'In Passenger Tab, Passenger credit note must be a numeric value.',
+                'passenger.*.e_ticket_number.string' => 'In Passenger Tab, Passenger e-ticket number must be a string.',
 
                 // billing
                 'billing.required'                   => 'At least one billing entry is required.',
@@ -862,24 +856,24 @@ class BookingFormController extends Controller
                 'pricing.array'                     => 'Pricing entries must be an array.',
                 'pricing.min'                       => 'At least one pricing entry is required.',
 
-                'pricing.*.passenger_type.required' => 'Pricing passenger type is required.',
-                'pricing.*.passenger_type.string'   => 'Pricing passenger type must be a string.',
-                'pricing.*.passenger_type.in'       => 'Pricing passenger type must be one of: adult, child, infant_on_lap, infant_on_seat.',
+                'pricing.*.passenger_type.required' => 'In Pricing Tab, passenger type is required.',
+                'pricing.*.passenger_type.string'   => 'In Pricing Tab, passenger type must be a string.',
+                'pricing.*.passenger_type.in'       => 'In Pricing Tab, passenger type must be one of: adult, child, infant_on_lap, infant_on_seat.',
 
-                'pricing.*.num_passengers.required' => 'Pricing number of passengers is required.',
-                'pricing.*.num_passengers.integer'  => 'Pricing number of passengers must be an integer.',
-                'pricing.*.num_passengers.min'      => 'Pricing number of passengers must be at least 1.',
+                'pricing.*.num_passengers.required' => 'In Pricing Tab, number of passengers is required.',
+                'pricing.*.num_passengers.integer'  => 'In Pricing Tab, number of passengers must be an integer.',
+                'pricing.*.num_passengers.min'      => 'In Pricing Tab, number of passengers must be at least 1.',
 
-                'pricing.*.gross_price.required'    => 'Pricing gross price is required.',
-                'pricing.*.gross_price.numeric'     => 'Pricing gross price must be numeric.',
-                'pricing.*.gross_price.min'         => 'Pricing gross price cannot be negative.',
+                'pricing.*.gross_price.required'    => 'In Pricing Tab, gross price is required.',
+                'pricing.*.gross_price.numeric'     => 'In Pricing Tab, gross price must be numeric.',
+                'pricing.*.gross_price.min'         => 'In Pricing Tab, gross price cannot be negative.',
 
-                'pricing.*.net_price.required'      => 'Pricing net price is required.',
-                'pricing.*.net_price.numeric'       => 'Pricing net price must be numeric.',
-                'pricing.*.net_price.min'           => 'Pricing net price cannot be negative.',
+                'pricing.*.net_price.required'      => 'In Pricing Tab, net price is required.',
+                'pricing.*.net_price.numeric'       => 'In Pricing Tab, net price must be numeric.',
+                'pricing.*.net_price.min'           => 'In Pricing Tab, net price cannot be negative.',
 
-                'pricing.*.details.required'        => 'Pricing details are required.',
-                'pricing.*.details.string'          => 'Pricing details must be a string.',
+                'pricing.*.details.required'        => 'In Pricing Tab, details are required.',
+                'pricing.*.details.string'          => 'In Pricing Tab, details must be a string.',
 
                 // Flight
                 'flight.required'                   => 'Flight detail is required.',

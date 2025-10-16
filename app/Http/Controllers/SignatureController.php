@@ -109,7 +109,7 @@ class SignatureController extends Controller
     {
         $id = decode($booking_id);
         $hashids = $booking_id;
-        $fare_type = $refund_status;
+        $fare_type = $refund_status ? 0 : 1;
         $booking = TravelBooking::with([
             'bookingTypes',
             'sectorDetails',

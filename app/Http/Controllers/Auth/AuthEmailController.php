@@ -105,6 +105,8 @@ class AuthEmailController extends Controller
                     $recipientFetch = TravelBillingDetail::select('cc_holder_name')->where('id', $card_billing_id)->first();
                     $recipientName = $recipientFetch->cc_holder_name;
                     $zohoSignService = new ZohoSignService();
+                    
+                    // Create document
                     $response = $zohoSignService->createDocument(
                         $recipientName,
                         $request->email,
@@ -112,26 +114,50 @@ class AuthEmailController extends Controller
                         $fullPath,
                         'Please review and sign this document'
                     );
-                    // dd($recipientName,$request->email);
-                    // Mail::to($emailSendTo)->send(new AuthEmail($bookingId, $buttonRoute));
+                    
+                    // Submit document for signature if creation was successful
+                    if (isset($response['requests']['request_id'])) {
+                        $requestId = $response['requests']['request_id'];
+                        $actionId = $response['requests']['actions'][0]['action_id'] ?? null;
+                        $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
+                        
+                        if ($actionId && $documentId) {
+                            $submitResponse = $zohoSignService->submitDocument($requestId, $actionId, $documentId);
+                            
+                            if (!isset($submitResponse['status']) || $submitResponse['status'] !== 'success') {
+                                throw new \Exception('Failed to submit document for signature');
+                            }
+                        } else {
+                            throw new \Exception('Missing action_id or document_id in response');
+                        }
+                    } else {
+                        throw new \Exception('Failed to create document');
+                    }
+                    
+                    // Clean up temporary file
+                    if (file_exists($fullPath)) {
+                        unlink($fullPath);
+                    }
+                    
                     AuthHistory::create([
                         'booking_id' => $bookingId,
                         'card_id' => $card_id,
                         'card_billing_id' => $card_billing_id,
                         'refund_status' => $refund_status,
                         'user_id' => auth()->id(),
-                        'action' => 'Email sent for auth',
-                        'type' => 'Email',
+                        'action' => 'Document sent for signature',
+                        'type' => 'ZohoSign',
                         'sent_to' => $emailSendTo,
-                        'details' => 'Booking confirmation email sent to customer.'
+                        'details' => 'Authorization document sent via Zoho Sign. Request ID: ' . $requestId
                     ]);
+                    
+                    TravelBooking::where('id', $bookingId)->update(['booking_status_id' => 2]);
+                    
                     return response()->json([
-                        'message' => 'Email sent successfully',
+                        'message' => 'Document sent for signature successfully',
                         'status' => true,
                         'code' => 200
                     ], 200);
-
-                    TravelBooking::where('id', $bookingId)->update(['booking_status_id' => 2]);
 
                 } catch (Swift_TransportException $e) {
                     $errorMessage = $e->getMessage();
