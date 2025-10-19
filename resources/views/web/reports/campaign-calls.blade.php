@@ -106,9 +106,7 @@
                     </tbody>
                 </table>
             </div>
-
-                {{ $callLogs->links() }}
-            </div>
+                {{ $callLogs->links('pagination::bootstrap-5') }}
         </div>
     </div>
 @endsection
