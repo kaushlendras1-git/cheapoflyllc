@@ -7,23 +7,7 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y p-70 mt-4">
     <!-- Dashboard Title Section -->
-    <div class="dashboard-header mb-4">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-8 col-12 mb-3 mb-md-0">
-                    <h1 class="dashboard-title">Performance Dashboard</h1>
-                    <p class="dashboard-subtitle">Track your travel booking metrics and performance analytics</p>
-                </div>
-                <div class="col-md-4 col-12 text-md-end text-center">
-                    <div class="user-info">
-                        <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
-                        <span class="user-role">{{ Auth::user()->role_name ?? 'Travel Agent' }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <div class="row gy-4 gx-4">
 
 
@@ -60,7 +44,7 @@
                                     <span class="iconify" data-icon="mdi:chart-pie"></span>
                                 </div>
                                 <div class="title-section">
-                                    <h5>Service Distribution</h5>
+                                    <h5>Overall Score</h5>
                                     <small>Booking Categories</small>
                                 </div>
                             </div>
@@ -112,23 +96,22 @@
                     <div class="progress-item-compact">
                         <div class="progress-header-compact">
                             <span class="progress-label-compact">Conversion</span>
-                            <span class="progress-value-compact">80.0%</span>
+                            <span class="progress-value-compact">{{ number_format($today_conversion, 2) }}%</span>
                         </div>
                         <div class="progress-bar-container-compact">
                             <div class="progress-bar-fill-compact conversion animate-progress"
-                                style="--target-width: 80%;">
+                                style="--target-width: {{ $today_conversion }}%;">
                             </div>
-
                         </div>
                     </div>
                     <div class="progress-item-compact">
                         <div class="progress-header-compact">
                             <span class="progress-label-compact">Quality</span>
-                            <span class="progress-value-compact">70.0%</span>
+                            <span class="progress-value-compact">{{ number_format($today_quality, 2) }}%</span>
                         </div>
                         <div class="progress-bar-container-compact">
                             <div class="progress-bar-fill-compact quality animate-progress"
-                                style="--target-width: 60%;">
+                                style="--target-width: {{ $today_quality }}%;">
                             </div>
                         </div>
                     </div>
@@ -1194,22 +1177,34 @@ document.addEventListener('DOMContentLoaded', function() {
         data: {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             datasets: [{
-                    label: 'Revenue ($)',
-                    data: [1250, 1900, 1500, 2100, 1800, 2400, 2200],
+                    label: 'Total Score ($)',
+                    data: [@foreach($weeklyData as $day){{ $day['score'] }},@endforeach],
                     borderColor: '#1C316D',
                     backgroundColor: 'rgba(28, 49, 109, 0.1)',
                     borderWidth: 3,
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    yAxisID: 'y'
                 },
                 {
-                    label: 'Bookings',
-                    data: [8, 12, 10, 14, 11, 16, 15],
+                    label: 'Total Bookings',
+                    data: [@foreach($weeklyData as $day){{ $day['bookings'] }},@endforeach],
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y1'
+                },
+                {
+                    label: 'Total Calls',
+                    data: [@foreach($weeklyData as $day){{ $day['calls'] }},@endforeach],
                     borderColor: '#6C63FF',
                     backgroundColor: 'rgba(108, 99, 255, 0.1)',
                     borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
+                    fill: false,
+                    tension: 0.4,
+                    yAxisID: 'y1'
                 }
             ]
         },
@@ -1229,14 +1224,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 tooltip: {
                     mode: 'index',
-                    intersect: false
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            if (context.datasetIndex === 0) {
+                                return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                            }
+                            return context.dataset.label + ': ' + context.parsed.y;
+                        }
+                    }
                 }
             },
             scales: {
                 y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
                     beginAtZero: true,
                     grid: {
                         drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11
+                        },
+                        callback: function(value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    beginAtZero: true,
+                    grid: {
+                        drawOnChartArea: false
                     },
                     ticks: {
                         font: {
@@ -1263,14 +1286,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const distributionChart = new Chart(distributionCtx, {
         type: 'doughnut',
         data: {
-            labels: ['Flights', 'Hotels', 'Cruises', 'Packages'],
+            labels: ['Total Amount', 'Refund', 'Declined', 'Chargeback'],
             datasets: [{
-                data: [45, 30, 15, 10],
+                data: [
+                    {{ $total_score }},
+                    {{ $refund_total }},
+                    {{ $declined_metrics['score'] }},
+                    {{ $charge_back_total }}
+                ],
                 backgroundColor: [
                     '#1C316D',
-                    '#6C63FF',
-                    '#FFD166',
-                    '#4ECDC4'
+                    '#28a745',
+                    '#dc3545',
+                    '#ffc107'
                 ],
                 borderWidth: 0,
                 hoverOffset: 15
@@ -1288,6 +1316,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         usePointStyle: true,
                         font: {
                             size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': $' + context.parsed.toLocaleString();
                         }
                     }
                 }

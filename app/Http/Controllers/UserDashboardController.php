@@ -84,6 +84,21 @@ class UserDashboardController extends Controller
         extract($metrics['fortnight'], EXTR_PREFIX_ALL, 'fortnight');
         extract($metrics['month'], EXTR_PREFIX_ALL, 'total');
         
+        // Weekly daily data for chart
+        $weeklyData = [];
+        $startOfWeek = now()->startOfWeek();
+        for ($i = 0; $i < 7; $i++) {
+            $date = $startOfWeek->copy()->addDays($i);
+            $dayScore = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereDate('created_at', $date)->sum('net_mco') ?? 0;
+            $dayBookings = DB::table('travel_bookings')->where('user_id', $userId)->whereDate('created_at', $date)->count();
+            $dayCalls = DB::table('call_logs')->where('user_id', $userId)->whereDate('created_at', $date)->count();
+            $weeklyData[] = [
+                'score' => $dayScore,
+                'bookings' => $dayBookings,
+                'calls' => $dayCalls
+            ];
+        }
+        
         // Month-specific counts
         $charge_back_count = DB::table('travel_bookings')->where('user_id', $userId)->where('booking_status_id', 22)->whereBetween('created_at', $periods['month'])->count();
         $refund_count = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('payment_status_id', [13, 16])->whereBetween('created_at', $periods['month'])->count();
@@ -174,7 +189,7 @@ class UserDashboardController extends Controller
                 'week_score','week_bookings','week_calls','week_rpc','week_conversion','week_quality','week_refund','week_chargeback',
                 'fortnight_score','fortnight_bookings','fortnight_calls','fortnight_rpc','fortnight_conversion','fortnight_quality','fortnight_refund','fortnight_chargeback',
                 'flight_metrics','hotel_metrics','cruise_metrics','car_metrics','train_metrics','package_metrics',
-                'chargeback_metrics','refund_metrics','declined_metrics','quality_metrics'));
+                'chargeback_metrics','refund_metrics','declined_metrics','quality_metrics','weeklyData'));
     }
 
     public function scoreDetails(Request $request)
