@@ -15,14 +15,14 @@ class RingCentralController extends Controller
     private $clientId;
     private $clientSecret;
     private $accountId;
-    private $extension;
+    private $extensionNumber;
 
     public function __construct()
     {
         $this->clientId = env('RINGCENTRAL_CLIENT_ID');
         $this->clientSecret = env('RINGCENTRAL_CLIENT_SECRET');
         $this->accountId = env('RINGCENTRAL_ACCOUNT_ID', '~');
-        $this->extension = auth()->user()->extension ?? env('RINGCENTRAL_EXTENSION');
+        $this->extensionNumber = auth()->user()->extension ?? env('RINGCENTRAL_EXTENSION');
     }
 
     public function getIncomingCallsForUser($extension = null)
@@ -137,10 +137,11 @@ class RingCentralController extends Controller
     {
         try {
             $accessToken = $this->getAccessToken();
+            $extensionId = $this->getExtensionId($accessToken, $this->extensionNumber);
             
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $accessToken
-            ])->get($this->baseUrl . '/restapi/v1.0/account/~/extension/~/call-log', [
+            ])->get($this->baseUrl . '/restapi/v1.0/account/~/extension/' . $extensionId . '/call-log', [
                 'perPage' => 5,
                 'page' => 1
             ]);
@@ -151,7 +152,7 @@ class RingCentralController extends Controller
             if (isset($callLogs['records'])) {
                 foreach ($callLogs['records'] as &$call) {
                     $comment = RingCentralComment::where('call_id', $call['id'])
-                        ->where('extension', $this->extension)
+                        ->where('extension', $this->extensionNumber)
                         ->first();
                     $call['comment'] = $comment ? $comment->comment : null;
                 }
@@ -160,6 +161,8 @@ class RingCentralController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Call logs fetched successfully',
+                'extension_number' => $this->extensionNumber,
+                'extension_id' => $extensionId,
                 'data' => $callLogs
             ]);
         } catch (\Exception $e) {
@@ -179,7 +182,7 @@ class RingCentralController extends Controller
             RingCentralComment::updateOrCreate(
                 [
                     'call_id' => $request->call_id,
-                    'extension' => $this->extension,
+                    'extension' => $this->extensionNumber,
                     'user_id' => auth()->id()
                 ],
                 [
@@ -281,13 +284,15 @@ class RingCentralController extends Controller
         $password = env('RINGCENTRAL_PASSWORD');
         
         if ($username && $password) {
+            Log::info('Attempting RingCentral password auth for: ' . $username);
+            
             $response = Http::withBasicAuth($this->clientId, $this->clientSecret)
                 ->asForm()
                 ->post($this->baseUrl . '/restapi/oauth/token', [
                     'grant_type' => 'password',
                     'username' => $username,
                     'password' => $password,
-                    'extension' => $this->extension
+                    'extension' => $this->extensionNumber
                 ]);
                 
             if ($response->successful()) {
@@ -298,12 +303,33 @@ class RingCentralController extends Controller
                     'ringcentral_expires_at' => now()->addSeconds($tokenData['expires_in'])
                 ]);
                 
+                Log::info('RingCentral password auth successful');
                 return $tokenData['access_token'];
             }
             
             Log::error('RingCentral Password Auth Error: ' . $response->body());
+            throw new \Exception('Password authentication failed: ' . $response->body());
         }
         
+        Log::error('All RingCentral authentication methods failed');
         throw new \Exception('No valid access token. Please authorize first at /ringcentral/authorize');
+    }
+    
+    private function getExtensionId($accessToken, $extensionNumber)
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $accessToken
+        ])->get($this->baseUrl . '/restapi/v1.0/account/~/extension', [
+            'extensionNumber' => $extensionNumber
+        ]);
+        
+        if ($response->successful()) {
+            $extensions = $response->json();
+            if (isset($extensions['records'][0]['id'])) {
+                return $extensions['records'][0]['id'];
+            }
+        }
+        
+        throw new \Exception('Extension ID not found for extension number: ' . $extensionNumber);
     }
 }
