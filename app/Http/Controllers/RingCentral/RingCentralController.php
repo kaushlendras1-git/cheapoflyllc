@@ -213,6 +213,7 @@ class RingCentralController extends Controller
         return redirect($authUrl);
     }
     
+    
     public function callback(Request $request)
     {
         $code = $request->get('code');

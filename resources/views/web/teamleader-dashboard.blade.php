@@ -161,7 +161,7 @@
             </div>
 
             <!-- Flight Card  -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card primary h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -221,7 +221,7 @@
 
 
             <!-- Hotel Cards -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card success h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -277,7 +277,7 @@
             </div>
 
             <!-- Cruise Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card warning h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -333,7 +333,7 @@
             </div>
 
             <!-- Car Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card info h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -389,7 +389,7 @@
             </div>
 
             <!-- Train Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card info h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -445,7 +445,7 @@
             </div>
 
             <!-- Packages Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card secondary h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -501,7 +501,7 @@
             </div>
 
             <!-- Today Score Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card primary h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -557,7 +557,7 @@
             </div>
 
             <!-- Weekly Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card success h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -613,7 +613,7 @@
             </div>
 
             <!-- Monthly Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card info h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -669,7 +669,7 @@
             </div>
 
             <!-- Declined Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card danger h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -725,7 +725,7 @@
             </div>
 
             <!-- Chargeback Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card danger h-100">
                     <!-- Header -->
                     <div class="card-header-premium">
@@ -781,7 +781,7 @@
             </div>
 
             <!-- Refund Card -->
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="premium-card warning h-100">
                     <!-- Header -->
                     <div class="card-header-premium">

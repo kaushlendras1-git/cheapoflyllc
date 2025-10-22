@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RingCentral\RingCentralController;
 use App\Http\Controllers\RingCentral\CallRoutingController;
 
+
+
 Route::prefix('ringcentral')->name('ringcentral.')->group(function () {
     Route::get('/authorize', [RingCentralController::class, 'authorize'])->name('authorize');
     Route::get('/callback', [RingCentralController::class, 'callback'])->name('callback');

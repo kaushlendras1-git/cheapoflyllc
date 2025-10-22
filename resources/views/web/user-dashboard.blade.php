@@ -1332,4 +1332,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<style>
+    .title-section small {
+    font-size: 0.7rem !important;
+}
+</style>
+
 @endsection

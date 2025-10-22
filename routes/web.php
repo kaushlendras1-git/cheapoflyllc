@@ -40,10 +40,14 @@ use App\Http\Controllers\Masters\DepartmentController;
 use App\Http\Controllers\Masters\RoleController;
 use App\Http\Controllers\Masters\LOBController;
 use App\Http\Controllers\Masters\UnitController;
+use App\Http\Controllers\RingCentral\RingCentralController;
 
 
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
+
+// RingCentral OAuth Callback
+Route::get('/auth/ringcentral/callback', [RingCentralController::class, 'callback'])->name('auth.ringcentral.callback');
 
 // Agent Login Request Routes (no auth required)
 Route::post('/agent/request-login', [AgentLoginController::class, 'requestLogin'])->name('agent.request-login');

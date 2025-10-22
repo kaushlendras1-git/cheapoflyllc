@@ -34609,7 +34609,7 @@ input[type="number"] {
 }
 
 .title-section h5 {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--text-dark);
     margin-bottom: 2px;
@@ -34635,7 +34635,7 @@ input[type="number"] {
 .stats-grid-compact {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 0px;
     margin-bottom: 16px;
 }
 
@@ -34647,7 +34647,7 @@ input[type="number"] {
 }
 
 .stat-value-compact {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--primary);
     margin-bottom: 4px;
@@ -35005,7 +35005,7 @@ input[type="number"] {
 
 .calls-value {
     color: var(--primary);
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     font-weight: 700;
 }
 
