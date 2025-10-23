@@ -344,11 +344,12 @@
                         <label for="lob">LOB</label>
                        </div>
 
+
                        <div class="form-floating form-floating-outline mb-5">
                             <select id="team" name="team" class="form-select" required="">
-                                <option value="">Select Team</option>
+                                <option value="">Select Unit</option>
                             </select>
-                            <label for="team">Teams</label>
+                            <label for="team">Unit</label>
                         </div>
 
 <script>
@@ -462,6 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <label for="user-role">Departments</label>
                     </div>
 
+                    
                     <!-- User Role Field -->
                     <div class="form-floating form-floating-outline mb-5">
                         <select id="role-select" name="role_id" class="form-select" required="">
@@ -474,7 +476,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
 
 
-                    <div class="form-floating form-floating-outline mb-5" id="team-leader-section" style="display: none;">
+                    <div class="form-floating form-floating-outline mb-5" id="team-leader-section">
                         <select id="team_leader" name="team_leader" class="form-select">
                             <option value="">Select Team Leader</option>
                         </select>

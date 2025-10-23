@@ -23,7 +23,7 @@ class LOBDashboardController extends Controller
                 SUM(net_value) as net_mco,
                 COUNT(*) as total_bookings,
                 SUM(CASE WHEN payment_status_id = 3 THEN net_value ELSE 0 END) as refund_amount,
-                SUM(CASE WHEN payment_status_id = 4 THEN net_value ELSE 0 END) as chargeback_amount
+                SUM(CASE WHEN payment_status_id = 4 OR booking_status_id = 22 THEN net_value ELSE 0 END) as chargeback_amount
             ')
             ->first();
             
@@ -41,7 +41,9 @@ class LOBDashboardController extends Controller
             round((DB::table('travel_bookings')
                 ->join('users', 'travel_bookings.user_id', '=', 'users.id')
                 ->where('users.lob', $userLob)
-                ->where('payment_status_id', 4)->count() / $profitData->total_bookings) * 100, 2) : 0;
+                ->where(function($q) {
+                    $q->where('payment_status_id', 4)->orWhere('booking_status_id', 22);
+                })->count() / $profitData->total_bookings) * 100, 2) : 0;
                 
                 
         $rpc = $totalCalls > 0 ? round($profitData->net_mco / $totalCalls, 2) : 0;
@@ -60,7 +62,7 @@ class LOBDashboardController extends Controller
                 DAY(b.created_at) as day,
                 COUNT(*) as total_bookings,
                 SUM(CASE WHEN b.payment_status_id = 3 THEN 1 ELSE 0 END) as refunded_bookings,
-                SUM(CASE WHEN b.payment_status_id = 4 THEN 1 ELSE 0 END) as chargeback_bookings,
+                SUM(CASE WHEN b.payment_status_id = 4 OR b.booking_status_id = 22 THEN 1 ELSE 0 END) as chargeback_bookings,
                 SUM(b.net_value) as net_mco
             ')
             ->groupBy('day')
@@ -86,7 +88,9 @@ class LOBDashboardController extends Controller
             'chargeback_bookings' => DB::table('travel_bookings')
                 ->join('users', 'travel_bookings.user_id', '=', 'users.id')
                 ->where('users.lob', $userLob)
-                ->where('payment_status_id', 4)->count(),
+                ->where(function($q) {
+                    $q->where('payment_status_id', 4)->orWhere('booking_status_id', 22);
+                })->count(),
             'refund_percentage' => $refundPercentage,
             'chargeback_percentage' => $chargebackPercentage,
             'actual_conversion' => $conversion,

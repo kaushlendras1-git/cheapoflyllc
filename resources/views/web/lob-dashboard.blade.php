@@ -6,13 +6,33 @@
 
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
+              <!-- Analytics Dropdown -->
+             
+              
               <div class="row gy-6" style="margin-top: 10px;">
 
               <!-- 2. Booking Performance Chart -->
                 <div class="col-md-12">
                   <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                       <h6 class="mb-0">Booking Performance</h6>
+
+
+                      <!--select class="form-select input-style w140" onchange="if(this.value) window.location.href=this.value">
+                        <option value="">Analytics</option>
+                        <option value="{{ url('/lob/booking-reports') }}">Booking Reports</option>
+                        <option value="{{ route('reports.campaign-calls') }}">Campaign Calls</option>
+                        <option value="{{ url('/lob/campaigns') }}">Campaigns Report</option>
+                        <option value="{{ route('reports.company') }}">Company Reports</option>
+                        <option value="{{ route('score.details') }}">My Score</option>
+                        <option value="{{ url('/lob/profit-loss') }}">P&L Report</option>
+                        <option value="{{ url('/lob/products') }}">Product Performance</option>
+                        <option value="{{ route('reports.revenue') }}">Revenue Report</option>
+                        <option value="{{ route('reports.team') }}">Team Reports</option>
+                        <option value="{{ route('reports.unit') }}">Unit Reports</option>
+                      </select-->
+
+
                     </div>
                     <div class="card-body">
                       <canvas id="bookingChart" height="300"></canvas>

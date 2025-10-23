@@ -65,6 +65,7 @@
                                   @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
                                     <th>Agent</th>
                                   @endif  
+                                  <th title="Post Sales Status">PSS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -145,6 +146,7 @@
                                   @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
                                       <td>{{ $booking->user->name ?? 'N/A' }}</td>
                                    @endif   
+                                   <td><i class="ri-shake-hands-line"></i></td>
                             </tr>
                             @endforeach
 

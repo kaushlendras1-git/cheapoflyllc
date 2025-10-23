@@ -243,11 +243,14 @@
                        
                             <!-- Reports -->
                             <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
-                                <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
+                                <a href="{{ route('lob.profit-loss') }}" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), ['marketing', 'call_queue', 'agents', 'score']) ? 'active' : '' }}">
                                     <i class="menu-icon icon-base ri ri-article-line"></i>
-                                    <div data-i18n="Reports">Reports</div>
+                                    <div data-i18n="Analytics">Analytics</div>
                                 </a>
-                                <ul class="menu-sub">
+
+                                
+
+                            <ul class="menu-sub">
                                     <!-- <li class="menu-item {{ Route::currentRouteName() == 'marketing' ? 'active' : '' }}">
                                         <a href="{{ route('marketing') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-advertisement-line"></i>
@@ -299,14 +302,49 @@
                                         </a>
                                     </li>
                                     <li class="menu-item {{ Route::currentRouteName() == 'reports.company' ? 'active' : '' }}">
-                                        <a href="{{ route('reports.company') }}" class="menu-link">
+                                        <a href="" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-building-4-line"></i>
                                             <div data-i18n="Company Reports">Company Reports</div>
                                         </a>
                                     </li>
 
+
+
+
+                                     <li class="menu-item {{ Route::currentRouteName() == 'lob.products' ? 'active' : '' }}">
+                                        <a href="{{ route('lob.products') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <div data-i18n="Product Performance">Product Performance</div>
+                                        </a>
+                                    </li>
+                                     <li class="menu-item {{ Route::currentRouteName() == 'lob.campaigns' ? 'active' : '' }}">
+                                        <a href="{{ route('lob.campaigns') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <div data-i18n="Campaigns Reports">Campaigns Reports</div>
+                                        </a>
+                                    </li>
+                                     <li class="menu-item {{ Route::currentRouteName() == 'lob.booking' ? 'active' : '' }}">
+                                        <a href="{{ route('lob.booking-reports') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <div data-i18n="Company Reports">Booking Reports</div>
+                                        </a>
+                                    </li>
+                                     <li class="menu-item {{ Route::currentRouteName() == 'lob.profit-loss' ? 'active' : '' }}">
+                                        <a href="{{ route('lob.profit-loss') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <div data-i18n="P&L Report ">P&L Report </div>
+                                        </a>
+                                    </li>
+
+
+
                                 </ul>
+
+                                
                             </li>
+
+
+                     
                       
 
 
@@ -320,15 +358,16 @@
                                     <li class="menu-item {{ Route::currentRouteName() == 'booking.index' ? 'active' : '' }}">
                                         <a href="{{ route('booking.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-calendar-line"></i>
-                                            <div data-i18n="Booking">Booking</div>
+                                            <div data-i18n="Today's Bookings">Today's Bookings</div>
                                         </a>
                                     </li>
                                     <li class="menu-item {{ Route::currentRouteName() == 'booking.search' ? 'active' : '' }}">
                                         <a href="{{ route('booking.search') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-calendar-check-line"></i>
-                                            <div data-i18n="Find Booking">Find Booking</div>
+                                            <div data-i18n="Booking Search">Booking Search</div>
                                         </a>
                                     </li>
+
                                      <li class="menu-item {{ Route::currentRouteName() == 'booking.online-booking.index' ? 'active' : '' }}">
                                         <a href="{{ route('booking.online-booking.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-calendar-check-line"></i>
@@ -351,7 +390,7 @@
                             <li class="menu-item mrt-less {{ Str::startsWith(Route::currentRouteName(), 'follow-up') ? 'active' : '' }}">
                                 <a href="{{ route('follow-up.index') }}" class="menu-link">
                                     <i class="menu-icon icon-base ri ri-user-community-line"></i>
-                                    <div>Follow Up</div>
+                                    <div>Follow Ups</div>
                                 </a>
                             </li>
 

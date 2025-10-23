@@ -4,9 +4,12 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Profit & Loss Details</h2>
-        <div class="breadcrumb">
-            <a class="active" href="#">Dashboard</a>
-            <a class="active" aria-current="page">Profit & Loss</a>
+        <div class="d-flex align-items-center gap-3">
+            
+            <div class="breadcrumb">
+                <a class="active" href="#">Dashboard</a>
+                <a class="active" aria-current="page">Profit & Loss</a>
+            </div>
         </div>
     </div>
     
@@ -40,10 +43,23 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="add-follow-btn export-btn">
+                        <div class="add-follow-btn export-btn d-flex gap-2">
                             <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export To Excel" href="{{ route('lob.profit-loss.export', request()->query()) }}" class="btn btn-success px-4 py-3 gap-1 w-auto button-style">
                                 <i class="ri ri-file-excel-2-line fs-5"></i>
                             </a>
+                            <select class="form-select input-style w140" onchange="if(this.value) window.location.href=this.value">
+                                <option value="">Analytics</option>
+                                <option value="{{ url('/lob/booking-reports') }}">Booking Reports</option>
+                                <option value="{{ route('reports.campaign-calls') }}">Campaign Calls</option>
+                                <option value="{{ url('/lob/campaigns') }}">Campaigns Report</option>
+                                <option value="{{ route('reports.company') }}">Company Reports</option>
+                                <option value="{{ url('/lob/dashboard') }}">Dashboard</option>
+                                <option value="{{ route('score.details') }}">My Score</option>
+                                <option value="{{ url('/lob/products') }}">Product Performance</option>
+                                <option value="{{ route('reports.revenue') }}">Revenue Report</option>
+                                <option value="{{ route('reports.team') }}">Team Reports</option>
+                                <option value="{{ route('reports.unit') }}">Unit Reports</option>
+                            </select>
                         </div>
                     </div>
                 </form>
