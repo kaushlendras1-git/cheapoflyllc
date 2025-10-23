@@ -33,12 +33,30 @@
                 <div class="card p-4 mb-4">
                     <div class="row align-items-end justify-content-between w-100 booking-form gen_form">
 
-                        <!-- Left Input Field -->
-                        <div class="col-md-4">
+                        <!-- Name Field -->
+                        <div class="col-md-3">
                             <div class="position-relative">
                                 <label class="form-label mb-1">Name</label>
                                 <input type="text" name="name" class="form-control input-style w-100"
                                     placeholder="Enter name" value="{{ old('name', $lob->name ?? '') }}" required>
+                            </div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="col-md-3">
+                            <div class="position-relative">
+                                <label class="form-label mb-1">Email</label>
+                                <input type="email" name="email" class="form-control input-style w-100"
+                                    placeholder="Enter email" value="{{ old('email', $lob->email ?? '') }}" required>
+                            </div>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="col-md-3">
+                            <div class="position-relative">
+                                <label class="form-label mb-1">Password</label>
+                                <input type="password" name="password" class="form-control input-style w-100"
+                                    placeholder="{{ isset($lob) ? 'Leave blank to keep current' : 'Enter password' }}" {{ !isset($lob) ? 'required' : '' }}>
                             </div>
                         </div>
 

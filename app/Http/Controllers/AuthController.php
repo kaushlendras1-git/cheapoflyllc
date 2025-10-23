@@ -14,6 +14,24 @@ class AuthController extends Controller
     // Show login form
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            if ($user->is_lob === 1) {
+                return redirect('/lob/dashboard');
+            }
+            
+            if ($user->department_id === 1) {
+                return redirect('/admin/dashboard');
+            }
+            
+            if ($user->department_id === 2 && $user->role_id === 2) {
+                return redirect('/admin/teamleader-dashboard');
+            }
+            
+            return redirect('/dashboard');
+        }
+        
         return view('web.login');
     }
 
@@ -67,7 +85,14 @@ class AuthController extends Controller
                 $user->server_network = $serverDetails;
                 $user->save();
 
-               
+
+               if($user->is_lob === 1){
+                    if ($request->expectsJson()) {
+                        return response()->json(['success' => true, 'redirect' => '/lob/dashboard']);
+                    }
+                    return redirect('/lob/dashboard');
+                }
+
 
                 // Check department for redirection
                 if($user->department_id === 1){

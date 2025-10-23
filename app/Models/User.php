@@ -30,6 +30,7 @@ class User extends Authenticatable
         'department_id',
         'team_leader',
         'status',
+        'is_lob',
         'remember_token',
         'profile_picture',
         'pan_card',

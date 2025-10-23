@@ -23,9 +23,23 @@ class LOBController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:lobs,email|unique:users,email',
+            'password' => 'required|string|min:6',
         ]);
 
-        LOB::create($validated);
+        $validated['password'] = bcrypt($validated['password']);
+        $lob = LOB::create($validated);
+
+        // Create corresponding user record
+        \App\Models\User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'lob' => $lob->id,
+            'role_id' => 0,
+            'status' => 1,
+            'is_lob' => 1,
+        ]);
 
         return redirect()->route('lobs.index')->with('success', 'LOB created successfully.');
     }
@@ -44,15 +58,46 @@ class LOBController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:lobs,email,' . $lob->id . '|unique:users,email,' . optional($lob->user)->id,
+            'password' => 'nullable|string|min:6',
         ]);
 
-        $lob->update($validated);
+        $updateData = [
+            'name' => $validated['name'],
+            'email' => $validated['email']
+        ];
+
+        if (!empty($validated['password'])) {
+            $updateData['password'] = bcrypt($validated['password']);
+        }
+
+        $lob->update($updateData);
+
+        // Update corresponding user record
+        $user = \App\Models\User::where('lob', $lob->id)->first();
+        if ($user) {
+            $user->update($updateData);
+        } else {
+            // Create user if doesn't exist
+            \App\Models\User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => $updateData['password'] ?? bcrypt('password123'),
+                'lob' => $lob->id,
+                'role_id' => 0,
+                'status' => 1,
+                'is_lob' => 1,
+            ]);
+        }
 
         return redirect()->route('lobs.index')->with('success', 'LOB updated successfully.');
     }
 
     public function destroy(LOB $lob)
     {
+        // Delete corresponding user record
+        \App\Models\User::where('lob', $lob->id)->delete();
+        
         $lob->delete();
 
         return redirect()->route('lobs.index')->with('success', 'LOB deleted successfully.');

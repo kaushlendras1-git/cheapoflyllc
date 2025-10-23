@@ -151,6 +151,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/user-performance', [AdminDashboardController::class, 'userPerformance'])->name('admin.user-performance');
     Route::get('/admin/revenue-data', [AdminDashboardController::class, 'revenueData'])->name('admin.revenue-data');
     Route::get('/admin/queue-status', [AdminDashboardController::class, 'queueStatus'])->name('admin.queue-status');
+    Route::get('/lob/dashboard', [\App\Http\Controllers\LOBDashboardController::class, 'index'])->name('lob.dashboard');
+    Route::get('/lob/profit-loss', [\App\Http\Controllers\LOBDashboardController::class, 'profitLoss'])->name('lob.profit-loss');
+    Route::get('/lob/booking-reports', [\App\Http\Controllers\LOBDashboardController::class, 'bookingReports'])->name('lob.booking-reports');
+    Route::get('/lob/campaigns', [\App\Http\Controllers\LOBDashboardController::class, 'campaigns'])->name('lob.campaigns');
+    Route::get('/lob/products', [\App\Http\Controllers\LOBDashboardController::class, 'products'])->name('lob.products');
+    
+    Route::get('/lob/profit-loss/export', [\App\Http\Controllers\LOBDashboardController::class, 'exportProfitLoss'])->name('lob.profit-loss.export');
+    Route::get('/lob/booking-reports/export', [\App\Http\Controllers\LOBDashboardController::class, 'exportBookingReports'])->name('lob.booking-reports.export');
+    Route::get('/lob/campaigns/export', [\App\Http\Controllers\LOBDashboardController::class, 'exportCampaigns'])->name('lob.campaigns.export');
+    Route::get('/lob/products/export', [\App\Http\Controllers\LOBDashboardController::class, 'exportProducts'])->name('lob.products.export');
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/admin/teamleader-dashboard', [TeamLeaderDashboardController::class, 'index'])->name('admin.teamleader-dashboard');
     Route::get('/score-details', [UserDashboardController::class, 'scoreDetails'])->name('score.details');

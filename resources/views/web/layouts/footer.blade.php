@@ -18,8 +18,8 @@
   .crm-footer {
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
     color: #fff;
-    padding: 1.2rem 0;
-    margin-top: 2rem;
+    padding: .2rem 0;
+    margin-top: .8rem;
     text-align: center;
     position: relative;
     z-index: 10;
@@ -33,7 +33,7 @@
   }
 
   .crm-footer .footer-text {
-    font-size: 0.95rem;
+    font-size: 0.7rem;
     letter-spacing: 0.3px;
     font-weight: 500;
     color: #e5e9f2;
@@ -106,14 +106,14 @@
 </script>
 
 
-<script>
+<!--script>
   (function () {
     var rcs = document.createElement("script");
     rcs.src = "https://apps.ringcentral.com/integration/ringcentral-embeddable/latest/adapter.js";
     var rcs0 = document.getElementsByTagName("script")[0];
     rcs0.parentNode.insertBefore(rcs, rcs0);
   })();
-</script>
+</script-->
 
 
 </body>

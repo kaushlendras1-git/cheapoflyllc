@@ -12,7 +12,7 @@ class LOB extends Model
     // Set the correct table name to prevent pluralization error
     protected $table = 'lobs';
 
-    protected $fillable = ['name', 'reference', 'user_id'];
+    protected $fillable = ['name', 'reference', 'user_id', 'email', 'password'];
 
     public function user()
     {

@@ -212,7 +212,7 @@ class RingCentralController extends Controller
         
         return redirect($authUrl);
     }
-    
+
     
     public function callback(Request $request)
     {
@@ -247,6 +247,7 @@ class RingCentralController extends Controller
         
         return response()->json(['error' => 'Failed to exchange code for token'], 400);
     }
+    
     
     private function getAccessToken()
     {
