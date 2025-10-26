@@ -275,7 +275,7 @@
                                             <i class="menu-icon icon-base ri ri-star-line ri-2x"></i>
                                             <div data-i18n="Team Score">Team Score</div>
                                         </a>
-                                    </li> -->
+                                    </li>
                                     
                                     <li class="menu-item {{ Route::currentRouteName() == 'reports.campaign-calls' ? 'active' : '' }}">
                                         <a href="{{ route('reports.campaign-calls') }}" class="menu-link">
@@ -294,32 +294,26 @@
                                             <i class="menu-icon icon-base ri ri-team-line"></i>
                                             <div data-i18n="Team Reports">Team Reports</div>
                                         </a>
-                                    </li>
+                                    </li-->
+                                  
+                                    
+
                                     <li class="menu-item {{ Route::currentRouteName() == 'reports.unit' ? 'active' : '' }}">
                                         <a href="{{ route('reports.unit') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-building-line"></i>
                                             <div data-i18n="Unit Reports">Unit Reports</div>
                                         </a>
                                     </li>
-                                    <li class="menu-item {{ Route::currentRouteName() == 'reports.company' ? 'active' : '' }}">
-                                        <a href="" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
-                                            <div data-i18n="Company Reports">Company Reports</div>
-                                        </a>
-                                    </li>
-
-
-
-
+                                  
                                      <li class="menu-item {{ Route::currentRouteName() == 'lob.products' ? 'active' : '' }}">
                                         <a href="{{ route('lob.products') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <i class="menu-icon icon-base ri ri-team-line"></i>
                                             <div data-i18n="Product Performance">Product Performance</div>
                                         </a>
                                     </li>
                                      <li class="menu-item {{ Route::currentRouteName() == 'lob.campaigns' ? 'active' : '' }}">
                                         <a href="{{ route('lob.campaigns') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <i class="menu-icon icon-base ri ri-phone-line"></i>
                                             <div data-i18n="Campaigns Reports">Campaigns Reports</div>
                                         </a>
                                     </li>
@@ -329,9 +323,9 @@
                                             <div data-i18n="Company Reports">Booking Reports</div>
                                         </a>
                                     </li>
-                                     <li class="menu-item {{ Route::currentRouteName() == 'lob.profit-loss' ? 'active' : '' }}">
+                                      <li class="menu-item {{ Route::currentRouteName() == 'lob.profit-loss' ? 'active' : '' }}">
                                         <a href="{{ route('lob.profit-loss') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-building-4-line"></i>
+                                            <i class="menu-icon icon-base ri ri-money-dollar-circle-line"></i>
                                             <div data-i18n="P&L Report ">P&L Report </div>
                                         </a>
                                     </li>
@@ -512,7 +506,7 @@
                                 <div class="header-dropdown">
                                     @php
                                         $name = Auth::check() ? Auth::user()->name : '';
-                                        $initials = collect(explode(' ', $name))->map(fn($word) => strtoupper(substr($word, 0, 2)))->join('');
+                                        $initials = collect(explode(',', $name))->map(fn($word) => strtoupper(substr($word, 0, 2)))->join('');
                                     @endphp
 
                                     <a class="user-dropdown d-flex align-items-center" href="javascript:void(0);">

@@ -11,43 +11,34 @@
         </div>
     </div>
 
-    <!-- Filters & Data -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Booking Details</h5>
-                </div>
+    <div class="row gy-6">
+        <div class="col-md-12">
+            <div class="card p-4">
+
                 
-                <!-- Filters -->
-                <div class="card-body border-bottom">
-                    <form method="GET" class="row g-3">
-                        <div class="col-md-2">
-                            <div class="form-floating">
-                                <select name="period" class="form-select" id="period">
+                <form method="GET">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="marketing-upper-form mb-5 d-flex booking-form gen_form flex-wrap">
+                            <div class="me-4 position-relative">
+                                <label class="form-label mb-1">Period</label>
+                                <select name="period" class="form-select input-style w140">
                                     <option value="">All Time</option>
                                     <option value="today" {{ request('period') == 'today' ? 'selected' : '' }}>Today</option>
                                     <option value="weekly" {{ request('period') == 'weekly' ? 'selected' : '' }}>This Week</option>
                                     <option value="monthly" {{ request('period') == 'monthly' ? 'selected' : '' }}>This Month</option>
                                 </select>
-                                <label for="period">Period</label>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-floating">
-                                <input type="date" name="date_from" class="form-control" id="date_from" value="{{ request('date_from') }}">
-                                <label for="date_from">Date From</label>
+                            <div class="me-4 position-relative">
+                                <label class="form-label mb-1">Date From</label>
+                                <input type="date" name="date_from" class="form-control input-style" value="{{ request('date_from') }}">
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-floating">
-                                <input type="date" name="date_to" class="form-control" id="date_to" value="{{ request('date_to') }}">
-                                <label for="date_to">Date To</label>
+                            <div class="me-4 position-relative">
+                                <label class="form-label mb-1">Date To</label>
+                                <input type="date" name="date_to" class="form-control input-style" value="{{ request('date_to') }}">
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-floating">
-                                <select name="booking_type" class="form-select" id="booking_type">
+                            <div class="me-4 position-relative">
+                                <label class="form-label mb-1">Booking Type</label>
+                                <select name="booking_type" class="form-select input-style w140">
                                     <option value="">All Types</option>
                                     <option value="Flight" {{ request('booking_type') == 'Flight' ? 'selected' : '' }}>Flight</option>
                                     <option value="Hotel" {{ request('booking_type') == 'Hotel' ? 'selected' : '' }}>Hotel</option>
@@ -55,41 +46,39 @@
                                     <option value="Car" {{ request('booking_type') == 'Car' ? 'selected' : '' }}>Car</option>
                                     <option value="Train" {{ request('booking_type') == 'Train' ? 'selected' : '' }}>Train</option>
                                 </select>
-                                <label for="booking_type">Booking Type</label>
+                            </div>
+                            <div class="">
+                                <button type="submit" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 button-style m-auto">
+                                    <i class="ri ri-search-line fs-5"></i> Search
+                                </button>
                             </div>
                         </div>
-                        <div class="col-md-4 d-flex align-items-end gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="ri-search-line me-1"></i>Filter
-                            </button>
-                            <a href="{{ route('score.details') }}" class="btn btn-label-secondary">
-                                <i class="ri-refresh-line me-1"></i>Reset
+                        <div class="add-follow-btn export-btn">
+                            <a href="{{ route('score.details') }}" class="btn btn-success px-4 py-3 gap-1 w-auto button-style">
+                                <i class="ri ri-refresh-line fs-5"></i>
                             </a>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
 
-                <!-- Bookings Table -->
-                <div class="card-body">
+
                     @if($bookings->count() > 0)
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-light">
+                        <div class="booking-table-wrapper py-2 crm-table">
+                            <table class="table table-hover table-sm booking-table w-100 mb-0">
+                                <thead class="bg-dark text-white sticky-top">
                                     <tr>
                                         <th>ID</th> 
                                         <th>PNR</th>
                                         <th>Customer</th>
                                         <th>Booking Type</th>
-                                      
                                         <th>Status</th>
                                         <th>Booking Date</th>   
-                                         <th>Booking Status</th>  
-                                         <th>Payment Status</th>  
-                                         <th>Net Value</th>
-                                         <th>Gross MCO</th>  
-                                         <th>Quality Score</th>  
-                                         <th>Email Status</th>  
-                                        
+                                        <th>Booking Status</th>  
+                                        <th>Payment Status</th>  
+                                        <th>Net Value</th>
+                                        <th>Gross MCO</th>  
+                                        <th>Quality Score</th>  
+                                        <th>Email Status</th>  
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -189,9 +178,25 @@
                             <p class="text-muted mb-0">No bookings match your current filters for the selected period.</p>
                         </div>
                     @endif
-                </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.table th {
+    background-color: #343a40 !important;
+    color: white !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+.table td {
+    font-size: 0.8rem;
+    vertical-align: middle;
+}
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+</style>
+
 @endsection

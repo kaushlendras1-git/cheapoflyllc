@@ -19,5 +19,10 @@ class Team extends Model
     {
         return $this->belongsTo(LOB::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'team');
+    }
     
 }

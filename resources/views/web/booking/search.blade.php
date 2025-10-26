@@ -20,7 +20,7 @@
                             <div Class="position-relative"> 
                                 <label class="form-label mb-1">Keyword</label>
                                 <input type="text" name="keyword" class="form-control input-style" value="{{ request('keyword') }}"
-                                    placeholder="e.g. PNR / name / email">
+                                    placeholder="e.g. PNR / name / email / Phone">
 
                             </div>
                         </div>

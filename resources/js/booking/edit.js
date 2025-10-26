@@ -283,16 +283,37 @@ document.getElementById('bookingForm').addEventListener('submit', async function
         if (netTotalSpan) netTotal += parseFloat(netTotalSpan.textContent || 0);
     });
 
-    // Get MCO values from specific span elements
-    const grossMcoSpan = document.getElementById('total_gross_value');
-    const netMcoSpan = document.getElementById('total_netprofit_value');
-    const grossMco = grossMcoSpan ? parseFloat(grossMcoSpan.textContent || 0) : 0;
-    const netMco = netMcoSpan ? parseFloat(netMcoSpan.textContent || 0) : 0;
+    // Get MCO values from elements
+    const grossMcoInput = document.getElementById('gross_mco');
+    const netMcoInput = document.getElementById('net_mco');
+    const merchantFeeSpan = document.getElementById('merchant_fee_text1');
+
+    console.log('MCO Elements:', {
+        grossMcoInput: grossMcoInput,
+        netMcoInput: netMcoInput,
+        merchantFeeSpan: merchantFeeSpan,
+        grossValue: grossMcoInput?.value,
+        netValue: netMcoInput?.value,
+        merchantValue: merchantFeeSpan?.textContent
+    });
 
     formdata.set('gross_value', grossTotal.toFixed(2));
     formdata.set('net_value', netTotal.toFixed(2));
-    formdata.set('net_mco', netMco.toFixed(2));
-    formdata.set('gross_mco', grossMco.toFixed(2));
+    
+    // Manually append MCO fields
+    if (grossMcoInput && grossMcoInput.value) {
+        formdata.append('gross_mco', grossMcoInput.value);
+        console.log('Added gross_mco:', grossMcoInput.value);
+    }
+    if (netMcoInput && netMcoInput.value) {
+        formdata.append('net_mco', netMcoInput.value);
+        console.log('Added net_mco:', netMcoInput.value);
+    }
+    if (merchantFeeSpan && merchantFeeSpan.textContent.trim()) {
+        formdata.append('merchant_fee', merchantFeeSpan.textContent.trim());
+        console.log('Added merchant_fee:', merchantFeeSpan.textContent.trim());
+    }
+    
 
     const keysToDelete = [];
     const flightpattern = /^flight\[\d+\]/;
@@ -301,8 +322,8 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     const carpattern = /^car\[\d+\]/;
     const trainpattern = /^train\[\d+\]/;
     for (let key of formdata.keys()) {
-        // Skip deletion of gross_value and net_value
-        if (key === 'gross_value' || key === 'net_value') {
+        // Skip deletion of important fields
+        if (key === 'gross_value' || key === 'net_value' || key === 'gross_mco' || key === 'net_mco' || key === 'merchant_fee') {
             continue;
         }
         if (flightpattern.test(key)) {

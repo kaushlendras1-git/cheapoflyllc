@@ -769,5 +769,7 @@
             clearInterval(requestsInterval);
         }
     });
+
+
 </script>
 @endsection

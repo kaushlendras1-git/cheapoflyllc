@@ -76,7 +76,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($today_score, 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $today_bookings }}</div>
@@ -151,7 +151,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($week_score, 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $week_bookings }}</div>
@@ -225,7 +225,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($fortnight_score, 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $fortnight_bookings }}</div>
@@ -301,7 +301,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($total_score, 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $total_bookings }}</div>
@@ -377,7 +377,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($flight_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $flight_metrics['bookings'] }}</div>
@@ -453,7 +453,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($hotel_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $hotel_metrics['bookings'] }}</div>
@@ -528,7 +528,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($cruise_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $cruise_metrics['bookings'] }}</div>
@@ -603,7 +603,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($car_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $car_metrics['bookings'] }}</div>
@@ -678,7 +678,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($train_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $train_metrics['bookings'] }}</div>
@@ -755,7 +755,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($package_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $package_metrics['bookings'] }}</div>
@@ -831,7 +831,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($refund_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $refund_metrics['bookings'] }}</div>
@@ -911,7 +911,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($declined_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $declined_metrics['bookings'] }}</div>
@@ -990,7 +990,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($quality_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $quality_metrics['bookings'] }}</div>
@@ -1069,7 +1069,7 @@
                 <div class="stats-grid-compact">
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">${{ number_format($chargeback_metrics['score'], 2) }}</div>
-                        <div class="stat-label-compact">Total Score</div>
+                        <div class="stat-label-compact">Net Score</div>
                     </div>
                     <div class="stat-item-compact">
                         <div class="stat-value-compact">{{ $chargeback_metrics['bookings'] }}</div>
@@ -1177,7 +1177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         data: {
             labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             datasets: [{
-                    label: 'Total Score ($)',
+                    label: 'Net Score ($)',
                     data: [@foreach($weeklyData as $day){{ $day['score'] }},@endforeach],
                     borderColor: '#1C316D',
                     backgroundColor: 'rgba(28, 49, 109, 0.1)',
@@ -1329,6 +1329,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+
 });
 </script>
 

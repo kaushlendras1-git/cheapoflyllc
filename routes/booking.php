@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [BookingFormController::class, 'show'])->name('show');
         Route::patch('/update/{id}', [BookingFormController::class, 'update'])->name('update');
         Route::post('save-billing-field/{id}',[BookingFormController::class,'saveBillingField'])->name('newField');
+        Route::post('/update-payment-status', [BookingFormController::class, 'updatePaymentStatus'])->name('update-payment-status');
 
         Route::prefix('auth-email')->name('auth-email.')->group(function () {
             Route::post('index/{id}', [\App\Http\Controllers\Auth\AuthEmailController::class, 'index'])->name('sendmail');

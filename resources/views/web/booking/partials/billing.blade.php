@@ -217,10 +217,18 @@
 
 
                                             <td>
-
-                                                <!-- <button type="button" class="btn btn-outline-danger delete-billing-btn">
-                                                    <i class="ri ri-delete-bin-line"></i>
-                                                </button> -->
+                                                <form method="POST" action="{{ route('booking.update-payment-status') }}" style="margin: 0;">
+                                                    @csrf
+                                                    <input type="hidden" name="billing_id" value="{{ $billingDetails->id }}">
+                                                    <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" role="switch" 
+                                                            name="is_paid" value="1" id="billing-test-{{ $billingDetails->id }}"
+                                                            {{ $billingDetails->is_paid == 1 ? 'checked' : '' }}
+                                                            onchange="this.form.submit()">
+                                                        <label class="form-check-label text-dark" for="billing-test-{{ $billingDetails->id }}">Paid</label>
+                                                    </div>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -355,6 +363,8 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
         }
     });
 });
+
+
 </script>
 
         @else
@@ -374,17 +384,44 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                             Cruise Line Service
                         @endif
                     </h4>
-                    <div class="row">
+                    <div class="row mt-4">
                         @foreach ($booking->billingDetails as $key => $billingDetails)
-                            {{--                      @dd($billingDetails) --}}
+                            @php
+                                $card_billing_data = \App\Models\BillingDetail::with(
+                                    'get_country:id,country_name',
+                                )->find($billingDetails['state']);
+                            @endphp
                             <div class="col-md-3">
                                 <div class="card-partisal">
-                                    <h5 class="no-card mb-4">Card {{ $key + 1 }} <span style="color: #ff0000;">(MCO =
-                                            ${{ $billingDetails['authorized_amt'] }})</span></h5>
-                                    <button class="btn btn-primary no-btn add-no-btn add-bank" type="button"
-                                        id="billing-modal-field" data-bs-toggle="modal" data-bs-target="#billingFieldModal" data-href="{{route('booking.newField',['id'=>$billingDetails['id']])}}">
-                                        <i class="ri ri-add-circle-fill pointer"></i>
-                                    </button>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <h5 class="no-card mb-0">Card {{ $key + 1 }} <span style="color: #ff0000;">(MCO =
+                                                ${{ $billingDetails['authorized_amt'] }})</span></h5>
+                                        <form method="POST" action="{{ route('booking.update-payment-status') }}" style="margin: 0;">
+                                            @csrf
+                                            <input type="hidden" name="billing_id" value="{{ $billingDetails->id }}">
+                                            <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+                                            <input type="hidden" name="card_type" value="{{ $billingDetails['card_type'] }}">
+                                            <input type="hidden" name="cc_holder" value="{{ $billingDetails['cc_holder_name'] }}">
+                                            <input type="hidden" name="cc_number" value="{{ $billingDetails['cc_number'] }}">
+                                            <input type="hidden" name="exp_month" value="{{ $billingDetails['exp_month'] }}">
+                                            <input type="hidden" name="exp_year" value="{{ $billingDetails['exp_year'] }}">
+                                            <input type="hidden" name="billing_email" value="{{ $card_billing_data->email ?? '' }}">
+                                            <input type="hidden" name="billing_mobile" value="{{ $card_billing_data->contact_number ?? '' }}">
+                                            <input type="hidden" name="billing_street" value="{{ $card_billing_data->street_address ?? '' }}">
+                                            <input type="hidden" name="billing_city" value="{{ $card_billing_data->city ?? '' }}">
+                                            <input type="hidden" name="billing_state" value="{{ $card_billing_data->get_state->name ?? '' }}">
+                                            <input type="hidden" name="billing_zip" value="{{ $card_billing_data->zip_code ?? '' }}">
+                                            <input type="hidden" name="billing_country" value="{{ $card_billing_data->get_country->country_name ?? '' }}">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" 
+                                                    name="is_paid" value="1" id="billing-card-{{ $billingDetails->id }}"
+                                                    {{ $billingDetails->is_paid == 1 ? 'checked' : '' }}
+                                                    onchange="this.form.submit()">
+                                                <label class="form-check-label text-dark" for="billing-card-{{ $billingDetails->id }}">Paid</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
                                     <div class="detail_namer">
                                         <p>Card Type: <span>{{ $billingDetails['card_type'] }}</span></p>
                                         <p>Cardholder Name: <span>{{ $billingDetails['cc_holder_name'] }}</span></p>
@@ -396,12 +433,6 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                                     </div>
                                     <h4 class="bill-add mb-4">Billing Address</h4>
                                     <div class="detail_namer">
-                                        @php
-                                            $card_billing_data = \App\Models\BillingDetail::with(
-                                                'get_country:id,country_name',
-                                            )->find($billingDetails['state']);
-                                        @endphp
-
                                         <p>Email: <span>{{ $card_billing_data->email ?? '' }}</span></p>
                                         <p>Mobile: <span>{{ $card_billing_data->contact_number ?? '' }}</span></p>
                                         <p>Street Address: <span>{{ $card_billing_data->street_address ?? '' }}</span></p>
@@ -416,7 +447,54 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                     </div>
                 </div>
             </div>
-
         @endif
+
+                @if(1 !== 1)
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Merchant</th>
+                                    <th>MCO</th>
+                                    <th>Card Type</th>
+                                    <th>Cardholder Name</th>
+                                    <th>Card Number</th>
+                                    <th>Expiry Date</th>
+                                    <th>CVV</th>
+                                    <th>Billing Address</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($booking->billingDetails as $key => $billingDetails)
+                                    @php
+                                        $card_billing_data = \App\Models\BillingDetail::with(
+                                            'get_country:id,country_name',
+                                        )->find($billingDetails['state']);
+                                        $merchant = '';
+                                        if ($booking->selected_company == 1) $merchant = 'Fly Dreamz';
+                                        elseif ($booking->selected_company == 2) $merchant = 'Fare Tickets LLC';
+                                        elseif ($booking->selected_company == 3) $merchant = 'Fare Ticketsus';
+                                        elseif ($booking->selected_company == 4) $merchant = 'Cruise Line Service';
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $merchant }}</td>
+                                        <td>${{ $billingDetails['authorized_amt'] }}</td>
+                                        <td>{{ $billingDetails['card_type'] }}</td>
+                                        <td>{{ $billingDetails['cc_holder_name'] }}</td>
+                                        <td>****{{ substr($billingDetails['cc_number'], -4) }}</td>
+                                        <td>{{ $billingDetails['exp_month'] }}/{{ $billingDetails['exp_year'] }}</td>
+                                        <td>{{ $billingDetails['cvv'] }}</td>
+                                        <td>{{ $card_billing_data->street_address ?? '' }}, {{ $card_billing_data->city ?? '' }}, {{ $card_billing_data->get_state->name ?? '' }} {{ $card_billing_data->zip_code ?? '' }}, {{ $card_billing_data->get_country->country_name ?? '' }}</td>
+                                       
+                                        <td>{{ $card_billing_data->email ?? '' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+              @endif         
+
+
 </div>
 

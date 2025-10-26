@@ -5,15 +5,9 @@
     <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
         <h2 class="mb-0">Campaign Performance</h2>
         <div class="d-flex align-items-center gap-3">
-            <select class="form-select input-style w140" onchange="if(this.value) window.location.href=this.value">
-                <option value="">Analytics Reports</option>
-                <option value="{{ url('/lob/dashboard') }}">Dashboard</option>
-                <option value="{{ url('/lob/booking-reports') }}">Booking Reports</option>
-                <option value="{{ url('/lob/profit-loss') }}">P&L Report</option>
-                <option value="{{ url('/lob/products') }}">Product Performance</option>
-            </select>
             <div class="breadcrumb">
                 <a class="active" href="#">Dashboard</a>
+                 <a class="active" href="#">Analytics</a>
                 <a class="active" aria-current="page">Campaign Performance</a>
             </div>
         </div>
@@ -24,7 +18,35 @@
             <div class="card p-4">
                 <form method="GET">
                     <div class="d-flex align-items-center justify-content-between">
-                        <div class="marketing-upper-form mb-5 d-flex booking-form gen_form">
+                        <div class="marketing-upper-form mb-5 d-flex booking-form gen_form flex-wrap">
+                            
+                            <div class="me-4 position-relative">
+                                <label class="form-label mb-1">LOB</label>
+                                <select name="lob" class="form-select input-style w140">
+                                    <option value="">All LOBs</option>
+                                    @foreach(\App\Models\Department::all() as $dept)
+                                        <option value="{{ $dept->id }}" {{ request('lob') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="me-4 position-relative">
+                                <label class="form-label mb-1">Team (Unit)</label>
+                                <select name="team" class="form-select input-style w140">
+                                    <option value="">All Teams</option>
+                                    @foreach(\App\Models\Team::all() as $team)
+                                        <option value="{{ $team->id }}" {{ request('team') == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="me-4 position-relative">
+                                <label class="form-label mb-1">Team Leader</label>
+                                <select name="team_leader" class="form-select input-style w140">
+                                    <option value="">All Leaders</option>
+                                    @foreach(\App\Models\User::where('role_id', 2)->where('department_id', 2)->get() as $leader)
+                                        <option value="{{ $leader->id }}" {{ request('team_leader') == $leader->id ? 'selected' : '' }}>{{ $leader->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="me-4 position-relative">
                                 <label class="form-label mb-1">Campaign Name</label>
                                 <select name="campaign_name" class="form-select input-style w140">
@@ -34,6 +56,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            
                             <div class="me-4 position-relative">
                                 <label class="form-label mb-1">Start Date</label>
                                 <input type="date" name="start_date" class="form-control input-style" value="{{ request('start_date') }}">

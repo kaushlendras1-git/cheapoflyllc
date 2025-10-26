@@ -71,10 +71,7 @@
                         <tbody>
                             <!-- Example Row -->
                             @foreach ($bookings as $booking)
-                            <tr  @if($booking->booking_status_id == 16) style="background-color: #c8dfc8 !important;"
-                                 @endif
-                                >
-
+                            <tr>
                                 <td>
                                     <a title="{{ $booking->id }}" href="{{ route('booking.show', ['id' => encode($booking->id)]) }}">
                                         {{ ($bookings->currentPage() - 1) * $bookings->perPage() + $loop->iteration }}
@@ -118,11 +115,9 @@
                                 <!-- Booking Status -->
                                 <td>
                                     @if($booking->bookingStatus)
-                                    <span class="badge" style="background-color: {{ $booking->bookingStatus->color }}">
+                                    <span class="badge bg-secondary">
                                         {{ $booking->bookingStatus->name }}
                                     </span>
-                                    @else
-                                    <span class="badge bg-secondary">N/A</span>
                                     @endif
                                 </td>
 

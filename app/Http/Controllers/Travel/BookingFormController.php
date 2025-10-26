@@ -309,10 +309,12 @@ class BookingFormController extends Controller
 
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;
-            $query->where(function ($q) use ($keyword) {
+            $phoneKeyword = preg_replace('/\D/', '', $keyword);
+            $query->where(function ($q) use ($keyword, $phoneKeyword) {
                 $q->where('pnr', 'like', "%{$keyword}%")
                 ->orWhere('name', 'like', "%{$keyword}%")
-                ->orWhere('email', 'like', "%{$keyword}%");
+                ->orWhere('email', 'like', "%{$keyword}%")
+                ->orWhere('phone', 'like', "%{$phoneKeyword}%");
             });
             $hasFilter = true;
         }
@@ -492,7 +494,7 @@ class BookingFormController extends Controller
 
     public function update(Request $request, $id)
     {
-        # dd($request->all());
+         #dd($request->all());
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }
@@ -563,7 +565,7 @@ class BookingFormController extends Controller
                             $rules['flight'] = 'required_without:flightbookingimage|array|min:1';
                         }
 
-                       # $rules['pnrtype']                   = 'required';
+                        $rules['pnrtype']                   = 'required';
                         $rules['airlinepnr']                   = 'required';
 
                         $rules['flight.*.direction']         = 'required_with:flight|string|in:Inbound,Outbound';
@@ -2156,6 +2158,62 @@ class BookingFormController extends Controller
                 return response()->json(['success' => true]);
             } catch (\Exception $e) {
                 return response()->json(['success' => false], 500);
+            }
+        }
+
+        public function updatePaymentStatus(Request $request)
+        {
+            try {
+                $billingId = $request->billing_id;
+                $bookingId = $request->booking_id;
+                $isPaid = $request->has('is_paid') ? 1 : 0;
+                
+                // Update the billing detail
+                $billingDetail = TravelBillingDetail::find($billingId);
+                if (!$billingDetail) {
+                    return back()->with('error', 'Billing detail not found');
+                }
+                
+                $billingDetail->is_paid = $isPaid;
+                $billingDetail->save();
+                
+                // Create remark if payment is marked as paid
+                if ($isPaid == 1) {
+                    $booking = TravelBooking::find($bookingId);
+
+                    if ($booking) {
+                        $booking->booking_status_id = 16;
+                        $booking->save();
+                    }
+
+                    if ($booking) {
+                        $paymentDate = now()->format('m/d/Y');
+                        $cardNumber = $request->cc_number ?? '';
+                        $maskedCard = strlen($cardNumber) > 4 ? 'xxxx-xxxx-xxxx-' . substr($cardNumber, -4) : $cardNumber;
+                        
+                        $remarkText = "Payment Date: {$paymentDate}\n";
+                        $remarkText .= "Card Type: {$request->card_type}\n";
+                        $remarkText .= "Card Holder: {$request->cc_holder}\n";
+                        $remarkText .= "Card Number: {$maskedCard}\n";
+                        $remarkText .= "Exp: {$request->exp_month}/{$request->exp_year}\n";
+                        $remarkText .= "Email: {$request->billing_email}\n";
+                        $remarkText .= "Mobile: {$request->billing_mobile}\n";
+                        $remarkText .= "Address: {$request->billing_street}, {$request->billing_city}, {$request->billing_state} {$request->billing_zip}, {$request->billing_country}";
+                        
+                        TravelBookingRemark::create([
+                            'booking_id' => $bookingId,
+                            'particulars' => $remarkText,
+                            'agent' => auth()->id(),
+                            'created_at' => now(),
+                            'updated_at' => now()
+                        ]);
+                    }
+                }
+                
+                return back()->with('success', 'Payment status updated successfully');
+                
+            } catch (\Exception $e) {
+                return back()->with('error', 'Error: ' . $e->getMessage());
             }
         }
 

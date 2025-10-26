@@ -32,7 +32,8 @@ class TravelBillingDetail extends Model
         'amount',
         'is_active',
         'authorized_amt',
-        'new_field'
+        'new_field',
+        'is_paid'
     ];
 
     protected $casts = [

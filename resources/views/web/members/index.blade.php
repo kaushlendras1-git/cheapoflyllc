@@ -56,14 +56,36 @@
                     
                      <div class="col-md-1">
                         <select id="searchTeam" name="team" class="form-select input-style">
-                            <option value="">Teams</option>
-                            @if(request('lob'))
-                                @foreach($teams ?? [] as $team)
-                                    <option value="{{ $team->id }}" {{ request('team') == $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
-                                @endforeach
-                            @endif
+                            <option value="">Unit</option>
                         </select>
                     </div>
+
+<script>
+document.getElementById('searchLob').addEventListener('change', function() {
+    const lobId = this.value;
+    const teamSelect = document.getElementById('searchTeam');
+    
+    teamSelect.innerHTML = '<option value="">Unit</option>';
+    
+    if(lobId) {
+        fetch(`/api/teams/${lobId}?role_id=3`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(users => {
+            users.forEach(user => {
+                const option = new Option(user.name, user.id);
+                teamSelect.add(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+        });
+    }
+});
+</script>
 
                     <div class="col-md-2">
                         <select id="searchTeamLeader" class="form-control input-style">
@@ -170,11 +192,11 @@
                                     </td>
                                     <td>
                                         @php
-                                            $team = $member->teamRelation;
+                                            $teamUser = $member->team ? \App\Models\User::find($member->team) : null;
                                             $teamColors = ['bg-warning text-dark', 'bg-secondary', 'bg-dark text-white', 'bg-light text-dark'];
-                                            $teamColor = $teamColors[($team->id ?? 0) % count($teamColors)];
+                                            $teamColor = $teamColors[($member->team ?? 0) % count($teamColors)];
                                         @endphp
-                                        <span class="badge {{ $teamColor }}">{{ $team->name ?? 'N/A' }}</span>
+                                        <span class="badge {{ $teamColor }}">{{ $teamUser->name ?? 'N/A' }}</span>
                                     </td>
                                     
                                   <td>
@@ -344,9 +366,8 @@
                         <label for="lob">LOB</label>
                        </div>
 
-
                        <div class="form-floating form-floating-outline mb-5">
-                            <select id="team" name="team" class="form-select" required="">
+                            <select id="team" name="team" class="form-select" >
                                 <option value="">Select Unit</option>
                             </select>
                             <label for="team">Unit</label>
@@ -358,12 +379,12 @@ document.getElementById('lob').addEventListener('change', function() {
     const teamSelect = document.getElementById('team');
     
     // Reset and disable team select initially
-    teamSelect.innerHTML = '<option value="">Select Team</option>';
+    teamSelect.innerHTML = '<option value="">Select Unit</option>';
     teamSelect.disabled = true;
     
     if(lobId) {
-        // Make API call to get teams
-        fetch(`/api/teams/${lobId}`, {
+        // Make API call to get teams with role_id = 3
+        fetch(`/api/teams/${lobId}?role_id=3`, {
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
@@ -452,6 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
                     <!-- User Role Field -->
                     <div class="form-floating form-floating-outline mb-5">
                         <select id="user-role" name="department_id" class="form-select" required="">

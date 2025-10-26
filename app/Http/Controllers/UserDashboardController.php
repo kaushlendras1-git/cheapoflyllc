@@ -61,7 +61,9 @@ class UserDashboardController extends Controller
             $gross_score = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
             $refund_sum = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('payment_status_id', [13, 16])->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
             $chargeback = DB::table('travel_bookings')->where('user_id', $userId)->where('booking_status_id', 22)->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
-            $score = $gross_score - $refund_sum - $chargeback;
+            
+            $score = $gross_score;
+
             $bookings = DB::table('travel_bookings')->where('user_id', $userId)->whereBetween('created_at', $dates)->count();
             $successful_bookings = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereBetween('created_at', $dates)->count();
             $calls = DB::table('call_logs')->where('user_id', $userId)->whereBetween('created_at', $dates)->count();
@@ -313,7 +315,7 @@ class UserDashboardController extends Controller
             ->where('booking_status_id', 22)
             ->sum('net_mco') ?? 0;
             
-        $score = $gross_score - $refund_sum - $chargeback;
+        $score = $gross_score;
             
         $bookings = DB::table('travel_bookings')
             ->whereIn('id', $bookingIds)
@@ -533,7 +535,7 @@ class UserDashboardController extends Controller
             ->whereBetween('created_at', [$monthStart, $monthEnd])
             ->sum('net_mco') ?? 0;
             
-        $score = $gross_score - $refund_sum - $chargeback;
+        $score = $gross_score;
             
         $bookings = DB::table('travel_bookings')
             ->where('user_id', $userId)

@@ -18,7 +18,7 @@
             <label class="form-label">Booking Status</label>
             <select class="form-control" name="booking_status_id" id="bookingStatusSelect">
                 @foreach($bookingStatuses as $status)
-                    <option value="{{ $status->id }}" {{ $booking->booking_status_id == $status->id ? 'selected' : '' }}>
+                    <option value="{{ $status->id }}" {{ ($booking->booking_status_id == $status->id) || (!$booking->booking_status_id && $status->id == 16) ? 'selected' : '' }}>
                         {{ $status->name }}
                     </option>
                 @endforeach
@@ -47,3 +47,4 @@
                 @endif
             </select>
         </div>
+

@@ -163,7 +163,7 @@ class MemberController extends Controller
             'role_id' => 'required|exists:roles,id',
             'department_id' => 'required|exists:departments,id',
             'lob' => 'required|exists:lobs,id',
-            'team' => 'required|exists:teams,id',
+            'team' => 'nullable|integer',
             'team_leader' => 'nullable|exists:users,id',
         ]);
         $validated['status'] = 1;
@@ -208,7 +208,7 @@ class MemberController extends Controller
             'department_id' => 'required|integer|exists:departments,id',
             'role_id' => 'required|integer|exists:roles,id',
             'lob' => 'required|integer|exists:lobs,id',
-            'team' => 'required|integer|exists:teams,id',
+            'team' => 'nullable|integer',
             'team_leader' => 'nullable|exists:users,id',
             'profile_picture' => 'nullable|image|mimes:jpeg,png|max:1048',
             'aadhar_card' => 'nullable|image|mimes:jpeg,png|max:1048',

@@ -295,7 +295,7 @@ class LOBDashboardController extends Controller
                 return $item;
             });
 
-        return view('web.lob-profit-loss', compact('profitLossData'));
+        return view('web.reports.profit-loss', compact('profitLossData'));
     }
     
     public function bookingReports(Request $request)
@@ -340,7 +340,7 @@ class LOBDashboardController extends Controller
                 return $item;
             });
 
-        return view('web.lob-booking-reports', compact('bookingReportsData'));
+        return view('web.reports.booking-reports', compact('bookingReportsData'));
     }
     
     public function campaigns(Request $request)
@@ -385,7 +385,7 @@ class LOBDashboardController extends Controller
                 return $item;
             });
 
-        return view('web.lob-campaigns', compact('campaignData', 'campaigns'));
+        return view('web.reports.campaigns', compact('campaignData', 'campaigns'));
     }
     
     public function products(Request $request)
@@ -435,7 +435,7 @@ class LOBDashboardController extends Controller
             ]);
         }
         
-        return view('web.lob-products', compact('productData'));
+        return view('web.reports.products', compact('productData'));
     }
     
     public function exportProfitLoss(Request $request)

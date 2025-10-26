@@ -181,7 +181,7 @@
                                         }
                                     }
                                 @endphp
-                                <input type="text" id="phone" name="phone" class="form-control" value="{{ $phoneValue }}" maxlength="20">
+                                <input type="text" id="phone" name="phone" class="form-control" value="{{ $phoneValue }}" maxlength="12" oninput="formatPhone(this)">
                                 <!-- <span id="country_flag" class="ms-2" style="font-size: 20px;">🇺🇸</span> -->
                             </div>
                             @error('phone')
@@ -292,6 +292,15 @@
     <!--/ Content -->
 
     <script>
+    function formatPhone(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (value.length >= 6) {
+            value = value.substring(0, 3) + ' ' + value.substring(3, 6) + ' ' + value.substring(6, 10);
+        } else if (value.length >= 3) {
+            value = value.substring(0, 3) + ' ' + value.substring(3);
+        }
+        input.value = value;
+    }
 
     document.getElementById('call_type').addEventListener('change', function() {
         const followupDateDiv = document.getElementById('followup_date');

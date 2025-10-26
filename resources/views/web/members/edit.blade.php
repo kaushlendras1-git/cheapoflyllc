@@ -257,12 +257,16 @@ function loadTeams(lobId, selectedTeamId = null) {
     teamSelect.disabled = true;
     
     if(lobId) {
-        fetch(`/api/teams/${lobId}`)
+        fetch(`/api/teams/${lobId}?role_id=3`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
             .then(response => response.json())
-            .then(teams => {
-                teams.forEach(team => {
-                    const option = new Option(team.name, team.id);
-                    if(selectedTeamId && team.id == selectedTeamId) {
+            .then(users => {
+                users.forEach(user => {
+                    const option = new Option(user.name, user.id);
+                    if(selectedTeamId && user.id == selectedTeamId) {
                         option.selected = true;
                     }
                     teamSelect.add(option);
@@ -272,7 +276,7 @@ function loadTeams(lobId, selectedTeamId = null) {
                 updateTeamLeaders();
             })
             .catch(error => {
-                console.error('Error fetching teams:', error);
+                console.error('Error fetching users:', error);
             });
     }
 }
