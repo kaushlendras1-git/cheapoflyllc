@@ -33,8 +33,19 @@
                             @foreach ($billingData as $key => $bill)
                                 <tr>
                                     <td>Billing No. {{ $key + 1 }}</td>
-                                    <td>{{ $bill->email }}</td>
-                                    <td>{{ $bill->contact_number }}</td>
+                                    <td> @if(auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) 
+                                            {{ substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1] }}
+                                        @else
+                                              {{ $bill->email }}
+                                        @endif                                      
+                                    </td>
+                                    
+                                    <td>  @if(auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) 
+                                             {{ substr($bill->contact_number, 0, 2) . '******' . substr($bill->contact_number, -2) }}
+                                        @else
+                                             {{ $bill->contact_number }}
+                                        @endif  
+                                    </td>
                                     <td>{{ $bill->street_address }}</td>
                                     <td>{{ $bill->city }}</td>
                                     <td>{{ $bill->get_state->name ?? '' }}</td>
@@ -42,11 +53,11 @@
                                     <td>{{ $bill->get_country->country_name ?? '' }}</td>
                                     <td class="text-center">
                                         <button data-href="{{ route('booking.billing-details.edit', $bill->id) }}"
-                                            class="btn btn-outline-primary editBillData me-2">
+                                            class="btn btn-outline-primary editBillData me-2"  {{ $disabled }} >
                                             <i class="ri ri-edit-line"></i>
                                         </button>
                                         <button data-href="{{ route('booking.billing-details.destroy', ['id' => $bill->id]) }}"
-                                            class="btn btn-outline-danger deleteBillData">
+                                            class="btn btn-outline-danger deleteBillData" {{ $disabled }} >
                                             <i class="ri ri-delete-bin-line"></i>
                                         </button>
                                     </td>
@@ -93,7 +104,7 @@
                                             </td>
                                             <td>
                                                 <select class="form-control w-100"
-                                                    name="billing[{{ $key }}][card_type]">
+                                                    name="billing[{{ $key }}][card_type]"  {{ $disabled }} >
                                                     <option value="">Select</option>
                                                     <option value="VISA"
                                                         {{ $billingDetails['card_type'] == 'VISA' ? 'selected' : '' }}>
@@ -117,17 +128,21 @@
                                                     name="billing[{{ $key }}][cc_number]"
                                                     value="{{ $billingDetails['cc_number'] }}"
                                                     data-original="{{ $billingDetails['cc_number'] }}"
-                                                    onfocus="showFullNumber(this)" onblur="maskNumber(this)">
+                                                    onfocus="showFullNumber(this)" onblur="maskNumber(this)"  {{ $disabled }} >
                                             </td>
 
 
                                             <td><input type="text" class="form-control w-100 cc_holder_name"
                                                     placeholder="CC Holder Name"
                                                     name="billing[{{ $key }}][cc_holder_name]"
-                                                    value="{{ $billingDetails['cc_holder_name'] }}"></td>
+                                                     value="{{ (auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) ? (strlen($billingDetails['cc_holder_name']) > 2 ? substr($billingDetails['cc_holder_name'], 0, 2) . 'xxx' : $billingDetails['cc_holder_name']) : $billingDetails['cc_holder_name'] }}"
+                                                     {{ $disabled }} 
+                                                >
+                                            </td>
+
                                             <td>
                                                 <select style="margin: auto;" class="form-control w-100"
-                                                    name="billing[{{ $key }}][exp_month]">
+                                                    name="billing[{{ $key }}][exp_month]"  {{ $disabled }} >
                                                     <option value="">MM</option>
                                                     @for ($i = 1; $i <= 12; $i++)
                                                         <option value="{{ sprintf('%02d', $i) }}"
@@ -138,12 +153,12 @@
                                             </td>
                                             <td>
                                                 <select class="form-control w-100"
-                                                    name="billing[{{ $key }}][exp_year]">
+                                                    name="billing[{{ $key }}][exp_year]"  {{ $disabled }} >
                                                     <option value="">YYYY</option>
                                                     @for ($i = 2024; $i <= 2034; $i++)
                                                         <option value="{{ $i }}"
                                                             {{ $billingDetails['exp_year'] == $i ? 'selected' : '' }}>
-                                                            {{ $i }}
+                                                            {{ (auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) ? '20xx' : $i }}
                                                         </option>
                                                     @endfor
                                                 </select>
@@ -154,7 +169,7 @@
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control w-100" placeholder="CVV"
                                                     name="billing[{{ $key }}][cvv]"
-                                                    value="{{ $billingDetails['cvv'] }}">
+                                                    value="{{ (auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) ? $billingDetails['cvv'] : $billingDetails['cvv'] }}"  {{ $disabled }} >
                                             </td>
 
 
@@ -162,7 +177,7 @@
                                             </td>
                                             <td>
                                                 <select id="state-{{ $key }}" class="form-control state-select"
-                                                    style="width:7.5rem" name="billing[{{ $key }}][state]">
+                                                    style="width:7.5rem" name="billing[{{ $key }}][state]"  {{ $disabled }} >
                                                 <option value="">Select Billing</option>
                                                 @foreach ($billingData as $biKey => $bi)
                                                     <option value="{{ $bi->id }}"
@@ -174,12 +189,12 @@
                                             <td><input style="width: 65px; !important;" type="text"
                                                     class="form-control usdAmount" placeholder=""
                                                     name="billing[{{ $key }}][authorized_amt]"
-                                                    value="{{ $billingDetails['authorized_amt'] }}">
+                                                    value="{{ $billingDetails['authorized_amt'] }}"  {{ $disabled }} >
                                             </td>
 
                                             <td>
                                                 <select class="form-control w-100 currencyField"
-                                                    name="billing[{{ $key }}][currency]">
+                                                    name="billing[{{ $key }}][currency]"  {{ $disabled }} >
                                                     <option value="">Select</option>
                                                     <option value="USD"
                                                         {{ $billingDetails['currency'] == 'USD' ? 'selected' : '' }}>USD
@@ -208,12 +223,12 @@
                                                 <span class="textAmount">{{ $billingDetails['amount'] }}</span>
                                                 <input value="{{ $billingDetails['amount'] ?? 0 }}"
                                                     name="billing[{{ $key }}][amount]" class="finalAmount"
-                                                    type="hidden" />
+                                                    type="hidden"  {{ $disabled }} />
                                             </td>
 
 
                                             <input type="hidden" name="billing[{{ $key }}][id]"
-                                                            value="{{ $billingDetails->id }}">
+                                                            value="{{ $billingDetails->id }}" >
 
 
                                             <td>

@@ -1,5 +1,10 @@
 @extends('web.layouts.main')
 @section('content')
+
+    @php
+        $disabled = (auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) ? 'disabled' : '';
+    @endphp
+
     <style>
         .no-border-important {
             border: none !important;

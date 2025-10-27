@@ -27,7 +27,13 @@
                     </tr>
                 </thead>
                 <tbody id="passengerForms">
+
+
+
                     @foreach ($booking->passengers as $key => $passengers)
+
+
+
                         <tr class="passenger-form" data-index="{{ $key }}">
                             <td>
                                 <span class="billing-card-title"> {{ $key + 1 }}</span>
@@ -36,7 +42,7 @@
                                 value="{{ $passengers->booking_id }}" />
                             <td>
                                 <select class="form-control" style="width:5.5rem"
-                                    name="passenger[{{ $key }}][passenger_type]">
+                                    name="passenger[{{ $key }}][passenger_type]" {{ $disabled }} >
                                     <option value="">Select</option>
                                     <option value="Adult"
                                         {{ $passengers->passenger_type == 'Adult' ? 'selected' : '' }}>
@@ -58,7 +64,7 @@
                             </td>
                             <td>
                                 <select class="form-control" style="width: 70px;"
-                                    name="passenger[{{ $key }}][gender]">
+                                    name="passenger[{{ $key }}][gender]" {{ $disabled }} >
                                     <option value="">Select</option>
                                     <option value="Male" {{ $passengers->gender == 'Male' ? 'selected' : '' }}>
                                         Male
@@ -69,7 +75,7 @@
                             </td>
                             <td>
                                 <select class="form-control" style="width:70px;"
-                                    name="passenger[{{ $key }}][title]">
+                                    name="passenger[{{ $key }}][title]" {{ $disabled }}>
                                     <option value="">Select</option>
                                     <option value="Mr" {{ $passengers->title == 'Mr' ? 'selected' : '' }}>Mr
                                     </option>
@@ -88,18 +94,18 @@
                             <td>
                                 <input type="text" class="form-control w-100"
                                     name="passenger[{{ $key }}][first_name]"
-                                    value="{{ $passengers->first_name }}" placeholder="First Name">
+                                    value="{{ $passengers->first_name }}" placeholder="First Name" {{ $disabled }} >
                             </td>
 
                             <td>
                                 <input type="text" class="form-control" style="width: 7.5rem"
                                     name="passenger[{{ $key }}][last_name]"
-                                    value="{{ $passengers->last_name }}" placeholder="Last Name">
+                                    value="{{ $passengers->last_name }}" placeholder="Last Name" {{ $disabled }}>
                             </td>
                             <td>
                                 <input type="text" style="width: 105px;" class="form-control flatpickr-dob"
                                     name="passenger[{{ $key }}][dob]"
-                                    value="{{ $passengers->dob?->format('d-m-Y') }}">
+                                    value="{{ $passengers->dob?->format('d-m-Y') }}" {{ $disabled }}>
                             </td>
                             @php
                                 $allowedDataIds = ['13', '14', '18', '19', '32', '33', '39', '41', '43', '44', '50', '51'];
@@ -107,7 +113,7 @@
                             <td>
                                 <input type="text" style="width:50px" class="form-control"
                                     name="passenger[{{ $key }}][seat_number]"
-                                    value="{{ $passengers->seat_number }}" placeholder="Seat">
+                                    value="{{ $passengers->seat_number }}" placeholder="Seat" {{ $disabled }}>
                             </td>
 
                             <td>
@@ -118,14 +124,14 @@
                             <td>
                                 <input type="text" class="form-control w-100 e-ticket-input"
                                     name="passenger[{{ $key }}][e_ticket_number]"
-                                    value="{{ $passengers->e_ticket_number }}" placeholder="E Ticket">
+                                    value="{{ $passengers->e_ticket_number }}" placeholder="E Ticket" {{ $disabled }}>
                             </td>
 
                             <td class="room_category" style="display: {{ in_array('Cruise', $bookingTypes) ? 'table-cell' : 'none' }};">
                                 <input type="text" class="form-control w-100"
                                     name="passenger[{{ $key }}][room_category]"
                                     value="{{ $passengers->room_category }}"
-                                    placeholder="Room Category">
+                                    placeholder="Room Category" {{ $disabled }} >
                             </td>
 
 
@@ -133,7 +139,7 @@
                                                     value="{{ $passengers->id }}">
 
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-danger delete-passenger">
+                                <button type="button" class="btn btn-sm btn-outline-danger delete-passenger" {{ $disabled }}>
                                     <i class="icon-base ri ri-delete-bin-2-line"></i>
                                 </button>
                             </td>

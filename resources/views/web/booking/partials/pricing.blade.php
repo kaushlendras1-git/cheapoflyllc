@@ -7,19 +7,19 @@
                 <!-- <label class="d-block mb-2">PNR Type</label> -->
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="pnrtype" id="FXL" value="FXL"
-                        {{ $booking->pnrtype == 'FXL' ? 'checked' : '' }}>
+                        {{ $booking->pnrtype == 'FXL' ? 'checked' : '' }} {{ $disabled }} >
                     <label class="form-check-label" for="FXL">FXL</label>
                 </div>
 
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="pnrtype" id="GK" value="GK"
-                        {{ $booking->pnrtype == 'GK' ? 'checked' : '' }}>
+                        {{ $booking->pnrtype == 'GK' ? 'checked' : '' }} {{ $disabled }} >
                     <label class="form-check-label" for="GK">GK</label>
                 </div>
 
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="pnrtype" id="HK" value="HK"
-                        {{ $booking->pnrtype == 'HK' ? 'checked' : '' }}>
+                        {{ $booking->pnrtype == 'HK' ? 'checked' : '' }} {{ $disabled }} >
                     <label class="form-check-label" for="HK">HK</label>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                     <tr class="pricing-row" data-index="0">
                         <td>
                             <select name="pricing[0][passenger_type]" class="form-select form-control passenger_type"
-                                id="passenger_type_0">
+                                id="passenger_type_0" >
                                 <option value="">Select</option>
                                 <option value="adult">Adult</option>
                                 <option value="child">Child</option>
@@ -183,235 +183,235 @@
                     @php
                     $mechantfee = 0.00;
                     @endphp
+                   
                     @foreach($booking->pricingDetails as $key=>$pricingDetails)
-                    @if($pricingDetails->details === 'FXL Issuance Fees')
-                    <tr class="pricing-row fxlRow" data-index="{{$key}}">
-                        <td>
-                            <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
-                                id="passenger_type_{{$key}}">
-                                <option value="">Select</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="number" style="width: 120px" class="form-control num_passengers"
-                                name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}"
-                                placeholder="No. of Passengers" min="0">
-                        </td>
+                            @if($pricingDetails->details === 'FXL Issuance Fees')
+                                <tr class="pricing-row fxlRow" data-index="{{$key}}">
+                                    <td>
+                                        <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
+                                            id="passenger_type_{{$key}}">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" style="width: 120px" class="form-control num_passengers"
+                                            name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}"
+                                            placeholder="No. of Passengers" min="0">
+                                    </td>
 
-                        <td><input type="number" style="width: 100px" class="form-control"
-                                name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
-                                placeholder="Gross Price" min="0" step="0.01"></td>
+                                    <td><input type="number" style="width: 100px" class="form-control"
+                                            name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
+                                            placeholder="Gross Price" min="0" step="0.01"></td>
 
-                        <td>
-                            <span class="gross-total">0.00</span>
-                        </td>
-                        <td>FXL Issuance Fees</td>
-                        <td>
-                            <input type="number" style="width: 110px;" class="form-control"
-                                name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
-                                placeholder="Net Price" min="0" step="0.01">
-                        </td>
-                        <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
-                        <td>
-                            <select class="form-control detailDropdown" style="width: 145px;"
-                                name="pricing[{{$key}}][details]" id="details_{{$key}}">
-                                <option data-grossmco="1" value="FXL Issuance Fees"
-                                    {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance
-                                    Fees</option>
-                            </select>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    @elseif($pricingDetails->details === 'Issuance Fees - Voyzant')
-                    <tr class="pricing-row hkRow" data-index="{{$key}}">
-                        <td>
-                            <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
-                                id="passenger_type_{{$key}}">
-                                <option value="">Select</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="number" style="width: 120px" class="form-control num_passengers"
-                                name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}"
-                                placeholder="No. of Passengers" min="0">
-                        </td>
+                                    <td>
+                                        <span class="gross-total">0.00</span>
+                                    </td>
+                                    <td>FXL Issuance Fees</td>
+                                    <td>
+                                        <input type="number" style="width: 110px;" class="form-control"
+                                            name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
+                                            placeholder="Net Price" min="0" step="0.01">
+                                    </td>
+                                    <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
+                                    <td>
+                                        <select class="form-control detailDropdown" style="width: 145px;"
+                                            name="pricing[{{$key}}][details]" id="details_{{$key}}">
+                                            <option data-grossmco="1" value="FXL Issuance Fees"
+                                                {{ $pricingDetails->details == 'FXL Issuance Fees' ? 'selected' : '' }}>FXL Issuance
+                                                Fees</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            @elseif($pricingDetails->details === 'Issuance Fees - Voyzant')
+                                <tr class="pricing-row hkRow" data-index="{{$key}}">
+                                    <td>
+                                        <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
+                                            id="passenger_type_{{$key}}">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" style="width: 120px" class="form-control num_passengers"
+                                            name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}"
+                                            placeholder="No. of Passengers" min="0">
+                                    </td>
 
-                        <td><input type="number" style="width: 100px" class="form-control"
-                                name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
-                                placeholder="Gross Price" min="0" step="0.01"></td>
+                                    <td><input type="number" style="width: 100px" class="form-control"
+                                            name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
+                                            placeholder="Gross Price" min="0" step="0.01"></td>
 
-                        <td>
-                            <span class="gross-total">0.00</span>
-                        </td>
-                        <td></td>
-                        <td>
-                            <input type="number" style="width: 110px;" class="form-control"
-                                name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
-                                placeholder="Net Price" min="0" step="0.01">
-                        </td>
-                        <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
-                        <td>
-                            <select class="form-control detailDropdown" style="width: 145px;"
-                                name="pricing[{{$key}}][details]" id="details_{{$key}}">
-                                <option data-grossmco="1" value="Issuance Fees - Voyzant"
-                                    {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>
-                                    Issuance Fees - Voyzant</option>
-                            </select>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    @else
-                    <tr class="pricing-row" data-index="{{$key}}">
-                        <td>
-                            <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
-                                id="passenger_type_{{$key}}">
-                                <option value="">Select</option>
-                                <option value="adult" {{$pricingDetails->passenger_type=='adult'?'selected':''}}>Adult
-                                </option>
-                                <option value="child" {{$pricingDetails->passenger_type=='child'?'selected':''}}>Child
-                                </option>
+                                    <td>
+                                        <span class="gross-total">0.00</span>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <input type="number" style="width: 110px;" class="form-control"
+                                            name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
+                                            placeholder="Net Price" min="0" step="0.01">
+                                    </td>
+                                    <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
+                                    <td>
+                                        <select class="form-control detailDropdown" style="width: 145px;"
+                                            name="pricing[{{$key}}][details]" id="details_{{$key}}">
+                                            <option data-grossmco="1" value="Issuance Fees - Voyzant"
+                                                {{ $pricingDetails->details == 'Issuance Fees - Voyzant' ? 'selected' : '' }}>
+                                                Issuance Fees - Voyzant</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            @else
+                                <tr class="pricing-row" data-index="{{$key}}">
+                                    <td>
+                                        <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
+                                            id="passenger_type_{{$key}}"  {{ $disabled }} >
+                                            <option value="">Select</option>
+                                            <option value="adult" {{$pricingDetails->passenger_type=='adult'?'selected':''}}>Adult
+                                            </option>
+                                            <option value="child" {{$pricingDetails->passenger_type=='child'?'selected':''}}>Child
+                                            </option>
 
-                                <option value="infant" {{$pricingDetails->passenger_type=='infant'?'selected':''}}>
-                                    Infant
-                                </option>
+                                            <option value="infant" {{$pricingDetails->passenger_type=='infant'?'selected':''}}>
+                                                Infant
+                                            </option>
 
-                                <option value="infant_on_lap"
-                                    {{$pricingDetails->passenger_type=='infant_on_lap'?'selected':''}}>
-                                    Infant on Lap</option>
+                                            <option value="infant_on_lap"
+                                                {{$pricingDetails->passenger_type=='infant_on_lap'?'selected':''}}>
+                                                Infant on Lap</option>
 
-                                <option value="infant_on_seat"
-                                    {{$pricingDetails->passenger_type=='infant_on_seat'?'selected':''}}>
-                                    Infant
-                                    on Seat</option>
+                                            <option value="infant_on_seat"
+                                                {{$pricingDetails->passenger_type=='infant_on_seat'?'selected':''}}>
+                                                Infant
+                                                on Seat</option>
 
-                                    <option value="infant_on_seat"
-                                    {{$pricingDetails->passenger_type=='Pet-in Cargo'?'selected':''}}>
-                                    Pet-in Cargo</option>
+                                                <option value="infant_on_seat"
+                                                {{$pricingDetails->passenger_type=='Pet-in Cargo'?'selected':''}}>
+                                                Pet-in Cargo</option>
 
-                                    <option value="infant_on_seat"
-                                    {{$pricingDetails->passenger_type=='Pet-in Cabin'?'selected':''}}>
-                                    Pet-in Cabin</option>
-
-
-                            </select>
-                        </td>
-                        <td>
-                            <input type="number" style="width: 120px" class="form-control num_passengers"
-                                name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}"
-                                placeholder="No. of Passengers" min="0">
-                        </td>
-
-                        <td><input type="number" style="width: 100px" class="form-control"
-                                name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
-                                placeholder="Gross Price" min="0" step="0.01"></td>
-
-                                 
-
-                        <td>
-                            <span class="gross-total">{{$pricingDetails->gross_price??'0.00'}}</span>
-                        </td>
-
-                        <td>
-                            <select style="width: 160px;" name="pricing[{{$key}}][price_description]" class="form-select form-control">
-                            <option value="">Select</option>
-                            <option value="Flight Price Offered" {{$pricingDetails->price_description=='Flight Price Offered'?'selected':''}} > Flight Price Offered</option>
-                            <option value="Hotel Price Offered" {{$pricingDetails->price_description=='Hotel Price Offered'?'selected':''}} >Hotel Price Offered</option>
-                            <option value="Car Price Offered" {{$pricingDetails->price_description=='Car Price Offered'?'selected':''}} >Car Price Offered</option>
-                            <option value="Cruise Price Offered" {{$pricingDetails->price_description=='Cruise Price Offered'?'selected':''}} >Cruise Price Offered</option>
-                            <option value="Train Price Offered" {{$pricingDetails->price_description=='Train Price Offered'?'selected':''}} >Train Price Offered</option>
-                            <option value="Excursions" {{$pricingDetails->price_description=='Excursions'?'selected':''}} >Excursions</option>
-                            <option value="Spa Services" {{$pricingDetails->price_description=='Spa Services'?'selected':''}} >Spa Services</option>
-                            <option value="WiFi Packages" {{$pricingDetails->price_description=='WiFi Packages'?'selected':''}} >WiFi Packages</option>
-                            <option value="Crew Appreciation Fees/Gratuities" {{$pricingDetails->price_description=='Crew Appreciation Fees/Gratuities'?'selected':''}} >Crew Appreciation Fees/Gratuities</option>
-                            <option value="Shuttle Services" {{$pricingDetails->price_description=='Shuttle Services'?'selected':''}} >Shuttle Services</option>
-                            <option value="Speciality Dining" {{$pricingDetails->price_description=='Speciality Dining'?'selected':''}} >Speciality Dining</option>
-                            <option value="Drink Packages" {{$pricingDetails->price_description=='Drink Packages'?'selected':''}} >Drink Packages</option>
-                            <option value="Trip Insurance" {{$pricingDetails->price_description=='Trip Insurance'?'selected':''}} >Trip Insurance</option>
-                            <option value="Check-in Proces Luggage Tags &amp; Sailing Pass" {{$pricingDetails->price_description=='Check-in Proces Luggage Tags & Sailing Pass'?'selected':''}} >Check-in Proces Luggage Tags & Sailing Pass</option>
-                            <option value="Special Occasion Package" {{$pricingDetails->price_description=='Special Occasion Package'?'selected':''}} >Special Occasion Package</option>
-                            <option value="Water Bottle or Distilled Water Package" {{$pricingDetails->price_description=='Water Bottle or Distilled Water Package'?'selected':''}} >Water Bottle or Distilled Water Package</option>
-                            <option value="Pet-in Cabin" {{$pricingDetails->price_description=='Pet-in Cabin'?'selected':''}} >Pet-in Cabin</option>
-                            <option value="Pet-in Cargo" {{$pricingDetails->price_description=='Pet-in Cargo'?'selected':''}} >Pet-in Cargo</option>
-                            <option value="Cancellation Fee" {{$pricingDetails->price_description=='Cancellation Fee'?'selected':''}} >Cancellation Fee</option>
-                            </select>
-                        </td>
-                        
-                        <td>
-                            <input type="number" style="width: 110px;" class="form-control"
-                                name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
-                                placeholder="Net Price" min="0" step="0.01">
-                        </td>
-
-                        <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
-                        
-                        <td>
-                            <select class="form-control detailDropdown" style="width: 145px;"
-                                name="pricing[{{$key}}][details]" id="details_{{$key}}">
-                                <option data-grossmco="1" value="Flight Cost"
-                                    {{ $pricingDetails->details == 'Flight Cost' ? 'selected' : '' }}>Flight
-                                    Cost</option>
-                                <option data-grossmco="1" value="Hotel Cost"
-                                    {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
-                                <option data-grossmco="1" value="Car Rental Cost"
-                                    {{ $pricingDetails->details == 'Car Rental Cost' ? 'selected' : '' }}>Car Rental
-                                    Cost</option>
-                                <option data-grossmco="1" value="Cruise Cost"
-                                    {{ $pricingDetails->details == 'Cruise Cost' ? 'selected' : '' }}>Cruise Cost
-                                </option>
-                                <option data-grossmco="1" value="Train Cost"
-                                    {{ $pricingDetails->details == 'Train Cost' ? 'selected' : '' }}>Train Cost</option>
-                                <option data-grossmco="1" value="Company card"
-                                    {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card
-                                </option>
-                                <option data-grossmco="1" value="company_card_used"
-                                    {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card
-                                    Used</option>
-                                <option data-grossmco="0" value="Partial Refund"
-                                    {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund
-                                </option>
-                                <option data-grossmco="0" value="Full Refund"
-                                    {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund
-                                </option>
-                                <option data-grossmco="0" value="Chargeback Fee"
-                                    {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee
-                                </option>
-                                <option data-grossmco="0" value="Partial Chargeback Amt."
-                                    {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>
-                                    Partial Chargeback Amt.</option>
-                                <option data-grossmco="0" value="Chargeback Amt."
-                                    {{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback
-                                    Amt.</option>
-
-                                <option data-grossmco="1" data-cruise="1" value="Excursions" {{ $pricingDetails->details == 'Excursions' ? 'selected' : '' }} >Excursions</option>
-                                <option data-grossmco="1" data-cruise="1" value="Spa Services" {{ $pricingDetails->details == 'Spa Services' ? 'selected' : '' }} >Spa Services</option>
-                                <option data-grossmco="1" data-cruise="1" value="WiFi Packages" {{ $pricingDetails->details == 'WiFi Packages' ? 'selected' : '' }} >WiFi Packages</option>
-                                <option data-grossmco="1" data-cruise="1" value="Gratuities"  {{ $pricingDetails->details == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }} >Crew Appreciation Fees/Gratuities</option>
-                                <option data-grossmco="1" data-cruise="1" value="Shuttle Services" {{ $pricingDetails->details == 'Shuttle Services' ? 'selected' : '' }}>Shuttle Services</option>
-                                <option data-grossmco="1" data-cruise="1" value="Speciality Dining"  {{ $pricingDetails->details == 'Speciality Dining' ? 'selected' : '' }}>Speciality Dining</option>
-                                <option data-grossmco="1" data-cruise="1" value="Drink Packages" {{ $pricingDetails->details == 'Drink Packages' ? 'selected' : '' }}>Drink Packages</option>
-                                <option data-grossmco="1" data-cruise="1" value="Trip Insurance" {{ $pricingDetails->details == 'Trip Insurance' ? 'selected' : '' }}>Trip Insurance</option>
-                                <option data-grossmco="1" data-cruise="1" value="Check-in Proces Luggage Tags & Sailing Pass" {{ $pricingDetails->details == 'Check-in Proces Luggage Tags & Sailing Pass' ? 'selected' : '' }}>Check-in Proces Luggage Tags & Sailing Pass</option>
-                                <option data-grossmco="1" data-cruise="1" value="Special Occasion Package" {{ $pricingDetails->details == 'Special Occasion Package' ? 'selected' : '' }}>Special Occasion Package</option>
-                                <option data-grossmco="1" data-cruise="1" value="Water Bottle or Distilled Water Package" {{ $pricingDetails->details == 'Water Bottle or Distilled Water Package' ? 'selected' : '' }}>Water Bottle or Distilled Water Package</option>
-                               
-                                <option data-grossmco="1" data-change="1" value="Change Fee" {{ $pricingDetails->details == 'Change Fee' ? 'selected' : '' }}>Change Fee</option>
-                                <option data-grossmco="1" data-change="1" value="Fare Difference"  {{ $pricingDetails->details == 'Fare Difference' ? 'selected' : '' }}>Fare Difference</option>
+                                                <option value="infant_on_seat"
+                                                {{$pricingDetails->passenger_type=='Pet-in Cabin'?'selected':''}}>
+                                                Pet-in Cabin</option>
 
 
-                            </select>
-                        </td>
-                         <input type="hidden" name="pricing[{{ $key }}][id]"
-                                                    value="{{ $pricingDetails->id }}">
-                        <td>
-                            <button type="button" class="btn btn-outline-danger delete-pricing-btn">
-                                <i class="ri ri-delete-bin-line"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    @endif
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" style="width: 120px" class="form-control num_passengers"
+                                            name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}"
+                                            placeholder="No. of Passengers" min="0"  {{ $disabled }} >
+                                    </td>
 
+                                    <td><input type="number" style="width: 100px" class="form-control"
+                                            name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
+                                            placeholder="Gross Price" min="0" step="0.01"  {{ $disabled }} ></td>
+
+                                            
+
+                                    <td>
+                                        <span class="gross-total">{{$pricingDetails->gross_price??'0.00'}}</span>
+                                    </td>
+
+                                    <td>
+                                        <select style="width: 160px;" name="pricing[{{$key}}][price_description]" class="form-select form-control"  {{ $disabled }} >
+                                        <option value="">Select</option>
+                                        <option value="Flight Price Offered" {{$pricingDetails->price_description=='Flight Price Offered'?'selected':''}} > Flight Price Offered</option>
+                                        <option value="Hotel Price Offered" {{$pricingDetails->price_description=='Hotel Price Offered'?'selected':''}} >Hotel Price Offered</option>
+                                        <option value="Car Price Offered" {{$pricingDetails->price_description=='Car Price Offered'?'selected':''}} >Car Price Offered</option>
+                                        <option value="Cruise Price Offered" {{$pricingDetails->price_description=='Cruise Price Offered'?'selected':''}} >Cruise Price Offered</option>
+                                        <option value="Train Price Offered" {{$pricingDetails->price_description=='Train Price Offered'?'selected':''}} >Train Price Offered</option>
+                                        <option value="Excursions" {{$pricingDetails->price_description=='Excursions'?'selected':''}} >Excursions</option>
+                                        <option value="Spa Services" {{$pricingDetails->price_description=='Spa Services'?'selected':''}} >Spa Services</option>
+                                        <option value="WiFi Packages" {{$pricingDetails->price_description=='WiFi Packages'?'selected':''}} >WiFi Packages</option>
+                                        <option value="Crew Appreciation Fees/Gratuities" {{$pricingDetails->price_description=='Crew Appreciation Fees/Gratuities'?'selected':''}} >Crew Appreciation Fees/Gratuities</option>
+                                        <option value="Shuttle Services" {{$pricingDetails->price_description=='Shuttle Services'?'selected':''}} >Shuttle Services</option>
+                                        <option value="Speciality Dining" {{$pricingDetails->price_description=='Speciality Dining'?'selected':''}} >Speciality Dining</option>
+                                        <option value="Drink Packages" {{$pricingDetails->price_description=='Drink Packages'?'selected':''}} >Drink Packages</option>
+                                        <option value="Trip Insurance" {{$pricingDetails->price_description=='Trip Insurance'?'selected':''}} >Trip Insurance</option>
+                                        <option value="Check-in Proces Luggage Tags &amp; Sailing Pass" {{$pricingDetails->price_description=='Check-in Proces Luggage Tags & Sailing Pass'?'selected':''}} >Check-in Proces Luggage Tags & Sailing Pass</option>
+                                        <option value="Special Occasion Package" {{$pricingDetails->price_description=='Special Occasion Package'?'selected':''}} >Special Occasion Package</option>
+                                        <option value="Water Bottle or Distilled Water Package" {{$pricingDetails->price_description=='Water Bottle or Distilled Water Package'?'selected':''}} >Water Bottle or Distilled Water Package</option>
+                                        <option value="Pet-in Cabin" {{$pricingDetails->price_description=='Pet-in Cabin'?'selected':''}} >Pet-in Cabin</option>
+                                        <option value="Pet-in Cargo" {{$pricingDetails->price_description=='Pet-in Cargo'?'selected':''}} >Pet-in Cargo</option>
+                                        <option value="Cancellation Fee" {{$pricingDetails->price_description=='Cancellation Fee'?'selected':''}} >Cancellation Fee</option>
+                                        </select>
+                                    </td>
+                                    
+                                    <td>
+                                        <input type="number" style="width: 110px;" class="form-control"
+                                            name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
+                                            placeholder="Net Price" min="0" step="0.01"  {{ $disabled }} >
+                                    </td>
+
+                                    <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
+                                    
+                                    <td>
+                                        <select class="form-control detailDropdown" style="width: 145px;"
+                                            name="pricing[{{$key}}][details]" id="details_{{$key}}"  {{ $disabled }} >
+                                            <option data-grossmco="1" value="Flight Cost"
+                                                {{ $pricingDetails->details == 'Flight Cost' ? 'selected' : '' }}>Flight
+                                                Cost</option>
+                                            <option data-grossmco="1" value="Hotel Cost"
+                                                {{ $pricingDetails->details == 'Hotel Cost' ? 'selected' : '' }}>Hotel Cost</option>
+                                            <option data-grossmco="1" value="Car Rental Cost"
+                                                {{ $pricingDetails->details == 'Car Rental Cost' ? 'selected' : '' }}>Car Rental
+                                                Cost</option>
+                                            <option data-grossmco="1" value="Cruise Cost"
+                                                {{ $pricingDetails->details == 'Cruise Cost' ? 'selected' : '' }}>Cruise Cost
+                                            </option>
+                                            <option data-grossmco="1" value="Train Cost"
+                                                {{ $pricingDetails->details == 'Train Cost' ? 'selected' : '' }}>Train Cost</option>
+                                            <option data-grossmco="1" value="Company card"
+                                                {{ $pricingDetails->details == 'Company card' ? 'selected' : '' }}>Company card
+                                            </option>
+                                            <option data-grossmco="1" value="company_card_used"
+                                                {{ $pricingDetails->details == 'company_card_used' ? 'selected' : '' }}>Company Card
+                                                Used</option>
+                                            <option data-grossmco="0" value="Partial Refund"
+                                                {{ $pricingDetails->details == 'Partial Refund' ? 'selected' : '' }}>Partial Refund
+                                            </option>
+                                            <option data-grossmco="0" value="Full Refund"
+                                                {{ $pricingDetails->details == 'Full Refund' ? 'selected' : '' }}>Full Refund
+                                            </option>
+                                            <option data-grossmco="0" value="Chargeback Fee"
+                                                {{ $pricingDetails->details == 'Chargeback Fee' ? 'selected' : '' }}>Chargeback Fee
+                                            </option>
+                                            <option data-grossmco="0" value="Partial Chargeback Amt."
+                                                {{ $pricingDetails->details == 'Partial Chargeback Amt.' ? 'selected' : '' }}>
+                                                Partial Chargeback Amt.</option>
+                                            <option data-grossmco="0" value="Chargeback Amt."
+                                                {{ $pricingDetails->details == 'Chargeback Amt.' ? 'selected' : '' }}>Chargeback
+                                                Amt.</option>
+
+                                            <option data-grossmco="1" data-cruise="1" value="Excursions" {{ $pricingDetails->details == 'Excursions' ? 'selected' : '' }} >Excursions</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Spa Services" {{ $pricingDetails->details == 'Spa Services' ? 'selected' : '' }} >Spa Services</option>
+                                            <option data-grossmco="1" data-cruise="1" value="WiFi Packages" {{ $pricingDetails->details == 'WiFi Packages' ? 'selected' : '' }} >WiFi Packages</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Gratuities"  {{ $pricingDetails->details == 'Crew Appreciation Fees/Gratuities' ? 'selected' : '' }} >Crew Appreciation Fees/Gratuities</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Shuttle Services" {{ $pricingDetails->details == 'Shuttle Services' ? 'selected' : '' }}>Shuttle Services</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Speciality Dining"  {{ $pricingDetails->details == 'Speciality Dining' ? 'selected' : '' }}>Speciality Dining</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Drink Packages" {{ $pricingDetails->details == 'Drink Packages' ? 'selected' : '' }}>Drink Packages</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Trip Insurance" {{ $pricingDetails->details == 'Trip Insurance' ? 'selected' : '' }}>Trip Insurance</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Check-in Proces Luggage Tags & Sailing Pass" {{ $pricingDetails->details == 'Check-in Proces Luggage Tags & Sailing Pass' ? 'selected' : '' }}>Check-in Proces Luggage Tags & Sailing Pass</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Special Occasion Package" {{ $pricingDetails->details == 'Special Occasion Package' ? 'selected' : '' }}>Special Occasion Package</option>
+                                            <option data-grossmco="1" data-cruise="1" value="Water Bottle or Distilled Water Package" {{ $pricingDetails->details == 'Water Bottle or Distilled Water Package' ? 'selected' : '' }}>Water Bottle or Distilled Water Package</option>
+                                        
+                                            <option data-grossmco="1" data-change="1" value="Change Fee" {{ $pricingDetails->details == 'Change Fee' ? 'selected' : '' }}>Change Fee</option>
+                                            <option data-grossmco="1" data-change="1" value="Fare Difference"  {{ $pricingDetails->details == 'Fare Difference' ? 'selected' : '' }}>Fare Difference</option>
+
+
+                                        </select>
+                                    </td>
+                                    <input type="hidden" name="pricing[{{ $key }}][id]"
+                                                                value="{{ $pricingDetails->id }}"  {{ $disabled }} >
+                                    <td>
+                                        <button type="button" class="btn btn-outline-danger delete-pricing-btn"  {{ $disabled }} >
+                                            <i class="ri ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endif
                     @endforeach
                 </tbody>
 

@@ -49,7 +49,7 @@
 
                                             <td>
                                                 <select class="form-control"
-                                                    name="flight[{{ $index }}][direction]" style="width: 80px;">
+                                                    name="flight[{{ $index }}][direction]" style="width: 80px;" {{ $disabled }} >
                                                     <option value="">Select </option>
                                                     <option value="Inbound"
                                                         {{ $flight->direction == 'Inbound' ? 'selected' : '' }}>
@@ -63,14 +63,14 @@
 
                                             <td><input type="text" style="width: 6.7rem;" class="form-control flatpickr-hotel-checkin"
                                                     name="flight[{{ $index }}][departure_date]"
-                                                    value="{{ $flight->departure_date?->format('d-m-Y') }}"></td>
+                                                    value="{{ $flight->departure_date?->format('d-m-Y') }}" {{ $disabled }} ></td>
 
                                             <td>
                                                 <input type="text" class="form-control airline_code_input"
                                                     style="width: 40px;"
                                                     name="flight[{{ $index }}][airline_code]"
                                                     value="{{ old("flight.$index.airlines_code", $flight->airline_code) }}"
-                                                    placeholder="Airlines (Code)" autocomplete="off">
+                                                    placeholder="Airlines (Code)" autocomplete="off" {{ $disabled }}>
 
                                                 <div class="flight-code-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
@@ -80,13 +80,13 @@
                                             <td><input type="text" class="form-control" style="width: 3.5rem;"
                                                     name="flight[{{ $index }}][flight_number]"
                                                     value="{{ old("flight.$index.flight_no", $flight->flight_number) }}"
-                                                    placeholder="Flight No">
+                                                    placeholder="Flight No" {{ $disabled }} >
                                             </td>
 
 
                                             <td>
                                                 <select class="form-control" style="width: 75px;"
-                                                    name="flight[{{ $index }}][cabin]">
+                                                    name="flight[{{ $index }}][cabin]" {{ $disabled }} >
                                                     <option value="">Select</option>
                                                     <option value="B.Eco"
                                                         {{ old("flight.$index.cabin", $flight->cabin) == 'B.Eco' ? 'selected' : '' }}>
@@ -112,7 +112,7 @@
                                                     value="{{ old("flight.$index.class_of_service", $flight->class_of_service) }}"
                                                     placeholder="Class of Service" style="width: 37px;" min="0"
                                                    autocomplete="off"
-                                                    max="1">
+                                                    max="1" {{ $disabled }} >
                                                 <div class="operating-flight-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
                                                 </div>
@@ -126,6 +126,7 @@
                                                     value="{{ old("flight.$index.departure_airport", $flight->departure_airport) }}"
                                                     placeholder="Departure Airport"
                                                    autocomplete="off"
+                                                   {{ $disabled }}
                                                 >
                                                 <div class="flight-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
@@ -134,7 +135,7 @@
 
 
                                             <td style="position: relative;">
-                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][departure_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.departure_hours', $flight->departure_hours) }}" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][departure_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.departure_hours', $flight->departure_hours) }}" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format" {{ $disabled }}>
                                                 <span class="time-format-indicator" style="display: none;"></span>
                                             </td>
 
@@ -149,6 +150,7 @@
                                                     value="{{ old("flight.$index.arrival_airport", $flight->arrival_airport) }}"
                                                     placeholder="Arrival Airport"
                                                    autocomplete="off"
+                                                   {{ $disabled }}
                                                 />
                                                 <div class="flight-suggestions-list"
                                                     style="position:absolute; background:#fff; border:1px solid #ccc; display:none; z-index:1000;">
@@ -157,7 +159,7 @@
 
 
                                             <td style="position: relative;">
-                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][arrival_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.arrival_hours', $flight->arrival_hours) }}" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                <input type="text" class="form-control time-12hr" style="width: 86px;" name="flight[{{ $index }}][arrival_hours]" placeholder="HH:MM" maxlength="5" value="{{ old('flight.'.$index.'.arrival_hours', $flight->arrival_hours) }}" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format" {{ $disabled }} >
                                                 <span class="time-format-indicator" style="display: none;"></span>
                                             </td>
 
@@ -169,24 +171,28 @@
                                             <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
                                                     name="flight[{{ $index }}][duration]"
                                                     value="{{ old("flight.$index.duration", $flight->duration) }}"
-                                                    placeholder="Duration" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                    placeholder="Duration" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format"
+                                                    {{ $disabled }} >
                                                 <!-- <span class="time-format-indicator" style="display: none;"></span> -->
                                             </td>
 
                                             <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 4.5rem;"
                                                     name="flight[{{ $index }}][transit]"
                                                     value="{{ old("flight.$index.transit", $flight->transit) }}"
-                                                    placeholder="Transit" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                                    placeholder="Transit" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format" 
+                                                    {{ $disabled }} >
                                                 <!-- <span class="time-format-indicator" style="display: none;"></span> -->
                                             </td>
 
                                             <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;"
                                                     name="flight[{{ $index }}][arrival_date]"
-                                                    value="{{ $flight->arrival_date?->format('d-m-Y') }}"></td>
+                                                    value="{{ $flight->arrival_date?->format('d-m-Y') }}"
+                                                    {{ $disabled }}
+                                                    ></td>
                                                     
                                             <td>
                                                 <button type="button"
-                                                    class="btn btn-outline-danger delete-flight-btn">
+                                                    class="btn btn-outline-danger delete-flight-btn" {{ $disabled }} >
                                                     <i class="ri ri-delete-bin-line"></i>
                                                 </button>
                                                 <!-- Hidden input to store flight ID for existing records -->
