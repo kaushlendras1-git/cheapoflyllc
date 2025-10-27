@@ -156,15 +156,17 @@
                                             </td>
 
 
-                                            <td><input style="width: 57px !important;" inputmode="numeric" maxlength="4"
+                                           <td>
+                                                <input style="width: 57px !important;" inputmode="numeric" maxlength="4"
                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
                                                     class="form-control w-100" placeholder="CVV"
                                                     name="billing[{{ $key }}][cvv]"
-                                                    value="{{ (auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) ? $billingDetails['cvv'] : $billingDetails['cvv'] }}"  {{ $disabled }} >
+                                                    value="{{ ($disabled == 'disabled') ? str_repeat('*', strlen($billingDetails['cvv'])) : $billingDetails['cvv'] }}"
+                                                    {{ $disabled }}>
                                             </td>
 
 
-                                            </select>
+                                            
                                             </td>
                                             <td>
                                                 <select id="state-{{ $key }}" class="form-control state-select"
