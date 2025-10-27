@@ -1,12 +1,13 @@
 @php
     $user = auth()->user();
-    $userDept = $user->departmentRelation->name ?? '';
+    $userDeptId = $user->department_id;
     $userRole = $user->role_id;
     
-    $filterStatuses = function($statuses) use ($userDept, $userRole) {
-        return $statuses->filter(function($status) use ($userDept, $userRole) {
-            return ($status->departments && in_array($userDept, $status->departments)) || 
-                   ($status->roles && in_array($userRole, $status->roles));
+    $filterStatuses = function($statuses) use ($userDeptId, $userRole) {
+        return $statuses->filter(function($status) use ($userDeptId, $userRole) {
+            $deptMatch = $status->departments && in_array((string)$userDeptId, $status->departments);
+            $roleMatch = $status->roles && in_array($userRole, $status->roles);
+            return $deptMatch && $roleMatch;
         });
     };
     
@@ -22,14 +23,9 @@
                         {{ $status->name }}
                     </option>
                 @endforeach
-                @if($booking->booking_status_id && !$bookingStatuses->contains('id', $booking->booking_status_id))
-                    @php $currentStatus = \App\Models\BookingStatus::find($booking->booking_status_id); @endphp
-                    @if($currentStatus)
-                        <option value="{{ $currentStatus->id }}" selected>{{ $currentStatus->name }}</option>
-                    @endif
-                @endif
             </select>
         </div>
+
 
         <div class="col-md-2 position-relative mb-5">
             <label class="form-label">Payment Status</label>
@@ -39,12 +35,6 @@
                         {{ $status->name }}
                     </option>
                 @endforeach
-                @if($booking->payment_status_id && !$paymentStatuses->contains('id', $booking->payment_status_id))
-                    @php $currentStatus = \App\Models\PaymentStatus::find($booking->payment_status_id); @endphp
-                    @if($currentStatus)
-                        <option value="{{ $currentStatus->id }}" selected>{{ $currentStatus->name }}</option>
-                    @endif
-                @endif
             </select>
         </div>
 

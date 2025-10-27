@@ -223,8 +223,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <div style="flex: 1; min-width: 280px; padding-bottom:10px;">
                                     <div
                                         style="font-size: .875rem; font-weight: 600; color: #2d3748; margin-bottom: 0px;">
-                                        {{ $flight->departure_date?->format('D, M j') }} - {{$flight->airline_code}}
-                                        {{$flight->flight_number}} - {{$flight->duration}}
+                                        {{ $flight->departure_date?->format('D, M j') }} - {{$flight->airline_code}}{{$flight->flight_number}} - {{$flight->duration}} Hrs 
                                     </div>
                                     <div style="font-size: .875rem; color: #4a5568; margin-bottom: 0px;">
                                         <span style="display: inline-block; margin-right: 15px; font-size: .875rem;">
@@ -945,28 +944,28 @@ border-radius: 0px;
                             }
                             @endphp
 
+                          
 
                             @if($booking->query_type == 26 || $booking->query_type == 27 || $booking->query_type == 49
-                            || $booking->query_type == 2 || $booking->query_type == 38 || $booking->query_type == 30 ||
+                            ||  $booking->query_type == 38 || $booking->query_type == 30 ||
                             $booking->query_type == 46)
-                            @foreach($booking->pricingDetails as $ExcursionPrice)
-                            <div
-                                style="display: flex; justify-content: space-between; padding-bottom:5px; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: .875rem; color: #2d3748; font-weight: 500;">
-                                    {{$ExcursionPrice->details}} (per
-                                    person) :
-                                </div>
-                                <div style="font-size: .875rem; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
-                            </div>
+                              
+                                @foreach($booking->pricingDetails as $ExcursionPrice)
+                                    <div
+                                        style="display: flex; justify-content: space-between; padding-bottom:5px; border-bottom: 1px solid #e9ecef;">
+                                        <div style="font-size: .875rem; color: #2d3748; font-weight: 500;">
+                                            {{$ExcursionPrice->details}} (per person) : {{ ucfirst($ExcursionPrice->passenger_type) }}
 
-                            @if($booking->query_type == 26)
-                            <div style="font-size: 10px; color: #666; padding: 0 0 10px 0;">inc. taxes & fees.</div>
-                            @endif
-                            @endforeach
+                                        </div>
+                                        <div style="font-size: .875rem; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
+                                    </div>
+
+                                        @if($booking->query_type == 26)
+                                        <div style="font-size: 10px; color: #666; padding: 0 0 10px 0;">inc. taxes & fees.</div>
+                                        @endif
+                                @endforeach
 
                             @else
-
-
 
 
 
@@ -979,38 +978,37 @@ border-radius: 0px;
                             </div>
 
                             @else
-
-                            @foreach($mergedPrices as $passengerType => $totalPrice)
-                            <div
-                                style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: .875rem; color: #2d3748;">
-                                    @if(in_array($booking->query_type, [3,7,8]))
-                                    Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
-                                    @elseif($booking->query_type == 2)
-                                    Rebooking fees per person. ({{ ucfirst($passengerType) }})
-                                    @elseif($booking->query_type == 4)
-                                    Baggage fees per Bag. ({{ ucfirst($passengerType) }})
-                                    @elseif($booking->query_type == 9)
-                                    Travel Insurance per person. ({{ ucfirst($passengerType) }})
-                                    @elseif($booking->query_type == 17)
-                                    Cruise Fare - Per Guest - ({{ ucfirst($passengerType) }})
-                                    @elseif($booking->query_type == 13 || $booking->query_type == 14 ||
-                                    $booking->query_type ==18 || $booking->query_type == 19 || $booking->query_type ==
-                                    20 || $booking->query_type ==29 || $booking->query_type == 33 ||
-                                    $booking->query_type == 34 || $booking->query_type == 41 || $booking->query_type ==
-                                    43 || $booking->query_type == 44 || $booking->query_type == 50 ||
-                                    $booking->query_type == 51)
-                                    Cancellation fee per person - ({{ ucfirst($passengerType) }})
-                                    @else
-                                    Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
-                                    @endif</div>
-                                <div style="font-size: .875rem; color: #0f9b0f;">
-                                    ${{ number_format($totalPrice, 2) }}
-                                </div>
-                            </div>
-                            @endforeach
-
-                            @endif
+                                    @foreach($mergedPrices as $passengerType => $totalPrice)
+                                    <div
+                                        style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                        <div style="font-size: .875rem; color: #2d3748;">
+                                            @if(in_array($booking->query_type, [3,7,8]))
+                                            Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
+                                            @elseif($booking->query_type == 2)
+            
+                                                Rebooking fees per person. ({{ ucfirst($passengerType) }})
+                                            @elseif($booking->query_type == 4)
+                                            Baggage fees per Bag. ({{ ucfirst($passengerType) }})
+                                            @elseif($booking->query_type == 9)
+                                            Travel Insurance per person. ({{ ucfirst($passengerType) }})
+                                            @elseif($booking->query_type == 17)
+                                            Cruise Fare - Per Guest - ({{ ucfirst($passengerType) }})
+                                            @elseif($booking->query_type == 13 || $booking->query_type == 14 ||
+                                            $booking->query_type ==18 || $booking->query_type == 19 || $booking->query_type ==
+                                            20 || $booking->query_type ==29 || $booking->query_type == 33 ||
+                                            $booking->query_type == 34 || $booking->query_type == 41 || $booking->query_type ==
+                                            43 || $booking->query_type == 44 || $booking->query_type == 50 ||
+                                            $booking->query_type == 51)
+                                            Cancellation fee per person - ({{ ucfirst($passengerType) }})
+                                            @else
+                                            Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
+                                            @endif</div>
+                                        <div style="font-size: .875rem; color: #0f9b0f;">
+                                            ${{ number_format($totalPrice, 2) }}
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                @endif
                             @endif
 
 
@@ -1053,6 +1051,8 @@ border-radius: 0px;
 
 
             <!--  End Price Details -->
+
+
 
 
 
@@ -1148,8 +1148,6 @@ border-radius: 0px;
                     </div>
                 </td>
             </tr>
-
-
 
 
 

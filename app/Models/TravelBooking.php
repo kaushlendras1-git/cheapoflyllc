@@ -135,8 +135,8 @@ class TravelBooking extends Model
     {
         $companies = [
             1 => 'flydreamz',
-            2 => 'fareticketsllc',
-            3 => 'fareticketsus',
+            2 => 'fareticketsus',
+            3 => 'fareticketsllc',
             4 => 'cruiselineservice'
         ];
 
