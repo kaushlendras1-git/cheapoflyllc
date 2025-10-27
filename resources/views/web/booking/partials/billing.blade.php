@@ -240,8 +240,6 @@
                     </div>
                 </div>
 
-
-
             <div class="card p-4 mt-4" id="deposit-pending-payment">
                 <div class="row g-3 align-items-center">
                     <div class="col-md-12 table-responsive details-table-wrappper">

@@ -334,6 +334,7 @@
                                 @endif
                             </div>
 
+                            
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Booking Type </label>
                                 <select id="query_type" class="form-control" name="query_type @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" >
