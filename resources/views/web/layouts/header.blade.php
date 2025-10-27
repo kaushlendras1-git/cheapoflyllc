@@ -66,6 +66,7 @@
     @yield('head')
 </head>
 <body>
+
     <div id="loader-overlay">
         <div class="loader">
             <div class="spinner"></div>
@@ -130,6 +131,11 @@
                                             fill="white" fill-opacity="0.3" />
                                     </svg>
                                     <h5 class="mb-0 ms-4">Hi, {{ Auth::user()->name }}</h5>
+
+                                   @if(Auth::user()->id == 8)                                    
+                                    <img src="{{ asset('paul.gif') }}" alt="US Flag"
+                                        class="ms-3" style="width:100px;" />
+                                      @endif
                                 </span>
                             </span>
                         </a>

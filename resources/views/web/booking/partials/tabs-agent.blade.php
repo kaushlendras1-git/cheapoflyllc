@@ -11,8 +11,14 @@
             <li class="nav-item" role="presentation" data-tab="Flight"
                 style="{{ in_array('Flight', $bookingTypes) ? 'display:block;' : 'display:none;' }}">
                 <a class="nav-link" id="flightbooking-tab" data-bs-toggle="tab" href="#flightbooking" role="tab"
-                    aria-controls="flightbooking" aria-selected="true"><i class="ri ri-flight-takeoff-line"
-                        title="Flight" style="color: #1e90ff; font-size: 20px;"></i></a>
+                    aria-controls="flightbooking" aria-selected="true">
+                   
+
+  <i class="ri ri-flight-takeoff-line" style="font-size: 20px;"></i>
+  <i class="ri ri-flight-land-line" style="font-size: 18px; margin-top: 2px; transform: scaleX(-1);"></i>
+ 
+
+                    </a>
             </li>
 
             <li class="nav-item" role="presentation" data-tab="Hotel"
