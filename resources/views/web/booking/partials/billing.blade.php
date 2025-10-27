@@ -376,9 +376,9 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                     <h4 class="merchant-name mb-0">Merchent -
                         @if ($booking->selected_company == 1)
                             Fly Dreamz
-                        @elseif($booking->selected_company == 2)
-                            Fare Tickets LLC
                         @elseif($booking->selected_company == 3)
+                            Fare Tickets LLC
+                        @elseif($booking->selected_company == 2)
                             Fare Ticketsus
                         @elseif($booking->selected_company == 4)
                             Cruise Line Service
@@ -473,8 +473,8 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                                         )->find($billingDetails['state']);
                                         $merchant = '';
                                         if ($booking->selected_company == 1) $merchant = 'Fly Dreamz';
-                                        elseif ($booking->selected_company == 2) $merchant = 'Fare Tickets LLC';
-                                        elseif ($booking->selected_company == 3) $merchant = 'Fare Ticketsus';
+                                        elseif ($booking->selected_company == 3) $merchant = 'Fare Tickets LLC';
+                                        elseif ($booking->selected_company == 2) $merchant = 'Fare Ticketsus';
                                         elseif ($booking->selected_company == 4) $merchant = 'Cruise Line Service';
                                     @endphp
                                     <tr>
