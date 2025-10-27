@@ -231,20 +231,7 @@
                                                             value="{{ $billingDetails->id }}" >
 
 
-                                            <td>
-                                                <form method="POST" action="{{ route('booking.update-payment-status') }}" style="margin: 0;">
-                                                    @csrf
-                                                    <input type="hidden" name="billing_id" value="{{ $billingDetails->id }}">
-                                                    <input type="hidden" name="booking_id" value="{{ $booking->id }}">
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch" 
-                                                            name="is_paid" value="1" id="billing-test-{{ $billingDetails->id }}"
-                                                            {{ $billingDetails->is_paid == 1 ? 'checked' : '' }}
-                                                            onchange="this.form.submit()">
-                                                        <label class="form-check-label text-dark" for="billing-test-{{ $billingDetails->id }}">Paid</label>
-                                                    </div>
-                                                </form>
-                                            </td>
+                                           
                                         </tr>
                                     @endforeach
                                 </tbody>

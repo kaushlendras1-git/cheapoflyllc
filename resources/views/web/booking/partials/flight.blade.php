@@ -1,3 +1,10 @@
+    @php
+        $roleId = (int) auth()->user()->role_id;
+        $disabled = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
+            ? 'disabled'
+            : '';
+    @endphp
+    
 <!------------------------ Flight Booking Details ------------------------------>
 
 <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">

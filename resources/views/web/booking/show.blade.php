@@ -3,6 +3,7 @@
     
     @php
         $roleId = (int) auth()->user()->role_id;
+        $booking->payment_status_id = (int) $booking->payment_status_id;
         $disabled = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
             ? 'disabled'
             : '';
@@ -203,7 +204,7 @@
 
                                     <div class="col-md-2 position-relative mb-5" id="flight-inputs">
                                         <label class="form-label">Airline PNR</label>
-                                        @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7 && $booking->airlinepnr)
+                                        @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
                                             <input type="text" class="form-control readonly-field" 
                                                 value="{{ strlen($booking->airlinepnr) > 2 ? substr($booking->airlinepnr, 0, 2) . 'xxx' : $booking->airlinepnr }}" readonly>
                                             <input type="hidden" name="airlinepnr" value="{{ $booking->airlinepnr }}">
@@ -259,7 +260,7 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
-                                @if(auth()->user()->role_id == 1 && $booking->phone)
+                                @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
                                     <input type="text" class="form-control readonly-field" 
                                         value="xxx xxx {{ substr($booking->phone, -4) }}" readonly>
                                     <input type="hidden" name="phone" value="{{ $booking->phone }}">
@@ -307,7 +308,7 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Brands</label>
-                                <select id="selected_company" name="selected_company" class="form-control" {{ (auth()->user()->role_id == 1 && $booking->selected_company) ? 'disabled' : '' }}>
+                                <select id="selected_company" name="selected_company" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif"  >
                                     <option value="1" {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>flydreamz</option>
                                     <option value="2" {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}>fareticketsus</option>
                                     <option value="3" {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>fareticketsllc</option>
@@ -335,7 +336,7 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Booking Type </label>
-                                <select id="query_type" class="form-control" name="query_type" {{ (auth()->user()->role_id == 1 && $booking->query_type) ? 'disabled' : '' }}>
+                                <select id="query_type" class="form-control" name="query_type @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" >
                                     @foreach ($booking_types as $booking_type)
                                         <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}"
                                             data-id="{{ $booking_type->id }}"
