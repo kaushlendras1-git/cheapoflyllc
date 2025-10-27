@@ -157,13 +157,13 @@
 
 
                                            <td>
-                                                <input style="width: 57px !important;" inputmode="numeric" maxlength="4"
-                                                    oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
-                                                    class="form-control w-100" placeholder="CVV"
-                                                    name="billing[{{ $key }}][cvv]"
-                                                    value="{{ ($disabled == 'disabled') ? str_repeat('*', strlen($billingDetails['cvv'])) : $billingDetails['cvv'] }}"
-                                                    {{ $disabled }}>
-                                            </td>
+                                            <input style="width: 57px !important;" inputmode="numeric" maxlength="4"
+                                                oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
+                                                class="form-control w-100" placeholder="CVV"
+                                                name="billing[{{ $key }}][cvv]"
+                                                value="{{ $billingDetails['cvv'] }}"
+                                                >
+                                        </td>
 
 
                                             
