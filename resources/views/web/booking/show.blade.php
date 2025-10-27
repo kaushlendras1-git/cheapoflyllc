@@ -211,12 +211,14 @@
                             <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
                                 <label class="form-label">Hotel Ref</label>
                                 <input type="text" class="form-control" name="hotel_ref"
-                                    value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}">
+                                    value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}"
+                                     @if(auth()->user()->role_id == 1 && $booking->hotel_ref) readonly @endif > 
                             </div>
                             <div class="col-md-2 position-relative mb-5" id="cruise-inputs">
                                 <label class="form-label">Cruise Ref</label>
                                 <input type="text" class="form-control" name="cruise_ref"
-                                    value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}">
+                                    value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}"
+                                    @if(auth()->user()->role_id == 1 && $booking->cruise_ref) readonly @endif > 
                             </div>
 
 
@@ -225,36 +227,46 @@
                             <div class="col-md-2 position-relative mb-5" id="car-inputs">
                                 <label class="form-label">Car Ref</label>
                                 <input type="text" class="form-control" name="car_ref"
-                                    value="{{ old('car_ref', $booking->car_ref ?? '') }}">
+                                    value="{{ old('car_ref', $booking->car_ref ?? '') }}"
+                                    @if(auth()->user()->role_id == 1 && $booking->car_ref) readonly @endif >
                             </div>
 
                             <div class="col-md-2 position-relative mb-5" id="train-inputs">
                                 <label class="form-label">Train Ref</label>
                                 <input type="text" class="form-control" name="train_ref"
-                                    value="{{ old('train_ref', $booking->train_ref ?? '') }}">
+                                    value="{{ old('train_ref', $booking->train_ref ?? '') }}" 
+                                     @if(auth()->user()->role_id == 1 && $booking->train_ref) readonly @endif > 
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="name"
-                                    value="{{ old('name', $booking->name ?? '') }}">
+                                    value="{{ old('name', $booking->name ?? '') }}"
+                                    @if(auth()->user()->role_id == 1 && $booking->name) readonly @endif >
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="phone" id="phone"
-                                    value="{{ old('phone', $booking->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) : '') }}">
+                                @if(auth()->user()->role_id == 1 && $booking->phone)
+                                    <input type="text" class="form-control" 
+                                        value="xxx xxx {{ substr($booking->phone, -4) }}" readonly>
+                                    <input type="hidden" name="phone" value="{{ $booking->phone }}">
+                                @else
+                                    <input type="text" class="form-control" name="phone" id="phone"
+                                        value="{{ old('phone', $booking->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) : '') }}">
+                                @endif
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Reservation Source</label>
                                 <input type="text" class="form-control" name="reservation_source"
-                                    value="{{ old('reservation_source', $booking->reservation_source ?? '') }}">
+                                    value="{{ old('reservation_source', $booking->reservation_source ?? '') }}"
+                                    @if(auth()->user()->role_id == 1 && $booking->reservation_source) readonly @endif > 
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Campaign <span class="text-danger">*</span></label>
-                                <select id="campaign" data-sh="Campaign" name="campaign" class="form-control">
+                                <select id="campaign" data-sh="Campaign" name="campaign" class="form-control" {{ (auth()->user()->role_id == 1 && $booking->campaign) ? 'disabled' : '' }}>
                                     @foreach ($campaigns as $campaign)
                                         <option value="{{ $campaign->id }}"
                                             {{ old('campaign', $booking->campaign ?? null) == $campaign->id ? 'selected' : '' }}>
@@ -262,6 +274,9 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @if(auth()->user()->role_id == 1 && $booking->campaign)
+                                    <input type="hidden" name="campaign" value="{{ $booking->campaign }}">
+                                @endif
 
                                 @error('campaign')
                                     <div class="text-danger">{{ $message }}</div>
@@ -272,48 +287,58 @@
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Descriptor</label>
                                 <input type="text" class="form-control" name="descriptor"
-                                    value="{{ old('descriptor', $booking->descriptor ?? '') }}">
+                                    value="{{ old('descriptor', $booking->descriptor ?? '') }}"
+                                     @if(auth()->user()->role_id == 1 && $booking->descriptor) readonly @endif > 
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Brands</label>
-                                <select id="selected_company" name="selected_company" class="form-control">
+                                <select id="selected_company" name="selected_company" class="form-control" {{ (auth()->user()->role_id == 1 && $booking->selected_company) ? 'disabled' : '' }}>
                                     <option value="1" {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>flydreamz</option>
                                     <option value="2" {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}>fareticketsus</option>
                                     <option value="3" {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>fareticketsllc</option>
                                     <option value="4" {{ old('selected_company', $booking->selected_company ?? '') === '4' ? 'selected' : '' }}>cruiselineservice</option>
                                 </select>
+                                @if(auth()->user()->role_id == 1 && $booking->selected_company)
+                                    <input type="hidden" name="selected_company" value="{{ $booking->selected_company }}">
+                                @endif
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label"> Divided with</label>
-                                <select class="form-control" name="shared_booking">
+                                <select class="form-control" name="shared_booking" {{ (auth()->user()->role_id == 1) ? 'disabled' : '' }}>
                                     <option value="">Select</option>
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}"
-                                                {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>
-                                                {{ $user->name }}</option>
-                                        @endforeach
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>
+                                            {{ $user->name }}</option>
+                                    @endforeach
                                 </select>
+                                @if(auth()->user()->role_id == 1 && $booking->shared_booking)
+                                    <input type="hidden" name="shared_booking" value="{{ $booking->shared_booking }}">
+                                @endif
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Booking Type </label>
-                                <select id="query_type" class="form-control" name="query_type">
-                                     @foreach ($booking_types as $booking_type)
-                                            <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}"
-                                                data-id="{{ $booking_type->id }}"
-                                                {{ old('query_type', $booking->query_type ?? '') == $booking_type->id ? 'selected' : '' }}>
-                                                {{ $booking_type->name }} - {{ $booking_type->id }}
-                                            </option>
-                                        @endforeach
+                                <select id="query_type" class="form-control" name="query_type" {{ (auth()->user()->role_id == 1 && $booking->query_type) ? 'disabled' : '' }}>
+                                    @foreach ($booking_types as $booking_type)
+                                        <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}"
+                                            data-id="{{ $booking_type->id }}"
+                                            {{ old('query_type', $booking->query_type ?? '') == $booking_type->id ? 'selected' : '' }}>
+                                            {{ $booking_type->name }} - {{ $booking_type->id }}
+                                        </option>
+                                    @endforeach
                                 </select>
+                                @if(auth()->user()->role_id == 1 && $booking->query_type)
+                                    <input type="hidden" name="query_type" value="{{ $booking->query_type }}">
+                                @endif
                             </div>
 
                            
                             <div class="col-md-2 position-relative mb-5" id="changes_assign_to_div">
                                 <label class="form-label">Changes Assign To</label>
-                                <select id="changes_assign_to" class="form-control" name="changes_assign_to">
+                                <select id="changes_assign_to" class="form-control" name="changes_assign_to" {{ (auth()->user()->role_id == 1) ? 'disabled' : '' }}>
                                     <option value="">Select User</option>
                                     @foreach ($changesAssignUsers as $user)
                                         <option value="{{ $user->id }}"
@@ -322,9 +347,10 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @if(auth()->user()->role_id == 1 && $booking->changes_assign_to)
+                                    <input type="hidden" name="changes_assign_to" value="{{ $booking->changes_assign_to }}">
+                                @endif
                             </div>
-
-
 
 
                             @include('web.booking.status')

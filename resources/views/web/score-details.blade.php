@@ -71,15 +71,15 @@
                                         <th>PNR</th>
                                         <th>Customer</th>
                                         <th>Booking Type</th>
-                                        <th>Status</th>
+                                     
                                         <th>Booking Date</th>   
                                         <th>Booking Status</th>  
                                         <th>Payment Status</th>  
-                                        <th>Net Value</th>
                                         <th>Gross MCO</th>  
+                                        <th>Net Value</th>
                                         <th>Quality Score</th>  
                                         <th>Email Status</th>  
-                                        <th>Action</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -128,11 +128,7 @@
                                         @endif
                                         </td>
                                         
-                                        <td>
-                                            <span class="badge bg-label-{{ $booking->bookingStatus->name == 'Confirmed' ? 'success' : 'warning' }}">
-                                                {{ $booking->bookingStatus->name ?? 'N/A' }}
-                                            </span>
-                                        </td>
+                                       
                                         <td>
                                             <span class="text-muted">{{ $booking->created_at->format('M d, Y') }}</span>
                                             <br>
@@ -145,11 +141,11 @@
                                          <td>{{$booking->quality_score}}</td>  
                                          <td>Email Status</td>  
                                         
-                                        <td>
+                                        <!-- <td>
                                             <a href="{{ route('booking.show', encode($booking->id)) }}" class="btn btn-sm btn-label-primary">
                                                 <i class="ri-eye-line"></i>
                                             </a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     @endforeach
                                 </tbody>

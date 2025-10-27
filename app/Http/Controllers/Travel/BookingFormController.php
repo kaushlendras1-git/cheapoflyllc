@@ -246,7 +246,8 @@ class BookingFormController extends Controller
 
     public function index(Request $request)
     {
-
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $endOfMonth   = Carbon::now()->endOfMonth();
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
         $userId = Auth::id();
 
@@ -285,16 +286,23 @@ class BookingFormController extends Controller
 
         $bookings->appends($request->only('search'));
 
-        $flight_booking = TravelBooking::where('user_id', $userId)->where('airlinepnr','!=', NULL)->count();
-        $hotel_booking = TravelBooking::where('user_id', $userId)->where('hotel_ref','!=', NULL)->count();
-        $cruise_booking = TravelBooking::where('user_id', $userId)->where('cruise_ref','!=', NULL)->count();
-        $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
+    if(auth()->user()->role_id == 1 && auth()->user()->department_id == 2){        
+
+        $flight_booking = TravelBooking::where('user_id', $userId)->where('airlinepnr','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        $hotel_booking = TravelBooking::where('user_id', $userId)->where('hotel_ref','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        $cruise_booking = TravelBooking::where('user_id', $userId)->where('cruise_ref','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+    }else{
+        $flight_booking = TravelBooking::where('airlinepnr','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        $hotel_booking = TravelBooking::where('hotel_ref','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        $cruise_booking = TravelBooking::where('cruise_ref','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        $car_booking = TravelBooking::where('car_ref','!=', NULL)->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+    }                            
+
         $train_booking = 0;        
         $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count(); 
         return view('web.booking.index', compact('bookings', 'flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
     }
-
-
 
 
     public function search(Request $request)

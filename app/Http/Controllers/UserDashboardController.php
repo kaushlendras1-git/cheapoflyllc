@@ -196,8 +196,7 @@ class UserDashboardController extends Controller
 
     public function scoreDetails(Request $request)
     {
-        $userId = Auth::id();
-        
+        $userId = Auth::id();        
         $query = TravelBooking::where('user_id', $userId);
         
         // Apply filters
@@ -249,8 +248,6 @@ class UserDashboardController extends Controller
                           ->orderBy('created_at', 'desc')
                           ->paginate(20);
         
-
-        
         // Calculate real data from travel_bookings using net_mco
         $charge_back_data = TravelBooking::where('user_id', $userId)
                                         ->where('booking_status_id', 22)
@@ -270,10 +267,12 @@ class UserDashboardController extends Controller
                                           ->selectRaw('SUM(net_mco) as total, COUNT(*) as count')
                                           ->first();
         $total_booking_total = $total_booking_data->total ?? 0;
-        $total_booking_count = $total_booking_data->count ?? 0;
-        
+        $total_booking_count = $total_booking_data->count ?? 0;        
         return view('web.score-details', compact('bookings', 'charge_back_total', 'charge_back_count', 'total_booking_total', 'total_booking_count', 'refund_total', 'refund_count'));
+    
     }
+
+
     
     private function getBookingTypeMetrics($userId, $type)
     {
