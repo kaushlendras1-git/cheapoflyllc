@@ -35,8 +35,8 @@
                                     <td>Billing No. {{ $key + 1 }}</td>
 
                                     @if( $roleId == 2)
-                                        <td>{{ ($disabled == 'disabled' && str_contains($bill->email, '@')) ? (substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1]) : $bill->email }}</td>
-                                    <td>{{ ($disabled == 'disabled') ? (substr($bill->contact_number, 0, 2) . '******' . substr($bill->contact_number, -2)) : $bill->contact_number }}</td>                                   
+                                    <td>{{ $bill->email }}</td>
+                                    <td>{{ $bill->contact_number }}</td>                                   
                                     @else
                                         <td>{{ ($disabled == 'disabled' && str_contains($bill->email, '@')) ? (substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1]) : $bill->email }}</td>
                                         <td>{{ ($disabled == 'disabled') ? (substr($bill->contact_number, 0, 2) . '******' . substr($bill->contact_number, -2)) : $bill->contact_number }}</td>                                   
