@@ -268,20 +268,14 @@ class BookingFormController extends Controller
             });
         }
 
+
+
         $bookings = $query
                             ->when(
                                 auth()->user()->role_id == 1 && auth()->user()->department_id == 2,
                                 function ($q) use ($userId) {
-                                    $q->where('user_id', $userId);
-                                }
-                            )
-
-                            ->when(
-                                auth()->user()->role_id == 2 && auth()->user()->department_id == 2,
-                                function ($q) use ($userId) {
-                                    // Get all users where current user is their team leader
-                                    $teamMemberIds = \App\Models\User::where('team_leader', $userId)->pluck('id');
-                                    $q->whereIn('user_id', $teamMemberIds);
+                                    $q->where('user_id', $userId)
+                                      ->whereDate('created_at', Carbon::today());
                                 }
                             )
 
@@ -295,10 +289,12 @@ class BookingFormController extends Controller
         $hotel_booking = TravelBooking::where('user_id', $userId)->where('hotel_ref','!=', NULL)->count();
         $cruise_booking = TravelBooking::where('user_id', $userId)->where('cruise_ref','!=', NULL)->count();
         $car_booking = TravelBooking::where('user_id', $userId)->where('car_ref','!=', NULL)->count();
-        $train_booking = 0;
-        $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
+        $train_booking = 0;        
+        $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count(); 
         return view('web.booking.index', compact('bookings', 'flight_booking','hotel_booking','cruise_booking','car_booking','train_booking','pending_booking'));
     }
+
+
 
 
     public function search(Request $request)
