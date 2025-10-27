@@ -130,7 +130,8 @@
                             <option value="Special Occasion Package">Special Occasion Package</option>
                             <option value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
                             <option value="Pet-in Cabin">Pet-in Cabin</option>
-                            <option value="Pet-in Cargo">Pet-in Cargo</option>
+                            <option value="Vacation Packages">Vacation Packages</option>
+                            <option value="Seat Assignment">Seat Assignment</option>
                             </select>
                         </td>
 
@@ -336,6 +337,9 @@
                                         <option value="Pet-in Cabin" {{$pricingDetails->price_description=='Pet-in Cabin'?'selected':''}} >Pet-in Cabin</option>
                                         <option value="Pet-in Cargo" {{$pricingDetails->price_description=='Pet-in Cargo'?'selected':''}} >Pet-in Cargo</option>
                                         <option value="Cancellation Fee" {{$pricingDetails->price_description=='Cancellation Fee'?'selected':''}} >Cancellation Fee</option>
+                                        <option value="Vacation Packages" {{$pricingDetails->price_description=='Vacation Packages'?'selected':''}}>Vacation Packages</option>
+                                        <option value="Seat Assignment" {{$pricingDetails->price_description=='Seat Assignment'?'selected':''}}>Seat Assignment</option>
+
                                         </select>
                                     </td>
                                     

@@ -56,6 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <option value="Pet-in Cabin">Pet-in Cabin</option>
                 <option value="Pet-in Cargo">Pet-in Cargo</option>
                 <option value="Cancellation Fee">Cancellation Fee</option>
+                <option value="Vacation Packages">Vacation Packages</option>
+                <option value="Seat Assignment">Seat Assignment</option>
+
             </select>
             </td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
