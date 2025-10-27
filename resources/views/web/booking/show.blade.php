@@ -1,8 +1,12 @@
 @extends('web.layouts.main')
 @section('content')
 
+    {{ auth()->user()->role_id }}
+
     @php
-        $disabled = (auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) ? 'disabled' : '';
+        $disabled = ((auth()->user()->role_id == 1 || auth()->user()->role_id == 2) && $booking->payment_status_id >= 7)
+        ? 'disabled'
+        : '';
     @endphp
 
     <style>
