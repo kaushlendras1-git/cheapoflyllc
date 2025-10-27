@@ -34,8 +34,14 @@
                                 <tr>
                                     <td>Billing No. {{ $key + 1 }}</td>
 
-                                    <td>{{ ($disabled == 'disabled' && str_contains($bill->email, '@')) ? (substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1]) : $bill->email }}</td>
+                                    @if( $roleId == 2)
+                                        <td>{{ ($disabled == 'disabled' && str_contains($bill->email, '@')) ? (substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1]) : $bill->email }}</td>
                                     <td>{{ ($disabled == 'disabled') ? (substr($bill->contact_number, 0, 2) . '******' . substr($bill->contact_number, -2)) : $bill->contact_number }}</td>                                   
+                                    @else
+                                        <td>{{ ($disabled == 'disabled' && str_contains($bill->email, '@')) ? (substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1]) : $bill->email }}</td>
+                                        <td>{{ ($disabled == 'disabled') ? (substr($bill->contact_number, 0, 2) . '******' . substr($bill->contact_number, -2)) : $bill->contact_number }}</td>                                   
+                                    @endif
+                                    
                                    
                                     <td>{{ $bill->street_address }}</td>
                                     <td>{{ $bill->city }}</td>
@@ -114,12 +120,12 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" maxlength="16" pattern="[0-9]*" inputmode="numeric" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control cc-number-input"
+                                                <input type="text" maxlength="16" pattern="[0-9]*" inputmode="numeric" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control"
                                                     style="width: 140px;" placeholder="CC Number"
                                                     name="billing[{{ $key }}][cc_number]"
                                                     value="{{ $billingDetails['cc_number'] }}"
                                                     data-original="{{ $billingDetails['cc_number'] }}"
-                                                    onfocus="showFullNumber(this)" onblur="maskNumber(this)"  {{ $disabled }} >
+                                                    {{ $disabled }} >
                                             </td>
 
 
@@ -162,6 +168,7 @@
                                                 class="form-control w-100" placeholder="CVV"
                                                 name="billing[{{ $key }}][cvv]"
                                                 value="{{ $billingDetails['cvv'] }}"
+                                                {{ $disabled }}
                                                 >
                                         </td>
 
