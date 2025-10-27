@@ -13,7 +13,7 @@
 
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="pnrtype" id="GK" value="GK"
-                        {{ $booking->pnrtype == 'GK' ? 'checked' : '' }} {{ $disabled }} >
+                        {{ $booking->pnrtype == 'GK' ? 'checked' : '' }}  >
                     <label class="form-check-label" for="GK">GK</label>
                 </div>
 
