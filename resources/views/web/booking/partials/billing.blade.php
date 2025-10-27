@@ -33,19 +33,10 @@
                             @foreach ($billingData as $key => $bill)
                                 <tr>
                                     <td>Billing No. {{ $key + 1 }}</td>
-                                    <td> @if(auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) 
-                                            {{ substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1] }}
-                                        @else
-                                              {{ $bill->email }}
-                                        @endif                                      
-                                    </td>
-                                    
-                                    <td>  @if(auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) 
-                                             {{ substr($bill->contact_number, 0, 2) . '******' . substr($bill->contact_number, -2) }}
-                                        @else
-                                             {{ $bill->contact_number }}
-                                        @endif  
-                                    </td>
+
+                                    <td>{{ ($disabled == 'disabled' && str_contains($bill->email, '@')) ? (substr($bill->email, 0, 1) . '***@' . explode('@', $bill->email)[1]) : $bill->email }}</td>
+                                    <td>{{ ($disabled == 'disabled') ? (substr($bill->contact_number, 0, 2) . '******' . substr($bill->contact_number, -2)) : $bill->contact_number }}</td>                                   
+                                   
                                     <td>{{ $bill->street_address }}</td>
                                     <td>{{ $bill->city }}</td>
                                     <td>{{ $bill->get_state->name ?? '' }}</td>
@@ -132,12 +123,12 @@
                                             </td>
 
 
-                                            <td><input type="text" class="form-control w-100 cc_holder_name"
+                                            <td>
+                                                <input type="text" class="form-control w-100 cc_holder_name"
                                                     placeholder="CC Holder Name"
                                                     name="billing[{{ $key }}][cc_holder_name]"
-                                                     value="{{ (auth()->user()->role_id == 1 && $booking->payment_status_id >= 7) ? (strlen($billingDetails['cc_holder_name']) > 2 ? substr($billingDetails['cc_holder_name'], 0, 2) . 'xxx' : $billingDetails['cc_holder_name']) : $billingDetails['cc_holder_name'] }}"
-                                                     {{ $disabled }} 
-                                                >
+                                                    value="{{ ($disabled == 'disabled') ? (strlen($billingDetails['cc_holder_name']) > 2 ? substr($billingDetails['cc_holder_name'], 0, 2) . 'xxx' : $billingDetails['cc_holder_name']) : $billingDetails['cc_holder_name'] }}"
+                                                    {{ $disabled }}>
                                             </td>
 
                                             <td>
