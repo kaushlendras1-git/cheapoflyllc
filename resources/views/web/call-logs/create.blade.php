@@ -117,7 +117,7 @@
 
                                 @endphp
                                 <option value="" {{ !$selectedCountry ? 'selected' : '' }}>Select Country</option>
-                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ $selectedCountry == 'US' ? 'selected' : '' }}>United States</option>
+                                <option value="US" data-code="+1" data-flag="🇺🇸" {{ $selectedCountry == 'US' ? 'selected' : '' }} selected >United States</option>
                                 <option value="CA" data-code="+1" data-flag="🇨🇦" {{ $selectedCountry == 'CA' ? 'selected' : '' }}>Canada</option>
                                 <option value="GB" data-code="+44" data-flag="🇬🇧" {{ $selectedCountry == 'GB' ? 'selected' : '' }}>United Kingdom</option>
                                 <option value="AU" data-code="+61" data-flag="🇦🇺" {{ $selectedCountry == 'AU' ? 'selected' : '' }}>🇦🇺 Australia</option>
@@ -267,10 +267,10 @@
                             <label class="form-label none-upper">Call Converted <span class="text-danger">*</span></label>
                             <div>
                                 <input type="radio" id="call_converted_yes" name="call_converted" value="1"
-                                    {{ old('call_converted') == '1' ? 'checked' : '' }}>
+                                    {{ old('call_converted') == '1' ? 'checked' : '' }} checked >
                                 <label for="call_converted_yes" class="me-2">Yes</label>
                                 <input type="radio" id="call_converted_no" name="call_converted" value="0"
-                                    {{ old('call_converted') == '0' ? 'checked' : '' }}>
+                                    {{ old('call_converted') == '0' ? 'checked' : '' }}  >
                                 <label for="call_converted_no">No</label>
                             </div>
                         </div>

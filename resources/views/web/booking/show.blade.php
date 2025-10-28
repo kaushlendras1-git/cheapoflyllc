@@ -222,12 +222,35 @@
 
                                     <div class="col-md-2 position-relative mb-5" id="flight-inputs">
                                         <label class="form-label">Airline PNR</label>
-                                        @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
-                                            <input type="text" class="form-control readonly-field" 
-                                                value="{{ strlen($booking->airlinepnr) > 2 ? substr($booking->airlinepnr, 0, 2) . 'xxx' : $booking->airlinepnr }}" readonly>
-                                            <input type="hidden" name="airlinepnr" value="{{ $booking->airlinepnr }}">
+                                        @php
+                                            $isPaid = $booking->payment_status_id >= 7;
+                                            $maskedPnr = strlen($booking->airlinepnr) > 2 
+                                                ? substr($booking->airlinepnr, 0, 2) . 'xxx' 
+                                                : $booking->airlinepnr;
+                                        @endphp
+
+                                        @if($isPaid)
+                                            @if($roleId === 1)
+                                                <!-- Role 1: Masked + readonly + hidden real value -->
+                                                <input type="text" 
+                                                    class="form-control readonly-field" 
+                                                    value="{{ $maskedPnr }}" 
+                                                    readonly>
+                                                <input type="hidden" name="airlinepnr" value="{{ $booking->airlinepnr }}">
+                                            @else
+                                                <!-- Other roles: Full PNR + readonly (no mask) -->
+                                                <input type="text" 
+                                                    class="form-control readonly-field" 
+                                                    value="{{ $booking->airlinepnr }}" 
+                                                    readonly>
+                                                    <input type="hidden" name="airlinepnr" value="{{ $booking->airlinepnr }}">
+                                            @endif
                                         @else
-                                            <input type="text" class="form-control" name="airlinepnr" value="{{ $booking->airlinepnr }}">
+                                            <!-- Not paid: Editable for everyone -->
+                                            <input type="text" 
+                                                class="form-control" 
+                                                name="airlinepnr" 
+                                                value="{{ $booking->airlinepnr }}">
                                         @endif
                                     </div>
                                     
@@ -278,14 +301,33 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Calling Phone No. <span class="text-danger">*</span></label>
-                                @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
-                                    <input type="text" class="form-control readonly-field" 
-                                        value="xxx xxx {{ substr($booking->phone, -4) }}" readonly>
-                                    <input type="hidden" name="phone" value="{{ $booking->phone }}">
+                               @php
+                                    $maskedPhone = 'xxx xxx ' . substr($booking->phone, -4);
+                                @endphp
+
+                                @if($isPaid)
+                                    @if($roleId === 1 )
+                                        <!-- Roles 1 & 2: Masked + readonly + hidden real value -->
+                                        <input type="text" 
+                                            class="form-control readonly-field" 
+                                            value="{{ $maskedPhone }}" 
+                                            readonly>
+                                        <input type="hidden" name="phone" value="{{ $booking->phone }}">
+                                    @else
+                                        <!-- Other roles: Full phone + readonly -->
+                                        <input type="text" 
+                                            class="form-control readonly-field" 
+                                            value="{{ preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) }}" 
+                                            readonly>
+                                        <input type="hidden" name="phone" value="{{ $booking->phone }}">
+                                    @endif
                                 @else
-                                    <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="phone" id="phone"
-                                        value="{{ old('phone', $booking->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) : '') }}"
-                                        @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif>
+                                    <!-- Not paid: Editable for everyone -->
+                                    <input type="text" 
+                                        class="form-control" 
+                                        name="phone" 
+                                        id="phone"
+                                        value="{{ old('phone', $booking->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) : '') }}">
                                 @endif
                             </div>
 
