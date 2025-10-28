@@ -42,25 +42,25 @@
                                     <td><span class="train-title">{{ $key + 1 }}</span></td>
                                     <td><input type="text" class="form-control" style="width: 7.5rem;"
                                             name="train[{{ $key }}][direction]"
-                                            value="{{ $trainBookingDetails->direction }}" placeholder="Direction">
+                                            value="{{ $trainBookingDetails->direction }}" placeholder="Direction" {{ $disabled }} >
                                     </td>
                                     <td><input type="date" class="form-control" style="width: 105px;"
                                             name="train[{{ $key }}][departure_date]"
-                                            value="{{ $trainBookingDetails->departure_date?->format('Y-m-d') }}">
+                                            value="{{ $trainBookingDetails->departure_date?->format('Y-m-d') }}" {{ $disabled }}>
                                     </td>
                                     <td><input type="text" class="form-control" style="width: 108px;"
                                             name="train[{{ $key }}][train_number]"
-                                            value="{{ $trainBookingDetails->train_number }}" placeholder="Train No">
+                                            value="{{ $trainBookingDetails->train_number }}" placeholder="Train No" {{ $disabled }}>
                                     </td>
                                     <td><input type="text" class="form-control" style="width: 7.5rem;"
                                             name="train[{{ $key }}][cabin]"
-                                            value="{{ $trainBookingDetails->cabin }}" placeholder="Cabin">
+                                            value="{{ $trainBookingDetails->cabin }}" placeholder="Cabin" {{ $disabled }}>
                                     </td>
                                     <td style="position: relative;">
                                         <input type="text" class="form-control train_departure_station"
                                             style="width: 9rem;" name="train[{{ $key }}][departure_station]"
                                             value="{{ $trainBookingDetails->departure_station }}"
-                                            placeholder="Departure Station">
+                                            placeholder="Departure Station" {{ $disabled }} >
                                         <div class="train-suggestions-box"
                                             style="position:absolute;width:100%; background:#fff; z-index: 19999; border:1px solid #ccc; display:none;">
                                         </div>
@@ -73,7 +73,7 @@
                                             class="form-control train_arrival_station" style="width: 9rem;"
                                             name="train[{{ $key }}][arrival_station]"
                                             value="{{ $trainBookingDetails->arrival_station }}"
-                                            placeholder="Arrival Station">
+                                            placeholder="Arrival Station" {{ $disabled }} >
                                         <div class="train-suggestions-box"
                                             style="position:absolute; background:#fff;  z-index: 19999;border:1px solid #ccc; display:none;">
                                         </div>
@@ -84,15 +84,15 @@
 
                                     <td><input type="text" class="form-control" style="width: 5.5rem;"
                                             name="train[{{ $key }}][duration]"
-                                            value="{{ $trainBookingDetails->duration }}" placeholder="Duration">
+                                            value="{{ $trainBookingDetails->duration }}" placeholder="Duration" {{ $disabled }} >
                                     </td>
                                     <td><input type="text" class="form-control" style="width: 5.5rem;"
                                             name="train[{{ $key }}][transit]"
-                                            value="{{ $trainBookingDetails->transit }}" placeholder="Transit">
+                                            value="{{ $trainBookingDetails->transit }}" placeholder="Transit" {{ $disabled }}>
                                     </td>
                                     <td><input type="date" class="form-control" style="width: 105px;"
                                             name="train[{{ $key }}][arrival_date]"
-                                            value="{{ $trainBookingDetails->arrival_date?->format('Y-m-d') }}">
+                                            value="{{ $trainBookingDetails->arrival_date?->format('Y-m-d') }}" {{ $disabled }}>
                                     </td>
 
                                     <input type="hidden" name="train[{{ $key }}][id]"
@@ -123,16 +123,21 @@
                         </tr>
                     </thead>
                     <tr>
-                        <td>
-                            <textarea class="form-control" name="train_description" placeholder="Train Description" cols="30"
-                                rows="6">{{ $booking->train_description }}</textarea>
-                        </td>
-
+                        @if($disabled)
+                            <td>
+                                <div class="form-control" style="background:#f8f9fa;">{!! $booking->train_description !!}</div>
+                            </td>
+                        @else
+                            <td>
+                                <textarea class="form-control" name="train_description" placeholder="Train Description">
+                                    {{ $booking->train_description }}
+                                </textarea>
+                            </td>
+                        @endif
                     </tr>
                 </table>
             </div>
         </div>
-
 
 
         <div style="margin-top:20px">

@@ -35,32 +35,32 @@
                     </thead>
                     <tr>
                         <td> <input type="text" class="form-control" placeholder="Cruise Line" name="cruise_line"
-                                value="{{ $travel_cruise_data?->cruise_line }}"></td>
+                                value="{{ $travel_cruise_data?->cruise_line }}" {{$disabled }} ></td>
 
                         <td><input type="text" class="form-control" placeholder="Name of the Ship"
                                 placeholder="Name of the Ship" name="ship_name"
-                                value="{{ $travel_cruise_data?->ship_name }}">
+                                value="{{ $travel_cruise_data?->ship_name }}" {{ $disabled }} >
                         </td>
                         <td><input type="text" class="form-control" placeholder="Cruise Trip Name" name="cruise_name"
-                                value="{{ $travel_cruise_data?->cruise_name }}"></td>
+                                value="{{ $travel_cruise_data?->cruise_name }}" {{ $disabled }} ></td>
                         <td> <input type="text" class="form-control" placeholder="Length" placeholder="length"
-                                name="length" value="{{ $travel_cruise_data?->length }}"></td>
+                                name="length" value="{{ $travel_cruise_data?->length }}" {{ $disabled }} ></td>
 
                         <td>
                              <input type="text" class="form-control" placeholder="Departure Port"
-                                name="departure_port" value="{{ $travel_cruise_data?->departure_port }}">
+                                name="departure_port" value="{{ $travel_cruise_data?->departure_port }}"  {{ $disabled }} >
                         </td>
 
 
                                 <td> <input type="text" class="form-control" placeholder="Arival Port" name="arrival_port"
-                                value="{{ $travel_cruise_data?->arrival_port }}"></td>
+                                value="{{ $travel_cruise_data?->arrival_port }}"  {{ $disabled }} ></td>
 
 
                         <td><input type="text" class="form-control" placeholder="Room Category" name="category"
-                                value="{{ $travel_cruise_data?->category }}">
+                                value="{{ $travel_cruise_data?->category }}"  {{ $disabled }} >
                         </td>
                         <td><input type="text" class="form-control" placeholder="Stateroom" name="stateroom"
-                                value="{{ $travel_cruise_data?->stateroom }}">
+                                value="{{ $travel_cruise_data?->stateroom }}"  {{ $disabled }} >
                         </td>
 
                     </tr>
@@ -87,7 +87,6 @@
                                 <th>Date</th>
                                 <th> Port</th>
                                 <th>Depart Time<br>Hrs:MM</th>
-
                                 <th>Arrival Time<br>Hrs:MM</th>
                                 <!-- <th>Remarks</th> -->
                                 <th>Action</th>
@@ -100,16 +99,16 @@
 
                                     <td><input style="width: 125px;" type="text" class="form-control flatpickr-hotel-checkin"
                                             name="cruise[{{ $key }}][departure_date]"
-                                            value="{{ $travelCruise->departure_date?->format('d-m-Y') }}">
+                                            value="{{ $travelCruise->departure_date?->format('d-m-Y') }}" {{ $disabled }} >
                                     </td>
                                     <td><input type="text" class="form-control" style="width:39.5rem"
                                             name="cruise[{{ $key }}][departure_port]"
-                                            value="{{ $travelCruise->departure_port }}" placeholder="Port"></td>
+                                            value="{{ $travelCruise->departure_port }}" placeholder="Port" {{ $disabled }} ></td>
 
-                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[{{ $key }}][departure_hrs]" value="{{ $travelCruise->departure_hrs }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[{{ $key }}][departure_hrs]" value="{{ $travelCruise->departure_hrs }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format" {{ $disabled }}>
                                         <span class="time-format-indicator" style="display: none;"></span></td>
 
-                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[{{ $key }}][arrival_hrs]" value="{{ $travelCruise->arrival_hrs }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                    <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width:86px" name="cruise[{{ $key }}][arrival_hrs]" value="{{ $travelCruise->arrival_hrs }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format" {{ $disabled }}>
                                         <span class="time-format-indicator" style="display: none;"></span></td>
 
 

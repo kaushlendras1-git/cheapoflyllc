@@ -1,11 +1,5 @@
-
-
-            <!------------------------ Hotel Booking Details ------------------------------>
-
+     <!------------------------ Hotel Booking Details ------------------------------>
             <div class="tab-pane fade" id="hotelbooking" role="tabpanel" aria-labelledby="hotelbooking-tab">
-
-
-
 
                 <div class="card p-4 show-booking-card">
                     <div class="position-relative checkbox-servis mb-1 mt-1">
@@ -50,45 +44,45 @@
                                             <td><span class="hotel-title">{{$key+1}}</span></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem"
                                                     name="hotel[{{$key}}][hotel_name]"
-                                                    value="{{$travelHotel->hotel_name}}" placeholder="Hotel Name">
+                                                    value="{{$travelHotel->hotel_name}}" placeholder="Hotel Name" {{ $disabled }}>
                                             </td>
                                             <td><input type="text" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][room_category]"
-                                                    value="{{$travelHotel->room_category}}" placeholder="Room Category">
+                                                    value="{{$travelHotel->room_category}}" placeholder="Room Category" {{ $disabled }} >
                                             </td>
 
                                             <td><input type="text" class="form-control flatpickr-hotel-checkin"
                                                     name="hotel[{{$key}}][checkin_date]"
                                                     value="{{$travelHotel->checkin_date?->format('d-m-Y')}}"
-                                                    style="width: 114px;"></td>
+                                                    style="width: 114px;"  {{ $disabled }} ></td>
 
                                             <td><input type="text" class="form-control flatpickr-hotel-checkout"
                                                     name="hotel[{{$key}}][checkout_date]"
                                                     value="{{$travelHotel->checkout_date?->format('d-m-Y')}}"
-                                                    style="width: 114px;"></td>
+                                                    style="width: 114px;"  {{ $disabled }} ></td>
 
                                             <td><input type="number" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][no_of_rooms]"
                                                     value="{{$travelHotel->no_of_rooms}}" placeholder="No. Of Rooms"
-                                                    min="1"></td>
+                                                    min="1"  {{ $disabled }}  ></td>
 
                                             <td><input type="text" class="form-control" style="width:10.5rem"
                                                     name="hotel[{{$key}}][confirmation_number]"
                                                     value="{{$travelHotel->confirmation_number}}"
-                                                    placeholder="Confirmation Number"></td>
+                                                    placeholder="Confirmation Number"  {{ $disabled }}  ></td>
 
                                             <td><input type="text" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][hotel_address]"
-                                                    value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address">
+                                                    value="{{$travelHotel->hotel_address}}" placeholder="Hotel Address"  {{ $disabled }}  >
                                             </td>
 
                                             <td><input type="text" class="form-control" style="width:8rem"
                                                     name="hotel[{{$key}}][special_notes]"
-                                                    value="{{$travelHotel->special_notes}}" placeholder="Refundable">
+                                                    value="{{$travelHotel->special_notes}}" placeholder="Refundable" {{ $disabled }} >
                                             </td>
 
                                             <td>
-                                                <button type="button" class="btn btn-outline-danger delete-hotel-btn">
+                                                <button type="button" class="btn btn-outline-danger delete-hotel-btn"  {{ $disabled }} >
                                                     <i class="ri ri-delete-bin-line"></i>
                                                 </button>
                                             </td>
@@ -117,8 +111,15 @@
                                     </tr>
                                 </thead>
                                 <tr>
-                                    <!--ckeditor-->
-                                    <td><textarea class="form-control" name="hotel_description" placeholder="Hotel Description" >{{$booking->hotel_description}}</textarea></td>
+                                   @if($disabled)
+                                        <td><div class="form-control" style="background:#f8f9fa;">{!! $booking->hotel_description !!}</div></td>
+                                    @else
+                                        <td>
+                                            <textarea class="form-control" name="hotel_description" placeholder="Hotel Description">
+                                                {{ $booking->hotel_description }}
+                                            </textarea>
+                                        </td>
+                                    @endif
                                 </tr>
                             </table>
                         </div>

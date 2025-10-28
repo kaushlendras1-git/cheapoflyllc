@@ -79,43 +79,46 @@
                                             <td><input type="text" class="form-control" style="width:10rem"
                                                     name="car[{{$key}}][car_rental_provider]"
                                                     value="{{$travelCar->car_rental_provider}}"
-                                                    placeholder="Car Rental Provider"></td>
+                                                    placeholder="Car Rental Provider" {{ $disabled }} ></td>
                                             <td><input type="text" class="form-control" style="width:7.5rem"
                                                     name="car[{{$key}}][car_type]" value="{{$travelCar->car_type}}"
-                                                    placeholder="Car Type"></td>
+                                                    placeholder="Car Type" {{ $disabled }} ></td>
                                             <td><input type="text" class="form-control" style="width:9rem"
                                                     name="car[{{$key}}][pickup_location]"
                                                     value="{{$travelCar->pickup_location}}"
-                                                    placeholder="Pick-up Location"></td>
+                                                    placeholder="Pick-up Location" {{ $disabled }} ></td>
                                             <td><input type="text" class="form-control" style="width:10rem"
                                                     name="car[{{$key}}][dropoff_location]"
                                                     value="{{$travelCar->dropoff_location}}"
-                                                    placeholder="Drop-off Location"></td>
+                                                    placeholder="Drop-off Location" {{ $disabled }} ></td>
 
                                             <td><input style="width: 110px;" type="text" class="form-control flatpickr-hotel-checkin"
                                                     name="car[{{$key}}][pickup_date]"
-                                                    value="{{$travelCar->pickup_date?->format('d-m-Y')}}"></td>
+                                                    value="{{$travelCar->pickup_date?->format('d-m-Y')}}" {{ $disabled }} ></td>
 
-                                            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 105px;" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                            <td style="position: relative;">
+                                                <input type="text" class="form-control time-12hr" style="width: 105px;" name="car[{{$key}}][pickup_time]" value="{{ $travelCar->pickup_time ? \Carbon\Carbon::parse($travelCar->pickup_time)?->format('H:i') : '' }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format" {{ $disabled }} >
                                                 <span class="time-format-indicator" style="display: none;"></span></td>
 
                                                 <td><input style="width: 105px;" type="text" class="form-control flatpickr-hotel-checkin"
                                                     name="car[{{$key}}][dropoff_date]"
-                                                    value="{{$travelCar->dropoff_date?->format('d-m-Y')}}"></td>
+                                                    value="{{$travelCar->dropoff_date?->format('d-m-Y')}}" {{ $disabled }} ></td>
 
-                                            <td style="position: relative;"><input type="text" class="form-control time-12hr" style="width: 100px;" name="car[{{$key}}][dropoff_time]" value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format">
+                                            <td style="position: relative;">
+                                                <input type="text" class="form-control time-12hr" style="width: 100px;" name="car[{{$key}}][dropoff_time]" value="{{ $travelCar->dropoff_time ? \Carbon\Carbon::parse($travelCar->dropoff_time)?->format('H:i') : '' }}" placeholder="HH:MM" maxlength="5" title="Enter time in 12-hour (3:30 PM) or 24-hour (15:30) format" {{ $disabled }} >
                                                 <span class="time-format-indicator" style="display: none;"></span></td>
-                                            <td><input type="text" class="form-control" style="width:12rem"
+                                            
+                                                <td><input type="text" class="form-control" style="width:12rem"
                                                     name="car[{{$key}}][confirmation_number]"
                                                     placeholder="Confirmation Number"
-                                                    value="{{$travelCar->confirmation_number}}"></td>
+                                                    value="{{$travelCar->confirmation_number}}" {{ $disabled }} ></td>
 
                                                       <input type="hidden" name="car[{{ $key }}][id]"
                                                     value="{{ $travelCar->id }}">
 
 
                                             <td>
-                                                <button type="button" class="btn btn-outline-danger delete-car-btn">
+                                                <button type="button" class="btn btn-outline-danger delete-car-btn" {{ $disabled }} >
                                                     <i class="ri ri-delete-bin-line"></i>
                                                 </button>
                                             </td>
@@ -138,7 +141,17 @@
                                 </tr>
                             </thead>
                             <tr>
-                                <td><textarea class="form-control" name="car_description" placeholder="Car Description" cols="30" rows="6">{{$booking->car_description}}</textarea></td>
+                                @if($disabled)
+                                        <td>
+                                            <div class="form-control" style="background:#f8f9fa;">{!! $booking->car_description !!}</div>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <textarea class="form-control" name="car_description" placeholder="Car Description">
+                                                {{ $booking->car_description }}
+                                            </textarea>
+                                        </td>
+                                    @endif
                             </tr>
                         </table>
                     </div>

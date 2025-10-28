@@ -5,6 +5,7 @@
         $roleId = (int) auth()->user()->role_id;
         $booking->payment_status_id = (int) $booking->payment_status_id;
         $disabled = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '';
+        $readonly = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'readonly' : '';
     @endphp
 
     <style>
@@ -446,7 +447,7 @@
             @elseif(auth()->user()->department_id == 3)
                 @include('web.booking.partials.tabs-quality')
             @else
-                No Data
+               @include('web.booking.partials.tabs-agent')
             @endif
 
             <div class="d-flex justify-content-between gap-2 mt-2">
