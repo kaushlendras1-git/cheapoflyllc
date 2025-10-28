@@ -701,7 +701,7 @@ class BookingFormController extends Controller
                     $rules['billing.*.cvv']                     = 'required|string|max:4';
                     $rules['billing.*.state']                   = 'required';
                     $rules['billing.*.currency']                = 'required|in:USD,CAD,EUR,GBP,AUD,INR,MXN';
-                    $rules['billing.*.amount']                  = 'required|numeric|min:1';
+                  #  $rules['billing.*.amount']                  = 'required|numeric|min:1';
 
                     //PRICIGN
                     $rules['pricing']                          = 'required|array|min:1';
