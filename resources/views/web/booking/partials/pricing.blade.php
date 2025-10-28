@@ -113,25 +113,25 @@
                         <td>
                             <select style="width: 160px;" name="pricing[0][price_description]" class="form-select form-control">
                             <option value="">Select</option>
-                            <option value="Flight Price Offered">Flight Price Offered</option>
-                            <option value="Hotel Price Offered">Hotel Price Offered</option>
-                            <option value="Car Price Offered">Car Price Offered</option>
-                            <option value="Cruise Price Offered">Cruise Price Offered</option>
-                            <option value="Train Price Offered">Train Price Offered</option>
-                            <option value="Excursions">Excursions</option>
-                            <option value="Spa Services">Spa Services</option>
-                            <option value="WiFi Packages">WiFi Packages</option>
-                            <option value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
-                            <option value="Shuttle Services">Shuttle Services</option>
-                            <option value="Speciality Dining">Speciality Dining</option>
-                            <option value="Drink Packages">Drink Packages</option>
-                            <option value="Trip Insurance">Trip Insurance</option>
-                            <option value="Check-in Proces Luggage Tags &amp; Sailing Pass">Check-in Proces Luggage Tags &amp; Sailing Pass</option>
-                            <option value="Special Occasion Package">Special Occasion Package</option>
-                            <option value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
-                            <option value="Pet-in Cabin">Pet-in Cabin</option>
-                            <option value="Vacation Packages">Vacation Packages</option>
-                            <option value="Seat Assignment">Seat Assignment</option>
+                            <option data-type="Flight" value="Flight Price Offered">Flight Price Offered</option>
+                            <option data-type="Hotel" value="Hotel Price Offered">Hotel Price Offered</option>
+                            <option data-type="Car" value="Car Price Offered">Car Price Offered</option>
+                            <option data-type="Train" value="Train Price Offered">Train Price Offered</option>
+                            <option data-type="Cruise" value="Cruise Price Offered">Cruise Price Offered</option>
+                            <option data-type="Cruise" value="Excursions">Excursions</option>
+                            <option data-type="Cruise" value="Spa Services">Spa Services</option>
+                            <option data-type="Cruise" value="WiFi Packages">WiFi Packages</option>
+                            <option data-type="Cruise" value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
+                            <option data-type="Cruise" value="Shuttle Services">Shuttle Services</option>
+                            <option data-type="Cruise" value="Speciality Dining">Speciality Dining</option>
+                            <option data-type="Cruise" value="Drink Packages">Drink Packages</option>
+                            <option data-type="Cruise" value="Trip Insurance">Trip Insurance</option>
+                            <option data-type="Cruise" value="Check-in Proces Luggage Tags &amp; Sailing Pass">Check-in Proces Luggage Tags &amp; Sailing Pass</option>
+                            <option data-type="Cruise" value="Special Occasion Package">Special Occasion Package</option>
+                            <option data-type="Cruise" value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
+                            <option data-type="Cruise" value="Pet-in Cabin">Pet-in Cabin</option>
+                            <option data-type="Cruise" value="Vacation Packages">Vacation Packages</option>
+                            <option data-type="Cruise" value="Seat Assignment">Seat Assignment</option>
                             </select>
                         </td>
 
@@ -155,7 +155,6 @@
                                 <option data-grossmco="0" value="Chargeback Fee">Chargeback Fee</option>
                                 <option data-grossmco="0" value="Partial Chargeback Amt.">Partial Chargeback Amt.</option>
                                 <option data-grossmco="0" value="Chargeback Amt.">Chargeback Amt.</option>
-
                                 <option data-grossmco="1" data-cruise="1" value="Excursions">Excursions</option>
                                 <option data-grossmco="1" data-cruise="1" value="Spa Services">Spa Services</option>
                                 <option data-grossmco="1" data-cruise="1" value="WiFi Packages">WiFi Packages</option>
@@ -316,29 +315,29 @@
                                     </td>
 
                                     <td>
-                                        <select style="width: 160px;" name="pricing[{{$key}}][price_description]" class="form-select form-control"  {{ $disabled }} >
+                                        <select style="width: 160px;" name="pricing[{{$key}}][price_description]" class="form-select form-control price-description-select">
                                         <option value="">Select</option>
-                                        <option value="Flight Price Offered" {{$pricingDetails->price_description=='Flight Price Offered'?'selected':''}} > Flight Price Offered</option>
-                                        <option value="Hotel Price Offered" {{$pricingDetails->price_description=='Hotel Price Offered'?'selected':''}} >Hotel Price Offered</option>
-                                        <option value="Car Price Offered" {{$pricingDetails->price_description=='Car Price Offered'?'selected':''}} >Car Price Offered</option>
-                                        <option value="Cruise Price Offered" {{$pricingDetails->price_description=='Cruise Price Offered'?'selected':''}} >Cruise Price Offered</option>
-                                        <option value="Train Price Offered" {{$pricingDetails->price_description=='Train Price Offered'?'selected':''}} >Train Price Offered</option>
-                                        <option value="Excursions" {{$pricingDetails->price_description=='Excursions'?'selected':''}} >Excursions</option>
-                                        <option value="Spa Services" {{$pricingDetails->price_description=='Spa Services'?'selected':''}} >Spa Services</option>
-                                        <option value="WiFi Packages" {{$pricingDetails->price_description=='WiFi Packages'?'selected':''}} >WiFi Packages</option>
-                                        <option value="Crew Appreciation Fees/Gratuities" {{$pricingDetails->price_description=='Crew Appreciation Fees/Gratuities'?'selected':''}} >Crew Appreciation Fees/Gratuities</option>
-                                        <option value="Shuttle Services" {{$pricingDetails->price_description=='Shuttle Services'?'selected':''}} >Shuttle Services</option>
-                                        <option value="Speciality Dining" {{$pricingDetails->price_description=='Speciality Dining'?'selected':''}} >Speciality Dining</option>
-                                        <option value="Drink Packages" {{$pricingDetails->price_description=='Drink Packages'?'selected':''}} >Drink Packages</option>
-                                        <option value="Trip Insurance" {{$pricingDetails->price_description=='Trip Insurance'?'selected':''}} >Trip Insurance</option>
-                                        <option value="Check-in Proces Luggage Tags &amp; Sailing Pass" {{$pricingDetails->price_description=='Check-in Proces Luggage Tags & Sailing Pass'?'selected':''}} >Check-in Proces Luggage Tags & Sailing Pass</option>
-                                        <option value="Special Occasion Package" {{$pricingDetails->price_description=='Special Occasion Package'?'selected':''}} >Special Occasion Package</option>
-                                        <option value="Water Bottle or Distilled Water Package" {{$pricingDetails->price_description=='Water Bottle or Distilled Water Package'?'selected':''}} >Water Bottle or Distilled Water Package</option>
-                                        <option value="Pet-in Cabin" {{$pricingDetails->price_description=='Pet-in Cabin'?'selected':''}} >Pet-in Cabin</option>
-                                        <option value="Pet-in Cargo" {{$pricingDetails->price_description=='Pet-in Cargo'?'selected':''}} >Pet-in Cargo</option>
-                                        <option value="Cancellation Fee" {{$pricingDetails->price_description=='Cancellation Fee'?'selected':''}} >Cancellation Fee</option>
-                                        <option value="Vacation Packages" {{$pricingDetails->price_description=='Vacation Packages'?'selected':''}}>Vacation Packages</option>
-                                        <option value="Seat Assignment" {{$pricingDetails->price_description=='Seat Assignment'?'selected':''}}>Seat Assignment</option>
+                                        <option data-type="Flight" value="Flight Price Offered" {{$pricingDetails->price_description=='Flight Price Offered'?'selected':''}} > Flight Price Offered</option>
+                                        <option data-type="Hotel" value="Hotel Price Offered" {{$pricingDetails->price_description=='Hotel Price Offered'?'selected':''}} >Hotel Price Offered</option>
+                                        <option data-type="Car" value="Car Price Offered" {{$pricingDetails->price_description=='Car Price Offered'?'selected':''}} >Car Price Offered</option>
+                                        <option data-type="Cruise" value="Cruise Price Offered" {{$pricingDetails->price_description=='Cruise Price Offered'?'selected':''}} >Cruise Price Offered</option>
+                                        <option data-type="Train" value="Train Price Offered" {{$pricingDetails->price_description=='Train Price Offered'?'selected':''}} >Train Price Offered</option>
+                                        <option data-type="Cruise" value="Excursions" {{$pricingDetails->price_description=='Excursions'?'selected':''}} >Excursions</option>
+                                        <option data-type="Cruise" value="Spa Services" {{$pricingDetails->price_description=='Spa Services'?'selected':''}} >Spa Services</option>
+                                        <option data-type="Cruise" value="WiFi Packages" {{$pricingDetails->price_description=='WiFi Packages'?'selected':''}} >WiFi Packages</option>
+                                        <option data-type="Cruise" value="Crew Appreciation Fees/Gratuities" {{$pricingDetails->price_description=='Crew Appreciation Fees/Gratuities'?'selected':''}} >Crew Appreciation Fees/Gratuities</option>
+                                        <option data-type="Cruise" value="Shuttle Services" {{$pricingDetails->price_description=='Shuttle Services'?'selected':''}} >Shuttle Services</option>
+                                        <option data-type="Cruise" value="Speciality Dining" {{$pricingDetails->price_description=='Speciality Dining'?'selected':''}} >Speciality Dining</option>
+                                        <option data-type="Cruise" value="Drink Packages" {{$pricingDetails->price_description=='Drink Packages'?'selected':''}} >Drink Packages</option>
+                                        <option data-type="Cruise" value="Trip Insurance" {{$pricingDetails->price_description=='Trip Insurance'?'selected':''}} >Trip Insurance</option>
+                                        <option data-type="Cruise" value="Check-in Proces Luggage Tags &amp; Sailing Pass" {{$pricingDetails->price_description=='Check-in Proces Luggage Tags & Sailing Pass'?'selected':''}} >Check-in Proces Luggage Tags & Sailing Pass</option>
+                                        <option data-type="Cruise" value="Special Occasion Package" {{$pricingDetails->price_description=='Special Occasion Package'?'selected':''}} >Special Occasion Package</option>
+                                        <option data-type="Cruise" value="Water Bottle or Distilled Water Package" {{$pricingDetails->price_description=='Water Bottle or Distilled Water Package'?'selected':''}} >Water Bottle or Distilled Water Package</option>
+                                        <option data-type="Cruise" value="Pet-in Cabin" {{$pricingDetails->price_description=='Pet-in Cabin'?'selected':''}} >Pet-in Cabin</option>
+                                        <option data-type="Cruise" value="Pet-in Cargo" {{$pricingDetails->price_description=='Pet-in Cargo'?'selected':''}} >Pet-in Cargo</option>
+                                        <option data-type="Flight" value="Cancellation Fee" {{$pricingDetails->price_description=='Cancellation Fee'?'selected':''}} >Cancellation Fee</option>
+                                        <option data-type="Cruise" value="Vacation Packages" {{$pricingDetails->price_description=='Vacation Packages'?'selected':''}}>Vacation Packages</option>
+                                        <option data-type="Flight" value="Seat Assignment" {{$pricingDetails->price_description=='Seat Assignment'?'selected':''}}>Seat Assignment</option>
 
                                         </select>
                                     </td>

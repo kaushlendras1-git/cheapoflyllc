@@ -3,10 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
-
-
     document.getElementById('pricing-booking-button').addEventListener('click',addPricingRow)
     const pricingFormsContainer = document.getElementById('pricingForms');
     let pricingIndex = pricingFormsContainer.querySelectorAll('.pricing-row').length;
@@ -37,28 +33,25 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
             <select style="width: 160px;" name="pricing[${pricingIndex}][price_description]" class="form-select form-control">
                 <option value="">Select</option>
-                <option value="Flight Price Offered">Flight Price Offered</option>
-                <option value="Hotel Price Offered">Hotel Price Offered</option>
-                <option value="Car Price Offered">Car Price Offered</option>
-                <option value="Cruise Price Offered">Cruise Price Offered</option>
-                <option value="Train Price Offered">Train Price Offered</option>
-                <option value="Excursions">Excursions</option>
-                <option value="Spa Services">Spa Services</option>
-                <option value="WiFi Packages">WiFi Packages</option>
-                <option value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
-                <option value="Shuttle Services">Shuttle Services</option>
-                <option value="Speciality Dining">Speciality Dining</option>
-                <option value="Drink Packages">Drink Packages</option>
-                <option value="Trip Insurance">Trip Insurance</option>
-                <option value="Check-in Proces Luggage Tags &amp; Sailing Pass">Check-in Proces Luggage Tags &amp; Sailing Pass</option>
-                <option value="Special Occasion Package">Special Occasion Package</option>
-                <option value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
-                <option value="Pet-in Cabin">Pet-in Cabin</option>
-                <option value="Pet-in Cargo">Pet-in Cargo</option>
-                <option value="Cancellation Fee">Cancellation Fee</option>
-                <option value="Vacation Packages">Vacation Packages</option>
-                <option value="Seat Assignment">Seat Assignment</option>
-
+                <option data-type="Flight" value="Flight Price Offered">Flight Price Offered</option>
+                <option data-type="Hotel" value="Hotel Price Offered">Hotel Price Offered</option>
+                <option data-type="Car" value="Car Price Offered">Car Price Offered</option>
+                <option data-type="Train" value="Train Price Offered">Train Price Offered</option>
+                <option data-type="Cruise" value="Cruise Price Offered">Cruise Price Offered</option>
+                <option data-type="Cruise" value="Excursions">Excursions</option>
+                <option data-type="Cruise" value="Spa Services">Spa Services</option>
+                <option data-type="Cruise" value="WiFi Packages">WiFi Packages</option>
+                <option data-type="Cruise" value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
+                <option data-type="Cruise" value="Shuttle Services">Shuttle Services</option>
+                <option data-type="Cruise" value="Speciality Dining">Speciality Dining</option>
+                <option data-type="Cruise" value="Drink Packages">Drink Packages</option>
+                <option data-type="Cruise" value="Trip Insurance">Trip Insurance</option>
+                <option data-type="Cruise" value="Check-in Proces Luggage Tags &amp; Sailing Pass">Check-in Proces Luggage Tags &amp; Sailing Pass</option>
+                <option data-type="Cruise" value="Special Occasion Package">Special Occasion Package</option>
+                <option data-type="Cruise" value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
+                <option data-type="Cruise" value="Pet-in Cabin">Pet-in Cabin</option>
+                <option data-type="Cruise" value="Vacation Packages">Vacation Packages</option>
+                <option data-type="Cruise" value="Seat Assignment">Seat Assignment</option>
             </select>
             </td>
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][net_price]" placeholder="Net Price" min="0" step="0.01"></td>
@@ -114,6 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
         else{
             pricingFormsContainer.appendChild(newRow);
         }
+        
+        // Apply price description filtering to new row
+        filterPriceDescriptionOptions();
+        
         pricingIndex++;
     }
 
@@ -226,6 +223,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Function to filter price description options based on selected booking types
+    function filterPriceDescriptionOptions() {
+        const selectedTypes = [];
+        
+        // Get all checked booking type checkboxes
+        document.querySelectorAll('input[name="booking-type[]"]').forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedTypes.push(checkbox.value);
+            }
+        });
+        
+        // Filter options in all price description selects
+        document.querySelectorAll('select[name*="[price_description]"]').forEach(select => {
+            const options = select.querySelectorAll('option');
+            
+            options.forEach(option => {
+                if (option.value === '') {
+                    // Always show the default "Select" option
+                    option.style.display = 'block';
+                } else {
+                    const optionType = option.getAttribute('data-type');
+                    if (selectedTypes.length === 0 || selectedTypes.includes(optionType)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                }
+            });
+        });
+    }
+
     // Function to apply cruise visibility to a specific row
     function toggleCruiseOptionsForRow(row) {
         const cruiseCheckbox = document.getElementById('booking-cruise');
@@ -238,15 +266,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Listen for cruise checkbox changes
+    // Listen for booking type checkbox changes
     document.addEventListener('change', (e) => {
         if (e.target.id === 'booking-cruise') {
             toggleCruiseOptions();
         }
+        
+        // Filter price description options when booking type changes
+        if (e.target.name === 'booking-type[]') {
+            filterPriceDescriptionOptions();
+        }
     });
 
     // Initial check on page load
-    document.addEventListener('DOMContentLoaded', toggleCruiseOptions);
+    document.addEventListener('DOMContentLoaded', () => {
+        toggleCruiseOptions();
+        filterPriceDescriptionOptions();
+    });
+    
+    // Also run filtering when this script loads (for existing elements)
+    setTimeout(() => {
+        filterPriceDescriptionOptions();
+    }, 100);
 
     // Input change handler
     pricingFormsContainer.addEventListener('input', (e) => {
