@@ -339,7 +339,7 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label"> Divided with</label>
-                                <select class="form-control" name="shared_booking" {{ (auth()->user()->role_id == 1) ? 'disabled' : '' }}>
+                                <select class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif"  name="shared_booking" {{ (auth()->user()->role_id == 1) ? 'disabled' : '' }}>
                                     <option value="">Select</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
@@ -372,7 +372,7 @@
                            
                             <div class="col-md-2 position-relative mb-5" id="changes_assign_to_div">
                                 <label class="form-label">Changes Assign To</label>
-                                <select id="changes_assign_to" class="form-control" name="changes_assign_to" {{ (auth()->user()->role_id == 1) ? 'disabled' : '' }}>
+                                <select id="changes_assign_to" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="changes_assign_to" {{ (auth()->user()->role_id == 1) ? 'disabled' : '' }}>
                                     <option value="">Select User</option>
                                     @foreach ($changesAssignUsers as $user)
                                         <option value="{{ $user->id }}"

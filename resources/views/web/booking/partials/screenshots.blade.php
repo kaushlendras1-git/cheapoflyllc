@@ -7,6 +7,10 @@
 
         @if(isset($screenshot_images) && $screenshot_images->count())
             <div class="" style="margin-top:20px">
+
+            {{ auth()->user()->role }}
+
+
                 @if( auth()->user()->role != 1)
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped crm-table">
