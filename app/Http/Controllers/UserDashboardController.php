@@ -17,38 +17,52 @@ class UserDashboardController extends Controller
 {
     public function index(){
         $userId = Auth::id();
-        $flight = CallLog::where('user_id', $userId)->where('chkflight', 1)->count();
-        $hotel = CallLog::where('user_id', $userId)->where('chkhotel', 1)->count();
-        $cruise = CallLog::where('user_id', $userId)->where('chkcruise', 1)->count();
-        $car = CallLog::where('user_id', $userId)->where('chkcar', 1)->count();
-        $train = CallLog::where('user_id', $userId)->where('chktrain', 1)->count();
-        $pending = CallLog::where('user_id', $userId)->where('call_converted','!=1', 1)->count();
+        
+        // Combine all call log counts into single query
+        $callCounts = DB::table('call_logs')
+            ->where('user_id', $userId)
+            ->selectRaw('
+                SUM(CASE WHEN chkflight = 1 THEN 1 ELSE 0 END) as flight,
+                SUM(CASE WHEN chkhotel = 1 THEN 1 ELSE 0 END) as hotel,
+                SUM(CASE WHEN chkcruise = 1 THEN 1 ELSE 0 END) as cruise,
+                SUM(CASE WHEN chkcar = 1 THEN 1 ELSE 0 END) as car,
+                SUM(CASE WHEN chktrain = 1 THEN 1 ELSE 0 END) as train,
+                SUM(CASE WHEN call_converted != 1 THEN 1 ELSE 0 END) as pending
+            ')
+            ->first();
+            
+        $flight = $callCounts->flight ?? 0;
+        $hotel = $callCounts->hotel ?? 0;
+        $cruise = $callCounts->cruise ?? 0;
+        $car = $callCounts->car ?? 0;
+        $train = $callCounts->train ?? 0;
+        $pending = $callCounts->pending ?? 0;
 
-        $booking_type_count = DB::table('travel_bookings as b')
-                    ->join('travel_booking_types as t', 't.booking_id', '=', 'b.id')
-                    ->selectRaw("
-                        SUM(CASE WHEN t.type = 'Flight' THEN 1 ELSE 0 END) as flight_booking,
-                        SUM(CASE WHEN t.type = 'Hotel' THEN 1 ELSE 0 END) as hotel_booking,
-                        SUM(CASE WHEN t.type = 'Cruise' THEN 1 ELSE 0 END) as cruise_booking,
-                        SUM(CASE WHEN t.type = 'Car' THEN 1 ELSE 0 END) as car_booking,
-                        SUM(CASE WHEN t.type = 'Train' THEN 1 ELSE 0 END) as train_booking
-                    ")
-                    ->where('b.user_id', Auth::id())
-                    #->whereMonth('b.created_at', now()->month)
-                    #->whereYear('b.created_at', now()->year)
-                    ->first();                           
-        $flight_booking = $booking_type_count->flight_booking;
-        $hotel_booking = $booking_type_count->flight_booking;
-        $cruise_booking = $booking_type_count->flight_booking;
-        $car_booking = $booking_type_count->flight_booking;
-        $train_booking = $booking_type_count->flight_booking;
-
-        $pending_booking = TravelBooking::where('user_id', $userId)->where('booking_status_id',1)->count();
-
-
+        // Combine booking type counts and pending bookings in single query
+        $bookingData = DB::table('travel_bookings as b')
+            ->leftJoin('travel_booking_types as t', 't.booking_id', '=', 'b.id')
+            ->where('b.user_id', $userId)
+            ->selectRaw('
+                SUM(CASE WHEN t.type = "Flight" THEN 1 ELSE 0 END) as flight_booking,
+                SUM(CASE WHEN t.type = "Hotel" THEN 1 ELSE 0 END) as hotel_booking,
+                SUM(CASE WHEN t.type = "Cruise" THEN 1 ELSE 0 END) as cruise_booking,
+                SUM(CASE WHEN t.type = "Car" THEN 1 ELSE 0 END) as car_booking,
+                SUM(CASE WHEN t.type = "Train" THEN 1 ELSE 0 END) as train_booking,
+                SUM(CASE WHEN b.booking_status_id = 1 THEN 1 ELSE 0 END) as pending_booking
+            ')
+            ->first();
+            
+        $flight_booking = $bookingData->flight_booking ?? 0;
+        $hotel_booking = $bookingData->hotel_booking ?? 0;
+        $cruise_booking = $bookingData->cruise_booking ?? 0;
+        $car_booking = $bookingData->car_booking ?? 0;
+        $train_booking = $bookingData->train_booking ?? 0;
+        $pending_booking = $bookingData->pending_booking ?? 0;
 
 
-        // Compact time-based metrics
+
+
+        // Optimize time-based metrics with single query per period
         $periods = [
             'today' => [today(), today()->endOfDay()],
             'week' => [now()->startOfWeek(), now()->endOfWeek()],
@@ -58,26 +72,31 @@ class UserDashboardController extends Controller
         
         $metrics = [];
         foreach ($periods as $period => $dates) {
-            $gross_score = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
-            $refund_sum = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('payment_status_id', [13, 16])->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
-            $chargeback = DB::table('travel_bookings')->where('user_id', $userId)->where('booking_status_id', 22)->whereBetween('created_at', $dates)->sum('net_mco') ?? 0;
-            
-            $score = $gross_score;
-
-            $bookings = DB::table('travel_bookings')->where('user_id', $userId)->whereBetween('created_at', $dates)->count();
-            $successful_bookings = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereBetween('created_at', $dates)->count();
+            // Single query for all booking metrics
+            $bookingMetrics = DB::table('travel_bookings')
+                ->where('user_id', $userId)
+                ->whereBetween('created_at', $dates)
+                ->selectRaw('
+                    SUM(CASE WHEN booking_status_id IN (19, 20) THEN net_mco ELSE 0 END) as gross_score,
+                    SUM(CASE WHEN payment_status_id IN (13, 16) THEN net_mco ELSE 0 END) as refund_sum,
+                    SUM(CASE WHEN booking_status_id = 22 THEN net_mco ELSE 0 END) as chargeback,
+                    COUNT(*) as bookings,
+                    SUM(CASE WHEN booking_status_id IN (19, 20) THEN 1 ELSE 0 END) as successful_bookings,
+                    AVG(quality_score) as quality
+                ')
+                ->first();
+                
             $calls = DB::table('call_logs')->where('user_id', $userId)->whereBetween('created_at', $dates)->count();
-            $quality = round(DB::table('travel_bookings')->where('user_id', $userId)->whereBetween('created_at', $dates)->avg('quality_score') ?? 0, 2);
             
             $metrics[$period] = [
-                'score' => $score,
-                'bookings' => $bookings,
+                'score' => $bookingMetrics->gross_score ?? 0,
+                'bookings' => $bookingMetrics->bookings ?? 0,
                 'calls' => $calls,
-                'rpc' => $calls > 0 ? round($score / $calls, 2) : 0,
-                'conversion' => $calls > 0 ? round(($successful_bookings * 100) / $calls, 2) : 0,
-                'quality' => $quality,
-                'refund' => $refund_sum,
-                'chargeback' => $chargeback
+                'rpc' => $calls > 0 ? round(($bookingMetrics->gross_score ?? 0) / $calls, 2) : 0,
+                'conversion' => $calls > 0 ? round((($bookingMetrics->successful_bookings ?? 0) * 100) / $calls, 2) : 0,
+                'quality' => round($bookingMetrics->quality ?? 0, 2),
+                'refund' => $bookingMetrics->refund_sum ?? 0,
+                'chargeback' => $bookingMetrics->chargeback ?? 0
             ];
         }
         
@@ -86,22 +105,47 @@ class UserDashboardController extends Controller
         extract($metrics['fortnight'], EXTR_PREFIX_ALL, 'fortnight');
         extract($metrics['month'], EXTR_PREFIX_ALL, 'total');
         
-        // Weekly daily data for chart
-        $weeklyData = [];
+        // Optimize weekly data with single query
         $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+        
+        $weeklyBookingData = DB::table('travel_bookings')
+            ->where('user_id', $userId)
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->selectRaw('
+                DATE(created_at) as date,
+                SUM(CASE WHEN booking_status_id IN (19, 20) THEN net_mco ELSE 0 END) as score,
+                COUNT(*) as bookings
+            ')
+            ->groupBy('date')
+            ->pluck('score', 'date')
+            ->union(
+                DB::table('travel_bookings')
+                    ->where('user_id', $userId)
+                    ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                    ->selectRaw('DATE(created_at) as date, COUNT(*) as bookings')
+                    ->groupBy('date')
+                    ->pluck('bookings', 'date')
+            );
+            
+        $weeklyCallData = DB::table('call_logs')
+            ->where('user_id', $userId)
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->selectRaw('DATE(created_at) as date, COUNT(*) as calls')
+            ->groupBy('date')
+            ->pluck('calls', 'date');
+            
+        $weeklyData = [];
         for ($i = 0; $i < 7; $i++) {
-            $date = $startOfWeek->copy()->addDays($i);
-            $dayScore = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('booking_status_id', [19, 20])->whereDate('created_at', $date)->sum('net_mco') ?? 0;
-            $dayBookings = DB::table('travel_bookings')->where('user_id', $userId)->whereDate('created_at', $date)->count();
-            $dayCalls = DB::table('call_logs')->where('user_id', $userId)->whereDate('created_at', $date)->count();
+            $date = $startOfWeek->copy()->addDays($i)->format('Y-m-d');
             $weeklyData[] = [
-                'score' => $dayScore,
-                'bookings' => $dayBookings,
-                'calls' => $dayCalls
+                'score' => $weeklyBookingData[$date] ?? 0,
+                'bookings' => $weeklyBookingData[$date] ?? 0,
+                'calls' => $weeklyCallData[$date] ?? 0
             ];
         }
         
-        // Month-specific counts
+        // Get month counts from already calculated metrics
         $charge_back_count = DB::table('travel_bookings')->where('user_id', $userId)->where('booking_status_id', 22)->whereBetween('created_at', $periods['month'])->count();
         $refund_count = DB::table('travel_bookings')->where('user_id', $userId)->whereIn('payment_status_id', [13, 16])->whereBetween('created_at', $periods['month'])->count();
         

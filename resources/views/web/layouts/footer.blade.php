@@ -74,34 +74,50 @@
 <!-- Overlay -->
 <div class="layout-overlay layout-menu-toggle"></div>
 <div class="drag-target"></div>
+
+<!-- Core Scripts (Critical) -->
 <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
 <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}"></script>
-<script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="{{ asset('assets/css/country-phone.css') }}" rel="stylesheet" />
-<script src="{{ asset('assets/js/country-phone.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
-<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="{{ asset('assets/js/addMore.js') }}"></script>
-@vite('resources/js/agent-login.js')
-@vite('resources/js/booking/edit.js')
+
+<!-- Page-specific Scripts (Conditional Loading) -->
+@if(request()->routeIs('booking.*'))
+    <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}" defer></script>
+    <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    @vite('resources/js/booking/edit.js')
+    @vite('resources/js/booking/pricing.js')
+    @vite('resources/js/booking/cruise.js')
+     @vite('resources/js/auth/sendAuth.js')
+@endif
+
+@if(request()->routeIs('*.index') || request()->routeIs('dashboard'))
+    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}" defer></script>
+@endif
+
+@if(request()->routeIs('call-logs.*') || request()->routeIs('booking.*'))
+    <script src="{{ asset('assets/js/country-phone.js') }}" defer></script>
+    @vite('resources/js/country-phone.js')
+@endif
+
+
+
+@if(request()->routeIs('agent.*'))
+    @vite('resources/js/agent-login.js')
+@endif
+
+<!-- Non-critical Scripts (Async) -->
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js" async></script>
+<script src="{{ asset('assets/js/addMore.js') }}" defer></script>
 @vite('resources/js/booking/otherMain.js')
-@vite('resources/js/country-phone.js')
-@vite('resources/js/auth/sendAuth.js')
-@vite('resources/js/booking/pricing.js')
-@vite('resources/js/booking/cruise.js')
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    window.addEventListener('load', function () {
-      document.getElementById('loader-overlay').style.display = 'none';
-    });
+  // Optimized loader hide
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader-overlay');
+    if (loader) loader.style.display = 'none';
   });
 </script>
 

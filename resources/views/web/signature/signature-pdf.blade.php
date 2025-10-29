@@ -1112,7 +1112,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         <td style="width: 60%; height:100px; vertical-align: bottom; padding-bottom: 5px;">
                         </td>
                         <td style="width: 40%; text-align: right; font-size: 12px; color: #374151; font-weight: 500; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
-                               @{{Signature(font="Roboto";fontsize="24";fontcolor="ff0077")}} 
+                               @{{S}}
                             <br>
                             Signature
                         </td>

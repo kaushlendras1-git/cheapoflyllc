@@ -14,6 +14,13 @@
         rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
+    
+    <!-- Conditional CSS Loading -->
+    @if(request()->routeIs('booking.*'))
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+        <link href="{{ asset('assets/css/country-phone.css') }}" rel="stylesheet" />
+    @endif
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <!-- <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script> -->
     <script src="{{ asset('assets/js/config.js') }}"></script>

@@ -27,12 +27,13 @@
         <!---
               1 => Non-Refundable Default
               0 => Refundable
-
         -->
 
             @php
                 $cardsByHolder = [];
+
                 foreach($booking->billingDetails as $billingDetails) {
+
                     $cc = $billingDetails['cc_number'];
                     $digits = preg_replace('/\D+/', '', (string) $cc);
                     $last4 = strlen($digits) >= 4 ? substr($digits, -4) : null;
@@ -41,7 +42,8 @@
                     if (!isset($cardsByHolder[$holderName])) {
                         $cardsByHolder[$holderName] = [
                             'cards' => [],
-                            'billing' => $billingDetails
+                            'billing' => $billingDetails,
+                            'authorized_amt' => $billingDetails['authorized_amt'],
                         ];
                     }
                     
@@ -56,7 +58,7 @@
                     $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
                     $billingDetails = $data['billing'];
                 @endphp
-                
+                @if($billingDetails['authorized_amt'] > 0)
                 <button class="btn btn-custom d-flex align-items-center sendAuthMail"
                         data-bs-toggle="modal"
                         data-bs-target="#sendAuthMailModal"
@@ -67,10 +69,11 @@
                         data-cc_number="{{ $billingDetails['cc_number'] }}"
                         data-bs-dismiss="modal"
                         data-href="{{ route('i_authorized', ['booking_id' => encode($billingDetails->booking_id), 'card_id' => encode($billingDetails->state), 'card_billing_id' => encode($billingDetails->id), 'refund_status' => encode(1)]) }}"
-                >
+                  >
                     <i class="ri ri-mail-open-fill"></i>
                     Send Auth Email{{ $cardDisplay }}
                 </button>
+                @endif
             @endforeach
 
             @foreach($cardsByHolder as $holderName => $data)
@@ -93,39 +96,37 @@
                     $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
                     $billingDetails = $data['billing'];
                 @endphp
-                
-                <button class="btn btn-custom btn-sms d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" 
-                data-booking_id="{{ encode($billingDetails->booking_id) }}"
-                data-card_id="{{ encode($billingDetails->state) }}"
-                data-card_billing_id="{{ encode($billingDetails->id) }}"
-                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> Send Auth SMS{{ $cardDisplay }}</button>
-            @endforeach
+                 @if($billingDetails['authorized_amt'] > 0)
+                    <button class="btn btn-custom btn-sms d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" 
+                    data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                    data-card_id="{{ encode($billingDetails->state) }}"
+                    data-card_billing_id="{{ encode($billingDetails->id) }}"
+                    data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> Send Auth SMS{{ $cardDisplay }}</button>
+                  @endif
+                @endforeach
 
             @foreach($cardsByHolder as $holderName => $data)
                 @php
                     $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
                     $billingDetails = $data['billing'];
                 @endphp
-                
-                <button class="btn btn-custom btn-whatsapp d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" 
-                data-booking_id="{{ encode($billingDetails->booking_id) }}"
-                data-card_id="{{ encode($billingDetails->state) }}"
-                data-card_billing_id="{{ encode($billingDetails->id) }}"
-                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> Send Auth WhatsApp{{ $cardDisplay }}</button>
+                 @if($billingDetails['authorized_amt'] > 0)
+                  <button class="btn btn-custom btn-whatsapp d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" 
+                  data-booking_id="{{ encode($billingDetails->booking_id) }}"
+                  data-card_id="{{ encode($billingDetails->state) }}"
+                  data-card_billing_id="{{ encode($billingDetails->id) }}"
+                  data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> Send Auth WhatsApp{{ $cardDisplay }}</button>
+            
+                  @endif
             @endforeach
 
-            @foreach($cardsByHolder as $holderName => $data)
-                @php
-                    $cardDisplay = !empty($data['cards']) ? ' (' . implode(', ', $data['cards']) . ')' : '';
-                    $billingDetails = $data['billing'];
-                @endphp
+          
                 
                 <button class="btn btn-custom btn-survey d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#surveyModal" 
-                data-booking_id="{{ encode($billingDetails->booking_id) }}"
-                data-card_id="{{ encode($billingDetails->state) }}"
-                data-card_billing_id="{{ encode($billingDetails->id) }}"
-                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-survey-fill"></i> Send Auth Survey{{ $cardDisplay }}</button>
-            @endforeach
+                data-booking_id="#"
+                data-card_id="#"
+                data-card_billing_id="#"
+                data-id="#" data-bs-dismiss="modal"><i class="ri ri-survey-fill"></i> Send Auth Survey</button>
 
             
         </div>

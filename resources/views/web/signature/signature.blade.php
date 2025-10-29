@@ -396,8 +396,8 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     <div
                                         style="     font-size: .875rem; font-weight:600; color:#2d3748; padding:5px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
                                         <div style="display: flex; justify-content: space-between;">
-                                            <span>{{ $travel_cruise_data->cruise_line ?? '' }}</span>
-                                            <span>{{ $travel_cruise_data->ship_name ?? '' }}</span>
+                                            <span>Cruise Line : {{ $travel_cruise_data->cruise_line ?? '' }}</span>
+                                            <span>Ship Name : {{ $travel_cruise_data->ship_name ?? '' }}</span>
                                         </div>
 
                                     </div>
@@ -766,12 +766,82 @@ border-radius: 0px;
             </tr>
             @endif
 
+            <!------Passenger -------->
+            <tr>
+                <td colspan="2" style="padding: 6px 10px;">
+                    <div
+                        style="border-radius: 0px; overflow: hidden; border-top: 1px solid #e9ecef; border-left: 1px solid #e9ecef; border-right: 1px solid #e9ecef;">
+                        <div style="padding: 5px;color: #1c316d;  font-weight: 600;padding: 5px; background-color: #f8f9fa; border-bottom: 1px solid #e9ecef; ">
+                            Passenger Details :-
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background-color: #f8f9fa;">
+                                        <th
+                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            Type</th>
+                                        <th
+                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            Passenger Name</th>
+
+                                        @if($booking->passengers->whereNotNull('seat_number')->count() > 0)
+                                        <th
+                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            Seat</th>
+                                        @endif
+                                        @if($booking->passengers->whereNotNull('e_ticket_number')->count() > 0)
+                                        <th
+                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            E-Ticket</th>
+                                        @endif
+                                        @if($booking->passengers->whereNotNull('room_category')->count() > 0)
+                                        <th
+                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            Room Category</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($booking->passengers as $key=>$passengers)
+                                    <tr>
+                                        <td
+                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
+                                            {{$passengers->passenger_type}}</td>
+                                        <td
+                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
+                                            {{$passengers->title}} {{$passengers->first_name}}
+                                            {{$passengers->middle_name}} {{$passengers->last_name}}</td>
+                                        @if($booking->passengers->whereNotNull('seat_number')->count() > 0)
+                                        <td
+                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
+                                            {{$passengers->seat_number}}</td>
+                                        @endif
+                                        @if($booking->passengers->whereNotNull('e_ticket_number')->count() > 0)
+                                        <td
+                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
+                                            {{$passengers->e_ticket_number}}</td>
+                                        @endif
+                                        @if($booking->passengers->whereNotNull('room_category')->count() > 0)
+                                        <td
+                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
+                                            {{$passengers->room_category}}</td>
+                                        @endif
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- End Passanger Details -->
+
             <!-- Contact Information -->
             <tr>
                 <td colspan="2" style="padding: 5px 10px 0px 10px;">
                     <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style="  padding: 5px;
-    color: #1c316d;  font-weight: 600;padding:5px; background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
+                        <div style="  padding: 5px;color: #1c316d;  font-weight: 600;padding:5px; background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
                             Customer Information :-
                         </div>
                         <div style="padding: 0;">
@@ -850,75 +920,7 @@ border-radius: 0px;
                 </td>
             </tr>
 
-            <!------Passenger -------->
-            <tr>
-                <td colspan="2" style="padding: 6px 10px;">
-                    <div
-                        style="border-radius: 0px; overflow: hidden; border-top: 1px solid #e9ecef; border-left: 1px solid #e9ecef; border-right: 1px solid #e9ecef;">
-                        <div style="  padding: 5px;
-    color: #1c316d;  font-weight: 600;padding: 5px; background-color: #f8f9fa; border-bottom: 1px solid #e9ecef; ">
-                            Passenger Details :-
-                        </div>
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; border-collapse: collapse;">
-                                <thead>
-                                    <tr style="background-color: #f8f9fa;">
-                                        <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
-                                            Type</th>
-                                        <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
-                                            Passenger Name</th>
-                                        @if($booking->passengers->whereNotNull('seat_number')->count() > 0)
-                                        <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
-                                            Seat</th>
-                                        @endif
-                                        @if($booking->passengers->whereNotNull('e_ticket_number')->count() > 0)
-                                        <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
-                                            E-Ticket</th>
-                                        @endif
-                                        @if($booking->passengers->whereNotNull('room_category')->count() > 0)
-                                        <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
-                                            Room Category</th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($booking->passengers as $key=>$passengers)
-                                    <tr>
-                                        <td
-                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
-                                            {{$passengers->passenger_type}}</td>
-                                        <td
-                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
-                                            {{$passengers->title}} {{$passengers->first_name}}
-                                            {{$passengers->middle_name}} {{$passengers->last_name}}</td>
-                                        @if($booking->passengers->whereNotNull('seat_number')->count() > 0)
-                                        <td
-                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
-                                            {{$passengers->seat_number}}</td>
-                                        @endif
-                                        @if($booking->passengers->whereNotNull('e_ticket_number')->count() > 0)
-                                        <td
-                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
-                                            {{$passengers->e_ticket_number}}</td>
-                                        @endif
-                                        @if($booking->passengers->whereNotNull('room_category')->count() > 0)
-                                        <td
-                                            style="font-size: .875rem; color: #4a5568; padding: 5px ; border-bottom: 1px solid #e9ecef;">
-                                            {{$passengers->room_category}}</td>
-                                        @endif
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+            
 
 
 
@@ -1097,11 +1099,14 @@ border-radius: 0px;
 
                                 <ul style=" margin-bottom: -6px;">
                                     @foreach($billingPricingDataAll as $billing)
-                                    <li style="margin-bottom: 10px;"><b> USD
-                                            {{ number_format($billing->authorized_amt, 2) }} </b> to my <b>
-                                            {{ $billing->card_type }} ending in
-                                            **** **** **** {{ substr($billing->cc_number, -4) }}
-                                        </b></li>
+                                     @if($billing->authorized_amt > 0)
+                                        <li style="margin-bottom: 10px;"><b> USD
+                                                {{ number_format($billing->authorized_amt, 2) }} </b> to my <b>
+                                                {{ $billing->card_type }} ending in
+                                                **** **** **** {{ substr($billing->cc_number, -4) }}</b>
+                                        </li>
+                                    @endif
+
                                     @endforeach
                                 </ul>
                                 <p style="margin-top: 5px;">I confirm that I am the authorized cardholder for the above
