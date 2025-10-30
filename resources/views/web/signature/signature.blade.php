@@ -287,7 +287,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
                         <div
                             style=" font-size:16px; font-weight:600; color:#2d3748; padding:10px 20px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
-                            Hotel Details
+                            Hotel Details :-
                         </div>
                         <div style="padding: 10px;">
                             <!-- Hotel Image -->
@@ -544,6 +544,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 </td>
             </tr>
             @endif
+
 
             <!------------ Start Car -------------->
             @if(in_array('Car', $bookingTypes))
@@ -914,6 +915,13 @@ border-radius: 0px;
                             </div>
                             @endif
 
+                             @if($booking->hotel_ref)
+                            <div style="display: flex; justify-content: space-between; padding: 5px;">
+                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Hotel Ref</div>
+                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->hotel_ref }}</div>
+                            </div>
+                            @endif
+
 
                         </div>
                     </div>
@@ -1013,8 +1021,34 @@ border-radius: 0px;
                                 @endif
                             @endif
 
+                            @if(isset($billing_deposits))
+
+                             
+
+                                @if($billing_deposits->deposit_amount > 0)
+                                    <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                        <div style="font-size: .875rem; color: #2d3748;"> Deposit to be collected</div>
+                                        <div style="font-size: .875rem; color: #0f9b0f;"> ${{$billing_deposits->deposit_amount }} </div>
+                                    </div>
+                                @endif
+
+                                 @if($billing_deposits->pending_amount > 0)
+                                    <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                        <div style="font-size: .875rem; color: #2d3748;"> Remaining Balance</div>
+                                        <div style="font-size: .875rem; color: #0f9b0f;"> ${{$billing_deposits->pending_amount }} </div>
+                                    </div>
+                                @endif
 
 
+                                @if($billing_deposits->due_date)
+                                    <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                        <div style="font-size: .875rem; color: #2d3748;"> Due Date</div>
+                                        <div style="font-size: .875rem; color: #0f9b0f;"> {{ \Carbon\Carbon::parse($billing_deposits->due_date)->format('d M Y') }} </div>
+                                    </div>      
+                                @endif
+                               
+                            @endif
+                            
 
                             <div style="display: flex; justify-content: space-between; padding: 5px 0;">
                                 <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Total Amount

@@ -148,56 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // Update total in footer
-    // function updateFooterTotals() {
-    //     const rows = pricingFormsContainer.querySelectorAll('.pricing-row');
-    //     let grossTotal = 0;
-    //     let netTotal = 0;
-    //     let companyCard = 0;
-    //     let totalPassengers = 0;
-    //
-    //     $('.num_passengers').each(function() {
-    //         let val = parseInt($(this).val(), 10);
-    //         if (!isNaN(val)) {
-    //             totalPassengers += val;
-    //         }
-    //     });
-    //
-    //     rows.forEach(row => {
-    //         grossTotal += parseFloat(row.querySelector('.gross-total')?.textContent || 0);
-    //         netTotal += parseFloat(row.querySelector('.net-total')?.textContent || 0);
-    //     });
-    //
-    //     document.getElementById('total_gross_profit').textContent = grossTotal.toFixed(2);
-    //     document.getElementById('gross_value').value = grossTotal.toFixed(2);
-    //     document.getElementById('total_net_profit').textContent = netTotal.toFixed(2);
-    //     document.getElementById('net_value').value = netTotal.toFixed(2);
-    //     const diff = grossTotal - netTotal;
-    //     const mcqElement = document.getElementById('total_gross_value');
-    //     if (mcqElement) {
-    //         mcqElement.textContent = diff.toFixed(2);
-    //     }
-    //
-    //     const netProfitAfterFee = diff - (diff * 0.15);
-    //     let merhcantfee = diff * 0.15;
-    //     const netProfitElement = document.getElementById('total_netprofit_value');
-    //     if (netProfitElement) {
-    //         netProfitElement.textContent = netProfitAfterFee.toFixed(2);
-    //     }
-    //     document.getElementById('net-total-merchant').textContent = merhcantfee.toFixed(2);
-    //     document.getElementById('merchant-net-price').value = merhcantfee.toFixed(2);
-    //     if(document.getElementById('net-total-company-card')){
-    //         document.getElementById('net-total-company-card').textContent = totalPassengers * 10;
-    //     }
-    //
-    //
-    //
-    //     document.getElementById('gross_mco').value = diff.toFixed(2);
-    //     document.getElementById('net_mco').value = netProfitAfterFee.toFixed(2);
-    //
-    // }
-
-
+    
 
     // Recalculate row and add new row if needed
     function handleRowChange(row) {
@@ -455,8 +406,8 @@ function updateFooterTotals() {
     document.getElementById('net_value').value = netTotal.toFixed(2);
     
     // Debug logging
-    console.log('Setting gross_value:', grossTotal.toFixed(2));
-    console.log('Setting net_value:', netTotal.toFixed(2));
+   // console.log('Setting gross_value:', grossTotal.toFixed(2));
+   // console.log('Setting net_value:', netTotal.toFixed(2));
 
     const diff = grossTotal - netTotal;
     const mcqElement = document.getElementById('total_gross_value');

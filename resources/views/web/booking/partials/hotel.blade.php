@@ -115,9 +115,7 @@
                                         <td><div class="form-control" style="background:#f8f9fa;">{!! $booking->hotel_description !!}</div></td>
                                     @else
                                         <td>
-                                            <textarea class="form-control" name="hotel_description" placeholder="Hotel Description">
-                                                {{ $booking->hotel_description }}
-                                            </textarea>
+                                            <textarea class="form-control" name="hotel_description" placeholder="Hotel Description">{{ $booking->hotel_description }}</textarea>
                                         </td>
                                     @endif
                                 </tr>

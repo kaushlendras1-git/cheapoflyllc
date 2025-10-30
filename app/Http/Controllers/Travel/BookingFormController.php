@@ -499,6 +499,7 @@ class BookingFormController extends Controller
     public function update(Request $request, $id)
     {
          #dd($request->all());
+         #dd($request->query_type);
         if (empty($id)) {
             return redirect()->route('travel.bookings.form')->with('error', 'Invalid booking ID.')->withFragment('booking-failed');
         }

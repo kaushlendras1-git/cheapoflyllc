@@ -160,8 +160,8 @@
 
                                             <!-- CC Number -->
                                             <td>
-                                                <input type="hidden" name="billing[{{ $key }}][cc_number]" value="{{ $ccNumber }}">
-                                                <input type="text"
+                                              
+                                                <input type="text" name="billing[{{ $key }}][cc_number]"
                                                     class="form-control"
                                                     style="width:140px;"
                                                     placeholder="CC Number"
@@ -171,8 +171,8 @@
 
                                             <!-- CC Holder Name -->
                                             <td>
-                                                <input type="hidden" name="billing[{{ $key }}][cc_holder_name]" value="{{ $fullName }}">
-                                                <input type="text"
+                                               
+                                                <input type="text" name="billing[{{ $key }}][cc_holder_name]"
                                                     class="form-control w-100 cc_holder_name"
                                                     placeholder="CC Holder Name"
                                                     value="{{ $displayName }}"

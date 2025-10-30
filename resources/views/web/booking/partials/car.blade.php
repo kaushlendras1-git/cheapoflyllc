@@ -147,9 +147,7 @@
                                         </td>
                                     @else
                                         <td>
-                                            <textarea class="form-control" name="car_description" placeholder="Car Description">
-                                                {{ $booking->car_description }}
-                                            </textarea>
+                                            <textarea class="form-control" name="car_description" placeholder="Car Description">{{ $booking->car_description }}</textarea>
                                         </td>
                                     @endif
                             </tr>

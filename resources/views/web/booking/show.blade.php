@@ -407,9 +407,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @if(auth()->user()->role_id == 1 && $booking->query_type)
-                                    <input type="hidden" name="query_type" value="{{ $booking->query_type }}">
-                                @endif
+                               
                             </div>
 
                            
