@@ -1440,7 +1440,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const response = await axios.get(route("airlines_code.search", {}, Ziggy), {
                         params: {
                             keyword: keyword,
-                            searchAt: searchAt // 'departure' or 'arrival'
+                            searchAt: searchAt
                         }
                     });
 
@@ -1464,7 +1464,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (suggestionsBox) {
             suggestionsBox.addEventListener("click", (e) => {
                 if (e.target.classList.contains("suggestion-item")) {
-                    //input.value = e.target.textContent.trim();
                     input.value = e.target.dataset.code;
                     suggestionsBox.style.display = "none";
                 }
