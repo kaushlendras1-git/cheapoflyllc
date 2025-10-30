@@ -152,7 +152,7 @@
                                         <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExc24zdGl0OGF6dDR4OHhlMDRuZGNnNTRkNmVnNmFmdHdsenBxcXcyMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tyaz764xc4KEo/giphy.gif" alt="US Flag" class="ms-3" style="width:130px;" />
                                  
                                      @elseif(Auth::user()->id == 14)                                    
-                                        <img src="https://i.pinimg.com/originals/0f/ac/85/0fac85ef4e7d5c41951af7de21943e12.gif" alt="US Flag" class="ms-3" style="width:100px;" />
+                                        <img src="https://i.pinimg.com/originals/0f/ac/85/0fac85ef4e7d5c41951af7de21943e12.gif" alt="US Flag" class="ms-3" style="width:140px;" />
                                     @endif 
 
                                     
