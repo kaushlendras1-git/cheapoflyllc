@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function selectItem(item, input) {
         const text = item.textContent.trim();
-        if (input.classList.contains('airline_code_input')) {
+        if (input.classList.contains('airline_code_input') || input.classList.contains('operating_service_search')) {
             input.value = text.split(',')[0]; // Get only the code part
         } else {
             input.value = text;
@@ -108,18 +108,20 @@ document.addEventListener('DOMContentLoaded', function() {
             initAutocompleteWithKeyboard(input, 'flight-suggestions-list', 'airline.search', 'departure');
         });
 
+         // Airline code search
+        document.querySelectorAll('.airline_code_input').forEach(input => {
+            initAutocompleteWithKeyboard(input, 'flight-code-suggestions-list', 'airlines_code.search', 'departure');
+        });
+        
         document.querySelectorAll('.arrival-airport').forEach(input => {
             initAutocompleteWithKeyboard(input, 'flight-suggestions-list', 'airline.search', 'arrival');
         });
 
-        // Airline code search
-        document.querySelectorAll('.airline_code_input').forEach(input => {
-            initAutocompleteWithKeyboard(input, 'flight-code-suggestions-list', 'airlines_code.search', 'departure');
-        });
+       
 
         // Operating service search
         document.querySelectorAll('.operating_service_search').forEach(input => {
-            initAutocompleteWithKeyboard(input, 'operating-flight-suggestions-list', 'airline.search', 'departure');
+            initAutocompleteWithKeyboard(input, 'operating-flight-suggestions-list', 'airlines_code.search', 'departure');
         });
     }
 
@@ -141,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             } else if (input.classList.contains('airline_code_input')) {
                                 initAutocompleteWithKeyboard(input, 'flight-code-suggestions-list', 'airlines_code.search', 'departure');
                             } else if (input.classList.contains('operating_service_search')) {
-                                initAutocompleteWithKeyboard(input, 'operating-flight-suggestions-list', 'airline.search', 'departure');
+                                initAutocompleteWithKeyboard(input, 'operating-flight-suggestions-list', 'airlines_code.search', 'departure');
                             }
                         });
                     }

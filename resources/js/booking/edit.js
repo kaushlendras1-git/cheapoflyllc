@@ -1479,8 +1479,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     document.querySelectorAll(".operating_service_search").forEach(input => {
-        //initAutocompleteOperation(input, 'departure');
-        initAutocompleteAirplaneCode(input, 'departure');
+        initAutocompleteOperation(input, 'departure');
     });
 
     document.querySelectorAll(".airline_code_input").forEach(input => {

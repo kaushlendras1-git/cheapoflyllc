@@ -223,7 +223,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <div style="flex: 1; min-width: 280px; padding-bottom:10px;">
                                     <div
                                         style="font-size: .875rem; font-weight: 600; color: #2d3748; margin-bottom: 0px;">
-                                        {{ $flight->departure_date?->format('D, M j') }} - {{$flight->airline_code}}{{$flight->flight_number}} - {{$flight->duration}} Hrs 
+                                        {{ $flight->departure_date?->format('D, M j') }} - {{$flight->airline_code}}{{$flight->flight_number}} - (Total Flight Duration {{$flight->duration}} Hrs)
                                     </div>
                                     <div style="font-size: .875rem; color: #4a5568; margin-bottom: 0px;">
                                         <span style="display: inline-block; margin-right: 15px; font-size: .875rem;">
