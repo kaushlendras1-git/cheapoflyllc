@@ -132,6 +132,7 @@
                             <option data-type="Cruise" value="Pet-in Cabin">Pet-in Cabin</option>
                             <option data-type="Cruise" value="Vacation Packages">Vacation Packages</option>
                             <option data-type="Cruise" value="Seat Assignment">Seat Assignment</option>
+                            <option value="Package Booking">Package Booking</option>         
                             </select>
                         </td>
 
@@ -338,8 +339,8 @@
                                         <option data-type="Flight" value="Cancellation Fee" {{$pricingDetails->price_description=='Cancellation Fee'?'selected':''}} >Cancellation Fee</option>
                                         <option data-type="Cruise" value="Vacation Packages" {{$pricingDetails->price_description=='Vacation Packages'?'selected':''}}>Vacation Packages</option>
                                         <option data-type="Flight" value="Seat Assignment" {{$pricingDetails->price_description=='Seat Assignment'?'selected':''}}>Seat Assignment</option>
-
-                                        </select>
+                                        <option value="Package Booking" {{$pricingDetails->price_description=='Package Booking'?'selected':''}}>Package Booking</option>
+                                      </select>
                                     </td>
                                     
                                     <td>

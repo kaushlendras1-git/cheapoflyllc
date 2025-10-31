@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td><input type="number" style="width: 110px;" class="form-control" name="pricing[${pricingIndex}][gross_price]" value="0.00" min="0" step="0.01"></td>
             <td><span class="gross-total">0.00</span></td>
             <td>
-            <select style="width: 160px;" name="pricing[${pricingIndex}][price_description]" class="form-select form-control">
+            <select style="width: 160px;" name="pricing[${pricingIndex}][price_description]" class="form-select form-control price-description-select">
                 <option value="">Select</option>
                 <option data-type="Flight" value="Flight Price Offered">Flight Price Offered</option>
                 <option data-type="Hotel" value="Hotel Price Offered">Hotel Price Offered</option>
@@ -110,9 +110,48 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Apply price description filtering to new row
         filterPriceDescriptionOptions();
+        updatePackageBookingOption();
         
         pricingIndex++;
     }
+
+    // Function to check if multiple booking types are selected and update Package Booking option
+    function updatePackageBookingOption() {
+        const checkedBookingTypes = document.querySelectorAll('input[name="booking-type[]"][type="checkbox"]:checked');
+        const isMultipleTypes = checkedBookingTypes.length > 1;
+        
+        // Update all price description selects
+        document.querySelectorAll('.price-description-select').forEach(select => {
+            let packageOption = select.querySelector('option[value="Package Booking"]');
+            
+            if (isMultipleTypes) {
+                // Add Package Booking option if it doesn't exist
+                if (!packageOption) {
+                    packageOption = document.createElement('option');
+                    packageOption.value = 'Package Booking';
+                    packageOption.textContent = 'Package Booking';
+                    select.appendChild(packageOption);
+                }
+            } else {
+                // Remove Package Booking option if it exists
+                if (packageOption) {
+                    packageOption.remove();
+                }
+            }
+        });
+    }
+
+    // Listen for changes in booking type checkboxes
+    document.addEventListener('change', function(e) {
+        if (e.target.matches('input[name="booking-type[]"][type="checkbox"]')) {
+            updatePackageBookingOption();
+        }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updatePackageBookingOption();
+    });
 
     // Check if all inputs/selects in a row are filled
     function isRowFilled(row) {
@@ -422,11 +461,10 @@ function updateFooterTotals() {
         document.getElementById('merchant_fee').value = merchantFeefinal;
         let fetchNetAmount = document.getElementById('total_net_profit').textContent;
         let finalNetAmount = parseFloat(fetchNetAmount) + merchantFeefinal;
-        document.getElementById('total_net_profit').textContent = finalNetAmount;
-        document.getElementById('net_value').value = finalNetAmount;
+        document.getElementById('total_net_profit').textContent = finalNetAmount.toFixed(2);
+        document.getElementById('net_value').value = finalNetAmount.toFixed(2);
         
-        mcqElement.textContent = grossMco - merchantFeefinal;
-        mcqElement.textContent = grossTotal - grossMco;
+        mcqElement.textContent = (grossTotal - grossMco).toFixed(2);
 
         document.getElementById('gross_mco').value= grossMco - merchantFeefinal;
     }
