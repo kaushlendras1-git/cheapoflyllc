@@ -49,6 +49,11 @@
                         <option value="{{ $currentStatus->id }}" selected>{{ $currentStatus->name }}</option>
                     @endif
                 @endif
+
+                  @if(auth()->user()->department_id == 5)
+                    <option value="7" {{ old('query_type', $booking->query_type ?? '') == '7' ? 'selected' : '' }}>Sent For Charge</option>
+                  @endif
+
             </select>
             @if(auth()->user()->role_id == 1 && $booking->payment_status_id >= 7)
                 <input type="hidden" name="payment_status_id" value="{{ $booking->payment_status_id }}">

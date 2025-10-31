@@ -397,14 +397,10 @@
 
 
                             <div class="col-md-2 position-relative mb-5">
-                                <label class="form-label">Booking Type </label>
+                                <label class="form-label">Booking Type</label>
                                 <select id="query_type" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="query_type" >
                                     @foreach ($booking_types as $booking_type)
-                                        <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}"
-                                            data-id="{{ $booking_type->id }}"
-                                            {{ old('query_type', $booking->query_type ?? '') == $booking_type->id ? 'selected' : '' }}>
-                                            {{ $booking_type->name }} - {{ $booking_type->id }}
-                                        </option>
+                                        <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}" data-id="{{ $booking_type->id }}" {{ old('query_type', $booking->query_type ?? '') == $booking_type->id ? 'selected' : '' }}> {{ $booking_type->name }}</option>
                                     @endforeach
                                 </select>
                                
