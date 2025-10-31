@@ -408,39 +408,7 @@
                                 </a>
                             </li>
 
-                            <!-- RingCentral -->
-                            <li class="menu-item {{ Str::startsWith(Route::currentRouteName(), 'ringcentral') ? 'active' : '' }}">
-                                <a href="javascript:void(0)" class="menu-link menu-toggle {{ Str::startsWith(Route::currentRouteName(), 'ringcentral') ? 'active' : '' }}">
-                                    <i class="menu-icon icon-base ri ri-phone-line"></i>
-                                    <div data-i18n="RingCentral">RingCentral</div>
-                                </a>
-                                <ul class="menu-sub">
-                                    <li class="menu-item {{ Route::currentRouteName() == 'ringcentral.settings' ? 'active' : '' }}">
-                                        <a href="{{ route('ringcentral.settings') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-settings-3-line"></i>
-                                            <div data-i18n="Settings">Settings</div>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item {{ Route::currentRouteName() == 'ringcentral.test' ? 'active' : '' }}">
-                                        <a href="{{ route('ringcentral.test') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-test-tube-line"></i>
-                                            <div data-i18n="Test">Test Integration</div>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item {{ Route::currentRouteName() == 'ringcentral.demo' ? 'active' : '' }}">
-                                        <a href="{{ route('ringcentral.demo') }}" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-play-circle-line"></i>
-                                            <div data-i18n="Demo">Demo & Examples</div>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" class="menu-link">
-                                            <i class="menu-icon icon-base ri ri-youtube-line"></i>
-                                            <div data-i18n="Tutorial">Video Tutorial</div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+
                          @endif
 
 

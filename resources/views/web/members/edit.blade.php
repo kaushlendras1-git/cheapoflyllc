@@ -86,6 +86,14 @@
                         </div>
 
                         <div class="col-md-2 position-relative mb-5">
+                            <label class="form-label">Extension ID</label>
+                            <input type="text" class="form-control" name="extension_id" value="{{ old('extension_id', $member->extension_id) }}" placeholder="496461049">
+                            @error('extension_id')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Contact <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="phone" value="{{ old('phone', $member->phone) }}" required>
                             @error('phone')

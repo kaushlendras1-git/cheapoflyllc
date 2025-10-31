@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Log;
 use App\Models\TravelBooking;
 use App\Models\TravelBookingType;
+use App\Http\Controllers\RingCentralController;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -108,7 +109,6 @@ class CallLogController extends Controller
         $callLog = CallLog::create($validated);
 
 
-
         if ($request->call_converted) {
             // Fetch Campaign (already validated, so no need to re-validate)
             $campaign = Campaign::findOrFail($request->campaign_id);
@@ -154,7 +154,7 @@ class CallLogController extends Controller
                     ]);
                 }
             }
-
+            RingCentralController::updateStatus(auth()->user()->extension_id, 'DoNotAcceptAnyCalls');
             return redirect()->route('booking.show', ['id' => encode($booking->id)]);
         }
 

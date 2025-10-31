@@ -15,6 +15,7 @@
         "maatwebsite/excel": "~3.1.0",
         "phpoffice/phpspreadsheet": "^1.30",
         "pusher/pusher-php-server": "^7.2",
+        "ringcentral/ringcentral-php": "^3.0",
         "spatie/laravel-permission": "^6.20",
         "tightenco/ziggy": "^2.5",
         "vinkla/hashids": "^12.0",

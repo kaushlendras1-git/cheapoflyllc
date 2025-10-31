@@ -60,6 +60,7 @@ class MemberController extends Controller
                 return [
                     'name' => $member->name,
                     'email' => $member->email,
+                    'extension_id' => $member->extension_id ?? '<span class="text-muted">-</span>',
                     'departments_badges' => $this->getDepartmentBadge($member),
                     'pseudo' => $member->pseudo,
                     'extension' => $member->extension ?? '<span class="text-muted">-</span>',
@@ -156,6 +157,7 @@ class MemberController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'extension_id' => 'nullable|string|max:20',
             'phone' => 'required|string|max:25',
             'extension' => 'nullable|string|max:10',
             'pseudo' => 'required|string|max:25|unique:users,pseudo',
@@ -199,6 +201,7 @@ class MemberController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $id,
+            'extension_id' => 'nullable|string|max:20',
             'phone' => 'required|string|max:20',
             'extension' => 'nullable|string|max:10',
             'address' => 'nullable|string',

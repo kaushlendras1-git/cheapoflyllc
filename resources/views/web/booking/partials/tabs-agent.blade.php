@@ -84,12 +84,7 @@
                 </a>
             </li>
 
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="ringcentral-tab" data-bs-toggle="tab" href="#ringcentral" role="tab"
-                    aria-controls="ringcentral" aria-selected="false">
-                    <i class="ri ri-phone-line" style="font-size: 20px; color: #ff4500;" title="RingCentral"></i>
-                </a>
-            </li>
+
 
         </ul>
 
@@ -128,7 +123,6 @@
             <!-- Screenshots Tab -->
             @include('web.booking.partials.screenshots', ['screenshot_images' => $screenshot_images])
 
-            <!-- RingCentral Tab -->
-            @include('web.booking.partials.ringcentral')
+
 
         </div>

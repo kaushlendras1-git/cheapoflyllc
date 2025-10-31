@@ -52,6 +52,7 @@ use Illuminate\Validation\Rule;
 use App\Models\CallType;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Log as BookingLog;
+use App\Http\Controllers\RingCentralController;
 use DateTime;
 
 
@@ -1918,6 +1919,7 @@ class BookingFormController extends Controller
           #  dd($request->all());
 
            # DB::commit();
+           RingCentralController::updateStatus(auth()->user()->extension_id, 'TakeAllCalls');
             return response()->json([
                 'status' => 'success',
                 'message' => 'Booking updated successfully',

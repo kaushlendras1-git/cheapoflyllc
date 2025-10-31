@@ -40,14 +40,12 @@ use App\Http\Controllers\Masters\DepartmentController;
 use App\Http\Controllers\Masters\RoleController;
 use App\Http\Controllers\Masters\LOBController;
 use App\Http\Controllers\Masters\UnitController;
-use App\Http\Controllers\RingCentral\RingCentralController;
-
+use App\Http\Controllers\RingCentralController;
 
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 
-// RingCentral OAuth Callback
-Route::get('/auth/ringcentral/callback', [RingCentralController::class, 'callback'])->name('auth.ringcentral.callback');
+
 
 // Agent Login Request Routes (no auth required)
 Route::post('/agent/request-login', [AgentLoginController::class, 'requestLogin'])->name('agent.request-login');
@@ -212,6 +210,6 @@ require __DIR__ . '/booking.php';
 require __DIR__ . '/masters.php';
 require __DIR__ . '/reports.php';
 require __DIR__ . '/user.php';
-require __DIR__ . '/ringcentral.php';
+
 require __DIR__ . '/zoho-sign.php';
 

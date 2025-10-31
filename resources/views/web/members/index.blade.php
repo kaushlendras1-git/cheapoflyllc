@@ -157,6 +157,7 @@ document.getElementById('searchLob').addEventListener('change', function() {
                                     <th><span class="dt-column-title" role="button">S.No.</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Name</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Email</span><span class="dt-column-order"></span></th>
+                                    <th><span class="dt-column-title" role="button">Extension ID</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">LOB</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Team</span><span class="dt-column-order"></span></th>
                                     <th><span class="dt-column-title" role="button">Deartments</span><span class="dt-column-order"></span></th>
@@ -182,6 +183,7 @@ document.getElementById('searchLob').addEventListener('change', function() {
                                     
                                  <td class="sorting_1">{{ $member->name }}</td>
                                  <td class="sorting_1">{{ $member->email }}</td>
+                                 <td>{{ $member->extension_id ?? '-' }}</td>
                                   <td>
                                         @php
                                             $lob = $member->lobRelation;
@@ -340,6 +342,13 @@ document.getElementById('searchLob').addEventListener('change', function() {
                             <input type="text" id="add-user-contact" class="form-control phone-mask"
                                 placeholder="+1 (609) 988-44-11" aria-label="Phone Number" name="phone" required="">
                             <label for="add-user-contact">Contact</label>
+                        </div>
+
+                        <!-- Extension ID Field -->
+                        <div class="form-floating form-floating-outline mb-5">
+                            <input type="text" id="add-user-extension-id" class="form-control"
+                                placeholder="496461049" aria-label="Extension ID" name="extension_id">
+                            <label for="add-user-extension-id">Extension ID</label>
                         </div>
 
                         <!-- Extension Field -->
