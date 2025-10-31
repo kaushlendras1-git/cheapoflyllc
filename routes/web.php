@@ -65,6 +65,13 @@ Route::get('/countrylist',[CountryStateController::class,'country'])->name('coun
 
 // API Routes
 Route::middleware('auth')->get('/api/payment-statuses-by-booking', [App\Http\Controllers\Api\StatusController::class, 'getPaymentStatusesByBooking']);
+Route::middleware('auth')->get('/api/booking-status/{id}', function($id) {
+    $booking = \App\Models\TravelBooking::find($id);
+    return response()->json([
+        'booking_status_id' => $booking->booking_status_id,
+        'payment_status_id' => $booking->payment_status_id
+    ]);
+});
 
 /***** Auth **** */
 Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');

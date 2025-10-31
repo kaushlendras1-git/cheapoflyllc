@@ -205,4 +205,27 @@ class ZohoSignService
             throw $e;
         }
     }
+
+    /**
+     * Get Request Details
+     */
+    public function getRequestDetails($requestId)
+    {
+        try {
+            $accessToken = $this->refreshAccessToken();
+            
+            $response = $this->client->get('https://sign.zoho.in/api/v1/requests/' . $requestId, [
+                'headers' => [
+                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken,
+                    'Content-Type' => 'application/json'
+                ]
+            ]);
+            
+            return json_decode($response->getBody(), true);
+            
+        } catch (RequestException $e) {
+            Log::error('Zoho Sign Get Request Details Error: ' . $e->getMessage());
+            throw $e;
+        }
+    }
 }

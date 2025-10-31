@@ -92,16 +92,16 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Train')
                                 <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
                                     src="{{ asset('email-templates/flydreamz-train.png') }}" alt="train">
-                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Cruise')
+                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Cruise')
                                 <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
                                     src="{{ asset('email-templates/fare-tickets-cruise.png') }}" alt="cruise">
-                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Flight')
+                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Flight')
                                 <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
                                     src="{{ asset('email-templates/fare-tickets-flight.png') }}" alt="flight">
-                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Hotel')
+                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Hotel')
                                 <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
                                     src="{{ asset('email-templates/fare-tickets-hotel.png') }}" alt="hotel">
-                                @elseif($booking->selected_company == 2 && $bookingTypes[0] == 'Train')
+                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Train')
                                 <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
                                     src="{{ asset('email-templates/fare-tickets-train.png') }}" alt="train">
                                 @else
@@ -189,7 +189,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             Order Date
                         </div>
                         <div style="font-size: .875rem; color: #4a5568; font-weight: 400;">
-                            {{ $booking->created_at->format('l, M d, Y') }}
+                            {{ $booking->created_at->timezone('America/Los_Angeles')->format('l, M d, Y h:i A') }}
                         </div>
                     </div>
                 </td>

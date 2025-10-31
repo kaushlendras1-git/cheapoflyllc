@@ -10,3 +10,4 @@ Route::get('/zoho-test', function() {
 Route::get('/zoho-sign', [ZohoSignController::class, 'showForm'])->name('zoho-sign.form');
 Route::post('/zoho-sign/send', [ZohoSignController::class, 'sendForSignature'])->name('zoho-sign.send');
 Route::post('/zoho-sign/test-static', [ZohoSignController::class, 'testWithStaticFile'])->name('zoho-sign.test-static');
+Route::get('/zoho-sign/request-details/{requestId?}', [ZohoSignController::class, 'getRequestDetails'])->name('zoho-sign.request-details');

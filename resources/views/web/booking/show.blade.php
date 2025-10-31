@@ -493,6 +493,23 @@
         document.getElementById('next-tab-btn').addEventListener('click', goToNextTab);
         document.getElementById('prev-tab-btn').addEventListener('click', goToPrevTab);
 
+        // Auto-reload when booking/payment status changes
+        let currentBookingStatus = {{ $booking->booking_status_id ?? 'null' }};
+        let currentPaymentStatus = {{ $booking->payment_status_id ?? 'null' }};
+        
+        function checkForStatusChanges() {
+            fetch(`/api/booking-status/${booking_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.booking_status_id !== currentBookingStatus || data.payment_status_id !== currentPaymentStatus) {
+                        location.reload();
+                    }
+                })
+                .catch(error => console.error('Status check failed:', error));
+        }
+        
+        // Check every 5 seconds
+        setInterval(checkForStatusChanges, 5000);
 
     </script>
 

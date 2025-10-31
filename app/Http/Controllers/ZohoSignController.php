@@ -152,4 +152,15 @@ class ZohoSignController extends Controller
             return redirect()->back()->with('error', '❌ Error sending document: ' . $e->getMessage());
         }
     }
+
+
+     public function getRequestDetails($Request_Id = 135301000000067179){
+        try {
+            $response = $this->zohoSignService->getRequestDetails($Request_Id);
+            return response()->json($response);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+     }
+
 }
