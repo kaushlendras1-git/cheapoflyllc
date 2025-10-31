@@ -56,7 +56,6 @@ use App\Http\Controllers\RingCentralController;
 use DateTime;
 
 
-
 class BookingFormController extends Controller
 {
 
