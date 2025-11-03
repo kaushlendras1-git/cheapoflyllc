@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\CreateAttendanceOnLogin::class,
         ]);
+        
+        $middleware->alias([
+            'restrict.ip' => \App\Http\Middleware\RestrictIpAccess::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (AuthenticationException $e, $request) {

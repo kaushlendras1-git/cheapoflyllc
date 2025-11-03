@@ -25,14 +25,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
                         style="border-collapse: collapse;">
                         <tr>
-                            <td style="
-            background: linear-gradient(135deg, #1c316d, #285274);
-            padding: 10px;
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 600;
-          
-          ">
+                            <td style="background: linear-gradient(135deg, #1c316d, #285274);padding: 10px;color: #ffffff;font-size: 18px;font-weight: 600;">
                                 <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
                                     style="border-collapse: collapse;">
                                     <tr>
@@ -217,8 +210,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     $logoPath = $airline && $airline->logo ? asset($airline->logo) :
                                     asset('email-templates/default-airline.png');
                                     @endphp
-                                    <img src="{{ $logoPath }}" alt="airline logo"
-                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{ $logoPath }}" alt="airline logo" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                                 <div style="flex: 1; min-width: 280px; padding-bottom:10px;">
                                     <div
@@ -1170,7 +1162,7 @@ border-radius: 0px;
                            @{{Checkbox}}
                             <a href="{{ route($company . '.terms.' . $fare) }}" target="_blank"
                                 style="color: #1a56db; text-decoration: none;">
-                                I have read and agree to the Terms and Conditions
+                                I have read and agree to the Terms and Conditions 
                             </a>
                         </label>
                     </div>
@@ -1207,21 +1199,6 @@ border-radius: 0px;
                         <tr>
                             <td
                                 style="background: linear-gradient(135deg, #1c316d, #285274); padding: 20px 30px; text-align: center; border-radius: 0px;">
-
-                                <!-- Social Icons -->
-                                <div
-                                    style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;">
-                                    <a href="https://www.instagram.com/flydreamz_/" target="_blank"
-                                        style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: rgba(255,255,255,0.1); border-radius: 50%; transition: all 0.3s ease;">
-                                        <img width="20" height="20" src="{{ asset('email-templates/instagram.png') }}"
-                                            alt="instagram" style="display: block;">
-                                    </a>
-                                    <a href="https://x.com/_flydreamz" target="_blank"
-                                        style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background-color: rgba(255,255,255,0.1); border-radius: 50%; transition: all 0.3s ease;">
-                                        <img width="20" height="20" src="{{ asset('email-templates/twitter.png') }}"
-                                            alt="twitter" style="display: block;">
-                                    </a>
-                                </div>
 
                                 <!-- Footer Text -->
                                 <div style="font-size: .875rem; font-weight: 400; color: #e2e8f0; text-align: center;">

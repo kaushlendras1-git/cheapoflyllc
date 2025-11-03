@@ -41,7 +41,7 @@ use App\Http\Controllers\Masters\RoleController;
 use App\Http\Controllers\Masters\LOBController;
 use App\Http\Controllers\Masters\UnitController;
 use App\Http\Controllers\RingCentralController;
-
+use App\Http\Controllers\TermsController;
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 
@@ -198,19 +198,19 @@ Route::middleware('auth')->group(function () {
         Route::get('/attendance/export', [\App\Http\Controllers\AttendanceController::class, 'export'])->name('attendance.export');
     });
 
-// API route for teams by LOB
-Route::get('/api/teams/{lobId}', [\App\Http\Controllers\Masters\TeamController::class, 'getTeamsByLob']);
+    // API route for teams by LOB
+    Route::get('/api/teams/{lobId}', [\App\Http\Controllers\Masters\TeamController::class, 'getTeamsByLob']);
 
+    // General
+    Route::get('/terms-and-conditions', [TermsController::class, 'index'])->name('terms-and-conditions');
 
-Route::get('/terms-and-conditions', function () {return view('terms.terms-and-conditions');})->name('terms-and-conditions');
+    // Flydreamz
+    Route::get('/flydreamz/terms-and-conditions/refundable', [TermsController::class, 'flydreamzRefundable'])->name('flydreamz.terms.refundable');
+    Route::get('/flydreamz/terms-and-conditions/nonrefundable', [TermsController::class, 'flydreamzNonRefundable'])->name('flydreamz.terms.nonrefundable');
 
-// Flydreamz Routes
-    Route::get('/flydreamz/terms-and-conditions/refundable', function () { return view('terms.flydreamz_refundable'); })->name('flydreamz.terms.refundable');
-    Route::get('/flydreamz/terms-and-conditions/nonrefundable', function () { return view('terms.flydreamz_nonrefundable');})->name('flydreamz.terms.nonrefundable');
-
-// FareticketsUS Routes
-    Route::get('/fareticketsus/terms-and-conditions/refundable', function () { return view('terms.fareticketsus_refundable');})->name('fareticketsus.terms.refundable');
-    Route::get('/fareticketsus/terms-and-conditions/nonrefundable', function () { return view('terms.fareticketsus_nonrefundable');})->name('fareticketsus.terms.nonrefundable');
+    // FareticketsUS
+    Route::get('/fareticketsus/terms-and-conditions/refundable', [TermsController::class, 'fareticketsusRefundable'])->name('fareticketsus.terms.refundable');
+    Route::get('/fareticketsus/terms-and-conditions/nonrefundable', [TermsController::class, 'fareticketsusNonRefundable'])->name('fareticketsus.terms.nonrefundable');
 
 
 require __DIR__ . '/booking.php';
