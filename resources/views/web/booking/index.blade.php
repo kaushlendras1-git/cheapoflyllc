@@ -59,7 +59,7 @@
                                 <th>Booking Date</th>                                
                                 <th>Booking Status</th>
                                 <th>Payment Status</th>
-                                <th>Total</th>
+                                <th>gross_mco</th>
                                 <th>Agent MCO</th>
                                 <th>Pax Name</th>
                                   @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
@@ -134,8 +134,8 @@
 
                                 <!--td>{{ $booking->pricingDetails->sum('total_amount') }}</td>
                                 <td>{{ $booking->pricingDetails->sum('advisor_mco') }}</td-->
-                                <td>{{ $booking->gross_value }}</td>
-                                <td>{{ $booking->net_value }}</td>
+                                <td>{{ $booking->gross_mco }}</td>
+                                <td>{{ $booking->net_mco }}</td>
                                 <td>{{ $booking->name }}</td>
                                 <!-- <td>{{ $booking->email }}</td> -->
                                   @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
