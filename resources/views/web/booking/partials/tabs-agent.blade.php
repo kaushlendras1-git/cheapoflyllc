@@ -49,12 +49,7 @@
                     <i class="ri ri-train-line" title="Train" style="color: #8a2be2; font-size: 20px;"></i></a>
             </li>
 
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
-                    aria-controls="billing" aria-selected="false">
-                    <i class="ri ri-bank-line" style="font-size: 20px; color: #2e8b57;" title="Billing"></i>
-                </a>
-            </li>
+        
 
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="pricing-tab" data-bs-toggle="tab" href="#pricing" role="tab"
@@ -62,6 +57,13 @@
 
                     <i class="ri ri-money-dollar-circle-line" style="font-size: 20px; color: #6a5acd;"
                         title="Pricing"></i>
+                </a>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="billing-tab" data-bs-toggle="tab" href="#billing" role="tab"
+                    aria-controls="billing" aria-selected="false">
+                    <i class="ri ri-bank-line" style="font-size: 20px; color: #2e8b57;" title="Billing"></i>
                 </a>
             </li>
 
@@ -109,11 +111,11 @@
             <!-- Train Tab -->
             @include('web.booking.partials.train')
 
-            <!-- Biling Tab -->
-            @include('web.booking.partials.billing')
-
             <!-- Pricing Tab -->
             @include('web.booking.partials.pricing')
+
+              <!-- Biling Tab -->
+            @include('web.booking.partials.billing')
 
             <!-- Remarks Tab -->
             @include('web.booking.partials.remarks', ['remarks' => $booking->remarks])

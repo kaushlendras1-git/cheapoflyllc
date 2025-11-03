@@ -142,9 +142,8 @@
                     @endphp
 
                     <input type="hidden" name="last_updated_at" value="{{ $booking->updated_at }}">
-
-
                     <input type="hidden" name="booking_id" value="{{ $booking->id ?? '' }}">
+                    
                     <!-- Top Bar -->
                     <div class="mt-2 ps-0">
                         <div class="d-flex justify-content-between align-items-center flex-wrap checkbox-servis">
@@ -153,9 +152,13 @@
                                     <input name="booking-type[]" class="form-check-input toggle-tab depositCheck"
                                         type="checkbox" id="booking-flight" value="Flight"
                                         {{ in_array('Flight', $bookingTypes) ? 'checked' : '' }}
-                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}>
+                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}
+                                        {{ auth()->user()->department_id == 5 ? 'disabled' : '' }}>
                                     <label class="form-check-label" for="booking-flight">Flight</label>
                                     @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7 && in_array('Flight', $bookingTypes))
+                                        <input type="hidden" name="booking-type[]" value="Flight">
+                                    @endif
+                                    @if(auth()->user()->department_id == 5 && in_array('Flight', $bookingTypes))
                                         <input type="hidden" name="booking-type[]" value="Flight">
                                     @endif
                                 </div>
@@ -163,9 +166,13 @@
                                     <input name="booking-type[]" class="form-check-input toggle-tab depositCheck"
                                         type="checkbox" id="booking-hotel" value="Hotel"
                                         {{ in_array('Hotel', $bookingTypes) ? 'checked' : '' }}
-                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}>
+                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}
+                                        {{ auth()->user()->department_id == 5 ? 'disabled' : '' }}>
                                     <label class="form-check-label" for="booking-hotel">Hotel</label>
                                     @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7 && in_array('Hotel', $bookingTypes))
+                                        <input type="hidden" name="booking-type[]" value="Hotel">
+                                    @endif
+                                    @if(auth()->user()->department_id == 5 && in_array('Hotel', $bookingTypes))
                                         <input type="hidden" name="booking-type[]" value="Hotel">
                                     @endif
                                 </div>
@@ -173,9 +180,13 @@
                                     <input name="booking-type[]" class="form-check-input toggle-tab depositCheck cruiseType"
                                         type="checkbox" id="booking-cruise" value="Cruise"
                                         {{ in_array('Cruise', $bookingTypes) ? 'checked' : '' }}
-                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}>
+                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}
+                                        {{ auth()->user()->department_id == 5 ? 'disabled' : '' }}>
                                     <label class="form-check-label" for="booking-cruise">Cruise</label>
                                     @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7 && in_array('Cruise', $bookingTypes))
+                                        <input type="hidden" name="booking-type[]" value="Cruise">
+                                    @endif
+                                    @if(auth()->user()->department_id == 5 && in_array('Cruise', $bookingTypes))
                                         <input type="hidden" name="booking-type[]" value="Cruise">
                                     @endif
                                 </div>
@@ -183,9 +194,13 @@
                                     <input name="booking-type[]" class="form-check-input toggle-tab depositCheck"
                                         type="checkbox" id="booking-car" value="Car"
                                         {{ in_array('Car', $bookingTypes) ? 'checked' : '' }}
-                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}>
+                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}
+                                        {{ auth()->user()->department_id == 5 ? 'disabled' : '' }}>
                                     <label class="form-check-label" for="booking-car">Car</label>
                                     @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7 && in_array('Car', $bookingTypes))
+                                        <input type="hidden" name="booking-type[]" value="Car">
+                                    @endif
+                                    @if(auth()->user()->department_id == 5 && in_array('Car', $bookingTypes))
                                         <input type="hidden" name="booking-type[]" value="Car">
                                     @endif
                                 </div>
@@ -193,9 +208,13 @@
                                     <input name="booking-type[]" class="form-check-input toggle-tab depositCheck"
                                         type="checkbox" id="booking-train" value="Train"
                                         {{ in_array('Train', $bookingTypes) ? 'checked' : '' }}
-                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}>
+                                        {{ (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) ? 'disabled' : '' }}
+                                        {{ auth()->user()->department_id == 5 ? 'disabled' : '' }}>
                                     <label class="form-check-label" for="booking-train">Train</label>
                                     @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7 && in_array('Train', $bookingTypes))
+                                        <input type="hidden" name="booking-type[]" value="Train">
+                                    @endif
+                                    @if(auth()->user()->department_id == 5 && in_array('Train', $bookingTypes))
                                         <input type="hidden" name="booking-type[]" value="Train">
                                     @endif
                                 </div>
@@ -231,7 +250,7 @@
                                         @endphp
 
                                         @if($isPaid)
-                                            @if($roleId === 1)
+                                            @if($roleId === 1 && auth()->user()->department_id == 2 )
                                                 <!-- Role 1: Masked + readonly + hidden real value -->
                                                 <input type="text" 
                                                     class="form-control readonly-field" 
@@ -249,9 +268,10 @@
                                         @else
                                             <!-- Not paid: Editable for everyone -->
                                             <input type="text" 
-                                                class="form-control" 
+                                                class="form-control @if(auth()->user()->department_id == 5) readonly-field @endif" 
                                                 name="airlinepnr" 
-                                                value="{{ $booking->airlinepnr }}">
+                                                value="{{ $booking->airlinepnr }}"
+                                                @if(auth()->user()->department_id == 5) readonly @endif>
                                         @endif
                                     </div>
                                     
@@ -265,15 +285,17 @@
 
                             <div class="col-md-2 position-relative mb-5" id="hotel-inputs">
                                 <label class="form-label">Hotel Ref</label>
-                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="hotel_ref"
+                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif" name="hotel_ref"
                                     value="{{ old('hotel_ref', $booking->hotel_ref ?? '') }}"
-                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif> 
+                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif
+                                    @if(auth()->user()->department_id == 5) readonly @endif> 
                             </div>
                             <div class="col-md-2 position-relative mb-5" id="cruise-inputs">
                                 <label class="form-label">Cruise Ref</label>
-                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="cruise_ref"
+                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif" name="cruise_ref"
                                     value="{{ old('cruise_ref', $booking->cruise_ref ?? '') }}"
-                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif> 
+                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif
+                                    @if(auth()->user()->department_id == 5) readonly @endif> 
                             </div>
 
 
@@ -281,23 +303,26 @@
 
                             <div class="col-md-2 position-relative mb-5" id="car-inputs">
                                 <label class="form-label">Car Ref</label>
-                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="car_ref"
+                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif" name="car_ref"
                                     value="{{ old('car_ref', $booking->car_ref ?? '') }}"
-                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif>
+                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif
+                                    @if(auth()->user()->department_id == 5) readonly @endif>
                             </div>
 
                             <div class="col-md-2 position-relative mb-5" id="train-inputs">
                                 <label class="form-label">Train Ref</label>
-                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="train_ref"
+                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif" name="train_ref"
                                     value="{{ old('train_ref', $booking->train_ref ?? '') }}" 
-                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif> 
+                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif
+                                    @if(auth()->user()->department_id == 5) readonly @endif> 
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Name of the Caller <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="name"
+                                <input type="text" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif" name="name"
                                     value="{{ old('name', $booking->name ?? '') }}"
-                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif>
+                                    @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly @endif
+                                    @if(auth()->user()->department_id == 5) readonly @endif>
                             </div>
 
                             <div class="col-md-2 position-relative mb-5">
@@ -307,7 +332,7 @@
                                 @endphp
 
                                 @if($isPaid)
-                                    @if($roleId === 1 )
+                                     @if($roleId === 1 && auth()->user()->department_id == 2 )
                                         <!-- Roles 1 & 2: Masked + readonly + hidden real value -->
                                         <input type="text" 
                                             class="form-control readonly-field" 
@@ -325,10 +350,11 @@
                                 @else
                                     <!-- Not paid: Editable for everyone -->
                                     <input type="text" 
-                                        class="form-control" 
+                                        class="form-control @if(auth()->user()->department_id == 5) readonly-field @endif" 
                                         name="phone" 
                                         id="phone"
-                                        value="{{ old('phone', $booking->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) : '') }}">
+                                        value="{{ old('phone', $booking->phone ? preg_replace('/(\d{3})(\d{3})(\d{4})/', '$1 $2 $3', $booking->phone) : '') }}"
+                                        @if(auth()->user()->department_id == 5) readonly @endif>
                                 @endif
                             </div>
 
@@ -342,7 +368,7 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Campaign <span class="text-danger">*</span></label>
-                                <select id="campaign" data-sh="Campaign" name="campaign" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif"  >
+                                <select id="campaign" data-sh="Campaign" name="campaign" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif" @if(auth()->user()->department_id == 5) disabled @endif>
                                     @foreach ($campaigns as $campaign)
                                         <option value="{{ $campaign->id }}"
                                             {{ old('campaign', $booking->campaign ?? null) == $campaign->id ? 'selected' : '' }}>
@@ -351,6 +377,9 @@
                                     @endforeach
                                 </select>
                                 @if(auth()->user()->role_id == 1 && $booking->campaign)
+                                    <input type="hidden" name="campaign" value="{{ $booking->campaign }}">
+                                @endif
+                                @if(auth()->user()->department_id == 5)
                                     <input type="hidden" name="campaign" value="{{ $booking->campaign }}">
                                 @endif
 
@@ -398,12 +427,14 @@
 
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Booking Type</label>
-                                <select id="query_type" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif" name="query_type" >
+                                <select id="query_type" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif" name="query_type" @if(auth()->user()->department_id == 5) disabled @endif>
                                     @foreach ($booking_types as $booking_type)
                                         <option value="{{ $booking_type->id }}" data-type="{{ $booking_type->type }}" data-id="{{ $booking_type->id }}" {{ old('query_type', $booking->query_type ?? '') == $booking_type->id ? 'selected' : '' }}> {{ $booking_type->name }}</option>
                                     @endforeach
                                 </select>
-                               
+                                @if(auth()->user()->department_id == 5)
+                                    <input type="hidden" name="query_type" value="{{ $booking->query_type }}">
+                                @endif
                             </div>
 
                            
@@ -431,6 +462,7 @@
                     </div>
                 </form>
             </div>
+
 
             @if (auth()->user()->department_id == 5)
                 @include('web.booking.partials.tabs-billing')

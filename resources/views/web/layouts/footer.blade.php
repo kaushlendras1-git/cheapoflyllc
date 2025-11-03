@@ -121,8 +121,38 @@
   });
 </script>
 
+<style>
+/* CSS */
+.readonly-select {
+  position: relative;
+  display: inline-block; /* or block; match your layout */
+  width: 100%;           /* if you want full width */
+}
 
+/* make select normal-looking */
+.readonly-select select {
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;      /* optional: hides native arrow in some browsers */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
 
+/* overlay that blocks mouse/touch */
+.readonly-select .select-block {
+  position: absolute;
+  inset: 0;              /* top:0; right:0; bottom:0; left:0; */
+  cursor: default;       /* shows non-interactive cursor */
+  background: transparent;
+  z-index: 2;
+}
+
+/* Optional: visually indicate readonly */
+.readonly-select select {
+  background-color: #f5f5f5;
+  color: #444;
+}
+</style>
 
 
 </body>

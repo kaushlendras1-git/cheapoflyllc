@@ -90,6 +90,7 @@ class BookingFormController extends Controller
                 'country.required' => 'The country is required.',
             ]);
             $data['booking_id'] = $id;
+             $data['contact_number'] = preg_replace('/\D/', '', $data['contact_number']);
             $insert = BillingDetail::create($data);
             $getBillingdata = BillingDetail::select('country','state')->with('get_country','get_state')->find($insert->id);
             $insert['country'] = $getBillingdata->get_country->country_name;
@@ -162,7 +163,6 @@ class BookingFormController extends Controller
         try{
             $data = $request->validate([
                 'email'=>'required|email',
-                //'contact_number'=>'required|regex:/^\d{10}$/',
                 'contact_number'=>'required',
                 'street_address'=>'required',
                 'city'=>'required',
@@ -170,7 +170,7 @@ class BookingFormController extends Controller
                 'zip_code'=>'required',
                 'country'=>'required',
             ]);
-
+            $data['contact_number'] = preg_replace('/\D/', '', $data['contact_number']);
             $billingDetail = BillingDetail::findOrFail($id);
             $billingDetail->update($data);
 
@@ -307,7 +307,7 @@ class BookingFormController extends Controller
 
     public function search(Request $request)
     {
-        $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
+        $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus', 'passengers', 'billingDetails', 'billingDetail']);
 
         $hasFilter = false;
 
@@ -317,8 +317,30 @@ class BookingFormController extends Controller
             $query->where(function ($q) use ($keyword, $phoneKeyword) {
                 $q->where('pnr', 'like', "%{$keyword}%")
                 ->orWhere('name', 'like', "%{$keyword}%")
-                ->orWhere('email', 'like', "%{$keyword}%")
-                ->orWhere('phone', 'like', "%{$phoneKeyword}%");
+                ->orWhere('airlinepnr', 'like', "%{$keyword}%")
+                ->orWhere('hotel_ref', 'like', "%{$keyword}%")
+                ->orWhere('car_ref', 'like', "%{$keyword}%")
+                ->orWhere('train_ref', 'like', "%{$keyword}%")
+                ->orWhere('cruise_ref', 'like', "%{$keyword}%")
+                ->orWhere('phone', 'like', "%{$phoneKeyword}%")
+                ->orWhereHas('passengers', function ($pq) use ($keyword) {
+                    $pq->where('first_name', 'like', "%{$keyword}%")
+                       ->orWhere('middle_name', 'like', "%{$keyword}%")
+                       ->orWhere('last_name', 'like', "%{$keyword}%");
+                })
+                ->orWhereHas('billingDetails', function ($bq) use ($keyword, $phoneKeyword) {
+                    $bq->where('cc_number', 'like', "%{$phoneKeyword}")
+                       ->orWhere('cc_holder_name', 'like', "%{$keyword}%");
+                })
+                ->orWhereHas('billingDetail', function ($bdq) use ($keyword, $phoneKeyword) {
+                    $bdq->where('email', 'like', "%{$keyword}%")
+                        ->orWhere('contact_number', 'like', "%{$phoneKeyword}%");
+                });
+                
+                // Only search main booking email if it's not an email format
+                if (strpos($keyword, '@') === false) {
+                    $q->orWhere('email', 'like', "%{$keyword}%");
+                }
             });
             $hasFilter = true;
         }
@@ -347,15 +369,6 @@ class BookingFormController extends Controller
             $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
             $bookings->appends($request->all());
         } else {
-            // return empty result when no search/filter applied
-            $bookings = collect();
-        }
-
-
-        if ($hasFilter) {
-            $bookings = $query->orderBy('created_at', 'desc')->paginate(10);
-            $bookings->appends($request->all());
-        } else {
             // Return empty paginator so ->links() works
             $bookings = new LengthAwarePaginator(
                 [], // empty data
@@ -366,12 +379,12 @@ class BookingFormController extends Controller
             );
         }
 
-
         $booking_status = BookingStatus::all();
         $payment_status = PaymentStatus::all();
 
         return view('web.booking.search', compact('bookings', 'booking_status', 'payment_status'));
     }
+
 
 
 
@@ -389,13 +402,14 @@ class BookingFormController extends Controller
         try {
             $decodedId = decode($id);
 
-            if(str_word_count($request->remark) < 20) {
-                //return JsonResponse::error('Action not allowed. Add clear and valid remarks to proceed.', 500);
-                 return response()->json([
-                                            'status'=>'failed',
-                                            'message'=>'Action not allowed. Add clear and valid remarks to proceed.',
-                                            'code'=>'500'
-                                        ],500);
+            if(auth()->user()->role_id == 1 && auth()->user()->department_id == 2) {
+                if(str_word_count($request->remark) < 20) {
+                     return response()->json([
+                                                'status'=>'failed',
+                                                'message'=>'Action not allowed. Add clear and valid remarks to proceed.',
+                                                'code'=>'500'
+                                            ],500);
+                }
             }
 
             TravelBookingRemark::create([
@@ -2214,6 +2228,13 @@ class BookingFormController extends Controller
                             'created_at' => now(),
                             'updated_at' => now()
                         ]);
+                    }
+                }else{
+                    $booking = TravelBooking::find($bookingId);
+                    if ($booking) {
+                        $booking->booking_status_id = 14;
+                        $booking->payment_status_id = 32;
+                        $booking->save();
                     }
                 }
                 

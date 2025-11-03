@@ -116,12 +116,14 @@
             <!-- Train Tab -->
             @include('web.booking.partials.train')
 
-            <!-- Biling Tab -->
-            @include('web.booking.partials.billing')
-
+          
             <!-- Pricing Tab -->
             @include('web.booking.partials.pricing')
 
+              <!-- Biling Tab -->
+            @include('web.booking.partials.billing')
+
+            
             <!-- Remarks Tab -->
             @include('web.booking.partials.remarks', ['remarks' => $booking->remarks])
 

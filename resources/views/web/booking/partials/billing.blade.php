@@ -400,7 +400,7 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                 <div class="payment-form">
                     <h2 class="card-header border-0 p-0 detail-passanger card_bil-head">Transation Details</h2>
 
-                    <h4 class="merchant-name mb-0">Merchent -
+                    <h4 class="merchant-name mb-0">Merchant -
                         @if ($booking->selected_company == 1)
                             Fly Dreamz
                         @elseif($booking->selected_company == 3)
@@ -423,6 +423,9 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <h5 class="no-card mb-0">Card {{ $key + 1 }} <span style="color: #ff0000;">(MCO =
                                                 ${{ $billingDetails['authorized_amt'] }})</span></h5>
+
+                                                <h6>{{$booking->gross_mco}} </h6>
+
                                         <form method="POST" action="{{ route('booking.update-payment-status') }}" style="margin: 0;">
                                             @csrf
                                             <input type="hidden" name="billing_id" value="{{ $billingDetails->id }}">
@@ -444,6 +447,7 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                                                     name="is_paid" value="1" id="billing-card-{{ $billingDetails->id }}"
                                                     {{ $billingDetails->is_paid == 1 ? 'checked' : '' }}
                                                     onchange="this.form.submit()">
+                                                    
                                                 <label class="form-check-label text-dark" for="billing-card-{{ $billingDetails->id }}">Paid</label>
                                             </div>
                                         </form>

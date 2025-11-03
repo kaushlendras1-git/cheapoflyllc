@@ -149,5 +149,9 @@ class TravelBooking extends Model
         // return $this->hasMany(TravelBookingChangeLog::class, 'booking_id');
     }
 
+    public function billingDetail()
+    {
+        return $this->hasMany(BillingDetail::class, 'booking_id');
+    }
 
 }

@@ -105,7 +105,7 @@ class CallLogController extends Controller
         // Prepare data for CallLog creation
         $validated['user_id'] = auth()->id();
         $validated['pnr'] = '';
-        $validated['phone'] = preg_replace('/\D/', '', $request->phone);
+        $validated['phone'] = preg_replace('/[^\d+]/', '', $request->phone);
         $callLog = CallLog::create($validated);
 
 
