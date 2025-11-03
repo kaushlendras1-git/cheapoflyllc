@@ -2234,7 +2234,7 @@ class BookingFormController extends Controller
                     $booking = TravelBooking::find($bookingId);
                     if ($booking) {
                         $booking->booking_status_id = 14;
-                        $booking->payment_status_id = 32;
+                        $booking->payment_status_id = 30;
                         $booking->save();
                     }
                 }
