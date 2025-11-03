@@ -170,6 +170,19 @@ class SignatureController extends Controller
         
         file_put_contents($tempHtml, $html);
         
+        // Check if exec() function is available
+        if (!function_exists('exec')) {
+            // Fallback to original PDF method when exec is disabled
+            unlink($tempHtml);
+            $pdf = \PDF::loadView('web.signature.signature-pdf', compact(
+                'billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id',
+                'card_billing_id','refund_status','billingPricingData','car_images','cruise_images',
+                'flight_images','hotel_images','train_images','screenshot_images','booking','users',
+                'hashids','booking_status','payment_status','campaigns','billingData'
+            ));
+            return $pdf->stream($booking->pnr . '.pdf', ['Attachment' => false]);
+        }
+        
         $command = "wkhtmltopdf --page-size A4 --margin-top 0.75in --margin-right 0.75in --margin-bottom 0.75in --margin-left 0.75in --enable-local-file-access --load-error-handling ignore --load-media-error-handling ignore \"{$tempHtml}\" \"{$tempPdf}\"";
         \exec($command, $output, $returnCode);
         
