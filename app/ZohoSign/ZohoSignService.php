@@ -33,12 +33,12 @@ class ZohoSignService
         try {
             Log::info('Refreshing Zoho access token...');
             
-            $response = $this->client->post('https://accounts.zoho.in/oauth/v2/token', [
+            $response = $this->client->post('https://accounts.zoho.com/oauth/v2/token', [
                 'form_params' => [
-                    'refresh_token' => '1000.29e4740f0b0765d47ae29f338dda2636.d922819cce30f52b81ab016dd14db0b1',
-                    'client_id' => '1000.SYE5R6WSMC7ULLJVXD8ZDWTWKRQ47A',
-                    'client_secret' => '1e9a4ed0bfe9aeaeb67ad52340e3d27ed57c921ad1',
-                    'redirect_uri' => 'https://sign.zoho.in',
+                    'refresh_token' => $this->refreshToken,
+                    'client_id' => $this->clientId,
+                    'client_secret' => $this->clientSecret,
+                    'redirect_uri' => 'https://sign.zoho.com',
                     'grant_type' => 'refresh_token'
                 ],
                 'headers' => [
@@ -93,7 +93,7 @@ class ZohoSignService
                     'reminder_period' => 3
                 ]
             ];
-            $response = $this->client->post('https://sign.zoho.in/api/v1/requests', [
+            $response = $this->client->post('https://sign.zoho.com/api/v1/requests', [
                 'headers' => [
                     'Authorization' => 'Zoho-oauthtoken ' . $accessToken
                 ],
@@ -214,7 +214,7 @@ class ZohoSignService
         try {
             $accessToken = $this->refreshAccessToken();
             
-            $response = $this->client->get('https://sign.zoho.in/api/v1/requests/' . $requestId, [
+            $response = $this->client->get('https://sign.zoho.com/api/v1/requests/' . $requestId, [
                 'headers' => [
                     'Authorization' => 'Zoho-oauthtoken ' . $accessToken,
                     'Content-Type' => 'application/json'
