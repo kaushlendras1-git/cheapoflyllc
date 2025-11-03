@@ -56,7 +56,7 @@
 @endphp
 
 <div class="col-md-2 position-relative mb-5">
-    <label class="form-label">Payment Status {{ auth()->user()->department_id }}</label>
+    <label class="form-label">Payment Status</label>
 
     <select class="form-control"
             name="payment_status_id"

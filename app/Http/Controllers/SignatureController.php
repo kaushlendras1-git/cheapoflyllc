@@ -171,7 +171,7 @@ class SignatureController extends Controller
         file_put_contents($tempHtml, $html);
         
         $command = "wkhtmltopdf --page-size A4 --margin-top 0.75in --margin-right 0.75in --margin-bottom 0.75in --margin-left 0.75in --enable-local-file-access --load-error-handling ignore --load-media-error-handling ignore \"{$tempHtml}\" \"{$tempPdf}\"";
-        exec($command, $output, $returnCode);
+        \exec($command, $output, $returnCode);
         
         if ($returnCode !== 0 || !file_exists($tempPdf)) {
             // Fallback to original PDF method

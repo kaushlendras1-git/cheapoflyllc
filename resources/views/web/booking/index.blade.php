@@ -59,7 +59,7 @@
                                 <th>Booking Date</th>                                
                                 <th>Booking Status</th>
                                 <th>Payment Status</th>
-                                <th>gross_mco</th>
+                                <th>Gross MCO</th>
                                 <th>Agent MCO</th>
                                 <th>Pax Name</th>
                                   @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
