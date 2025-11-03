@@ -1254,6 +1254,7 @@ class BookingFormController extends Controller
                 'hotel_payment_type','cruise_payment_type','car_payment_type','changes_assign_to'
             ]);
 
+
              $array = [];
              if($request->has('deposit_type') && is_array($request->deposit_type)){
                  foreach($request->deposit_type as $key=>$deposit){

@@ -284,17 +284,16 @@ document.getElementById('bookingForm').addEventListener('submit', async function
     });
 
     // Get MCO values from elements
+    const grossMcoSpan = document.getElementById('total_gross_value');
     const grossMcoInput = document.getElementById('gross_mco');
     const netMcoInput = document.getElementById('net_mco');
     const merchantFeeSpan = document.getElementById('merchant_fee_text1');
 
     console.log('MCO Elements:', {
-        grossMcoInput: grossMcoInput,
-        netMcoInput: netMcoInput,
-        merchantFeeSpan: merchantFeeSpan,
-        grossValue: grossMcoInput?.value,
-        netValue: netMcoInput?.value,
-        merchantValue: merchantFeeSpan?.textContent
+        grossMcoSpan: grossMcoSpan?.textContent,
+        grossMcoInput: grossMcoInput?.value,
+        netMcoInput: netMcoInput?.value,
+        merchantFeeSpan: merchantFeeSpan?.textContent
     });
 
     formdata.set('gross_value', grossTotal.toFixed(2));

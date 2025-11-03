@@ -410,6 +410,9 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                         @elseif($booking->selected_company == 4)
                             Cruise Line Service
                         @endif
+
+                      ||   Gross MCO : {{$booking->gross_mco}} 
+
                     </h4>
                     <div class="row mt-4">
                         @foreach ($booking->billingDetails as $key => $billingDetails)
@@ -421,10 +424,9 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                             <div class="col-md-3">
                                 <div class="card-partisal">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <h5 class="no-card mb-0">Card {{ $key + 1 }} <span style="color: #ff0000;">(MCO =
-                                                ${{ $billingDetails['authorized_amt'] }})</span></h5>
-
-                                                <h6>{{$booking->gross_mco}} </h6>
+                                        <h5 class="no-card mb-0">Card {{ $key + 1 }} 
+                                            <!--span style="color: #ff0000;">(MCO = ${{ $billingDetails['authorized_amt'] }})</span-->
+                                        </h5>
 
                                         <form method="POST" action="{{ route('booking.update-payment-status') }}" style="margin: 0;">
                                             @csrf
@@ -447,7 +449,7 @@ document.getElementById('bookingForm').addEventListener('submit', function() {
                                                     name="is_paid" value="1" id="billing-card-{{ $billingDetails->id }}"
                                                     {{ $billingDetails->is_paid == 1 ? 'checked' : '' }}
                                                     onchange="this.form.submit()">
-                                                    
+
                                                 <label class="form-check-label text-dark" for="billing-card-{{ $billingDetails->id }}">Paid</label>
                                             </div>
                                         </form>
