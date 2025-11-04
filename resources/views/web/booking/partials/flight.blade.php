@@ -9,12 +9,17 @@
 
 <div class="tab-pane fade" id="flightbooking" role="tabpanel" aria-labelledby="flightbooking-tab">
     <div class="card p-4 show-booking-card">
+       
         <div class="d-flex justify-content-between align-items-center mb-0">
             <h5 class="card-header border-0 p-0 mb-0 detail-passanger">Flight Booking Details</h5>
-            <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="flight-booking-button">
-                <i class="ri ri-add-circle-fill pointer"></i>
-            </button>
+            @if(!$disabled)  
+                <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="flight-booking-button">
+                    <i class="ri ri-add-circle-fill pointer"></i>
+                </button>
+             @endif 
         </div>
+      
+
         <div class="card-body p-0">
             <div class="row g-3 align-items-center">
                 <div class="col-md-12">

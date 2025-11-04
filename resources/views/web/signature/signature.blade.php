@@ -5,11 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Authorization</title>
-
-
-
 </head>
-
 @php
 $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 @endphp
@@ -210,7 +206,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     $logoPath = $airline && $airline->logo ? asset($airline->logo) :
                                     asset('email-templates/default-airline.png');
                                     @endphp
-                                    <img src="{{ $logoPath }}" alt="airline logo" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{ $logoPath }}" alt="airline logo" style="width: 100%;object-fit: cover;">
                                 </div>
                                 <div style="flex: 1; min-width: 280px; padding-bottom:10px;">
                                     <div
@@ -830,6 +826,8 @@ border-radius: 0px;
             </tr>
             <!-- End Passanger Details -->
 
+       
+
             <!-- Contact Information -->
             <tr>
                 <td colspan="2" style="padding: 5px 10px 0px 10px;">
@@ -1138,7 +1136,6 @@ border-radius: 0px;
                                                 **** **** **** {{ substr($billing->cc_number, -4) }}</b>
                                         </li>
                                     @endif
-
                                     @endforeach
                                 </ul>
                                 <p style="margin-top: 5px;">I confirm that I am the authorized cardholder for the above

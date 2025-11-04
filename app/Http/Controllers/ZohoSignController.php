@@ -154,7 +154,8 @@ class ZohoSignController extends Controller
     }
 
 
-     public function getRequestDetails($Request_Id = 135301000000067179){
+     public function getRequestDetails($Request_Id){
+
         try {
             $response = $this->zohoSignService->getRequestDetails($Request_Id);
             return response()->json($response);

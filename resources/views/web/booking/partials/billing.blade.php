@@ -8,10 +8,14 @@
 
         @if (auth()->user()->department_id != 5 )
             <div class="card p-4 show-booking-card">
+                
                 <div class="d-flex justify-content-between align-items-center add-bank">
                     <h5 class="card-header border-0 p-0 detail-passanger">Billing Details</h5>
-                    <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="ri ri-add-circle-fill pointer"></i>
+                     @if(!$disabled)  
+                        <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="ri ri-add-circle-fill pointer"></i>
+                    @endif
                 </div>
+                
                 <div class="details-table-wrappper" id="billing-table-container">
                     <table id="billing-table" class="mb-3 billing_detalis_table" border="1" cellpadding="8" cellspacing="0"
                         style="border-collapse: collapse; text-align: center; width: 100%;">
@@ -66,13 +70,17 @@
             </div>
 
             <div class="card p-4 mt-4 show-booking-card">
+               @if(!$disabled)
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-header border-0 p-0 detail-passanger">Card Details <span style="color:red"> (Billing Details
                             must be entered before adding Card Details.) </span> </h5>
+                   @if(!$disabled)    
                     <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="billing-booking-button">
                         <i class="ri ri-add-circle-fill pointer"></i>
                     </button>
+                    @endif
                 </div>
+             @endif   
                 <div class="card-body p-0">
                     <div class="row g-3 align-items-center">
                         <div class="col-md-12 table-responsive details-table-wrappper">
@@ -95,170 +103,166 @@
                                 <tbody id="billingForms">
 
                                     @foreach ($booking->billingDetails as $key => $billingDetails)
-                                      @php
-                                            $roleId   = (int) auth()->user()->role_id;
-                                            $disabled = ($roleId == 1 || $roleId == 2) && ($booking->payment_status_id ?? 0) >= 7
-                                                        ? 'disabled' : '';
-
-                                            $fullName = $billingDetails['cc_holder_name'] ?? '';
-                                            $ccNumber = $billingDetails['cc_number'] ?? '';
-                                            $cvv      = $billingDetails['cvv'] ?? '';
-
-                                            $mask = ($roleId == 1 && $disabled === 'disabled');
-
-                                            /* ---------- 1. CC Holder Name – first‑4 + xxx + last‑3 ---------- */
-                                            $displayName = $fullName;
-                                            if ($mask && $fullName !== '') {
-                                                $words  = preg_split('/\s+/', trim($fullName));
-                                                $masked = [];
-
-                                                foreach ($words as $word) {
-                                                    $len = mb_strlen($word);
-
-                                                    if ($len <= 3) {                     // very short word
-                                                        $masked[] = mb_substr($word, 0, 1) . 'xx';
-                                                        continue;
-                                                    }
-
-                                                    // enough room for first‑4 + xxx + last‑3 ?
-                                                    if ($len >= 7) {
-                                                        $first = mb_substr($word, 0, 4);
-                                                        $last  = mb_substr($word, -3);
-                                                        $masked[] = $first . 'xxx' . $last;
-                                                    } else {
-                                                        // 4‑6 chars → keep first char + xx (safe fallback)
-                                                        $masked[] = mb_substr($word, 0, 1) . 'xx';
-                                                    }
-                                                }
-                                                $displayName = implode(' ', $masked);
-                                            }
-
-                                            /* ---------- 2. CC Number – •••• •••• •••• 1234 ---------- */
-                                            $displayNumber = $ccNumber;
-                                            if ($mask && $ccNumber !== '') {
-                                                $clean = preg_replace('/\D/', '', $ccNumber);
-                                                $last4 = substr($clean, -4);
-                                                $displayNumber = '•••• •••• •••• ' . $last4;
-                                            }
-
-                                            /* ---------- 3. CVV – ••• (or ••••) ---------- */
-                                            $displayCVV = $mask && $cvv !== '' ? str_repeat('•', strlen($cvv)) : $cvv;
-                                        @endphp
-
                                         <tr class="billing-card" data-index="{{ $key }}">
-                                            <td><h6 class="billing-card-title mb-0">{{ $key + 1 }}</h6></td>
-
-                                            <!-- Card Type -->
                                             <td>
-                                                <select class="form-control w-100" name="billing[{{ $key }}][card_type]" {{ $disabled }}>
+                                                <h6 class="billing-card-title mb-0"> {{ $key + 1 }}</h6>
+                                            </td>
+                                            <td>
+                                                <select class="form-control w-100"
+                                                    name="billing[{{ $key }}][card_type]" {{ $disabled }}>
                                                     <option value="">Select</option>
-                                                    @foreach(['VISA','Mastercard','AMEX','DISCOVER'] as $t)
-                                                        <option value="{{ $t }}" {{ $billingDetails['card_type'] == $t ? 'selected' : '' }}>{{ $t }}</option>
-                                                    @endforeach
+                                                    <option value="VISA"
+                                                        {{ $billingDetails['card_type'] == 'VISA' ? 'selected' : '' }}>
+                                                        VISA
+                                                    </option>
+                                                    <option value="Mastercard"
+                                                        {{ $billingDetails['card_type'] == 'Mastercard' ? 'selected' : '' }}>
+                                                        Mastercard</option>
+                                                    <option value="AMEX"
+                                                        {{ $billingDetails['card_type'] == 'AMEX' ? 'selected' : '' }}>
+                                                        AMEX
+                                                    </option>
+                                                    <option value="DISCOVER"
+                                                        {{ $billingDetails['card_type'] == 'DISCOVER' ? 'selected' : '' }}>
+                                                        DISCOVER</option>
                                                 </select>
                                             </td>
-
-                                            <!-- CC Number -->
                                             <td>
-                                              
-                                                <input type="text" name="billing[{{ $key }}][cc_number]"
-                                                    class="form-control"
-                                                    style="width:140px;"
-                                                    placeholder="CC Number"
-                                                    value="{{ $displayNumber }}"
-                                                    {{ $disabled }} {{ $mask ? 'readonly' : '' }}>
+                                                @if($disabled)
+                                                    @php
+                                                        $ccNumber = $billingDetails['cc_number'];
+                                                        $maskedCC = strlen($ccNumber) > 4 ? str_repeat('*', strlen($ccNumber) - 4) . substr($ccNumber, -4) : $ccNumber;
+                                                    @endphp
+                                                    <input type="text" class="form-control" style="width: 140px;" value="{{ $maskedCC }}" readonly>
+                                                    <input type="hidden" name="billing[{{ $key }}][cc_number]" value="{{ $billingDetails['cc_number'] }}">
+                                                @else
+                                                    <input type="text" maxlength="16" pattern="[0-9]*" inputmode="numeric" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-control"
+                                                        style="width: 140px;" placeholder="CC Number"
+                                                        name="billing[{{ $key }}][cc_number]"
+                                                        value="{{ $billingDetails['cc_number'] }}">
+                                                @endif
                                             </td>
 
-                                            <!-- CC Holder Name -->
+
                                             <td>
-                                               
-                                                <input type="text" name="billing[{{ $key }}][cc_holder_name]"
-                                                    class="form-control w-100 cc_holder_name"
-                                                    placeholder="CC Holder Name"
-                                                    value="{{ $displayName }}"
-                                                    {{ $disabled }} {{ $mask ? 'readonly' : '' }}>
+                                                @if($disabled)
+                                                    @php
+                                                        $name = $billingDetails['cc_holder_name'];
+                                                        $maskedName = strlen($name) > 2 ? substr($name, 0, 2) . str_repeat('*', strlen($name) - 2) : $name;
+                                                    @endphp
+                                                    <input type="text" class="form-control w-100" value="{{ $maskedName }}" readonly>
+                                                    <input type="hidden" name="billing[{{ $key }}][cc_holder_name]" value="{{ $billingDetails['cc_holder_name'] }}">
+                                                @else
+                                                    <input type="text" class="form-control w-100 cc_holder_name"
+                                                        placeholder="CC Holder Name"
+                                                        name="billing[{{ $key }}][cc_holder_name]"
+                                                        value="{{ $billingDetails['cc_holder_name'] }}">
+                                                @endif
                                             </td>
 
-                                            <!-- Exp Month -->
                                             <td>
-                                                <select class="form-control w-100" name="billing[{{ $key }}][exp_month]" {{ $disabled }}>
+                                                <select style="margin: auto;" class="form-control w-100"
+                                                    name="billing[{{ $key }}][exp_month]" {{ $disabled }} >
                                                     <option value="">MM</option>
-                                                    @for($i=1;$i<=12;$i++)
-                                                        <option value="{{ sprintf('%02d',$i) }}" {{ $billingDetails['exp_month'] == sprintf('%02d',$i) ? 'selected' : '' }}>
-                                                            {{ sprintf('%02d',$i) }}
-                                                        </option>
+                                                    @for ($i = 1; $i <= 12; $i++)
+                                                        <option value="{{ sprintf('%02d', $i) }}"
+                                                            {{ $billingDetails['exp_month'] == sprintf('%02d', $i) ? 'selected' : '' }}>
+                                                            {{ sprintf('%02d', $i) }}</option>
                                                     @endfor
                                                 </select>
                                             </td>
-
-                                            <!-- Exp Year -->
                                             <td>
-                                                <select class="form-control w-100" name="billing[{{ $key }}][exp_year]" {{ $disabled }}>
+                                                <select class="form-control w-100"
+                                                    name="billing[{{ $key }}][exp_year]" {{ $disabled }} >
                                                     <option value="">YYYY</option>
-                                                    @for($i=2024;$i<=2034;$i++)
-                                                        <option value="{{ $i }}" {{ $billingDetails['exp_year'] == $i ? 'selected' : '' }}>
-                                                            {{ $mask ? '20xx' : $i }}
+                                                    @for ($i = 2024; $i <= 2034; $i++)
+                                                        <option value="{{ $i }}"
+                                                            {{ $billingDetails['exp_year'] == $i ? 'selected' : '' }}>
+                                                            {{ $i }}
                                                         </option>
                                                     @endfor
                                                 </select>
                                             </td>
 
-                                            <!-- CVV -->
+
                                             <td>
-                                                <input type="hidden" name="billing[{{ $key }}][cvv]" value="{{ $cvv }}">
-                                                <input type="text"
-                                                    inputmode="numeric"
-                                                    maxlength="4"
-                                                    oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)"
-                                                    class="form-control w-100"
-                                                    style="width:57px !important;"
-                                                    placeholder="CVV"
-                                                    value="{{ $displayCVV }}"
-                                                    {{ $disabled }} {{ $mask ? 'readonly' : '' }}>
+                                                @if($disabled)
+                                                    <input type="text" style="width: 57px !important;" class="form-control w-100" value="{{ str_repeat('*', strlen($billingDetails['cvv'])) }}" readonly>
+                                                    <input type="hidden" name="billing[{{ $key }}][cvv]" value="{{ $billingDetails['cvv'] }}">
+                                                @else
+                                                    <input style="width: 57px !important;" inputmode="numeric" maxlength="4"
+                                                        oninput="this.value = this.value.replace(/\D/g, '').slice(0,5)"
+                                                        class="form-control w-100" placeholder="CVV"
+                                                        name="billing[{{ $key }}][cvv]"
+                                                        value="{{ $billingDetails['cvv'] }}">
+                                                @endif
                                             </td>
 
-                                            <!-- State -->
+
+                                            </select>
+                                            </td>
                                             <td>
                                                 <select id="state-{{ $key }}" class="form-control state-select"
-                                                        style="width:7.5rem" name="billing[{{ $key }}][state]" {{ $disabled }}>
-                                                    <option value="">Select Billing</option>
-                                                    @foreach($billingData as $biKey => $bi)
-                                                        <option value="{{ $bi->id }}" {{ $bi->id == $billingDetails['state'] ? 'selected' : '' }}>
-                                                            Billing No.{{ $biKey + 1 }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
+                                                    style="width:7.5rem" name="billing[{{ $key }}][state]" {{ $disabled }}>
+                                                <option value="">Select Billing</option>
+                                                @foreach ($billingData as $biKey => $bi)
+                                                    <option value="{{ $bi->id }}"
+                                                        {{ $bi->id == $billingDetails['state'] ? 'selected' : '' }}>Billing
+                                                        No.{{ $biKey + 1 }}</option>
+                                                @endforeach
+                                            </select>                                    </td>
 
-                                            <!-- Authorized Amount -->
-                                            <td>
-                                                <input type="text"
-                                                    class="form-control usdAmount"
-                                                    style="width:65px !important;"
+                                            <td><input style="width: 65px; !important;" type="text"
+                                                    class="form-control usdAmount" placeholder=""
                                                     name="billing[{{ $key }}][authorized_amt]"
-                                                    value="{{ $billingDetails['authorized_amt'] }}"
-                                                    {{ $disabled }}>
+                                                    value="{{ $billingDetails['authorized_amt'] }}" {{ $disabled }}>
                                             </td>
 
-                                            <!-- Currency -->
                                             <td>
                                                 <select class="form-control w-100 currencyField"
-                                                        name="billing[{{ $key }}][currency]" {{ $disabled }}>
+                                                    name="billing[{{ $key }}][currency]" {{ $disabled }}>
                                                     <option value="">Select</option>
-                                                    @foreach(['USD','CAD','EUR','GBP','AUD','INR','MXN'] as $c)
-                                                        <option value="{{ $c }}" {{ $billingDetails['currency'] == $c ? 'selected' : '' }}>{{ $c }}</option>
-                                                    @endforeach
+                                                    <option value="USD"
+                                                        {{ $billingDetails['currency'] == 'USD' ? 'selected' : '' }}>USD
+                                                    </option>
+                                                    <option value="CAD"
+                                                        {{ $billingDetails['currency'] == 'CAD' ? 'selected' : '' }}>CAD
+                                                    </option>
+                                                    <option value="EUR"
+                                                        {{ $billingDetails['currency'] == 'EUR' ? 'selected' : '' }}>EUR
+                                                    </option>
+                                                    <option value="GBP"
+                                                        {{ $billingDetails['currency'] == 'GBP' ? 'selected' : '' }}>GBP
+                                                    </option>
+                                                    <option value="AUD"
+                                                        {{ $billingDetails['currency'] == 'AUD' ? 'selected' : '' }}>AUD
+                                                    </option>
+                                                    <option value="INR"
+                                                        {{ $billingDetails['currency'] == 'INR' ? 'selected' : '' }}>INR
+                                                    </option>
+                                                    <option value="MXN"
+                                                        {{ $billingDetails['currency'] == 'MXN' ? 'selected' : '' }}>MXN
+                                                    </option>
                                                 </select>
                                             </td>
-
-                                            <!-- Amount (display) -->
                                             <td>
                                                 <span class="textAmount">{{ $billingDetails['amount'] }}</span>
-                                                <input type="hidden" name="billing[{{ $key }}][amount]"
-                                                    value="{{ $billingDetails['amount'] ?? 0 }}" {{ $disabled }}>
+                                                <input value="{{ $billingDetails['amount'] ?? 0 }}"
+                                                    name="billing[{{ $key }}][amount]" class="finalAmount"
+                                                    type="hidden" />
                                             </td>
 
-                                            <input type="hidden" name="billing[{{ $key }}][id]" value="{{ $billingDetails->id }}">
+
+                                            <input type="hidden" name="billing[{{ $key }}][id]"
+                                                            value="{{ $billingDetails->id }}">
+
+
+                                            <td>
+
+                                                <button type="button" class="btn btn-outline-danger delete-billing-btn" {{ $disabled }}>
+                                                    <i class="ri ri-delete-bin-line"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

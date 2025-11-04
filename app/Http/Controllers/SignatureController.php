@@ -47,11 +47,12 @@ class SignatureController extends Controller
 
     protected $logController;
 
-    public function showForm($booking_id, $card_id, $card_billing_id, $refund_status)
+    public function showForm($booking_id, $card_id_state, $card_billing_id, $refund_status,$muiltiple)
     {
         $id = decode($booking_id);
         $fare_type = $refund_status;
- 
+        $card_id_state= decode($card_id_state);
+        $card_billing_id = decode($card_billing_id);
 
         $hashids = $booking_id;
         $booking = TravelBooking::with([
@@ -71,6 +72,7 @@ class SignatureController extends Controller
         $billingPricingData = DB::table('travel_billing_details as b')
                             ->join('billing_details as p', 'b.state', '=', 'p.id')
                             ->where('b.booking_id', $booking->id)
+                            ->where('b.id', $card_billing_id)
                             ->select(
                                 'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv','b.amount','b.authorized_amt',
                                 'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'
@@ -102,11 +104,11 @@ class SignatureController extends Controller
         $billing_deposits = BillingDeposit::where('booking_id', $booking->id)->first();        
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id',$booking->id)->get();
         $users = User::get();
-        return view('web.signature.signature', compact('billing_deposits','fare_type','billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
+        return view('web.signature.signature', compact('billing_deposits','fare_type','billingPricingDataAll','travel_cruise_addon','travel_cruise_data','card_id_state','card_billing_id','refund_status','billingPricingData','car_images','cruise_images','flight_images','hotel_images','train_images','screenshot_images','booking','users', 'hashids','booking_status','payment_status','campaigns','billingData'));
     }
 
 
-    public function pdf($booking_id, $card_id, $card_billing_id, $refund_status)
+    public function pdf($booking_id, $card_id_state, $card_billing_id, $refund_status,$muiltiple)
     {
         $id = decode($booking_id);
         $hashids = $booking_id;

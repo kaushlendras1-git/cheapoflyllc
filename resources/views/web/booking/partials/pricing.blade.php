@@ -48,13 +48,14 @@
                 });
             </script>
 
-
+        @if(!$disabled)
             <div class="d-flex justify-content-end mb-2">
                 <button class="btn btn-primary no-btn add-no-btn add-bank" type="button" id="pricing-booking-button">
                     <i class="ri ri-add-circle-fill pointer"></i>
                 </button>
             </div>
-
+        @endif
+         
             <!-- Hidden inputs for gross and net values -->
             <input name="gross_value" type="hidden" id="gross_value" />
             <input name="net_value" type="hidden" id="net_value" />

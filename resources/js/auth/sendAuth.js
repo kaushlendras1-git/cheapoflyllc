@@ -5,42 +5,16 @@ import '../../css/toast.css';
 
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('sendMailModal');
-    // if (modal) {
-    //     modal.addEventListener('show.bs.modal', function (event) {
-    //         const button = event.relatedTarget;
-    //         const booking_id = button.getAttribute('data-booking_id');
-    //         const card_id = button.getAttribute('data-card_id');
-    //         const card_billing_id = button.getAttribute('data-card_billing_id');
-    //         const refund_status = button.getAttribute('data-refund_status');
-
-    //         const loadContainer = document.getElementById('load_model');
-    //         if (loadContainer && booking_id) {
-    //             loadContainer.innerHTML = 'Loadings...';
-    //             fetch(`/i_authorized/${booking_id}/${card_id}/${card_billing_id}/${refund_status}`)
-    //                 .then(res => res.text())
-    //                 .then(html => {
-    //                     console.log('sendmail');
-    //                     loadContainer.innerHTML = html;
-    //                 })
-    //                 .catch(() => {
-    //                     loadContainer.innerHTML = '<p class="text-danger">Failed to load content.</p>';
-    //                 });
-    //         }
-    //     });
-
-    //     modal.addEventListener('hidden.bs.modal', function () {
-    //         document.getElementById('load_model').innerHTML = '';
-    //     });
-    // }
-
+   
     const sendAuthMail = document.getElementsByClassName('sendAuthMail');
     Array.from(sendAuthMail).forEach((el)=>{
         el.addEventListener('click',(e)=>{
             console.log(e);
             const button = e.target;
             const booking_id = button.getAttribute('data-booking_id');
-            const card_id = button.getAttribute('data-card_id');
+            const card_id_state = button.getAttribute('data-card_id_state');
             const card_billing_id = button.getAttribute('data-card_billing_id');
+            const contact_number = button.getAttribute('data-contact_number');
             const email = button.getAttribute('data-email');
             const refund_status = button.getAttribute('data-refund_status');
             const loadContainer = document.getElementById('load_model');
@@ -52,9 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(res => res.text())
                     .then(html => {
                         $('#booking_id').val(booking_id);
-                        $('#card_id').val(card_id);
+                        $('#card_id_state').val(card_id_state);
                         $('#card_billing_id').val(card_billing_id);
                         $('#email').val(email);
+                        $('#contact_number').val(contact_number);
                         loadContainer.innerHTML = html;
                     })
                     .catch(() => {
@@ -63,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
 
     const form = document.getElementById('sendAuthMailModal');
     if (form) {

@@ -541,7 +541,7 @@
         }
         
         // Check every 5 seconds
-        setInterval(checkForStatusChanges, 5000);
+        setInterval(checkForStatusChanges, 11115000);
 
     </script>
 
