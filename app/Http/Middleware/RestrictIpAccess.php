@@ -21,7 +21,7 @@ class RestrictIpAccess
         $clientIp = $request->ip();
 
         if (!in_array($clientIp, $allowedIps)) {
-           # abort(403, 'Access denied from your IP address.');
+            abort(403, 'Access denied from your IP address.');
         }
 
         return $next($request);
