@@ -30,7 +30,10 @@ class AuthEmailController extends Controller
 {
 
    public function index(Request $request)
-    {
+    {   
+
+       
+
         try{
             $request->validate([
                 'refund_status'=>'required|in:refundable,non-refundable',
@@ -56,19 +59,17 @@ class AuthEmailController extends Controller
             ],422);
         }
 
-        $bookingId = decode($request->input('booking_id'));
-        $booking = TravelBooking::findOrFail($bookingId);
-
-        $booking_id = decode($request->booking_id);
-        $card_id = decode($request->card_id);
-        $card_billing_id = decode($request->card_billing_id);
-        $refund_status = str_replace('-','_',$request->refund_status);
+        $card_id = $request->card_id;
+        $card_billing_id = $request->card_billing_id;
+        $booking = TravelBooking::findOrFail($request->booking_id);
+        $refund_status = $request->refund_status;
 
         // Fetch all data required for the PDF view
-        $billingPricingDataAll = TravelBillingDetail::where('booking_id', $bookingId)->get();
+        $billingPricingDataAll = TravelBillingDetail::where('booking_id', $booking->id)->get();
         $billingPricingData = TravelBillingDetail::where('id',$card_billing_id)->first();
         $booking_status = $booking->booking_status;
         $payment_status = $booking->payment_status;
+
         $campaigns = Campaign::where('status',1)->get();
         $car_images = CarImages::where('booking_id', $booking->id)->get();
         $cruise_images = CruiseImages::where('booking_id', $booking->id)->get();
@@ -80,20 +81,20 @@ class AuthEmailController extends Controller
         $travel_cruise_addon = TravelCruiseAddon::where('booking_id',$booking->id)->get();
         $users = User::get();
 
-        $buttonRoute = route('i_authorized',['booking_id'=>encode($booking_id),'card_id'=>encode($card_id),'card_billing_id'=>encode($card_billing_id),'refund_status'=>$refund_status]);
+        $buttonRoute = route('i_authorized',['booking_id'=>encode($booking->id),'card_id'=>encode($card_id),'card_billing_id'=>encode($card_billing_id),'refund_status'=>$refund_status]);
         $emailSendTo = $request->email;
 
         // Generate PDF using SignatureController
         $signatureController = new \App\Http\Controllers\SignatureController();
         $pdfResponse = $signatureController->pdf(
-            encode($booking_id),
+            encode($booking->id),
             encode($card_id),
             encode($card_billing_id),
             'YBvpr6pl'
         );
         
         // Save PDF to temporary file
-        $fileName = 'authorization-' . $booking_id . '.pdf';
+        $fileName = 'authorization-' . $booking->id . '.pdf';
         $fullPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $fileName;
         file_put_contents($fullPath, $pdfResponse->getContent());
         
@@ -134,13 +135,14 @@ class AuthEmailController extends Controller
                         throw new \Exception('Failed to create document');
                     }
                     
-                    // Clean up temporary file
+                  
                     if (file_exists($fullPath)) {
                         unlink($fullPath);
                     }
                     
+                     $requestId = 'N/A'; // Placeholder since Zoho Sign integration is commented out
                     AuthHistory::create([
-                        'booking_id' => $bookingId,
+                        'booking_id' => $booking->id,
                         'card_id' => $card_id,
                         'card_billing_id' => $card_billing_id,
                         'refund_status' => $refund_status,
@@ -151,7 +153,7 @@ class AuthEmailController extends Controller
                         'details' => 'Authorization document sent via Zoho Sign. Request ID: ' . $requestId
                     ]);
                     
-                    TravelBooking::where('id', $bookingId)->update(['booking_status_id' => 2]);
+                    TravelBooking::where('id', $booking->id)->update(['booking_status_id' => 2]);
                     
                     return response()->json([
                         'message' => 'Document sent for signature successfully',
@@ -179,7 +181,7 @@ class AuthEmailController extends Controller
                 }
 
 
-//            Mail::to($emailSendTo)->send(new AuthEmail($bookingId,$buttonRoute));
+          #  Mail::to($emailSendTo)->send(new AuthEmail($booking->id,$buttonRoute));
 
 
             return response()->json(['message' => 'Auth Email sent successfully.'], 201);

@@ -55,7 +55,7 @@
                 </button>
             </div>
         @endif
-         
+
             <!-- Hidden inputs for gross and net values -->
             <input name="gross_value" type="hidden" id="gross_value" />
             <input name="net_value" type="hidden" id="net_value" />
@@ -317,7 +317,7 @@
                                     </td>
 
                                     <td>
-                                        <select style="width: 160px;" name="pricing[{{$key}}][price_description]" class="form-select form-control price-description-select">
+                                        <select style="width: 160px;" name="pricing[{{$key}}][price_description]" class="form-select form-control price-description-select" {{ $disabled }} >
                                         <option value="">Select</option>
                                         <option data-type="Flight" value="Flight Price Offered" {{$pricingDetails->price_description=='Flight Price Offered'?'selected':''}} > Flight Price Offered</option>
                                         <option data-type="Hotel" value="Hotel Price Offered" {{$pricingDetails->price_description=='Hotel Price Offered'?'selected':''}} >Hotel Price Offered</option>

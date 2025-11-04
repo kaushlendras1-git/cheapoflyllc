@@ -27,11 +27,10 @@
         <!---
               1 => Non-Refundable Default
               0 => Refundable
+
         -->
 
-           
-
-        @php
+         @php
           $firstCcHolderName = $booking->billingDetails->first()->cc_holder_name;
           $muiltiple = false;
     
@@ -43,51 +42,71 @@
             }
         @endphp
 
-        @foreach($booking->billingDetails as $loop => $billingDetails)  
-            @if($billingDetails->authorized_amt > 1)
+
+           
+
+             @foreach($booking->billingDetails as $loop => $billingDetails)  
+                 @if($billingDetails->authorized_amt > 1)
+
+                   @php
+                        $billing_address = \App\Models\BillingDetail::where('id', $billingDetails->state)->first();
+                   @endphp
+                   
+                   @if($muiltiple || $loop->first)
+                      <button class="btn btn-custom d-flex align-items-center sendAuthMail"
+                              data-bs-toggle="modal"
+                              data-bs-target="#sendAuthMailModal"
+                              data-booking_id="{{ $billingDetails->booking_id }}"
+                              data-card_id="{{ $billingDetails->state }}"
+                              data-card_billing_id="{{ $billingDetails->id }}"
+                              data-email="{{ $billingDetails->getBillingDetail->email }}"
+                              data-cc_number="{{ $billingDetails['cc_number'] }}"
+                              data-bs-dismiss="modal"
+                              data-href="{{ route('i_authorized', ['booking_id' => encode($billingDetails->booking_id), 'card_id' => encode($billingDetails->state), 'card_billing_id' => encode($billingDetails->id), 'refund_status' => encode(1)]) }}"
+                      >
+                          <i class="ri ri-mail-open-fill"></i>
+                          Send Auth Email **** {{ substr($billingDetails->cc_number, -4) }}
+                      </button>
+                   @endif
+                 @endif
+            @endforeach
+
+        
+                
             
-              @php
-                  $billing_address = \App\Models\BillingDetail::where('id', $billingDetails->state)->first();
-              @endphp
-
-            @if($muiltiple || $loop->first)
-                <button class="btn btn-custom d-flex align-items-center sendAuthMail"
-                        data-bs-toggle="modal"
-                        data-bs-target="#sendAuthMailModal"
-                        data-booking_id="{{ $billingDetails->booking_id }}"
-                        data-card_id="{{ $billingDetails->state }}"
-                        data-card_billing_id="{{ $billingDetails->id }}"
-                        data-email="{{ $billing_address->email }}"
-                        data-contact_number="{{ $billing_address->contact_number }}"
-                        data-cc_number="{{ $billingDetails->cc_number }}"
-                        data-bs-dismiss="modal"
-                        data-href="{{ 
-                                route('i_authorized', [
-                                'booking_id' => encode($billingDetails->booking_id),
-                                'card_id_state' => encode($billingDetails->state),
-                                'card_billing_id' => encode($billingDetails->id),
-                                'refund_status' => '1',
-                                'muiltiple' => $muiltiple ? '1' : '0'
-                                ])
-                              }}"
-                >
-                    <i class="ri ri-mail-open-fill"></i>
-                    Send Auth Email  **** {{ substr($billingDetails->cc_number, -4) }}
+                <button class="btn btn-custom btn-mail d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#sendMailModal"
+                 data-booking_id="1"
+                data-card_id="1"
+                data-card_billing_id="1"
+                data-email="1"
+                data-bs-dismiss="modal"><i class="ri ri-mail-open-fill"></i>  Send Auth Mail
                 </button>
-            @endif
-          @endif
-        @endforeach
-  
-
-
-                <!--------------------------------
-                  Add Code
-                ------------------------------>
-
           
 
+          
+                <button class="btn btn-custom btn-sms d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" 
+                 data-booking_id="1"
+                data-card_id="1"
+                data-card_billing_id="1"
+                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> Send Auth SMS</button>
+           
+
+
+                <button class="btn btn-custom btn-whatsapp d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" 
+                 data-booking_id="1"
+                data-card_id="1"
+                 data-card_billing_id="1"
+                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> Send Auth WhatsApp</button>
+          
+
+       
                 
-               
+                <button class="btn btn-custom btn-survey d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#surveyModal" 
+                data-booking_id="1"
+                data-card_id="1"
+                data-card_billing_id="1"
+                data-id="1" data-bs-dismiss="modal"><i class="ri ri-survey-fill"></i> Send Auth Survey </button>
+         
             
         </div>
       </div>

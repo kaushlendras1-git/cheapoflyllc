@@ -221,44 +221,47 @@
             </div>
         </div>
 
-        <div style="margin-top:20px">
+
+
+        <div style="margin-top:100px">
             <input type="file" id="flight-screenshots-upload" name="flightbookingimage[]" multiple>
         </div>
 
+    @if(!$disabled)  
 
+        @if(isset($flight_images) && $flight_images->count())
+            <div class="" style="margin-top:20px">
 
-    @if(isset($flight_images) && $flight_images->count())
-        <div class="" style="margin-top:20px">
-
-                <table class="table table-bordered table-striped crm-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Image Preview</th>
-                            <th>Agent Name</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($flight_images as $key => $img)
+                    <table class="table table-bordered table-striped crm-table">
+                        <thead>
                             <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50"
-                                            src="{{ asset($img->file_path) }}" class="img-thumbnail"
-                                            style="max-height: 100px;" alt="Flight Image"></a></td>
-                                <td>{{ $img->get_agent?->name }}</td>
-                                <td>{{ $img->created_at }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm delete-flight-image" data-id="{{ $img->id }}">
-                                        <i class="ri ri-delete-bin-line"></i>
-                                    </button>
-                                </td>                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                <th>#</th>
+                                <th>Image Preview</th>
+                                <th>Agent Name</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($flight_images as $key => $img)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td><a href="{{ asset($img->file_path) }}" target="_blank"><img width="50"
+                                                src="{{ asset($img->file_path) }}" class="img-thumbnail"
+                                                style="max-height: 100px;" alt="Flight Image"></a></td>
+                                    <td>{{ $img->get_agent?->name }}</td>
+                                    <td>{{ $img->created_at }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm delete-flight-image" data-id="{{ $img->id }}">
+                                            <i class="ri ri-delete-bin-line"></i>
+                                        </button>
+                                    </td>                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
-        </div>
+            </div>
+        @endif
     @endif
 
     </div>

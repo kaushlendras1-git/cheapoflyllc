@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "dc4ee81b-ab39-45d4-b082-1fae0ad1ef54",
-		"name": "Important Apis",
+		"name": "Kaushlendra Important Apis",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "9060879",
 		"_collection_link": "https://lunar-water-82574.postman.co/workspace/ZohoSign~5dd161d0-5580-41a7-846d-7a40f8380f56/collection/9060879-dc4ee81b-ab39-45d4-b082-1fae0ad1ef54?action=share&source=collection_link&creator=9060879"
@@ -11,63 +11,15 @@
 			"name": "Create document",
 			"request": {
 				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "grant_type",
-							"value": "authorization_code",
-							"type": "string"
-						},
-						{
-							"key": "client_authentication",
-							"value": "header",
-							"type": "string"
-						},
-						{
-							"key": "authUrl",
-							"value": "https://accounts.zoho.com/oauth/v2/auth",
-							"type": "string"
-						},
-						{
-							"key": "clientId",
-							"value": "1000.91014L5917ALOTXVBLPRX68RGILZMY",
-							"type": "string"
-						},
-						{
-							"key": "scope",
-							"value": "ZohoSign.documents.ALL,ZohoSign.templates.ALL",
-							"type": "string"
-						},
-						{
-							"key": "accessTokenUrl",
-							"value": "https://accounts.zoho.com/oauth/v2/token",
-							"type": "string"
-						},
-						{
-							"key": "tokenName",
-							"value": "Zoho Sign",
-							"type": "string"
-						},
-						{
-							"key": "useBrowser",
-							"value": true,
-							"type": "boolean"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Zoho-oauthtoken <Oauth Token>",
+						"value": "Zoho-oauthtoken 1000.67b122a92bd76567fb56154f9805346b.6ef899f285b61776b0805276daea982e",
 						"description": "If Authorization is set at parent level, this may remain disabled.",
-						"type": "text",
-						"disabled": true
+						"type": "text"
 					}
 				],
 				"body": {
@@ -75,7 +27,7 @@
 					"formdata": [
 						{
 							"key": "data",
-							"value": "{\n    \"requests\": {\n        \"request_name\": \"TRAVEL Policy\",\n        \"actions\": [\n            {\n                \"action_type\": \"SIGN\",\n                \"recipient_email\": \"kaushlendras1@gmail.com\",\n                \"recipient_name\": \"Kaushlendra Pratap Singh\",\n                \"signing_order\": 1,\n                \"verify_recipient\": false,\n                \"verification_type\": \"\",\n                \"verification_code\": \"\",\n                \"private_notes\": \"TESTTt\"\n            }\n        ],\n        \"expiration_days\": 7,\n        \"is_sequential\": true,\n        \"email_reminders\": true,\n        \"reminder_period\": 3\n    }\n}",
+							"value": "{\n    \"requests\": {\n        \"request_name\": \"TRAVEL Policy\",\n        \"actions\": [\n            {\n                \"action_type\": \"SIGN\",\n                \"recipient_email\": \"kaushlendras1@gmail.com\",\n                \"recipient_name\": \"Kaushlendra Pratap Singh\",\n                \"signing_order\": 1,\n                \"verify_recipient\": false,\n                \"verification_type\": \"\",\n                \"verification_code\": \"\",\n                \"private_notes\": \"TESTTt\",\n   \t\t\t    \"delivery_mode\": \"EMAIL_SMS\",\n\t\t\t\t\"recipient_countrycode_iso\": \"IN\",\n\t\t\t   \"recipient_phonenumber\": \"8510810544\"\n            }\n        ],\n        \"expiration_days\": 7,\n        \"is_sequential\": true,\n        \"email_reminders\": true,\n        \"reminder_period\": 3\n    }\n}",
 							"description": "Enter values to keys appropriately.",
 							"type": "text"
 						},
@@ -83,7 +35,7 @@
 							"key": "file",
 							"description": "Upload file here.",
 							"type": "file",
-							"src": "/C:/Users/Admin/Downloads/Test Auth PDF.pdf"
+							"src": "/C:/Users/Admin/Downloads/FHM India.pdf"
 						}
 					]
 				},
@@ -157,23 +109,15 @@
 			"name": "Send document for signature",
 			"request": {
 				"auth": {
-					"type": "oauth2",
-					"oauth2": [
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Zoho-oauthtoken <Oauth Token>",
+						"value": "Zoho-oauthtoken 1000.67b122a92bd76567fb56154f9805346b.6ef899f285b61776b0805276daea982e",
 						"description": "If Authorization is set at parent level, this may remain disabled.",
-						"type": "text",
-						"disabled": true
+						"type": "text"
 					}
 				],
 				"body": {
@@ -181,7 +125,7 @@
 					"urlencoded": [
 						{
 							"key": "data",
-							"value": "{\n  \"requests\": {\n    \"actions\": [\n      {\n        \"verify_recipient\": false,\n        \"action_id\": \"135301000000051015\",\n        \"action_type\": \"SIGN\",\n        \"private_notes\": \"Sign the doc\",\n        \"signing_order\": 0,\n        \"fields\": [\n        {\n           \"field_type_name\": \"Email\",\n           \"text_property\":{\n\t\t\t\"font\":\"Roboto\",\n\t\t\t\"font_size\":11,\n\t\t\t\"font_color\":\"000000\",\n\t\t\t\"max_field_length\":100,\n\t\t\t\"is_bold\":false,\n\t\t\t\"is_italic\":false\n\t\t},\n              \"field_category\": \"textfield\",\n              \"field_label\": \"Email\",\n              \"is_mandatory\": true,\n              \"page_no\": 0,\n              \"document_id\": \"135301000000051002\",\n              \"field_name\": \"Email\",\n              \"y_coord\": 51,\n              \"action_id\": \"135301000000051015\",\n              \"abs_width\": 160,\n              \"x_coord\": 53,\n              \"abs_height\": 20\n            }\n           ]\n          }\n         ]\n        }\n       }",
+							"value": "{\n  \"requests\": {\n    \"actions\": [\n      {\n        \"verify_recipient\": false,\n        \"action_id\": \"521341000000078061\",\n        \"action_type\": \"SIGN\",\n        \"private_notes\": \"Sign the doc\",\n        \"signing_order\": 0,\n        \"fields\": [\n        {\n           \"field_type_name\": \"Email\",\n           \"text_property\":{\n\t\t\t\"font\":\"Roboto\",\n\t\t\t\"font_size\":11,\n\t\t\t\"font_color\":\"000000\",\n\t\t\t\"max_field_length\":100,\n\t\t\t\"is_bold\":false,\n\t\t\t\"is_italic\":false\n\t\t},\n              \"field_category\": \"textfield\",\n              \"field_label\": \"Email\",\n              \"is_mandatory\": true,\n              \"page_no\": 0,\n              \"document_id\": \"521341000000078048\",\n              \"field_name\": \"Email\",\n              \"y_coord\": 51,\n              \"action_id\": \"521341000000078061\",\n              \"abs_width\": 160,\n              \"x_coord\": 53,\n              \"abs_height\": 20\n            }\n           ]\n          }\n         ]\n        }\n       }",
 							"description": "It is an Optional field. To use, enable it and enter the values appropriately.",
 							"type": "text"
 						}
@@ -202,7 +146,7 @@
 					"variable": [
 						{
 							"key": "Request_Id",
-							"value": "135301000000047177",
+							"value": "521341000000078047",
 							"description": "Request ID of the document to send for signature"
 						}
 					]
@@ -271,12 +215,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://accounts.zoho.in/oauth/v2/token?refresh_token=1000.29e4740f0b0765d47ae29f338dda2636.d922819cce30f52b81ab016dd14db0b1&client_id=1000.SYE5R6WSMC7ULLJVXD8ZDWTWKRQ47A&client_secret=1e9a4ed0bfe9aeaeb67ad52340e3d27ed57c921ad1&redirect_uri=https%3A%2F%2Fsign.zoho.in&grant_type=refresh_token",
+					"raw": "https://accounts.zoho.com/oauth/v2/token?refresh_token=1000.83dff88607e5d5fb8186e04d7cdb933a.ac5ca69351e2527945879b81ec9dc2ed&client_id=1000.RFERNL5N6ZX0REEEIGQJSYOTI2XJ9M&client_secret=619e261660544d93333e1d173e03050a4876e6357c&redirect_uri=https%3A%2F%2Fsign.zoho.com&grant_type=refresh_token",
 					"protocol": "https",
 					"host": [
 						"accounts",
 						"zoho",
-						"in"
+						"com"
 					],
 					"path": [
 						"oauth",
@@ -286,23 +230,66 @@
 					"query": [
 						{
 							"key": "refresh_token",
-							"value": "1000.29e4740f0b0765d47ae29f338dda2636.d922819cce30f52b81ab016dd14db0b1"
+							"value": "1000.83dff88607e5d5fb8186e04d7cdb933a.ac5ca69351e2527945879b81ec9dc2ed"
 						},
 						{
 							"key": "client_id",
-							"value": "1000.SYE5R6WSMC7ULLJVXD8ZDWTWKRQ47A"
+							"value": "1000.RFERNL5N6ZX0REEEIGQJSYOTI2XJ9M"
 						},
 						{
 							"key": "client_secret",
-							"value": "1e9a4ed0bfe9aeaeb67ad52340e3d27ed57c921ad1"
+							"value": "619e261660544d93333e1d173e03050a4876e6357c"
 						},
 						{
 							"key": "redirect_uri",
-							"value": "https%3A%2F%2Fsign.zoho.in"
+							"value": "https%3A%2F%2Fsign.zoho.com"
 						},
 						{
 							"key": "grant_type",
 							"value": "refresh_token"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Request Details",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Zoho-oauthtoken 1000.67b122a92bd76567fb56154f9805346b.6ef899f285b61776b0805276daea982e",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://sign.zoho.com/api/v1/requests/:Request_Id",
+					"protocol": "https",
+					"host": [
+						"sign",
+						"zoho",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"requests",
+						":Request_Id"
+					],
+					"variable": [
+						{
+							"key": "Request_Id",
+							"value": "521341000000078047"
 						}
 					]
 				}

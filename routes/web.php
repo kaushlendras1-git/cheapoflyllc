@@ -74,9 +74,8 @@ Route::middleware('auth')->get('/api/booking-status/{id}', function($id) {
 });
 
 /***** Auth **** */
-Route::get('/i_authorized/{booking_id}/{card_id_state}/{card_billing_id}/{refund_status}/{muiltiple}', [SignatureController::class, 'showForm'])->name('i_authorized');
-Route::get('/i_authorized_pdf/{booking_id}/{card_id_state}/{card_billing_id}/{refund_status}/{muiltiple}', [SignatureController::class, 'pdf'])->name('i_authorized_pdf');
-
+Route::get('/i_authorized/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'showForm'])->name('i_authorized');
+Route::get('/i_authorized_pdf/{booking_id}/{card_id}/{card_billing_id}/{refund_status}', [SignatureController::class, 'pdf'])->name('i_authorized_pdf');
 
 Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 Route::get('/signatures', [SignatureController::class, 'list'])->name('signature.list');

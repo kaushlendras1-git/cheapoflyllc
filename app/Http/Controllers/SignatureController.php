@@ -47,11 +47,11 @@ class SignatureController extends Controller
 
     protected $logController;
 
-    public function showForm($booking_id, $card_id_state, $card_billing_id, $refund_status,$muiltiple)
+    public function showForm($booking_id, $card_id, $card_billing_id, $refund_status)
     {
         $id = decode($booking_id);
         $fare_type = $refund_status;
-        $card_id_state= decode($card_id_state);
+        $card_id_state= decode($card_id);
         $card_billing_id = decode($card_billing_id);
 
         $hashids = $booking_id;
@@ -108,7 +108,7 @@ class SignatureController extends Controller
     }
 
 
-    public function pdf($booking_id, $card_id_state, $card_billing_id, $refund_status,$muiltiple)
+    public function pdf($booking_id, $card_id, $card_billing_id, $refund_status)
     {
         $id = decode($booking_id);
         $hashids = $booking_id;
