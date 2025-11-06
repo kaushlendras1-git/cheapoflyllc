@@ -128,14 +128,14 @@
             <form id="sendAuthEmail" action="{{route('mail-sent')}}">
               @csrf
                <input type="hidden" name="id" id="auth_id" value="{{$booking->id}}">
+               <input type="hidden" name="booking_id_encode" id="booking_id_encode" value="{{encode($booking->id)}}">
                 <input type="hidden" name="booking_id" id="booking_id"/>
                 <input type="hidden" name="card_id" id="card_id"/>
                 <input type="hidden" name="card_billing_id" id="card_billing_id"/>
                 <input type="hidden" name="email" id="email"/>
                 <div class="row checkbox-servis">
-                    <div class="col-md-5 position-relative">
-                        <label class="d-block mb-2">Refund Status</label>
-
+                    
+                      <div class="col-md-8 position-relative">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="refund_status" id="refundable" value="refundable">
                             <label style="width: auto !important;" class="form-check-label" for="refundable">
@@ -149,8 +149,35 @@
                                 Non-Refundable
                             </label>
                         </div>
-                    </div>
-                    <div class="col-md-7 d-flex align-items-end justify-content-end">
+
+                         <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="refund_status" id="refundable" value="refundable">
+                            <label style="width: auto !important;" class="form-check-label" for="refundable">
+                                Email
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="refund_status" id="non-refundable" value="non-refundable">
+                            <label style="width: auto !important;" class="form-check-label" for="non-refundable">
+                                Email+ SMS
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="refund_status" id="non-refundable" value="non-refundable">
+                            <label style="width: auto !important;" class="form-check-label" for="non-refundable">
+                                whatsapp
+                            </label>
+                        </div>
+                      </div>
+
+
+                    
+
+
+
+                    <div class="col-md-4 d-flex align-items-end justify-content-end">
                         <button class="btn btn-sm btn-primary text-center" style="font-size: 14px;">Send Auth</button>
                     </div>
 

@@ -209,6 +209,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                 <td style="font-size: 12px; line-height: 1.3; color: #4a5568; padding: 0 0 5px 0;">
                     Thank you for using {{ $booking->selected_company_name }} for your travel needs. Please take a
                     moment to review the names, date, itinerary, price and other relevant details of your booking.
+                    AGENTNAME has requested you to review the document for DOCUMENTNAME.
                 </td>
             </tr>
         </table>
@@ -1078,11 +1079,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             </div>
         </div>
 
-         @php
-                $company = $booking->selected_company == 1 ? 'flydreamz' : 'fareticketsus';
-                //   $fare = ($fare_type == 0) ? 'refundable' : 'nonrefundable';
-                $fare = 'nonrefundable';
-            @endphp
 
 
         <!-- Terms and Conditions Agreement -->
@@ -1094,10 +1090,11 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             @{{Checkbox}}
                         </td>
                         <td style="font-size: 12px; color: #374151; line-height: 1.5;">
-                            I have read and agree to the 
-                            <span style="color: #1a56db; text-decoration: underline; font-weight: 500;">
-                                Terms and Conditions
-                            </span>
+                          <a href="{{ route('terms.nonrefundable', ['refundStatus' => 'nonrefundable', 'booking_id' => $booking->id]) }}" 
+                                target="_blank" 
+                                style="color: #1a56db; text-decoration: none;">
+                                I have read and agree to the Terms and Conditions
+                                </a>
                         </td>
                     </tr>
                 </table>
@@ -1111,11 +1108,14 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <tr>
                         <td style="width: 60%; height:100px; vertical-align: bottom; padding-bottom: 5px;">
                         </td>
-                        <td style="width: 40%; text-align: right; font-size: 12px; color: #374151; font-weight: 500; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
+                        
+                        <td style="width: 60%; text-align: right; font-size: 32px; color: #374151; font-weight: 500; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
                                @{{S}}
-                            <br>
-                            Signature
                         </td>
+                          <td style="width: 40%; text-align: right; font-size: 18px; color: #374151; font-weight: 500; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
+                            Signature
+                        </td>    
+
                     </tr>
                 </table>
             </div>

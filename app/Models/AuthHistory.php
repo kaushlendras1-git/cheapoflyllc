@@ -8,6 +8,7 @@ class AuthHistory extends Model
 {
     protected $fillable = [
         'booking_id',
+        'zoho_document_id',
         'billing_details_id',
         'travel_billing_details_id',
         'user_id',
@@ -17,6 +18,7 @@ class AuthHistory extends Model
         'sent_to',
         'details',
         'card_id',
+        'auth_status',
         'card_billing_id'
     ];
 

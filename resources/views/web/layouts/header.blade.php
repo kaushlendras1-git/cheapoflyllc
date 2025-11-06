@@ -233,12 +233,12 @@
                                         </a>
                                     </li>
 
-                                    <li class="menu-item {{ Route::currentRouteName() == 'quality-feedback.index' ? 'active' : '' }}">
+                                    <!-- <li class="menu-item {{ Route::currentRouteName() == 'quality-feedback.index' ? 'active' : '' }}">
                                         <a href="{{ route('quality-feedback.index') }}" class="menu-link">
                                             <i class="menu-icon icon-base ri ri-phone-line"></i>
                                             <div data-i18n="Quality Feedback">Quality Feedback</div>
                                         </a>
-                                    </li>
+                                    </li> -->
 
                                   
 
@@ -248,6 +248,19 @@
                                             <div data-i18n="Emails">Emails</div>
                                         </a>
                                     </li>
+
+                                    <li class="menu-item {{ Route::currentRouteName() == 'merchants.index' ? 'active' : '' }}">
+                                        <a href="{{ route('merchants.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-mail-line"></i>
+                                            <div data-i18n="Merchants">Merchants</div>
+                                        </a>
+                                    </li>
+
+
+                                    
+
+
+
                                 </ul>
                             </li>
                         @endif    

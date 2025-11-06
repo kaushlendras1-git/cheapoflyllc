@@ -1156,11 +1156,12 @@ border-radius: 0px;
                     <div style="margin-bottom: 12px;">
                         <label
                             style="display: flex; align-items: center; font-size: 14px; color: #4a5568; cursor: pointer;">
-                           @{{Checkbox}}
-                            <a href="{{ route($company . '.terms.' . $fare) }}" target="_blank"
+                            @{{Checkbox}}
+                            <a href="{{ route('terms.nonrefundable', ['refundStatus' => 'nonrefundable', 'booking_id' => $booking->id]) }}" 
+                                target="_blank" 
                                 style="color: #1a56db; text-decoration: none;">
-                                I have read and agree to the Terms and Conditions 
-                            </a>
+                                I have read and agree to the Terms and Conditions
+                                </a>
                         </label>
                     </div>
 

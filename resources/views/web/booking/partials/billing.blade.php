@@ -23,7 +23,7 @@
                             <tr>
                                 <th>S.No</th>
                                 <th>Email</th>
-                                <th>Contact No.</th>
+                                <th>Billing Ph. No.</th>
                                 <th>Street Address</th>
                                 <th>City</th>
                                 <th>State</th>

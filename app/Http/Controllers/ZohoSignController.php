@@ -20,66 +20,7 @@ class ZohoSignController extends Controller
         return view('zoho-sign.form');
     }
     
-    public function testWithStaticFile(Request $request)
-    {
-        // Simplified validation for testing
-        if (empty($request->request_name)) {
-            return redirect()->back()->with('error', 'Request name is required.');
-        }
-        if (empty($request->recipient_email)) {
-            return redirect()->back()->with('error', 'Recipient email is required.');
-        }
-        if (empty($request->recipient_name)) {
-            return redirect()->back()->with('error', 'Recipient name is required.');
-        }
-
-        try {
-            // Use static PDF file
-            $fullPath = storage_path('app/LCC1000000061.pdf');
-            
-            if (!file_exists($fullPath)) {
-                return redirect()->back()->with('error', '❌ Test PDF file not found.');
-            }
-
-            // Create document
-            $response = $this->zohoSignService->createDocument(
-                $request->request_name,
-                $request->recipient_email,
-                $request->recipient_name,
-                $fullPath,
-                $request->private_notes ?? ''
-            );
-
-            \Log::info('Create Document Response: ' . json_encode($response));
-            
-            if (isset($response['requests']['request_id'])) {
-                $requestId = $response['requests']['request_id'];
-                $actionId = $response['requests']['actions'][0]['action_id'] ?? null;
-                $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
-                
-                \Log::info('Extracted IDs - Request: ' . $requestId . ', Action: ' . $actionId . ', Document: ' . $documentId);
-                
-                if ($actionId && $documentId) {
-                    // Submit document for signature
-                    $submitResponse = $this->zohoSignService->submitDocument($requestId, $actionId, $documentId);
-                    
-                    if (isset($submitResponse['status']) && $submitResponse['status'] === 'success') {
-                        return redirect()->back()->with('success', '✅ Document sent for signature successfully! Request ID: ' . $requestId . '. The recipient will receive an email to sign the document.');
-                    } else {
-                        return redirect()->back()->with('error', '❌ Document created but failed to submit for signature. Response: ' . json_encode($submitResponse));
-                    }
-                } else {
-                    return redirect()->back()->with('error', '❌ Document created but missing action_id or document_id. Response: ' . json_encode($response));
-                }
-            }
-
-            return redirect()->back()->with('error', '❌ Failed to send document for signature. Response: ' . json_encode($response));
-
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', '❌ Error sending document: ' . $e->getMessage());
-        }
-    }
-
+    
     public function sendForSignature(Request $request)
     {
         // Debug: Check PHP upload settings

@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="robots" content="noindex" />
 
-    <title>Cheapoflyllc</title>
+    <title>TravelaDesk</title>
 
     <meta name="description" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -56,8 +56,6 @@
                       <div class="img-login">
                         <img src="{{ asset('assets/img/login.png') }}" alt="login">
                     </div>
-                    <h2 class="mb-0 mt-4">Lowest Prices on the Planet</h2>
-                    <p class="mb-0">Find a lower rate available on any public travel site, we'll match it and give you an extra discount for your trouble.</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +70,7 @@
 
                         <div class="card-body mt-1">
                             <div class="logo-login mb-5 text-center">
-                                <img width="200" src="{{ asset('assets/img/logo.png') }}" alt="login">
+                                <img width="200" src="/storage/merchants/p7I9TTbVjUWWQ8bLPfVWrnoGAL7D7HgDs2vryCOl.png" alt="login">
                             </div>
                             <h2 class="login-text text-center mb-5">Login</h2>
                             @include('web.layouts.flash')

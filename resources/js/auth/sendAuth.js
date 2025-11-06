@@ -105,6 +105,7 @@ $('#sendAuthEmail').submit(async function(e){
     e.preventDefault();
     const formdata = new FormData(this);
     const booking_id = document.getElementById('booking_id').value;
+    const booking_id_encode = document.getElementById('booking_id_encode').value;
     const card_id = document.getElementById('card_id').value;
     const card_billing_id = document.getElementById('card_billing_id').value;
     const email = document.getElementById('email').value;
@@ -117,7 +118,7 @@ $('#sendAuthEmail').submit(async function(e){
 
         if (response.status === 200 || response.status === 201) {
             showToast(response.data.message || "Auth has been sent", "success");
-              const redirectUrl = `/auth-history/${booking_id}`;
+              const redirectUrl = `/auth-history/${booking_id_encode}`;
               window.location.href = redirectUrl;
         } else {
             showToast("Something went wrong", "error");

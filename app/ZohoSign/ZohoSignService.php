@@ -35,9 +35,6 @@ class ZohoSignService
             
             $response = $this->client->post('https://accounts.zoho.com/oauth/v2/token', [
                 'form_params' => [
-                    //'refresh_token' => $this->refreshToken,
-                    //'client_id' => $this->clientId,
-                    //'client_secret' => $this->clientSecret,
                     'refresh_token' => '1000.83dff88607e5d5fb8186e04d7cdb933a.ac5ca69351e2527945879b81ec9dc2ed',
                     'client_id' => '1000.RFERNL5N6ZX0REEEIGQJSYOTI2XJ9M',
                     'client_secret' => '619e261660544d93333e1d173e03050a4876e6357c',
@@ -85,7 +82,7 @@ class ZohoSignService
                             'recipient_name' => $recipientName,
                             'signing_order' => 1,
                             'verify_recipient' => false,
-                            'verification_type' => '',
+                            'verification_type' => 'KAUSHLENDRA',
                             'verification_code' => '',
                             'private_notes' => $privateNotes,
                             //'delivery_mode" => "EMAIL_SMS',
@@ -149,7 +146,7 @@ class ZohoSignService
     /**
      * Send Document for Signature
      */
-    public function submitDocument($requestId, $actionId, $documentId, $fields = [])
+    public function submitDocument($requestId, $actionId, $documentId, $fields = [],$private_notes)
     {
         try {
             // Always refresh token before making the request
@@ -190,7 +187,7 @@ class ZohoSignService
                             'verify_recipient' => false,
                             'action_id' => $actionId,
                             'action_type' => 'SIGN',
-                            'private_notes' => 'Sign the document',
+                            'private_notes' => $private_notes,
                             'signing_order' => 0,
                            // 'fields' => $fields
                         ]

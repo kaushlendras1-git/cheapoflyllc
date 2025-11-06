@@ -90,7 +90,7 @@ class AuthEmailController extends Controller
             encode($booking->id),
             encode($card_id),
             encode($card_billing_id),
-            'YBvpr6pl'
+            encode($refund_status)
         );
         
         // Save PDF to temporary file
@@ -135,12 +135,10 @@ class AuthEmailController extends Controller
                         throw new \Exception('Failed to create document');
                     }
                     
-                  
                     if (file_exists($fullPath)) {
                         unlink($fullPath);
                     }
                     
-                     $requestId = 'N/A'; // Placeholder since Zoho Sign integration is commented out
                     AuthHistory::create([
                         'booking_id' => $booking->id,
                         'card_id' => $card_id,
@@ -150,7 +148,8 @@ class AuthEmailController extends Controller
                         'action' => 'Document sent for signature',
                         'type' => 'ZohoSign',
                         'sent_to' => $emailSendTo,
-                        'details' => 'Authorization document sent via Zoho Sign. Request ID: ' . $requestId
+                        'zoho_document_id' => $requestId,
+                        'details' => 'sent via Zoho Sign. Request ID: ' . $requestId
                     ]);
                     
                     TravelBooking::where('id', $booking->id)->update(['booking_status_id' => 2]);

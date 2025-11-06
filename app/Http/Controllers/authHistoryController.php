@@ -27,15 +27,49 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use App\ZohoSign\ZohoSignService;
 
 
 class AuthHistoryController extends Controller
 {
 
     public function index($id) {
-        $id = decode($id);
+        $id  = decode($id);
         $auth_histories = AuthHistory::where('auth_histories.booking_id', $id)->with('travel_billing_details')->get();
-        return view('web.mail-history.index',compact('auth_histories'));
+        return view('web.mail-history.index', compact('auth_histories'));
+    }
+
+    public function updateZohoStatus(Request $request) {
+        $auth_history_id = $request->auth_history_id;
+        $auth_history = AuthHistory::find($auth_history_id);
+        
+        if (!$auth_history || !$auth_history->zoho_document_id) {
+            return response()->json(['status' => 'sent', 'error' => 'No auth history or zoho document id']);
+        }
+        
+     
+        try {
+         
+            
+            if ($auth_history->auth_status == 'completed') {
+                TravelBooking::where('id', $auth_history->booking_id)
+                    ->update([
+                        'booking_status_id' => 23,
+                        'payment_status_id' => 30
+                    ]);
+            }else{
+                 $zohoService = new ZohoSignService();
+                $data = $zohoService->getRequestDetails($auth_history->zoho_document_id);
+                $zoho_status = $data['requests']['request_status'] ?? 'sent';
+            }
+            
+            AuthHistory::where('id', $auth_history_id)->update(['auth_status' => $zoho_status]);
+            return response()->json(['status' => $zoho_status, 'success' => true]);
+        } catch (\Exception $e) {
+            \Log::error('Zoho status update failed: ' . $e->getMessage());
+            AuthHistory::where('id', $auth_history_id)->update(['auth_status' => 'sent']);
+            return response()->json(['status' => 'sent', 'error' => $e->getMessage()]);
+        }
     }
 
 
