@@ -134,14 +134,7 @@ class TravelBooking extends Model
 
     public function getSelectedCompanyNameAttribute()
     {
-        $companies = [
-            1 => 'flydreamz',
-            2 => 'fareticketsus',
-            3 => 'fareticketsllc',
-            4 => 'cruiselineservice'
-        ];
-
-        return $companies[$this->selected_company] ?? null;
+        return \App\Models\Merchant::find($this->selected_company)?->name;
     }
 
     public function logChange() {

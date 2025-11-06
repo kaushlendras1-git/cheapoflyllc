@@ -43,6 +43,7 @@ use App\Http\Controllers\Masters\UnitController;
 use App\Http\Controllers\Masters\MerchantController;
 use App\Http\Controllers\RingCentralController;
 use App\Http\Controllers\TermsController;
+use App\Http\Controllers\ZohoPdfController;
 
 Route::post('/fcm/token', [FcmController::class, 'store'])->middleware('auth'); // or guestable
 
@@ -187,6 +188,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/sms/{id}', [AuthHistoryController::class, 'sendSms'])->name('sms');
         Route::get('/whatsup/{id}', [AuthHistoryController::class, 'sendWhatsApp'])->name('whatsup');
         Route::post('/update-auth-status', [AuthHistoryController::class, 'updateZohoStatus'])->name('update-auth-status');
+        Route::get('/zoho-pdf/{requestId}', [ZohoPdfController::class, 'downloadPdf'])->name('zoho-pdf.download');
+        Route::get('/zoho-certificate/{requestId}', [ZohoPdfController::class, 'downloadCompletionCertificate'])->name('zoho-certificate.download');
         Route::get('/survey/{id}', [SurveyController::class, 'index'])->name('survey');
         
         // Settings routes (moved outside)

@@ -83,24 +83,6 @@
                 </button>
           
 
-          
-                <button class="btn btn-custom btn-sms d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#smsModal" 
-                 data-booking_id="1"
-                data-card_id="1"
-                data-card_billing_id="1"
-                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-chat-1-fill"></i> Send Auth SMS</button>
-           
-
-
-                <button class="btn btn-custom btn-whatsapp d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#whatsappModal" 
-                 data-booking_id="1"
-                data-card_id="1"
-                 data-card_billing_id="1"
-                data-id="{{ $booking->id }}" data-bs-dismiss="modal"><i class="ri ri-whatsapp-fill"></i> Send Auth WhatsApp</button>
-          
-
-       
-                
                 <button class="btn btn-custom btn-survey d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#surveyModal" 
                 data-booking_id="1"
                 data-card_id="1"
@@ -135,7 +117,7 @@
                 <input type="hidden" name="email" id="email"/>
                 <div class="row checkbox-servis">
                     
-                      <div class="col-md-8 position-relative">
+                      <div class="col-md-4 position-relative">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="refund_status" id="refundable" value="refundable">
                             <label style="width: auto !important;" class="form-check-label" for="refundable">
@@ -150,32 +132,32 @@
                             </label>
                         </div>
 
-                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="refund_status" id="refundable" value="refundable">
-                            <label style="width: auto !important;" class="form-check-label" for="refundable">
+
+                       
+                      </div>
+
+                      <div class="col-md-4 position-relative">
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="send_type" id="refundable" value="refundable">
+                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="refundable">
                                 Email
                             </label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="refund_status" id="non-refundable" value="non-refundable">
-                            <label style="width: auto !important;" class="form-check-label" for="non-refundable">
-                                Email+ SMS
+                            <input class="form-check-input" type="radio" name="send_type" id="non-refundable" value="non-refundable">
+                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="non-refundable">
+                                 SMS
                             </label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="refund_status" id="non-refundable" value="non-refundable">
-                            <label style="width: auto !important;" class="form-check-label" for="non-refundable">
+                            <input class="form-check-input" type="radio" name="send_type" id="non-refundable" value="non-refundable">
+                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="non-refundable">
                                 whatsapp
                             </label>
                         </div>
                       </div>
-
-
-                    
-
-
 
                     <div class="col-md-4 d-flex align-items-end justify-content-end">
                         <button class="btn btn-sm btn-primary text-center" style="font-size: 14px;">Send Auth</button>
@@ -190,76 +172,6 @@
 
         </div>
 
-      </div>
-    </div>
-  </div>
-
-
-
-
-  <!-- SMS Modal -->
-  <div class="modal fade" id="smsModal" tabindex="-1" aria-labelledby="smsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="smsModalLabel">Send SMS</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="sms-preview">
-            <p>Dear Mary Ann Mcknight, your booking (Ref: INT29060202244) is under process. E-ticket will be sent within 24 hours. Contact +1-844-382-2225 for assistance. - Faretickets LLC</p>
-          </div>
-
-          <form id="sendSMS" action="{{ route('sms', $booking->id) }}" method="POST">
-            @csrf
-            <button class="send-btn">Send SMS</button>
-        </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="sendMailModalLabel">Send Mail</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="sendSMS" action="{{ route('sms', $booking->id) }}" method="POST">
-            @csrf
-
-            <button class="send-btn">Send SMS</button>
-        </form>
-
-      </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
-  <!-- WhatsApp Modal -->
-  <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="whatsappModalLabel">Send WhatsApp Message</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="whatsapp-preview">
-            <p>Dear Mary Ann Mcknight, your booking (Ref: INT29060202244) is under process. Your E-ticket will be emailed within 24 hours. For assistance, call +1-844-382-2225. - Faretickets LLC</p>
-          </div>
-
-           <form id="sendWhatsApp" action="{{ route('whatsup', $booking->id) }}" method="POST">
-            @csrf
-            <button class="send-btn">Send WhatsApp</button>
-           </form>
-        </div>
       </div>
     </div>
   </div>

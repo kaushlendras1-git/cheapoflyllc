@@ -82,7 +82,7 @@ class ZohoSignService
                             'recipient_name' => $recipientName,
                             'signing_order' => 1,
                             'verify_recipient' => false,
-                            'verification_type' => 'KAUSHLENDRA',
+                            'verification_type' => '',
                             'verification_code' => '',
                             'private_notes' => $privateNotes,
                             //'delivery_mode" => "EMAIL_SMS',
@@ -93,7 +93,8 @@ class ZohoSignService
                     'expiration_days' => 7,
                     'is_sequential' => true,
                     'email_reminders' => true,
-                    'reminder_period' => 3
+                    'reminder_period' => 3,
+                    'notes' =>  "Note for all recipients"
                 ]
             ];
             $response = $this->client->post('https://sign.zoho.com/api/v1/requests', [
@@ -234,6 +235,86 @@ class ZohoSignService
         } catch (RequestException $e) {
             Log::error('Zoho Sign Get Request Details Error: ' . $e->getMessage());
             throw $e;
+        }
+    }
+
+    /**
+     * Download PDF
+     */
+    public function downloadPdf($requestId)
+    {
+        try {
+            $accessToken = $this->refreshAccessToken();
+            
+            Log::info('Downloading PDF for request ID: ' . $requestId);
+            
+            $response = $this->client->get('https://sign.zoho.com/api/v1/requests/' . $requestId . '/pdf', [
+                'headers' => [
+                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken
+                ],
+                'query' => [
+                    'with_coc' => 'true',
+                    'merge' => 'false'
+                ]
+            ]);
+            
+            $statusCode = $response->getStatusCode();
+            $contentType = $response->getHeader('Content-Type')[0] ?? '';
+            
+            Log::info('Zoho PDF Response - Status: ' . $statusCode . ', Content-Type: ' . $contentType);
+            
+            if ($statusCode !== 200) {
+                throw new \Exception('Zoho API returned status code: ' . $statusCode);
+            }
+            
+            return $response->getBody()->getContents();
+            
+        } catch (RequestException $e) {
+            $errorBody = $e->hasResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
+            Log::error('Zoho Sign Download PDF Error: ' . $e->getMessage());
+            throw new \Exception('Failed to download PDF: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Download Completion Certificate
+     */
+    public function downloadCompletionCertificate($requestId)
+    {
+        try {
+            // First check if the request is completed
+            $requestDetails = $this->getRequestDetails($requestId);
+            $requestStatus = $requestDetails['requests']['request_status'] ?? '';
+            
+            if ($requestStatus !== 'completed') {
+                throw new \Exception('Completion certificate is only available for completed requests. Current status: ' . $requestStatus);
+            }
+            
+            $accessToken = $this->refreshAccessToken();
+            
+            Log::info('Downloading completion certificate for request ID: ' . $requestId);
+            
+            $response = $this->client->get('https://sign.zoho.com/api/v1/requests/' . $requestId . '/completioncertificate', [
+                'headers' => [
+                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken
+                ]
+            ]);
+            
+            $statusCode = $response->getStatusCode();
+            $contentType = $response->getHeader('Content-Type')[0] ?? '';
+            
+            Log::info('Zoho Certificate Response - Status: ' . $statusCode . ', Content-Type: ' . $contentType);
+            
+            if ($statusCode !== 200) {
+                throw new \Exception('Zoho API returned status code: ' . $statusCode);
+            }
+            
+            return $response->getBody()->getContents();
+            
+        } catch (RequestException $e) {
+            $errorBody = $e->hasResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
+            Log::error('Zoho Sign Download Certificate Error: ' . $e->getMessage() . ' Response: ' . $errorBody);
+            throw new \Exception('Failed to download certificate: ' . $e->getMessage() . ' Response: ' . $errorBody);
         }
     }
 }

@@ -399,10 +399,9 @@
                             <div class="col-md-2 position-relative mb-5">
                                 <label class="form-label">Brands</label>
                                 <select id="selected_company" name="selected_company" class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif"  >
-                                    <!-- <option value="1" {{ old('selected_company', $booking->selected_company ?? '') === '1' ? 'selected' : '' }}>flydreamz</option> -->
-                                    <!-- <option value="2" {{ old('selected_company', $booking->selected_company ?? '') === '2' ? 'selected' : '' }}>fareticketsus</option> -->
-                                    <option value="3" {{ old('selected_company', $booking->selected_company ?? '') === '3' ? 'selected' : '' }}>fareticketsllc</option>
-                                    <!-- <option value="4" {{ old('selected_company', $booking->selected_company ?? '') === '4' ? 'selected' : '' }}>cruiselineservice</option> -->
+                                    @foreach(\App\Models\Merchant::where('status', 1)->get() as $merchant)
+                                        <option value="{{ $merchant->id }}" {{ old('selected_company', $booking->selected_company ?? '') == $merchant->id ? 'selected' : '' }}>{{ $merchant->name }}</option>
+                                    @endforeach
                                 </select>
                                 @if(auth()->user()->role_id == 1 && $booking->selected_company)
                                     <input type="hidden" name="selected_company" value="{{ $booking->selected_company }}">

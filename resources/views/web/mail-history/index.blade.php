@@ -40,6 +40,7 @@
                             <th>Sent Date-Time</th>
                             <th>Auth Status</th>
                             <th>PDF</th>
+                            <th>Certificate</th>
                             <th>Created On</th>
                         </tr>
                     </thead>
@@ -56,11 +57,22 @@
                                     </a>
                                 </td>
                                 
-                                <td>
+                               <td>
                                     @php
-                                        $refund_status = $auth_history->refund_status == 1 ? "non_refundable" : "refundable";
+
+                                        if($auth_history->refund_status == 1){
+                                            $refund_status = "non_refundable";
+                                        }
+                                        else{
+                                            $refund_status = "refundable";
+                                        }
                                     @endphp
-                                  
+                                    <button class="btn btn-warning btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#signatureModal"
+                                            data-url="http://127.0.0.1:8000/i_authorized/{{encode($auth_history->booking_id)}}/{{encode($auth_history->card_id)}}/{{encode($auth_history->card_billing_id)}}/{{$refund_status}}">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
                                 </td>
 
                                 <td>{{ $auth_history->user?->name ?? 'N/A' }}</td>
@@ -76,13 +88,26 @@
                                         <span class="badge bg-secondary">Pending</span>
                                     @endif
                                 </td>
-                                
+                              
                                 <td>
                                     <a target="_blank" href="{{route('download-auth-pdf',['id'=>$auth_history->booking_id])}}" class="btn btn-primary btn-sm">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 </td>
-                                
+                                  <td>
+
+                                  @if($auth_history->auth_status == 'completed')
+
+                                    <a target="_blank"
+                                        href="{{ route('zoho-certificate.download', ['requestId' => $auth_history->zoho_document_id]) }}"
+                                        class="btn btn-danger btn-sm"
+                                        title="Download Zoho Certificate">
+                                            <i class="bi bi-download ms-1"></i>
+                                        </a>
+                                  @endif      
+
+
+                                  </td>
                                 <td>date</td>
                             </tr>
                         @endforeach
@@ -132,5 +157,54 @@ function updateAuthStatus(authHistoryId) {
     });
 }
 </script>
+
+
+
+
+
+<div class="modal fade" id="signatureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Booking Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalContent" style="overflow: scroll">
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('signatureModal');
+    const modalContent = modal.querySelector('#modalContent');
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const url = button.getAttribute('data-url');
+        modalContent.innerHTML = 'Loading...';
+
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                modalContent.innerHTML = html;
+            })
+            .catch(error => {
+                modalContent.innerHTML = 'Error loading content';
+                console.error(error);
+            });
+    });
+
+    modal.addEventListener('hidden.bs.modal', function () {
+        modalContent.innerHTML = '';
+    });
+});
+</script>
+
+
 
 @endsection

@@ -5,25 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Authorization</title>
+
+
+
 </head>
+
 @php
 $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 @endphp
 
-<body style="margin: 0px; padding: 0px; background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana,Arial, sans-serif;-webkit-print-color-adjust: exact !important;
+<body style="margin: 0px; padding: 0px; background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana,Arial, sans-serif;-webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;">
     <table
-        style="width: 700px; max-width: 700px; background-color: #ffffff; margin: 0px auto; border-collapse: collapse;  border-radius: 0px; overflow: hidden;">
+        style="width: 700px; max-width: 800px; background-color: #ffffff; margin: 0px auto;   border-radius: 6px;  overflow: hidden;">
         <thead>
             <tr>
                 <td colspan="2" style="background-color: #ffffff; padding: 0 10px;">
-                    <!-- ✅ Inner box with background -->
-                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-                        style="border-collapse: collapse;">
+                    <!-- Inner box with background -->
+                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="">
                         <tr>
-                            <td style="background: linear-gradient(135deg, #1c316d, #285274);padding: 10px;color: #ffffff;font-size: 18px;font-weight: 600;">
-                                <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-                                    style="border-collapse: collapse;">
+                            <td style="
+           background: linear-gradient(135deg, #1C316D, #3A4CA4);
+            padding: 10px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+          
+          ">
+                                <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="">
                                     <tr>
                                         <!-- Left Content -->
                                         <td
@@ -34,7 +43,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         <!-- Right Content -->
                                         <td style="text-align: right;">
                                             <table cellpadding="0" cellspacing="0" role="presentation"
-                                                style="border-collapse: collapse; display: inline-block;">
+                                                style=" display: inline-block;">
                                                 <tr>
                                                     <td style="padding-right: 10px;">
                                                         <img width="16"
@@ -63,41 +72,25 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         <tbody>
             <tr>
                 <td colspan="2" style="background-color: #ffffff; padding: 0 10px;">
-                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-                        style="border-collapse: collapse;">
+                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="">
                         <tr>
                             <td style="padding: 0;">
-                                
-                             
-                                @if($booking->selected_company == 1 && $bookingTypes[0] == 'Flight')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/flydreamz-flight.png') }}" alt="flight">
-                                @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Cruise')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/flydreamz-cruise.png') }}" alt="cruise">
-                                @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Hotel')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/flydreamz-hotel.png') }}" alt="hotel">
-                                @elseif($booking->selected_company == 1 && $bookingTypes[0] == 'Train')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/flydreamz-train.png') }}" alt="train">
-                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Cruise')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/fare-tickets-cruise.png') }}" alt="cruise">
-                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Flight')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/fare-tickets-flight.png') }}" alt="flight">
-                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Hotel')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/fare-tickets-hotel.png') }}" alt="hotel">
-                                @elseif($booking->selected_company == 3 && $bookingTypes[0] == 'Train')
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/fare-tickets-train.png') }}" alt="train">
-                                @else
-                                <img style="height: 200px; width: 100%; object-fit: cover; display: block; object-position: top right;"
-                                    src="{{ asset('email-templates/flight-banner.png') }}" alt="default">
+                                @if($bookingTypes[0] == 'Flight')
+                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;     object-position: top right; margin-top: -2px;"
+                                    src="{{ asset('email-templates/flight_banner.png') }}" alt="flight">
+                                @elseif($bookingTypes[0] == 'Cruise')
+                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
+                                    src="{{ asset('email-templates/cruise_banner.png') }}" alt="cruise">
+                                @elseif($bookingTypes[0] == 'Train')
+                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;     object-position: top right; "
+                                    src="{{ asset('email-templates/train_banner.png') }}" alt="amtrak">
+                                @elseif($bookingTypes[0] == 'Car')
+                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
+                                    src="{{ asset('email-templates/car_banner.png') }}" alt="car">
+                                @elseif($bookingTypes[0] == 'Hotel')
+                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
+                                    src="{{ asset('email-templates/hotel_banner.png') }}" alt="hotel">
                                 @endif
-                            
                             </td>
                         </tr>
                     </table>
@@ -106,7 +99,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
 
             <tr>
-                <td colspan="2" style="font-size: .875rem; font-weight: 600; padding: 5px 10px; color: #2d3748;">
+                <td colspan="2" style="font-size: .875rem; font-weight: 600; padding: 5px 10px; color: #0f172a;">
                     Dear {{ $booking->name }},</td>
             </tr>
             <tr>
@@ -147,52 +140,58 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <tr>
                 <td style="padding: 0px 10px; width: 50%;">
                     <div
-                        style="background-color: #f8f9fa; padding: 20px; border-radius: 0px; margin-top: 10px; text-align: center; border: 1px solid #e9ecef;">
+                        style="background-color: #f8f9fa; padding: 20px; border-radius: 6px;  margin-top: 10px; border: 1px solid #e9ecef; display: flex; align-items: center;">
 
-
-                        <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
-                            <img width="28" height="28" src="{{ asset('email-templates/sku.png') }}" alt="Number"
-                                style="display: block; margin: 0 auto;">
+                        <!-- Icon -->
+                        <div style="flex-shrink: 0; margin-right: 15px;">
+                            <img width="32" height="32" src="{{ asset('email-templates/ordered-records.png') }}"
+                                alt="Number" style="display: block;">
                         </div>
 
-                        <div style="font-size: .875rem; font-weight: 600; color: #2d3748; ">
-                            Order Reference Number
-                        </div>
-                        <div style="font-size: .875rem; color: #4a5568; font-weight: 400;">
-                            {{ $booking->pnr }}
+                        <!-- Content -->
+                        <div style="text-align: left;">
+                            <div style="font-size: .875rem; font-weight: 600; color: #0f172a; margin-bottom: 4px;">
+                                Order Reference Number
+                            </div>
+                            <div style="font-size: .875rem; color: #4a5568; font-weight: 400;">
+                                {{ $booking->pnr }}
+                            </div>
                         </div>
                     </div>
                 </td>
 
                 <td style="padding: 0px 10px; width: 50%;">
                     <div
-                        style="background-color: #f8f9fa; padding: 20px; border-radius: 0px; margin-top: 10px; text-align: center; border: 1px solid #e9ecef;">
+                        style="background-color: #f8f9fa; padding: 20px; border-radius: 6px;  margin-top: 10px; border: 1px solid #e9ecef; display: flex; align-items: center;">
 
-
-                        <div style="margin-bottom: 10px; display: flex; justify-content: center; align-items: center;">
-                            <img width="28" height="28" src="{{ asset('email-templates/event.png') }}" alt="Number"
-                                style="display: block; margin: 0 auto;">
+                        <!-- Icon -->
+                        <div style="flex-shrink: 0; margin-right: 15px;">
+                            <img width="32" height="32" src="{{ asset('email-templates/calendar.png') }}" alt="Date"
+                                style="display: block;">
                         </div>
 
-                        <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">
-                            Order Date
-                        </div>
-                        <div style="font-size: .875rem; color: #4a5568; font-weight: 400;">
-                            {{ $booking->created_at->timezone('America/Los_Angeles')->format('l, M d, Y h:i A') }}
+                        <!-- Content -->
+                        <div style="text-align: left;">
+                            <div style="font-size: .875rem; font-weight: 600; color: #0f172a; margin-bottom: 4px;">
+                                Order Date
+                            </div>
+                            <div style="font-size: .875rem; color: #4a5568; font-weight: 400;">
+                                {{ $booking->created_at->format('l, M d, Y') }}
+                            </div>
                         </div>
                     </div>
                 </td>
             </tr>
 
 
+
             <!-------------Flight --------------->
             @if(in_array('Flight', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 5px 10px;">
-                    <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div
-                            style="  padding: 5px;
-    color: #1c316d;  font-size: 1rem; font-weight:600;  padding:5px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
+                    <div style="width:100%; border-radius: 6px; overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style="  padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Flight Details :-
                         </div>
                         <div style="padding: 10px;">
@@ -206,17 +205,19 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     $logoPath = $airline && $airline->logo ? asset($airline->logo) :
                                     asset('email-templates/default-airline.png');
                                     @endphp
-                                    <img src="{{ $logoPath }}" alt="airline logo" style="width: 100%;object-fit: cover;">
+                                    <img src="{{ $logoPath }}" alt="airline logo"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                                 <div style="flex: 1; min-width: 280px; padding-bottom:10px;">
                                     <div
-                                        style="font-size: .875rem; font-weight: 600; color: #2d3748; margin-bottom: 0px;">
-                                        {{ $flight->departure_date?->format('D, M j') }} - {{$flight->airline_code}}{{$flight->flight_number}} - (Total Flight Duration {{$flight->duration}} Hrs)
+                                        style="font-size: .875rem; font-weight: 600; color: #0f172a; margin-bottom: 0px;">
+                                        {{ $flight->departure_date?->format('D, M j') }} - {{$flight->airline_code}}
+                                        {{$flight->flight_number}} - {{$flight->duration}}
                                     </div>
                                     <div style="font-size: .875rem; color: #4a5568; margin-bottom: 0px;">
                                         <span style="display: inline-block; margin-right: 15px; font-size: .875rem;">
                                             <strong
-                                                style="font-weight: 600; color: #2d3748; font-size: .875rem;">Departing:</strong>
+                                                style="font-weight: 600; color: #0f172a; font-size: .875rem;">Departing:</strong>
                                             {{ date('h:i A', strtotime($flight->departure_hours)) }} from
                                             {{$flight->departure_airport}}
                                         </span>
@@ -224,7 +225,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                     <div style="font-size: .875rem; color: #4a5568;">
                                         <span style="display: inline-block; font-size: .875rem;">
                                             <strong
-                                                style="font-weight: 600; color: #2d3748; font-size: .875rem;">Arriving:</strong>
+                                                style="font-weight: 600; color: #0f172a; font-size: .875rem;">Arriving:</strong>
                                             {{ date('h:i A', strtotime($flight->arrival_hours)) }} into
                                             {{$flight->arrival_airport}}
                                         </span>
@@ -272,84 +273,96 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             <!-- Start Hotel Details -->
             <tr>
                 <td colspan="2" style="padding: 5px 10px;">
-                    <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div
-                            style=" font-size:16px; font-weight:600; color:#2d3748; padding:10px 20px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
+                    <div style="width:100%; border-radius: 6px;  overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style=" padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Hotel Details :-
                         </div>
                         <div style="padding: 10px;">
                             <!-- Hotel Image -->
-                            <div style="padding:0; margin-bottom: 20px;">
+                            <div style="padding:0; margin-bottom: 10px;">
                                 <img src="{{asset('email-templates/bedroom.jpg')}}" alt="Hotel"
-                                    style="width:100%; height:200px; border-radius:0px; object-fit: cover;">
+                                    style="width:100%; height:200px; border-radius: 6px;  object-fit: cover;">
                             </div>
 
                             <!-- Booking Info Row -->
                             <div
-                                style="background:#f8f9fa; padding:10px 20px; text-align:center; border-top:1px solid #e9ecef; border-bottom:1px solid #e9ecef; margin-bottom: 20px;">
+                                style="background:#f8f9fa; padding:10px 20px; text-align:center;  border-radius: 6px;  #e9ecef; margin-bottom: 20px;">
                                 @foreach($booking->travelHotel as $key=>$travelHotel)
                                 <div
                                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; text-align: left;">
                                     <div>
                                         <div
-                                            style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                            style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                             Hotel Name</div>
-                                        <div style="font-weight:normal; color: #4a5568;">{{$travelHotel->hotel_name}}
+                                        <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
+                                            {{$travelHotel->hotel_name}}
                                         </div>
                                     </div>
                                     <div>
                                         <div
-                                            style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                            style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                             Room Category</div>
-                                        <div style="font-weight:normal; color: #4a5568;">{{$travelHotel->room_category}}
+                                        <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
+                                            {{$travelHotel->room_category}}
                                         </div>
                                     </div>
                                     <div>
                                         <div
-                                            style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                            style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                             Confirmation Number</div>
-                                        <div style="font-weight:normal; color: #4a5568;">
+                                        <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
                                             {{$travelHotel->confirmation_number}}</div>
                                     </div>
                                     <div>
                                         <div
-                                            style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                            style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                             Hotel Address</div>
-                                        <div style="font-weight:normal; color: #4a5568;">{{$travelHotel->hotel_address}}
+                                        <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
+                                            {{$travelHotel->hotel_address}}
                                         </div>
                                     </div>
                                     <div>
                                         <div
-                                            style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
-                                            CHECK-IN</div>
-                                        <div style="font-weight:normal; color: #4a5568;">
+                                            style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
+                                            Check-In</div>
+                                        <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
                                             {{ $travelHotel->checkin_date ? $travelHotel->checkin_date->format('l, F d, Y') : '' }}
                                         </div>
                                     </div>
                                     <div>
                                         <div
-                                            style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
-                                            CHECK-OUT</div>
-                                        <div style="font-weight:normal; color: #4a5568;">
+                                            style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
+                                            Check-Out</div>
+                                        <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
                                             {{ $travelHotel->checkout_date ? $travelHotel->checkout_date->format('l, F d, Y') : '' }}
                                         </div>
                                     </div>
                                     <div>
                                         <div
-                                            style="font-size:14px; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
-                                            ROOMS</div>
-                                        <div style="font-weight:normal; color: #4a5568;"> {{$travelHotel->no_of_rooms}}
+                                            style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
+                                            Rooms</div>
+                                        <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
+                                            {{$travelHotel->no_of_rooms}}
                                         </div>
                                     </div>
                                 </div>
+                                <hr style="
+                            width: 90%;
+                         
+                            border: none;
+                            border-top: 1px dashed #cbd5e0;
+                            opacity: 0.9;
+                        ">
 
                                 @endforeach
                             </div>
 
                             <div style="padding:0px; padding-left: 0; color:#4a5568;">
-                                <div style="white-space: pre-line; font-size: 14px; line-height: 1.3;">{!!
+                                <div style="white-space: pre-line; font-size:.875rem; line-height: 1.3;">{!!
                                     $booking->hotel_description !!}</div>
                             </div>
+
 
                             @if($hotel_images)
                             @foreach ($hotel_images as $key => $img)
@@ -373,19 +386,20 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <tr>
                 <td colspan="2" style="padding: 0px 10px;">
-                    <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div
-                            style="  color: #1c316d;  font-size: 1rem; font-weight:600; padding:5px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
+                    <div style="width:100%; border-radius: 6px;  overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Cruise Details :-
                         </div>
                         <div style="padding: 5px">
-                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 00px;">
-                                <div style="flex: 1; min-width: 300px;    margin-bottom: -10px;">
+                            <div
+                                style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 00px; border-radius: 6px; ">
+                                <div style="flex: 1; min-width: 300px;    margin-bottom: -10px;border-radius: 6px;  ">
                                     <div
-                                        style="     font-size: .875rem; font-weight:600; color:#2d3748; padding:5px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
+                                        style="     font-size: .875rem; font-weight:500; color:#0f172a; padding:5px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
                                         <div style="display: flex; justify-content: space-between;">
-                                            <span>Cruise Line : {{ $travel_cruise_data->cruise_line ?? '' }}</span>
-                                            <span>Ship Name : {{ $travel_cruise_data->ship_name ?? '' }}</span>
+                                            <span>Cruise Line - {{ $travel_cruise_data->cruise_line ?? '' }}</span>
+                                            <span>Name of Ship - {{ $travel_cruise_data->ship_name ?? '' }}</span>
                                         </div>
 
                                     </div>
@@ -400,42 +414,44 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
                                             <div>
                                                 <div
-                                                    style="font-size: .875rem; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                                    style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                                     Length</div>
-                                                <div style="font-weight:normal; color: #4a5568;">{{ $cruise->length }}
+                                                <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
+                                                    {{ $cruise->length }}
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div
-                                                    style="font-size: .875rem; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                                    style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                                     Departure Port</div>
-                                                <div style="font-weight:normal; color: #4a5568;">
+                                                <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
                                                     {{ $cruise->departure_port }}</div>
                                             </div>
 
                                             <div>
                                                 <div
-                                                    style="font-size: .875rem; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                                    style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                                     Arrival Port</div>
-                                                <div style="font-weight:normal; color: #4a5568;">
+                                                <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
                                                     {{ $cruise->arrival_port }}</div>
                                             </div>
 
 
                                             <div>
                                                 <div
-                                                    style="font-size: .875rem; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                                    style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                                     Category</div>
-                                                <div style="font-weight:normal; color: #4a5568;">{{ $cruise->category }}
+                                                <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
+                                                    {{ $cruise->category }}
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div
-                                                    style="font-size: .875rem; color:#2d3748; font-weight:bold; margin-bottom: 0px;">
+                                                    style="font-size: .875rem; color:#0f172a; font-weight:500; margin-bottom: 0px;">
                                                     Stateroom</div>
-                                                <div style="font-weight:normal; color: #4a5568;">
+                                                <div style="font-weight:normal; color: #4a5568; font-size: .875rem;">
                                                     {{ $cruise->stateroom }}</div>
                                             </div>
 
@@ -447,44 +463,48 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 </div>
                             </div>
 
-                            <div style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 0px;">
                                 <div
-                                    style="background-color: #f8f9fa; padding: 5px; border-radius: 0px; margin-bottom: 10px; font-weight: 600; color: #2d3748;">
-                                    Itinerary Details</div>
-                                <div style="overflow-x: auto; margin-bottom: -10px;">
+                                    style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef; border-radius: 6px; ">
+                                    Itinerary Details :-</div>
+                                <div style="overflow-x: auto;  margin-top: 10px; border-radius: 6px; ">
                                     <table
-                                        style="border-collapse: collapse; width: 100%; font-size: .875rem; text-align:left; background-color: #f8f9fa; border-radius: 0px;">
+                                        style=" width: 100%; font-size: .875rem; text-align:left; background-color: #f8f9fa; border-radius: 6px; ">
                                         <thead>
                                             <tr
-                                                style="background-color: #e6eeff; font-size: .875rem; font-weight:bold;">
-                                                <td style="padding:5px; width:25%; border: 1px solid #e9ecef;">DATE
+                                                style="background-color: #deecfb; font-size: .875rem; font-weight:500; margin-top: 20px;">
+                                                <td style="padding:5px; width:25%; border: 1px solid #e9ecef;">Date
                                                 </td>
-                                                <td style="padding:5px; width:35%; border: 1px solid #e9ecef;">PORT
-                                                    OF CALL</td>
+                                                <td style="padding:5px; width:35%; border: 1px solid #e9ecef;">Port
+                                                    of Call</td>
                                                 <td style="padding:5px; width:20%; border: 1px solid #e9ecef;">
-                                                    DEPART</td>
+                                                    Depart</td>
                                                 <td style="padding:5px; width:20%; border: 1px solid #e9ecef;">
-                                                    ARRIVE</td>
+                                                    Arrive</td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($booking->travelCruise as $key=>$travelCruise)
                                             <tr>
                                                 <td style="padding:5px; border: 1px solid #e9ecef;">
-                                                    <div style="font-weight: 600; color: #2d3748;">
+                                                    <div style="font-weight: 400; color: #0f172a; font-size: .875rem;">
                                                         {{ date('l', strtotime($travelCruise->departure_date)) }}</div>
-                                                    <div style="color: #4a5568;">
+                                                    <div style="color: #4a5568; font-size: .875rem;">
                                                         {{ date('d-m-Y', strtotime($travelCruise->departure_date)) }}
                                                     </div>
                                                 </td>
-                                                <td style="padding:5px; border: 1px solid #e9ecef; color: #4a5568;">
+                                                <td
+                                                    style="padding:5px; border: 1px solid #e9ecef; color: #4a5568; font-size: .875rem;">
                                                     {{$travelCruise->departure_port}}</td>
-                                                <td style="padding:5px; border: 1px solid #e9ecef; color: #4a5568;">
+                                                <td
+                                                    style="padding:5px; border: 1px solid #e9ecef; color: #4a5568; font-size: .875rem;">
                                                     @if($travelCruise->departure_hrs)
                                                     {{ date('h:i A', strtotime($travelCruise->departure_hrs)) }}
                                                     @endif
                                                 </td>
-                                                <td style="padding:5px; border: 1px solid #e9ecef; color: #4a5568;">
+                                                <td
+                                                    style="padding:5px; border: 1px solid #e9ecef; color: #4a5568; font-size: .875rem;">
                                                     @if($travelCruise->arrival_hrs)
                                                     {{ date('h:i A', strtotime($travelCruise->arrival_hrs)) }}
                                                     @endif
@@ -501,13 +521,13 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             @if($travel_cruise_addon && count($travel_cruise_addon) > 0)
                             <div>
                                 <div
-                                    style="background-color: #f8f9fa; padding: 5px; border-radius: 0px; font-weight: 600; color: #2d3748;">
+                                    style="background-color: #f8f9fa; padding: 5px; border-radius: 6px;  font-weight: 600; color: #0f172a;">
                                     Add-on Services
                                 </div>
                                 @foreach($travel_cruise_addon as $addon)
                                 <div style="padding: 5px ; border-bottom: 1px solid #e9ecef;">
                                     <div
-                                        style="font-weight: 600; font-size: .875rem; color: #2d3748; margin-bottom: 0px;">
+                                        style="font-weight: 600; font-size: .875rem; color: #0f172a; margin-bottom: 0px;">
                                         {{ $addon->services }} :
                                     </div>
                                     <div style="font-size: .875rem;  color: #4a5568; line-height: 1.3;">
@@ -533,19 +553,18 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             </tr>
             @endif
 
-
             <!------------ Start Car -------------->
             @if(in_array('Car', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 6px 10px;">
-                    <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div
-                            style=" font-size:1rem; font-weight:600; color: #1c316d; padding:5px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
+                    <div style="width:100%; border-radius: 6px;  overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Car Details :-
                         </div>
                         <div style="padding: 0px; background-color: #ffffff;  color: #333;">
 
-                            <div style="display: flex; flex-wrap: wrap; gap: 5px; border-radius: 0px; padding: 5px;">
+                            <div style="display: flex; flex-wrap: wrap; gap: 5px; border-radius: 6px;  padding: 5px;">
 
 
 
@@ -553,21 +572,21 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <div style="flex: 1;">
 
                                     <div
-                                        style="font-size: 14px; font-weight: 600; color: #2d3748; border-bottom: 2px solid #e0e0e0; padding-bottom: 5px;">
+                                        style="font-size: .875rem; font-weight: 500; color: #0f172a; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">
                                         Pick-up and Drop-off
                                     </div>
 
                                     @foreach($booking->travelCar as $travelCar)
                                     <table
-                                        style="width: 100%; border-collapse: separate; border-spacing: 0 10px; font-size: 14px; color: #555; ">
+                                        style="width: 100%; border-collapse: separate; border-spacing: 0 10px; font-size: .875rem; color: #555; ">
                                         @if($travelCar->car_rental_provider)
 
                                         <tr>
                                             <td
-                                                style="font-weight: 500;background-color: #fafafa;  border-radius: 0px;  color: #2d3748; font-size: .875rem;">
+                                                style="font-weight: 500;background-color: #fafafa;  border-radius: 6px;   color: #0f172a; font-size: .875rem;">
                                                 Car Rental Provider :</td>
                                             <td
-                                                style="font-weight: 400;background-color: #fafafa;  border-radius: 0px;  color: #2d3748; font-size: .875rem;">
+                                                style="font-weight: 400;background-color: #fafafa;  border-radius: 6px;   color: #0f172a; font-size: .875rem;">
                                                 {{ $travelCar->car_rental_provider }}</td>
                                         </tr>
                                         @endif
@@ -575,10 +594,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         @if($travelCar->car_type)
                                         <tr>
                                             <td
-                                                style="font-weight: 500;background-color: #fafafa;  border-radius: 0px;  color: #2d3748; font-size: .875rem;">
+                                                style="font-weight: 500;background-color: #fafafa;  border-radius: 6px;   color: #0f172a; font-size: .875rem;">
                                                 Car Type :</td>
                                             <td
-                                                style="font-weight: 400;background-color: #fafafa;  border-radius: 0px;  color: #2d3748; font-size: .875rem;">
+                                                style="font-weight: 400;background-color: #fafafa;  border-radius: 6px;   color: #0f172a; font-size: .875rem;">
                                                 {{ $travelCar->car_type }}</td>
                                         </tr>
                                         @endif
@@ -586,10 +605,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         @if($travelCar->confirmation_number)
                                         <tr>
                                             <td
-                                                style="font-weight: 500;background-color: #fafafa;  border-radius: 0px;  color: #2d3748; font-size: .875rem;">
+                                                style="font-weight: 500;background-color: #fafafa;  border-radius: 6px;   color: #0f172a; font-size: .875rem;">
                                                 Confirmation Number :</td>
                                             <td
-                                                style="font-weight: 400;background-color: #fafafa;  border-radius: 0px;  color: #2d3748; font-size: .875rem;">
+                                                style="font-weight: 400;background-color: #fafafa;  border-radius: 6px;   color: #0f172a; font-size: .875rem;">
                                                 {{ $travelCar->confirmation_number }}</td>
                                         </tr>
                                         @endif
@@ -597,7 +616,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                         @if($travelCar->rental_provider_address)
                                         <tr>
                                             <td
-                                                style="font-weight: 600; padding: 14px; background-color: #fafafa; border-radius: 6px; color: #2d3748;">
+                                                style="font-weight: 500; padding: 14px; background-color: #fafafa; border-radius: 6px; color: #0f172a;">
                                                 Rental Provider Address</td>
                                             <td style="padding: 14px; background-color: #fafafa; border-radius: 6px;">
                                                 {{ $travelCar->rental_provider_address }}</td>
@@ -609,22 +628,33 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
                                     <!-- Pickup & Drop-off Card -->
                                     <div
-                                        style="padding: 6px;background-color: #f8f9fa;border-radius: 0px; margin-bottom: 10px;">
-                                        <div style="font-size: 14px; font-weight: 600; color: #1a202c; ">Pickup : ⭕
+                                        style="padding: 6px;background-color: #f8f9fa;border-radius: 6px;  margin-bottom: 10px;">
+                                        <div style="font-size: .875rem;  color: #1a202c; "><span
+                                                style="font-weight: 500;">Pickup :</span>
                                             {{ $travelCar->pickup_date?->format('D, M j') }} -
                                             {{ $travelCar->pickup_time }} ,
-                                            <span style="font-weight: 600;">{{ $travelCar->pickup_location }}</span>
+                                            <span
+                                                style="font-weight: 500; font-size: .875rem;">{{ $travelCar->pickup_location }}</span>
                                         </div>
 
-                                        <div style="font-size: 14px; font-weight: 600; color: #1a202c; ">Drop-off : ⭕
+                                        <div style="font-size: .875rem; color: #1a202c; "><span
+                                                style="font-weight: 500;">Drop-off :</span>
                                             {{ $travelCar->dropoff_date?->format('D, M j') }} -
                                             {{ $travelCar->dropoff_time }} ,
-                                            <span style="font-weight: 600;">{{ $travelCar->dropoff_location }}</span>
+                                            <span
+                                                style="font-weight: 500; font-size: .875rem;">{{ $travelCar->dropoff_location }}</span>
                                         </div>
                                     </div>
+                                    <hr style="
+                            width: 90%;
+                         
+                            border: none;
+                            border-top: 1px dashed #cbd5e0;
+                            opacity: 0.9;
+                        ">
                                     @endforeach
 
-                                    <div style="font-size: 14px; line-height: 1.6; color: #555; white-space: pre-line;">
+                                    <div style="font-size: .875rem; line-height: 1.6; color: #555; ">
                                         {!! $booking->car_description !!}
                                     </div>
 
@@ -655,9 +685,9 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
             @if(in_array('Train', $bookingTypes))
             <tr>
                 <td colspan="2" style="padding: 0px 10px;">
-                    <div style="width:100%; border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div
-                            style="f font-size:1rem; font-weight:600; color:#1c316d; padding:5px; background-color: #f8f9fa; border-bottom:1px solid #e9ecef;">
+                    <div style="width:100%; border-radius: 6px;  overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Train Details :-
                         </div>
                         <div style="padding: 5px;">
@@ -665,40 +695,48 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #e9ecef;">
                                 <!-- Route Codes -->
                                 <div
-                                    style="background:linear-gradient(135deg, #1c316d, #285274); color:#fff; padding:5px; font-size:.875rem; font-weight:bold; text-align: center; border-radius: 0px; margin-bottom: 10px;">
+                                    style="background:#deecfb; color:#0f172a; padding:5px; font-size:.875rem; font-weight:500; text-align: center; border-radius: 6px;  margin-bottom: 10px;">
                                     {{$trainBookingDetails->departure_station}} &nbsp;→&nbsp;
                                     {{$trainBookingDetails->arrival_station}}
                                 </div>
 
-                                <div style="font-size:.875rem; font-weight:600; color:#2d3748; margin-bottom:5px;">
-                                    <strong style="font-weight: 700; color:#4a5568;">Departure:</strong>
-                                    {{ $trainBookingDetails->departure_date ? $trainBookingDetails->departure_date->format('D, M d, Y') : '' }}
+                                <div style="font-size:.875rem; color:#0f172a; margin-bottom:5px;">
+                                    <strong
+                                        style="font-weight: 500; color:#4a5568; font-size:.875rem;">Departure:</strong>
+                                    <span style=" color:#4a5568; font-size:.875rem;">
+                                        {{ $trainBookingDetails->departure_date ? $trainBookingDetails->departure_date->format('D, M d, Y') : '' }}</span>
                                     |
-                                    <strong style="font-weight: 700; color:#4a5568;">Arrival:</strong>
-                                    {{ $trainBookingDetails->arrival_date ? $trainBookingDetails->arrival_date->format('D, M d, Y') : '' }}
+                                    <strong
+                                        style="font-weight: 500; color:#4a5568; font-size:.875rem;">Arrival:</strong>
+                                    <span style=" color:#4a5568; font-size:.875rem;">
+                                        {{ $trainBookingDetails->arrival_date ? $trainBookingDetails->arrival_date->format('D, M d, Y') : '' }}</span>
                                 </div>
 
                                 <div style="font-size:.875rem; color:#4a5568; line-height:1.6; margin-bottom:10px;">
-                                    <strong>Direction</strong>: {{$trainBookingDetails->departure_station}} |
-                                    <strong>Cabin</strong>: {{$trainBookingDetails->cabin}} |
-                                    <strong>Train Ref</strong>: {{$booking->train_ref}}
+                                    <strong style="font-weight: 500;">Direction</strong>: <span
+                                        style=" color:#4a5568; font-size:.875rem;">{{$trainBookingDetails->departure_station}}</span>
+                                    |
+                                    <span style=" color:#4a5568; font-size:.875rem;"><strong
+                                            style="font-weight: 500;">Cabin</strong>:
+                                        {{$trainBookingDetails->cabin}}</span> |
+                                    <strong style="font-weight: 500;">Train Ref</strong>: {{$booking->train_ref}}
                                 </div>
 
                                 <!-- Train + Times -->
                                 <div
-                                    style="padding: 20px 0; font-size: 14px; color: #4a5568; background-color: #f8f9fa; border-radius: 0px;">
+                                    style="padding: 20px 0; font-size: .875rem; color: #4a5568; background-color: #deecfb; border-radius: 6px; ">
                                     <div
                                         style="display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; gap: 10px; text-align: center;">
 
                                         <!-- Train Number -->
                                         <div style="    display: flex
 ;
-border-radius: 0px;
+border-radius: 6px; 
     align-items: center;
     justify-content: center;">
                                             <div style="font-size: 30px;">🚆</div>
                                             <div class="">
-                                                <div style="font-weight: 600; color: #2d3748; ">Train No</div>
+                                                <div style="font-weight: 500; color: #0f172a; ">Train No</div>
                                                 <div style="font-size: 12px;">{{ $trainBookingDetails->train_number }}
                                                 </div>
                                             </div>
@@ -706,15 +744,15 @@ border-radius: 0px;
 
                                         <!-- Departure Time -->
                                         <div>
-                                            <div style="font-size: 20px; font-weight: bold; color: #2d3748;">
+                                            <div style="font-size: 20px; font-weight: bold; color: #0f172a;">
                                                 {{ date('h:i A', strtotime($trainBookingDetails->departure_hours)) }}
                                             </div>
-                                            <div style="font-size: 12px; color: #718096; ">DEPARTS</div>
+                                            <div style="font-size: 12px; color: #718096; ">Depart</div>
                                         </div>
 
                                         <!-- Duration -->
                                         <div>
-                                            <div style="font-size: 20px; color: #2d3748;">→</div>
+                                            <div style="font-size: 20px; color: #0f172a;">→</div>
                                             <div style="font-size: 12px; color: #718096; ">
                                                 {{ $trainBookingDetails->transit }}
                                             </div>
@@ -722,10 +760,10 @@ border-radius: 0px;
 
                                         <!-- Arrival Time -->
                                         <div>
-                                            <div style="font-size: 20px; font-weight: bold; color: #2d3748;">
+                                            <div style="font-size: 20px; font-weight: bold; color: #0f172a;">
                                                 {{ date('h:i A', strtotime($trainBookingDetails->arrival_hours)) }}
                                             </div>
-                                            <div style="font-size: 12px; color: #718096; ">ARRIVES</div>
+                                            <div style="font-size: 12px; color: #718096; ">Arrives</div>
                                         </div>
 
                                     </div>
@@ -734,8 +772,8 @@ border-radius: 0px;
 
                                 <!-- Seat Info -->
                                 <div
-                                    style="background: #e6eeff;padding: 10px;font-size: 12px;color: #2d3748;margin-top: 10px;">
-                                    <div style="white-space: pre-line; line-height: 1.6;">{!!
+                                    style="background: #deecfb;padding: 10px;font-size: .875rem;color: #0f172a;margin-top: 10px; border-radius: 6px; ">
+                                    <div style="line-height: 1.6;">{!!
                                         $booking->train_description !!}</div>
                                 </div>
                             </div>
@@ -755,38 +793,126 @@ border-radius: 0px;
             </tr>
             @endif
 
+            <!-- Contact Information -->
+            <tr>
+                <td colspan="2" style="padding: 5px 10px 0px 10px;">
+                    <div style="border-radius: 6px;  overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
+                            Customer Information :-
+                        </div>
+                        <div style="padding: 0;">
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Card Holder Name
+                                </div>
+                                <div style="font-size: .875rem; color: #4a5568;">{{$billingPricingData->cc_holder_name}}
+                                </div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Card Number</div>
+                                <div style="font-size: .875rem; color: #4a5568;">
+                                    {{ str_repeat('*', strlen($billingPricingData->cc_number) - 4) . substr($billingPricingData->cc_number, -4) }}
+
+                                </div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Card Type</div>
+                                <div style="font-size: .875rem; color: #4a5568;">
+                                    {{$billingPricingData->card_type}}
+                                </div>
+                            </div>
+
+
+
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Email</div>
+                                <div style="font-size: .875rem;">
+                                    <a style="color: #1a56db; text-decoration: none;"
+                                        href="mailto:{{$billingPricingData->email}}">{{$billingPricingData->email}}</a>
+                                </div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Booking Date</div>
+                                <div style="font-size: .875rem; color: #4a5568;">
+                                    {{ $booking->created_at->format('l, M d, Y') }}</div>
+                            </div>
+                            @if($booking->airlinepnr)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Airline Ref</div>
+                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->airlinepnr }}</div>
+                            </div>
+                            @endif
+
+
+
+                            @if($booking->cruise_ref)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Cruise Ref</div>
+                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->cruise_ref }}</div>
+                            </div>
+                            @endif
+
+                            @if($booking->car_ref)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Car Ref</div>
+                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->car_ref }}</div>
+                            </div>
+                            @endif
+
+                            @if($booking->train_ref)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; font-weight: 400; color: #0f172a;">Train Ref</div>
+                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->train_ref }}</div>
+                            </div>
+                            @endif
+
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
             <!------Passenger -------->
             <tr>
                 <td colspan="2" style="padding: 6px 10px;">
                     <div
-                        style="border-radius: 0px; overflow: hidden; border-top: 1px solid #e9ecef; border-left: 1px solid #e9ecef; border-right: 1px solid #e9ecef;">
-                        <div style="padding: 5px;color: #1c316d;  font-weight: 600;padding: 5px; background-color: #f8f9fa; border-bottom: 1px solid #e9ecef; ">
+                        style="border-radius: 6px;  overflow: hidden; border-top: 1px solid #e9ecef; border-left: 1px solid #e9ecef; border-right: 1px solid #e9ecef;">
+                        <div style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Passenger Details :-
                         </div>
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; border-collapse: collapse;">
+                        <div style=" overflow-x: auto;  padding: 8px 5px; border-radius: 6px;">
+                            <table style="width: 100%;   ">
                                 <thead>
-                                    <tr style="background-color: #f8f9fa;">
+                                    <tr style="background-color: #deecfb;">
                                         <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            style="font-size: .875rem; font-weight: 500; padding: 5px ; text-align: left; color: #0f172a; border-bottom: 1px solid #e9ecef;">
                                             Type</th>
                                         <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            style="font-size: .875rem; font-weight: 500; padding: 5px ; text-align: left; color: #0f172a; border-bottom: 1px solid #e9ecef;">
                                             Passenger Name</th>
-
                                         @if($booking->passengers->whereNotNull('seat_number')->count() > 0)
                                         <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            style="font-size: .875rem; font-weight: 500; padding: 5px ; text-align: left; color: #0f172a; border-bottom: 1px solid #e9ecef;">
                                             Seat</th>
                                         @endif
                                         @if($booking->passengers->whereNotNull('e_ticket_number')->count() > 0)
                                         <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            style="font-size: .875rem; font-weight: 500; padding: 5px ; text-align: left; color: #0f172a; border-bottom: 1px solid #e9ecef;">
                                             E-Ticket</th>
                                         @endif
                                         @if($booking->passengers->whereNotNull('room_category')->count() > 0)
                                         <th
-                                            style="font-size: .875rem; font-weight: 600; padding: 5px ; text-align: left; color: #2d3748; border-bottom: 1px solid #e9ecef;">
+                                            style="font-size: .875rem; font-weight: 500; padding: 5px ; text-align: left; color: #0f172a; border-bottom: 1px solid #e9ecef;">
                                             Room Category</th>
                                         @endif
                                     </tr>
@@ -824,110 +950,15 @@ border-radius: 0px;
                     </div>
                 </td>
             </tr>
-            <!-- End Passanger Details -->
-
-       
-
-            <!-- Contact Information -->
-            <tr>
-                <td colspan="2" style="padding: 5px 10px 0px 10px;">
-                    <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style="  padding: 5px;color: #1c316d;  font-weight: 600;padding:5px; background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
-                            Customer Information :-
-                        </div>
-                        <div style="padding: 0;">
-                            <div
-                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Card Holder Name
-                                </div>
-                                <div style="font-size: .875rem; color: #4a5568;">{{$billingPricingData->cc_holder_name}}
-                                </div>
-                            </div>
-                            <div
-                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Card Number</div>
-                                <div style="font-size: .875rem; color: #4a5568;">
-                                    {{ str_repeat('*', strlen($billingPricingData->cc_number) - 4) . substr($billingPricingData->cc_number, -4) }}
-
-                                </div>
-                            </div>
-                            <div
-                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Card Type</div>
-                                <div style="font-size: .875rem; color: #4a5568;">
-                                    {{$billingPricingData->card_type}}
-                                </div>
-                            </div>
-
-
-
-                            <div
-                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Email</div>
-                                <div style="font-size: .875rem;">
-                                    <a style="color: #1a56db; text-decoration: none;"
-                                        href="mailto:{{$billingPricingData->email}}">{{$billingPricingData->email}}</a>
-                                </div>
-                            </div>
-                            <div
-                                style="display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #e9ecef;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Booking Date</div>
-                                <div style="font-size: .875rem; color: #4a5568;">
-                                    {{ $booking->created_at->format('l, M d, Y') }}</div>
-                            </div>
-                            @if($booking->airlinepnr)
-                            <div style="display: flex; justify-content: space-between; padding: 5px;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Airline Ref</div>
-                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->airlinepnr }}</div>
-                            </div>
-                            @endif
-
-
-
-                            @if($booking->cruise_ref)
-                            <div style="display: flex; justify-content: space-between; padding: 5px;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Cruise Ref</div>
-                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->cruise_ref }}</div>
-                            </div>
-                            @endif
-
-                            @if($booking->car_ref)
-                            <div style="display: flex; justify-content: space-between; padding: 5px;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Car Ref</div>
-                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->car_ref }}</div>
-                            </div>
-                            @endif
-
-                            @if($booking->train_ref)
-                            <div style="display: flex; justify-content: space-between; padding: 5px;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Train Ref</div>
-                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->train_ref }}</div>
-                            </div>
-                            @endif
-
-                             @if($booking->hotel_ref)
-                            <div style="display: flex; justify-content: space-between; padding: 5px;">
-                                <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Hotel Ref</div>
-                                <div style="font-size: .875rem; color: #4a5568;">{{ $booking->hotel_ref }}</div>
-                            </div>
-                            @endif
-
-
-                        </div>
-                    </div>
-                </td>
-            </tr>
-
-            
 
 
 
             <!-------Start Price ---------->
             <tr class="price-details">
                 <td colspan="2" style="padding: 0px 10px;">
-                    <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style=" color: #1c316d;
-    font-size: 1rem;     font-weight: 600;padding: 5px; background-color: #f8f9fa;border-bottom: 1px solid #e9ecef;">
+                    <div style="border-radius: 6px; overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Price Details (USD) :-
                         </div>
                         <div style="padding: 5px;">
@@ -944,26 +975,27 @@ border-radius: 0px;
                             }
                             @endphp
 
-                          
+
 
                             @if($booking->query_type == 26 || $booking->query_type == 27 || $booking->query_type == 49
-                            ||  $booking->query_type == 38 || $booking->query_type == 30 ||
+                            || $booking->query_type == 38 || $booking->query_type == 30 ||
                             $booking->query_type == 46)
-                              
-                                @foreach($booking->pricingDetails as $ExcursionPrice)
-                                    <div
-                                        style="display: flex; justify-content: space-between; padding-bottom:5px; border-bottom: 1px solid #e9ecef;">
-                                        <div style="font-size: .875rem; color: #2d3748; font-weight: 500;">
-                                            {{$ExcursionPrice->details}} (per person) : {{ ucfirst($ExcursionPrice->passenger_type) }}
 
-                                        </div>
-                                        <div style="font-size: .875rem; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
-                                    </div>
+                            @foreach($booking->pricingDetails as $ExcursionPrice)
+                            <div
+                                style="display: flex; justify-content: space-between; padding-bottom:5px; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; color: #2d3748; font-weight: 500;">
+                                    {{$ExcursionPrice->details}} (per person) :
+                                    {{ ucfirst($ExcursionPrice->passenger_type) }}
 
-                                        @if($booking->query_type == 26)
-                                        <div style="font-size: 10px; color: #666; padding: 0 0 10px 0;">inc. taxes & fees.</div>
-                                        @endif
-                                @endforeach
+                                </div>
+                                <div style="font-size: .875rem; color: #0f9b0f;">${{$ExcursionPrice->gross_price}}</div>
+                            </div>
+
+                            @if($booking->query_type == 26)
+                            <div style="font-size: 10px; color: #666; padding: 0 0 10px 0;">inc. taxes & fees.</div>
+                            @endif
+                            @endforeach
 
                             @else
 
@@ -978,67 +1010,73 @@ border-radius: 0px;
                             </div>
 
                             @else
-                                    @foreach($mergedPrices as $passengerType => $totalPrice)
-                                    <div
-                                        style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
-                                        <div style="font-size: .875rem; color: #2d3748;">
-                                            @if(in_array($booking->query_type, [3,7,8]))
-                                            Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
-                                            @elseif($booking->query_type == 2)
-            
-                                                Rebooking fees per person. ({{ ucfirst($passengerType) }})
-                                            @elseif($booking->query_type == 4)
-                                            Baggage fees per Bag. ({{ ucfirst($passengerType) }})
-                                            @elseif($booking->query_type == 9)
-                                            Travel Insurance per person. ({{ ucfirst($passengerType) }})
-                                            @elseif($booking->query_type == 17)
-                                            Cruise Fare - Per Guest - ({{ ucfirst($passengerType) }})
-                                            @elseif($booking->query_type == 13 || $booking->query_type == 14 ||
-                                            $booking->query_type ==18 || $booking->query_type == 19 || $booking->query_type ==
-                                            20 || $booking->query_type ==29 || $booking->query_type == 33 ||
-                                            $booking->query_type == 34 || $booking->query_type == 41 || $booking->query_type ==
-                                            43 || $booking->query_type == 44 || $booking->query_type == 50 ||
-                                            $booking->query_type == 51)
-                                            Cancellation fee per person - ({{ ucfirst($passengerType) }})
-                                            @else
-                                            Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
-                                            @endif</div>
-                                        <div style="font-size: .875rem; color: #0f9b0f;">
-                                            ${{ number_format($totalPrice, 2) }}
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                @endif
+                            @foreach($mergedPrices as $passengerType => $totalPrice)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; color: #2d3748;">
+                                    @if(in_array($booking->query_type, [3,7,8]))
+                                    Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
+                                    @elseif($booking->query_type == 2)
+
+                                    Rebooking fees per person. ({{ ucfirst($passengerType) }})
+                                    @elseif($booking->query_type == 4)
+                                    Baggage fees per Bag. ({{ ucfirst($passengerType) }})
+                                    @elseif($booking->query_type == 9)
+                                    Travel Insurance per person. ({{ ucfirst($passengerType) }})
+                                    @elseif($booking->query_type == 17)
+                                    Cruise Fare - Per Guest - ({{ ucfirst($passengerType) }})
+                                    @elseif($booking->query_type == 13 || $booking->query_type == 14 ||
+                                    $booking->query_type ==18 || $booking->query_type == 19 || $booking->query_type ==
+                                    20 || $booking->query_type ==29 || $booking->query_type == 33 ||
+                                    $booking->query_type == 34 || $booking->query_type == 41 || $booking->query_type ==
+                                    43 || $booking->query_type == 44 || $booking->query_type == 50 ||
+                                    $booking->query_type == 51)
+                                    Cancellation fee per person - ({{ ucfirst($passengerType) }})
+                                    @else
+                                    Total Price per person including taxes and fees. ({{ ucfirst($passengerType) }})
+                                    @endif</div>
+                                <div style="font-size: .875rem; color: #0f9b0f;">
+                                    ${{ number_format($totalPrice, 2) }}
+                                </div>
+                            </div>
+                            @endforeach
+                            @endif
                             @endif
 
                             @if(isset($billing_deposits))
 
-                             
-
-                                @if($billing_deposits->deposit_amount > 0)
-                                    <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
-                                        <div style="font-size: .875rem; color: #2d3748;"> Deposit to be collected</div>
-                                        <div style="font-size: .875rem; color: #0f9b0f;"> ${{$billing_deposits->deposit_amount }} </div>
-                                    </div>
-                                @endif
-
-                                 @if($billing_deposits->pending_amount > 0)
-                                    <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
-                                        <div style="font-size: .875rem; color: #2d3748;"> Remaining Balance</div>
-                                        <div style="font-size: .875rem; color: #0f9b0f;"> ${{$billing_deposits->pending_amount }} </div>
-                                    </div>
-                                @endif
 
 
-                                @if($billing_deposits->due_date)
-                                    <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
-                                        <div style="font-size: .875rem; color: #2d3748;"> Due Date</div>
-                                        <div style="font-size: .875rem; color: #0f9b0f;"> {{ \Carbon\Carbon::parse($billing_deposits->due_date)->format('d M Y') }} </div>
-                                    </div>      
-                                @endif
-                               
+                            @if($billing_deposits->deposit_amount > 0)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; color: #2d3748;"> Deposit to be collected</div>
+                                <div style="font-size: .875rem; color: #0f9b0f;">
+                                    ${{$billing_deposits->deposit_amount }} </div>
+                            </div>
                             @endif
-                            
+
+                            @if($billing_deposits->pending_amount > 0)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; color: #2d3748;"> Remaining Balance</div>
+                                <div style="font-size: .875rem; color: #0f9b0f;">
+                                    ${{$billing_deposits->pending_amount }} </div>
+                            </div>
+                            @endif
+
+
+                            @if($billing_deposits->due_date)
+                            <div
+                                style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #e9ecef;">
+                                <div style="font-size: .875rem; color: #2d3748;"> Due Date</div>
+                                <div style="font-size: .875rem; color: #0f9b0f;">
+                                    {{ \Carbon\Carbon::parse($billing_deposits->due_date)->format('d M Y') }} </div>
+                            </div>
+                            @endif
+
+                            @endif
+
 
                             <div style="display: flex; justify-content: space-between; padding: 5px 0;">
                                 <div style="font-size: .875rem; font-weight: 600; color: #2d3748;">Total Amount
@@ -1053,7 +1091,7 @@ border-radius: 0px;
                             <div>
 
                             </div>
-                            
+
 
                             <div style=" padding:  5px 0px; background-color: #f8f9fa; border-radius: 0px;">
                                 <ul style="margin: 0; padding-left: 20px; color: #4a5568; font-size: 12px;">
@@ -1082,21 +1120,16 @@ border-radius: 0px;
             </tr>
 
 
+
             <!--  End Price Details -->
-
-
 
 
 
             <tr>
                 <td colspan="2" style="padding: 6px 10px;">
-                    <div style="border-radius: 0px; overflow: hidden; border: 1px solid #e9ecef;">
-                        <div style="    font-weight: 600;
-    padding: 5px;
-    color: #1c316d;
-    font-size: 1rem; 
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;">
+                    <div style="border-radius: 6px;  overflow: hidden; border: 1px solid #e9ecef;">
+                        <div style="padding:8px 5px;
+    color: #fff;  font-size: 1rem;  font-weight:500;   background-color: #274481; border-bottom:1px solid #e9ecef;">
                             Disclaimer :-
                         </div>
                         <div style="padding: 5px;">
@@ -1112,12 +1145,8 @@ border-radius: 0px;
                                         charged will not exceed USD {{ number_format($booking->gross_value, 2) }}
                                     </strong>.</p>
                                 <p style="">I further acknowledge that the charges may appear on my
-                                    credit card statements under one or more of the following descriptors: <br>
-                                    {{ $booking->descriptor }}
-
-
-
-                                    <strong>{{ $booking->selected_company_name }}</strong>.
+                                    credit card statements under one or more of the following descriptors:
+                                {{ $booking->descriptor }} <strong>{{ $booking->selected_company_name }}</strong>.
                                 </p>
                                 <p style="">By this statement, I hereby authorize
                                     <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service
@@ -1126,17 +1155,17 @@ border-radius: 0px;
                                 </p>
 
 
-
                                 <ul style=" margin-bottom: -6px;">
                                     @foreach($billingPricingDataAll as $billing)
-                                     @if($billing->authorized_amt > 0)
-                                        <li style="margin-bottom: 10px;"><b> USD
-                                                {{ number_format($billing->authorized_amt, 2) }} </b> to my <b>
-                                                {{ $billing->card_type }} ending in
-                                                **** **** **** {{ substr($billing->cc_number, -4) }}</b>
-                                        </li>
+                                    @if($billing->authorized_amt > 0)
+                                    <li style="margin-bottom: 10px;"><b> USD
+                                            {{ number_format($billing->authorized_amt, 2) }} </b> to my <b>
+                                            {{ $billing->card_type }} ending in
+                                            **** **** **** {{ substr($billing->cc_number, -4) }}</b>
+                                    </li>
                                     @endif
                                     @endforeach
+                                               
                                 </ul>
                                 <p style="margin-top: 5px;">I confirm that I am the authorized cardholder for the above
                                     payment methods and consent to the processing of these charges as outlined.</p>
@@ -1146,43 +1175,51 @@ border-radius: 0px;
                 </td>
             </tr>
 
-            @php
-                $company = $booking->selected_company == 1 ? 'flydreamz' : 'fareticketsus';
-                $fare = ($fare_type == 0) ? 'refundable' : 'nonrefundable';
-            @endphp
-
             <tr>
                 <td colspan="2" style="padding: 5px 10px;">
                     <div style="margin-bottom: 12px;">
                         <label
                             style="display: flex; align-items: center; font-size: 14px; color: #4a5568; cursor: pointer;">
-                            @{{Checkbox}}
-                            <a href="{{ route('terms.nonrefundable', ['refundStatus' => 'nonrefundable', 'booking_id' => $booking->id]) }}" 
-                                target="_blank" 
-                                style="color: #1a56db; text-decoration: none;">
+                            @{{Checkbox}} &nbsp;
+                            <a href="{{ route('terms.nonrefundable', ['refundStatus' => 'nonrefundable', 'booking_id' => $booking->id]) }}"
+                                target="_blank" style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
-                                </a>
+                            </a>
                         </label>
                     </div>
 
-
+            </tr>
             <tr>
+                <td>
+                            <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
+
+                                <p>
+                                    <strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}
+                                </p>
+                                <p style="margin-top: -10px;">
+                                    <strong>Extension </strong>: +1 (123) 456-7890
+                                </p>
+
+
+                            </div>
+
+                        </td>
+
                 <td colspan="2" style="padding: 0px 30px 20px 30px;">
                     <!-- Signature Space -->
                     <div style="margin-top: 30px; text-align: right;">
-                        <div style="width: 200px; height: 60px; border-bottom: 2px solid #1a2a6c; margin-left: auto; margin-bottom: 10px;">@{{S}}</div>
+                        <div
+                            style="width: 200px; height: 60px; border-bottom: 2px solid #1a2a6c; margin-left: auto; margin-bottom: 10px;">
+                            @{{S}}</div>
                         <label style="font-size: 16px; font-weight: 600; color: #1a2a6c; display: inline-block;">
                             Signature
                         </label>
-                    </div> 
-                </td>
-            </tr>
-
-
-
                     </div>
                 </td>
+                           
             </tr>
+
+
 
 
 
@@ -1192,14 +1229,16 @@ border-radius: 0px;
                 <!-- ✅ Outer white space (same padding as header) -->
                 <td colspan="2" style="background-color: #ffffff; padding: 0 10px;">
                     <!-- ✅ Inner full-width gradient section -->
-                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
-                        style="border-collapse: collapse;">
+                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="">
                         <tr>
                             <td
-                                style="background: linear-gradient(135deg, #1c316d, #285274); padding: 20px 30px; text-align: center; border-radius: 0px;">
+                                style="background: linear-gradient(135deg, #1c316d, #285274); padding: 5px 30px; text-align: center; border-radius: 0px; ">
+
+
+
 
                                 <!-- Footer Text -->
-                                <div style="font-size: .875rem; font-weight: 400; color: #e2e8f0; text-align: center;">
+                                <div style="font-size: 12px; font-weight: 400; color: #e2e8f0; text-align: center;">
                                     © {{ date('Y') }} All Rights Reserved.
                                 </div>
 
@@ -1209,6 +1248,13 @@ border-radius: 0px;
                 </td>
             </tr>
         </tfoot>
+
+
     </table>
+
+
+
+
 </body>
+
 </html>

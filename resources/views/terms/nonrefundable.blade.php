@@ -282,13 +282,13 @@
     <p class="tc__text">Your data is used solely for processing your car rental booking and related travel services.</p>
     <p class="tc__text">We do not sell or disclose your information to third parties except as required by law or necessary to complete your booking.</p>
     <p class="tc__text">All payment data is processed through PCI-compliant and encrypted systems.
-    For details, visit our <strong>Privacy Policy</strong> at <a href="https://www.fareticketsllc.com/privacy-policy.php" target="_blank">https://www.fareticketsllc.com/privacy-policy.php</a></p>
+    For details, visit our <strong>Privacy Policy</strong> at <a href="https://www.traveladesk.com/privacy-policy.php" target="_blank">https://www.traveladesk.com/privacy-policy.php</a></p>
 
     <h2 class="tc__subtitle">11. Customer Support</h2>
     <div class="tc__contact">
       <p class="tc__text"><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> {{ $merchant->phone }}</p>
-      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@fareticketsllc.com</p>
-      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.fareticketsllc.com</p>
+      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@traveladesk.com</p>
+      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.traveladesk.com</p>
       <p class="tc__text">For urgent issues related to pick up, payment, or roadside assistance, please contact the <strong>rental supplier directly</strong> using the contact details on your voucher.</p>
       <p class="tc__text">We sincerely appreciate your business and look forward to serving you.</p>
     </div>   
@@ -373,7 +373,7 @@
   <p class="tc__text">All personal data collected is used solely for processing bookings and delivering travel-related services.</p>
   <p class="tc__text">We do not sell or share your information with third parties except as required by law or necessary for booking fulfilment.</p>
   <p class="tc__text">All payment data is processed through PCI-compliant and encrypted systems. For details, visit our Privacy Policy at 
-    <a href="https://www.fareticketsllc.com/privacy-policy.php" target="_blank">https://www.fareticketsllc.com/privacy-policy.php</a>
+    <a href="https://www.traveladesk.com/privacy-policy.php" target="_blank">https://www.traveladesk.com/privacy-policy.php</a>
   </p>
 
   <h2 class="tc__subtitle">11. Customer Support</h2>
@@ -381,8 +381,8 @@
     <p class="tc__text">We are committed to providing you with reliable and responsive service before, during, and after your travel.</p>
     <p class="tc__text"><strong>Customer Support (Available 24/7):</strong></p>
     <p class="tc__text"><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> {{ $merchant->phone }}</p>
-    <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@fareticketsllc.com</p>
-    <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.fareticketsllc.com</p>
+    <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@traveladesk.com</p>
+    <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.traveladesk.com</p>
     <p class="tc__text">Our experienced representatives are here to assist with bookings, schedule changes, cancellations, or any other travel-related inquiries.</p>
     <p class="tc__text">We sincerely appreciate your business and look forward to serving you.</p>
   </div>
@@ -475,7 +475,7 @@
     <p class="tc__text">We do not sell or disclose your information to third parties except as required by law or necessary to complete your booking.</p>
 
     <p class="tc__text">All payment data is processed through PCI-compliant and encrypted systems.
-    For details, visit our <strong>Privacy Policy</strong> at https://www.fareticketsllc.com/privacy-policy.php</p>
+    For details, visit our <strong>Privacy Policy</strong> at https://www.traveladesk.com/privacy-policy.php</p>
 
     <h2 class="tc__subtitle">12. Customer Support</h2>
 
@@ -483,8 +483,8 @@
       <p class="tc__text">We are committed to providing you with reliable and responsive service before, during, and after your travel.</p>
       <p class="tc__text"><strong>Customer Support (Available 24/7):</strong></p>
       <p class="tc__text"><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> {{ $merchant->phone }}</p>
-      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@fareticketsllc.com</p>
-      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.fareticketsllc.com</p>
+      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@traveladesk.com</p>
+      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.traveladesk.com</p>
       <p class="tc__text">For urgent matters while onboard or at port, passengers should contact the <strong>cruise line’s guest services desk</strong> immediately for assistance.</p>
       <p class="tc__text">We sincerely appreciate your business and look forward to serving you.</p>
     </div>
@@ -624,7 +624,7 @@
             <li>All payment data is processed through PCI-compliant and encrypted systems.</li>
         </ul>
 
-        <p class="tc__text">For details, visit our <strong>Privacy Policy</strong> at <a href="https://www.fareticketsllc.com/privacy-policy.php">https://www.fareticketsllc.com/privacy-policy.php</a></p>
+        <p class="tc__text">For details, visit our <strong>Privacy Policy</strong> at <a href="https://www.traveladesk.com/privacy-policy.php">https://www.traveladesk.com/privacy-policy.php</a></p>
 
         <h2 class="tc__subtitle">13. Customer Support</h2>
 
@@ -632,8 +632,8 @@
             <p class="tc__text">We are committed to providing you with reliable and responsive service before, during, and after your travel.</p>
            <p class="tc__text"><strong>Customer Support (Available 24/7):</strong></p>
       <p class="tc__text"><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> {{ $merchant->phone }}</p>
-      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@fareticketsllc.com</p>
-      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.fareticketsllc.com</p>
+      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@traveladesk.com</p>
+      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.traveladesk.com</p>
             </div>
             
             <p class="tc__text" style="margin-top: 15px;">For urgent issues at check-in or during your stay, please contact the <strong>hotel front desk directly</strong> for immediate assistance.</p>
@@ -795,7 +795,7 @@
             <li>All payment data is processed through PCI-compliant and encrypted systems.</li>
         </ul>
 
-        <p class="tc__text">For details, visit our <strong>Privacy Policy</strong> at <a href="https://www.fareticketsllc.com/privacy-policy.php">https://www.fareticketsllc.com/privacy-policy.php</a></p>
+        <p class="tc__text">For details, visit our <strong>Privacy Policy</strong> at <a href="https://www.traveladesk.com/privacy-policy.php">https://www.traveladesk.com/privacy-policy.php</a></p>
 
         <h2 class="tc__subtitle">14. Customer Support</h2>
 
@@ -803,8 +803,8 @@
             <p class="tc__text">We are committed to providing you with reliable and responsive service before, during, and after your travel.</p>
            <p class="tc__text"><strong>Customer Support (Available 24/7):</strong></p>
       <p class="tc__text"><i class="fa-solid fa-phone"></i> <strong>Phone:</strong> {{ $merchant->phone }}</p>
-      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@fareticketsllc.com</p>
-      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.fareticketsllc.com</p>
+      <p class="tc__text"><i class="fa-solid fa-envelope"></i> <strong>Email:</strong> support@traveladesk.com</p>
+      <p class="tc__text"><i class="fa-solid fa-globe"></i> <strong>Website:</strong> www.traveladesk.com</p>
             
             <p class="tc__text" style="margin-top: 15px;">For last-minute changes or issues at the station, please contact the <strong>rail operator's help desk</strong> immediately for on-site assistance.</p>
             <p class="tc__text">We sincerely appreciate your business and look forward to serving you.</p>
@@ -815,12 +815,6 @@
 
   <!-- ===== Global Page Footer ===== -->
   <footer class="page-footer">
-    <div class="tc__social">
-      <a href="https://www.facebook.com/fareticketsllc" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-      <a href="https://twitter.com/fareticketsllc" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="https://www.instagram.com/fareticketsllc" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://www.linkedin.com/company/fareticketsllc" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-    </div>
     <p class="tc__copy">© 2025  {{ $merchant->name }}. All Rights Reserved.</p>
   </footer>
 
