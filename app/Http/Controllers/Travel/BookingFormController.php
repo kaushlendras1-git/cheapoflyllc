@@ -595,7 +595,7 @@ class BookingFormController extends Controller
                         $rules['flight.*.arrival_hours']     = 'required_with:flight';
                         $rules['flight.*.duration']          = 'required_with:flight';
                         #$rules['flight.*.transit']           = 'required_with:flight';
-                        $rules['flight.*.arrival_date']      = 'required_with:flight|after_or_equal:flight.*.departure_date';
+                        #$rules['flight.*.arrival_date']      = 'required_with:flight|after_or_equal:flight.*.departure_date';
                         #$rules['flight.*.airline_code']      = 'required_with:flight|string|size:2';
                         $rules['flight.*.flight_number']     = 'required_with:flight|string|max:10';
                         $rules['flight.*.cabin']             = 'required_with:flight|string|in:B.Eco,Eco,Pre.Eco,Buss.,First Class';
