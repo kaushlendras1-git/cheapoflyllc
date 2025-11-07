@@ -108,38 +108,38 @@ class AuthEmailController extends Controller
                     $recipientName = $bookingTypeName;
                     $zohoSignService = new ZohoSignService();
                     
-                    #$requestId = "1234567890";
-                    // Create document
-                    $response = $zohoSignService->createDocument(
-                        $recipientName,
-                        $request->email,
-                        $recipientName,
-                        $fullPath,
-                        'New Flight Booking with Credit2'
-                    );
+                    $requestId = "1234567890";
+                    // // Create document
+                    // $response = $zohoSignService->createDocument(
+                    //     $recipientName,
+                    //     $request->email,
+                    //     $recipientName,
+                    //     $fullPath,
+                    //     'New Flight Booking with Credit2'
+                    // );
                     
-                    // Submit document for signature if creation was successful
-                    if (isset($response['requests']['request_id'])) {
-                        $requestId = $response['requests']['request_id'];
-                        $actionId = $response['requests']['actions'][0]['action_id'] ?? null;
-                        $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
+                    // // Submit document for signature if creation was successful
+                    // if (isset($response['requests']['request_id'])) {
+                    //     $requestId = $response['requests']['request_id'];
+                    //     $actionId = $response['requests']['actions'][0]['action_id'] ?? null;
+                    //     $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
                         
-                        if ($actionId && $documentId) {
-                            $submitResponse = $zohoSignService->submitDocument($requestId, $actionId, $documentId,[], ucfirst(auth()->user()->name) . ' has requested you to review the document');
+                    //     if ($actionId && $documentId) {
+                    //         $submitResponse = $zohoSignService->submitDocument($requestId, $actionId, $documentId,[], ucfirst(auth()->user()->name) . ' has requested you to review the document');
                             
-                            if (!isset($submitResponse['status']) || $submitResponse['status'] !== 'success') {
-                                throw new \Exception('Failed to submit document for signature');
-                            }
-                        } else {
-                            throw new \Exception('Missing action_id or document_id in response');
-                        }
-                    } else {
-                        throw new \Exception('Failed to create document');
-                    }
+                    //         if (!isset($submitResponse['status']) || $submitResponse['status'] !== 'success') {
+                    //             throw new \Exception('Failed to submit document for signature');
+                    //         }
+                    //     } else {
+                    //         throw new \Exception('Missing action_id or document_id in response');
+                    //     }
+                    // } else {
+                    //     throw new \Exception('Failed to create document');
+                    // }
                     
-                    if (file_exists($fullPath)) {
-                        unlink($fullPath);
-                    }
+                    // if (file_exists($fullPath)) {
+                    //     unlink($fullPath);
+                    // }
                     
                     AuthHistory::create([
                         'booking_id' => $booking->id,
