@@ -15,13 +15,14 @@ class RestrictIpAccess
         $allowedIps = [
             '49.200.60.18',
             '59.145.232.54',
-            '182.72.183.22'
+            '182.72.183.22',
+            '127.0.0.1'
         ];
 
         $clientIp = $request->ip();
 
         if (!in_array($clientIp, $allowedIps)) {
-           # abort(403, 'Access denied from your IP address.');
+            abort(403, 'Access denied from your IP address: ' . $clientIp . '. Allowed IPs: ' . implode(', ', $allowedIps));
         }
 
         return $next($request);

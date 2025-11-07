@@ -7,21 +7,7 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y p-70 mt-4">
     <!-- Dashboard Title Section -->
-    <div class="dashboard-header mb-4">
-        <div class="row align-items-center">
-            <div class="col-md-8 col-12 mb-3 mb-md-0">
-                <h1 class="dashboard-title">Performance Dashboard</h1>
-                <p class="dashboard-subtitle">Track your travel booking metrics and performance analytics</p>
-            </div>
-            <div class="col-md-4 col-12 text-md-end text-center">
-                <div class="user-info">
-                    <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
-                    <span class="user-role">{{ Auth::user()->role_name ?? 'Travel Agent' }}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+  
     <div class="row gy-4 gx-4">
 
 

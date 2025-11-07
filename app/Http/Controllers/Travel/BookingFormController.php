@@ -720,7 +720,7 @@ class BookingFormController extends Controller
 
                     //PRICIGN
                     $rules['pricing']                          = 'required|array|min:1';
-                    $rules['pricing.*.passenger_type']         = 'required|string|in:adult,child,infant,infant_on_lap,infant_on_seat';
+                    $rules['pricing.*.passenger_type']         = 'nullable|string|in:adult,child,infant,infant_on_lap,infant_on_seat';
                     $rules['pricing.*.num_passengers']         = 'required|integer';
                     $rules['pricing.*.gross_price']            = 'required|numeric|min:0';
                     $rules['pricing.*.net_price']              = 'required|numeric|min:0';

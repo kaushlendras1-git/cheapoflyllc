@@ -102,6 +102,7 @@ class ZohoSignService
                     ]
                 ];
             }else{
+
                     $requestData = [
                     'requests' => [
                         'request_name' => $requestName,
@@ -125,6 +126,8 @@ class ZohoSignService
                     ]
                 ];
             }
+
+            
 
 
             $response = $this->client->post('https://sign.zoho.com/api/v1/requests', [
@@ -159,24 +162,24 @@ class ZohoSignService
     {
         try {
            
-            // $accessToken = $this->refreshAccessToken();
-            // $response = $this->client->get('https://sign.zoho.com/api/v1/requests/' . $requestId . '/documents/' . $documentId, [
-            //     'headers' => [
-            //         'Authorization' => 'Zoho-oauthtoken ' . $accessToken
-            //     ]
-            // ]);
+            $accessToken = $this->refreshAccessToken();
+            $response = $this->client->get('https://sign.zoho.com/api/v1/requests/' . $requestId . '/documents/' . $documentId, [
+                'headers' => [
+                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken
+                ]
+            ]);
             
-            // return json_decode($response->getBody(), true);
+            return json_decode($response->getBody(), true);
 
-            $mockResponse = '{
-                    "access_token": "1000.6b892df88a9ecc4b5c325fc325af7c0c.f5ea8172cbbaed09bb126a54ee465539",
-                    "scope": "ZohoSign.documents.ALL ZohoSign.templates.ALL",
-                    "api_domain": "https://www.zohoapis.com",
-                    "token_type": "Bearer",
-                    "expires_in": 3600
-                }';
+        //     $mockResponse = '{
+        //             "access_token": "1000.6b892df88a9ecc4b5c325fc325af7c0c.f5ea8172cbbaed09bb126a54ee465539",
+        //             "scope": "ZohoSign.documents.ALL ZohoSign.templates.ALL",
+        //             "api_domain": "https://www.zohoapis.com",
+        //             "token_type": "Bearer",
+        //             "expires_in": 3600
+        //         }';
 
-        return json_decode($mockResponse, true);
+        // return json_decode($mockResponse, true);
             
         } catch (RequestException $e) {
             Log::error('Zoho Sign Get Document Info Error: ' . $e->getMessage());

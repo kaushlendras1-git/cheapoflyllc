@@ -315,7 +315,7 @@
                                     <!-- Left side: airline logo -->
                                     <td style="width: 100px; vertical-align: top; padding: 0; margin: 0;">
                                         <img src="{{ public_path('assets/img/airline-logo/' . $flight->airline_code . '.png') }}"
-                                            alt="airline logo"
+                                            alt=" "
                                             style="display: block; width: 80px; height: 50px; object-fit: contain; margin: 0; padding: 0;">
                                     </td>
 

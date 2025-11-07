@@ -191,19 +191,19 @@
                                 <tr class="pricing-row fxlRow" data-index="{{$key}}">
                                     <td>
                                         <select class="form-control passenger_type" name="pricing[{{$key}}][passenger_type]"
-                                            id="passenger_type_{{$key}}">
+                                            id="passenger_type_{{$key}}" disabled >
                                             <option value="">Select</option>
                                         </select>
                                     </td>
                                     <td>
                                         <input type="number" style="width: 120px" class="form-control num_passengers"
                                             name="pricing[{{$key}}][num_passengers]" value="{{$pricingDetails->num_passengers}}"
-                                            placeholder="No. of Passengers" min="0">
+                                            placeholder="No. of Passengers" min="0" disabled >
                                     </td>
 
                                     <td><input type="number" style="width: 100px" class="form-control"
                                             name="pricing[{{$key}}][gross_price]" value="{{$pricingDetails->gross_price}}"
-                                            placeholder="Gross Price" min="0" step="0.01"></td>
+                                            placeholder="Gross Price" min="0" step="0.01" disabled ></td>
 
                                     <td>
                                         <span class="gross-total">0.00</span>
@@ -212,7 +212,7 @@
                                     <td>
                                         <input type="number" style="width: 110px;" class="form-control"
                                             name="pricing[{{$key}}][net_price]" value="{{$pricingDetails->net_price}}"
-                                            placeholder="Net Price" min="0" step="0.01">
+                                            placeholder="Net Price" min="0" step="0.01" disabled >
                                     </td>
                                     <td><span class="net-total">{{$pricingDetails->net_price}}</span></td>
                                     <td>

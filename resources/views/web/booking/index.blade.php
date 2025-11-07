@@ -20,22 +20,22 @@
                         <div class="d-flex align-items-center justify-content-between">
                           <div class="show-data d-flex align-items-center">
                             <div class="data-name me-5">
-                              <h3 class="booking-upper-details mb-0">Flights: <span>{{$flight_booking}}</span></h3>
+                              <h3 class="booking-upper-details mb-0">Flights: 0 <!--span>{{$flight_booking}}</span--> </h3>
                             </div>
                             <div class="data-name me-5">
-                              <h3 class="booking-upper-details mb-0">Hotel: <span>{{$hotel_booking}}</span></h3>
+                              <h3 class="booking-upper-details mb-0">Hotel: 0 <!--span>{{$hotel_booking}}</span--> </h3>
                             </div>
                             <div class="data-name me-5">
-                              <h3 class="booking-upper-details mb-0">Cruise: <span>{{$cruise_booking}}</span></h3>
+                              <h3 class="booking-upper-details mb-0">Cruise: 0 <!--span>{{$cruise_booking}}</span--> </h3>
                             </div>
                             <div class="data-name me-5">
-                              <h3 class="booking-upper-details mb-0">Car: <span>{{$car_booking}}</span></h3>
+                              <h3 class="booking-upper-details mb-0">Car: 0 <!--span>{{$car_booking}}</span--> </h3>
                             </div>
                             <div class="data-name me-5">
-                              <h3 class="booking-upper-details mb-0">Train: <span>{{$train_booking}}</span></h3>
+                              <h3 class="booking-upper-details mb-0">Train: 0 <!--span>{{$train_booking}}</span--></h3>
                             </div>
                             <div class="data-name blinker">
-                              <h3 class="booking-upper-details mb-0">Pending: <span>{{$pending_booking}}</span></h3>
+                              <h3 class="booking-upper-details mb-0">Pending: 0 <!--span>{{$pending_booking}}</span--></h3>
                             </div>
                           </div>
                           <div class="searchbox-table position-relative">

@@ -336,7 +336,7 @@ document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
             newRow.dataset.index = pricingIndex;
             newRow.innerHTML = `
                <td style="background-color: #f2f2f3;">
-                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}"  >
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}" disabled >
                         <option value="">Select</option>
                     </select>
                 </td>
@@ -367,7 +367,7 @@ document.querySelectorAll('input[name="pnrtype"]').forEach(radio => {
             newRow.dataset.index = pricingIndex;
             newRow.innerHTML = `
                  <td style="background-color: #f2f2f3;">
-                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}" >
+                    <select class="form-control" name="pricing[${pricingIndex}][passenger_type]" id="passenger_type_${pricingIndex}" disabled >
                         <option value="">Select</option>
                     </select>
                 </td>
