@@ -1125,7 +1125,7 @@
                                     <strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}
                                 </p>
                                 <p style="margin-top: -10px;">
-                                    <strong>Extension </strong>: +1 (123) 456-7890
+                                    <strong>Extension </strong>: {{ auth()->user()->extension }} 
                                 </p>
 
 

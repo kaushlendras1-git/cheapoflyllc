@@ -75,22 +75,33 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="">
                         <tr>
                             <td style="padding: 0;">
-                                @if($bookingTypes[0] == 'Flight')
-                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;     object-position: top right; margin-top: -2px;"
-                                    src="{{ asset('email-templates/flight_banner.png') }}" alt="flight">
-                                @elseif($bookingTypes[0] == 'Cruise')
-                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
-                                    src="{{ asset('email-templates/cruise_banner.png') }}" alt="cruise">
-                                @elseif($bookingTypes[0] == 'Train')
-                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;     object-position: top right; "
-                                    src="{{ asset('email-templates/train_banner.png') }}" alt="amtrak">
-                                @elseif($bookingTypes[0] == 'Car')
-                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
-                                    src="{{ asset('email-templates/car_banner.png') }}" alt="car">
-                                @elseif($bookingTypes[0] == 'Hotel')
-                                <img style="height: 250px; width: 100%; object-fit: cover; display: block;      object-position: top right;"
-                                    src="{{ asset('email-templates/hotel_banner.png') }}" alt="hotel">
-                                @endif
+                             
+                    @if($booking->selected_company == 3)
+                    
+                            @if($bookingTypes[0] == 'Flight')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/flight-banner.png')}}" alt="flight">
+                            @elseif($bookingTypes[0] == 'Cruise')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/cruise.jpeg')}}" alt="cruise">
+                            @elseif($bookingTypes[0] == 'Train')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/amtrak.jpeg')}}" alt="amtrak">
+                            @elseif($bookingTypes[0] == 'Car')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/car.jpeg')}}" alt="car">
+                            @elseif($bookingTypes[0] == 'Hotel')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/hotel.jpeg')}}" alt="hotel">
+                            @endif
+                @else
+                        @if($bookingTypes[0] == 'Flight')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/flight_banner.png')}}" alt="flight">
+                            @elseif($bookingTypes[0] == 'Cruise')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/cruise_banner.png')}}" alt="cruise">
+                            @elseif($bookingTypes[0] == 'Train')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/train_banner.png')}}" alt="amtrak">
+                            @elseif($bookingTypes[0] == 'Car')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/car_banner.png')}}" alt="car">
+                            @elseif($bookingTypes[0] == 'Hotel')
+                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/hotel_banner.png')}}" alt="hotel">
+                            @endif 
+                @endif
                             </td>
                         </tr>
                     </table>
@@ -1191,16 +1202,15 @@ border-radius: 6px;
             </tr>
             <tr>
                 <td>
+
+
                             <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
-
-                                <p>
-                                    <strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}
-                                </p>
+                               @if(auth()->user()->name) 
+                                    <p><strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}</p>
+                                @endif
                                 <p style="margin-top: -10px;">
-                                    <strong>Extension </strong>: +1 (123) 456-7890
-                                </p>
-
-
+                                    <strong>Extension </strong>: {{ auth()->user()->extension }} 
+                                </p>                              
                             </div>
 
                         </td>
