@@ -138,22 +138,23 @@
 
                       <div class="col-md-4 position-relative">
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="send_type" id="refundable" value="refundable">
-                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="refundable">
+                            <input class="form-check-input" type="radio" name="auth_type" id="EMAIL" value="EMAIL" cheked>
+                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="EMAIL">
                                 Email
                             </label>
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="send_type" id="non-refundable" value="non-refundable">
-                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="non-refundable">
+                            <input class="form-check-input" type="radio" name="auth_type" id="EMAIL_SMS" value="EMAIL_SMS">
+                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="EMAIL_SMS">
                                  SMS
                             </label>
                         </div>
 
+
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="send_type" id="non-refundable" value="non-refundable">
-                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="non-refundable">
+                            <input class="form-check-input" type="radio" name="auth_type" id="EMAIL_WHATSAPP" value="EMAIL_WHATSAPP" disabled >
+                            <label style="width: auto !important; color:#000!important;" class="form-check-label" for="EMAIL_WHATSAPP">
                                 whatsapp
                             </label>
                         </div>

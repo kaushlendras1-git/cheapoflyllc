@@ -32,17 +32,17 @@ class AuthEmailController extends Controller
    public function index(Request $request)
     {   
 
-       
-
         try{
             $request->validate([
                 'refund_status'=>'required|in:refundable,non-refundable',
+                'auth_type'=>'required',
                 'booking_id'=>'required',
                 'card_id'=>'required',
                 'card_billing_id'=>'required',
                 'email'=>'required'
             ],[
                 'refund_status.required' => 'Please select a refund status.',
+                'auth_type.required' => 'Please select an authorization send option.',
                 'refund_status.in'       => 'Invalid refund status selected.',
 
                 'booking_id.required'      => 'Invalid payload, try reloading the page.',
@@ -84,6 +84,12 @@ class AuthEmailController extends Controller
         $buttonRoute = route('i_authorized',['booking_id'=>encode($booking->id),'card_id'=>encode($card_id),'card_billing_id'=>encode($card_billing_id),'refund_status'=>$refund_status]);
         $emailSendTo = $request->email;
 
+        TravelBooking::where('id', $booking->id)->update([
+                        'auth_type' => $request->auth_type,
+                        'refund_status' => $request->refund_status
+                    ]);
+
+
         // Generate PDF using SignatureController
         $signatureController = new \App\Http\Controllers\SignatureController();
         $pdfResponse = $signatureController->pdf(
@@ -94,7 +100,7 @@ class AuthEmailController extends Controller
         );
         
         // Save PDF to temporary file
-        $fileName = 'authorization-' . $booking->id . '.pdf';
+        $fileName = 'authorization-for-' . decode($booking->id) . '.pdf';
         $fullPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $fileName;
         file_put_contents($fullPath, $pdfResponse->getContent());
           $bookingTypeName = \App\Models\BookingType::find($booking->query_type)?->name ?? 'Booking';
@@ -108,38 +114,59 @@ class AuthEmailController extends Controller
                     $recipientName = $bookingTypeName;
                     $zohoSignService = new ZohoSignService();
                     
-                    $requestId = "1234567890";
-                    // // Create document
-                    // $response = $zohoSignService->createDocument(
-                    //     $recipientName,
-                    //     $request->email,
-                    //     $recipientName,
-                    //     $fullPath,
-                    //     'New Flight Booking with Credit2'
-                    // );
+                    ##$requestId = "1234567890";
+                    // Create document
+
+                   
                     
-                    // // Submit document for signature if creation was successful
-                    // if (isset($response['requests']['request_id'])) {
-                    //     $requestId = $response['requests']['request_id'];
-                    //     $actionId = $response['requests']['actions'][0]['action_id'] ?? null;
-                    //     $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
+                    // Get billing details
+                    $billingDetail = \App\Models\BillingDetail::where('id', $card_id)
+                        ->select('contact_number', 'country')
+                        ->first();
+                    
+                    // Get country code
+                    $country = \App\Models\Country::where('id', $billingDetail->country ?? 0)
+                        ->select('country_code')
+                        ->first();
+
+                    $delivery_mode = $request->auth_type;
+                    $recipient_countrycode_iso = strtoupper($country->country_code ?? 'US');
+                    $recipient_phonenumber = $billingDetail->contact_number ?? '';
+                    
+
+                    $response = $zohoSignService->createDocument(
+                        $recipientName,
+                        $request->email,
+                        $recipientName,
+                        $fullPath,
+                        'New Flight Booking with Credit2',
+                        $delivery_mode,
+                        $recipient_countrycode_iso,
+                        $recipient_phonenumber
+                    );
+                    
+                    // Submit document for signature if creation was successful
+                    if (isset($response['requests']['request_id'])) {
+                        $requestId = $response['requests']['request_id'];
+                        $actionId = $response['requests']['actions'][0]['action_id'] ?? null;
+                        $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
                         
-                    //     if ($actionId && $documentId) {
-                    //         $submitResponse = $zohoSignService->submitDocument($requestId, $actionId, $documentId,[], ucfirst(auth()->user()->name) . ' has requested you to review the document');
+                        if ($actionId && $documentId) {
+                            $submitResponse = $zohoSignService->submitDocument($requestId, $actionId, $documentId,[], ucfirst(auth()->user()->name) . ' has requested you to review the document');
                             
-                    //         if (!isset($submitResponse['status']) || $submitResponse['status'] !== 'success') {
-                    //             throw new \Exception('Failed to submit document for signature');
-                    //         }
-                    //     } else {
-                    //         throw new \Exception('Missing action_id or document_id in response');
-                    //     }
-                    // } else {
-                    //     throw new \Exception('Failed to create document');
-                    // }
+                            if (!isset($submitResponse['status']) || $submitResponse['status'] !== 'success') {
+                                throw new \Exception('Failed to submit document for signature');
+                            }
+                        } else {
+                            throw new \Exception('Missing action_id or document_id in response');
+                        }
+                    } else {
+                        throw new \Exception('Failed to create document');
+                    }
                     
-                    // if (file_exists($fullPath)) {
-                    //     unlink($fullPath);
-                    // }
+                    if (file_exists($fullPath)) {
+                        unlink($fullPath);
+                    }
                     
                     AuthHistory::create([
                         'booking_id' => $booking->id,
@@ -154,7 +181,7 @@ class AuthEmailController extends Controller
                         'details' => 'sent via Zoho Sign. Request ID: ' . $requestId
                     ]);
                     
-                    TravelBooking::where('id', $booking->id)->update(['booking_status_id' => 2]);
+                    
                     
                     return response()->json([
                         'message' => 'Document sent for signature successfully',

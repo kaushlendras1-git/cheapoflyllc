@@ -67,36 +67,66 @@ class ZohoSignService
     /**
      * Create Document
      */
-    public function createDocument($requestName, $recipientEmail, $recipientName, $filePath, $privateNotes = '')
+    public function createDocument($requestName, $recipientEmail, $recipientName, $filePath, $privateNotes = '',$delivery_mode,$recipient_countrycode_iso,$recipient_phonenumber)
     {
+       
         try {
+
             $accessToken = $this->refreshAccessToken();
             
-            $requestData = [
-                'requests' => [
-                    'request_name' => $requestName,
-                    'actions' => [
-                        [
-                            'action_type' => 'SIGN',
-                            'recipient_email' => $recipientEmail,
-                            'recipient_name' => $recipientName,
-                            'signing_order' => 1,
-                            'verify_recipient' => false,
-                            'verification_type' => '',
-                            'verification_code' => '',
-                            'private_notes' => $privateNotes,
-                            //'delivery_mode" => "EMAIL_SMS',
-                            //'recipient_countrycode_iso' => 'IN',
-                            //'recipient_phonenumber' => "8510810544",
-                        ]
-                    ],
-                    'expiration_days' => 7,
-                    'is_sequential' => true,
-                    'email_reminders' => true,
-                    'reminder_period' => 3,
-                    'notes' =>  "Note for all recipients"
-                ]
-            ];
+            if($delivery_mode == 'EMAIL_SMS' || $delivery_mode == 'EMAIL_WHATSAPP' ){
+                   
+                    $requestData = [
+                    'requests' => [
+                        'request_name' => $requestName,
+                        'actions' => [
+                            [
+                                'action_type' => 'SIGN',
+                                'recipient_email' => $recipientEmail,
+                                'recipient_name' => $recipientName,
+                                'signing_order' => 1,
+                                'verify_recipient' => false,
+                                'verification_type' => '',
+                                'verification_code' => '',
+                                'private_notes' => $privateNotes,
+                                'delivery_mode' => $delivery_mode,
+                                'recipient_countrycode_iso' => $recipient_countrycode_iso,
+                                'recipient_phonenumber' => $recipient_phonenumber,
+                            ]
+                        ],
+                        'expiration_days' => 7,
+                        'is_sequential' => true,
+                        'email_reminders' => true,
+                        'reminder_period' => 3,
+                        'notes' =>  "Note for all recipients"
+                    ]
+                ];
+            }else{
+                    $requestData = [
+                    'requests' => [
+                        'request_name' => $requestName,
+                        'actions' => [
+                            [
+                                'action_type' => 'SIGN',
+                                'recipient_email' => $recipientEmail,
+                                'recipient_name' => $recipientName,
+                                'signing_order' => 1,
+                                'verify_recipient' => false,
+                                'verification_type' => '',
+                                'verification_code' => '',
+                                'private_notes' => $privateNotes,
+                            ]
+                        ],
+                        'expiration_days' => 7,
+                        'is_sequential' => true,
+                        'email_reminders' => true,
+                        'reminder_period' => 3,
+                        'notes' =>  "Note for all recipients"
+                    ]
+                ];
+            }
+
+
             $response = $this->client->post('https://sign.zoho.com/api/v1/requests', [
                 'headers' => [
                     'Authorization' => 'Zoho-oauthtoken ' . $accessToken
@@ -128,15 +158,25 @@ class ZohoSignService
     public function getDocumentInfo($requestId, $documentId)
     {
         try {
-            $accessToken = $this->refreshAccessToken();
+           
+            // $accessToken = $this->refreshAccessToken();
+            // $response = $this->client->get('https://sign.zoho.com/api/v1/requests/' . $requestId . '/documents/' . $documentId, [
+            //     'headers' => [
+            //         'Authorization' => 'Zoho-oauthtoken ' . $accessToken
+            //     ]
+            // ]);
             
-            $response = $this->client->get('https://sign.zoho.com/api/v1/requests/' . $requestId . '/documents/' . $documentId, [
-                'headers' => [
-                    'Authorization' => 'Zoho-oauthtoken ' . $accessToken
-                ]
-            ]);
-            
-            return json_decode($response->getBody(), true);
+            // return json_decode($response->getBody(), true);
+
+            $mockResponse = '{
+                    "access_token": "1000.6b892df88a9ecc4b5c325fc325af7c0c.f5ea8172cbbaed09bb126a54ee465539",
+                    "scope": "ZohoSign.documents.ALL ZohoSign.templates.ALL",
+                    "api_domain": "https://www.zohoapis.com",
+                    "token_type": "Bearer",
+                    "expires_in": 3600
+                }';
+
+        return json_decode($mockResponse, true);
             
         } catch (RequestException $e) {
             Log::error('Zoho Sign Get Document Info Error: ' . $e->getMessage());

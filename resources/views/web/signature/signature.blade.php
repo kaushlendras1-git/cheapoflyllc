@@ -111,7 +111,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
             <tr>
                 <td colspan="2" style="font-size: .875rem; font-weight: 600; padding: 5px 10px; color: #0f172a;">
-                    Dear {{ $booking->name }},</td>
+                    Dear {{$billingPricingData->cc_holder_name}},</td>
             </tr>
             <tr>
                 <td colspan="2" style="font-size: .875rem; line-height: 1.3; color: #4a5568; padding: 0px 10px">
@@ -1192,7 +1192,7 @@ border-radius: 6px;
                         <label
                             style="display: flex; align-items: center; font-size: 14px; color: #4a5568; cursor: pointer;">
                             @{{Checkbox}} &nbsp;
-                            <a href="{{ route('terms.nonrefundable', ['refundStatus' => 'nonrefundable', 'booking_id' => $booking->id]) }}"
+                            <a href="{{ route('terms_conditions', ['booking_id' => encode($booking->id)]) }}"
                                 target="_blank" style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
                             </a>

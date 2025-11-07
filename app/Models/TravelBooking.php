@@ -22,7 +22,7 @@ class TravelBooking extends Model
         'descriptor','flightbookingimage','hotelbookingimage','cruisebookingimage','carbookingimage','trainbookingimage',
         'call_queue','shared_booking','screenshot','gross_value','net_value','gross_mco','net_mco','merchant_fee','car_description',
         'hotel_description','train_description','hotel_payment_type','cruise_payment_type','car_payment_type','card_details_json',
-        'changes_assign_to'
+        'changes_assign_to','auth_type','refund_status'
     ];
 
     protected $casts = [

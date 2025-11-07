@@ -209,12 +209,7 @@ Route::middleware('auth')->group(function () {
 
     // API route for teams by LOB
     Route::get('/api/teams/{lobId}', [\App\Http\Controllers\Masters\TeamController::class, 'getTeamsByLob']);
-    // General
-    Route::get('/terms-and-conditions', [TermsController::class, 'index'])->name('terms-and-conditions');
-    // FareticketsUS
-
-  Route::get('/terms-and-conditions/{refundStatus}/{booking_id}', [TermsController::class, 'Refundable'])->name('terms.refundable');
-  Route::get('/terms-and-conditions/{refundStatus}/{booking_id}', [TermsController::class, 'Nonrefundable'])->name('terms.nonrefundable');
+   Route::get('/terms-and-conditions/{booking_id}', [TermsController::class, 'termsConditions'])->name('terms_conditions');
   
 
 require __DIR__ . '/booking.php';

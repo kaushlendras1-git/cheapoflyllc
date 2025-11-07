@@ -205,7 +205,7 @@
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <td style="font-size: 12px; font-weight: 600; padding: 5px 0 5px 0; color: #0f172a;">
-                    Dear {{ $booking->name }},
+                    Dear {{$billingPricingData->cc_holder_name}},
                 </td>
             </tr>
             <tr>
@@ -1104,7 +1104,7 @@
 
                         <td style="font-size: 12px; color: #374151; line-height: 1.5;">
                             @{{Checkbox}} &nbsp;
-                            <a href="{{ route('terms.nonrefundable', ['refundStatus' => 'nonrefundable', 'booking_id' => $booking->id]) }}"
+                            <a href="{{ route('terms_conditions', ['booking_id' =>encode($booking->id)]) }}"
                                 target="_blank" style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
                             </a>
