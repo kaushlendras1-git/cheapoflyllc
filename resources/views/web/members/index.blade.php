@@ -207,9 +207,9 @@
                             <th>Team Leader</th>
                             <th>Pseudo</th>
                             <th>Extension</th>
-                            <th>Shift</th>
+                            <!-- <th>Shift</th>
                             <th>PAN Card</th>
-                            <th>Aadhar Card</th>
+                            <th>Aadhar Card</th> -->
                             <th>Status</th>
                             <th class="text-center action-col">Actions</th>
                         </tr>
@@ -282,7 +282,7 @@
                             </td>
                             <td>{{ $member->pseudo }}</td>
                             <td>{{ $member->extension ?? '-' }}</td>
-                            <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
+                            <!-- <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                             <td>
                                 @if($member->pan_card)
                                 <a href="{{ asset('storage/' . $member->pan_card) }}" target="_blank"
@@ -302,7 +302,7 @@
                                 @else
                                 <span class="text-muted">-</span>
                                 @endif
-                            </td>
+                            </td> -->
                             <td>
                                 <span class="status-toggle"
                                     onclick="toggleStatus({{ $member->id }}, '{{ $member->status == 1 ? 'Deactivate' : 'Activate' }}')"
