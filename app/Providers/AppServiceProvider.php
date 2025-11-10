@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 use App\Observers\GenericChangeObserver;
 use App\Models\TravelBooking;
 use App\Models\TravelBookingType;
@@ -52,5 +53,7 @@ class AppServiceProvider extends ServiceProvider
         // }
         
         User::observe(UserObserver::class);
+        
+        Paginator::useBootstrapFive();
     }
 }

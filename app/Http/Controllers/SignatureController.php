@@ -69,6 +69,8 @@ class SignatureController extends Controller
             'travelHotel',
         ])->findOrFail($id);
 
+        #dd($card_billing_id);
+
         $billingPricingData = DB::table('travel_billing_details as b')
                             ->join('billing_details as p', 'b.state', '=', 'p.id')
                             ->where('b.booking_id', $booking->id)
@@ -82,6 +84,7 @@ class SignatureController extends Controller
         $billingPricingDataAll = DB::table('travel_billing_details as b')
         ->join('billing_details as p', 'b.state', '=', 'p.id')
         ->where('b.booking_id', $booking->id)
+        ->where('b.id', $card_billing_id)
         ->select(
             'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv','b.amount','b.authorized_amt',
             'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'
@@ -110,9 +113,12 @@ class SignatureController extends Controller
 
     public function pdf($booking_id, $card_id, $card_billing_id, $refund_status)
     {
-        $id = decode($booking_id);
         $hashids = $booking_id;
-        $fare_type = $refund_status ? 0 : 1;
+        $id = decode($booking_id);
+        $fare_type = $refund_status;
+        $card_id_state= decode($card_id);
+        $card_billing_id = decode($card_billing_id);
+
         $booking = TravelBooking::with([
             'bookingTypes',
             'sectorDetails',
@@ -127,9 +133,13 @@ class SignatureController extends Controller
             'travelHotel',
         ])->findOrFail($id);
 
+
+        #dd($id);
+
         $billingPricingData = DB::table('travel_billing_details as b')
                             ->join('billing_details as p', 'b.state', '=', 'p.id')
                             ->where('b.booking_id', $booking->id)
+                            ->where('b.id', $card_billing_id)
                             ->select(
                                 'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv','b.amount','b.authorized_amt',
                                 'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'
@@ -138,7 +148,8 @@ class SignatureController extends Controller
 
         $billingPricingDataAll = DB::table('travel_billing_details as b')
         ->join('billing_details as p', 'b.state', '=', 'p.id')
-        ->where('b.booking_id', $booking->id)
+         ->where('b.booking_id', $booking->id)
+         ->where('b.id', $card_billing_id)
         ->select(
             'b.id as billing_id', 'b.card_type', 'b.cc_number', 'b.cc_holder_name', 'b.exp_month', 'b.exp_year', 'b.cvv','b.amount','b.authorized_amt',
             'p.email', 'p.contact_number', 'p.street_address', 'p.city', 'p.state', 'p.zip_code','p.country'

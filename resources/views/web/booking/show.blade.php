@@ -403,7 +403,7 @@
                                         <option value="{{ $merchant->id }}" {{ old('selected_company', $booking->selected_company ?? '') == $merchant->id ? 'selected' : '' }}>{{ $merchant->name }}</option>
                                     @endforeach
                                 </select>
-                                @if(auth()->user()->role_id == 1 && $booking->selected_company)
+                                @if($disabled && $booking->selected_company)
                                     <input type="hidden" name="selected_company" value="{{ $booking->selected_company }}">
                                 @endif
                             </div>

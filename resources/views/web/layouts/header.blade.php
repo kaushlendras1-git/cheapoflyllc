@@ -255,6 +255,14 @@
                                             <div data-i18n="Merchants">Merchants</div>
                                         </a>
                                     </li>
+                                    
+                                    <li class="menu-item {{ Route::currentRouteName() == 'airlines.index' ? 'active' : '' }}">
+                                        <a href="{{ route('airlines.index') }}" class="menu-link">
+                                            <i class="menu-icon icon-base ri ri-mail-line"></i>
+                                            <div data-i18n="Airlines">Airlines</div>
+                                        </a>
+                                    </li>
+
 
 
                                     

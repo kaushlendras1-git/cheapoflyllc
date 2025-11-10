@@ -75,33 +75,60 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="">
                         <tr>
                             <td style="padding: 0;">
-                             
-                    @if($booking->selected_company == 3)
-                    
-                            @if($bookingTypes[0] == 'Flight')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/flight-banner.png')}}" alt="flight">
-                            @elseif($bookingTypes[0] == 'Cruise')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/cruise.jpeg')}}" alt="cruise">
-                            @elseif($bookingTypes[0] == 'Train')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/amtrak.jpeg')}}" alt="amtrak">
-                            @elseif($bookingTypes[0] == 'Car')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/car.jpeg')}}" alt="car">
-                            @elseif($bookingTypes[0] == 'Hotel')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/hotel.jpeg')}}" alt="hotel">
-                            @endif
-                @else
-                        @if($bookingTypes[0] == 'Flight')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/flight_banner.png')}}" alt="flight">
-                            @elseif($bookingTypes[0] == 'Cruise')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/cruise_banner.png')}}" alt="cruise">
-                            @elseif($bookingTypes[0] == 'Train')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/train_banner.png')}}" alt="amtrak">
-                            @elseif($bookingTypes[0] == 'Car')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/car_banner.png')}}" alt="car">
-                            @elseif($bookingTypes[0] == 'Hotel')
-                            <img style="height: 200px; width: 100%; object-fit: cover;" src="{{asset('email-templates/hotel_banner.png')}}" alt="hotel">
-                            @endif 
-                @endif
+
+                                @if($booking->selected_company == 3)
+
+                                @if($bookingTypes[0] == 'Flight')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/flight-banner.png')}}" alt="flight">
+                                @elseif($bookingTypes[0] == 'Cruise')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/cruise-banner.png')}}" alt="cruise">
+                                @elseif($bookingTypes[0] == 'Train')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/train-banner.png')}}" alt="amtrak">
+                                @elseif($bookingTypes[0] == 'Car')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/car-banner.png')}}" alt="car">
+                                @elseif($bookingTypes[0] == 'Hotel')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/hotel-banner.png')}}" alt="hotel">
+                                @endif
+                                @else
+                                @if($bookingTypes[0] == 'Flight')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/flight_banner.png')}}" alt="flight">
+                                @elseif($bookingTypes[0] == 'Cruise')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/cruise_banner.png')}}" alt="cruise">
+                                @elseif($bookingTypes[0] == 'Train')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/train_banner.png')}}" alt="amtrak">
+                                @elseif($bookingTypes[0] == 'Car')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/car_banner.png')}}" alt="car">
+                                @elseif($bookingTypes[0] == 'Hotel')
+                                <img style="display: block; width: 100%; height: auto; max-height: 250px;"
+                                    src="{{asset('email-templates/hotel_banner.png')}}" alt="hotel">
+                                @endif
+                                @endif
+
+                                <!-- @if($bookingTypes[0] == 'Flight')
+                                <img src="{{ asset('email-templates/flight_banner.png') }}" alt="Flight"
+                                    style="display: block; width: 100%; height: auto; max-height: 250px;">
+                                @elseif($bookingTypes[0] == 'Cruise')
+                                <img src="{{ asset('email-templates/cruise_banner.png') }}" alt="Cruise"
+                                    style="display: block; width: 100%; height: auto; max-height: 250px;">
+                                @elseif($bookingTypes[0] == 'Train')
+                                <img src="{{ asset('email-templates/train_banner.png') }}" alt="Train"
+                                    style="display: block; width: 100%; height: auto; max-height: 250px;">
+                                @elseif($bookingTypes[0] == 'Car')
+                                <img src="{{ asset('email-templates/car_banner.png') }}" alt="Car"
+                                    style="display: block; width: 100%; height: auto; max-height: 250px;">
+                                @elseif($bookingTypes[0] == 'Hotel')
+                                <img src="{{ asset('email-templates/hotel_banner.png') }}" alt="Hotel"
+                                    style="display: block; width: 100%; height: auto; max-height: 250px;">
+                                @endif -->
                             </td>
                         </tr>
                     </table>
@@ -210,14 +237,10 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             @foreach($booking->travelFlight as $index => $flight)
                             <div style="display: flex; align-items: flex-start;  padding-bottom: 0px; flex-wrap: wrap;">
                                 <div style="flex-shrink: 0; width: 50px; height: 50px; margin-right: 10px;">
-                                    @php
-                                    $airline = \App\Models\Airline::where('airline_code',
-                                    $flight->airline_code)->first();
-                                    $logoPath = $airline && $airline->logo ? asset($airline->logo) :
-                                    asset('email-templates/default-airline.png');
-                                    @endphp
-                                    <img src="{{ $logoPath }}" alt="airline logo"
-                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                     <img src="{{ asset('assets/img/airline-logo/' . $flight->airline_code . '.png') }}"
+                                alt=" "
+                                style=" display: block; width: 80px; height: 50px; object-fit: contain; margin: 0;padding: 0;">
+
                                 </div>
                                 <div style="flex: 1; min-width: 280px; padding-bottom:10px;">
                                     <div
@@ -804,6 +827,9 @@ border-radius: 6px;
             </tr>
             @endif
 
+
+          
+
             <!-- Contact Information -->
             <tr>
                 <td colspan="2" style="padding: 5px 10px 0px 10px;">
@@ -1157,7 +1183,7 @@ border-radius: 6px;
                                     </strong>.</p>
                                 <p style="">I further acknowledge that the charges may appear on my
                                     credit card statements under one or more of the following descriptors:
-                                {{ $booking->descriptor }} <strong>{{ $booking->selected_company_name }}</strong>.
+                                    {{ $booking->descriptor }} <strong>{{ $booking->selected_company_name }}</strong>.
                                 </p>
                                 <p style="">By this statement, I hereby authorize
                                     <strong>{{ $booking->selected_company_name }}</strong> and its affiliated service
@@ -1192,7 +1218,7 @@ border-radius: 6px;
                         <label
                             style="display: flex; align-items: center; font-size: 14px; color: #4a5568; cursor: pointer;">
                             @{{Checkbox}} &nbsp;
-                            <a href="{{ route('terms_conditions', ['booking_id' => encode($booking->id)]) }}"
+                            <a href="{{ route('terms_conditions', ['booking_id' =>encode($booking->id)]) }}"
                                 target="_blank" style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
                             </a>
@@ -1204,16 +1230,16 @@ border-radius: 6px;
                 <td>
 
 
-                            <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
-                               @if(auth()->user()->name) 
-                                    <p><strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}</p>
-                                @endif
-                                <p style="margin-top: -10px;">
-                                    <strong>Extension </strong>: {{ auth()->user()->extension }} 
-                                </p>                              
-                            </div>
+                    <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
+                        @if(auth()->user()->name)
+                        <p><strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}</p>
+                        @endif
+                        <p style="margin-top: -10px;">
+                            <strong>Extension </strong>: {{ auth()->user()->extension }}
+                        </p>
+                    </div>
 
-                        </td>
+                </td>
 
                 <td colspan="2" style="padding: 0px 30px 20px 30px;">
                     <!-- Signature Space -->
@@ -1258,13 +1284,6 @@ border-radius: 6px;
                 </td>
             </tr>
         </tfoot>
-
-
     </table>
-
-
-
-
 </body>
-
 </html>

@@ -30,6 +30,13 @@ class ZohoSignService
      */
     public function refreshAccessToken()
     {
+        // Check if token exists in cache
+        $cachedToken = \Cache::get('zoho_access_token');
+        if ($cachedToken) {
+            Log::info('Using cached Zoho access token');
+            return $cachedToken;
+        }
+        
         try {
             Log::info('Refreshing Zoho access token...');
             
@@ -50,7 +57,9 @@ class ZohoSignService
             $data = json_decode($responseBody, true);
             
             if (isset($data['access_token'])) {
-                Log::info('Access token refreshed successfully');
+                // Cache token for 50 minutes (3000 seconds)
+                \Cache::put('zoho_access_token', $data['access_token'], 3000);
+                Log::info('Access token refreshed and cached for 50 minutes');
                 return $data['access_token'];
             }
             
@@ -73,6 +82,9 @@ class ZohoSignService
         try {
 
             $accessToken = $this->refreshAccessToken();
+
+            dd($accessToken);
+
             
             if($delivery_mode == 'EMAIL_SMS' || $delivery_mode == 'EMAIL_WHATSAPP' ){
                    

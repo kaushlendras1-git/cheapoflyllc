@@ -65,7 +65,7 @@
                               data-href="{{ route('i_authorized', ['booking_id' => encode($billingDetails->booking_id), 'card_id' => encode($billingDetails->state), 'card_billing_id' => encode($billingDetails->id), 'refund_status' => encode(1)]) }}"
                       >
                           <i class="ri ri-mail-open-fill"></i>
-                          Send Auth Email **** {{ substr($billingDetails->cc_number, -4) }}
+                          Send Auth Email **** {{ substr($billingDetails->cc_number, -4) }}  <!-- state: {{$billingDetails->state}} , card : {{$billingDetails->id}} -->
                       </button>
                    @endif
                  @endif
@@ -161,7 +161,7 @@
                       </div>
 
                     <div class="col-md-4 d-flex align-items-end justify-content-end">
-                        <button class="btn btn-sm btn-primary text-center" style="font-size: 14px;">Send Auth</button>
+                        <button id="sendAuthBtn" class="btn btn-sm btn-primary text-center" style="font-size: 14px;" onclick="this.disabled=true; this.innerHTML='Sending...';">Send Auth</button>
                     </div>
 
                 </div>

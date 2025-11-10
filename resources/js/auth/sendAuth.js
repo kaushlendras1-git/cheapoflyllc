@@ -46,6 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const loadContainer = document.getElementById('load_model');
             const href=button.getAttribute('data-href');
             console.log(button);
+
+            
             if (loadContainer && booking_id) {
                 loadContainer.innerHTML = 'Loading...';
                 fetch(href)
@@ -63,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
 
     const form = document.getElementById('sendAuthMailModal');
     if (form) {
@@ -137,38 +140,7 @@ $('#sendAuthEmail').submit(async function(e){
 });
 
 
-$('#sendSMS').submit(async function(e) {
-    e.preventDefault();
-    const formdata = new FormData(this);
 
-    try {
-        const response = await axios.post(this.action, formdata);
-
-        if (response.status === 200 || response.status === 201) {
-
-            const modalEl = document.getElementById('smsModal');
-            const smsModal = bootstrap.Modal.getInstance(modalEl);
-            if (smsModal) {
-                smsModal.hide();
-            }
-
-            showToast(response.data.message || "SMS has been sent", "success");
-
-        } else {
-            showToast("Something went wrong", "error");
-        }
-    } catch (e) {
-        console.error(e);
-
-        if (e.response?.status === 422) {
-            showToast(e.response.data?.error || "Validation Error", "error");
-        } else if (e.response?.status === 500) {
-            showToast("Server Error", "error");
-        } else {
-            showToast("Something went wrong", "error");
-        }
-    }
-});
 
 $('#sendSurvey').submit(async function(e){
     e.preventDefault();
@@ -195,6 +167,7 @@ $('#sendSurvey').submit(async function(e){
         }
     }
 });
+
 
 $('#sendWhatsApp').submit(async function(e){
     e.preventDefault();
