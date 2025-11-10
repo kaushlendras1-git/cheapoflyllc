@@ -1,59 +1,117 @@
 @extends('web.layouts.main')
 @section('content')
 
-<!-- Content -->
-<div class="container-xxl flex-grow-1 container-p-y">
-    <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-        <h2 class="mb-0">Edit Campaign</h2>
-        <div class="breadcrumb">
-                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" href="{{ route('campaign.index') }}">Campaigns</a>
-                <a class="active" aria-current="page">Edit Campaign</a>
+    <!--  Content Wrapper -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <!--  Page Header -->
+        <div class="lob-header d-flex align-items-center justify-content-between">
+            <div>
+                <h2 class="lob-title ">
+                    <span class="iconify" data-icon="mdi:bullhorn-edit-outline"
+                        style="vertical-align: middle; font-size: 14px;"></span>
+                    Edit Campaign
+                </h2>
+            </div>
+
+            <!--  Breadcrumb -->
+            <nav aria-label="breadcrumb" class="lob__breadcrumb">
+                <ol class="lob__breadcrumb-list mb-0">
+                    <li class="lob__breadcrumb-item">
+                        <a href="{{ route('user.dashboard') }}" class="lob__breadcrumb-link">
+                            <span class="iconify lob__breadcrumb-icon" data-icon="mdi:view-dashboard-outline"></span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="lob__breadcrumb-item">
+                        <a href="{{ route('campaign.index') }}" class="lob__breadcrumb-link">
+                            <span class="iconify lob__breadcrumb-icon" data-icon="mdi:bullhorn-outline"></span>
+                            Campaigns
+                        </a>
+                    </li>
+                    <li class="lob__breadcrumb-item active" aria-current="page">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:bullhorn-edit-outline"></span>
+                        Edit Campaign
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
+        <!--  Main Row -->
+        <div class="row">
+            <div class="col-12">
+
+                <!--  Flash Messages -->
+                @include('web.layouts.flash')
+
+                <!--  Edit Campaign Form -->
+                <div class="lob-card p-5">
+                    <form method="POST" action="{{ route('campaign.update', $campaign->id) }}"
+                        class="filter-form lob-filter mb-4 p-4 rounded-3">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="row g-4 align-items-end">
+
+                            <!-- Campaign Name -->
+                            <div class="col-md-4 position-relative">
+                                <div class="floating-group lob-card">
+                                    <input type="text" name="name" id="campaignName" class="form-control input-style w-100"
+                                        placeholder=" " value="{{ old('name', $campaign->name) }}" required>
+                                    <label for="campaignName" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:bullhorn-outline"></span>
+                                        Campaign Name <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                @error('name')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-4 position-relative">
+                                <div class="floating-group lob-card">
+                                    <select name="status" id="campaignStatus" class="form-control input-style w-100"
+                                        required>
+                                        <option value="1" {{ old('status', $campaign->status) == 1 ? 'selected' : '' }}>✅
+                                            Active</option>
+                                        <option value="0" {{ old('status', $campaign->status) == 0 ? 'selected' : '' }}>⛔
+                                            Inactive</option>
+                                    </select>
+                                    <label for="campaignStatus" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:toggle-switch-outline"></span>
+                                        Status <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                                @error('status')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="col-md-4 d-flex  gap-3">
+                                <!-- <a href="{{ route('campaign.index') }}"
+                                        class="btn btn-light d-flex align-items-center gap-2 button-style px-5 py-3">
+                                        <span class="iconify fs-5" data-icon="mdi:arrow-left"></span>
+                                        Cancel
+                                    </a> -->
+
+                                <button type="submit"
+                                    class="btn btn-primary d-flex align-items-center gap-2 button-style px-5 py-3">
+                                    <span class="iconify fs-5" data-icon="mdi:content-save-edit-outline"></span>
+                                    Update Campaign
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+                <!--  End Form Card -->
+
+            </div>
         </div>
     </div>
-    <div class="row">
-
-        @include('web.layouts.flash')
-
-        <!-- Edit Form -->
-        <form method="POST" action="{{ route('campaign.update', $campaign->id) }}">
-            @csrf
-            @method('PUT')
-
-            <!-- Booking Form Card -->
-            <div class="card p-4 mb-4">
-                <div class="text-end">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-                <div class="row mb-3 booking-form">
-                    <!-- Name Field -->
-                    <div class="col-md-3 position-relative">
-                        <label class="form-label">Name <span class="text-danger">*</span></label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name', $campaign->name) }}">
-                        @error('name')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Status Field -->
-                    <div class="col-md-3 position-relative">
-                        <label class="form-label">Status <span class="text-danger">*</span></label>
-                        <select id="status" data-sh="Campaign" name="status" class="form-control">
-                            <option value="1" {{ $campaign->status == 1 ? 'selected' : '' }}>Active</option>
-                            <option value="0" {{ $campaign->status == 0 ? 'selected' : '' }}>Inactive</option>
-                        </select>
-                        @error('status')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                
-            </div>
-        </form>
-    </div>
-</div>
-<!--/ Content -->
+    <!--  End Content Wrapper -->
 
 @endsection

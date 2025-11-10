@@ -83,10 +83,11 @@
 
 <!-- Page-specific Scripts (Conditional Loading) -->
 @if(request()->routeIs('booking.*'))
-    <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}" defer></script>
-    <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="{{ asset('assets/vendor/libs/@form-validation/popular.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/@form-validation/bootstrap5.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js"></script>
     @vite('resources/js/booking/edit.js')
     @vite('resources/js/booking/pricing.js')
     @vite('resources/js/booking/cruise.js')

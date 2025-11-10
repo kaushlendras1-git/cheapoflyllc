@@ -21,7 +21,7 @@
                 <table class="table table-hover table-sm payment-table w-100 mb-0">
                     <thead class="bg-dark text-white sticky-top">
                         <tr>
-                            <th>Serial No.</th> <!-- Serial number column -->
+                            <th class="serial-col">Serial No.</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -30,7 +30,7 @@
                     <tbody>
                         @foreach($departments as $key => $department)
                             <tr>
-                                <td>{{ $key + 1 }}</td>
+                                <td class="serial-col">{{ $key + 1 }}</td>
                                 <td>{{ $department->name }}</td>
                                 <td>
                                     <span class="badge {{ $department->status ? 'bg-success' : 'bg-danger' }}">

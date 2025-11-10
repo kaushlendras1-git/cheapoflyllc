@@ -25,8 +25,21 @@ class AirlineController extends Controller
     {
         $request->validate([
             'code' => 'required|string|max:10|unique:airlines,airline_code',
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = $request->code . '.png';
+            $destinationPath = public_path('assets/img/airline-logo/');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
+        }
 
         Airline::create([
             'airline_code' => $request->code,
@@ -45,8 +58,21 @@ class AirlineController extends Controller
     {
         $request->validate([
             'code' => 'required|string|max:10|unique:airlines,airline_code,' . $airline->id,
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = $request->code . '.png';
+            $destinationPath = public_path('assets/img/airline-logo/');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $file->move($destinationPath, $filename);
+        }
 
         $airline->update([
             'airline_code' => $request->code,

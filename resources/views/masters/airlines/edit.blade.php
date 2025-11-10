@@ -7,7 +7,7 @@
             <h5 class="mb-0">Edit Airline</h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('airlines.update', $airline->id) }}">
+            <form method="POST" action="{{ route('airlines.update', $airline->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
@@ -17,6 +17,14 @@
                 <div class="mb-3">
                     <label class="form-label">Name</label>
                     <input type="text" class="form-control" name="name" value="{{ $airline->airline_name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Logo</label>
+                    <input type="file" class="form-control" name="logo" accept="image/*">
+                    <div class="mt-2">
+                        <img src="{{ asset('assets/img/airline-logo/' . $airline->airline_code . '.png') }}" width="50" alt="Current Logo" onerror="this.style.display='none'">
+                        <small class="text-muted d-block">Current logo (if exists)</small>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
                 <a href="{{ route('airlines.index') }}" class="btn btn-secondary">Cancel</a>

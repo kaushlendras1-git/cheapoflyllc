@@ -126,7 +126,7 @@
 
 
 
-                    <div style="margin:100px">
+                    <div style="margin-top:100px">
                         <input type="file" id="screenshots-upload" name="hotelbookingimage[]" multiple>
                     </div>
 

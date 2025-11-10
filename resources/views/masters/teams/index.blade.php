@@ -1,171 +1,189 @@
 @extends('web.layouts.main')
 @section('content')
 
+    <!--  Content Wrapper -->
+    <div class="container-xxl flex-grow-1 container-p-y">
 
-<!-- Content -->
-<div class="container-xxl flex-grow-1 container-p-y">
-    <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-        <h2 class="mb-0">Teams</h2>
-         <div class="breadcrumb">
-                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active">Teams</a>
-        </div>
-    </div>
-    <div class="row gy-6">
-        <!-- Filter Card -->
-        <div class="col-md-12">
-            <!-- Display success message -->
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+        <!--  Page Header -->
+        <div class="lob-header d-flex align-items-center justify-content-between">
+            <div>
+                <h2 class="lob-title mb-1">
+                    <span class="iconify" data-icon="mdi:account-group-outline"
+                        style="vertical-align: middle; font-size: 14px"></span>
+                    Teams Management
+                </h2>
             </div>
-            @endif
+
+            <!--  New Breadcrumb -->
+            <nav aria-label="breadcrumb" class="lob__breadcrumb">
+                <ol class="lob__breadcrumb-list mb-0">
+                    <li class="lob__breadcrumb-item">
+                        <a href="{{ route('user.dashboard') }}" class="lob__breadcrumb-link">
+                            <span class="iconify lob__breadcrumb-icon" data-icon="mdi:view-dashboard-outline"></span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="lob__breadcrumb-item active" aria-current="page">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:account-group-outline"></span>
+                        Teams
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
+        <!--  Main Row -->
+        <div class="row gy-4">
+            <div class="col-12">
+
+                <!--  Flash Messages -->
+                @include('web.layouts.flash')
+
+                <!--  Teams Table Card -->
+                <div class="lob-card p-4">
+
+                    <!--  Filter Form -->
+                    <form method="GET" action="{{ route('teams.index') }}" class="filter-form lob-filter  p-4 rounded-3 ">
+                        <div class="row g-4 align-items-end">
+                            <!-- Keyword Search -->
+                            <div class="col-md-3 position-relative">
+                                <div class="floating-group lob-card">
+                                    <input type="text" name="keyword" id="keywordInput" class="form-control input-style"
+                                        placeholder=" " value="{{ request('keyword') }}">
+                                    <label for="keywordInput" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:account-search-outline"></span>
+                                        Keyword
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Start Date -->
+                            <div class="col-md-2 position-relative">
+                                <div class="floating-group lob-card">
+                                    <input type="date" name="start_date" id="startDateInput"
+                                        class="form-control input-style" placeholder=" "
+                                        value="{{ request('start_date') }}">
+                                    <label for="startDateInput" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:calendar-start"></span>
+                                        Start Date
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- End Date -->
+                            <div class="col-md-2 position-relative">
+                                <div class="floating-group lob-card">
+                                    <input type="date" name="end_date" id="endDateInput" class="form-control input-style"
+                                        placeholder=" " value="{{ request('end_date') }}">
+                                    <label for="endDateInput" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:calendar-end"></span>
+                                        End Date
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit"
+                                    class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 search-btn">
+                                    <span class="iconify fs-5" data-icon="mdi:magnify"></span>
+                                    Search
+                                </button>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="button" onclick="window.location.href='{{ route('teams.create') }}';"
+                                    class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 search-btn">
+                                    <span class="iconify" data-icon="mdi:plus-circle-outline"></span>
+                                    Add New Team
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                    <!--  Table Header -->
+                    <div class="table-container table-2">
 
 
-            <div class="card p-4">
-                <form method="GET" action="{{ route('teams.index') }}"
-                    class="d-flex align-items-end justify-content-between mb-4">
-                    <div class="row align-items-end w-100 booking-form gen_form">
-                        <div class="col-md-4">
-                            <div class="position-relative">
-                            <label class="form-label mb-1">Keyword</label>
-                            <input type="text" name="keyword" style="width: 30rem;" class="form-control w-100 input-style"
-                                placeholder="e.g. name " value="{{ request('keyword') }}">
+                        <!--  Teams Table -->
+                        <div class="table-responsive">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th class="serial-col">Serial No.</th>
+                                        <th>Name</th>
+                                        <th>LOB</th>
+                                        <th>Status</th>
+                                        <th class="text-center action-col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($teams as $key => $team)
+                                        <tr>
+                                            <td class="serial-col">{{ $loop->iteration }}</td>
+                                            <td>{{ $team->name }}</td>
+                                            <td>{{ $team->lob->name ?? 'N/A' }}</td>
+                                            <td>
+                                                @if($team->status == 1)
+                                                    <span class="badge bg-label-success">Active</span>
+                                                @else
+                                                    <span class="badge bg-label-warning">Inactive</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center table-actions">
+                                                <a href="{{ route('teams.edit', $team->id) }}" class="btn btn-sm"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Edit ">
+                                                    <span class="iconify" data-icon="mdi:pencil-outline"></span>
+                                                </a>
+                                                <form action="{{ route('teams.destroy', $team->id) }}" method="POST"
+                                                    style="display:inline-block;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Delete "
+                                                        onclick="return confirm('Are you sure you want to delete this team?')">
+                                                        <span class="iconify" data-icon="mdi:trash-can-outline"></span>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">No teams available.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="position-relative">
-                            <label class="form-label mb-1">Start Date</label>
-                            <input type="date" name="start_date" class="form-control input-style"
-                                value="{{ request('start_date') }}">
-                        </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="position-relative">
-                            <label class="form-label mb-1">End Date</label>
-                            <input type="date" name="end_date" class="form-control input-style" value="{{ request('end_date') }}">
-                        </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div>
-                            <button type="submit" class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 button-style">
-                                <i class="ri ri-search-line fs-5"></i> Search
-                            </button>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="add-follow-btn">
-                        <a href="{{route('teams.create')}}" type="button"
-                                class="btn btn-info px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style short-add"
-                                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Add New Entry">
-                                <i class="ri ri-add-circle-line fs-5"></i> Add
-                            </a>
-                    </div>
-                </form>
-                <!-- Table -->
-                <div class="booking-table-wrapper py-2 crm-table">
-                    <table class="table table-hover table-sm booking-table w-100 mb-0">
-                        <table class="table table-hover table-sm booking-table w-100 mb-0">
-                            <thead class="bg-dark text-white sticky-top">
-                                <tr>
-                                    <th>Serial No.</th> <!-- New column for Serial Number -->
-                                    <th>Name</th>
-                                    <th>LOB</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($teams as $key => $team)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td> <!-- Serial number -->
-                                    <td>{{ $team->name }}</td>
-                                    <td>{{ $team->lob->name ?? 'N/A' }}</td>
-                                    <td>
-                                        @if( $team->status ==1)
-                                        <span class="badge bg-label-success">Active</span>
-                                        @else
-                                        <span class="badge bg-label-warning">inactive</span>
-                                        @endif
 
-
-                                    </td>
-                                    <td>
-                                        <!-- Edit button -->
-                                        <a href="{{ route('teams.edit', $team->id) }}"> 
-                                          <img width="25" src="../../../assets/img/icons/img-icons/edit.png" alt="edit-change"> 
+                        <!--   Static Pagination -->
+                        <div class="pagination-container">
+                            <nav>
+                                <ul class="pagination mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">
+                                            <span class="iconify" data-icon="mdi:chevron-left"></span>
                                         </a>
-
-                                        <!-- Delete button -->
-                                        <form action="{{ route('teams.destroy', $team->id) }}" method="POST"
-                                            style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="no-btn p-0 ms-3"
-                                                onclick="return confirm('Are you sure you want to delete this team?')">
-                                              <img width="25" src="../../../assets/img/icons/img-icons/delete.png" alt="shift-change">
-                                              </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">No teams available.</td>
-                                    <!-- Adjusted colspan to 5 to match the number of columns -->
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-
-
-                        <!-- Pagination links -->
-                        <div class="mt-3">
-                            {{ $teams->links('pagination::bootstrap-4') }}
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">
+                                            <span class="iconify" data-icon="mdi:chevron-right"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
+                        <!--  End Static Pagination -->
 
-
+                    </div>
                 </div>
+                <!--  End Card -->
             </div>
         </div>
     </div>
-</div>
-<!--/ Content -->
+    <!--  End Content Wrapper -->
 
-
-
-
-
-
-<!-- Custom Styles -->
-<style>
-.dark-header {
-    background-color: #312d4b;
-    color: #fff;
-    border-radius: 0.5rem;
-}
-
-.dark-header .form-control,
-.dark-header .form-select {
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #ced4da;
-}
-
-.dark-header .form-label {
-    color: #fff;
-}
-
-.dark-header .form-control::placeholder {
-    color: #666;
-}
-
-.dark-header .btn-warning {
-    color: #000;
-}
-
-.table td,
-.table th {
-    font-size: 0.75rem;
-}
-</style>
 @endsection

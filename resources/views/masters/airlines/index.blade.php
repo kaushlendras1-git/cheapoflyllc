@@ -41,9 +41,7 @@
                             <td>{{ $airline->airline_code }}</td>
                             <td>{{ $airline->airline_name }}</td>
                             <td>
-                                <img src="{{ asset('assets/img/airline-logo/' . $airline->airline_code.'.png') }}" width="50" alt="">
-                                
-
+                                <img src="{{ asset('assets/img/airline-logo/' . $airline->airline_code . '.png') }}" width="50" alt="{{ $airline->airline_name }}" onerror="this.style.display='none'">
                             </td>
                             <td>
                                 <a href="{{ route('airlines.edit', $airline->id) }}" class="btn btn-sm btn-warning">Edit</a>
@@ -75,7 +73,7 @@
                 <h5 class="modal-title">Add Airline</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="{{ route('airlines.store') }}">
+            <form method="POST" action="{{ route('airlines.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -85,6 +83,10 @@
                     <div class="mb-3">
                         <label class="form-label">Name</label>
                         <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Logo</label>
+                        <input type="file" class="form-control" name="logo" accept="image/*">
                     </div>
                 </div>
                 <div class="modal-footer">

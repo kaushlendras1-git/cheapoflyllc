@@ -701,7 +701,7 @@ class BookingFormController extends Controller
                         $rules['train.*.arrival_station']   = 'required_with:train|string|max:255';
                         $rules['train.*.arrival_hours']     = 'required_with:train|string';
                         $rules['train.*.duration']          = 'required_with:train|string';
-                        $rules['train.*.transit']           = 'required_with:train|string';
+                        #$rules['train.*.transit']           = 'required_with:train|string';
                         $rules['train.*.arrival_date']      = 'required_with:train';
                     }
 

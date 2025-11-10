@@ -1,82 +1,121 @@
 @extends('web.layouts.main')
 @section('content')
 
-    <!-- Content -->
+    <!--  Content Wrapper -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-            <h2 class="mb-0">Add Lobs</h2>
-            <div class="breadcrumb">
-                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" href="{{ route('lobs.index') }}">Lobs</a>
-                <a aria-current="page">Add Lobs</a>
+
+        <!--  Page Header -->
+        <div class="lob-header d-flex align-items-center justify-content-between ">
+            <div>
+                <h2 class="lob-title ">
+                    <span class="iconify" data-icon="mdi:folder-plus-outline"
+                        style="vertical-align: middle; font-size: 14px;"></span>
+                    {{ isset($lob) ? 'Edit Lob' : 'Add Lob' }}
+                </h2>
             </div>
+
+            <!--  Breadcrumb -->
+            <nav aria-label="breadcrumb" class="lob__breadcrumb">
+                <ol class="lob__breadcrumb-list mb-0">
+                    <li class="lob__breadcrumb-item">
+                        <a href="{{ route('user.dashboard') }}" class="lob__breadcrumb-link">
+                            <span class="iconify lob__breadcrumb-icon" data-icon="mdi:view-dashboard-outline"></span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="lob__breadcrumb-item">
+                        <a href="{{ route('lobs.index') }}" class="lob__breadcrumb-link">
+                            <span class="iconify lob__breadcrumb-icon" data-icon="mdi:folder-outline"></span>
+                            Lobs
+                        </a>
+                    </li>
+                    <li class="lob__breadcrumb-item active" aria-current="page">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:folder-plus-outline"></span>
+                        {{ isset($lob) ? 'Edit Lob' : 'Add Lob' }}
+                    </li>
+                </ol>
+            </nav>
         </div>
 
+        <!--  Form Row -->
         <div class="row">
+            <div class="col-12">
 
-            @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul class="mb-0">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form method="POST" action="{{ isset($lob) ? route('lobs.update', $lob->id) : route('lobs.store') }}">
-                @csrf
-                @if(isset($lob))
-                    @method('PUT')
+                <!--  Validation Errors -->
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                        <strong>Whoops!</strong> Please fix the following errors:
+                        <ul class="mt-2 mb-0 ps-3">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                 @endif
 
-                <div class="card p-4 mb-4">
-                    <div class="row align-items-end justify-content-between w-100 booking-form gen_form">
+                <!--  Add/Edit Form Card -->
+                <div class="lob-card p-5">
+                    <form method="POST" action="{{ isset($lob) ? route('lobs.update', $lob->id) : route('lobs.store') }}"
+                        class="filter-form lob-filter mb-4 p-4 rounded-3 ">
+                        @csrf
+                        @if(isset($lob))
+                            @method('PUT')
+                        @endif
 
-                        <!-- Name Field -->
-                        <div class="col-md-3">
-                            <div class="position-relative">
-                                <label class="form-label mb-1">Name</label>
-                                <input type="text" name="name" class="form-control input-style w-100"
-                                    placeholder="Enter name" value="{{ old('name', $lob->name ?? '') }}" required>
+                        <div class="row g-4 align-items-end">
+                            <!--  Name Field -->
+                            <div class="col-md-3 position-relative">
+                                <div class="floating-group lob-card">
+                                    <input type="text" name="name" id="lobName" class="form-control input-style"
+                                        placeholder=" " value="{{ old('name', $lob->name ?? '') }}" required>
+                                    <label for="lobName" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:account-edit-outline"></span>
+                                        Name <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 position-relative">
+                                <div class="floating-group lob-card">
+                                    <input type="text" name="email" id="lobEmail" class="form-control input-style"
+                                        placeholder=" " value="{{ old('name', $lob->email ?? '') }}" required>
+                                    <label for="lobEmail" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:email-outline"></span>
+                                        Email <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 position-relative">
+                                <div class="floating-group lob-card">
+                                    <input type="text" name="password" id="lobPassword" class="form-control input-style"
+                                        placeholder=" " value="{{ old('name', $lob->password ?? '') }}" required>
+                                    <label for="lobPassword" class="form-label">
+                                        <span class="iconify me-1" data-icon="mdi:lock-outline"></span>
+                                        Password <span class="text-danger">*</span>
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <!--  Submit Button -->
+                            <div class="col-md-3 ">
+                                <button type="submit" class="btn btn-primary d-flex align-items-center gap-2 button-style ">
+                                    <span class="iconify fs-5" data-icon="mdi:content-save-outline"></span>
+                                    {{ isset($lob) ? 'Update Lob' : 'Submit' }}
+                                </button>
                             </div>
                         </div>
-
-                        <!-- Email Field -->
-                        <div class="col-md-3">
-                            <div class="position-relative">
-                                <label class="form-label mb-1">Email</label>
-                                <input type="email" name="email" class="form-control input-style w-100"
-                                    placeholder="Enter email" value="{{ old('email', $lob->email ?? '') }}" required>
-                            </div>
-                        </div>
-
-                        <!-- Password Field -->
-                        <div class="col-md-3">
-                            <div class="position-relative">
-                                <label class="form-label mb-1">Password</label>
-                                <input type="password" name="password" class="form-control input-style w-100"
-                                    placeholder="{{ isset($lob) ? 'Leave blank to keep current' : 'Enter password' }}" {{ !isset($lob) ? 'required' : '' }}>
-                            </div>
-                        </div>
-
-                        <!-- Right Submit Button -->
-                        <div class="col-md-auto text-end">
-                            <button type="submit"
-                                class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 button-style">
-                                <i class="ri ri-save-line fs-5"></i> Submit
-                            </button>
-                        </div>
-
-                    </div>
+                    </form>
                 </div>
-            </form>
-
-
-
-
+                <!--  End Form Card -->
+            </div>
         </div>
+    </div>
+    <!--  End Content Wrapper -->
 
-
-        <!--/ Content -->
 @endsection

@@ -1,65 +1,126 @@
 @extends('web.layouts.main')
 @section('content')
 
-    <!-- Content -->
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-            <h2 class="mb-0">Add Call Type</h2>
-            <div class="breadcrumb">
-                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" href="{{ route('call-types.index') }}">Add Call Type</a>
-                <a class="active" aria-current="page">Add Campaign</a>
-            </div>
-        </div>
-        <div class="row">
+<!--  Content Wrapper -->
+<div class="container-xxl flex-grow-1 container-p-y ">
 
-            <div class="card p-4 mb-4">
-                <form method="POST" action="{{ route('call-types.store') }}">
+    <!--  Page Header -->
+    <div class="lob-header d-flex align-items-center justify-content-between">
+        <div>
+            <h2 class="lob-title mb-1">
+                <span class="iconify" data-icon="mdi:phone-plus-outline"
+                    style="vertical-align: middle; font-size: 14px"></span>
+                Add Call Type
+            </h2>
+        </div>
+
+        <!--  Breadcrumb -->
+        <nav aria-label="breadcrumb" class="lob__breadcrumb">
+            <ol class="lob__breadcrumb-list mb-0">
+                <li class="lob__breadcrumb-item">
+                    <a href="{{ route('user.dashboard') }}" class="lob__breadcrumb-link">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:view-dashboard-outline"></span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="lob__breadcrumb-item">
+                    <a href="{{ route('call-types.index') }}" class="lob__breadcrumb-link">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:phone-outline"></span>
+                        Call Types
+                    </a>
+                </li>
+                <li class="lob__breadcrumb-item active" aria-current="page">
+                    <span class="iconify lob__breadcrumb-icon" data-icon="mdi:phone-plus-outline"></span>
+                    Add Call Type
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!--  Main Row -->
+    <div class="row">
+        <div class="col-12">
+
+            <!--  Success Message -->
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
+            <!--  Error Messages -->
+            @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                <strong>Whoops!</strong> Please fix the following:
+                <ul class="mt-2 mb-0 ps-3">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
+            <!--  Add Call Type Form -->
+            <div class="lob-card p-5">
+                <form method="POST" action="{{ route('call-types.store') }}"
+                    class="filter-form lob-filter mb-4 p-4 rounded-3">
                     @csrf
 
-                    <div class="p-4 mb-4">
-                        <div class="row align-items-end  w-100 booking-form gen_form g-3">
+                    <div class="row g-4 align-items-end">
 
-                            <!-- Name Field -->
-                            <div class="col-md-4 position-relative">
-                                <label class="form-label mb-1">Name <span class="text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control input-style w-100"
-                                    placeholder="Enter call type name" value="{{ old('name') }}" required>
-                                @error('name')
-                                    <div class="text-danger small">{{ $message }}</div>
-                                @enderror
+                        <!-- Call Type Name -->
+                        <div class="col-md-4 position-relative">
+                            <div class="floating-group lob-card">
+                                <input type="text" name="name" id="callTypeName" class="form-control input-style w-100"
+                                    placeholder=" " value="{{ old('name') }}" required>
+                                <label for="callTypeName" class="form-label">
+                                    <span class="iconify me-1" data-icon="mdi:phone-outline"></span>
+                                    Call Type Name <span class="text-danger">*</span>
+                                </label>
                             </div>
-
-                            <!-- Status Field -->
-                            <div class="col-md-4 position-relative">
-                                <label class="form-label mb-1">Status <span class="text-danger">*</span></label>
-                                <select id="status" data-sh="Team" name="status" class="form-control input-style w-100"
-                                    required>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                                @error('status')
-                                    <div class="text-danger small">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="col-md-auto text-end d-flex gap-2 align-items-end">
-                                <button type="submit"
-                                    class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 button-style">
-                                    <i class="ri ri-save-line fs-5"></i> Submit
-                                </button>
-                            </div>
-
+                            @error('name')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
+
+                        <!-- Status -->
+                        <div class="col-md-4 position-relative">
+                            <div class="floating-group lob-card">
+                                <select name="status" id="callTypeStatus" class="form-control input-style w-100"
+                                    required>
+                                    <option value="1" {{ old('status') == "1" ? 'selected' : '' }}>✅ Active</option>
+                                    <option value="0" {{ old('status') == "0" ? 'selected' : '' }}>⛔ Inactive</option>
+                                </select>
+                                <label for="callTypeStatus" class="form-label">
+                                    <span class="iconify me-1" data-icon="mdi:toggle-switch"></span>
+                                    Status <span class="text-danger">*</span>
+                                </label>
+                            </div>
+                            @error('status')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-md-4 d-flex align-items-center">
+                            <button type="submit"
+                                class="btn btn-primary d-flex align-items-center gap-2 button-style px-5 py-3">
+                                <span class="iconify fs-5" data-icon="mdi:content-save-check-outline"></span>
+                                Save Call Type
+                            </button>
+                        </div>
+
                     </div>
+
                 </form>
             </div>
-
-
+            <!--  End Form Card -->
 
         </div>
+    </div>
+</div>
+<!--  End Content Wrapper -->
 
-
-        <!--/ Content -->
 @endsection

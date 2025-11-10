@@ -10,7 +10,6 @@ class Airline extends Model
     
     protected $fillable = [
         'airline_code',
-        'airline_name',
-        'logo'
+        'airline_name'
     ];
 }
