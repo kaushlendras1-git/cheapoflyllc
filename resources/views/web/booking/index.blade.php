@@ -204,7 +204,7 @@
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 6px 14px;
+    padding: 6px 6px;
     font-weight: 600;
     color: var(--text-dark);
     box-shadow: var(--shadow-sm);
