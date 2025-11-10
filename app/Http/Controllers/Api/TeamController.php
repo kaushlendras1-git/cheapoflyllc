@@ -25,7 +25,10 @@ class TeamController extends Controller
                 });
             return response()->json($users);
         } else {
-            $teams = Team::where('lob_id', $lobId)
+            #dd($lobId);
+          $teams = User::where('lob', $lobId)
+                ->where('role_id', 3)
+                ->whereNotIn('id', [1, 2])
                 ->select('id', 'name')
                 ->get();
             return response()->json($teams);
