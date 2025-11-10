@@ -411,10 +411,10 @@
 
 
     <!-- ADD USER MODAL -->
-    <div class="modal fade lob-modal-premium" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
+<div class="modal fade lob-modal-premium" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content shadow-lg border-0">
+            <div class="modal-content shadow-lg border-0" style="overflow:auto !important;">
                 <!-- Header -->
                 <div class="modal-header text-white  p-4 border-0">
                     <h5 class="modal-title fw-semibold d-flex align-items-center gap-2" id="addUserModalLabel">
