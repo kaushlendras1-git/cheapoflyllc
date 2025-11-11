@@ -65,14 +65,23 @@ class AirlineController extends Controller
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $filename = $request->code . '.png';
-            $destinationPath = public_path('assets/img/airline-logo/');
             
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+            if ($file->isValid()) {
+                $filename = $request->code . '.png';
+                $destinationPath = public_path('assets/img/airline-logo/');
+                
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+                
+                try {
+                    $file->move($destinationPath, $filename);
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error', 'Failed to upload image: ' . $e->getMessage());
+                }
+            } else {
+                return redirect()->back()->with('error', 'Invalid image file uploaded.');
             }
-            
-            $file->move($destinationPath, $filename);
         }
 
         $airline->update([

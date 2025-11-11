@@ -35797,7 +35797,7 @@ input[type="number"] {
     flex: 1;
     font-size: 0.9rem;
     font-weight: 500;
-    color: #333;
+    color: #008000;
     line-height: 1.4;
 }
 
@@ -35822,11 +35822,11 @@ input[type="number"] {
 }
 
 .alert__notification--success {
-    border-left-color: var(--primary);
+    border-left-color: #008000;
 }
 
 .alert__notification--success .alert__icon {
-    color: var(--primary);
+    color: #008000;
 }
 
 .alert__notification--error {
