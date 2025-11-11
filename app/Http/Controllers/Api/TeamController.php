@@ -27,7 +27,7 @@ class TeamController extends Controller
         } else {
             #dd($lobId);
           $teams = User::where('lob', $lobId)
-                ->where('role_id', 3)
+                ->whereIn('role_id', [19,6,9,12])
                 ->whereNotIn('id', [1, 2])
                 ->select('id', 'name')
                 ->get();

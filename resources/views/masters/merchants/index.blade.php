@@ -43,7 +43,7 @@
 
             <!-- Table Header -->
             <div class="table-header">
-                <button class="add-btn" data-bs-toggle="modal" data-bs-target="#merchantModal">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#merchantModal">
                     <span class="iconify" data-icon="mdi:plus-circle-outline" style="font-size: 1rem;"></span>
                     Add Merchant
                 </button>
@@ -70,10 +70,10 @@
                             <td>
                                 @if($merchant->logo)
                                 <img src="{{ asset('storage/' . $merchant->logo) }}" alt="Logo"
-                                    style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px;">
+                                    style="width: 120px; height: 30px; object-fit: cover; border-radius: 6px;">
                                 @else
                                 <img src="{{ asset('assets/img/default-logo.png') }}" alt="Logo"
-                                    style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px;">
+                                    style="width: 120px; height: 30px; object-fit: cover; border-radius: 6px;">
                                 @endif
                             </td>
                             <td>{{ $merchant->name }}</td>

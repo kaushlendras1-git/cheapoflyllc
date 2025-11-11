@@ -99,32 +99,7 @@
                             </button>
                         </div>
 
-                        <!-- Roles Section -->
-                        <div class="col-md-12 mt-3">
-                            <label class="form-label fw-semibold text-dark mb-2">
-                                <span class="iconify me-1" data-icon="mdi:account-group-outline"></span>
-                                Roles
-                            </label>
-                            @php
-                            $selectedRoles = is_array($paymentStatus->roles)
-                            ? $paymentStatus->roles
-                            : json_decode($paymentStatus->roles ?? '[]', true);
-                            @endphp
-                            <div class="d-flex flex-wrap gap-3">
-                                @foreach($roles as $role)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="role-{{ $role->id }}"
-                                        name="roles[]" value="{{ $role->id }}"
-                                        {{ in_array($role->id, $selectedRoles) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="role-{{ $role->id }}">
-                                        {{ $role->name }}
-                                    </label>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <!-- Departments Section -->
+                         <!-- Departments Section -->
                         <div class="col-md-12 mt-3">
                             <label class="form-label fw-semibold text-dark mb-2">
                                 <span class="iconify me-1" data-icon="mdi:office-building-outline"></span>
@@ -148,6 +123,54 @@
                                 @endforeach
                             </div>
                         </div>
+
+                        <!-- Roles Section -->
+                        <div class="col-md-12 mt-3">
+                            <label class="form-label fw-semibold text-dark mb-2">
+                                <span class="iconify me-1" data-icon="mdi:account-group-outline"></span>
+                                Roles by Department
+                            </label>
+                            @php
+                                $selectedRoles = is_array($paymentStatus->roles)
+                                    ? $paymentStatus->roles
+                                    : json_decode($paymentStatus->roles ?? '[]', true);
+                                $departmentColors = [
+                                    'Sales' => 'bg-primary',
+                                    'CCV' => 'bg-success', 
+                                    'Billing' => 'bg-warning',
+                                    'Changes' => 'bg-info',
+                                    'Quality' => 'bg-secondary',
+                                    'Charge Back' => 'bg-danger',
+                                    'No Department' => 'bg-dark'
+                                ];
+                                $groupedRoles = $roles->groupBy(function($role) {
+                                    return $role->department->name ?? 'No Department';
+                                });
+                            @endphp
+                            
+                            @foreach($groupedRoles as $departmentName => $departmentRoles)
+                                <div class="mb-3 p-3 rounded {{ $departmentColors[$departmentName] ?? 'bg-light' }} bg-opacity-10 border">
+                                    <h6 class="mb-2 text-{{ str_replace('bg-', '', $departmentColors[$departmentName] ?? 'dark') }}">
+                                        <span class="iconify me-1" data-icon="mdi:office-building"></span>
+                                        {{ $departmentName }}
+                                    </h6>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        @foreach($departmentRoles as $role)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="role-{{ $role->id }}"
+                                                    name="roles[]" value="{{ $role->id }}"
+                                                    {{ in_array($role->id, $selectedRoles) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="role-{{ $role->id }}">
+                                                    {{ $role->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                       
 
                     </div>
                 </form>

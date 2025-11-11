@@ -9,7 +9,10 @@
     <meta name="robots" content="noindex" />
     <meta name="csrf-token" content="{{csrf_token()}}" />
     <title>Booking Management System</title>
-    <meta name="description" content="" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest"> 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
@@ -163,7 +166,6 @@
         background: #ffffff;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         border-bottom: 1px solid var(--borderLight);
-        padding: 0.5rem 0;
         font-family: 'Inter', sans-serif;
         position: relative;
         z-index: 1000;

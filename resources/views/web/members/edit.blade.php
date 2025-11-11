@@ -140,20 +140,12 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-2 position-relative mb-5">
-                            <label class="form-label">Team <span class="text-danger">*</span></label>
-                            <select name="team" id="team" class="form-control" required>
-                                <option value="">Select Team</option>
-                            </select>
-                            @error('team')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                     
 
 
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Department <span class="text-danger">*</span></label>
-                            <select name="department_id" class="form-control" required>
+                            <select name="department_id" id="department-select" class="form-control" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments ?? [] as $department)
                                     <option value="{{ $department->id }}" {{ old('department_id', $member->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
@@ -167,9 +159,9 @@
                         <div class="col-md-2 position-relative mb-5">
                             <label class="form-label">Role <span class="text-danger">*</span></label>
                             <select name="role_id" id="role-select" class="form-control" required>
-                                <option value="">Select Role</option>
+                                <option value="">Select Department First</option>
                                 @foreach($roles ?? [] as $role)
-                                    <option value="{{ $role->id }}" data-role-name="{{ strtolower($role->name) }}" {{ old('role_id', $member->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                    <option value="{{ $role->id }}" data-department="{{ $role->department_id }}" data-role-name="{{ strtolower($role->name) }}" {{ old('role_id', $member->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
                                 @endforeach
                             </select>
                             @error('role_id')
@@ -177,6 +169,16 @@
                             @enderror
                         </div>
 
+                           <div class="col-md-2 position-relative mb-5" id="team-section">
+                            <label class="form-label">Team <span class="text-danger">*</span></label>
+                            <select name="team" id="team" class="form-control" required>
+                                <option value="">Select Team</option>
+                            </select>
+                            @error('team')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
                         <div class="col-md-2 position-relative mb-5" id="team-leader-section" style="display: none;">
                             <label class="form-label">Team Leader</label>
                             <select name="team_leader" id="team_leader" class="form-control">
@@ -254,69 +256,203 @@
 <script>
 const currentTeamId = {{ old('team', $member->team) ?? 'null' }};
 
+// LOB and Team functionality for Edit User
 document.getElementById('lob').addEventListener('change', function() {
-    loadTeams(this.value);
-});
-
-function loadTeams(lobId, selectedTeamId = null) {
+    const lobId = this.value;
     const teamSelect = document.getElementById('team');
-    
+
+    // Reset and disable team select initially
     teamSelect.innerHTML = '<option value="">Select Team</option>';
     teamSelect.disabled = true;
-    
-    if(lobId) {
-        fetch(`/api/teams/${lobId}?role_id=3`, {
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-            .then(response => response.json())
-            .then(users => {
-                users.forEach(user => {
-                    const option = new Option(user.name, user.id);
-                    if(selectedTeamId && user.id == selectedTeamId) {
+
+    if (lobId) {
+        // Make API call to get teams
+        fetch(`/api/teams/${lobId}`, {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(teams => {
+                // Populate teams dropdown
+                teams.forEach(team => {
+                    const option = new Option(team.name, team.id);
+                    if(currentTeamId && team.id == currentTeamId) {
                         option.selected = true;
                     }
                     teamSelect.add(option);
                 });
+                // Enable the teams dropdown
                 teamSelect.disabled = false;
-                // Update team leaders after teams are loaded
-                updateTeamLeaders();
+                // Reset team leader when LOB changes
+                updateTeamLeadersEdit();
             })
             .catch(error => {
-                console.error('Error fetching users:', error);
+                console.error('Error fetching teams:', error);
+                teamSelect.disabled = true;
+                // Show error message to user
+                const errorOption = new Option('Error loading teams', '');
+                teamSelect.innerHTML = '';
+                teamSelect.add(errorOption);
             });
     }
-}
+    // Reset team leader when LOB changes
+    updateTeamLeadersEdit();
+});
+
+// Add team change listener
+document.getElementById('team').addEventListener('change', updateTeamLeadersEdit);
 
 // Load teams on page load if LOB is selected
 document.addEventListener('DOMContentLoaded', function() {
     const lobId = document.getElementById('lob').value;
     if(lobId) {
-        loadTeams(lobId, currentTeamId);
+        const teamSelect = document.getElementById('team');
+        teamSelect.innerHTML = '<option value="">Select Team</option>';
+        
+        fetch(`/api/teams/${lobId}`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(teams => {
+            teams.forEach(team => {
+                const option = new Option(team.name, team.id);
+                if(currentTeamId && team.id == currentTeamId) {
+                    option.selected = true;
+                }
+                teamSelect.add(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    // Initialize role options based on department
+    initializeRoleOptions();
+    
+    // Initialize sections
+    initializeSections();
+    
+    // Add event listeners
+    document.getElementById('department-select').addEventListener('change', handleDepartmentChange);
+    document.getElementById('role-select').addEventListener('change', handleRoleChange);
+});
+
+// Initialize role options based on selected department
+function initializeRoleOptions() {
+    const departmentId = document.getElementById('department-select').value;
+    const roleSelect = document.getElementById('role-select');
+    const roleOptions = roleSelect.querySelectorAll('option[data-department]');
+    
+    if (departmentId) {
+        roleOptions.forEach(option => {
+            if (option.getAttribute('data-department') === departmentId) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    }
+}
+
+// Handle department change
+function handleDepartmentChange() {
+    const departmentId = this.value;
+    const roleSelect = document.getElementById('role-select');
+    const roleOptions = roleSelect.querySelectorAll('option[data-department]');
+    
+    // Reset role selection if department changes
+    if (roleSelect.value && roleSelect.options[roleSelect.selectedIndex].getAttribute('data-department') !== departmentId) {
+        roleSelect.value = '';
+    }
+    
+    if (departmentId) {
+        roleSelect.querySelector('option[value=""]').textContent = 'Select Role';
+        roleOptions.forEach(option => {
+            if (option.getAttribute('data-department') === departmentId) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    } else {
+        roleSelect.querySelector('option[value=""]').textContent = 'Select Department First';
+        roleOptions.forEach(option => {
+            option.style.display = 'none';
+        });
+    }
+    
+    // Reset team and team leader sections
+    document.getElementById('team-section').style.display = 'none';
+    document.getElementById('team-leader-section').style.display = 'none';
+    document.getElementById('team').removeAttribute('required');
+}
+
+// Handle role change
+function handleRoleChange() {
+    const selectedRoleId = this.value;
+    const noTeamRoles = ['19', '6', '9', '12'];
+    const teamLeaderRoles = ['1', '7', '10', '13', '15', '16'];
+    const teamSection = document.getElementById('team-section');
+    const teamSelect = document.getElementById('team');
+    const teamLeaderSection = document.getElementById('team-leader-section');
+    
+    // Handle team section visibility
+    if (selectedRoleId && !noTeamRoles.includes(selectedRoleId)) {
+        teamSection.style.display = 'block';
+        teamSelect.setAttribute('required', 'required');
+    } else {
+        teamSection.style.display = 'none';
+        teamSelect.removeAttribute('required');
+        teamSelect.value = '';
+    }
+    
+    // Handle team leader section visibility
+    if (teamLeaderRoles.includes(selectedRoleId)) {
+        teamLeaderSection.style.display = 'block';
+        updateTeamLeadersEdit();
+    } else {
+        teamLeaderSection.style.display = 'none';
+        document.getElementById('team_leader').value = '';
+    }
+}
+
+// Initialize sections on page load
+function initializeSections() {
+    const roleSelect = document.getElementById('role-select');
+    const selectedRoleId = roleSelect.value;
+    const noTeamRoles = ['19', '6', '9', '12'];
+    const teamLeaderRoles = ['1', '7', '10', '13', '15', '16'];
+    const teamSection = document.getElementById('team-section');
+    const teamSelect = document.getElementById('team');
+    const teamLeaderSection = document.getElementById('team-leader-section');
+    
+    // Initialize team section
+    if (selectedRoleId && !noTeamRoles.includes(selectedRoleId)) {
+        teamSection.style.display = 'block';
+        teamSelect.setAttribute('required', 'required');
+    } else {
+        teamSection.style.display = 'none';
+        teamSelect.removeAttribute('required');
     }
     
     // Initialize team leader section
-    checkRoleForTeamLeader();
-    
-    // Add role change listener
-    document.getElementById('role-select').addEventListener('change', checkRoleForTeamLeader);
-    document.getElementById('team').addEventListener('change', updateTeamLeaders);
-});
-
-function checkRoleForTeamLeader() {
-    const roleSelect = document.getElementById('role-select');
-    const selectedOption = roleSelect.options[roleSelect.selectedIndex];
-    const roleName = selectedOption.getAttribute('data-role-name');
-    const teamLeaderSection = document.getElementById('team-leader-section');
-    
-    if (roleName === 'agent') {
+    if (teamLeaderRoles.includes(selectedRoleId)) {
         teamLeaderSection.style.display = 'block';
-        updateTeamLeaders();
+        updateTeamLeadersEdit();
     } else {
         teamLeaderSection.style.display = 'none';
     }
 }
+
+
 
 function updateTeamLeaders() {
     const lobId = document.getElementById('lob').value;
@@ -346,6 +482,52 @@ function updateTeamLeaders() {
             });
     } else if (roleName === 'agent') {
         teamLeaderSelect.innerHTML = '<option value="">Select LOB and Team first</option>';
+    }
+}
+
+// Function to load team leaders for edit page
+function updateTeamLeadersEdit() {
+    const lobId = document.getElementById('lob').value;
+    const departmentId = document.getElementById('department-select').value;
+    const roleId = document.getElementById('role-select').value;
+    const teamId = document.getElementById('team').value;
+    const teamLeaderSelect = document.getElementById('team_leader');
+    const teamLeaderRoles = ['1', '7', '10', '13', '15', '16'];
+    const currentTeamLeader = {{ old('team_leader', $member->team_leader) ?? 'null' }};
+    
+    if (teamLeaderRoles.includes(roleId) && lobId && departmentId && roleId) {
+        const params = new URLSearchParams({
+            lob: lobId,
+            department: departmentId,
+            role: roleId
+        });
+        
+        if (teamId) {
+            params.append('team', teamId);
+        }
+        
+        fetch(`/api/team-leaders?${params.toString()}`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(leaders => {
+            teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+            leaders.forEach(leader => {
+                const option = new Option(leader.name, leader.id);
+                if(currentTeamLeader && leader.id == currentTeamLeader) {
+                    option.selected = true;
+                }
+                teamLeaderSelect.add(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading team leaders:', error);
+            teamLeaderSelect.innerHTML = '<option value="">Error loading team leaders</option>';
+        });
+    } else if (teamLeaderRoles.includes(roleId)) {
+        teamLeaderSelect.innerHTML = '<option value="">Complete other fields first</option>';
     }
 }
 
