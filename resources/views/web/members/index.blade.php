@@ -82,7 +82,7 @@
                     </select>
                     <label for="searchLob" class="form-label">
                         <span class="iconify me-1" data-icon="mdi:briefcase-outline"></span>
-                        Team
+                        Unit (Team)
                     </label>
                 </div>
             </div>
@@ -554,7 +554,7 @@
                         <div class="col-md-6 position-relative" id="team-section">
                             <label class="form-label fw-semibold text-dark mb-2">
                                 <span class="iconify me-1" data-icon="mdi:account-group-outline"></span>
-                                Team <span class="text-danger">*</span>
+                               Unit (Team) <span class="text-danger">*</span>
                             </label>
                             <select id="team" name="team" class="form-control input-style w-100" required>
                                 <option value="">Select Team</option>
