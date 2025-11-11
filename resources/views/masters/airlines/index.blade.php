@@ -100,7 +100,7 @@
                             <tbody>
                                 @foreach($airlines as $key => $airline)
                                 <tr>
-                                    <td class="serial-col">{{ $key + 1 }}</td>
+                                    <td class="serial-col">{{ ($airlines->currentPage() - 1) * $airlines->perPage() + $loop->iteration }}</td>
                                     <td>{{ $airline->airline_code }}</td>
                                     <td>{{ $airline->airline_name }}</td>
                                     <td>
