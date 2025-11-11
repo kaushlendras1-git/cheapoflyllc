@@ -10,6 +10,7 @@
             <form method="POST" action="{{ route('airlines.update', $airline->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="page" value="{{ $page ?? 1 }}">
                 <div class="mb-3">
                     <label class="form-label">Code</label>
                     <input type="text" class="form-control" name="code" value="{{ $airline->airline_code }}" required>
@@ -27,7 +28,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('airlines.index') }}" class="btn btn-secondary">Cancel</a>
+                <a href="{{ route('airlines.index', ['page' => $page ?? 1]) }}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>

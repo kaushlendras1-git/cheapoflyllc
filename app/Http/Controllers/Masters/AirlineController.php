@@ -49,9 +49,10 @@ class AirlineController extends Controller
         return redirect()->route('airlines.index')->with('success', 'Airline created successfully');
     }
 
-    public function edit(Airline $airline)
+    public function edit(Request $request, Airline $airline)
     {
-        return view('masters.airlines.edit', compact('airline'));
+        $page = $request->get('page', 1);
+        return view('masters.airlines.edit', compact('airline', 'page'));
     }
 
     public function update(Request $request, Airline $airline)
@@ -79,7 +80,8 @@ class AirlineController extends Controller
             'airline_name' => $request->name
         ]);
 
-        return redirect()->route('airlines.index')->with('success', 'Airline updated successfully');
+        $page = $request->get('page', 1);
+        return redirect()->route('airlines.index', ['page' => $page])->with('success', 'Airline updated successfully');
     }
 
     public function destroy(Airline $airline)

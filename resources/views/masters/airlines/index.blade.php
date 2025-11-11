@@ -44,7 +44,7 @@
                                 <img src="{{ asset('assets/img/airline-logo/' . $airline->airline_code . '.png') }}" width="50" alt="{{ $airline->airline_name }}" onerror="this.style.display='none'">
                             </td>
                             <td>
-                                <a href="{{ route('airlines.edit', $airline->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ route('airlines.edit', ['airline' => $airline->id, 'page' => request('page', 1)]) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <form method="POST" action="{{ route('airlines.destroy', $airline->id) }}" style="display:inline;">
                                     @csrf
                                     @method('DELETE')

@@ -30,6 +30,11 @@ class AllowedIpController extends Controller
         return redirect()->route('allowed-ips.index')->with('success', 'IP address added successfully');
     }
 
+    public function edit(AllowedIp $allowedIp)
+    {
+        return view('masters.allowed-ips.edit', compact('allowedIp'));
+    }
+
     public function update(Request $request, AllowedIp $allowedIp)
     {
         $request->validate([
