@@ -6228,11 +6228,13 @@ fieldset:disabled .btn {
     margin: calc(-0.5 * var(--bs-modal-header-padding-y))
         calc(-0.5 * var(--bs-modal-header-padding-x))
         calc(-0.5 * var(--bs-modal-header-padding-y)) auto;
+    color: #fff !important;
 }
 
 .modal-title {
     margin-bottom: 0;
     line-height: var(--bs-modal-title-line-height);
+    color: #fff !important;
 }
 
 .modal-body {
@@ -17802,9 +17804,8 @@ button:focus-visible {
     box-shadow: var(--bs-modal-box-shadow-xs);
 }
 .modal-content .modal-header {
-    padding-block-end: 0;
     background-color: var(--primary);
-    color: white !important;
+    padding: 16px;
 }
 .modal-content .modal-header h5 {
     color: #fff !important;
@@ -17839,6 +17840,7 @@ button:focus-visible {
 :dir(rtl) .modal-header .btn-close {
     margin-inline: auto 0;
     padding-inline-end: 0;
+    color: #fff !important;
 }
 
 /* Onboarding Modals

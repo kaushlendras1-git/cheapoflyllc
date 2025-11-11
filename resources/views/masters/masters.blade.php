@@ -152,6 +152,30 @@
                   </div>
                 </div>
 
+                <div class="col-sm-6 col-xl-3">
+                  <a href="{{ route('allowed-ips.index') }}">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <div class="me-1">
+                            <p class="text-heading mb-1">IP Access</p>
+                            <div class="d-flex align-items-center">
+                              <h4 class="mb-1 me-2">{{ \App\Models\AllowedIp::where('status', 1)->count() }}</h4>
+                              <p class="text-info mb-1">(Active)</p>
+                            </div>
+                            <small class="mb-0">Allowed IPs</small>
+                          </div>
+                          <div class="avatar">
+                            <div class="avatar-initial bg-label-danger rounded">
+                              <div class="icon-base ri ri-shield-line icon-26px"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
                 <!-- <div class="col-sm-6 col-xl-3">
                   <div class="card">
                     <div class="card-body">

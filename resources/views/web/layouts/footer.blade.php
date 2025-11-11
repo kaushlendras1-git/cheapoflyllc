@@ -105,7 +105,7 @@
 
 
 
-@if(request()->routeIs('agent.*'))
+@if(request()->routeIs('users'))
     @vite('resources/js/agent-login.js')
 @endif
 
