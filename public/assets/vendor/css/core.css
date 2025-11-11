@@ -35493,6 +35493,28 @@ input[type="number"] {
     text-decoration: none !important;
     transition: all 0.3s ease;
 }
+
+.btn-alert {
+    background: var(--danger) !important;
+    border: none;
+    color: #fff;
+    padding: 8px 12px !important;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 3px 10px rgba(28, 49, 109, 0.25);
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+.btn-alert:hover {
+    background: var(--primary-light);
+    box-shadow: 0 4px 15px rgba(28, 49, 109, 0.35);
+    transform: translateY(-2px);
+    color: #fff;
+}
 .lob-card .btn-gray {
     background: var(--muted) !important;
 }

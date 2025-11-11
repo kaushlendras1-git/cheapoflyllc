@@ -107,62 +107,88 @@
                     <input type="hidden" name="card_billing_id" id="card_billing_id" />
                     <input type="hidden" name="email" id="email" />
 
-                    <div class="row checkbox-servis">
+                    <div class="row auth-form-group-box gy-3 align-items-center">
 
                         <!-- Refund Status -->
-                        <div class="col-md-4 position-relative">
-                            <label class="form-label fw-semibold text-dark mb-2 d-block">
-                                <span class="iconify me-1" data-icon="mdi:cash-refund"></span>
-                                Refund Status
-                            </label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="refund_status" id="refundable"
-                                    value="refundable">
-                                <label class="form-check-label" for="refundable">Refundable</label>
+                        <div class="col-md-10 d-flex align-items-center flex-wrap gap-3">
+                            <!-- <label class="form-label fw-semibold text-dark mb-0 d-flex align-items-center gap-2">
+                                <span class="iconify" data-icon="mdi:cash-refund" style="font-size: 1rem;"></span>
+                                Refund Status:
+                            </label> -->
+
+                            <div class="d-flex flex-wrap gap-2">
+                                <input type="radio" class="btn-check" name="refund_status" id="refundable"
+                                    value="refundable" autocomplete="off">
+                                <label
+                                    class="btn btn-outline-primary box-option small-box px-3 py-1 d-flex align-items-center gap-1"
+                                    for="refundable">
+                                    <span class="iconify" data-icon="mdi:check-decagram-outline"
+                                        style="font-size: 0.9rem;"></span> Refundable
+                                </label>
+
+                                <input type="radio" class="btn-check" name="refund_status" id="non-refundable"
+                                    value="non-refundable" autocomplete="off">
+                                <label
+                                    class="btn btn-outline-primary box-option small-box px-3 py-1 d-flex align-items-center gap-1"
+                                    for="non-refundable">
+                                    <span class="iconify" data-icon="mdi:close-octagon-outline"
+                                        style="font-size: 0.9rem;"></span> Non-Refundable
+                                </label>
                             </div>
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="refund_status" id="non-refundable"
-                                    value="non-refundable">
-                                <label class="form-check-label" for="non-refundable">Non-Refundable</label>
-                            </div>
-                        </div>
+                            <!-- Divider -->
+                            <div class="vr mx-3" style="height: 22px; opacity: 0.3;"></div>
 
-                        <!-- Send Type -->
-                        <div class="col-md-4 position-relative">
-                            <label class="form-label fw-semibold text-dark mb-2 d-block">
-                                <span class="iconify me-1" data-icon="mdi:email-multiple-outline"></span>
-                                Send Via
-                            </label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="send_type" id="email-type"
-                                    value="email">
-                                <label class="form-check-label text-dark" for="email-type">Email</label>
-                            </div>
+                            <!-- Send Via -->
+                            <!-- <label class="form-label fw-semibold text-dark mb-0 d-flex align-items-center gap-2">
+                                <span class="iconify" data-icon="mdi:email-multiple-outline"
+                                    style="font-size: 1rem;"></span>
+                                Send Via:
+                            </label> -->
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="send_type" id="sms-type" value="sms">
-                                <label class="form-check-label text-dark" for="sms-type">SMS</label>
-                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <input type="radio" class="btn-check" name="auth_type" id="email-type" value="email"
+                                    autocomplete="off">
+                                <label
+                                    class="btn btn-outline-primary box-option small-box px-3 py-1 d-flex align-items-center gap-1"
+                                    for="email-type">
+                                    <span class="iconify" data-icon="mdi:email-outline"
+                                        style="font-size: 0.9rem;"></span> Email
+                                </label>
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="send_type" id="whatsapp-type"
-                                    value="whatsapp">
-                                <label class="form-check-label text-dark" for="whatsapp-type">WhatsApp</label>
+                                <input type="radio" class="btn-check" name="auth_type" id="sms-type" value="sms"
+                                    autocomplete="off">
+                                <label
+                                    class="btn btn-outline-primary box-option small-box px-3 py-1 d-flex align-items-center gap-1"
+                                    for="sms-type">
+                                    <span class="iconify" data-icon="mdi:message-text-outline"
+                                        style="font-size: 0.9rem;"></span> SMS
+                                </label>
+
+                                <input type="radio" class="btn-check" name="auth_type" id="whatsapp-type"
+                                    value="whatsapp" autocomplete="off" disabled>
+                                <label
+                                    class="btn btn-outline-primary box-option small-box px-3 py-1 d-flex align-items-center gap-1"
+                                    for="whatsapp-type">
+                                    <span class="iconify" data-icon="mdi:whatsapp" style="font-size: 0.9rem;"></span>
+                                    WhatsApp
+                                </label>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
-                        <div class="col-md-4 d-flex align-items-end justify-content-end">
-                            <button class="btn btn-primary button-style d-flex align-items-center gap-2 px-4 py-3"
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <button class="btn btn-primary button-style d-flex align-items-center gap-2 px-4 py-2"
                                 style="background-color: var(--primary); color: #fff !important;">
-                                <span class="iconify fs-5" data-icon="mdi:send-check-outline"
-                                    style="color: #fff !important;"></span>
+                                <!-- <span class="iconify fs-5" data-icon="mdi:send-check-outline"
+                                    style="color: #fff !important;"></span> -->
                                 Send Auth
                             </button>
                         </div>
 
                     </div>
+
+
                 </form>
 
                 <div id="load_model" class="mt-4 send_auth_mail_popup">
@@ -223,3 +249,39 @@
         </div>
     </div>
 </div>
+
+
+<style>
+.auth-form-group-box .box-option {
+    border: 1.8px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dark);
+    background-color: #fff;
+    font-size: 0.85rem;
+    transition: all 0.2s ease-in-out;
+    line-height: 1.3;
+}
+
+.auth-form-group-box .btn-check:checked+.box-option {
+    border-color: var(--primary);
+    background-color: var(--primary);
+    color: #fff !important;
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 13, 110, 253), 0.25);
+}
+
+.auth-form-group-box .box-option:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background-color: rgba(var(--primary-rgb, 13, 110, 253), 0.05);
+}
+
+.auth-form-group-box .form-label {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.auth-form-group-box .small-box {
+    padding: 4px 10px !important;
+    font-size: 0.83rem !important;
+}
+</style>

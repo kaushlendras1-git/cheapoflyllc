@@ -33,28 +33,7 @@
     <!-- Flash Messages -->
     @include('web.layouts.flash')
 
-    <!-- @if(session('success'))
-                                                                                                                                                                                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                                                                                                                                                                                        {{ session('success') }}
-                                                                                                                                                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                @endif
-
-                                                                                                                                                                                @if ($errors->any())
-                                                                                                                                                                                    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                                                                                                                                                                                        <strong>Whoops!</strong> Please fix the following:
-                                                                                                                                                                                        <ul class="mt-2 mb-0 ps-3">
-                                                                                                                                                                                            @foreach ($errors->all() as $error)
-                                                                                                                                                                                                <li>{{ $error }}</li>
-                                                                                                                                                                                            @endforeach
-                                                                                                                                                                                        </ul>
-                                                                                                                                                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                @endif -->
-
-
-
-
+   
     <!-- Users Table Card -->
     <div class="lob-card p-4">
         <form method="GET" action="{{ route('members.index') }}"
@@ -230,16 +209,16 @@
                             </td>
                             <td>
                                 @php
-                                $team = $member->teamRelation;
                                 $teamColors = [
                                 'bg-warning text-dark',
                                 'bg-secondary',
                                 'bg-dark text-white',
                                 'bg-light text-dark'
                                 ];
-                                $teamColor = $teamColors[($team->id ?? 0) % count($teamColors)];
+                                $teamColor = $teamColors[($member->team ?? 0) % count($teamColors)];
+                                $teamUser = $members->where('id', $member->team)->first();
                                 @endphp
-                                <span class="badge {{ $teamColor }}">{{ $team->name ?? 'N/A' }}</span>
+                                <span class="badge {{ $teamColor }}">{{ $teamUser->name ?? 'N/A' }}</span>
                             </td>
                             <td>
                                 @php
@@ -339,8 +318,8 @@
             </div>
         </div>
 
-        <div class="row g-4 mb-4 lob-analytics-section">
-            <!-- Admin Users -->
+        <!--div class="row g-4 mb-4 lob-analytics-section">
+           
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-primary">
                     <div class="lob-analytics-inner">
@@ -355,7 +334,7 @@
                 </div>
             </div>
 
-            <!-- Active Agents -->
+           
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-indigo">
                     <div class="lob-analytics-inner">
@@ -370,7 +349,7 @@
                 </div>
             </div>
 
-            <!-- Dynamic Team Counts -->
+            
             @foreach($team_counts as $team => $count)
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-warning">
@@ -387,7 +366,6 @@
             </div>
             @endforeach
 
-            <!-- Dynamic Shift Counts -->
             @foreach($shift_counts as $shift => $count)
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-info">
@@ -403,7 +381,9 @@
                 </div>
             </div>
             @endforeach
-        </div>
+        </div-->
+
+
     </div>
 
 

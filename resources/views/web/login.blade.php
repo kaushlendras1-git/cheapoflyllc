@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" class="layout-wide customizer-hide" dir="ltr" data-skin="default" data-bs-theme="light">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
