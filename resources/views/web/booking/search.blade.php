@@ -113,7 +113,6 @@
                     </label>
                 </div>
             </div>
-
             <!-- Buttons -->
             <div class="col-md-2 d-flex justify-content-start gap-2 mt-2">
                 <button type="submit" class="btn btn-primary button-style d-flex align-items-center gap-2 px-4 py-3">
@@ -131,9 +130,6 @@
                     <span class="iconify fs-5" data-icon="mdi:file-excel-outline"></span>
                 </a>
             </div>
-
-
-
         </form>
 
         <!-- Table Section -->
@@ -210,5 +206,4 @@
         </div>
     </div>
 </div>
-
 @endsection
