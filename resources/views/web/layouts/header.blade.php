@@ -835,7 +835,7 @@
     </div>
 
     <!--  Header -->
-    <header class="headerModern container-xl">
+    <header class="headerModern container-xxl">
         <div class="headerModern__container">
             <!-- Brand Section -->
             <div class="headerModern__brand">
@@ -876,13 +876,13 @@
                                     </a>
                                 </div>
 
-                                <div
+                                <!-- <div
                                     class="headerModern__dropdownItem {{ Route::currentRouteName() == 'teams.index' ? 'headerModern__dropdownLink--active' : '' }}">
                                     <a href="{{ route('teams.index') }}" class="headerModern__dropdownLink">
                                         <i class="headerModern__dropdownIcon bi bi-people-fill"></i>
                                         <span>Teams</span>
                                     </a>
-                                </div>
+                                </div> -->
 
                                 <div
                                     class="headerModern__dropdownItem {{ Route::currentRouteName() == 'departments.index' ? 'headerModern__dropdownLink--active' : '' }}">
@@ -910,20 +910,21 @@
                                 <div
                                     class="headerModern__dropdownItem {{ Route::currentRouteName() == 'merchants.index' ? 'headerModern__dropdownLink--active' : '' }}">
                                     <a href="{{ route('merchants.index') }}" class="headerModern__dropdownLink">
-                                        <i class="headerModern__dropdownIcon bi bi-envelope"></i>
+                                        <i class="headerModern__dropdownIcon bi bi-shop"></i>
                                         <span>Merchants</span>
                                     </a>
+
                                 </div>
 
-                                 <div
+                                <div
                                     class="headerModern__dropdownItem {{ Route::currentRouteName() == 'airlines.index' ? 'headerModern__dropdownLink--active' : '' }}">
                                     <a href="{{ route('airlines.index') }}" class="headerModern__dropdownLink">
-                                        <i class="headerModern__dropdownIcon bi bi-envelope"></i>
+                                        <i class="headerModern__dropdownIcon bi bi-airplane"></i>
                                         <span>Airlines</span>
                                     </a>
                                 </div>
 
-                                
+
                             </div>
 
                             <div class="headerModern__megaColumn">
@@ -951,13 +952,13 @@
                                     </a>
                                 </div>
 
-                                <div
+                                <!-- <div
                                     class="headerModern__dropdownItem {{ Route::currentRouteName() == 'quality-feedback.index' ? 'headerModern__dropdownLink--active' : '' }}">
                                     <a href="{{ route('quality-feedback.index') }}" class="headerModern__dropdownLink">
                                         <i class="headerModern__dropdownIcon bi bi-chat-square-text"></i>
                                         <span>Quality Feedback</span>
                                     </a>
-                                </div>
+                                </div> -->
 
                                 <div
                                     class="headerModern__dropdownItem {{ Route::currentRouteName() == 'emails.index' ? 'headerModern__dropdownLink--active' : '' }}">
@@ -967,13 +968,13 @@
                                     </a>
                                 </div>
 
-                                 
+
 
 
                                 <div
                                     class="headerModern__dropdownItem {{ Route::currentRouteName() == 'allowed-ips.index' ? 'headerModern__dropdownLink--active' : '' }}">
                                     <a href="{{ route('allowed-ips.index') }}" class="headerModern__dropdownLink">
-                                        <i class="headerModern__dropdownIcon bi bi-envelope"></i>
+                                        <i class="headerModern__dropdownIcon bi bi-hdd-network"></i>
                                         <span>IP Access</span>
                                     </a>
                                 </div>

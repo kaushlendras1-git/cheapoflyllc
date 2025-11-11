@@ -174,7 +174,7 @@ class CallLogController extends Controller
         $id = decode($hash);
         $callLog = CallLog::findOrFail($id);
         $logs = Log::where('calllog_id', $id)->with('user')->orderBy('id', 'DESC')->get();
-        $campaigns = Campaign::all();
+        $campaigns = Campaign::where('status',1)->get();
         $call_types = CallType::all();
         $teams = Team::all();
         $users = User::all();

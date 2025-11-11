@@ -136,7 +136,7 @@
                                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                                                     <span class="iconify" data-icon="mdi:pencil-outline"></span>
                                                 </a>
-                                                <form action="{{ route('campaign.destroy', $campaign->id) }}" method=" POST"
+                                                <form action="{{ route('campaign.destroy', $campaign->id) }}" method="POST"
                                                     style="display:inline-block;">
                                                     @csrf
                                                     @method('DELETE')
