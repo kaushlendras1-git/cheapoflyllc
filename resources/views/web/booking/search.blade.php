@@ -193,7 +193,6 @@
                     </tbody>
                 </table>
             </div>
-
             <div class="pagination-container mt-3">
                 {{ $bookings->links('pagination::bootstrap-5') }}
             </div>
