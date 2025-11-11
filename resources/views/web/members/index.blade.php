@@ -180,7 +180,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>LOB</th>
-                            <th>Team</th>
+                            <th>Unit (Team)</th>
                             <th>Departments</th>
                             <th>Role</th>
                             <th>Team Leader</th>
