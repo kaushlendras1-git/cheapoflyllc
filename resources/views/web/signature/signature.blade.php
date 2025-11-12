@@ -242,7 +242,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 style=" display: block; width: 80px; height: 50px; object-fit: contain; margin: 0;padding: 0;">
 
                                 </div>
-                                <div style="flex: 1; min-width: 280px; padding-bottom:10px;">
+                                <div style="flex: 1;margin-left:40px; min-width: 280px; padding-bottom:10px;">
                                     <div
                                         style="font-size: .875rem; font-weight: 600; color: #0f172a; margin-bottom: 0px;">
                                         {{ $flight->departure_date?->format('D, M j') }} - {{$flight->airline_code}}
