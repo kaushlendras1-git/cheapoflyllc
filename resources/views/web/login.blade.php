@@ -196,8 +196,8 @@
 
                             <div class="form-floating form-floating-outline ">
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email or username" autofocus />
-                                <label for="email">Email or Username</label>
+                                    placeholder="Enter your pseudo" autofocus />
+                                <label for="email">Pseudo</label>
                             </div>
                             <div class="form-floating form-floating-outline ">
                                 <input type="password" id="password" class="form-control" name="password"
@@ -269,8 +269,8 @@
                             </div> -->
                             <div class="form-floating form-floating-outline ">
                                 <input type="text" class="form-control" id="agentEmail"
-                                    placeholder="Enter your email or username" autofocus />
-                                <label for="agentEmail">Email or Username</label>
+                                    placeholder="Enter your pseudo" autofocus />
+                                <label for="agentEmail">Pseudo</label>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Submit Request</button>
                         </form>

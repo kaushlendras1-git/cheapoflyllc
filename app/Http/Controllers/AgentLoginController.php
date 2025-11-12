@@ -14,9 +14,12 @@ class AgentLoginController extends Controller
     public function requestLogin(Request $request)
     {
         try {
-            $request->validate(['email' => 'required|email']);
+            $request->validate(['email' => 'required|string']);
             
-            $user = User::where('email', $request->email)->first();
+            $loginField = $request->input('email');
+            $fieldType = filter_var($loginField, FILTER_VALIDATE_EMAIL) ? 'email' : 'pseudo';
+            
+            $user = User::where($fieldType, $loginField)->first();
             if (!$user) {
                 return response()->json(['error' => 'User not found'], 404);
             }
@@ -46,7 +49,8 @@ class AgentLoginController extends Controller
 
     public function checkRequestStatus($email)
     {
-        $user = User::where('email', $email)->first();
+        $fieldType = filter_var($email, FILTER_VALIDATE_EMAIL) ? 'email' : 'pseudo';
+        $user = User::where($fieldType, $email)->first();
         if (!$user) {
             return response()->json(['status' => 'none']);
         }
