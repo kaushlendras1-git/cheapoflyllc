@@ -664,7 +664,7 @@ input[readonly] {
                                 Email <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control input-style w-100" name="email" id="billing-email"
-                                placeholder="Enter email">
+                                placeholder="">
                         </div>
 
                         <!-- Contact Number -->
@@ -674,7 +674,7 @@ input[readonly] {
                                 Contact No. <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control input-style w-100" name="contact_number"
-                                pattern="[0-9\-]{10,17}" maxlength="17" placeholder="123-456-7890"
+                                pattern="[0-9\-]{10,17}" maxlength="17" placeholder=""
                                 oninput="let digits = this.value.replace(/\D/g, ''); if(digits.length > 15) digits = digits.slice(0,15); let x = digits.match(/(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,5})/); this.value = !x[2] ? x[1] : x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '') + (x[4] ? '-' + x[4] : '');">
                         </div>
 
@@ -685,7 +685,7 @@ input[readonly] {
                                 Street Address <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control input-style w-100" name="street_address"
-                                placeholder="Enter street address">
+                                placeholder="">
                         </div>
 
                         <!-- Country -->
@@ -723,7 +723,7 @@ input[readonly] {
                                 City <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control input-style w-100" name="city"
-                                placeholder="Enter city">
+                                placeholder="">
                         </div>
 
                         <!-- Zip Code -->
@@ -733,7 +733,7 @@ input[readonly] {
                                 Zip Code <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control input-style w-100" name="zip_code"
-                                placeholder="Enter zip code">
+                                placeholder="">
                         </div>
 
                     </div>
