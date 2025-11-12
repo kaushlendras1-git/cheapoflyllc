@@ -17,10 +17,10 @@
       <label for="progress_status" class="form-label fw-semibold">Progress Status Tracker</label>
       <select id="progress_status" name="progress_status" class="form-select">
         <option value="">-- Select Status --</option>
-        <option value="pending">Pending</option>
-        <option value="in_progress">In Progress</option>
-        <option value="under_review">Under Review</option>
-        <option value="completed">Completed</option>
+        <option value="pending">Pending with Agent</option>
+        <option value="in_progress">Under Follow-Up</option>
+        <option value="completed">Pending with Airlines/Cruises</option>
+        <option value="under_review">Closed</option>
       </select>
     </div>
 
