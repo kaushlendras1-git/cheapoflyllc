@@ -4,16 +4,39 @@
 <!-- Content -->
 <div class="container-xxl flex-grow-1 container-p-y">
     
-    <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-        <h2 class="mb-0">Edit User</h2>
-        <div class="breadcrumb">
-            <ol class="breadcrumb d-flex align-items-center mb-0">
-                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" href="{{ route('members.index') }}">Users</a>
-                <a>Edit User</a>
-            </ol>
+<!-- Page Header -->
+    <div class="lob-header d-flex align-items-center justify-content-between">
+        <div>
+            <h2 class="lob-title mb-1">
+                <span class="iconify" data-icon="mdi:chart-line"
+                    style="vertical-align: middle; font-size: 14px;"></span>
+                Edit User
+            </h2>
         </div>
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="lob__breadcrumb">
+            <ol class="lob__breadcrumb-list mb-0">
+                <li class="lob__breadcrumb-item">
+                    <a href="{{ route('user.dashboard') }}" class="lob__breadcrumb-link">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:view-dashboard-outline"></span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="lob__breadcrumb-item">
+                    <a href="{{ route('members.index') }}" class="lob__breadcrumb-link">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:view-dashboard-outline"></span>
+                        Users
+                    </a>
+                </li>
+                <li class="lob__breadcrumb-item active" aria-current="page">
+                    <span class="iconify lob__breadcrumb-icon" data-icon="mdi:chart-line"></span>
+                    Edit User
+                </li>
+            </ol>
+        </nav>
     </div>
+    
 
     <div class="row">
         <div class="card p-1 create-booking-wrapper">

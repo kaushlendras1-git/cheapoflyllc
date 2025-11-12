@@ -40,11 +40,39 @@
         <form method="GET" action="{{ route('booking.search') }}"
             class="filter-form lob-filter p-4 rounded-3 d-flex flex-wrap align-items-end gap-2">
 
+            <!-- Search Criteria -->
+            <div class="col-md-2 position-relative">
+                <div class="floating-group lob-card">
+                    <select name="criteria" class="form-control input-style w-100">
+                        <option selected="" value="">Select Criteria</option>
+                        <option value="all" {{ request('criteria') == 'all' ? 'selected' : '' }}>All Bookings</option>
+                        <option value="PNR" {{ request('criteria') == 'PNR' ? 'selected' : '' }}>PNR</option>
+                        <option value="airlinepnr" {{ request('criteria') == 'airlinepnr' ? 'selected' : '' }}>Airline PNR</option>
+                        <option value="hotelpnr" {{ request('criteria') == 'hotelpnr' ? 'selected' : '' }}>Hotel PNR</option>
+                        <option value="carpnr" {{ request('criteria') == 'carpnr' ? 'selected' : '' }}>Car PNR</option>
+                        <option value="cruisepnr" {{ request('criteria') == 'cruisepnr' ? 'selected' : '' }}>Cruise PNR</option>
+                        <option value="bookingdate" {{ request('criteria') == 'bookingdate' ? 'selected' : '' }}>Booking Date</option>
+                        <option value="btype" {{ request('criteria') == 'btype' ? 'selected' : '' }}>Booking Type</option>
+                        <option value="traveldate" {{ request('criteria') == 'traveldate' ? 'selected' : '' }}>Travel Date</option>
+                        <option value="phone" {{ request('criteria') == 'phone' ? 'selected' : '' }}>Billing Phone</option>
+                        <option value="name" {{ request('criteria') == 'name' ? 'selected' : '' }}>Name</option>
+                        <option value="email" {{ request('criteria') == 'email' ? 'selected' : '' }}>Billing Email</option>
+                        <option value="cname" {{ request('criteria') == 'cname' ? 'selected' : '' }}>CardHolder Name</option>
+                        <option value="pxname" {{ request('criteria') == 'pxname' ? 'selected' : '' }}>Passenger Name</option>
+                        <option value="ccnum" {{ request('criteria') == 'ccnum' ? 'selected' : '' }}>Card Number</option>
+                    </select>
+                    <label class="form-label">
+                        <span class="iconify me-1" data-icon="mdi:filter-outline"></span>
+                        Search Criteria
+                    </label>
+                </div>
+            </div>
+
             <!-- Keyword -->
             <div class="col-md-2 position-relative">
                 <div class="floating-group lob-card">
                     <input type="text" name="keyword" class="form-control input-style" value="{{ request('keyword') }}"
-                        placeholder="e.g. PNR / name / email / phone">
+                        placeholder="Enter search value">
                     <label for="keyword" class="form-label">
                         <span class="iconify me-1" data-icon="mdi:account-search-outline"></span>
                         Keyword
