@@ -278,7 +278,6 @@
 
 <script>
 const currentTeamId = {{ old('team', $member->team) ?? 'null' }};
-
 // LOB and Team functionality for Edit User
 document.getElementById('lob').addEventListener('change', function() {
     const lobId = this.value;
@@ -493,7 +492,7 @@ function updateTeamLeaders() {
                 teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
                 leaders.forEach(leader => {
                     const option = new Option(leader.name, leader.id);
-                    if(currentTeamLeader && leader.id == currentTeamLeader) {
+                    if({{ old('team_leader', $member->team_leader) ?? 'null' }} && leader.id == {{ old('team_leader', $member->team_leader) ?? 'null' }}) {
                         option.selected = true;
                     }
                     teamLeaderSelect.add(option);
@@ -539,7 +538,7 @@ function updateTeamLeadersEdit() {
             teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
             leaders.forEach(leader => {
                 const option = new Option(leader.name, leader.id);
-                if(currentTeamLeader && leader.id == currentTeamLeader) {
+                if({{ old('team_leader', $member->team_leader) ?? 'null' }} && leader.id == {{ old('team_leader', $member->team_leader) ?? 'null' }}) {
                     option.selected = true;
                 }
                 teamLeaderSelect.add(option);

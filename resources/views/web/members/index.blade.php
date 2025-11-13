@@ -196,7 +196,8 @@
                     <tbody id="membersTableBody">
                         @foreach($members as $key => $member)
                         <tr>
-                            <td>{{ $key + 1 }}</td>
+                            <!-- <td>{{ $key + 1 }}</td> -->
+                            <td>{{ $member->id }}</td>
                             <td>{{ $member->name }}</td>
                             <td>{{ $member->email }}</td>
                             <td>
@@ -218,7 +219,7 @@
                                 $teamColor = $teamColors[($member->team ?? 0) % count($teamColors)];
                                 $teamUser = $members->where('id', $member->team)->first();
                                 @endphp
-                                <span class="badge {{ $teamColor }}">{{ $teamUser->name ?? 'N/A' }}</span>
+                                <span class="badge {{ $teamColor }}">{{ $teamUser->pseudo ?? 'N/A' }}</span>
                             </td>
                             <td>
                                 @php
@@ -254,7 +255,7 @@
                             </td>
                             <td>
                                 @if($member->teamLeader)
-                                <span class="badge bg-success">{{ $member->teamLeader->name }}</span>
+                                <span class="badge bg-success">{{ $member->teamLeader->pseudo }}</span>
                                 @else
                                 <span class="text-muted">-</span>
                                 @endif

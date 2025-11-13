@@ -91,6 +91,7 @@
     @vite('resources/js/booking/edit.js')
     @vite('resources/js/booking/pricing.js')
     @vite('resources/js/booking/cruise.js')
+    @vite('resources/js/booking/changes.js')
      @vite('resources/js/auth/sendAuth.js')
 @endif
 

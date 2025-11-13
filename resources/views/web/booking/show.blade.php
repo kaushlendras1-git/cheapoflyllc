@@ -602,6 +602,8 @@ function checkForStatusChanges() {
 setInterval(checkForStatusChanges, 11115000);
 </script>
 
+<script src="{{ asset('resources/js/booking/changes.js') }}"></script>
+
 
 <style>
 .booked-content table thead th,
@@ -761,6 +763,7 @@ input[readonly] {
 
 <script>
 let booking_id = "{{ $booking->id }}";
+window.bookingId = "{{ $booking->id }}";
 
 // Load states for USA on page load
 document.addEventListener('DOMContentLoaded', async function() {
