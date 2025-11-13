@@ -80,7 +80,7 @@ class MemberController extends Controller
         }
 
         // Fetch all users for regular page load
-        $members = $query->orderBy('created_at', 'desc')->get();
+        $members = $query->get();
 
         // Count admins and agents
         $admin_count = User::whereHas('roleRelation', function($q) { $q->where('name', 'Admin'); })->count();

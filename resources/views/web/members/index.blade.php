@@ -177,15 +177,16 @@
                     <thead>
                         <tr>
                             <th>S.No.</th>
-                            <th>Name</th>
-                            <th>Email</th>
+                             <th>Pseudo</th>
                             <th>LOB</th>
                             <th>Unit (Team)</th>
                             <th>Departments</th>
                             <th>Role</th>
                             <th>Team Leader</th>
-                            <th>Pseudo</th>
                             <th>Extension</th>
+                            <th>Name</th>
+                            <th>Email</th>
+
                             <!-- <th>Shift</th>
                             <th>PAN Card</th>
                             <th>Aadhar Card</th> -->
@@ -198,8 +199,7 @@
                         <tr>
                             <!-- <td>{{ $key + 1 }}</td> -->
                             <td>{{ $member->id }}</td>
-                            <td>{{ $member->name }}</td>
-                            <td>{{ $member->email }}</td>
+                            <td>{{ $member->pseudo }}</td>
                             <td>
                                 @php
                                 $lob = $member->lobRelation;
@@ -260,8 +260,9 @@
                                 <span class="text-muted">-</span>
                                 @endif
                             </td>
-                            <td>{{ $member->pseudo }}</td>
                             <td>{{ $member->extension ?? '-' }}</td>
+                               <td>{{ $member->name }}</td>
+                            <td>{{ $member->email }}</td>
                             <!-- <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                             <td>
                                 @if($member->pan_card)
