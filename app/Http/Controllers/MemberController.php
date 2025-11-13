@@ -127,7 +127,7 @@ class MemberController extends Controller
        $teams = Team::all();
        $team_leaders = User::whereHas('roleRelation', function($query) {
            $query->where('name', 'Team Leader');
-       })->get();
+       })->select('id', 'pseudo as name')->get();
        
        // Load teams for selected LOB
        if ($request->filled('lob')) {
@@ -189,7 +189,7 @@ class MemberController extends Controller
         $roles = Role::all();
         $team_leaders = User::whereHas('roleRelation', function($query) {
             $query->where('name', 'Team Leader');
-        })->get();
+        })->select('id', 'pseudo as name')->get();
         return view('web.members.edit', compact('member', 'lobs', 'departments', 'roles', 'team_leaders'));
     }
 

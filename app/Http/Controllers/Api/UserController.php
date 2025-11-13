@@ -22,7 +22,13 @@ class UserController extends Controller
             $query->where('team', $request->team);
         }
 
-        $teamLeaders = $query->select('id', 'name')->get();
+        $teamLeaders = $query->select('id', 'pseudo')->get()
+            ->map(function($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->pseudo
+                ];
+            });
 
         return response()->json($teamLeaders);
     }

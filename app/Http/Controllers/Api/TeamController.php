@@ -15,22 +15,27 @@ class TeamController extends Controller
             $roleId = $request->get('role_id');
             $users = User::where('lob', $lobId)
                 ->where('role_id', $roleId)
-                ->select('id', 'name')
+                ->select('id', 'pseudo')
                 ->get()
                 ->map(function($user) {
                     return [
                         'id' => $user->id,
-                        'name' => $user->name
+                        'name' => $user->pseudo
                     ];
                 });
             return response()->json($users);
         } else {
-            #dd($lobId);
-          $teams = User::where('lob', $lobId)
+            $teams = User::where('lob', $lobId)
                 ->whereIn('role_id', [19,6,9,12])
                 ->whereNotIn('id', [1, 2])
-                ->select('id', 'name')
-                ->get();
+                ->select('id', 'pseudo')
+                ->get()
+                ->map(function($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->pseudo
+                    ];
+                });
             return response()->json($teams);
         }
     }
