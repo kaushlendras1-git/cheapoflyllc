@@ -23,8 +23,8 @@
     }
 
     .main-container {
-        width: 595px;
-        /* max-width: 700px; */
+        width: 700px;
+        max-width: 700px;
         margin: 0 auto;
         background-color: #ffffff;
     }
@@ -1326,7 +1326,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         </td>
                         <td
                             style="width: 60%; text-align: right; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
-                            <div style="font-size: 32px; color: #374151; font-weight: 500; line-height: 1.2;height: 70px !important;width: 450px !important;border: 1px dashed #000; ">
+                            <div style="font-size: 32px; color: #374151; font-weight: 500; line-height: 1.2;width: 300px ; ">
                                 @{{S}}
                             </div>
                             <div style="font-size: 16px; color: #374151; font-weight: 500; line-height: 1.2;">
@@ -1341,8 +1341,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         </div>
 
 
-
-
         <!-- Footer -->
         <div style="background-color: #ffffff; padding: 0;">
             <div style="background: #1c316d; padding: 5px; text-align: center; border-radius: 4px;">
@@ -1355,5 +1353,4 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         </div>
     </div>
 </body>
-
 </html>
