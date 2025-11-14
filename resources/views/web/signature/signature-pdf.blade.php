@@ -946,7 +946,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <!-- Duration -->
                                 <td width="25%" style="text-align: center; ">
                                     <div style="font-size: 16px; font-weight: bold; color: #0f172a;">
-                                        {{ $trainBookingDetails->transit }}
+                                        {{ $trainBookingDetails->duration }}
                                     </div>
                                     <div style="font-size: 11px; color: #718096;">Duration
                                     </div>
@@ -1337,7 +1337,6 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     </tr>
                 </table>
             </div>
-
         </div>
 
 
