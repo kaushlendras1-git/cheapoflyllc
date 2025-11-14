@@ -107,7 +107,7 @@
                                 @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
                                 <th>Agent</th>
                                 @endif
-                                <th title="Post Sales Status">PSS</th>
+                                <!-- <th title="Post Sales Status">PSS</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -180,9 +180,9 @@
                                 <td>{{ $booking->name }}</td>
 
                                 @if(!(auth()->user()->role == 'User' && auth()->user()->departments == 'Sales'))
-                                <td>{{ $booking->user->name ?? 'N/A' }}</td>
+                                <td>{{ $booking->user->pseudo ?? 'N/A' }}</td>
                                 @endif
-                                <td><i class="ri-shake-hands-line text-primary fs-5"></i></td>
+                                <!-- <td><i class="ri-shake-hands-line text-primary fs-5"></i></td> -->
                             </tr>
                             @endforeach
                         </tbody>
