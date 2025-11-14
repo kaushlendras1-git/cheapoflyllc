@@ -456,7 +456,7 @@ $readonly = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
                                     @foreach ($users as $user)
                                     <option value="{{ $user->id }}"
                                         {{ $booking->shared_booking == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}</option>
+                                        {{ $user->pesudo }}</option>
                                     @endforeach
                                 </select>
                                 @if(auth()->user()->role_id == 1 && $booking->shared_booking)
