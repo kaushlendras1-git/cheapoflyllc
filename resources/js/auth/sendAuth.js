@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const formData = new FormData(form);
             const params = new URLSearchParams(formData);
-
+            
             document.querySelectorAll('input[name="auth_email[]"]:checked').forEach((checkbox, index) => {
                 params.append(`cards[${index}]`, checkbox.dataset.cards);
                 params.append(`billing_details_ids[${index}]`, checkbox.dataset.billing_details_id);

@@ -111,7 +111,7 @@ $readonly = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
                         <strong class="book-upper-tags">Booking :</strong><span
                             class="book-bottom-tags">{{ $booking->id }}</span>
                         <strong class="book-upper-tags">Sales:</strong><span
-                            class="book-bottom-tags">{{ $booking->user?->name ?? 'N/A' }} </span>
+                            class="book-bottom-tags">{{ $booking->user?->pseudo ?? 'N/A' }} </span>
 
                         <strong class="book-upper-tags">Issued On:</strong><span
                             class="book-bottom-tags">{{ $booking->created_at }}</span>
@@ -599,10 +599,8 @@ function checkForStatusChanges() {
 }
 
 // Check every 5 seconds
-setInterval(checkForStatusChanges, 11115000);
+setInterval(checkForStatusChanges, 5000);
 </script>
-
-<script src="{{ asset('resources/js/booking/changes.js') }}"></script>
 
 
 <style>
