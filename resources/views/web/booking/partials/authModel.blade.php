@@ -179,7 +179,7 @@
                         <!-- Submit Button -->
                         <div class="col-md-2 d-flex justify-content-end">
                             <button class="btn btn-primary button-style d-flex align-items-center gap-2 px-4 py-2"
-                                style="background-color: var(--primary); color: #fff !important;" onclick="this.disabled = true; this.innerText='Processing...';">
+                                style="background-color: var(--primary); color: #fff !important;" onclick="setTimeout(() => { this.disabled = true; this.innerText='Processing...'; }, 0);">
                                 Send Auth
                             </button>
                         </div>
