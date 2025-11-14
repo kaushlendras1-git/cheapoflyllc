@@ -99,12 +99,6 @@ class AuthHistoryController extends Controller
     }
 
     
-    
-
-
-
-
-
     public function downloadAuthPdf($id)
     {
        // try {
