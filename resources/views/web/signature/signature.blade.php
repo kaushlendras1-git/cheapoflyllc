@@ -1231,8 +1231,8 @@ border-radius: 6px;
 
 
                     <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
-                        @if(auth()->user()->name)
-                        <p><strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}</p>
+                        @if(auth()->user()->pseudo)
+                        <p><strong>Your Personal Assistence </strong>: {{ auth()->user()->pseudo }}</p>
                         @endif
                         <p style="margin-top: -10px;">
                             <strong>Extension </strong>: {{ auth()->user()->extension }}

@@ -75,7 +75,7 @@
                                     </button>
                                 </td>
 
-                                <td>{{ $auth_history->user?->name ?? 'N/A' }}</td>
+                                <td>{{ $auth_history->user?->pseudo ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->sent_to ?? 'N/A' }}</td>
                                 <td>{{ $auth_history->details ?? 'N/A' }}</td>
                                 <td>{{ '****' . substr($card_details->cc_number ?? '', -4) }}</td>

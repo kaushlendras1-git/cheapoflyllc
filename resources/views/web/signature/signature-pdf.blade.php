@@ -1314,7 +1314,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
 
                                 <p>
-                                    <strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}
+                                    <strong>Your Personal Assistence </strong>: {{ auth()->user()->pseudo }}
                                 </p>
                                 <p style="margin-top: -10px;">
                                     <strong>Extension </strong>: {{ auth()->user()->extension }}
@@ -1325,7 +1325,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
 
                         </td>
                         <td
-                            style="width: 60%; text-align: right; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
+                            style="width: 100%; text-align: right; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
                             <div style="font-size: 32px; color: #374151; font-weight: 500; line-height: 1.2;">
                                 @{{S}}
                             </div>
