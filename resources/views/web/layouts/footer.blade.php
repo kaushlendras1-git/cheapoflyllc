@@ -92,7 +92,7 @@
     @vite('resources/js/booking/pricing.js')
     @vite('resources/js/booking/cruise.js')
     @vite('resources/js/booking/changes.js')
-     @vite('resources/js/auth/sendAuth.js')
+    @vite('resources/js/auth/sendAuth.js')
 @endif
 
 @if(request()->routeIs('*.index') || request()->routeIs('dashboard'))

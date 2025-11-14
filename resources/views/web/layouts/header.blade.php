@@ -846,7 +846,7 @@
                     <div class="headerModern__brandIcon">
                         <i class="bi bi-calendar-check"></i>
                     </div>
-                    <span class="headerModern__greeting">Hi, {{ Auth::user()->name }}</span>
+                    <span class="headerModern__greeting">Hi, {{ Auth::user()->pseudo }}</span>
                 </a>
             </div>
 
@@ -1153,7 +1153,7 @@
                     <button class="headerModern__userBtn">
                         <div class="headerModern__userAvatar">
                             @php
-                            $name = Auth::check() ? Auth::user()->name : '';
+                            $name = Auth::check() ? Auth::user()->pseudo : '';
                             $initials = collect(explode(' ', $name))->map(fn($word) => strtoupper(substr(
                             $word,
                             0,
@@ -1164,7 +1164,7 @@
                         </div>
                     </button>
                     <div class="headerModern__userMenu">
-                        <div class="headerModern__userName">Hi, {{ Auth::user()->name }}</div>
+                        <div class="headerModern__userName">Hi, {{ Auth::user()->pseudo }}</div>
                         <div class="headerModern__userItem">
                             <a href="{{ route('profile') }}" class="headerModern__userLink">
                                 <i class="headerModern__userIcon bi bi-person"></i>
