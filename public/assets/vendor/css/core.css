@@ -36062,7 +36062,9 @@ input[type="number"] {
 .modal-body::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
-
+.booked-content table tbody td{
+    text-transform:lowercase!important;
+}
 /* -------------------------------------------------------------------------- */
 /*                              Armaan Css Ends                              */
 /* -------------------------------------------------------------------------- */
