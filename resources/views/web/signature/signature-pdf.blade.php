@@ -1295,7 +1295,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <tr>
 
                         <td style="font-size: 12px; color: #374151; line-height: 1.5;">
-                            @{{Checkbox}} &nbsp;
+                            @{{Checkbox}} 
                             <a href="{{ route('terms_conditions', ['booking_id' =>encode($booking->id)]) }}"
                                 target="_blank" style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
