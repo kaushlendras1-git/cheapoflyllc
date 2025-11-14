@@ -121,7 +121,7 @@ $readonly = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
                         $sharedUser = \App\Models\User::find($booking->shared_booking);
                         @endphp
                         <strong class="book-upper-tags"> Divided with:</strong><span
-                            class="book-bottom-tags">{{$sharedUser->name ?? ''}} </span>
+                            class="book-bottom-tags">{{$sharedUser->pesudo ?? ''}} </span>
                         @endif
 
 
