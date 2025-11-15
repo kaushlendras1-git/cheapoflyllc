@@ -513,14 +513,15 @@ $readonly = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
         </div>
 
 
+
         @if (auth()->user()->department_id == 5)
         @include('web.booking.partials.tabs-billing')
         @elseif(auth()->user()->department_id == 2)
                 @include('web.booking.partials.tabs-agent')
         @elseif(auth()->user()->department_id == 1)
-        @include('web.booking.partials.tabs-admin')
-        @elseif(auth()->user()->department_id == 3)
-        @include('web.booking.partials.tabs-quality')
+               @include('web.booking.partials.tabs-admin')
+        @elseif(auth()->user()->department_id == 7)
+              @include('web.booking.partials.tabs-changes')
         @else
             @include('web.booking.partials.tabs-agent')
         @endif

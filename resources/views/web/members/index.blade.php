@@ -177,12 +177,13 @@
                     <thead>
                         <tr>
                             <th>S.No.</th>
-                             <th>Pseudo</th>
-                            <th>LOB</th>
-                            <th>Unit (Team)</th>
+                            <th>Pseudo</th>                           
                             <th>Departments</th>
                             <th>Role</th>
+                            <th>Status</th>
                             <th>Team Leader</th>
+                             <th>LOB</th>
+                            <th>Unit (Team)</th>
                             <th>Extension</th>
                             <th>Name</th>
                             <th>Email</th>
@@ -190,7 +191,7 @@
                             <!-- <th>Shift</th>
                             <th>PAN Card</th>
                             <th>Aadhar Card</th> -->
-                            <th>Status</th>
+                         
                             <th class="text-center action-col">Actions</th>
                         </tr>
                     </thead>
@@ -211,27 +212,7 @@
                                     <span class="text-muted">-</span>
                                 @endif
                             </td>
-                            <td>
-                                @php
-                                $lob = $member->lobRelation;
-                                $lobColors = ['bg-primary', 'bg-success', 'bg-info', 'bg-danger'];
-                                $lobColor = $lobColors[($lob->id ?? 0) % count($lobColors)];
-                                @endphp
-                                <span class="badge {{ $lobColor }}">{{ $lob->name ?? 'N/A' }}</span>
-                            </td>
-                            <td>
-                                @php
-                                $teamColors = [
-                                'bg-warning text-dark',
-                                'bg-secondary',
-                                'bg-dark text-white',
-                                'bg-light text-dark'
-                                ];
-                                $teamColor = $teamColors[($member->team ?? 0) % count($teamColors)];
-                                $teamUser = $members->where('id', $member->team)->first();
-                                @endphp
-                                <span class="badge {{ $teamColor }}">{{ $teamUser->pseudo ?? 'N/A' }}</span>
-                            </td>
+                           
                             <td>
                                 @php
                                 $dept = $member->departmentRelation;
@@ -264,12 +245,40 @@
                                     {{ $role->name ?? 'N/A' }}
                                 </span>
                             </td>
+                             <td>
+                                <span class="status-toggle"
+                                    onclick="toggleStatus({{ $member->id }}, '{{ $member->status == 1 ? 'Deactivate' : 'Activate' }}')"
+                                    style="cursor: pointer; font-size: 18px;">
+                                    {{ $member->status == 1 ? '✅' : '❌' }}
+                                </span>
+                            </td>
                             <td>
                                 @if($member->teamLeader)
                                 <span class="badge bg-success">{{ $member->teamLeader->pseudo }}</span>
                                 @else
                                 <span class="text-muted">-</span>
                                 @endif
+                            </td>
+                             <td>
+                                @php
+                                $lob = $member->lobRelation;
+                                $lobColors = ['bg-primary', 'bg-success', 'bg-info', 'bg-danger'];
+                                $lobColor = $lobColors[($lob->id ?? 0) % count($lobColors)];
+                                @endphp
+                                <span class="badge {{ $lobColor }}">{{ $lob->name ?? 'N/A' }}</span>
+                            </td>
+                            <td>
+                                @php
+                                $teamColors = [
+                                'bg-warning text-dark',
+                                'bg-secondary',
+                                'bg-dark text-white',
+                                'bg-light text-dark'
+                                ];
+                                $teamColor = $teamColors[($member->team ?? 0) % count($teamColors)];
+                                $teamUser = $members->where('id', $member->team)->first();
+                                @endphp
+                                <span class="badge {{ $teamColor }}">{{ $teamUser->pseudo ?? 'N/A' }}</span>
                             </td>
                             <td>{{ $member->extension ?? '-' }}</td>
                                <td>{{ $member->name }}</td>
@@ -295,13 +304,7 @@
                                 <span class="text-muted">-</span>
                                 @endif
                             </td> -->
-                            <td>
-                                <span class="status-toggle"
-                                    onclick="toggleStatus({{ $member->id }}, '{{ $member->status == 1 ? 'Deactivate' : 'Activate' }}')"
-                                    style="cursor: pointer; font-size: 18px;">
-                                    {{ $member->status == 1 ? '✅' : '❌' }}
-                                </span>
-                            </td>
+                           
                             <td class="text-center table-actions">
                                 <a href="javascript:void(0)" data-bs-toggle="modal"
                                     data-bs-target="#assignShiftTeamModal"

@@ -84,6 +84,16 @@
                 </a>
             </li>
 
+
+             <li class="nav-item" role="presentation">
+                <a class="nav-link" id="changes-tab" data-bs-toggle="tab" href="#changes" role="tab"
+                    aria-controls="changes" aria-selected="false">
+                    <i class="ri ri-edit-line" style="font-size: 20px; color: #ff6347;" title="Changes"></i>
+                </a>
+            </li>
+            
+
+
         </ul>
 
         <!-- Tab Content -->
@@ -119,6 +129,10 @@
             <!-- Screenshots Tab -->
             @include('web.booking.partials.screenshots', ['screenshot_images' => $screenshot_images])
 
-         
+            <!-- Changes Tab -->
+            @include('web.booking.partials.changes')
+
+
+
 
         </div>
