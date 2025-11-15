@@ -41,6 +41,11 @@ class BookingStatusController extends Controller
             ->with('success', 'Booking status created successfully.');
     }
 
+    public function show(BookingStatus $bookingStatus)
+    {
+        return view('masters.booking-statuses.show', compact('bookingStatus'));
+    }
+
     public function edit(BookingStatus $bookingStatus)
     {   
         $departments = Department::all();
@@ -63,9 +68,14 @@ class BookingStatusController extends Controller
             ->with('success', 'Booking status updated successfully.');
     }
 
-    public function destroy(BookingStatus $bookingStatus)
+    public function destroy($id)
     {
+        \Log::info('Destroy method called with ID: ' . $id);
+        
+        $bookingStatus = BookingStatus::findOrFail($id);
         $bookingStatus->delete();
+        
+        \Log::info('BookingStatus deleted successfully');
 
         return redirect()->route('booking-status.index')
             ->with('success', 'Booking status deleted successfully.');

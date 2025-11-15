@@ -147,12 +147,11 @@
                                             <span class="iconify" data-icon="mdi:pencil-outline"></span>
                                         </a>
                                         <form action="{{ route('booking-status.destroy', $bookingStatuse->id) }}"
-                                            method=" POST" style="display:inline-block;">
+                                            method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this booking status?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="Delete"
-                                                onclick="return confirm('Are you sure you want to delete this booking status?')">
+                                                data-bs-placement="top" title="Delete">
                                                 <span class="iconify" data-icon="mdi:trash-can-outline"></span>
                                             </button>
                                         </form>

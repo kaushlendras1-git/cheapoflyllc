@@ -124,6 +124,8 @@
                                                class="btn btn-danger btn-sm">
                                                 <span class="iconify" data-icon="mdi:download-outline"></span>
                                             </a>
+                                        @else
+                                            N/A    
                                         @endif
                                     </td>
 

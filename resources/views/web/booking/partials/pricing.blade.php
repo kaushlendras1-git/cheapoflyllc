@@ -110,7 +110,7 @@
                         <td><input type="number" class="form-control" name="pricing[0][gross_price]"
                                 placeholder="Gross Price" min="0" step="0.01" style="width: 110px;"></td>
 
-                        <td><span class="gross-total">0.00</span></td>
+                        <td><span class="gross-total">0.002</span></td>
                         <td>
                             <select style="width: 160px;" name="pricing[0][price_description]" class="form-select form-control">
                             <option value="">Select</option>
@@ -125,14 +125,14 @@
                             <option data-type="Cruise" value="Crew Appreciation Fees/Gratuities">Crew Appreciation Fees/Gratuities</option>
                             <option data-type="Cruise" value="Shuttle Services">Shuttle Services</option>
                             <option data-type="Cruise" value="Speciality Dining">Speciality Dining</option>
-                            <option data-type="Cruise" value="Drink Packages">Drink Packages</option>
-                            <option data-type="Cruise" value="Trip Insurance">Trip Insurance</option>
+                            <option data-type="Flight,Cruise" value="Drink Packages">Drink Packages</option>
+                            <option data-type="Flight,Cruise,Car,Train" value="Trip Insurance">Trip Insurance Price Offered</option>
                             <option data-type="Cruise" value="Check-in Proces Luggage Tags &amp; Sailing Pass">Check-in Proces Luggage Tags &amp; Sailing Pass</option>
-                            <option data-type="Cruise" value="Special Occasion Package">Special Occasion Package</option>
+                            <option data-type="Flight,Cruise" value="Special Occasion Package">Special Occasion Package</option>
                             <option data-type="Cruise" value="Water Bottle or Distilled Water Package">Water Bottle or Distilled Water Package</option>
-                            <option data-type="Cruise" value="Pet-in Cabin">Pet-in Cabin</option>
+                            <option data-type="Flight,Cruise" value="Pet-in Cabin Price Offered">Pet-in Cabin Price Offered</option>
                             <option data-type="Cruise" value="Vacation Packages">Vacation Packages</option>
-                            <option data-type="Cruise" value="Seat Assignment">Seat Assignment</option>
+                            <option data-type="Flight,Cruise" value="Seat Assignment">Seat Assignment</option>
                             <option value="Package Booking">Package Booking</option>         
                             </select>
                         </td>

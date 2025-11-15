@@ -233,11 +233,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Always show the default "Select" option
                     option.style.display = 'block';
                 } else {
-                    const optionType = option.getAttribute('data-type');
-                    if (selectedTypes.length === 0 || selectedTypes.includes(optionType)) {
-                        option.style.display = 'block';
+                    const optionTypes = option.getAttribute('data-type');
+                    if (optionTypes) {
+                        const types = optionTypes.split(',').map(type => type.trim());
+                        const hasMatch = types.some(type => selectedTypes.includes(type));
+                        if (selectedTypes.length === 0 || hasMatch) {
+                            option.style.display = 'block';
+                        } else {
+                            option.style.display = 'none';
+                        }
                     } else {
-                        option.style.display = 'none';
+                        option.style.display = 'block';
                     }
                 }
             });

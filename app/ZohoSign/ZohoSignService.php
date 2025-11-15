@@ -17,7 +17,9 @@ class ZohoSignService
 
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client([
+            'verify' => false
+        ]);
         $this->clientId = env('ZOHO_CLIENT_ID');
         $this->clientSecret = env('ZOHO_CLIENT_SECRET');
         $this->refreshToken = env('ZOHO_REFRESH_TOKEN');
@@ -122,7 +124,7 @@ class ZohoSignService
                             [
                                 'action_type' => 'SIGN',
                                 'recipient_email' => $recipientEmail,
-                                'recipient_name' => $recipientName,
+                                'recipient_name' => 'recipient_name',
                                 'signing_order' => 1,
                                 'verify_recipient' => false,
                                 'verification_type' => '',
