@@ -403,7 +403,7 @@ $readonly = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
                                 <label class="form-label">Campaign <span class="text-danger">*</span></label>
                                 <select id="campaign" data-sh="Campaign" name="campaign"
                                     class="form-control @if(($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7) readonly-field @endif @if(auth()->user()->department_id == 5) readonly-field @endif"
-                                    @if(auth()->user()->department_id == 5) disabled @endif>
+                                     disabled >
                                     @foreach ($campaigns as $campaign)
                                     <option value="{{ $campaign->id }}"
                                         {{ old('campaign', $booking->campaign ?? null) == $campaign->id ? 'selected' : '' }}>
