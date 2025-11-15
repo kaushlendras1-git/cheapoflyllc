@@ -84,7 +84,7 @@ class LOBController extends Controller
                 'email' => $validated['email'],
                 'password' => $updateData['password'] ?? bcrypt('password123'),
                 'lob' => $lob->id,
-                'role_id' => 0,
+                'role_id' => 1,
                 'status' => 1,
                 'is_lob' => 1,
             ]);
