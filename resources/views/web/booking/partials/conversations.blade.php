@@ -56,7 +56,7 @@
                                                             <img src="../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle">
                                                             <div class="about-viewer ms-3 pe-5">
                                                                 <div class="d-flex align-items-center mb-1">
-                                                                    <p class="mb-0 small user-viewer">{{ $log->user->name ?? 'Unknown' }}</p>
+                                                                    <p class="mb-0 small user-viewer">{{ $log->user->pseudo ?? 'Unknown' }}</p>
                                                                     <div class="seprator-name"></div>
                                                                     <small class="text-body-secondary" style="white-space: nowrap;">{{ $log->created_at->format('Y-m-d H:i:s') }}</small>
                                                                 </div>

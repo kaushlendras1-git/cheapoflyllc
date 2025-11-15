@@ -78,23 +78,24 @@
                             <div class="col-md-3 position-relative">
                                 <div class="floating-group lob-card">
                                     <input type="text" name="email" id="lobEmail" class="form-control input-style"
-                                        placeholder=" " value="{{ old('name', $lob->email ?? '') }}" required>
+                                        placeholder=" " value="{{ old('email', $lob->email ?? '') }}" {{ isset($lob) ? 'readonly' : 'required' }}>
                                     <label for="lobEmail" class="form-label">
                                         <span class="iconify me-1" data-icon="mdi:email-outline"></span>
                                         Email <span class="text-danger">*</span>
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-3 position-relative">
+
+                            <!-- <div class="col-md-3 position-relative">
                                 <div class="floating-group lob-card">
                                     <input type="text" name="password" id="lobPassword" class="form-control input-style"
-                                        placeholder=" " value="{{ old('name', $lob->password ?? '') }}" required>
+                                        placeholder=" " value="" required>
                                     <label for="lobPassword" class="form-label">
                                         <span class="iconify me-1" data-icon="mdi:lock-outline"></span>
                                         Password <span class="text-danger">*</span>
                                     </label>
                                 </div>
-                            </div>
+                            </div> -->
 
 
 

@@ -24,10 +24,10 @@ class LOBController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:lobs,email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'nullable|string|min:6',
         ]);
 
-        $validated['password'] = bcrypt($validated['password']);
+        $validated['password'] = bcrypt(12345678);
         $lob = LOB::create($validated);
 
         // Create corresponding user record
@@ -56,9 +56,11 @@ class LOBController extends Controller
 
     public function update(Request $request, LOB $lob)
     {
+        $user = \App\Models\User::where('lob', $lob->id)->first();
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:lobs,email,' . $lob->id . '|unique:users,email,' . optional($lob->user)->id,
+            'email' => 'required|email|unique:lobs,email,' . $lob->id . ($user ? '|unique:users,email,' . $user->id : ''),
             'password' => 'nullable|string|min:6',
         ]);
 
@@ -74,20 +76,21 @@ class LOBController extends Controller
         $lob->update($updateData);
 
         // Update corresponding user record
-        $user = \App\Models\User::where('lob', $lob->id)->first();
         if ($user) {
             $user->update($updateData);
         } else {
             // Create user if doesn't exist
-            \App\Models\User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => $updateData['password'] ?? bcrypt('password123'),
-                'lob' => $lob->id,
-                'role_id' => 1,
-                'status' => 1,
-                'is_lob' => 1,
-            ]);
+           \App\Models\User::updateOrCreate(
+                ['email' => $validated['email']], // find by email
+
+                [   // update these fields OR create with these fields
+                    'name' => $validated['name'],
+                    'lob' => $lob->id,
+                    'role_id' => 1,
+                    'status' => 1,
+                    'is_lob' => 1,
+                ]
+            );
         }
 
         return redirect()->route('lobs.index')->with('success', 'LOB updated successfully.');

@@ -492,7 +492,7 @@ $readonly = (($roleId == 1 || $roleId == 2) && $booking->payment_status_id >= 7)
                                     @foreach ($changesAssignUsers as $user)
                                     <option value="{{ $user->id }}"
                                         {{ old('changes_assign_to', $booking->changes_assign_to ?? '') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
+                                        {{ $user->pseudo }}
                                     </option>
                                     @endforeach
                                 </select>
