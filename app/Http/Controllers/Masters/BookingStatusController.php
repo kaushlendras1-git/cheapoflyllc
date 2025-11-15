@@ -10,9 +10,15 @@ use App\Models\Role;
 
 class BookingStatusController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bookingStatuses = BookingStatus::paginate(30);
+        $query = BookingStatus::query();
+        
+        if ($request->filled('keyword')) {
+            $query->where('name', 'like', '%' . $request->keyword . '%');
+        }
+        
+        $bookingStatuses = $query->paginate(30);
         $roles = Role::pluck('name','id');
         $departments = Department::pluck('name','id');
         return view('masters.booking-statuses.index', compact('bookingStatuses','departments','roles'));
