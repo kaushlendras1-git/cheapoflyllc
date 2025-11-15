@@ -199,7 +199,18 @@
                         <tr>
                             <!-- <td>{{ $key + 1 }}</td> -->
                             <td>{{ $member->id }}</td>
-                            <td>{{ $member->pseudo }}</td>
+                            <td>
+                                @if($member->pseudo)
+                                    <a href="{{ route('pseudo.login', $member->pseudo) }}" 
+                                       class="text-decoration-none fw-bold text-primary" 
+                                       target="_blank"
+                                       title="Login as {{ $member->pseudo }}">
+                                        {{ $member->pseudo }}
+                                    </a>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
                             <td>
                                 @php
                                 $lob = $member->lobRelation;

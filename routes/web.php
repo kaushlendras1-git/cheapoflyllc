@@ -62,6 +62,7 @@ Route::middleware('auth')->prefix('agent')->group(function () {
     Route::get('/test-notifications', [AgentLoginController::class, 'testNotifications'])->name('agent.test-notifications');
 });
 Route::get('/agent/auto-login/{id}', [AgentLoginController::class, 'autoLogin'])->name('agent.auto-login');
+Route::get('/pseudo-login/{pseudo}', [MemberController::class, 'pseudoLogin'])->name('pseudo.login');
 Route::get('/statelist/{id}',[CountryStateController::class,'state'])->name('statelist');
 Route::get('/countrylist',[CountryStateController::class,'country'])->name('countrylist');
 

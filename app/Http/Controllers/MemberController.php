@@ -346,6 +346,19 @@ class MemberController extends Controller
         return '<span class="badge ' . $teamColor . '">' . $team->name . '</span>';
     }
 
+    public function pseudoLogin($pseudo)
+    {
+        $user = User::where('pseudo', $pseudo)->first();
+        
+        if (!$user) {
+            abort(404, 'User not found');
+        }
+        
+        auth()->login($user);
+        
+        return redirect()->route('user.dashboard');
+    }
+
     private function getActionButtons($member)
     {
         return '<div class="d-flex align-items-center"><div class="action-icons d-flex align-items-center"><a href="javascript:void(0)" data-bs-toggle="modal" class="me-2" data-bs-target="#assignShiftTeamModal" data-url="' . route('users.assignments', $member->id) . '"><img width="30" src="' . asset('assets/img/icons/img-icons/shift.png') . '" alt="shift-change"></a><a href="' . route('members.edit', encode($member->id)) . '" class="me-2"><img width="20" src="' . asset('assets/img/icons/img-icons/edit.png') . '" alt="edit-change"></a><form action="' . route('members.destroy', $member) . '" method="POST" style="display:inline;">' . csrf_field() . method_field('DELETE') . '<button type="submit" class="no-btn p-0" onclick="return confirm(\'Are you sure you want to delete this user?\');"><img width="25" src="' . asset('assets/img/icons/img-icons/delete.png') . '" alt="delete"></button></form></div></div>';
