@@ -36,7 +36,7 @@ class LOBController extends Controller
             'email' => $validated['email'],
             'password' => $validated['password'],
             'lob' => $lob->id,
-            'role_id' => 0,
+            'role_id' => 1,
             'status' => 1,
             'is_lob' => 1,
         ]);
