@@ -80,7 +80,7 @@ class MemberController extends Controller
         }
 
         // Fetch all users for regular page load
-        $members = $query->orderBy('created_at', 'desc')->get();
+        $members = $query->get();
 
         // Count admins and agents
         $admin_count = User::whereHas('roleRelation', function($q) { $q->where('name', 'Admin'); })->count();
@@ -127,7 +127,7 @@ class MemberController extends Controller
        $teams = Team::all();
        $team_leaders = User::whereHas('roleRelation', function($query) {
            $query->where('name', 'Team Leader');
-       })->get();
+       })->select('id', 'pseudo as name')->get();
        
        // Load teams for selected LOB
        if ($request->filled('lob')) {
@@ -189,7 +189,7 @@ class MemberController extends Controller
         $roles = Role::all();
         $team_leaders = User::whereHas('roleRelation', function($query) {
             $query->where('name', 'Team Leader');
-        })->get();
+        })->select('id', 'pseudo as name')->get();
         return view('web.members.edit', compact('member', 'lobs', 'departments', 'roles', 'team_leaders'));
     }
 

@@ -1,195 +1,237 @@
 @extends('web.layouts.main')
 @section('content')
-<!-- Content -->
+
+<!-- Content Wrapper -->
 <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="upper-titles d-flex align-items-center justify-content-between mb-4">
-        <h2 class="mb-0">Find Booking</h2>
-        <nav class="breadcrumb">
-                <a class="active" href="{{ route('user.dashboard') }}">Dashboard</a>
-                <a class="active" aria-current="page">Find Booking</a>
+
+    <!-- Page Header -->
+    <div class="lob-header d-flex align-items-center justify-content-between">
+        <div>
+            <h2 class="lob-title mb-1">
+                <span class="iconify" data-icon="mdi:magnify" style="vertical-align: middle; font-size: 14px;"></span>
+                Find Booking
+            </h2>
+        </div>
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="lob__breadcrumb">
+            <ol class="lob__breadcrumb-list mb-0">
+                <li class="lob__breadcrumb-item">
+                    <a href="{{ route('user.dashboard') }}" class="lob__breadcrumb-link">
+                        <span class="iconify lob__breadcrumb-icon" data-icon="mdi:view-dashboard-outline"></span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="lob__breadcrumb-item active" aria-current="page">
+                    <span class="iconify lob__breadcrumb-icon" data-icon="mdi:magnify"></span>
+                    Find Booking
+                </li>
+            </ol>
         </nav>
     </div>
-    <div class="row gy-4">
-        <!-- Booking Table Card -->
-        <div class="col-12">
-            <div class="card p-4">
-                <form method="GET" action="{{ route('booking.search') }}"
-                    class="d-flex align-items-end justify-content-between mb-4">
-                    <div class="row align-items-end w-100 booking-form gen_form">
-                        <div class="col-md-2">
-                            <div Class="position-relative"> 
-                                <label class="form-label mb-1">Keyword</label>
-                                <input type="text" name="keyword" class="form-control input-style" value="{{ request('keyword') }}"
-                                    placeholder="e.g. PNR / name / email / Phone">
 
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="position-relative">
-                                <label class="form-label mb-1">Start Date</label>
-                                <input type="date" name="start_date" class="form-control input-style"
-                                    value="{{ request('start_date') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="position-relative">
-                                <label class="form-label mb-1">End Date</label>
-                                <input type="date" name="end_date" class="form-control input-style"
-                                    value="{{ request('end_date') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="position-relative">
-                                <label class="form-label mb-1">Booking Status</label>
-                                <select class="form-control input-style" name="booking_status">
-                                    <option value="">All</option>
-                                    @foreach($booking_status as $status)
-                                    <option value="{{ $status->id }}"
-                                        {{ request('booking_status') == $status->id ? 'selected' : '' }}>
-                                        {{ $status->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="position-relative">
-                                <label class="form-label mb-1">Payment Status</label>
-                                <select class="form-control input-style" name="payment_status">
-                                    <option value="">All</option>
-                                    @foreach($payment_status as $payment)
-                                    <option value="{{ $payment->id }}"
-                                        {{ request('payment_status') == $payment->id ? 'selected' : '' }}>
-                                        {{ $payment->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit"
-                                class="btn btn-primary px-4 py-3 d-flex align-items-center gap-1 waves-effect waves-light button-style">
-                                <i class="ri ri-search-line fs-5"></i> Search
-                            </button>
-                        </div>
-                    </div>
-                    <div class="add-follow-btn export-btn">
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Export To Excel" href="{{ route('booking.export', request()->all()) }}"
-                            class="btn btn-success px-4 py-3 gap-1 w-auto button-style">
-                            <i class="ri ri-file-excel-2-line fs-5"></i>  </a>
-                    </div>
-                </form>
-                <!-- Table -->
-                <div class="booking-table-wrapper py-2 crm-table">
-                 
-                    <table class="table table-hover table-sm booking-table w-100 mb-0">
-                        <thead class="bg-dark text-white sticky-top">
-                            <tr>
-                                <th>ID</th>
-                                <th>PNR</th>
-                                <th>Booking Date</th>
-                                <th>Agent</th>
-                                <th>Booking Status</th>
-                                <th>Payment Status</th>
-                                <th>Total</th>
-                                <th>Agent MCO</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                           @if($bookings->isEmpty())
-                            <tr>
-                                <td colspan="10" class="text-center">No results found. Please apply a search/filter.</td>
-                            </tr>
-                        @else
-                            @foreach ($bookings as $booking)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('booking.show', ['id' => encode($booking->id)]) }}">
-                                        {{ $booking->id }}
-                                    </a>
-                                </td>
-                                <td>{{ $booking->pnr }}</td>
-                                <td>{{ $booking->created_at }}</td>
-                                <td>{{ $booking->user->name ?? 'N/A' }}</td>
+    <!-- Flash Messages -->
+    @include('web.layouts.flash')
 
-                                <!-- Booking Status -->
-                                <td>
-                                    @if($booking->bookingStatus)
-                                    <span class="badge" style="background-color: {{ $booking->bookingStatus->color }}">
-                                        {{ $booking->bookingStatus->name }}
-                                    </span>
-                                    @else
-                                    <span class="badge bg-secondary">N/A</span>
-                                    @endif
-                                </td>
+    <!-- Main Card -->
+    <div class="lob-card p-4">
 
-                                <!-- Payment Status -->
-                                <td>
-                                    @if($booking->paymentStatus)
-                                    <span class="badge" style="background-color: {{ $booking->paymentStatus->color }}">
-                                        {{ $booking->paymentStatus->name }}
-                                    </span>
-                                    @else
-                                    <span class="badge bg-secondary">N/A</span>
-                                    @endif
-                                </td>
+        <!-- Filter Form -->
+        <form method="GET" action="{{ route('booking.search') }}"
+            class="filter-form lob-filter p-4 rounded-3 d-flex flex-wrap align-items-end gap-2">
 
-                                <td>{{ $booking->pricingDetails->sum('total_amount') }}</td>
-                                <td>{{ $booking->pricingDetails->sum('advisor_mco') }}</td>
-                                <td>{{ $booking->name }}</td>
-                                <td>{{ $booking->email }}</td>
-                            </tr>
-                            @endforeach
-                        @endif
-
-                            <!-- Add more rows as needed -->
-                            <!-- Render pagination links -->
-                        </tbody>
-                    </table>
-
-                     {{ $bookings->links('vendor.pagination.bootstrap-5') }}
-
-                 
-
+            <!-- Search Criteria -->
+            <div class="col-md-2 position-relative">
+                <div class="floating-group lob-card">
+                    <select name="criteria" class="form-control input-style w-100">
+                        <option selected="" value="">Select Criteria</option>
+                        <option value="all" {{ request('criteria') == 'all' ? 'selected' : '' }}>All Bookings</option>
+                        <option value="PNR" {{ request('criteria') == 'PNR' ? 'selected' : '' }}>PNR</option>
+                        <option value="airlinepnr" {{ request('criteria') == 'airlinepnr' ? 'selected' : '' }}>Airline PNR</option>
+                        <option value="hotelpnr" {{ request('criteria') == 'hotelpnr' ? 'selected' : '' }}>Hotel PNR</option>
+                        <option value="carpnr" {{ request('criteria') == 'carpnr' ? 'selected' : '' }}>Car PNR</option>
+                        <option value="cruisepnr" {{ request('criteria') == 'cruisepnr' ? 'selected' : '' }}>Cruise PNR</option>
+                        <option value="bookingdate" {{ request('criteria') == 'bookingdate' ? 'selected' : '' }}>Booking Date</option>
+                        <option value="btype" {{ request('criteria') == 'btype' ? 'selected' : '' }}>Booking Type</option>
+                        <option value="traveldate" {{ request('criteria') == 'traveldate' ? 'selected' : '' }}>Travel Date</option>
+                        <option value="phone" {{ request('criteria') == 'phone' ? 'selected' : '' }}>Billing Phone</option>
+                        <option value="name" {{ request('criteria') == 'name' ? 'selected' : '' }}>Name</option>
+                        <option value="email" {{ request('criteria') == 'email' ? 'selected' : '' }}>Billing Email</option>
+                        <option value="cname" {{ request('criteria') == 'cname' ? 'selected' : '' }}>CardHolder Name</option>
+                        <option value="pxname" {{ request('criteria') == 'pxname' ? 'selected' : '' }}>Passenger Name</option>
+                        <option value="ccnum" {{ request('criteria') == 'ccnum' ? 'selected' : '' }}>Card Number</option>
+                    </select>
+                    <label class="form-label">
+                        <span class="iconify me-1" data-icon="mdi:filter-outline"></span>
+                        Search Criteria
+                    </label>
                 </div>
             </div>
+
+            <!-- Keyword -->
+            <div class="col-md-2 position-relative">
+                <div class="floating-group lob-card">
+                    <input type="text" name="keyword" class="form-control input-style" value="{{ request('keyword') }}"
+                        placeholder="Enter search value">
+                    <label for="keyword" class="form-label">
+                        <span class="iconify me-1" data-icon="mdi:account-search-outline"></span>
+                        Keyword
+                    </label>
+                </div>
+            </div>
+
+            <!-- Start Date -->
+            <div class="col-md-2 position-relative">
+                <div class="floating-group lob-card">
+                    <input type="date" name="start_date" id="start_date" class="form-control input-style"
+                        value="{{ request('start_date') }}">
+                    <label for="start_date" class="form-label">
+                        <span class="iconify me-1" data-icon="mdi:calendar-start"></span>
+                        Start Date
+                    </label>
+                </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="col-md-1 position-relative">
+                <div class="floating-group lob-card">
+                    <input type="date" name="end_date" id="end_date" class="form-control input-style"
+                        value="{{ request('end_date') }}">
+                    <label for="end_date" class="form-label">
+                        <span class="iconify me-1" data-icon="mdi:calendar-end"></span>
+                        End Date
+                    </label>
+                </div>
+            </div>
+
+            <!-- Booking Status -->
+            <div class="col-md-2 position-relative">
+                <div class="floating-group lob-card">
+                    <select name="booking_status" class="form-control input-style w-100">
+                        <option value="">All</option>
+                        @foreach($booking_status as $status)
+                        <option value="{{ $status->id }}"
+                            {{ request('booking_status') == $status->id ? 'selected' : '' }}>
+                            {{ $status->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <label class="form-label">
+                        <span class="iconify me-1" data-icon="mdi:clipboard-check-outline"></span>
+                        Booking Status
+                    </label>
+                </div>
+            </div>
+
+            <!-- Payment Status -->
+            <div class="col-md-2 position-relative">
+                <div class="floating-group lob-card">
+                    <select name="payment_status" class="form-control input-style w-100">
+                        <option value="">All</option>
+                        @foreach($payment_status as $payment)
+                        <option value="{{ $payment->id }}"
+                            {{ request('payment_status') == $payment->id ? 'selected' : '' }}>
+                            {{ $payment->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <label class="form-label">
+                        <span class="iconify me-1" data-icon="mdi:credit-card-outline"></span>
+                        Payment Status
+                    </label>
+                </div>
+            </div>
+            <!-- Buttons -->
+            <div class="col-md-2 d-flex justify-content-start gap-2 mt-2">
+                <button type="submit" class="btn btn-primary button-style d-flex align-items-center gap-2 px-4 py-3">
+                    <span class="iconify fs-5" data-icon="mdi:magnify"></span> Search
+                </button>
+
+                <a href="{{ route('booking.search') }}"
+                    class="btn btn-primary d-flex align-items-center gap-2 px-4 py-3"
+                    style="background-color: var(--accent)!important;">
+                    <span class="iconify fs-5" data-icon="mdi:refresh"></span> Reset
+                </a>
+                <a href="{{ route('booking.export', request()->all()) }}"
+                    class="btn btn-primary button-style d-flex align-items-center gap-2 px-4 py-3"
+                    style="background-color:green;">
+                    <span class="iconify fs-5" data-icon="mdi:file-excel-outline"></span>
+                </a>
+            </div>
+        </form>
+
+        <!-- Table Section -->
+        <div class="table-container table-2 mt-4">
+            @if($bookings->count() > 0)
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>PNR</th>
+                            <th>Booking Date</th>
+                            <th>Agent</th>
+                            <th>Booking Status</th>
+                            <th>Payment Status</th>
+                            <th>Total</th>
+                            <th>Agent MCO</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($bookings as $booking)
+                        <tr>
+                            <td>
+                                <a href="{{ route('booking.show', ['id' => encode($booking->id)]) }}">
+                                    {{ $booking->id }}
+                                </a>
+                            </td>
+                            <td>{{ $booking->pnr }}</td>
+                            <td>{{ $booking->created_at->format('d-m-Y H:i:s') }}</td>
+                            <td>{{ $booking->user->name ?? 'N/A' }}</td>
+                            <td>
+                                @if($booking->bookingStatus)
+                                <span class="badge" style="background-color: {{ $booking->bookingStatus->color }}">
+                                    {{ $booking->bookingStatus->name }}
+                                </span>
+                                @else
+                                <span class="badge bg-secondary">N/A</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($booking->paymentStatus)
+                                <span class="badge" style="background-color: {{ $booking->paymentStatus->color }}">
+                                    {{ $booking->paymentStatus->name }}
+                                </span>
+                                @else
+                                <span class="badge bg-secondary">N/A</span>
+                                @endif
+                            </td>
+                            <td>${{ number_format($booking->pricingDetails->sum('total_amount'), 2) }}</td>
+                            <td>${{ number_format($booking->pricingDetails->sum('advisor_mco'), 2) }}</td>
+                            <td>{{ $booking->name }}</td>
+                            <td>{{ $booking->email }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-container mt-3">
+                {{ $bookings->links('pagination::bootstrap-5') }}
+            </div>
+            @else
+            <div class="text-center py-5">
+                <div class="avatar avatar-xl mx-auto mb-3">
+                    <div class="avatar-initial bg-label-secondary rounded">
+                        <i class="ri-file-list-line ri-2x"></i>
+                    </div>
+                </div>
+                <h5 class="mb-2">No bookings found</h5>
+                <p class="text-muted mb-0">No data matches your current search filters.</p>
+            </div>
+            @endif
         </div>
     </div>
 </div>
-
-<!-- Custom Styles -->
-<style>
-.dark-header {
-    background-color: #312d4b;
-    color: #fff;
-    border-radius: 0.5rem;
-}
-
-.dark-header .form-control,
-.dark-header .form-select {
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #ced4da;
-}
-
-.dark-header .form-label {
-    color: #fff;
-}
-
-.dark-header .form-control::placeholder {
-    color: #666;
-}
-
-.dark-header .btn-warning {
-    color: #000;
-}
-
-.table td,
-.table th {
-    font-size: 0.75rem;
-}
-</style>
-
 @endsection

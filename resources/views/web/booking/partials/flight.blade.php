@@ -75,7 +75,7 @@
 
                                             <td><input type="text" style="width: 6.7rem;" class="form-control flatpickr-hotel-checkin"
                                                     name="flight[{{ $index }}][departure_date]"
-                                                    value="{{ $flight->departure_date?->format('d-m-Y') }}" {{ $disabled }} ></td>
+                                                    value="{{ $flight->departure_date?->format('d/m/Y') }}" {{ $disabled }} ></td>
 
                                             <td>
                                                 <input type="text" class="form-control airline_code_input"
@@ -198,7 +198,7 @@
 
                                             <td><input type="text" class="form-control flatpickr-hotel-checkin" style="width: 105px;"
                                                     name="flight[{{ $index }}][arrival_date]"
-                                                    value="{{ $flight->arrival_date?->format('d-m-Y') }}"
+                                                    value="{{ $flight->arrival_date?->format('d/m/Y') }}"
                                                     {{ $disabled }}
                                                     ></td>
                                                     

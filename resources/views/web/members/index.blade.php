@@ -33,28 +33,7 @@
     <!-- Flash Messages -->
     @include('web.layouts.flash')
 
-    <!-- @if(session('success'))
-                                                                                                                                                                                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                                                                                                                                                                                        {{ session('success') }}
-                                                                                                                                                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                @endif
-
-                                                                                                                                                                                @if ($errors->any())
-                                                                                                                                                                                    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                                                                                                                                                                                        <strong>Whoops!</strong> Please fix the following:
-                                                                                                                                                                                        <ul class="mt-2 mb-0 ps-3">
-                                                                                                                                                                                            @foreach ($errors->all() as $error)
-                                                                                                                                                                                                <li>{{ $error }}</li>
-                                                                                                                                                                                            @endforeach
-                                                                                                                                                                                        </ul>
-                                                                                                                                                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                @endif -->
-
-
-
-
+   
     <!-- Users Table Card -->
     <div class="lob-card p-4">
         <form method="GET" action="{{ route('members.index') }}"
@@ -103,7 +82,7 @@
                     </select>
                     <label for="searchLob" class="form-label">
                         <span class="iconify me-1" data-icon="mdi:briefcase-outline"></span>
-                        Team
+                        Unit (Team)
                     </label>
                 </div>
             </div>
@@ -198,15 +177,16 @@
                     <thead>
                         <tr>
                             <th>S.No.</th>
-                            <th>Name</th>
-                            <th>Email</th>
+                             <th>Pseudo</th>
                             <th>LOB</th>
-                            <th>Team</th>
+                            <th>Unit (Team)</th>
                             <th>Departments</th>
                             <th>Role</th>
                             <th>Team Leader</th>
-                            <th>Pseudo</th>
                             <th>Extension</th>
+                            <th>Name</th>
+                            <th>Email</th>
+
                             <!-- <th>Shift</th>
                             <th>PAN Card</th>
                             <th>Aadhar Card</th> -->
@@ -217,9 +197,9 @@
                     <tbody id="membersTableBody">
                         @foreach($members as $key => $member)
                         <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ $member->name }}</td>
-                            <td>{{ $member->email }}</td>
+                            <!-- <td>{{ $key + 1 }}</td> -->
+                            <td>{{ $member->id }}</td>
+                            <td>{{ $member->pseudo }}</td>
                             <td>
                                 @php
                                 $lob = $member->lobRelation;
@@ -230,16 +210,16 @@
                             </td>
                             <td>
                                 @php
-                                $team = $member->teamRelation;
                                 $teamColors = [
                                 'bg-warning text-dark',
                                 'bg-secondary',
                                 'bg-dark text-white',
                                 'bg-light text-dark'
                                 ];
-                                $teamColor = $teamColors[($team->id ?? 0) % count($teamColors)];
+                                $teamColor = $teamColors[($member->team ?? 0) % count($teamColors)];
+                                $teamUser = $members->where('id', $member->team)->first();
                                 @endphp
-                                <span class="badge {{ $teamColor }}">{{ $team->name ?? 'N/A' }}</span>
+                                <span class="badge {{ $teamColor }}">{{ $teamUser->pseudo ?? 'N/A' }}</span>
                             </td>
                             <td>
                                 @php
@@ -275,13 +255,14 @@
                             </td>
                             <td>
                                 @if($member->teamLeader)
-                                <span class="badge bg-success">{{ $member->teamLeader->name }}</span>
+                                <span class="badge bg-success">{{ $member->teamLeader->pseudo }}</span>
                                 @else
                                 <span class="text-muted">-</span>
                                 @endif
                             </td>
-                            <td>{{ $member->pseudo }}</td>
                             <td>{{ $member->extension ?? '-' }}</td>
+                               <td>{{ $member->name }}</td>
+                            <td>{{ $member->email }}</td>
                             <!-- <td>{{ $member->currentShift?->shift->name ?? 'No Shift Assigned' }}</td>
                             <td>
                                 @if($member->pan_card)
@@ -339,8 +320,8 @@
             </div>
         </div>
 
-        <div class="row g-4 mb-4 lob-analytics-section">
-            <!-- Admin Users -->
+        <!--div class="row g-4 mb-4 lob-analytics-section">
+           
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-primary">
                     <div class="lob-analytics-inner">
@@ -355,7 +336,7 @@
                 </div>
             </div>
 
-            <!-- Active Agents -->
+           
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-indigo">
                     <div class="lob-analytics-inner">
@@ -370,7 +351,7 @@
                 </div>
             </div>
 
-            <!-- Dynamic Team Counts -->
+            
             @foreach($team_counts as $team => $count)
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-warning">
@@ -387,7 +368,6 @@
             </div>
             @endforeach
 
-            <!-- Dynamic Shift Counts -->
             @foreach($shift_counts as $shift => $count)
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="lob-analytics-card gradient-info">
@@ -403,7 +383,9 @@
                 </div>
             </div>
             @endforeach
-        </div>
+        </div-->
+
+
     </div>
 
 
@@ -529,19 +511,7 @@
                             @enderror
                         </div>
 
-                        <!-- Team -->
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label fw-semibold text-dark mb-2">
-                                <span class="iconify me-1" data-icon="mdi:account-group-outline"></span>
-                                Team <span class="text-danger">*</span>
-                            </label>
-                            <select id="team" name="team" class="form-control input-style w-100" required>
-                                <option value="">Select Team</option>
-                            </select>
-                            @error('team')
-                            <div class="text-danger small mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
+                       
 
                         <!-- Department -->
                         <div class="col-md-6 position-relative">
@@ -549,7 +519,7 @@
                                 <span class="iconify me-1" data-icon="mdi:office-building-outline"></span>
                                 Department <span class="text-danger">*</span>
                             </label>
-                            <select name="department_id" class="form-control input-style w-100" required>
+                            <select id="department-select" name="department_id" class="form-control input-style w-100" required>
                                 <option value="">Select Department</option>
                                 @foreach($departments as $department)
                                 <option value="{{ $department->id }}"
@@ -570,9 +540,9 @@
                                 Role <span class="text-danger">*</span>
                             </label>
                             <select id="role-select" name="role_id" class="form-control input-style w-100" required>
-                                <option value="">Select Role</option>
+                                <option value="">Select Department First</option>
                                 @foreach($roles as $role)
-                                <option value="{{ $role->id }}" data-role-name="{{ strtolower($role->name) }}">
+                                <option value="{{ $role->id }}" data-department="{{ $role->department_id }}" style="display: none;">
                                     {{ $role->name }}
                                 </option>
                                 @endforeach
@@ -582,8 +552,24 @@
                             @enderror
                         </div>
 
+                         <!-- Team -->
+                        <div class="col-md-6 position-relative" id="team-section">
+                            <label class="form-label fw-semibold text-dark mb-2">
+                                <span class="iconify me-1" data-icon="mdi:account-group-outline"></span>
+                               Unit (Team) <span class="text-danger">*</span>
+                            </label>
+                            <select id="team" name="team" class="form-control input-style w-100" required>
+                                <option value="">Select Team</option>
+                            </select>
+                            @error('team')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        
+
                         <!-- Team Leader -->
-                        <div class="col-md-12 position-relative" id="team-leader-section" style="display: none;">
+                        <div class="col-md-12 position-relative" id="team-leader-section">
                             <label class="form-label fw-semibold text-dark mb-2">
                                 <span class="iconify me-1" data-icon="mdi:account-tie-outline"></span>
                                 Team Leader
@@ -806,35 +792,36 @@ function updateTeamLeaders() {
     const roleSelect = document.getElementById('role-select');
     const teamLeaderSection = document.getElementById('team-leader-section');
     const teamLeaderSelect = document.getElementById('team_leader');
+    const teamLeaderRoles = ['1', '7', '10', '13', '15', '16'];
+    const selectedRoleId = roleSelect.value;
 
-    // Check if agent role is selected
-    const selectedRole = roleSelect?.options[roleSelect.selectedIndex];
-    const roleName = selectedRole?.getAttribute('data-role-name');
-
-    if (roleName === 'agent' && lobId && teamId) {
+    // Only show team leader section for specific roles
+    if (teamLeaderRoles.includes(selectedRoleId)) {
         teamLeaderSection.style.display = 'block';
-
-        fetch(`/api/team-leaders?lob=${lobId}&team=${teamId}`, {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
-            .then(response => response.json())
-            .then(leaders => {
-                teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
-                leaders.forEach(leader => {
-                    const option = new Option(leader.name, leader.id);
-                    teamLeaderSelect.add(option);
+        
+        if (lobId && teamId) {
+            fetch(`/api/team-leaders?lob=${lobId}&team=${teamId}`, {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(leaders => {
+                    teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+                    leaders.forEach(leader => {
+                        const option = new Option(leader.name, leader.id);
+                        teamLeaderSelect.add(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading team leaders:', error);
+                    teamLeaderSelect.innerHTML = '<option value="">Error loading team leaders</option>';
                 });
-            })
-            .catch(error => {
-                console.error('Error loading team leaders:', error);
-                teamLeaderSelect.innerHTML = '<option value="">Error loading team leaders</option>';
-            });
-    } else if (roleName !== 'agent') {
-        teamLeaderSection.style.display = 'none';
+        } else {
+            teamLeaderSelect.innerHTML = '<option value="">Select LOB and Team first</option>';
+        }
     } else {
-        teamLeaderSelect.innerHTML = '<option value="">Select LOB and Team first</option>';
+        teamLeaderSection.style.display = 'none';
     }
 }
 
@@ -1110,6 +1097,134 @@ document.addEventListener('DOMContentLoaded', function() {
         if (role) params.append('role', role);
 
         window.location.href = `/masters/members?${params.toString()}`;
+    }
+});
+
+// Department-Role dependency for Add User Modal
+document.getElementById('department-select').addEventListener('change', function() {
+    const departmentId = this.value;
+    const roleSelect = document.getElementById('role-select');
+    const roleOptions = roleSelect.querySelectorAll('option[data-department]');
+    
+    // Reset role select
+    roleSelect.value = '';
+    
+    if (departmentId) {
+        roleSelect.querySelector('option[value=""]').textContent = 'Select Role';
+        
+        // Show/hide options based on department
+        roleOptions.forEach(option => {
+            if (option.getAttribute('data-department') === departmentId) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    } else {
+        roleSelect.querySelector('option[value=""]').textContent = 'Select Department First';
+        roleOptions.forEach(option => {
+            option.style.display = 'none';
+        });
+    }
+    
+    // Hide team and team leader sections when department changes
+    document.getElementById('team-section').style.display = 'none';
+    document.getElementById('team-leader-section').style.display = 'none';
+    document.getElementById('team').removeAttribute('required');
+});
+
+// Role change handler to show/hide team section
+document.addEventListener('DOMContentLoaded', function() {
+    const roleSelect = document.getElementById('role-select');
+    const teamLeaderSection = document.getElementById('team-leader-section');
+    
+    // Initially hide team leader section
+    teamLeaderSection.style.display = 'none';
+    
+    roleSelect.addEventListener('change', function() {
+        const selectedRoleId = this.value;
+        const noTeamRoles = ['19', '6', '9', '12'];
+        const teamLeaderRoles = ['1', '7', '10', '13', '15', '16'];
+        const teamSection = document.getElementById('team-section');
+        const teamSelect = document.getElementById('team');
+        
+        // Handle team section visibility
+        if (selectedRoleId && !noTeamRoles.includes(selectedRoleId)) {
+            teamSection.style.display = 'block';
+            teamSelect.setAttribute('required', 'required');
+        } else {
+            teamSection.style.display = 'none';
+            teamSelect.removeAttribute('required');
+            teamSelect.value = '';
+        }
+        
+        // Handle team leader section visibility
+        if (teamLeaderRoles.includes(selectedRoleId)) {
+            teamLeaderSection.style.display = 'block';
+        } else {
+            teamLeaderSection.style.display = 'none';
+            document.getElementById('team_leader').value = '';
+        }
+    });
+});
+
+
+
+// Function to load team leaders based on LOB, Department, Role, and Team
+function loadTeamLeaders() {
+    const lobId = document.getElementById('lob').value;
+    const departmentId = document.getElementById('department-select').value;
+    const roleId = document.getElementById('role-select').value;
+    const teamId = document.getElementById('team').value;
+    const teamLeaderSelect = document.getElementById('team_leader');
+    
+    if (lobId && departmentId && roleId) {
+        const params = new URLSearchParams({
+            lob: lobId,
+            department: departmentId,
+            role: roleId
+        });
+        
+        if (teamId) {
+            params.append('team', teamId);
+        }
+        
+        fetch(`/api/team-leaders?${params.toString()}`, {
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(leaders => {
+            teamLeaderSelect.innerHTML = '<option value="">Select Team Leader</option>';
+            leaders.forEach(leader => {
+                const option = new Option(leader.name, leader.id);
+                teamLeaderSelect.add(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading team leaders:', error);
+            teamLeaderSelect.innerHTML = '<option value="">Error loading team leaders</option>';
+        });
+    } else {
+        teamLeaderSelect.innerHTML = '<option value="">Complete other fields first</option>';
+    }
+}
+
+// Add event listeners for team leader dependency
+document.getElementById('lob').addEventListener('change', function() {
+    const teamLeaderRoles = ['1', '7', '10', '13', '15', '16'];
+    const selectedRoleId = document.getElementById('role-select').value;
+    if (teamLeaderRoles.includes(selectedRoleId)) {
+        loadTeamLeaders();
+    }
+});
+
+document.getElementById('team').addEventListener('change', function() {
+    const teamLeaderRoles = ['1', '7', '10', '13', '15', '16'];
+    const selectedRoleId = document.getElementById('role-select').value;
+    if (teamLeaderRoles.includes(selectedRoleId)) {
+        loadTeamLeaders();
     }
 });
 </script>

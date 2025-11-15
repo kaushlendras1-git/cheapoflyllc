@@ -49,9 +49,10 @@ class AirlineController extends Controller
         return redirect()->route('airlines.index')->with('success', 'Airline created successfully');
     }
 
-    public function edit(Airline $airline)
+    public function edit(Request $request, Airline $airline)
     {
-        return view('masters.airlines.edit', compact('airline'));
+        $page = $request->get('page', 1);
+        return view('masters.airlines.edit', compact('airline', 'page'));
     }
 
     public function update(Request $request, Airline $airline)
@@ -64,14 +65,23 @@ class AirlineController extends Controller
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $filename = $request->code . '.png';
-            $destinationPath = public_path('assets/img/airline-logo/');
             
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+            if ($file->isValid()) {
+                $filename = $request->code . '.png';
+                $destinationPath = public_path('assets/img/airline-logo/');
+                
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+                
+                try {
+                    $file->move($destinationPath, $filename);
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error', 'Failed to upload image: ' . $e->getMessage());
+                }
+            } else {
+                return redirect()->back()->with('error', 'Invalid image file uploaded.');
             }
-            
-            $file->move($destinationPath, $filename);
         }
 
         $airline->update([
@@ -79,7 +89,8 @@ class AirlineController extends Controller
             'airline_name' => $request->name
         ]);
 
-        return redirect()->route('airlines.index')->with('success', 'Airline updated successfully');
+        $page = $request->get('page', 1);
+        return redirect()->route('airlines.index', ['page' => $page])->with('success', 'Airline updated successfully');
     }
 
     public function destroy(Airline $airline)

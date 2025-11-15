@@ -946,7 +946,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                                 <!-- Duration -->
                                 <td width="25%" style="text-align: center; ">
                                     <div style="font-size: 16px; font-weight: bold; color: #0f172a;">
-                                        {{ $trainBookingDetails->transit }}
+                                        {{ $trainBookingDetails->duration }}
                                     </div>
                                     <div style="font-size: 11px; color: #718096;">Duration
                                     </div>
@@ -1295,7 +1295,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     <tr>
 
                         <td style="font-size: 12px; color: #374151; line-height: 1.5;">
-                            @{{Checkbox}} &nbsp;
+                            @{{Checkbox}} 
                             <a href="{{ route('terms_conditions', ['booking_id' =>encode($booking->id)]) }}"
                                 target="_blank" style="color: #1a56db; text-decoration: none;">
                                 I have read and agree to the Terms and Conditions
@@ -1314,7 +1314,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                             <div style="font-size: 12px; color: #4a5568; line-height: 1.6;">
 
                                 <p>
-                                    <strong>Your Personal Assistence </strong>: {{ auth()->user()->name }}
+                                    <strong>Your Personal Assistence </strong>: {{ auth()->user()->pseudo }}
                                 </p>
                                 <p style="margin-top: -10px;">
                                     <strong>Extension </strong>: {{ auth()->user()->extension }}
@@ -1326,7 +1326,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                         </td>
                         <td
                             style="width: 60%; text-align: right; vertical-align: bottom; padding-bottom: 5px; padding-left: 20px;">
-                            <div style="font-size: 32px; color: #374151; font-weight: 500; line-height: 1.2;">
+                            <div style="font-size: 32px; color: #374151; font-weight: 500; line-height: 1.2;width: 300px ; ">
                                 @{{S}}
                             </div>
                             <div style="font-size: 16px; color: #374151; font-weight: 500; line-height: 1.2;">
@@ -1337,10 +1337,7 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
                     </tr>
                 </table>
             </div>
-
         </div>
-
-
 
 
         <!-- Footer -->
@@ -1355,5 +1352,4 @@ $bookingTypes = $booking->bookingTypes->pluck('type')->toArray();
         </div>
     </div>
 </body>
-
 </html>

@@ -77,6 +77,13 @@
             </li>
 
 
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="changes-tab" data-bs-toggle="tab" href="#changes" role="tab"
+                    aria-controls="changes" aria-selected="false">
+                    <i class="ri ri-edit-line" style="font-size: 20px; color: #ff6347;" title="Changes"></i>
+                </a>
+            </li>
+
 
 
             <li class="nav-item" role="presentation">
@@ -85,6 +92,7 @@
                     <i class="ri ri-image-line" style="font-size: 20px; color: #ff6347;" title="Screenshots"></i>
                 </a>
             </li>
+
 
 
 
@@ -120,10 +128,12 @@
             <!-- Remarks Tab -->
             @include('web.booking.partials.remarks', ['remarks' => $booking->remarks])
 
-
-
             <!-- Screenshots Tab -->
             @include('web.booking.partials.screenshots', ['screenshot_images' => $screenshot_images])
+
+            <!-- Changes Tab -->
+            @include('web.booking.partials.changes')
+
 
 
 

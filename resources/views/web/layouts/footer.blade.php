@@ -91,7 +91,8 @@
     @vite('resources/js/booking/edit.js')
     @vite('resources/js/booking/pricing.js')
     @vite('resources/js/booking/cruise.js')
-     @vite('resources/js/auth/sendAuth.js')
+    @vite('resources/js/booking/changes.js')
+    @vite('resources/js/auth/sendAuth.js')
 @endif
 
 @if(request()->routeIs('*.index') || request()->routeIs('dashboard'))
@@ -105,7 +106,7 @@
 
 
 
-@if(request()->routeIs('agent.*'))
+@if(request()->routeIs('users'))
     @vite('resources/js/agent-login.js')
 @endif
 

@@ -246,6 +246,7 @@ class BookingFormController extends Controller
 
     public function index(Request $request)
     {
+
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth   = Carbon::now()->endOfMonth();
         $query = TravelBooking::with(['user', 'pricingDetails', 'bookingStatus', 'paymentStatus']);
@@ -272,6 +273,7 @@ class BookingFormController extends Controller
 
 
         $bookings = $query
+                            ->whereHas('billingDetails')
                             ->when(
                                 auth()->user()->role_id == 1 && auth()->user()->department_id == 2,
                                 function ($q) use ($userId) {
@@ -283,8 +285,7 @@ class BookingFormController extends Controller
                             ->orderBy('created_at', 'desc')
                             ->paginate(20);
 
-
-        $bookings->appends($request->only('search'));
+    $bookings->appends($request->only('search'));
 
     if(auth()->user()->role_id == 1 && auth()->user()->department_id == 2){        
 
@@ -313,35 +314,111 @@ class BookingFormController extends Controller
 
         if ($request->filled('keyword')) {
             $keyword = $request->keyword;
+            $criteria = $request->criteria;
             $phoneKeyword = preg_replace('/\D/', '', $keyword);
-            $query->where(function ($q) use ($keyword, $phoneKeyword) {
-                $q->where('pnr', 'like', "%{$keyword}%")
-                ->orWhere('name', 'like', "%{$keyword}%")
-                ->orWhere('airlinepnr', 'like', "%{$keyword}%")
-                ->orWhere('hotel_ref', 'like', "%{$keyword}%")
-                ->orWhere('car_ref', 'like', "%{$keyword}%")
-                ->orWhere('train_ref', 'like', "%{$keyword}%")
-                ->orWhere('cruise_ref', 'like', "%{$keyword}%")
-                ->orWhere('phone', 'like', "%{$phoneKeyword}%")
-                ->orWhereHas('passengers', function ($pq) use ($keyword) {
-                    $pq->where('first_name', 'like', "%{$keyword}%")
-                       ->orWhere('middle_name', 'like', "%{$keyword}%")
-                       ->orWhere('last_name', 'like', "%{$keyword}%");
-                })
-                ->orWhereHas('billingDetails', function ($bq) use ($keyword, $phoneKeyword) {
-                    $bq->where('cc_number', 'like', "%{$phoneKeyword}")
-                       ->orWhere('cc_holder_name', 'like', "%{$keyword}%");
-                })
-                ->orWhereHas('billingDetail', function ($bdq) use ($keyword, $phoneKeyword) {
-                    $bdq->where('email', 'like', "%{$keyword}%")
-                        ->orWhere('contact_number', 'like', "%{$phoneKeyword}%");
-                });
-                
-                // Only search main booking email if it's not an email format
-                if (strpos($keyword, '@') === false) {
-                    $q->orWhere('email', 'like', "%{$keyword}%");
+            
+            if ($criteria && $criteria !== 'all') {
+                switch ($criteria) {
+                    case 'PNR':
+                        $query->where('pnr', 'like', "%{$keyword}%");
+                        break;
+                    case 'airlinepnr':
+                        $query->where('airlinepnr', 'like', "%{$keyword}%");
+                        break;
+                    case 'hotelpnr':
+                        $query->where('hotel_ref', 'like', "%{$keyword}%");
+                        break;
+                    case 'carpnr':
+                        $query->where('car_ref', 'like', "%{$keyword}%");
+                        break;
+                    case 'cruisepnr':
+                        $query->where('cruise_ref', 'like', "%{$keyword}%");
+                        break;
+                    case 'bookingdate':
+                        $query->whereDate('created_at', $keyword);
+                        break;
+                    case 'btype':
+                        $query->whereHas('bookingTypes', function ($btq) use ($keyword) {
+                            $btq->where('type', 'like', "%{$keyword}%");
+                        });
+                        break;
+                    case 'traveldate':
+                        $query->where(function ($tq) use ($keyword) {
+                            $tq->whereHas('travelFlight', function ($fq) use ($keyword) {
+                                $fq->whereDate('departure_date', $keyword);
+                            })
+                            ->orWhereHas('travelHotel', function ($hq) use ($keyword) {
+                                $hq->whereDate('checkin_date', $keyword);
+                            })
+                            ->orWhereHas('travelCruise', function ($cq) use ($keyword) {
+                                $cq->whereDate('departure_date', $keyword);
+                            })
+                            ->orWhereHas('travelCar', function ($carq) use ($keyword) {
+                                $carq->whereDate('pickup_date', $keyword);
+                            });
+                        });
+                        break;
+                    case 'phone':
+                        $query->whereHas('billingDetail', function ($bdq) use ($phoneKeyword) {
+                            $bdq->where('contact_number', 'like', "%{$phoneKeyword}%");
+                        });
+                        break;
+                    case 'name':
+                        $query->where('name', 'like', "%{$keyword}%");
+                        break;
+                    case 'email':
+                        $query->whereHas('billingDetail', function ($bdq) use ($keyword) {
+                            $bdq->where('email', 'like', "%{$keyword}%");
+                        });
+                        break;
+                    case 'cname':
+                        $query->whereHas('billingDetails', function ($bq) use ($keyword) {
+                            $bq->where('cc_holder_name', 'like', "%{$keyword}%");
+                        });
+                        break;
+                    case 'pxname':
+                        $query->whereHas('passengers', function ($pq) use ($keyword) {
+                            $pq->where('first_name', 'like', "%{$keyword}%")
+                               ->orWhere('middle_name', 'like', "%{$keyword}%")
+                               ->orWhere('last_name', 'like', "%{$keyword}%");
+                        });
+                        break;
+                    case 'ccnum':
+                        $query->whereHas('billingDetails', function ($bq) use ($phoneKeyword) {
+                            $bq->where('cc_number', 'like', "%{$phoneKeyword}%");
+                        });
+                        break;
                 }
-            });
+            } else {
+                // Default search behavior when no criteria selected
+                $query->where(function ($q) use ($keyword, $phoneKeyword) {
+                    $q->where('pnr', 'like', "%{$keyword}%")
+                    ->orWhere('name', 'like', "%{$keyword}%")
+                    ->orWhere('airlinepnr', 'like', "%{$keyword}%")
+                    ->orWhere('hotel_ref', 'like', "%{$keyword}%")
+                    ->orWhere('car_ref', 'like', "%{$keyword}%")
+                    ->orWhere('train_ref', 'like', "%{$keyword}%")
+                    ->orWhere('cruise_ref', 'like', "%{$keyword}%")
+                    ->orWhere('phone', 'like', "%{$phoneKeyword}%")
+                    ->orWhereHas('passengers', function ($pq) use ($keyword) {
+                        $pq->where('first_name', 'like', "%{$keyword}%")
+                           ->orWhere('middle_name', 'like', "%{$keyword}%")
+                           ->orWhere('last_name', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('billingDetails', function ($bq) use ($keyword, $phoneKeyword) {
+                        $bq->where('cc_number', 'like', "%{$phoneKeyword}")
+                           ->orWhere('cc_holder_name', 'like', "%{$keyword}%");
+                    })
+                    ->orWhereHas('billingDetail', function ($bdq) use ($keyword, $phoneKeyword) {
+                        $bdq->where('email', 'like', "%{$keyword}%")
+                            ->orWhere('contact_number', 'like', "%{$phoneKeyword}%");
+                    });
+                    
+                    if (strpos($keyword, '@') === false) {
+                        $q->orWhere('email', 'like', "%{$keyword}%");
+                    }
+                });
+            }
             $hasFilter = true;
         }
 
@@ -704,7 +781,6 @@ class BookingFormController extends Controller
                         #$rules['train.*.transit']           = 'required_with:train|string';
                         $rules['train.*.arrival_date']      = 'required_with:train';
                     }
-
 
                      //BILLING
                     $rules['billing']                           = 'required|array|min:1';

@@ -211,7 +211,7 @@
                                     <th>Email Status</th>
                                     <th>Auth Status</th>
                                     <th>RPC</th>
-                                    <th>Convention</th>
+                                    <th>Conversion</th>
                                     <th>No of Calls</th>
                                 </tr>
                             </thead>
@@ -229,7 +229,7 @@
                                     <td>{{ $booking->paymentStatus->name ?? 'N/A' }}</td>
                                     <td><span class="badge bg-label-success">Sent</span></td>
                                     <td><span class="badge bg-label-success">Authorized</span></td>
-                                    <td>{{ $booking->pnr ?? 'N/A' }}</td>
+                                    <td>-</td>
                                     <td>Standard</td>
                                     <td>1</td>
                                 </tr>

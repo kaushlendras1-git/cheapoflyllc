@@ -55,6 +55,7 @@ class TravelBooking extends Model
     public function billingDetails()
     {
         return $this->hasMany(TravelBillingDetail::class, 'booking_id');
+        
     }
 
     public function pricingDetails()

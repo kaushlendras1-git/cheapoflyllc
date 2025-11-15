@@ -152,7 +152,7 @@ class AuthEmailController extends Controller
                         $documentId = $response['requests']['document_ids'][0]['document_id'] ?? null;
                         
                         if ($actionId && $documentId) {
-                            $submitResponse = $zohoSignService->submitDocument($requestId, $actionId, $documentId,[], ucfirst(auth()->user()->name) . ' has requested you to review the document');
+                            $submitResponse = $zohoSignService->submitDocument($requestId, $actionId, $documentId,[], ucfirst(auth()->user()->pseudo) . ' has requested you to review the document');
                             
                             if (!isset($submitResponse['status']) || $submitResponse['status'] !== 'success') {
                                 throw new \Exception('Failed to submit document for signature');

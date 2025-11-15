@@ -34,10 +34,22 @@ class AuthHistoryController extends Controller
 {
 
     public function index($id) {
-        $id  = decode($id);
+        $id = decode($id);
         $auth_histories = AuthHistory::where('auth_histories.booking_id', $id)->with('travel_billing_details')->get();
+
+        foreach ($auth_histories as $auth_history) {
+            if ($auth_history->auth_status == 'completed') {
+                TravelBooking::where('id', $auth_history->booking_id)
+                    ->update([
+                        'booking_status_id' => 23,
+                        'payment_status_id' => 30
+                    ]);
+            }
+        }
+
         return view('web.mail-history.index', compact('auth_histories'));
     }
+    
 
     public function updateZohoStatus(Request $request) {
         $auth_history_id = $request->auth_history_id;

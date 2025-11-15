@@ -47,7 +47,7 @@ class AuthController extends Controller
         $loginField = $request->input('email');
         $password = $request->input('password');
 
-        $fieldType = filter_var($loginField, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $fieldType = filter_var($loginField, FILTER_VALIDATE_EMAIL) ? 'email' : 'pseudo';
 
         $credentials = [
             $fieldType => $loginField,

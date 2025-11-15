@@ -28,8 +28,7 @@ export default defineConfig({
                 'resources/js/booking/otherMain.js',
                 'resources/js/country-phone.js',
                 'resources/js/booking/cruise.js',
-               
-
+                'resources/js/booking/changes.js',
             ],
             refresh: true,
         }),

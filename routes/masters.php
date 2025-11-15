@@ -11,6 +11,7 @@ use App\Http\Controllers\Masters\BookingStatusController;
 use App\Http\Controllers\Masters\PaymentStatusController;
 use App\Http\Controllers\Masters\CompaniesController;
 use App\Http\Controllers\Masters\AirlineController;
+use App\Http\Controllers\Masters\AllowedIpController;
 use App\Http\Controllers\MemberController;
 
 Route::middleware('auth')->group(function () {
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('members', MemberController::class);
         Route::resource('companies', CompaniesController::class);
         Route::resource('airlines', AirlineController::class);
+        Route::patch('allowed-ips/toggle-open-all', [AllowedIpController::class, 'toggleOpenAll'])->name('allowed-ips.toggle-open-all');
+        Route::patch('allowed-ips/{allowedIp}/toggle-status', [AllowedIpController::class, 'toggleStatus'])->name('allowed-ips.toggle-status');
+        Route::resource('allowed-ips', AllowedIpController::class);
         Route::resource('units', \App\Http\Controllers\UnitController::class);
     });
     
